@@ -1,1 +1,67 @@
 @import "tailwindcss";
+
+@theme {
+    --color-gold-50: #fff9eb;
+    --color-gold-100: #ffefc7;
+    --color-gold-200: #ffdb8a;
+    --color-gold-300: #ffc14d;
+    --color-gold-400: #ff9e1f;
+    --color-gold-500: #d4a017;
+    /* Primary Gold */
+    --color-gold-600: #b8860b;
+    --color-gold-700: #946b08;
+    --color-gold-800: #7a580a;
+    --color-gold-900: #664a0b;
+    --color-gold-950: #3b2804;
+
+    --color-dark-900: #0a0a0a;
+    --color-dark-800: #1a1a1a;
+    --color-dark-700: #2a2a2a;
+
+    --font-base: "Inter", system-ui, sans-serif;
+    --font-serif: "Playfair Display", serif;
+}
+
+@layer base {
+    body {
+        background-color: var(--color-dark-900);
+        color: white;
+        font-family: var(--font-base);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-serif);
+    }
+}
+
+@layer components {
+    .btn-gold {
+        @apply bg-gold-500 text-black px-8 py-3 rounded-full font-bold hover:bg-gold-400 transition-all duration-300 shadow-lg shadow-gold-500/20 active:scale-95;
+    }
+
+    .btn-outline-gold {
+        @apply border-2 border-gold-500 text-gold-500 px-8 py-3 rounded-full font-bold hover:bg-gold-500 hover:text-black transition-all duration-300 active:scale-95;
+    }
+
+    .nav-link {
+        @apply text-white/80 hover:text-gold-500 transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold-500 hover:after:w-full after:transition-all;
+    }
+
+    .glass-card {
+        @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-20px); }
+    }
+
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+}

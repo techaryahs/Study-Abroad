@@ -21,7 +21,7 @@ export default function Navbar() {
     <nav className="w-full px-8 py-4 flex justify-between items-center bg-black text-white sticky top-0 z-50 border-b border-gray-800">
 
       {/* LOGO */}
-      <h1 className="font-bold text-xl text-yellow-400">
+      <h1 className="font-bold text-xl text-gold-500 uppercase tracking-widest">
         Dr. Alam
       </h1>
 
