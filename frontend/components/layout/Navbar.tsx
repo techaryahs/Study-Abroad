@@ -28,7 +28,10 @@ export default function Navbar() {
   ];
 
   return (
-    <nav
+    <motion.nav
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
       className={`fixed top-0 w-full z-50 transition-all duration-500 px-6 md:px-12 py-4 flex justify-between items-center ${
         isScrolled ? "bg-dark-950/80 backdrop-blur-xl border-b border-white/5 py-3" : "bg-transparent"
       }`}
@@ -38,9 +41,9 @@ export default function Navbar() {
         <div className="w-8 h-8 bg-gold-500 rounded-lg flex items-center justify-center font-bold text-black group-hover:rotate-12 transition-transform duration-300">
           A
         </div>
-        <h1 className="font-serif text-lg font-bold tracking-tight text-white group-hover:text-gold-500 transition-colors">
+        <span className="font-serif text-lg font-bold tracking-tight text-white group-hover:text-gold-500 transition-colors">
           Dr. Alam <span className="text-gold-500">.</span>
-        </h1>
+        </span>
       </Link>
 
       {/* DESKTOP MENU */}
@@ -126,6 +129,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </motion.nav>
   );
 }

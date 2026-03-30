@@ -36,7 +36,7 @@ export default function BlogsPage() {
   };
 
   return (
-    <main className="bg-dark-950 text-white px-8 md:px-20 py-40 min-h-screen relative overflow-hidden">
+    <main className="bg-dark-950 text-white min-h-screen relative overflow-hidden">
       {/* Background ambient light */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/5 blur-[200px] rounded-full pointer-events-none"></div>
 
@@ -45,13 +45,13 @@ export default function BlogsPage() {
         whileInView="visible"
         viewport={{ once: true }}
         variants={containerVariants}
-        className="max-w-7xl mx-auto"
+        className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24"
       >
-        <motion.div variants={itemVariants} className="text-center mb-24 space-y-6">
-          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-xs">Insights</span>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1]">Our Global <span className="gradient-text-gold italic">Insights</span></h1>
-          <p className="text-white/30 text-xl max-w-2xl mx-auto font-normal">
-            Read the latest updates and expert tips on how to prepare for your international education journey.
+        <motion.div variants={itemVariants} className="text-center mb-20 space-y-6">
+          <span className="text-gold-500 uppercase tracking-[0.4em] font-black text-[10px]">Insights</span>
+          <h1 className="text-2xl md:text-4xl font-black leading-[1.1]">Global <span className="gradient-text-gold italic">Insights</span></h1>
+          <p className="text-white/30 text-base max-w-2xl mx-auto font-normal italic">
+            Elite academic mentorship strategies and latest international updates.
           </p>
         </motion.div>
 
@@ -63,8 +63,16 @@ export default function BlogsPage() {
             <motion.div 
               key={i} 
               variants={itemVariants}
-              whileHover={{ y: -10 }}
-              className="glass-card flex flex-col justify-between group cursor-default"
+              whileHover={{ 
+                scale: 1.02, 
+                y: -10,
+                rotateX: 5,
+                rotateY: -5,
+                z: 40
+              }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              style={{ perspective: 1000 }}
+              className="glass-card group cursor-default relative overflow-hidden h-full transform-gpu"
             >
                <div className="space-y-6">
                   <span className="text-[10px] text-gold-500 font-black uppercase tracking-[0.3em]">{blog.date}</span>

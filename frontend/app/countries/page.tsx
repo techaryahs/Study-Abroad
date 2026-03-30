@@ -33,49 +33,64 @@ export default function CountriesPage() {
   };
 
   return (
-    <main className="bg-dark-950 text-white px-8 md:px-20 py-40 min-h-screen relative overflow-hidden">
+    <main className="bg-dark-950 text-white min-h-screen relative overflow-hidden">
       {/* Background ambient light */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/5 blur-[200px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-0 right-30 w-[1000px] h-[1000px] bg-gold-500/5 blur-[250px] rounded-full pointer-events-none"></div>
 
       <motion.div 
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={containerVariants}
-        className="max-w-[1400px] mx-auto"
+        className="max-w-[1440px] mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24 relative z-10"
       >
-        <motion.div variants={itemVariants} className="text-center mb-24 space-y-6">
-          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-xs">Global Destinations</span>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight leading-[1.1]">Top Countries for <br /><span className="gradient-text-gold italic">Overseas Education</span></h1>
-          <p className="text-white/30 text-xl max-w-2xl mx-auto font-normal">
-            Explore the best study destinations across the globe and find the perfect match for your career goals.
+        <motion.div variants={itemVariants} className="text-center mb-20 space-y-6">
+          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px]">Strategic Hubs</span>
+          <h1 className="text-3xl md:text-5xl font-black leading-[1.1]">The Global <br /><span className="gradient-text-gold italic">Network</span></h1>
+          <p className="text-white/30 text-base max-w-2xl mx-auto font-normal italic">
+            Architecting admissions in major academic hubs across Ivy League and Global Tier-1 destinations.
           </p>
         </motion.div>
 
         <motion.div 
           variants={containerVariants}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
         >
           {countries.map((country, i) => (
             <Link 
               key={i} 
               href={`/countries/${country.name.toLowerCase()}`}
-              className="block"
+              className="block h-full outline-none"
             >
               <motion.div 
                 variants={itemVariants}
-                whileHover={{ y: -10 }}
-                className="glass-card flex flex-col items-center gap-8 group hover:bg-gold-500 hover:text-black transition-all duration-700 bg-white/[0.01]"
+                whileHover={{ 
+                  scale: 1.03, 
+                  y: -12,
+                  rotateX: 6,
+                  rotateY: -6,
+                  z: 50
+                }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                style={{ perspective: 1000 }}
+                className="glass-card h-full flex flex-col items-center text-center gap-10 group bg-white/[0.01] hover:bg-gold-500 hover:text-black transition-all duration-700 transform-gpu relative overflow-hidden"
               >
-                <div className="w-28 h-18 relative overflow-hidden rounded-[1rem] shadow-2xl border border-white/5 group-hover:border-black/10 transition-all duration-500">
+                {/* 3D GLOW EFFECT */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gold-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+
+                <div className="w-24 h-16 relative overflow-hidden rounded-xl shadow-2xl border border-white/5 group-hover:border-black/20 transition-all duration-700 scale-100 group-hover:scale-110">
                   <Flag code={country.code} className="w-full h-full object-cover" />
                 </div>
-                <div className="text-3xl font-black uppercase tracking-tighter group-hover:tracking-wider transition-all duration-500">{country.name}</div>
-                <p className="text-sm text-center leading-relaxed font-medium opacity-40 group-hover:opacity-100 transition-opacity">
-                  {country.description}
-                </p>
-                <div className="pt-6">
-                  <span className="text-[10px] uppercase font-black tracking-[0.3em] border-b border-gold-500/30 group-hover:border-black/40 transition-colors">Learn More</span>
+
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-black uppercase tracking-tight transition-all duration-500">{country.name}</h3>
+                  <p className="text-white/20 group-hover:text-black/60 text-xs leading-relaxed font-medium transition-colors italic px-4">
+                    {country.description}
+                  </p>
+                </div>
+
+                <div className="mt-auto pt-6 border-t border-white/5 group-hover:border-black/10 w-full">
+                  <span className="text-[9px] uppercase font-black tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-all">Explore Hub</span>
                 </div>
               </motion.div>
             </Link>

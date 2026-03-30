@@ -80,7 +80,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <main className="bg-dark-950 text-white px-8 md:px-20 py-40 min-h-screen relative overflow-hidden">
+    <main className="bg-dark-950 text-white min-h-screen relative overflow-hidden">
       {/* Background ambient light */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/5 blur-[200px] rounded-full pointer-events-none"></div>
 
@@ -89,13 +89,13 @@ export default function ServicesPage() {
         whileInView="visible"
         viewport={{ once: true }}
         variants={containerVariants}
-        className="max-w-7xl mx-auto"
+        className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24 relative z-10"
       >
-        <motion.div variants={itemVariants} className="text-center mb-24 space-y-6">
-          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-xs">What We Offer</span>
-          <h1 className="text-6xl md:text-7xl font-black tracking-tight leading-[1.1]">Our Core <span className="gradient-text-gold italic">Services</span></h1>
-          <p className="text-white/30 text-xl max-w-2xl mx-auto font-normal">
-            We provide end-to-end support for your international education journey, as your partner for success.
+        <motion.div variants={itemVariants} className="text-center mb-20 space-y-6">
+          <span className="text-gold-500 uppercase tracking-[0.4em] font-black text-[10px]">What We Offer</span>
+          <h1 className="text-2xl md:text-4xl font-black leading-[1.1]">Our Core <span className="gradient-text-gold italic">Services</span></h1>
+          <p className="text-white/30 text-base max-w-2xl mx-auto font-normal italic">
+            Precision, strategic guidance for Ivy League and Global Tier-1 excellence.
           </p>
         </motion.div>
 
@@ -107,8 +107,16 @@ export default function ServicesPage() {
             <motion.div 
               key={i} 
               variants={itemVariants}
-          whileHover={{ y: -10 }}
-          className="glass-card flex flex-col justify-between group cursor-default"
+              whileHover={{ 
+                scale: 1.02, 
+                y: -10,
+                rotateX: 5,
+                rotateY: -5,
+                z: 40
+              }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              style={{ perspective: 1000 }}
+              className="glass-card flex flex-col justify-between group cursor-default h-full transform-gpu"
             >
                <div className="space-y-8">
                   <div className="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-black transition-all duration-500">
@@ -118,7 +126,7 @@ export default function ServicesPage() {
                   <p className="text-white/30 text-base leading-relaxed font-medium">{service.description}</p>
                </div>
                <div className="pt-12">
-                  <Link href={`/services/${service.slug}`} className="btn-gold block text-center w-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
+                  <Link href={`/services/${service.slug}`} className="btn-gold block text-center w-full px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] shadow-lg hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
                     Get Details
                   </Link>
                </div>
