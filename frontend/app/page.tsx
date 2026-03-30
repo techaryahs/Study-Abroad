@@ -1,119 +1,41 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Flag from "react-world-flags";
+import { motion, Variants } from "framer-motion";
 
 export default function Home() {
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    },
+  };
+
   const services = [
-    {
-      title: "Admission Guidance",
-      icon: (
-        <svg
-          className="w-8 h-8"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M12 14l9-5-9-5-9 5 9 5z" />
-          <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm0 0V20"
-          />
-        </svg>
-      ),
-    },
-    {
-      title: "University Shortlisting",
-      icon: (
-        <svg
-          className="w-8 h-8"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-          />
-        </svg>
-      ),
-    },
-    {
-      title: "SOP & LOR Support",
-      icon: (
-        <svg
-          className="w-8 h-8"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-          />
-        </svg>
-      ),
-    },
-    {
-      title: "Scholarship Assistance",
-      icon: (
-        <svg
-          className="w-8 h-8"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-      ),
-    },
-    {
-      title: "Visa Guidance",
-      icon: (
-        <svg
-          className="w-8 h-8"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-          />
-        </svg>
-      ),
-    },
-    {
-      title: "Profile Building",
-      icon: (
-        <svg
-          className="w-8 h-8"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-          />
-        </svg>
-      ),
-    },
+    { title: "Admission Guidance", icon: "🎓", slug: "admission-guidance" },
+    { title: "University Shortlisting", icon: "🏢", slug: "university-shortlisting" },
+    { title: "SOP & LOR Support", icon: "📝", slug: "sop-lor-support" },
+    { title: "Scholarship Assistance", icon: "💰", slug: "scholarship-assistance" },
+    { title: "Visa Guidance", icon: "✈️", slug: "visa-guidance" },
+    { title: "Profile Building", icon: "⭐", slug: "profile-building" },
   ];
 
   const preferredCountries = [
@@ -126,172 +48,214 @@ export default function Home() {
     { name: "Canada", code: "CA" },
   ];
 
+  const stats = [
+    { val: "15+", label: "Countries" },
+    { val: "360+", label: "Universities" },
+    { val: "1k+", label: "Students" },
+    { val: "500+", label: "Admissions" },
+    { val: "5★", label: "User Rating" },
+  ];
+
   return (
-    <main className="bg-black text-white relative overflow-hidden">
+    <main className="bg-dark-950 text-white relative overflow-hidden">
       {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[90vh] flex flex-col md:flex-row items-center px-6 md:px-20 pt-16 md:pt-0">
+      <section className="relative min-h-screen flex flex-col md:flex-row items-center px-8 md:px-20 pt-48 md:pt-24 gap-20">
         {/* BACKGROUND IMAGE WITH BLUR */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <Image
             src="/hero-bg.png"
             alt="Hero Background"
             fill
-            className="object-cover opacity-40 blur-[2px]"
+            className="object-cover opacity-20 blur-[3px]"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-dark-950 via-dark-950/80 to-transparent"></div>
+          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/10 blur-[200px] rounded-full"></div>
         </div>
 
         {/* HERO CONTENT */}
-        <div className="md:w-3/5 z-10 relative space-y-10 animate-in fade-in slide-in-from-left duration-1000">
-          <div className="space-y-2">
-            <span className="text-gold-500 uppercase tracking-[0.3em] font-bold text-sm bg-gold-500/10 px-4 py-2 rounded-full border border-gold-500/20">
-              Top Ranked Admissions
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={containerVariants}
+          className="md:w-3/5 z-10 relative space-y-12"
+        >
+          <motion.div variants={itemVariants} className="space-y-6">
+            <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px] bg-gold-500/5 px-6 py-2 rounded-full border border-gold-500/20 backdrop-blur-md inline-block">
+              Dr. Alam Global Admissions
             </span>
-            <h1 className="text-5xl md:text-7xl font-black leading-[1.05] text-white pt-4">
-              Dr. Alam's Path to <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-gold-600 italic">Ivy League</span> & <br />
-              Global Success
+            <h1 className="text-6xl md:text-8xl font-black leading-[0.95] tracking-tight uppercase">
+              Architecting <br />
+              <span className="gradient-text-gold italic">Global Careers</span>.
             </h1>
-          </div>
+          </motion.div>
 
-          <p className="text-lg md:text-xl text-white/60 max-w-2xl leading-relaxed font-medium">
-            Personalized guidance led by academic excellence for USA, UK, Germany,
-            Australia, Ireland, and Dubai — powered by expert mentorship.
-          </p>
+          <motion.p variants={itemVariants} className="text-xl md:text-2xl text-white/40 max-w-2xl leading-relaxed font-normal italic">
+            Elite academic mentorship for the USA, UK, Germany, and beyond. 
+            We turn potential into global prestige.
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row gap-6 items-center">
-            <Link href="/contact" className="btn-gold group relative overflow-hidden">
-              <span className="relative z-10">Evaluate My Profile</span>
-              <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-8 items-center pt-8">
+            <Link href="/contact" className="btn-gold !px-12">
+              Evaluate My Profile
             </Link>
 
-            <Link href="/services" className="btn-outline-gold px-10">
+            <Link href="/services" className="btn-outline-gold !px-12">
               Our Expertise
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* HERO IMAGE CONTAINER */}
-        <div className="md:w-2/5 z-10 relative mt-16 md:mt-0 flex justify-center md:justify-end items-center">
-          <div className="relative w-72 h-72 md:w-[480px] md:h-[480px] group">
-            {/* AMBIENT GLOW */}
-            <div className="absolute inset-0 bg-gold-500/20 blur-[120px] rounded-full group-hover:bg-gold-500/30 transition-all duration-700 animate-pulse"></div>
-
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="md:w-2/5 z-10 relative flex justify-center md:justify-end items-center"
+        >
+          <div className="relative w-full aspect-square md:w-[600px] group">
+            <div className="absolute inset-0 bg-gold-500/10 blur-[150px] rounded-full animate-pulse group-hover:bg-gold-500/20 duration-1000"></div>
             <Image
               src="/hero-main.png"
               alt="Dr. Alam Global Education"
               fill
-              className="object-contain filter drop-shadow-[0_20px_50px_rgba(212,160,23,0.4)] relative z-10 animate-float"
+              className="object-contain filter drop-shadow-[0_40px_100px_rgba(194,168,120,0.3)] relative z-10 animate-float"
             />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ================= SERVICES ================= */}
-      <section className="py-24 px-6 md:px-20 relative bg-dark-900 border-t border-white/10">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Trust <span className="text-gold-500">Dr. Alam's</span> <br />
-            Global Admissions Expertise
+      <section className="py-48 px-8 md:px-20 relative bg-dark-900 border-y border-white/5">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-32 space-y-6"
+        >
+          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-xs">Expertise</span>
+          <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic">
+            Elite <span className="gradient-text-gold">Admissions</span> Mentorship
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-6">
-          {services.map((item, i) => (
-            <div
-              key={i}
-              className="glass-card flex flex-col items-center gap-6 group hover:border-gold-500 transition-all cursor-pointer"
-            >
-              <div className="w-16 h-16 rounded-2xl bg-gold-500/10 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-black transition-all">
-                {item.icon}
-              </div>
-              <h3 className="text-base font-bold text-center leading-tight group-hover:text-gold-500 transition-colors">
-                {item.title}
-              </h3>
-            </div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"
+        >
+          {services.map((service, i) => (
+            <Link key={i} href={`/services/${service.slug}`}>
+              <motion.div
+                variants={itemVariants}
+                className="glass-card flex flex-col items-start gap-10 group cursor-pointer hover:bg-gold-500 hover:text-black duration-700"
+              >
+                <div className="w-20 h-20 rounded-3xl bg-white/[0.03] border border-white/5 flex items-center justify-center text-3xl group-hover:bg-black group-hover:text-gold-500 transition-all duration-700 shadow-2xl">
+                  {service.icon}
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-black uppercase tracking-widest">{service.title}</h3>
+                  <p className="text-white/30 group-hover:text-black/60 text-sm font-medium">Strategic guidance for global success.</p>
+                </div>
+              </motion.div>
+            </Link>
           ))}
-        </div>
-
-        <div className="mt-16 text-center">
-          <Link href="/services" className="btn-outline-gold inline-block">
-            Explore All Services
-          </Link>
-        </div>
+        </motion.div>
       </section>
 
       {/* ================= COUNTRIES ================= */}
-      <section className="py-24 px-6 md:px-20 bg-gradient-to-b from-dark-900 to-black">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 text-center md:text-left">
-          <div className="md:w-1/2 space-y-4">
-            <span className="text-gold-500 uppercase tracking-widest font-semibold">Global Reach</span>
-            <h2 className="text-4xl md:text-5xl font-bold">Preferred Study Destinations</h2>
-          </div>
-          <Link href="/countries" className="text-gold-500 hover:text-white transition-colors underline underline-offset-8">
-            View All Destinations
+      <section className="py-48 px-8 md:px-20 bg-dark-950">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-32 gap-8 text-center md:text-left">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="md:w-1/2 space-y-8"
+          >
+            <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-xs">Global Destinations</span>
+            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter">Your <span className="gradient-text-gold italic underline decoration-gold-500/20 underline-offset-[16px]">Future Hub</span>.</h2>
+          </motion.div>
+          <Link href="/countries" className="nav-link !text-gold-500 border-b border-gold-500/30 pb-2">
+            Explore All Destinations
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-8"
+        >
           {preferredCountries.map((country, i) => (
-            <div
-              key={i}
-              className="bg-white/5 border border-white/10 px-8 py-10 rounded-2xl text-center hover:bg-gold-500 hover:text-black transition-all group cursor-pointer flex flex-col items-center gap-4"
-            >
-              <div className="w-12 h-8 relative overflow-hidden rounded shadow-lg border border-white/10 group-hover:border-black/20">
-                <Flag code={country.code} className="w-full h-full object-cover" />
-              </div>
-              <div className="text-xl font-bold uppercase tracking-wider">{country.name}</div>
-            </div>
+            <Link key={i} href={`/countries/${country.name.toLowerCase()}`}>
+              <motion.div
+                variants={itemVariants}
+                className="bg-white/[0.01] border border-white/5 p-10 rounded-[3rem] text-center hover:bg-gold-500 hover:text-black transition-all duration-700 group cursor-pointer flex flex-col items-center gap-8 shadow-3xl hover:shadow-gold-500/20"
+              >
+                <div className="w-16 h-10 relative overflow-hidden rounded-lg shadow-2xl border border-white/10">
+                  <Flag code={country.code} className="w-full h-full object-cover" />
+                </div>
+                <div className="text-sm font-black uppercase tracking-[0.2em]">{country.name}</div>
+              </motion.div>
+            </Link>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* ================= STATS SECTION ================= */}
-      <section className="py-24 px-6 md:px-20 bg-gold-500 text-black">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-12 text-center items-center">
-          <div>
-            <h3 className="text-5xl md:text-7xl font-bold mb-2">15+</h3>
-            <p className="uppercase tracking-[0.2em] font-semibold text-sm">Countries</p>
-          </div>
-
-          <div>
-            <h3 className="text-5xl md:text-7xl font-bold mb-2">360+</h3>
-            <p className="uppercase tracking-[0.2em] font-semibold text-sm">Universities</p>
-          </div>
-
-          <div>
-            <h3 className="text-5xl md:text-7xl font-bold mb-2">1k+</h3>
-            <p className="uppercase tracking-[0.2em] font-semibold text-sm">Students</p>
-          </div>
-
-          <div>
-            <h3 className="text-5xl md:text-7xl font-bold mb-2">500+</h3>
-            <p className="uppercase tracking-[0.2em] font-semibold text-sm">Admissions</p>
-          </div>
-
-          <div className="col-span-2 md:col-span-1 border-t md:border-t-0 md:border-l border-black/20 pt-8 md:pt-0">
-            <h3 className="text-5xl md:text-7xl font-bold mb-2">5★</h3>
-            <p className="uppercase tracking-[0.2em] font-semibold text-sm">User Rating</p>
-          </div>
-        </div>
+      <section className="py-32 px-8 md:px-20 bg-dark-900 border-y border-white/5">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={containerVariants}
+          className="grid grid-cols-2 lg:grid-cols-5 gap-16 text-center items-center"
+        >
+          {stats.map((stat, i) => (
+            <motion.div key={i} variants={itemVariants} className="space-y-4">
+              <h3 className="text-6xl md:text-8xl font-black tracking-tighter gradient-text-gold">{stat.val}</h3>
+              <p className="uppercase tracking-[0.5em] font-black text-[10px] text-white/30">{stat.label}</p>
+            </motion.div>
+          ))}
+        </motion.div>
       </section>
 
       {/* ================= FINAL CTA ================= */}
-      <section className="py-24 px-6 md:px-20 text-center space-y-8 bg-black">
-        <h2 className="text-4xl md:text-6xl font-black italic">READY TO START YOUR JOURNEY?</h2>
-        <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
-          <Link href="/contact" className="btn-gold">
-            Book Now
+      <section className="py-64 px-8 md:px-20 text-center space-y-16 bg-dark-950 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gold-500/5 blur-[250px] rounded-full pointer-events-none"></div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="space-y-10 relative z-10"
+        >
+          <h2 className="text-6xl md:text-9xl font-black italic uppercase tracking-tighter gradient-text-gold">
+            READY TO ARCHITECT <br />YOUR FUTURE?
+          </h2>
+          <p className="text-white/30 text-xl md:text-3xl max-w-4xl mx-auto font-normal leading-relaxed italic">
+            Don't leave your global dreams to chance. Partner with the academic elite.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex flex-col md:flex-row justify-center gap-12 pt-12 relative z-10"
+        >
+          <Link href="/contact" className="btn-gold !px-20 !py-8 text-xl">
+            Book Evaluation
           </Link>
 
-          <a href="https://wa.me/918987654321" target="_blank" className="btn-outline-gold flex items-center justify-center gap-2">
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.025 3.12l-.768 2.809 2.894-.759c.797.45 1.708.734 2.618.735 3.181 0 5.767-2.586 5.768-5.766.001-3.18-2.585-5.765-5.768-5.765zm3.434 8.165c-.147.412-.733.743-1.025.79-.27.042-.614.074-1.121-.088-.306-.11-1.399-.54-2.646-1.654-1.066-.95-1.785-2.126-1.993-2.484-.209-.357-.022-.551.157-.729.16-.16.357-.411.536-.617.178-.205.237-.35.355-.583.119-.234.059-.438-.03-.617-.089-.178-.733-1.766-1.002-2.417-.263-.637-.534-.551-.733-.561l-.624-.011c-.267 0-.702.1-.1.082 1.059.412.316.516.48.91 1.411 1.742 2.766 2.246 3.42 2.551.654.305.842.261 1.15.22.306-.041 1.059-.441 1.207-1.116.147-.674.147-1.252.103-1.365-.044-.113-.163-.178-.351-.271z" />
-            </svg>
-            WhatsApp Us
-          </a>
-        </div>
+          <Link href="/about" className="btn-outline-gold !px-20 !py-8 text-xl">
+            Our Pedigree
+          </Link>
+        </motion.div>
       </section>
     </main>
   );

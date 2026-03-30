@@ -2,11 +2,21 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -18,21 +28,30 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="w-full px-8 py-4 flex justify-between items-center bg-black text-white sticky top-0 z-50 border-b border-gray-800">
-
+    <nav
+      className={`fixed top-0 w-full z-50 transition-all duration-500 px-6 md:px-12 py-4 flex justify-between items-center ${
+        isScrolled ? "bg-dark-950/80 backdrop-blur-xl border-b border-white/5 py-3" : "bg-transparent"
+      }`}
+    >
       {/* LOGO */}
-      <h1 className="font-bold text-xl text-gold-500 uppercase tracking-widest">
-        Dr. Alam
-      </h1>
+      <Link href="/" className="group flex items-center gap-2">
+        <div className="w-8 h-8 bg-gold-500 rounded-lg flex items-center justify-center font-bold text-black group-hover:rotate-12 transition-transform duration-300">
+          A
+        </div>
+        <h1 className="font-serif text-lg font-bold tracking-tight text-white group-hover:text-gold-500 transition-colors">
+          Dr. Alam <span className="text-gold-500">.</span>
+        </h1>
+      </Link>
 
       {/* DESKTOP MENU */}
-      <div className="hidden md:flex gap-8 font-medium">
+      <div className="hidden md:flex items-center gap-10">
         {navItems.map((item) => (
           <Link
             key={item.path}
             href={item.path}
-            className={`hover:text-yellow-400 transition ${pathname === item.path ? "text-yellow-400" : ""
-              }`}
+            className={`nav-link text-xs uppercase tracking-[0.2em] font-medium transition-colors ${
+              pathname === item.path ? "text-gold-500 font-black" : "text-white/70 hover:text-gold-500"
+            }`}
           >
             {item.name}
           </Link>
@@ -40,46 +59,73 @@ export default function Navbar() {
       </div>
 
       {/* RIGHT SIDE */}
-      <div className="hidden md:block font-semibold">
-        +91 89876 54321
+      <div className="hidden md:flex items-center gap-8">
+        <span className="text-white/40 text-sm font-medium">
+          +91 89876 54321
+        </span>
+        <Link href="/contact" className="btn-gold !px-6 !py-2 text-xs uppercase tracking-tighter">
+          Get Evaluation
+        </Link>
       </div>
 
       {/* MOBILE MENU BUTTON */}
       <button
-        className="md:hidden text-2xl"
-        onClick={() => setMenuOpen(true)}
+        className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 z-[60]"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       >
-        ☰
+        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? "rotate-45 translate-y-2" : ""}`}></span>
+        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : ""}`}></span>
+        <span className={`w-6 h-0.5 bg-white transition-all duration-300 ${isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
       </button>
 
       {/* MOBILE FULL SCREEN MENU */}
-      {menuOpen && (
-        <div className="fixed inset-0 bg-black text-white flex flex-col items-center justify-center gap-8 text-xl z-50">
-
-          <button
-            className="absolute top-6 right-8 text-3xl"
-            onClick={() => setMenuOpen(false)}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed inset-0 bg-dark-950/98 backdrop-blur-2xl text-white flex flex-col items-center justify-center gap-10 z-50 overflow-hidden"
           >
-            ✕
-          </button>
+            <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+              <div className="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] bg-gold-500 blur-[100px] rounded-full"></div>
+              <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] bg-gold-500 blur-[100px] rounded-full pointer-events-none"></div>
+            </div>
 
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              href={item.path}
-              onClick={() => setMenuOpen(false)}
-              className={`hover:text-yellow-400 ${pathname === item.path ? "text-yellow-400" : ""
-                }`}
+            {navItems.map((item, i) => (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                key={item.path}
+              >
+                <Link
+                  href={item.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`text-3xl font-serif hover:text-gold-500 transition-colors ${
+                    pathname === item.path ? "text-gold-500 italic" : ""
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
+            ))}
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="mt-10 flex flex-col items-center gap-4"
             >
-              {item.name}
-            </Link>
-          ))}
-
-          <div className="mt-6 font-semibold">
-            +91 89876 54321
-          </div>
-        </div>
-      )}
+              <div className="text-white/40 text-sm tracking-widest uppercase font-black">+91 89876 54321</div>
+              <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="btn-gold">
+                Get Evaluation
+              </Link>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

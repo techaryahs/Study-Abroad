@@ -1,22 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-    --color-gold-50: #fff9eb;
-    --color-gold-100: #ffefc7;
-    --color-gold-200: #ffdb8a;
-    --color-gold-300: #ffc14d;
-    --color-gold-400: #ff9e1f;
-    --color-gold-500: #d4a017;
-    /* Primary Gold */
-    --color-gold-600: #b8860b;
-    --color-gold-700: #946b08;
-    --color-gold-800: #7a580a;
-    --color-gold-900: #664a0b;
-    --color-gold-950: #3b2804;
+    /* Premium High-End Obsidian & Gold Palette */
+    --color-gold-50: #fdfaf3;
+    --color-gold-100: #f7eed8;
+    --color-gold-200: #ecdcb1;
+    --color-gold-300: #dec17e;
+    --color-gold-400: #d1a856;
+    --color-gold-500: #c2a878;
+    --color-gold-600: #a68c5b;
+    --color-gold-700: #856e49;
+    --color-gold-800: #69573c;
+    --color-gold-900: #574834;
+    --color-gold-950: #332a1e;
 
-    --color-dark-900: #0a0a0a;
-    --color-dark-800: #1a1a1a;
-    --color-dark-700: #2a2a2a;
+    --color-dark-950: #05070a;
+    --color-dark-900: #0a0c10;
+    --color-dark-800: #12151c;
+    --color-dark-700: #1e232d;
+    --color-dark-600: #2a313c;
 
     --font-base: "Inter", system-ui, sans-serif;
     --font-serif: "Playfair Display", serif;
@@ -24,44 +26,174 @@
 
 @layer base {
     body {
-        background-color: var(--color-dark-900);
-        color: white;
+        background-color: var(--color-dark-950);
+        color: #ffffff;
         font-family: var(--font-base);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    ::selection {
+        background-color: rgba(194, 168, 120, 0.3);
+        color: #ffffff;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-serif);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        color: #ffffff;
     }
 }
 
 @layer components {
+    /* LUXURY BUTTON - SOLID GOLD */
     .btn-gold {
-        @apply bg-gold-500 text-black px-8 py-3 rounded-full font-bold hover:bg-gold-400 transition-all duration-300 shadow-lg shadow-gold-500/20 active:scale-95;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem 2.5rem;
+        background-color: var(--color-gold-500);
+        color: #000000;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        border-radius: 9999px;
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(194, 168, 120, 0.2);
     }
 
+    .btn-gold:hover {
+        box-shadow: 0 20px 60px rgba(194, 168, 120, 0.4);
+        transform: translateY(-4px);
+    }
+
+    .btn-gold:active {
+        transform: scale(0.95);
+    }
+
+    /* LUXURY BUTTON - OUTLINE GOLD */
     .btn-outline-gold {
-        @apply border-2 border-gold-500 text-gold-500 px-8 py-3 rounded-full font-bold hover:bg-gold-500 hover:text-black transition-all duration-300 active:scale-95;
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.25rem 2.5rem;
+        border: 1px solid rgba(194, 168, 120, 0.3);
+        color: var(--color-gold-500);
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.3em;
+        border-radius: 9999px;
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .nav-link {
-        @apply text-white/80 hover:text-gold-500 transition-colors duration-300 relative after:content-[''] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-gold-500 hover:after:w-full after:transition-all;
+    .btn-outline-gold:hover {
+        background-color: var(--color-gold-500);
+        color: #000000;
+        border-color: var(--color-gold-500);
+        box-shadow: 0 20px 50px rgba(194, 168, 120, 0.2);
+        transform: translateY(-4px);
     }
 
+    /* PREMIUM GLASS CARD */
     .glass-card {
-        @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all duration-300;
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(40px);
+        border-radius: 3rem;
+        padding: 2.5rem;
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        overflow: hidden;
     }
 
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-20px); }
+    @media (min-width: 768px) {
+        .glass-card {
+            padding: 4rem;
+        }
     }
 
+    .glass-card:hover {
+        background-color: rgba(255, 255, 255, 0.04);
+        border-color: rgba(194, 168, 120, 0.2);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
+    }
+
+    /* GOLD TEXT GRADIENT */
+    .gradient-text-gold {
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        background-image: linear-gradient(to bottom right, #ecdcb1, #c2a878, #856e49);
+        font-weight: 900;
+    }
+
+    /* NAVIGATION LINKS */
+    .nav-link {
+        position: relative;
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.4em;
+        transition: all 0.5s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .nav-link:hover {
+        color: var(--color-gold-500);
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--color-gold-500);
+        transition: all 0.5s ease;
+    }
+
+    .nav-link:hover::after {
+        width: 100%;
+    }
+
+    /* LUXURY LIST ITEM */
+    .luxury-list-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 2rem;
+        padding: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        background-color: rgba(255, 255, 255, 0.01);
+        border-radius: 2.5rem;
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: default;
+    }
+
+    .luxury-list-item:hover {
+        background-color: var(--color-gold-500);
+        color: #000000;
+        transform: scale(1.02);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+    }
+
+    /* FLOATING ANIMATION */
     .animate-float {
-        animation: float 6s ease-in-out infinite;
+        animation: float 8s ease-in-out infinite;
     }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
 }
