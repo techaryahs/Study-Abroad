@@ -18,14 +18,17 @@ export default function Home() {
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1,
-        ease: [0.16, 1, 0.3, 1]
-      }
+    hidden: { opacity: 0, scale: 0.8, y: 50 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      y: 0, 
+      transition: { 
+        type: "spring",
+        stiffness: 110,
+        damping: 18,
+        duration: 0.8
+      } 
     },
   };
 
@@ -172,11 +175,11 @@ export default function Home() {
           </motion.p>
 
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-8 items-center pt-4">
-            <Link href="/contact" className="btn-gold px-8 py-4 text-xs">
+            <Link href="/contact" className="btn-gold px-8 py-3.5 text-[11px]">
               Evaluate My Profile
             </Link>
 
-            <Link href="/services" className="btn-outline-gold px-8 py-4 text-xs">
+            <Link href="/services" className="btn-outline-gold px-8 py-3.5 text-[11px]">
               Our Expertise
             </Link>
           </motion.div>
@@ -363,11 +366,11 @@ export default function Home() {
           viewport={{ once: true }}
           className="flex flex-col md:flex-row justify-center gap-6 pt-16 relative z-10"
         >
-          <Link href="/contact" className="btn-gold px-12 py-5 text-base">
+          <Link href="/contact" className="btn-gold px-10 py-4 text-[13px]">
             Book Evaluation
           </Link>
 
-          <Link href="/about" className="btn-outline-gold px-12 py-5 text-base hover:bg-gold-500 hover:text-black">
+          <Link href="/about" className="btn-outline-gold px-10 py-4 text-[13px] hover:bg-gold-500 hover:text-black">
             Our Pedigree
           </Link>
         </motion.div>

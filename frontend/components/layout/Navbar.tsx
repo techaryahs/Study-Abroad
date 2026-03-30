@@ -66,7 +66,7 @@ export default function Navbar() {
         <span className="text-white/40 text-sm font-medium">
           +91 89876 54321
         </span>
-        <Link href="/contact" className="btn-gold !px-6 !py-2 text-xs uppercase tracking-tighter">
+        <Link href="/contact" className="btn-gold px-5 py-2 text-[11px]">
           Get Evaluation
         </Link>
       </div>

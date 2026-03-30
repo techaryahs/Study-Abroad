@@ -11,8 +11,18 @@ export default function AboutPage() {
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1, ease: [0.16, 1, 0.3, 1] } },
+    hidden: { opacity: 0, scale: 0.8, y: 50 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      y: 0, 
+      transition: { 
+        type: "spring",
+        stiffness: 110,
+        damping: 18,
+        duration: 0.8
+      } 
+    },
   };
 
   const stats = [

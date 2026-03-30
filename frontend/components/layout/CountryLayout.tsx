@@ -26,8 +26,18 @@ export default function CountryLayout({ name, code, description, benefits, unive
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+    hidden: { opacity: 0, scale: 0.8, y: 50 },
+    visible: { 
+      opacity: 1, 
+      scale: 1, 
+      y: 0, 
+      transition: { 
+        type: "spring",
+        stiffness: 110,
+        damping: 18,
+        duration: 0.8
+      } 
+    },
   };
 
   return (
@@ -37,8 +47,7 @@ export default function CountryLayout({ name, code, description, benefits, unive
 
       <motion.div 
         initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
+        animate="visible"
         variants={containerVariants}
         className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24 relative z-10"
       >
