@@ -131,7 +131,7 @@ export default function ServiceDetail() {
       {/* Background ambient light */}
       <div className="absolute top-0 right-30 w-[1000px] h-[1000px] bg-gold-500/5 blur-[250px] rounded-full pointer-events-none"></div>
 
-      <motion.div 
+      <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
@@ -152,7 +152,7 @@ export default function ServiceDetail() {
                 {service.icon}
               </div>
             </div>
-            
+
             <div className="space-y-4">
               <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px]">Service Expertise</span>
               <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-none uppercase">
@@ -172,9 +172,9 @@ export default function ServiceDetail() {
             </div>
           </motion.div>
 
-          <motion.div 
-            variants={itemVariants} 
-            whileHover={{ 
+          <motion.div
+            variants={itemVariants}
+            whileHover={{
               rotateX: 3,
               rotateY: -3,
               scale: 1.01
@@ -185,7 +185,7 @@ export default function ServiceDetail() {
             <h3 className="text-xl font-black uppercase tracking-[0.3em] border-b border-white/5 pb-8">Strategic Coverage:</h3>
             <ul className="space-y-6">
               {service.details.map((detail, i) => (
-                <motion.li 
+                <motion.li
                   key={i}
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
