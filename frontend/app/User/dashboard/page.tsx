@@ -5,6 +5,8 @@ import { HighSchoolModal, SuccessModal } from "./profile/HighSchool";
 import { UnderGradModal } from "./profile/UnderGrad";
 import { MastersModal } from "./profile/Masters";
 import { AnimatePresence } from "framer-motion";
+import ProjectFormModal from "./profile/Add-Projects";
+import AddVolunteer from "./profile/Volunteering";
 
 interface ProfileCard {
   id: number;
@@ -32,6 +34,7 @@ export default function ProfileRecommendationsPage() {
   const [openFormId, setOpenFormId] = useState<number | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [showVolunteer, setShowVolunteer] = useState(false);
 
   const visibleCount = 3;
   const addedCount = cards.filter((c) => c.added).length;
@@ -97,6 +100,25 @@ export default function ProfileRecommendationsPage() {
               onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(4, "add"); }} 
             />
           )}
+          
+          {openFormId === 8 && (
+              <ProjectFormModal
+                isOpen={true}
+                onClose={() => setOpenFormId(null)}
+              />
+            )}
+            
+         {openFormId === 9 && (
+  <AddVolunteer
+    isOpen={true}
+    onClose={() => setOpenFormId(null)}
+    onSubmit={() => {
+      setOpenFormId(null);
+      setShowSuccess(true);
+      handleAction(9, "add");
+    }}
+  />
+)}
 
           {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
         </AnimatePresence>
