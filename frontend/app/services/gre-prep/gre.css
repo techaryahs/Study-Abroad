@@ -1,0 +1,261 @@
+/* MAIN SECTION */
+.gre-section {
+  background: #f5efe3; /* ✅ matches screenshot */
+  padding: 60px 80px;
+  color: #000;
+}
+
+/* CONTAINER */
+.gre-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+}
+
+/* LEFT SIDE */
+.gre-left {
+  width: 55%;
+}
+
+.gre-left h1 {
+  font-size: 44px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+/* DESCRIPTION */
+.desc {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+/* INCLUDES */
+.includes {
+  margin-top: 25px;
+  font-weight: 600;
+}
+
+/* FEATURES */
+.features {
+  display: flex;
+  gap: 50px; /* increased spacing */
+  margin-top: 15px;
+}
+
+.feature {
+  text-align: center;
+}
+
+.feature p {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #333;
+}
+
+/* ICON STYLE */
+.icon {
+  width: 50px;   /* reduced */
+  height: 50px;
+  background: #2d3748;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.icon img {
+  width: 22px;   /* 🔥 smaller */
+  height: 22px;
+}
+
+/* CTA */
+.cta {
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* BUTTON */
+.discuss-btn {
+  padding: 12px 22px;
+  border: 2px solid #f4b400;
+  border-radius: 8px;
+  background: transparent;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.discuss-btn:hover {
+  background: #f4b400;
+  color: #000;
+}
+
+/* HELP TEXT */
+.help-text {
+  color: #666;
+  font-size: 14px;
+}
+
+/* RIGHT SIDE */
+/* RIGHT SIDE */
+.gre-right {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+/* SINGLE CLEAN CARD */
+.video-card {
+  width: 100%;
+  max-width: 420px; /* 🔥 controls size */
+  border-radius: 30px;
+  overflow: hidden; /* IMPORTANT */
+  background: #9fc1bd; /* light teal like screenshot */
+}
+
+/* VIDEO */
+.video-card video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 30px;
+  object-fit: cover;
+}
+
+.gre-left h1 {
+  color: #000 !important;
+  opacity: 1 !important;
+}
+
+.includes {
+  color: #333 !important;  /* dark gray like screenshot */
+  font-weight: 500;
+   margin-top: 25px;
+  margin-bottom: 10px; /* add spacing */
+}
+
+
+/* OUTER FRAME */
+.video-outer {
+  background: #f5efe3; /* cream */
+  padding: 15px;       /* space between layers */
+  border-radius: 30px;
+}
+
+/* INNER FRAME */
+.video-inner {
+  background: #9fc1bd; /* teal */
+  padding: 15px;
+  border-radius: 25px;
+}
+
+/* IMAGE / VIDEO */
+.video-inner img,
+.video-inner video {
+  width: 100%;
+  border-radius: 20px;
+  display: block;
+}
+
+/* ABOUT SECTION */
+.about-section {
+  padding: 60px 80px;
+  background: #ffffff; /* ✅ pure white */
+}
+
+.about-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+/* CONTAINER */
+.about-container {
+  display: flex;
+  gap: 50px;
+}
+
+/* LEFT */
+.about-left {
+  width: 60%;
+}
+
+.para {
+  margin-top: 15px;
+  line-height: 1.6;
+}
+
+.highlight {
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+/* RIGHT */
+.about-right {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+}
+
+/* CARD */
+.price-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 25px;
+  width: 100%;
+  max-width: 350px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.price-card h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* ROWS */
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+/* STRIKE */
+.strike {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* PRICE */
+.price {
+  color: red;
+  font-weight: bold;
+}
+
+/* SAVE */
+.save {
+  color: #333;
+}
+
+.badge {
+  background: orange;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 8px;
+  margin-left: 8px;
+}
+
+/* BUTTON */
+.pay-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}

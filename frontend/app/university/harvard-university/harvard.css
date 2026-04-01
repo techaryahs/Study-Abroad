@@ -1,0 +1,189 @@
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f6f4ef;
+}
+
+.main-bg {
+  padding: 30px 0;
+  background: #f6f4ef;
+}
+
+.container {
+  width: 100%;
+  padding: 0 60px; /* side spacing */
+}
+
+.header-card {
+  width: 100%;
+  border-radius: 20px;
+  padding: 40px 50px;
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+}
+
+/* LEFT */
+.header-left {
+  width: 60%;
+}
+
+/* RIGHT */
+.header-right {
+  width: 40%;
+}
+
+.header-right img {
+  width: 100%;
+  height: 320px; /* increase */
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+/* TOP */
+.top-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* LOGO */
+.uni-logo {
+  width: 65px;
+}
+
+/* TITLE */
+.title-wrap h2 {
+  font-size: 28px;
+}
+
+.location {
+  font-size: 14px;
+  color: #555;
+}
+
+/* BADGE */
+.badge-wrapper {
+  position: relative;
+  width: 75px;
+  height: 75px;
+}
+
+.badge-img {
+  width: 100%;
+  height: 100%;
+}
+
+.badge-text {
+  position: absolute;
+  top: 42%;   /* 🔥 KEY CHANGE */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 20px;
+  color: #000;
+}
+
+/* STATS */
+.stats-section {
+  display: flex;
+  gap: 60px;
+  margin-top: 30px;
+}
+
+.stat h6 {
+  margin: 0;
+  font-weight: 700;
+  color: #1a1a1a; /* DARK BLACK */
+  font-size: 18px;
+}
+
+.stat p {
+  margin: 0;
+  font-size: 13px;
+  color: #555; /* subtle gray */
+}
+
+/* BUTTONS */
+.btn-section {
+  margin-top: 30px;
+  display: flex;
+  gap: 25px;
+}
+
+.gold-btn {
+  background: linear-gradient(to bottom, #f7d774, #e5b500);
+  border: 2px solid #000;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 3px 3px 0px #000;
+  cursor: pointer;
+}
+
+.gray-btn {
+  background: linear-gradient(to bottom, #5c6773, #2f3742);
+  border: 2px solid #000;
+  padding: 12px 28px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  box-shadow: 3px 3px 0px #000;
+  cursor: pointer;
+}
+
+.title-wrap h2 {
+  margin: 0;
+  font-weight: 700;
+  color: #1a1a1a; /* FIX */
+}
+
+.location {
+  font-size: 14px;
+  color: #444; /* FIX */
+}
+
+/* TABS SECTION */
+.tabs-container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center; /* 🔥 CENTER */
+}
+
+.tabs {
+  display: flex;
+  gap: 20px;
+  background: #eeeeee;
+  padding: 8px;
+  border-radius: 12px;
+  width: fit-content;
+}
+
+/* TAB BUTTON */
+.tab {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  font-weight: 500;
+  cursor: pointer;
+  color: #333;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+/* ACTIVE TAB */
+.tab.active {
+  background: #f4b400; /* yellow */
+  color: black;
+  font-weight: 600;
+}
+
+/* HOVER EFFECT */
+.tab:hover {
+  background: #e6e6e6;
+}
