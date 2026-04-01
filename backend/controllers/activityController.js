@@ -11,7 +11,6 @@ exports.recordHeartbeat = async (req, res) => {
     
     // Determine the collection model name based on role
     // 'student'/'parent' -> 'User'
-    // 'teacher' -> 'Teacher'
     // 'consultant' -> 'Consultant'
     let userModel = 'User';
     if (role === 'consultant') userModel = 'Consultant';

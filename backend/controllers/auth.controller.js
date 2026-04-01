@@ -4,7 +4,7 @@ const sendEmail = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Consultant = require("../models/Consultant");
-const Teacher = require("../models/Teacher");
+
 
 const otpStore = new Map();
 
@@ -232,7 +232,7 @@ exports.login = async (req, res) => {
     }
 
     // 1️⃣ FIND USER and populate nested Linked profiles
-    const user = await User.findOne({ email }).populate('profile.teacherProfile profile.consultantProfile');
+    const user = await User.findOne({ email }).populate('profile.consultantProfile');
 
     // Use the model method matchPassword
     if (user && (await user.matchPassword(password))) {
@@ -251,7 +251,7 @@ exports.login = async (req, res) => {
           role: user.role,
           isVerified: profile.isVerified || false,
           mobile: user.mobile,
-          profileImage: profile.profileImage || profile.teacherProfile?.image || profile.consultantProfile?.image || null,
+          profileImage: profile.profileImage || profile.consultantProfile?.image || null,
           isPremium: profile.isPremium || false
         }
       });
@@ -269,7 +269,7 @@ exports.login = async (req, res) => {
 ========================= */
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password").populate('profile.teacherProfile profile.consultantProfile');
+    const user = await User.findById(req.user.id).select("-password").populate('profile.consultantProfile');
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });

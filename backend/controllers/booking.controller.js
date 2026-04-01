@@ -1,7 +1,7 @@
 const Booking = require("../models/Booking");
 const Consultant = require("../models/Consultant");
 const User = require("../models/User");
-const Teacher = require("../models/Teacher");
+
 // const transporter = require("../utils/transporter"); // nodemailer instance
 const sendEmail = require("../utils/sendEmail");     // used in bookConsultant
 const crypto = require('crypto');
@@ -48,18 +48,11 @@ exports.bookConsultant = async (req, res) => {
     // Fetch consultant info if missing (Stronger Fetch)
     if (!consultantEmail || !consultantName) {
       const consultant = await Consultant.findById(consultantId).populate('user');
-      if (consultant) {
+      
         consultantEmail = consultantEmail || consultant.user?.email || consultant.email;
         consultantName = consultantName || consultant.name || consultant.user?.name;
-      } else {
-        // Check if it's a teacher
-        const teacher = await Teacher.findById(consultantId).populate('user');
-        if (teacher) {
-          consultantEmail = teacher.user?.email || teacher.email;
-          consultantName = teacher.fullName || teacher.user?.name;
-        }
       }
-    }
+    
 
     if (!consultantEmail) {
       return res.status(400).json({ message: 'Consultant email not found' });
@@ -137,148 +130,6 @@ exports.bookConsultant = async (req, res) => {
   } catch (err) {
     console.error("❌ Booking error:", err.message);
     res.status(500).json({ message: "Server error. Could not complete booking." });
-  }
-};
-
-/* =========================
-   BOOK TEACHER
-========================= */
-exports.bookTeacher = async (req, res) => {
-  try {
-    const {
-      teacherId,
-      teacherEmail,
-      teacherName,
-      date,
-      time,
-      userEmail,
-      userPhone,
-      userName,
-      classMode
-    } = req.body;
-
-    if (!teacherId || !teacherEmail || !date || !time || !userEmail || !classMode) {
-      return res.status(400).json({ message: 'Missing required data' });
-    }
-
-    const alreadyBooked = await Booking.findOne({ teacherId, date, time });
-    if (alreadyBooked) {
-      console.warn(`🚫 [Teacher Booking] Conflict found: ${date} ${time} for teacher ${teacherId}`);
-      return res.status(400).json({ message: 'Slot already booked' });
-    }
-
-    const booking = await Booking.create({
-      teacherId,
-      teacherEmail,
-      teacherName,
-      date,
-      time,
-      userEmail,
-      userName,
-      userPhone,
-      bookingType: "teacher",
-      classMode
-    });
-
-    // Notify Teacher
-    await sendEmail(
-      teacherEmail,
-      "New Class Booking",
-      "",
-      `<p>You have a new <b>${classMode}</b> class booking from <b>${userName}</b>.</p>
-       <p>Date: <b>${date}</b></p>
-       <p>Time: <b>${time}</b></p>`
-    );
-
-    // Notify Student
-    await sendEmail(
-      userEmail,
-      "Class Booking Confirmed",
-      "",
-      `<p>Your <b>${classMode}</b> class with <b>${teacherName}</b> is confirmed.</p>`
-    );
-
-    res.json({ message: "Booking successful", booking });
-
-  } catch (err) {
-    console.error("❌ Teacher booking error:", err.message);
-    res.status(500).json({ message: "Server error" });
-  }
-};
-
-/* =========================
-   SEARCH TEACHERS
-========================= */
-exports.searchTeachers = async (req, res) => {
-  try {
-    const { query, fieldId, programId } = req.query;
-
-    let filter = {}; // Removed isVerified requirement for testing
-    // let filter = { isVerified: true }; // TODO: Re-enable for production
-
-    // Apply field filter
-    if (fieldId && fieldId.trim()) {
-      filter["teachingField.fieldId"] = fieldId.trim();
-    }
-
-    // Apply program filter
-    if (programId && programId.trim()) {
-      filter["program.programId"] = programId.trim();
-    }
-
-    // Apply text search if query provided
-    if (query && query.trim()) {
-      try {
-        const safeQuery = escapeRegex(query.trim());
-        const searchRegex = new RegExp(safeQuery, 'i');
-
-        filter.$or = [
-          { fullName: searchRegex },
-          { bio: searchRegex },
-          { "teachingField.fieldName": searchRegex },
-          { "program.programName": searchRegex },
-          { selectedSubjects: searchRegex }
-        ];
-      } catch (regexErr) {
-        console.error("❌ Regex error:", regexErr);
-        // If regex fails, just search by exact match
-        filter.$or = [
-          { fullName: { $regex: query.trim(), $options: 'i' } },
-          { selectedSubjects: { $regex: query.trim(), $options: 'i' } }
-        ];
-      }
-    }
-
-    const teachers = await Teacher.find(filter).select('-password');
-
-    res.json({ teachers });
-  } catch (err) {
-    console.error("❌ Search error:", err.message);
-    console.error(err.stack);
-    res.status(500).json({
-      message: "Search error",
-      error: process.env.NODE_ENV === 'development' ? err.message : undefined
-    });
-  }
-};
-
-/* =========================
-   GET TEACHER BOOKED SLOTS
-========================= */
-exports.getTeacherBookedSlots = async (req, res) => {
-  try {
-    const { teacherId, date } = req.query;
-    if (!teacherId || !date) {
-      return res.status(400).json({ message: 'Missing teacherId or date' });
-    }
-
-    console.log(`🔍 [Teacher Slots] Fetching for: ${teacherId} on ${date}`);
-    const bookings = await Booking.find({ teacherId, date });
-    const bookedTimes = bookings.map(b => b.time);
-
-    res.json({ bookedTimes });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
   }
 };
 
@@ -364,13 +215,11 @@ exports.getConsultantBookings = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID provided" });
     }
 
-    // 1. Resolve Profile IDs for this User (could be Consultant or Teacher profile)
+    // 1. Resolve Profile IDs for this User (could be Consultant )
     const consultantProfiles = await Consultant.find({ user: consultantId });
-    const teacherProfiles = await Teacher.find({ user: consultantId });
 
     const profileIds = [
-      ...consultantProfiles.map(p => p._id),
-      ...teacherProfiles.map(p => p._id)
+      ...consultantProfiles.map(p => p._id)
     ];
 
     // 2. Build a multi-prong query
@@ -378,18 +227,15 @@ exports.getConsultantBookings = async (req, res) => {
 
     // Prong A: Direct ID matches (the passed ID is already a Profile ID)
     bookingsQuery.$or.push({ consultantId: consultantId });
-    bookingsQuery.$or.push({ teacherId: consultantId });
 
     // Prong B: Mapped Profile IDs (the passed ID was a User ID)
     if (profileIds.length > 0) {
       bookingsQuery.$or.push({ consultantId: { $in: profileIds } });
-      bookingsQuery.$or.push({ teacherId: { $in: profileIds } });
     }
 
     // Prong C: Email Fallback (Bulletproof for dev/seed data)
     if (email) {
       bookingsQuery.$or.push({ consultantEmail: email });
-      bookingsQuery.$or.push({ teacherEmail: email });
     }
 
     const bookings = await Booking.find(bookingsQuery)
@@ -403,18 +249,6 @@ exports.getConsultantBookings = async (req, res) => {
   }
 };
 
-/* =========================
-   TEACHER BOOKINGS
-========================= */
-exports.getTeacherBookings = async (req, res) => {
-  try {
-    const bookings = await Booking.find({ teacherId: req.params.teacherId })
-      .sort({ date: 1, time: 1 });
-    res.json(bookings);
-  } catch (err) {
-    res.status(500).json({ message: "Error fetching bookings" });
-  }
-};
 
 /* =========================
    ACCEPT BOOKING (EMAIL)

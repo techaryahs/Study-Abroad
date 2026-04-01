@@ -10,7 +10,7 @@ const featureActivitySchema = new mongoose.Schema(
     userModel: {
       type: String,
       required: true,
-      enum: ["User", "Teacher", "Consultant"],
+      enum: ["User", "Consultant"],
     },
     role: {
       type: String,

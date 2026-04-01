@@ -14,7 +14,6 @@ exports.logFeatureActivity = async (req, res) => {
 
         // Map role → Mongo model
         let userModel = "User";
-        if (req.user.role === "teacher") userModel = "Teacher";
         if (req.user.role === "consultant") userModel = "Consultant";
 
         const activity = await FeatureActivity.create({

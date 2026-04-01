@@ -8,14 +8,11 @@ const bookingSchema = new mongoose.Schema(
     consultantEmail: { type: String },
     consultantName: { type: String },
 
-    // For Teachers
-    teacherId: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" },
-    teacherEmail: { type: String },
-    teacherName: { type: String },
+
 
     bookingType: {
       type: String,
-      enum: ["consultant", "teacher"],
+      enum: ["consultant"],
       default: "consultant"
     },
     classMode: {
