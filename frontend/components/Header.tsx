@@ -12,7 +12,7 @@ export default function Header() {
             <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Study Abroad</span>
           </Link>
         </div>
-        
+
         <nav className="hidden md:flex items-center space-x-8">
           <Link href="/programs" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">Programs</Link>
           <Link href="/universities" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">Universities</Link>
@@ -21,14 +21,14 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Link 
-            href="/auth/login" 
+          <Link
+            href="/auth/login"
             className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors px-4 py-2"
           >
             Log in
           </Link>
-          <Link 
-            href="/auth/register" 
+          <Link
+            href="/auth/register"
             className="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
           >
             Apply Now

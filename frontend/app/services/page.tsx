@@ -1,149 +1,332 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { useState, FormEvent } from "react";
 import Link from "next/link";
 
-const services = [
-  { 
-    title: "Admission Guidance", 
-    slug: "admission-guidance",
-    description: "Personalized advice from experts to help you apply for the best universities based on your profile and career goals.",
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M12 14l9-5-9-5-9 5 9 5z" />
-        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm0 0V20" />
-      </svg>
-    )
-  },
-  { 
-    title: "University Shortlisting", 
-    slug: "university-shortlisting",
-    description: "Our data-driven process shortlists universities that maximize your chances of acceptance and offer the best programs.",
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-      </svg>
-    )
-  },
-  { 
-    title: "SOP & LOR Support", 
-    slug: "sop-lor-support",
-    description: "Assistance in writing compelling Statement of Purpose and Letters of Recommendation to impact the admissions committee.",
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-    )
-  },
-  { 
-    title: "Scholarship Assistance", 
-    slug: "scholarship-assistance",
-    description: "Guidance in identifying and applying for scholarships, grants, and bursaries to reduce the financial burden of education.",
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    )
-  },
-  { 
-    title: "Visa Guidance", 
-    slug: "visa-guidance",
-    description: "Complete support for the visa application process, document checklist, and interview preparation for successful outcomes.",
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-      </svg>
-    )
-  },
-  { 
-    title: "Profile Building", 
-    slug: "profile-building",
-    description: "Strategies to enhance your profile with research papers, internships, and certifications before applying for Ivy League universities.",
-    icon: (
-      <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    )
-  },
+// ─── Types ───────────────────────────────────────────────────────────────────
+
+type Badge = "fire" | "popular" | null;
+
+interface Service {
+  slug: string;
+  title: string;
+  description: string;
+  icon: string;
+  badge: Badge;
+}
+
+// ─── Data ────────────────────────────────────────────────────────────────────
+
+const services: Service[] = [
+  { slug: "counselling", title: "Counselling Session", description: "Google Meet session with our counsellors. Get transparency on your case for study/work overseas. Charges fully adjustable in services' pricing.", icon: "🎯", badge: "fire" },
+  { slug: "research-paper", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
+  { slug: "visa-help", title: "Visa Application Help", description: "Ace the visa application through our help in the paperwork, financial planning, and visa interview mock rounds. Applicable for USA, Canada, UK, Germany, and more.", icon: "🛂", badge: null },
+  { slug: "eb1", title: "Apply For An EB-1 Visa", description: "The EB-1 visa is a talent-based immigrant visa in the US for individuals with extraordinary ability in their field.", icon: "🌟", badge: "fire" },
+  { slug: "application-help", title: "Complete Application Help", description: "Get your application into the top 10% of the applications the committee evaluates for admission.", icon: "📋", badge: "popular" },
+  { slug: "shortlisting", title: "Profile Evaluation & University Shortlisting", description: "Use our pruning strategy to get admits from the best universities your profile can get you into without wasting money.", icon: "🏛️", badge: null },
+  { slug: "sop", title: "Statement of Purpose/Essay Writing", description: "Ivy league graduates work FROM SCRATCH or with your existing draft, zero plagiarism, and unlimited changes - free of charge.", icon: "✍️", badge: null },
+  { slug: "o1", title: "Apply For An O-1 Visa", description: "The O-1 visa is a talent-based non-immigrant work visa in the US for individuals with extraordinary ability in their field.", icon: "🏆", badge: null },
+  { slug: "mock-interview", title: "US Visa Mock Interview", description: "The final step to your US visa is a Visa interview with an officer from the US consulate. Ace the interview with proven tricks and techniques.", icon: "🎤", badge: null },
+  { slug: "lor", title: "Letter of Recommendation Drafting", description: "Little known is the art of writing exactly what the admissions committee wants to see in an applicant. This can be more impacting than your SOP if done right.", icon: "📝", badge: null },
+  { slug: "personal-history", title: "Personal History Statement", description: "The Personal History Statement reflects your ability to connect the barriers you have overcome in the past to your current interest in the program.", icon: "📖", badge: null },
+  { slug: "resume", title: "Resume Drafting", description: "Learn the secret to a perfect resume that will truly set you apart from any other applicant that you compete with.", icon: "🗂️", badge: null },
+  { slug: "gre", title: "GRE Prep-Plan Building", description: "The secret to an excellent GRE score is NOT hard work. I scored a 329/340 and helped thousands do the same. Are you next? (Day-by-day schedule)", icon: "📊", badge: null },
+  { slug: "university-finalization", title: "University Finalization Help", description: "Have some of your admits in hand and need help with finalizing on one? Get a detailed review of the right pick as per your circumstances.", icon: "🎓", badge: null },
+  { slug: "plagiarism", title: "Plagiarism Check Report", description: "Use our best-in-class instructor-level Turnitin reporting software to generate reports for your drafts. Can be used on SOPs, LORs, research papers, and even assignments.", icon: "🔍", badge: null },
+  { slug: "scholarship", title: "Scholarship Application Help", description: "Over 60% of our applicants get a scholarship/fellowship before they step into their university. Now, you can get one too.", icon: "💰", badge: null },
+  { slug: "job", title: "Job Application Help", description: "End-to-End support for you to fetch the job of your dreams. Apply to jobs in multiple countries with our support and network.", icon: "💼", badge: null },
+  { slug: "toefl", title: "TOEFL Prep-Plan Building/Coaching Session", description: "TOEFL scores are your gateway to financial aid and teaching assistantships. Learn how I scored a 119/120 and YOU can too.", icon: "🗣️", badge: null },
+  { slug: "canada-sop", title: "Canada Visa SOP/Letter of Explanation", description: "Over 1000 students have been issued study permits with us. With our expertise in the most common reasons for rejection, we can help you ensure success.", icon: "🍁", badge: null },
+  { slug: "profile-building", title: "Profile Building Guidance", description: "Have more than 3 months of time for your applications? Join us for one-on-one mentorship on profile boosting in customized sessions.", icon: "📈", badge: null },
+  { slug: "assignment", title: "Assignment Help", description: "Join the privileged 3000+ students who've found a solution to their academic pain. Hire an expert to help with your assignment today!", icon: "📚", badge: null },
+  { slug: "housing", title: "Housing Search", description: "Make your housing search hassle-free with customized accommodation help. Use our network and expertise to find safe and affordable housing.", icon: "🏠", badge: null },
+  { slug: "cover-letter", title: "Cover Letter Drafting", description: "Command the attention of top recruiters with a cover letter that makes lasting impressions.", icon: "✉️", badge: null },
+  { slug: "linkedin", title: "LinkedIn Profile Boosting", description: "Revamp your LinkedIn profile from 0 to 99. The outcomes include better admits, job opportunities, placements, and a bigger network.", icon: "💡", badge: null },
+  { slug: "express-entry", title: "Express Entry/PNP Help", description: "Canada Permanent Residence (PR) via the Express Entry route. Get your applications filed via experts who have changed lives of hundreds of applicants already.", icon: "🍁", badge: null },
+  { slug: "review", title: "Complete Application Review", description: "Now, sail through your applications with our expertise and ensure success with in-depth reviews and brainstorming.", icon: "🔎", badge: null },
+  { slug: "global-talent", title: "Apply for Global Talent Visa", description: "The UK Global Talent Visa (GTV) is a UK immigration visa for exceptional leaders or potential leaders in the digital technology sector, academia and research, or in arts and culture.", icon: "🇬🇧", badge: null },
+  { slug: "portfolio", title: "Portfolio Building & Management", description: "Highlight the best parts of your profile and shine to employers, universities, and clients worldwide with an online portfolio, managed for you all year round.", icon: "🎨", badge: null },
+  { slug: "australia-visa", title: "Apply for Australia National Innovation Visa", description: "Highlight your extraordinary abilities and take the next step in your professional journey.", icon: "🦘", badge: null },
+  { slug: "singapore-pass", title: "Apply for Singapore ONE Pass", description: "The ONE Pass is Singapore's talent visa for top achievers in business, arts, sports, academia, and research.", icon: "🦁", badge: null },
+  { slug: "eb2", title: "Apply for an EB-2 NIW Visa", description: "The EB-2 NIW visa is a talent-based immigrant visa in the U.S. for individuals with exceptional ability in their field.", icon: "⭐", badge: null },
 ];
+// ─── Icons ───────────────────────────────────────────────────────────────────
+
+function ChatIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+  );
+}
+
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function ServiceCard({ service, index }: { service: Service; index: number }) {
+  return (
+    <Link
+      href={`/services/${service.slug}`}
+      className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-white/[0.08] bg-[#141414] hover:border-yellow-400/30 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)] transition-all duration-200 overflow-hidden"
+      style={{ animationDelay: `${index * 35}ms` }}
+    >
+      {/* top accent */}
+      <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+
+      {/* badges */}
+      {service.badge === "fire" && (
+        <span className="absolute top-0 right-0 text-[10px] font-black tracking-wider uppercase bg-orange-600 text-white px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
+          🔥 On Fire
+        </span>
+      )}
+      {service.badge === "popular" && (
+        <span className="absolute top-0 right-0 text-[10px] font-black tracking-wider uppercase bg-green-600 text-white px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
+          Popular
+        </span>
+      )}
+
+      <div className="w-10 h-10 rounded-xl bg-yellow-400/10 flex items-center justify-center text-lg flex-shrink-0">
+        {service.icon}
+      </div>
+
+      <h3 className="font-bold text-[15px] leading-snug text-white group-hover:text-yellow-400 transition-colors duration-200">
+        {service.title}
+      </h3>
+
+      <p className="text-white/40 text-[13px] leading-relaxed flex-1">
+        {service.description}
+      </p>
+
+      <span className="self-end text-yellow-400 text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+        →
+      </span>
+    </Link>
+  );
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function ServicesPage() {
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  const [query, setQuery] = useState<string>("");
+  const [form, setForm] = useState({ name: "", email: "", mobile: "", service: "" });
+  const [submitted, setSubmitted] = useState<boolean>(false);
+
+  const filtered = services.filter(
+    (s) =>
+      s.title.toLowerCase().includes(query.toLowerCase()) ||
+      s.description.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitted(true);
   };
 
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.8, y: 50 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      y: 0, 
-      transition: { 
-        type: "spring",
-        stiffness: 110,
-        damping: 18,
-        duration: 0.8
-      } 
-    },
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   return (
-    <main className="bg-dark-950 text-white min-h-screen relative overflow-hidden">
-      {/* Background ambient light */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/5 blur-[200px] rounded-full pointer-events-none"></div>
+    <main className="min-h-screen bg-[#0b0b0b] text-white overflow-x-hidden">
 
-      <motion.div 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={containerVariants}
-        className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24 relative z-10"
-      >
-        <motion.div variants={itemVariants} className="text-center mb-20 space-y-6">
-          <span className="text-gold-500 uppercase tracking-[0.4em] font-black text-[10px]">What We Offer</span>
-          <h1 className="text-2xl md:text-4xl font-black leading-[1.1]">Our Core <span className="gradient-text-gold italic">Services</span></h1>
-          <p className="text-white/30 text-base max-w-2xl mx-auto font-normal italic">
-            Precision, strategic guidance for Ivy League and Global Tier-1 excellence.
+      {/* ── HERO ─────────────────────────────────────────────────────────────── */}
+      <section className="relative px-4 sm:px-8 md:px-14 lg:px-20 pt-14 pb-12 border-b border-white/[0.08] overflow-hidden">
+        {/* radial glow */}
+        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[420px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,197,24,0.12)_0%,transparent_70%)]" />
+
+        {/* badge */}
+        <div className="inline-flex items-center gap-2 mb-6 bg-yellow-400/[0.08] border border-yellow-400/25 rounded-full px-4 py-1.5">
+          <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
+          <span className="text-yellow-400 text-xs font-semibold tracking-widest uppercase">Our Services</span>
+        </div>
+
+        {/* heading */}
+        <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-black leading-[1.04] tracking-tight mb-8 max-w-3xl">
+          SERVICES
+        </h1>
+
+        {/* body */}
+        <div className="max-w-3xl space-y-3.5">
+          <p className="text-white/55 text-sm sm:text-[15px] leading-relaxed">
+            Having worked with students from over{" "}
+            <strong className="text-white font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, YMGrad forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
+            <strong className="text-white font-semibold">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
           </p>
-        </motion.div>
+          <p className="text-white/55 text-sm sm:text-[15px] leading-relaxed">
+            We support applications to most countries including but not limited to{" "}
+            <strong className="text-white font-semibold">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
+          </p>
+          <p className="text-yellow-400 text-sm font-medium pt-1">
+            ✦ To see the charges, you can click on the service, select the currency and other relevant options (if any). Crypto payments now accepted!
+          </p>
+        </div>
 
-        <motion.div 
-          variants={containerVariants}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {services.map((service, i) => (
-            <motion.div 
-              key={i} 
-              variants={itemVariants}
-              whileHover={{ 
-                scale: 1.02, 
-                y: -10,
-                rotateX: 5,
-                rotateY: -5,
-                z: 40
-              }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              style={{ perspective: 1000 }}
-              className="glass-card flex flex-col justify-between group cursor-default h-full transform-gpu"
-            >
-               <div className="space-y-8">
-                  <div className="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/5 flex items-center justify-center text-gold-500 group-hover:bg-gold-500 group-hover:text-black transition-all duration-500">
-                    {service.icon}
+        {/* chat strip */}
+        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#141414] border border-white/[0.08] rounded-xl px-5 py-3.5">
+          <span className="text-white/45 text-sm">To reach our sales team</span>
+          <Link
+            href="#"
+            className="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-yellow-500 active:scale-95 transition-all"
+          >
+            <ChatIcon className="w-4 h-4" />
+            Chat Now →
+          </Link>
+        </div>
+      </section>
+
+      {/* ── SEARCH + GRID ────────────────────────────────────────────────────── */}
+      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-10">
+        {/* Search */}
+        <div className="relative max-w-md mb-6">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for a service…"
+            className="w-full bg-[#141414] border border-white/[0.08] rounded-xl px-4 py-3 pr-11 text-sm text-white placeholder-white/30 focus:outline-none focus:border-yellow-400/40 transition-colors"
+          />
+          <button className="absolute right-3 top-1/2 -translate-y-1/2 text-yellow-400" aria-label="Search">
+            <SearchIcon className="w-5 h-5" />
+          </button>
+        </div>
+
+        <p className="text-white/25 text-xs mb-7 tracking-wide">
+          {filtered.length} service{filtered.length !== 1 ? "s" : ""} found
+        </p>
+
+        {filtered.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map((service, i) => (
+              <ServiceCard key={service.slug} service={service} index={i} />
+            ))}
+          </div>
+        ) : (
+          <div className="py-24 text-center text-white/30 text-sm">
+            No services found for &ldquo;{query}&rdquo;
+          </div>
+        )}
+      </section>
+
+      {/* ── CTA BANNER ───────────────────────────────────────────────────────── */}
+      <div className="px-4 sm:px-8 md:px-14 lg:px-20 py-4">
+        <div className="relative overflow-hidden rounded-2xl border border-yellow-400/20 bg-gradient-to-br from-[#1a1500] to-[#111] px-6 py-12 sm:px-14 flex flex-col items-center text-center gap-5">
+          <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-48 rounded-full bg-[radial-gradient(ellipse,rgba(245,197,24,0.13),transparent_70%)]" />
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Questions? Start a chat with us.</h2>
+          <p className="text-white/45 text-sm sm:text-base max-w-sm">
+            We&apos;re here to help you navigate your study, work, or immigration journey.
+          </p>
+          <Link
+            href="#"
+            className="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:bg-yellow-500 active:scale-95 transition-all"
+          >
+            <ChatIcon className="w-4 h-4" />
+            Chat Now →
+          </Link>
+        </div>
+      </div>
+
+      {/* ── SERVICE REQUEST ───────────────────────────────────────────────────── */}
+      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+
+          {/* Left */}
+          <div>
+            <div className="inline-flex items-center gap-2 mb-4 bg-yellow-400/[0.08] border border-yellow-400/20 rounded-full px-3 py-1">
+              <span className="text-yellow-400 text-xs font-semibold tracking-widest uppercase">Custom Request</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">Service Request</h2>
+            <p className="text-white/45 text-sm sm:text-[15px] leading-relaxed mb-8">
+              Tell us what you need. If it&apos;s not listed, we&apos;ll do our best to create a solution just for you. Use the form for custom services.
+            </p>
+            {/* Illustration */}
+            <div className="bg-[#141414] border border-white/[0.08] rounded-2xl p-6 flex flex-col gap-3">
+              <div className="flex gap-3">
+                <div className="h-8 flex-1 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
+                <div className="h-8 flex-1 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
+              </div>
+              <div className="h-8 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
+              <div className="h-8 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
+              <div className="h-16 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
+              <div className="h-10 rounded-lg bg-yellow-400 flex items-center justify-center text-black text-xs font-black tracking-widest">
+                SUBMIT →
+              </div>
+            </div>
+          </div>
+
+          {/* Right — form */}
+          <div className="bg-[#141414] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+            {submitted ? (
+              <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
+                <div className="w-16 h-16 rounded-full bg-yellow-400/10 flex items-center justify-center text-3xl">✅</div>
+                <h3 className="text-xl font-black">Request Submitted!</h3>
+                <p className="text-white/45 text-sm max-w-xs">Thanks! Our team will get back to you shortly with the best solution.</p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="mt-2 text-yellow-400 text-sm underline underline-offset-2 hover:text-yellow-300"
+                >
+                  Submit another request
+                </button>
+              </div>
+            ) : (
+              <>
+                <h3 className="text-xl sm:text-2xl font-black mb-1">How can we help you?</h3>
+                <p className="text-white/35 text-xs sm:text-sm mb-6 leading-relaxed">
+                  Tell us what you need. If it&apos;s not listed, we&apos;ll do our best to create a solution just for you.
+                </p>
+
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  {[
+                    { label: "Name", name: "name", type: "text", placeholder: "Full Name" },
+                    { label: "Email ID", name: "email", type: "email", placeholder: "Email" },
+                    { label: "Mobile", name: "mobile", type: "tel", placeholder: "Mobile with country code" },
+                  ].map((field) => (
+                    <div key={field.name} className="flex flex-col gap-1.5">
+                      <label className="text-xs font-semibold text-white/55 tracking-wide">{field.label}</label>
+                      <input
+                        type={field.type}
+                        name={field.name}
+                        value={form[field.name as keyof typeof form]}
+                        onChange={handleChange}
+                        placeholder={field.placeholder}
+                        required={field.name !== "mobile"}
+                        className="bg-[#1a1a1a] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-yellow-400/40 transition-colors"
+                      />
+                    </div>
+                  ))}
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-semibold text-white/55 tracking-wide">Service Required</label>
+                    <textarea
+                      name="service"
+                      value={form.service}
+                      onChange={handleChange}
+                      placeholder="What do you need help with? Please be as descriptive as possible and provide time or any other constraints that you may have."
+                      required
+                      rows={4}
+                      className="bg-[#1a1a1a] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-yellow-400/40 transition-colors resize-none"
+                    />
                   </div>
-                  <h3 className="text-2xl font-black tracking-tight group-hover:text-gold-500 transition-colors uppercase">{service.title}</h3>
-                  <p className="text-white/30 text-base leading-relaxed font-medium">{service.description}</p>
-               </div>
-               <div className="pt-12">
-                  <Link href={`/services/${service.slug}`} className="btn-gold block text-center w-full px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] shadow-lg hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
-                    Get Details
-                  </Link>
-               </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
+
+                  <button
+                    type="submit"
+                    className="mt-1 w-full bg-yellow-400 text-black font-black text-sm sm:text-base py-3.5 rounded-xl hover:bg-yellow-500 active:scale-[0.98] transition-all"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      </section>
     </main>
   );
-}
+}
