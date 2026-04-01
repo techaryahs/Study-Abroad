@@ -4,6 +4,10 @@ import { useState, useRef } from "react";
 import { HighSchoolModal, SuccessModal } from "./profile/HighSchool";
 import { UnderGradModal } from "./profile/UnderGrad";
 import { MastersModal } from "./profile/Masters";
+import { TargetUniversityModal } from "./profile/TargetUniversity";
+import TestScoresModal from "./profile/TestScores";
+import WorkExpModal from "./profile/WorkExp";
+import ResearchModal from "./profile/research";
 import { AnimatePresence } from "framer-motion";
 import ProjectFormModal from "./profile/Add-Projects";
 import AddVolunteer from "./profile/Volunteering";
@@ -34,7 +38,6 @@ export default function ProfileRecommendationsPage() {
   const [openFormId, setOpenFormId] = useState<number | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [showVolunteer, setShowVolunteer] = useState(false);
 
   const visibleCount = 3;
   const addedCount = cards.filter((c) => c.added).length;
@@ -77,6 +80,14 @@ export default function ProfileRecommendationsPage() {
           </div>
 
         <AnimatePresence>
+          {openFormId === 1 && (
+            <TargetUniversityModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(1, "add"); }} 
+            />
+          )}
+
           {openFormId === 2 && (
             <HighSchoolModal 
               isOpen={true} 
@@ -100,25 +111,46 @@ export default function ProfileRecommendationsPage() {
               onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(4, "add"); }} 
             />
           )}
-          
+
+          {openFormId === 5 && (
+            <TestScoresModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(5, "add"); }} 
+            />
+          )}
+
+          {openFormId === 6 && (
+            <WorkExpModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(6, "add"); }} 
+            />
+          )}
+
+          {openFormId === 7 && (
+            <ResearchModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(7, "add"); }} 
+            />
+          )}
+
           {openFormId === 8 && (
-              <ProjectFormModal
-                isOpen={true}
-                onClose={() => setOpenFormId(null)}
-              />
-            )}
+            <ProjectFormModal
+              isOpen={true}
+              onClose={() => setOpenFormId(null)}
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(8, "add"); }}
+            />
+          )}
             
-         {openFormId === 9 && (
-  <AddVolunteer
-    isOpen={true}
-    onClose={() => setOpenFormId(null)}
-    onSubmit={() => {
-      setOpenFormId(null);
-      setShowSuccess(true);
-      handleAction(9, "add");
-    }}
-  />
-)}
+          {openFormId === 9 && (
+            <AddVolunteer
+              isOpen={true}
+              onClose={() => setOpenFormId(null)}
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(9, "add"); }}
+            />
+          )}
 
           {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
         </AnimatePresence>

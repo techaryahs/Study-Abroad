@@ -251,12 +251,16 @@ export const MastersModal = ({ isOpen, onClose, onSubmit }: MastersModalProps) =
               )}
 
               {step === 2 && (
-                <motion.div key="step3" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -20, opacity: 0 }} className="flex flex-col items-center text-center">
+                <motion.div 
+                  key="step3" 
+                  initial={{ x: 20, opacity: 0 }} 
+                  animate={{ x: 0, opacity: 1 }} 
+                  exit={{ x: -20, opacity: 0 }} 
+                  className="flex flex-col items-center text-center justify-center h-full pb-4"
+                >
                    <DoneIcon />
-                   <h2 className="text-xl font-bold text-gray-800 mb-2">All Done</h2>
-                   <p className="text-gray-500 font-medium">Click Submit to save details or Previous to edit.</p>
-                   <h2 className="text-xl font-bold text-gray-800 mb-1">All Done</h2>
-                   <p className="text-gray-500 text-sm font-medium">Click Submit to save details or Previous to edit.</p>
+                   <h2 className="text-lg font-bold text-gray-800 mb-1">All Done</h2>
+                   <p className="text-gray-500 text-[13px] font-medium px-4">Click Submit to save details or Previous to edit.</p>
                 </motion.div>
               )}
             </AnimatePresence>

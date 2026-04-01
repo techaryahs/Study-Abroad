@@ -41,13 +41,21 @@ export default function AddVolunteer({ isOpen, onClose, onSubmit }: Props) {
   if (!isOpen) return null;
 
   return (
-   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
+      />
 
-  <motion.div
-    initial={{ scale: 0.95, opacity: 0 }}
-    animate={{ scale: 1, opacity: 1 }}
-    className="bg-white rounded-2xl w-[820px] flex shadow-2xl overflow-hidden"
-  >
+      <motion.div 
+        initial={{ scale: 0.95, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 20 }}
+        className="relative bg-white rounded-2xl w-[820px] flex shadow-2xl overflow-hidden font-sans"
+      >
 
     {/* LEFT PANEL */}
     <div className="w-1/3 bg-yellow-400 text-white p-8 flex flex-col justify-center text-center">
