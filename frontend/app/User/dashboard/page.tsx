@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getToken } from "@/app/lib/token";
 import { HighSchoolModal, SuccessModal } from "./profile/HighSchool";
 import { UnderGradModal } from "./profile/UnderGrad";
 import { MastersModal } from "./profile/Masters";
@@ -38,6 +40,15 @@ export default function ProfileRecommendationsPage() {
   const [openFormId, setOpenFormId] = useState<number | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [router]);
 
   const visibleCount = 3;
   const addedCount = cards.filter((c) => c.added).length;
