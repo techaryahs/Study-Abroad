@@ -7,7 +7,7 @@ exports.getProfile = async (req, res) => {
 
     const user = await User.findById(userId)
       .select("-password")
-      .populate("profile.teacherProfile profile.consultantProfile");
+      .populate("profile.consultantProfile");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

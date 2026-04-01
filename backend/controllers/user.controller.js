@@ -55,7 +55,7 @@ exports.getUserByEmail = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.params.email })
       .select('-password')
-      .populate('profile.teacherProfile profile.consultantProfile');
+      .populate('profile.consultantProfile');
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

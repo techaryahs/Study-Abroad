@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
     state: { type: String },
     role: {
       type: String,
-      enum: ["student", "teacher", "consultant", "parent", "admin"],
+      enum: ["student",  "consultant", "parent", "admin"],
       default: "student",
     },
 
@@ -38,7 +38,6 @@ const UserSchema = new mongoose.Schema(
       // LINKING
       parentOf: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
       parents: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-      teacherProfile: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher", default: null },
       consultantProfile: { type: mongoose.Schema.Types.ObjectId, ref: "Consultant", default: null },
 
       // OTP & VERIFICATION

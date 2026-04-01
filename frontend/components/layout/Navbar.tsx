@@ -276,12 +276,38 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-5 text-sm flex-shrink-0">
-            <Link href="/login" className="text-gray-300 hover:text-yellow-400 transition-colors">
+            <Link href="/auth/login" className="text-gray-300 hover:text-yellow-400 transition-colors">
               Sign In
             </Link>
-            <Link href="/register" className="text-gray-300 hover:text-yellow-400 transition-colors">
-              Sign Up
-            </Link>
+            
+            {/* Multi-role Sign Up Dropdown */}
+            <div className="relative group">
+              <button className="flex items-center gap-1.5 text-gray-300 hover:text-yellow-400 transition-colors font-semibold">
+                Sign Up
+                <ChevronRight size={14} className="group-hover:rotate-90 transition-transform duration-200" />
+              </button>
+              
+              <div className="absolute right-0 mt-3 w-48 origin-top-right rounded-xl bg-[#1f2937] shadow-3xl ring-1 ring-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden border border-white/5">
+                <div className="px-4 pt-3 pb-1 border-b border-white/10">
+                   <p className="text-[9px] font-black uppercase tracking-widest text-yellow-400/80">Select Role</p>
+                </div>
+                <div className="py-1">
+                  <Link href="/auth/RegisterStudent" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white hover:bg-white/5 transition-colors">
+                    <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">🎓</span>
+                    <span className="group-hover/item:text-yellow-400 transition-colors">Student</span>
+                  </Link>
+                  <Link href="/auth/RegisterConsultant" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
+                    <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">💼</span>
+                    <span className="group-hover/item:text-yellow-400 transition-colors">Consultant</span>
+                  </Link>
+                  <Link href="/auth/RegisterParent" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
+                    <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">👪</span>
+                    <span className="group-hover/item:text-yellow-400 transition-colors">Parent</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+
             <Link
               href="/contact"
               className="bg-yellow-400 text-black px-4 py-1.5 rounded-lg font-semibold text-sm hover:bg-yellow-300 transition-colors"

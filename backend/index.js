@@ -55,9 +55,6 @@ app.use("/api/user", require("./routes/profile.routes"));
 // 👨‍👩‍👧 Parent Dashboard
 app.use("/api/parent", require("./routes/parent.routes"));
 
-// 👨‍🏫 Teacher
-// 👨‍🏫 Teacher
-app.use("/api/teacher", require("./routes/teacher.routes"));
 
 // 💓 Activity Manager (Heartbeat & Stats)
 app.use("/api/activity", require("./routes/activityRoutes"));
