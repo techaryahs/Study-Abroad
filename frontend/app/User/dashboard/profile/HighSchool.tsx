@@ -2,26 +2,31 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { X, CheckCircle, School, GraduationCap, ArrowRight, ArrowLeft } from 'lucide-react';
 
 // Success Modal Component
 export const SuccessModal = ({ onClose }: { onClose: () => void }) => (
-  <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-    <motion.div 
+  <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+      className="absolute inset-0 bg-black/60 backdrop-blur-md"
     />
-    <motion.div 
+    <motion.div
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      className="relative bg-white p-10 rounded-[2rem] shadow-2xl max-w-sm w-full text-center"
+      className="relative bg-[#0a0a0a] p-12 rounded-[2.5rem] shadow-2xl max-w-sm w-full text-center border border-white/10"
     >
-      <p className="text-gray-600 text-lg font-medium mb-8">Your details has been added successfully</p>
-      <button 
+      <div className="w-20 h-20 bg-[#c9a84c]/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-[#c9a84c]/30">
+        <CheckCircle size={40} className="text-[#c9a84c]" />
+      </div>
+      <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-widest">Success</h3>
+      <p className="text-white/40 text-sm font-bold mb-10 leading-relaxed uppercase tracking-widest">Your academic credentials have been integrated.</p>
+      <button
         onClick={onClose}
-        className="bg-[#fbc02d] text-gray-800 px-14 py-3 rounded-full font-bold hover:bg-[#f9a825] transition-all shadow-md active:scale-95"
+        className="w-full bg-[#c9a84c] text-[#0a0a0a] py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] hover:bg-[#d4a843] transition-all shadow-lg active:scale-95"
       >
-        Close
+        Dismiss
       </button>
     </motion.div>
   </div>
@@ -30,7 +35,7 @@ export const SuccessModal = ({ onClose }: { onClose: () => void }) => (
 interface HighSchoolModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit: (data: any) => void;
 }
 
 export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalProps) => {
@@ -45,7 +50,6 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalPr
   if (!isOpen) return null;
 
   const totalSteps = 3;
-  // Progress logic: 0 of 2, 1 of 2, 2 of 2.
   const progressPercent = (step / 2) * 100;
 
   const validateStep = (currentStep: number) => {
@@ -63,7 +67,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalPr
   const nextStep = () => {
     if (validateStep(step)) {
       if (step < totalSteps - 1) setStep(step + 1);
-      else onSubmit();
+      else onSubmit(formData);
     }
   };
 
@@ -72,251 +76,159 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalPr
     if (step > 0) setStep(step - 1);
   };
 
-  const SchoolIcon = () => (
-    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 110H110V50L60 20L10 50V110Z" fill="white" />
-      <path d="M60 20L10 50L60 35L110 50L60 20Z" fill="#D32F2F" />
-      <rect x="25" y="60" width="15" height="15" fill="#1976D2" rx="2" />
-      <rect x="80" y="60" width="15" height="15" fill="#1976D2" rx="2" />
-      <rect x="50" y="80" width="20" height="30" fill="#795548" />
-      <rect x="20" y="110" width="80" height="2" fill="#E0E0E0" />
-      <rect x="30" y="50" width="5" height="60" fill="#EFEBE9" />
-      <rect x="85" y="50" width="5" height="60" fill="#EFEBE9" />
-    </svg>
-  );
-
-  const DoneIcon = () => (
-    <div className="relative inline-block mb-10">
-        <svg width="100" height="120" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1.5">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-        </svg>
-        <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 ring-4 ring-white">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="9 11 12 14 15 8"></polyline>
-            </svg>
-        </div>
-    </div>
-  );
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <motion.div 
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-black/80 backdrop-blur-md"
       />
 
-      <motion.div 
+      <motion.div
         initial={{ scale: 0.95, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
-        className="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row h-[460px]"
+        className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-white/10"
       >
         {/* Close Button */}
-        <button 
+        <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-20 transition-colors"
+          className="absolute top-6 right-6 text-white/20 hover:text-white z-20 transition-all p-2 bg-white/5 rounded-xl group"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+          <X size={24} className="group-hover:rotate-90 transition-transform" />
         </button>
 
         {/* Left Side Panel */}
-        <div className="w-full md:w-[38%] bg-[#fbc02d] p-8 flex flex-col items-center justify-center text-center text-white relative">
-             <div className="mb-6 p-4 bg-white/20 rounded-xl backdrop-blur-sm animate-float">
-                <SchoolIcon />
-             </div>
-             <h2 className="text-xl font-extrabold mb-2 leading-tight tracking-tight">Add High School</h2>
-             <p className="text-white/90 text-sm max-w-[200px] font-medium leading-relaxed">
-               {step === 0 && "Where did you spend the final years of school life?"}
-               {step === 1 && "Provide your CGPA or percentage."}
-               {step === 2 && "This is the last step! All you have to do is click submit to save the details."}
-             </p>
+        <div className="w-full md:w-[40%] bg-gradient-to-b from-[#c9a84c] to-[#a68a3d] p-12 flex flex-col items-center justify-center text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20"></div>
+          <motion.div
+            key={step}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-white/10 shadow-2xl relative z-10"
+          >
+            {step < 2 ? <School size={80} className="text-[#0a0a0a]" /> : <CheckCircle size={80} className="text-[#0a0a0a]" />}
+          </motion.div>
+          <h2 className="text-2xl font-black mb-4 leading-tight tracking-widest text-[#0a0a0a] uppercase relative z-10">Add High School</h2>
+          <p className="text-[#0a0a0a]/70 text-[12px] max-w-[220px] font-black leading-relaxed uppercase tracking-widest relative z-10">
+            {step === 0 && "Where did you spend the final years of school life?"}
+            {step === 1 && "Provide your official academic standing."}
+            {step === 2 && "Verification complete. Ready for integration."}
+          </p>
         </div>
 
         {/* Right Side Panel / Form */}
-        <div className="flex-1 p-6 md:p-8 flex flex-col">
-          <div className="mb-4">
-            <h1 className="text-lg font-bold text-gray-800 mb-2">High School</h1>
-            <div className="relative pt-1">
-              <div className="flex mb-2 items-end justify-center">
-                <span className="text-xs font-semibold inline-block text-gray-500 uppercase tracking-wider">
-                  {step} of 2 completed
-                </span>
-              </div>
-              <div className="overflow-hidden h-1.5 mb-4 text-xs flex rounded bg-gray-100">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progressPercent}%` }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-[#5bbd7b] h-full"
-                />
-              </div>
+        <div className="flex-1 p-12 flex flex-col relative">
+          <div className="mb-8">
+            <div className="flex justify-between items-end mb-4">
+              <h1 className="text-xl font-black text-white uppercase tracking-widest">Academic Data</h1>
+              <span className="text-[10px] font-black text-[#c9a84c] uppercase tracking-[0.3em]">
+                Phase {step + 1} of 3
+              </span>
+            </div>
+            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: `${((step + 1) / 3) * 100}%` }}
+                transition={{ duration: 0.8, ease: "circOut" }}
+                className="bg-[#c9a84c] h-full shadow-[0_0_15px_rgba(201,168,76,0.3)]"
+              />
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col justify-center max-w-sm mx-auto w-full text-center">
+          <div className="flex-1 flex flex-col justify-center max-w-md mx-auto w-full">
             <AnimatePresence mode="wait">
               {step === 0 && (
-                <motion.div key="step1" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -20, opacity: 0 }} className="space-y-1">
-                  <div className="relative pt-4">
-                    <label className="absolute left-4 -top-2 bg-white px-2 text-xs font-semibold text-gray-400 z-10">High School Name</label>
-                    <input 
-                        type="text" placeholder="High School Name" value={formData.schoolName}
-                        onChange={(e) => { 
-                            setFormData({...formData, schoolName: e.target.value});
-                            if (errors.schoolName) setErrors({...errors, schoolName: false});
-                        }}
-                        className={`w-full px-4 py-2.5 text-sm border-2 rounded-xl transition-all outline-none font-medium text-gray-800 placeholder:text-gray-300 ${errors.schoolName ? 'border-red-400' : 'border-gray-200 focus:border-[#5bbd7b]'}`}
+                <motion.div key="step1" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -20, opacity: 0 }} className="space-y-6">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Institution Name</label>
+                    <input
+                      type="text" placeholder="e.g. St. Xavier's International" value={formData.schoolName}
+                      onChange={(e) => {
+                        setFormData({ ...formData, schoolName: e.target.value });
+                        if (errors.schoolName) setErrors({ ...errors, schoolName: false });
+                      }}
+                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.schoolName ? 'border-red-500/50' : 'border-white/5 focus:border-[#c9a84c]/50'}`}
                     />
                   </div>
-                  {errors.schoolName && <p className="text-red-500 text-xs text-left ml-2 animate-pulse">*required</p>}
                 </motion.div>
               )}
 
               {step === 1 && (
-                <motion.div key="step2" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -20, opacity: 0 }} className="space-y-6">
-                  <div className="space-y-1">
-                    <input 
-                        type="text" placeholder="CGPA Or Percentage" value={formData.cgpa}
-                        maxLength={3}
-                        onChange={(e) => {
-                            const val = e.target.value.replace(/[^0-9.]/g, '');
-                            // Ensure only one decimal point and not exceeding 100
-                            const parts = val.split('.');
-                            if (parts.length <= 2 && val.length <= 3) {
-                                if (val === '' || parseFloat(val) <= 100) {
-                                    setFormData({...formData, cgpa: val});
-                                    if (errors.cgpa) setErrors({...errors, cgpa: false});
-                                }
-                            }
-                        }}
-                        className={`w-full px-4 py-2.5 text-sm border-2 rounded-xl transition-all outline-none font-medium text-gray-800 placeholder:text-gray-300 ${errors.cgpa ? 'border-red-400' : 'border-gray-200 focus:border-[#5bbd7b]'}`}
+                <motion.div key="step2" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -20, opacity: 0 }} className="space-y-8">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Performance Score</label>
+                    <input
+                      type="text" placeholder="CGPA Or Percentage" value={formData.cgpa}
+                      maxLength={5}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/[^0-9.]/g, '');
+                        setFormData({ ...formData, cgpa: val });
+                        if (errors.cgpa) setErrors({ ...errors, cgpa: false });
+                      }}
+                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.cgpa ? 'border-red-500/50' : 'border-white/5 focus:border-[#c9a84c]/50'}`}
                     />
-                    {errors.cgpa && <p className="text-red-500 text-xs text-left ml-2">*required</p>}
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Scale Range</label>
                     <div className="relative">
-                      <select 
+                      <select
                         value={formData.outOf} onChange={(e) => {
-                            setFormData({...formData, outOf: e.target.value});
-                            if (errors.outOf) setErrors({...errors, outOf: false});
+                          setFormData({ ...formData, outOf: e.target.value });
+                          if (errors.outOf) setErrors({ ...errors, outOf: false });
                         }}
-                        className={`w-full px-4 py-2.5 text-sm border-2 rounded-xl appearance-none outline-none font-medium bg-white text-gray-800 ${errors.outOf ? 'border-red-400' : 'border-gray-200 focus:border-[#5bbd7b]'}`}
+                        className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl appearance-none outline-none font-bold text-white ${errors.outOf ? 'border-red-500/50' : 'border-white/5 focus:border-[#c9a84c]/50'}`}
                       >
-                        <option value="" className="text-gray-400">Out Of</option>
-                        {[4, 5, 7, 8, 10, 20, 100].map(v => <option key={v} value={v}>{v}</option>)}
+                        <option value="" className="bg-[#0a0a0a]">Select Scale</option>
+                        {[4, 5, 7, 8, 10, 20, 100].map(v => <option key={v} value={v} className="bg-[#0a0a0a]">{v}</option>)}
                       </select>
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                      <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-[#c9a84c]">
+                        <ArrowRight size={20} className="rotate-90" />
                       </div>
                     </div>
-                    {errors.outOf && <p className="text-red-500 text-xs text-left ml-2">*required</p>}
                   </div>
                 </motion.div>
               )}
 
               {step === 2 && (
-                <motion.div 
-                  key="step3" 
-                  initial={{ x: 20, opacity: 0 }} 
-                  animate={{ x: 0, opacity: 1 }} 
-                  exit={{ x: -20, opacity: 0 }} 
-                  className="flex flex-col items-center text-center justify-center h-full pb-4"
+                <motion.div
+                  key="step3"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="flex flex-col items-center text-center space-y-6"
                 >
-                   <DoneIcon />
-                   <h2 className="text-lg font-bold text-gray-800 mb-1">All Done</h2>
-                   <p className="text-gray-500 text-[13px] font-medium px-4">Click Submit to save details or Previous to edit.</p>
+                  <div className="w-24 h-24 bg-[#c9a84c]/10 rounded-full flex items-center justify-center border border-[#c9a84c]/20">
+                    <GraduationCap size={48} className="text-[#c9a84c]" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-black text-white uppercase tracking-widest mb-2">Ready to Sync</h2>
+                    <p className="text-white/30 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Confirm your academic credentials to integrate them with your ecosystem profile.</p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <div className="mt-auto pt-4 flex gap-4 justify-end">
+          <div className="mt-auto pt-8 flex gap-4">
             {step > 0 && (
-              <button onClick={prevStep} className="px-8 py-3 text-sm font-bold text-gray-400 border-2 border-gray-100 rounded-lg hover:bg-gray-50 transition-all uppercase tracking-widest">
-                Previous
+              <button
+                onClick={prevStep}
+                className="flex-1 py-4 text-[10px] font-black text-white/40 border border-white/10 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"
+              >
+                <ArrowLeft size={16} /> Back
               </button>
             )}
-            <button 
+            <button
               onClick={nextStep}
-              className="px-10 py-4 bg-[#5bbd7b] text-white text-sm font-extrabold rounded-xl hover:bg-[#4ea96a] transition-all shadow-lg uppercase tracking-widest transform active:scale-95"
+              className="flex-[2] py-4 bg-[#c9a84c] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#d4a843] transition-all shadow-[0_0_30px_rgba(201,168,76,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2"
             >
-              {step === totalSteps - 1 ? 'Submit' : 'Next'}
+              {step === totalSteps - 1 ? 'Integrate' : 'Continue'} <ArrowRight size={16} />
             </button>
           </div>
         </div>
       </motion.div>
-      <style jsx global>{`
-        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-      `}</style>
     </div>
   );
 };
-
-const HighSchoolPage = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  const handleSubmit = () => {
-    setIsModalOpen(false);
-    setShowSuccess(true);
-  };
-
-  return (
-    <div className="min-h-screen bg-[#f8f9fa] p-8 pt-12 text-gray-800">
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-12">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2 tracking-tight">High School Education</h1>
-          <p className="text-gray-500 font-medium">Manage your academic history and credentials.</p>
-        </header>
-
-        <div className="bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 border border-gray-100 shadow-inner">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-700 mb-3">No High School Added Yet</h3>
-            <p className="text-gray-400 mb-10 max-w-xs font-medium text-sm">Add your high school details to enhance your profile visibility.</p>
-            
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="bg-[#5bbd7b] hover:bg-[#4ea96a] text-white px-10 py-4 rounded-xl text-sm font-bold transition-all shadow-lg shadow-[#5bbd7b]/20 active:scale-95 flex items-center gap-2"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              Add High School
-            </button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {isModalOpen && (
-          <HighSchoolModal 
-            isOpen={isModalOpen} 
-            onClose={() => setIsModalOpen(false)} 
-            onSubmit={handleSubmit}
-          />
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {showSuccess && (
-          <SuccessModal onClose={() => setShowSuccess(false)} />
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
-
-export default HighSchoolPage;

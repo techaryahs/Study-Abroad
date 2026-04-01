@@ -1,275 +1,129 @@
-"use client";
+'use client';
 
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { X, FileText, Calendar, Link as LinkIcon, CheckCircle, ArrowRight, ArrowLeft, Search } from 'lucide-react';
 
 interface ResearchProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit: (data: any) => void;
 }
 
-const MOCK_CONTRIBUTORS = [
-  { id: 1, name: "Soma Roy", avatar: "https://i.pravatar.cc/150?u=soma" },
-  { id: 2, name: "Sabrina Maxkamova", avatar: "https://i.pravatar.cc/150?u=sabrina" },
-  { id: 3, name: "Sharika Malik", avatar: "https://i.pravatar.cc/150?u=sharika" },
-  { id: 4, name: "Rahul Sharma", avatar: "https://i.pravatar.cc/150?u=rahul" },
-  { id: 5, name: "Anish Gupta", avatar: "https://i.pravatar.cc/150?u=anish" },
-];
-
 export default function Research({ isOpen, onClose, onSubmit }: ResearchProps) {
-  const [step, setStep] = useState(0); // 0 to 3
+  const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
     publisher: "",
     date: "",
     url: "",
     description: "",
-    contributors: [] as number[],
   });
-  
-  const [contributorQuery, setContributorQuery] = useState("");
-  const [showContributors, setShowContributors] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const searchRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(e.target as Node)) setShowContributors(false);
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   if (!isOpen) return null;
 
-  const handleInputChange = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    const newErrors = { ...errors };
-    delete newErrors[field];
-    setErrors(newErrors);
-  };
+  const totalSteps = 3;
+  const progressPercent = ((step + 1) / 3) * 100;
 
   const validateStep = (currentStep: number) => {
-    const newErrors: Record<string, string> = {};
+    let newErrors: Record<string, boolean> = {};
     if (currentStep === 0) {
-      if (!formData.title) newErrors.title = "required";
-      if (!formData.publisher) newErrors.publisher = "required";
+      if (!formData.title.trim()) newErrors.title = true;
+      if (!formData.publisher.trim()) newErrors.publisher = true;
     } else if (currentStep === 1) {
-      if (!formData.date) newErrors.date = "required";
+      if (!formData.date) newErrors.date = true;
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const nextStep = () => {
-    if (validateStep(step)) setStep(prev => Math.min(prev + 1, 3));
+    if (validateStep(step)) {
+      if (step < 2) setStep(prev => prev + 1);
+      else onSubmit(formData);
+    }
   };
 
   const prevStep = () => setStep(prev => Math.max(prev - 1, 0));
 
-  const filteredContributors = useMemo(() => {
-    if (!contributorQuery) return MOCK_CONTRIBUTORS;
-    return MOCK_CONTRIBUTORS.filter(c => c.name.toLowerCase().includes(contributorQuery.toLowerCase()));
-  }, [contributorQuery]);
-
-  const toggleContributor = (id: number) => {
-    setFormData(prev => ({
-      ...prev,
-      contributors: prev.contributors.includes(id) 
-        ? prev.contributors.filter(cid => cid !== id)
-        : [...prev.contributors, id]
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit();
-  };
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
-      />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-white/10 font-sans">
 
-      <motion.div 
-        initial={{ scale: 0.95, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.95, opacity: 0, y: 20 }}
-        className="relative w-full max-w-[750px] bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row min-h-[500px] font-sans border border-gray-100"
-      >
-        {/* LEFT PANEL */}
-        <div className="w-[33%] bg-[#FFB300] p-8 flex flex-col items-center justify-center text-center gap-6 relative">
-          <div className="w-[100px] h-[100px] bg-[#C5E1A5] rounded-full flex items-center justify-center shadow-inner relative overflow-hidden">
-            <div className="relative w-full h-full flex items-center justify-center">
-               <div className="absolute w-[60px] h-[60px] rounded-full border-[8px] border-emerald-400 rotate-45 border-t-red-400 border-r-orange-400" />
-               <div className="absolute w-12 h-12 flex items-center justify-center translate-x-2 translate-y-2">
-                  <div className="w-8 h-8 rounded-full border-[3px] border-gray-600 bg-white/80" />
-                  <div className="absolute w-6 h-[4px] bg-gray-600 rotate-45 translate-x-5 translate-y-5 rounded-full" />
-               </div>
+        <button onClick={onClose} className="absolute top-6 right-6 text-white/20 hover:text-white z-20 transition-all p-2 bg-white/5 rounded-xl group">
+          <X size={24} className="group-hover:rotate-90 transition-transform" />
+        </button>
+
+        <div className="w-full md:w-[40%] bg-gradient-to-b from-[#607D8B] to-[#455A64] p-12 flex flex-col items-center justify-center text-center text-white relative">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
+          <div className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-white/10 shadow-2xl relative z-10">
+            <FileText size={80} />
+          </div>
+          <h2 className="text-2xl font-black mb-4 leading-tight tracking-widest uppercase relative z-10">Research Lab</h2>
+          <p className="text-white/70 text-[12px] font-black leading-relaxed uppercase tracking-widest relative z-10">
+            {step === 0 && "Identify your publication and research node."}
+            {step === 1 && "Document the timeline of discovery."}
+            {step === 2 && "Protocol Verified. Discovery logged."}
+          </p>
+        </div>
+
+        <div className="flex-1 p-12 flex flex-col relative text-white">
+          <div className="mb-8">
+            <div className="flex justify-between items-end mb-4">
+              <h1 className="text-xl font-black uppercase tracking-widest text-white">Research Data</h1>
+              <span className="text-[10px] font-black text-[#607D8B] uppercase tracking-[0.3em]">Step {step + 1} of 3</span>
+            </div>
+            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+              <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="bg-[#607D8B] h-full shadow-[0_0_15px_rgba(96,125,139,0.3)]" />
             </div>
           </div>
 
-          <div className="z-10">
-            <h2 className="text-[24px] font-bold text-white mb-6 tracking-tight leading-tight">
-              Add Researches
-            </h2>
-            <p className="text-white font-medium leading-tight px-2 text-[12px] opacity-100 italic">
-              Did you know? Adding research experience boosts your profile to employers and schools both!
-            </p>
-          </div>
-        </div>
-
-        {/* RIGHT PANEL */}
-        <div className="flex-1 p-8 bg-white flex flex-col">
-          {/* HEADER */}
-          <div className="flex justify-between items-center mb-1">
-            <h1 className="text-[18px] font-bold text-[#424242]">Research Paper</h1>
-            <button onClick={onClose} className="text-[#424242] hover:opacity-70 transition-opacity">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-
-          <div className="text-[11px] text-[#9E9E9E] font-medium mb-1 text-right">
-            {step} of 3 completed
-          </div>
-
-          <div className="w-full h-[3px] bg-[#EEEEEE] rounded-full overflow-hidden mb-8">
-            <motion.div
-              className="h-full bg-[#4CAF50]"
-              initial={{ width: 0 }}
-              animate={{ width: `${(step / 3) * 100}%` }}
-            />
-          </div>
-
-          <div className="flex-1 relative">
+          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
             <AnimatePresence mode="wait">
               {step === 0 && (
-                <motion.div key="step0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6 pt-2">
-                  <div className="space-y-1">
-                    <input type="text" value={formData.title} onChange={(e) => handleInputChange("title", e.target.value)} placeholder="Research Paper Title" className={`w-full border rounded-md py-3 px-4 text-[#424242] text-[15px] outline-none transition-all placeholder:text-[#9E9E9E] ${errors.title ? "border-red-500" : "border-[#E0E0E0] focus:border-[#4CAF50]"}`} />
-                    {errors.title && <p className="text-red-500 text-[12px] ml-1 font-medium italic">*{errors.title}</p>}
+                <motion.div key="s0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Publication Title</label>
+                    <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="e.g. Quantum Neural Networks" className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl outline-none font-bold text-white placeholder:text-white/10 transition-all ${errors.title ? 'border-red-500/50' : 'border-white/5 focus:border-[#607D8B]/50'}`} />
                   </div>
-                  <div className="space-y-1">
-                    <input type="text" value={formData.publisher} onChange={(e) => handleInputChange("publisher", e.target.value)} placeholder="Publication/Publisher Name" className={`w-full border rounded-md py-3 px-4 text-[#424242] text-[15px] outline-none transition-all placeholder:text-[#9E9E9E] ${errors.publisher ? "border-red-500" : "border-[#E0E0E0] focus:border-[#4CAF50]"}`} />
-                    {errors.publisher && <p className="text-red-500 text-[12px] ml-1 font-medium italic">*{errors.publisher}</p>}
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Publisher / Journal</label>
+                    <input type="text" value={formData.publisher} onChange={(e) => setFormData({ ...formData, publisher: e.target.value })} placeholder="e.g. IEEE Journal" className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl outline-none font-bold text-white placeholder:text-white/10 transition-all ${errors.publisher ? 'border-red-500/50' : 'border-white/5 focus:border-[#607D8B]/50'}`} />
                   </div>
-                  <div className="flex justify-end pt-12"><button onClick={nextStep} className="bg-[#1DB954] hover:bg-[#1AA34A] text-white px-12 py-3 rounded-lg font-bold text-[15px] shadow-sm active:scale-95 transition-all">Next</button></div>
                 </motion.div>
               )}
-
               {step === 1 && (
-                <motion.div key="step1" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6 pt-2">
-                  <div className="space-y-2">
-                     <p className="text-[#757575] text-[14px] font-bold">Publication Date</p>
-                     <input type="text" onFocus={(e) => e.target.type = 'date'} onBlur={(e) => e.target.type = 'text'} value={formData.date} onChange={(e) => handleInputChange("date", e.target.value)} placeholder="MM/DD/YYYY" className={`w-full border rounded-md py-3 px-4 text-[#424242] text-[15px] outline-none transition-all placeholder:text-[#9E9E9E] ${errors.date ? "border-red-500" : "border-[#E0E0E0] focus:border-[#4CAF50]"}`} />
-                     {errors.date && <p className="text-red-500 text-[12px] ml-1 font-medium italic">*{errors.date}</p>}
+                <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Publication Date</label>
+                    <input type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl outline-none font-bold text-white transition-all ${errors.date ? 'border-red-500/50' : 'border-white/5 focus:border-[#607D8B]/50'}`} />
                   </div>
-                  
-                  <div className="space-y-2 relative" ref={searchRef}>
-                    <p className="text-[#757575] text-[14px] font-bold">Add research contributors</p>
-                    <div className="relative">
-                      <input 
-                        type="text" 
-                        value={contributorQuery} 
-                        onChange={(e) => { setContributorQuery(e.target.value); setShowContributors(true); }}
-                        onFocus={() => setShowContributors(true)}
-                        className="w-full border border-[#4CAF50] rounded-md py-3 px-4 text-[#424242] text-[15px] outline-none" 
-                        placeholder="Search contributors..." 
-                      />
-                      <AnimatePresence>
-                        {showContributors && (
-                          <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="absolute z-50 w-full mt-1 bg-white border border-[#E0E0E0] rounded-md shadow-xl max-h-[300px] overflow-y-auto">
-                            {filteredContributors.map(c => (
-                              <div key={c.id} onClick={() => { toggleContributor(c.id); setShowContributors(false); setContributorQuery(""); }} className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-4 border-b border-gray-50 last:border-0 transition-colors">
-                                <img src={c.avatar} className="w-10 h-10 rounded-full object-cover border border-gray-100" alt={c.name} />
-                                <span className="font-bold text-[#424242] text-[15px]">{c.name}</span>
-                                {formData.contributors.includes(c.id) && <span className="ml-auto text-emerald-500 font-bold text-sm">✓</span>}
-                              </div>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                    {/* SELECTED CONTRIBUTORS LIST */}
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {formData.contributors.map(id => {
-                        const c = MOCK_CONTRIBUTORS.find(u => u.id === id);
-                        return c ? (
-                          <div key={id} className="bg-gray-50 border border-gray-200 rounded-full px-3 py-1 flex items-center gap-2 pr-1.5">
-                             <img src={c.avatar} className="w-5 h-5 rounded-full" alt="" />
-                             <span className="text-[12px] font-bold text-[#424242]">{c.name}</span>
-                             <button onClick={() => toggleContributor(id)} className="text-gray-400 hover:text-red-500 transition-colors ml-1">
-                                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-                             </button>
-                          </div>
-                        ) : null;
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between pt-8">
-                    <button onClick={prevStep} className="bg-[#E0E0E0] text-[#616161] px-10 py-3 rounded-lg font-bold text-[15px] hover:bg-gray-300">Previous</button>
-                    <button onClick={nextStep} className="bg-[#1DB954] hover:bg-[#1AA34A] text-white px-12 py-3 rounded-lg font-bold text-[15px] transition-all active:scale-95">Next</button>
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Discovery Link (URL)</label>
+                    <input type="text" value={formData.url} onChange={(e) => setFormData({ ...formData, url: e.target.value })} placeholder="https://..." className="w-full px-6 py-4 bg-white/5 border-2 border-white/5 focus:border-[#607D8B]/50 rounded-2xl outline-none font-bold text-white placeholder:text-white/10" />
                   </div>
                 </motion.div>
               )}
-
               {step === 2 && (
-                <motion.div key="step2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6 pt-2">
-                  <div className="space-y-1">
-                    <input type="url" value={formData.url} onChange={(e) => handleInputChange("url", e.target.value)} placeholder="Research Paper URL" className="w-full border border-[#E0E0E0] rounded-md py-3 px-4 text-[#424242] text-[15px] outline-none transition-all placeholder:text-[#9E9E9E] focus:border-[#4CAF50]" />
+                <motion.div key="s2" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center text-center space-y-6">
+                  <div className="w-24 h-24 bg-[#607D8B]/10 rounded-full flex items-center justify-center border border-[#607D8B]/20">
+                    <CheckCircle size={48} className="text-[#607D8B]" />
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-[#424242] font-bold text-[14px]">Add research paper document</p>
-                    <div className="flex items-center gap-3">
-                      <label className="bg-[#E0E0E0] hover:bg-gray-300 text-[#424242] font-bold text-[13px] px-4 py-2 rounded border border-gray-300 shadow-sm cursor-pointer transition-all active:scale-95">
-                        Choose file <input type="file" className="hidden" />
-                      </label>
-                      <span className="text-[#9E9E9E] text-[13px] italic">No file chosen</span>
-                    </div>
-                  </div>
-                  <div className="relative pt-2">
-                    <textarea rows={4} value={formData.description} onChange={(e) => handleInputChange("description", e.target.value)} placeholder="Description" className="w-full border border-[#E0E0E0] rounded-md py-3 px-4 text-[#424242] text-[15px] outline-none resize-none transition-all focus:border-[#4CAF50]" />
-                    <div className="absolute bottom-3 right-4 text-[12px] text-[#9E9E9E]">{formData.description.length}/3000</div>
-                  </div>
-                  <div className="flex justify-between pt-4">
-                    <button onClick={prevStep} className="bg-[#E0E0E0] text-[#616161] px-10 py-3 rounded-lg font-bold text-[15px] hover:bg-gray-300">Previous</button>
-                    <button onClick={nextStep} className="bg-[#1DB954] hover:bg-[#1AA34A] text-white px-12 py-3 rounded-lg font-bold text-[15px] active:scale-95 transition-all">Next</button>
-                  </div>
-                </motion.div>
-              )}
-
-              {step === 3 && (
-                <motion.div key="step3" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center justify-center h-full space-y-6 py-6 text-center">
-                  <div className="w-24 h-24 text-[#212121]">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                      <polyline points="14 2 14 8 20 8" />
-                      <path d="M12 18h.01" /><path d="M16 18h.01" /><path d="M8 18h.01" /><path d="M8 14h.01" /><path d="M12 14h.01" /><path d="M16 14h.01" /><path d="M8 10h.01" />
-                      <circle cx="12" cy="14" r="3" className="text-emerald-500" strokeWidth={1.5}/>
-                      <path d="m10.5 14 1 1 2-2" className="text-emerald-500" strokeWidth={1.5} />
-                    </svg>
-                  </div>
-                  <div>
-                     <h3 className="text-[22px] font-bold text-[#424242] mb-2">All Done</h3>
-                     <p className="text-[#9E9E9E] text-[15px]">Click Submit to save details or Previous to edit.</p>
-                  </div>
-                  <div className="flex justify-between w-full pt-10">
-                    <button onClick={prevStep} className="bg-[#E0E0E0] text-[#616161] px-10 py-3 rounded-lg font-bold text-[15px] hover:bg-gray-300">Previous</button>
-                    <button onClick={handleSubmit} className="bg-[#1DB954] hover:bg-[#1AA34A] text-white px-12 py-3 rounded-lg font-bold text-[15px] active:scale-95 transition-all shadow-sm">Submit</button>
-                  </div>
+                  <h2 className="text-xl font-black text-white uppercase tracking-widest">Protocol Verified</h2>
+                  <p className="text-white/30 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Research data has been synchronized with the discovery network.</p>
                 </motion.div>
               )}
             </AnimatePresence>
+          </div>
+
+          <div className="mt-auto pt-8 flex gap-4">
+            {step > 0 && <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-white/40 border border-white/10 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>}
+            <button onClick={nextStep} className="flex-[2] py-4 bg-[#607D8B] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#455A64] transition-all shadow-[0_0_30px_rgba(96,125,139,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2">
+              {step === 2 ? 'Incorporate Discovery' : 'Continue'} <ArrowRight size={16} />
+            </button>
           </div>
         </div>
       </motion.div>

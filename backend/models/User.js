@@ -64,6 +64,7 @@ const UserSchema = new mongoose.Schema(
       bio: { type: String, default: "" },
       location: { type: String, default: "" },
       portfolio: { type: String, default: "" },
+      linkedin: { type: String, default: "" },
 
       // QUIZ TRACKING
       services: {
