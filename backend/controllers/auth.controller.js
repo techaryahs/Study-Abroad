@@ -232,10 +232,19 @@ exports.registerConsultant = async (req, res) => {
       image
     } = req.body;
 
-    // 1️⃣ HANDLE MULTIPART (FormData) PARSING
-    if (req.file) {
-      image = `/uploads/${req.file.filename}`;
+    const normalizedEmail = email?.toLowerCase().trim();
+
+    // 🔍 Check if Email is Verified in otpStore
+    const storedData = otpStore.get(normalizedEmail);
+    if (!storedData || !storedData.verified) {
+      return res.status(400).json({ error: "Email not verified. Please verify your email before registering." });
     }
+
+    // 1️⃣ HANDLE MULTIPART (FormData) PARSING
+    if (!req.file) {
+      return res.status(400).json({ error: "Profile image is required for consultants." });
+    }
+    image = `/uploads/${req.file.filename}`;
 
     if (typeof availability === 'string') {
       try {
@@ -245,10 +254,8 @@ exports.registerConsultant = async (req, res) => {
       }
     }
 
-    const normalizedEmail = email?.toLowerCase().trim();
-
-    if (!normalizedEmail || !password || !name) {
-      return res.status(400).json({ error: "Missing required basic fields (name, email, password)" });
+    if (!normalizedEmail || !password || !name || !consultantRole || !expertise || !experience || !bio) {
+      return res.status(400).json({ error: "Missing required professional profile fields." });
     }
 
     // 2️⃣ CHECK UNIQUE EMAIL
@@ -278,36 +285,29 @@ exports.registerConsultant = async (req, res) => {
       role: "consultant",
       profile: {
         isPremium: true,
-        isVerified: false,
+        isVerified: true, // ✅ Marked as verified since we checked otpStore
         consultantProfile: newConsultant._id
       }
     });
+
     await newUser.save();
 
     // 4️⃣ SAVE CONSULTANT
-    newConsultant.user = newUser._id;
-    await newConsultant.save();
+    try {
+      newConsultant.user = newUser._id;
+      await newConsultant.save();
+    } catch (consultantErr) {
+      // Rollback User creation if Consultant fails to save
+      await User.findByIdAndDelete(newUser._id);
+      throw consultantErr; 
+    }
 
-    // 7️⃣ GENERATE & SEND OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = Date.now() + 10 * 60 * 1000;
-    otpStore.set(normalizedEmail, { otp, expiresAt });
-
-    console.log("📌 Generated OTP for Consultant:", otp);
-
-    const emailHtml = `
-        <div style="font-family:Arial,sans-serif;padding:20px;">
-        <h2>Hello ${name}, 👋</h2>
-        <p>Thank you for registering as a Consultant on <b>CareerGenAI</b>.</p>
-        <p>Your OTP is: <b style="font-size:24px;color:#1e40af;">${otp}</b></p>
-        <p>This OTP is valid for 10 minutes.</p>
-      </div>
-        `;
-
-    await sendEmail(normalizedEmail, "Verify Consultant Account - CareerGenAI", "", emailHtml);
+    // 🔢 Cleanup otpStore
+    otpStore.delete(normalizedEmail);
+    console.log(`✅ Consultant Registered Successfully: ${normalizedEmail}`);
 
     res.status(201).json({
-      message: "OTP sent successfully. Please verify to complete registration.",
+      message: "Consultant registered successfully. Welcome to the Elite.",
       email: normalizedEmail
     });
 
