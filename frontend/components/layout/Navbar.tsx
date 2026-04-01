@@ -114,13 +114,13 @@ const aiServicesItems: DropdownItem[] = [
     icon: <Video size={18} />,
     title: "US Visa Mock Interview AI",
     description: "Practice your visa interview with our AI interviewer.",
-    href: "/ai-services/visa-interview",
+    href: "/ai_services/mock_interview_ai",
   },
   {
     icon: <Wand2 size={18} />,
     title: "AI & Plagiarism Remover Tool",
     description: "Clean and humanize AI-generated content instantly.",
-    href: "/ai-services/plagiarism-remover",
+    href: "/ai_services/ai_plagrism_tool",
   },
   {
     icon: <PenTool size={18} />,
