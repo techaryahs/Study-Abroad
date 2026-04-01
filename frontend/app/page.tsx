@@ -19,22 +19,22 @@ export default function Home() {
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, scale: 0.8, y: 50 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      y: 0, 
-      transition: { 
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
         type: "spring",
         stiffness: 110,
         damping: 18,
         duration: 0.8
-      } 
+      }
     },
   };
 
   const services = [
-    { 
-      title: "Admission Guidance", 
+    {
+      title: "Admission Guidance",
       slug: "admission-guidance",
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -42,8 +42,8 @@ export default function Home() {
         </svg>
       )
     },
-    { 
-      title: "University Shortlisting", 
+    {
+      title: "University Shortlisting",
       slug: "university-shortlisting",
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,8 +51,8 @@ export default function Home() {
         </svg>
       )
     },
-    { 
-      title: "SOP & LOR Support", 
+    {
+      title: "SOP & LOR Support",
       slug: "sop-lor-support",
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -60,8 +60,8 @@ export default function Home() {
         </svg>
       )
     },
-    { 
-      title: "Scholarship Assistance", 
+    {
+      title: "Scholarship Assistance",
       slug: "scholarship-assistance",
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,8 +69,8 @@ export default function Home() {
         </svg>
       )
     },
-    { 
-      title: "Visa Guidance", 
+    {
+      title: "Visa Guidance",
       slug: "visa-guidance",
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,8 +78,8 @@ export default function Home() {
         </svg>
       )
     },
-    { 
-      title: "Profile Building", 
+    {
+      title: "Profile Building",
       slug: "profile-building",
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,8 +104,8 @@ export default function Home() {
     { val: "360+", label: "Universities" },
     { val: "1k+", label: "Students" },
     { val: "500+", label: "Admissions" },
-    { 
-      val: "5", 
+    {
+      val: "5",
       label: "User Rating",
       icon: (
         <svg className="w-6 h-6 text-gold-500 inline-block ml-2 mb-1" fill="currentColor" viewBox="0 0 24 24">
@@ -129,7 +129,7 @@ export default function Home() {
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-r from-dark-950 via-dark-950/80 to-transparent"></div>
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 2, ease: "easeOut" }}
@@ -147,10 +147,10 @@ export default function Home() {
         >
           <motion.div variants={itemVariants} className="space-y-6">
             <span className="text-gold-500 uppercase tracking-[0.6em] font-black text-[10px] bg-gold-500/5 px-6 py-2 rounded-full border border-gold-500/20 backdrop-blur-3xl inline-block shadow-[0_0_20px_rgba(194,168,120,0.1)]">
-              Dr. Alam Global Admissions
+              Global Counselling Center Global Admissions
             </span>
             <h1 className="text-3xl md:text-5xl font-black leading-[1.1] uppercase">
-              <motion.span 
+              <motion.span
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
@@ -158,7 +158,7 @@ export default function Home() {
               >
                 Architecting
               </motion.span>
-              <motion.span 
+              <motion.span
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1.2, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -170,7 +170,7 @@ export default function Home() {
           </motion.div>
 
           <motion.p variants={itemVariants} className="text-2xl md:text-3xl text-white/40 max-w-2xl leading-relaxed font-normal italic">
-            Elite academic mentorship for the USA, UK, Germany, and beyond. 
+            Elite academic mentorship for the USA, UK, Germany, and beyond.
             We turn potential into global prestige.
           </motion.p>
 
@@ -196,7 +196,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gold-500/20 blur-[180px] rounded-full animate-pulse group-hover:bg-gold-500/30 duration-2000 transition-colors"></div>
             <Image
               src="/hero-main.png"
-              alt="Dr. Alam Global Education"
+              alt="Global Counselling Center Global Education"
               fill
               className="object-contain filter drop-shadow-[0_60px_120px_rgba(194,168,120,0.4)] relative z-10 animate-float"
             />
@@ -230,8 +230,8 @@ export default function Home() {
             <Link key={i} href={`/services/${service.slug}`}>
               <motion.div
                 variants={itemVariants}
-                whileHover={{ 
-                  scale: 1.02, 
+                whileHover={{
+                  scale: 1.02,
                   y: -10,
                   rotateX: 5,
                   rotateY: -5,
@@ -258,7 +258,7 @@ export default function Home() {
       {/* ================= COUNTRIES ================= */}
       <section className="py-32 px-8 md:px-20 bg-dark-950 relative overflow-hidden">
         <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-gold-500/5 blur-[180px] rounded-full pointer-events-none"></div>
-        
+
         <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12 text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -286,8 +286,8 @@ export default function Home() {
             <Link key={i} href={`/countries/${country.name.toLowerCase()}`}>
               <motion.div
                 variants={itemVariants}
-                whileHover={{ 
-                  y: -10, 
+                whileHover={{
+                  y: -10,
                   scale: 1.05,
                   rotateY: 10,
                   z: 20
@@ -316,9 +316,9 @@ export default function Home() {
           className="grid grid-cols-2 lg:grid-cols-5 gap-12 text-center items-center"
         >
           {stats.map((stat, i) => (
-            <motion.div 
-              key={i} 
-              variants={itemVariants} 
+            <motion.div
+              key={i}
+              variants={itemVariants}
               whileHover={{ scale: 1.1, rotateZ: 2 }}
               className="space-y-4 group"
             >
@@ -334,8 +334,8 @@ export default function Home() {
 
       {/* ================= FINAL CTA ================= */}
       <section className="py-48 px-8 md:px-20 text-center bg-dark-950 relative overflow-hidden">
-        <motion.div 
-          animate={{ 
+        <motion.div
+          animate={{
             scale: [1, 1.2, 1],
             opacity: [0.2, 0.4, 0.2]
           }}

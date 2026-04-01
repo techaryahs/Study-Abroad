@@ -12,16 +12,16 @@ export default function AboutPage() {
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, scale: 0.8, y: 50 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      y: 0, 
-      transition: { 
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
         type: "spring",
         stiffness: 110,
         damping: 18,
         duration: 0.8
-      } 
+      }
     },
   };
 
@@ -68,8 +68,8 @@ export default function AboutPage() {
       {/* ================= HERO SECTION ================= */}
       <section className="relative px-8 md:px-20 pt-24 pb-20 md:pt-32 md:pb-24 border-b border-white/5 overflow-hidden">
         {/* BACKGROUND AMBIENT GLOW */}
-        <motion.div 
-          animate={{ 
+        <motion.div
+          animate={{
             scale: [1, 1.3, 1],
             opacity: [0.3, 0.6, 0.3]
           }}
@@ -78,7 +78,7 @@ export default function AboutPage() {
         ></motion.div>
 
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-30">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 1, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
             className="md:w-3/5 space-y-10"
@@ -92,7 +92,7 @@ export default function AboutPage() {
                 <span className="gradient-text-gold italic block mt-2">Global Careers</span>
               </h1>
               <p className="text-lg md:text-xl text-white/40 max-w-xl leading-relaxed font-normal italic !opacity-100 !visible">
-                At Dr. Alam Admissions, we believe education is a transformative leap. We turn raw potential into global prestige.
+                At Global Counselling Center Admissions, we believe education is a transformative leap. We turn raw potential into global prestige.
               </p>
             </div>
 
@@ -102,7 +102,7 @@ export default function AboutPage() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.8, x: 100 }}
             whileInView={{ opacity: 1, scale: 1, x: 0 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
@@ -124,7 +124,7 @@ export default function AboutPage() {
 
       {/* ================= STATS SECTION ================= */}
       <section className="py-20 px-8 md:px-20 bg-dark-900 border-b border-white/5 relative z-10">
-        <motion.div 
+        <motion.div
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -147,11 +147,11 @@ export default function AboutPage() {
       {/* ================= VISION & MISSION ================= */}
       <section className="py-20 px-8 md:px-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30, rotate: -1 }}
             whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-            whileHover={{ 
-              scale: 1.02, 
+            whileHover={{
+              scale: 1.02,
               rotateX: 3,
               rotateY: -3,
               z: 30
@@ -171,11 +171,11 @@ export default function AboutPage() {
             <div className="absolute bottom-0 right-0 w-48 h-48 bg-gold-500/10 -z-10 blur-[100px] group-hover:bg-black/20 transition-colors duration-1000"></div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30, rotate: 1 }}
             whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-            whileHover={{ 
-              scale: 1.02, 
+            whileHover={{
+              scale: 1.02,
               rotateX: 3,
               rotateY: 3,
               z: 30
@@ -212,7 +212,7 @@ export default function AboutPage() {
             <p className="text-white/30 text-base md:text-lg italic font-normal">Consultancy is about paperwork. Mentorship is about architectural prestige.</p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -234,13 +234,13 @@ export default function AboutPage() {
 
       {/* ================= FINAL CTA ================= */}
       <section className="py-24 px-8 md:px-20 text-center relative overflow-hidden bg-dark-950">
-        <motion.div 
+        <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1100px] h-[1100px] bg-gold-500/5 blur-[250px] rounded-full pointer-events-none"
         ></motion.div>
-        
-        <motion.div 
+
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}

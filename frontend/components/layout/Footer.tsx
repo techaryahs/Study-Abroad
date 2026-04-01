@@ -18,7 +18,7 @@ export default function Footer() {
             </div>
             <div className="flex flex-col">
               <span className="font-serif font-bold text-xl text-white leading-tight">
-                Dr. Alam
+                Global Counselling Center
               </span>
               <span className="text-[10px] text-gold-500 uppercase tracking-[0.3em] font-black">
                 Global Admissions
@@ -26,7 +26,7 @@ export default function Footer() {
             </div>
           </Link>
           <p className="text-white/30 text-sm leading-relaxed font-normal">
-            Your trusted principal-led partner for studying abroad. We guide students 
+            Your trusted principal-led partner for studying abroad. We guide students
             to Ivy League and top global universities with personalized, academic-first mentorship.
           </p>
         </div>
@@ -85,7 +85,7 @@ export default function Footer() {
       {/* BOTTOM */}
       <div className="border-t border-white/5 text-center py-12 px-8 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4">
         <div className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-black">
-          © {new Date().getFullYear()} Dr. Alam Global.
+          © {new Date().getFullYear()} Global Counselling Center Global.
         </div>
         <div className="flex gap-8 text-[10px] uppercase tracking-[0.3em] font-black text-white/20">
           <Link href="/privacy" className="hover:text-gold-500 transition-colors">Privacy Policy</Link>
