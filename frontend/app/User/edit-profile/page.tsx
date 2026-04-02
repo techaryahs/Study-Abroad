@@ -117,7 +117,7 @@ export default function EditProfilePage() {
   return (
     <main className="min-h-screen bg-[#f8f9fa] text-[#2d3748] font-sans">
       
-      {/* Top Navbar Placeholder (to match YMGrad height) */}
+      {/* Top Navbar Placeholder (to match height) */}
       <div className="h-16 bg-white border-b border-gray-200"></div>
 
       <div className="max-w-7xl mx-auto flex py-10 px-6 gap-10">

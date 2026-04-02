@@ -22,12 +22,12 @@ export const BioModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: BioMo
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-[#0a0a0a] rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-white/10"
+        className="bg-[#0a0a0a] rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden border border-[#d4af37]/20"
       >
         <div className="p-8">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-black text-white uppercase tracking-widest">Update Bio</h2>
-            <button onClick={onClose} className="text-white/40 hover:text-white transition-colors p-2 bg-white/5 rounded-lg">
+            <button onClick={onClose} className="text-white/50 hover:text-white transition-colors p-2 bg-white/5 rounded-lg">
               <X size={24} />
             </button>
           </div>
@@ -37,7 +37,7 @@ export const BioModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: BioMo
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               placeholder="What would you like others to know about you?"
-              className="w-full h-40 p-6 text-white bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:border-[#c9a84c]/50 focus:ring-4 focus:ring-[#c9a84c]/5 transition-all resize-none placeholder:text-white/20 font-medium"
+              className="w-full h-40 p-6 text-white bg-white/5 border border-[#d4af37]/20 rounded-2xl focus:outline-none focus:border-[#c9a84c]/50 focus:ring-4 focus:ring-[#c9a84c]/5 transition-all resize-none placeholder:text-white/20 font-medium"
             />
             <div className="absolute bottom-4 right-4 text-[10px] text-white/30 font-black uppercase tracking-widest">
               {bio.length} characters

@@ -104,22 +104,22 @@ export default function ContactPage() {
 
           <div className="grid grid-cols-2 gap-6">
             <div className="space-y-2">
-              <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">First Name</label>
+              <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/50 group-hover:text-gold-500 transition-colors">First Name</label>
               <input type="text" className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-3 focus:border-gold-500 outline-none transition-all duration-500 placeholder:text-white/5 text-sm" placeholder="First Name" />
             </div>
             <div className="space-y-2">
-              <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Last Name</label>
+              <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/50 group-hover:text-gold-500 transition-colors">Last Name</label>
               <input type="text" className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-3 focus:border-gold-500 outline-none transition-all duration-500 placeholder:text-white/5 text-sm" placeholder="Last Name" />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Academic Email</label>
+            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/50 group-hover:text-gold-500 transition-colors">Academic Email</label>
             <input type="email" className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-3 focus:border-gold-500 outline-none transition-all duration-500 placeholder:text-white/5 text-sm" placeholder="your@email.com" />
           </div>
 
           <div className="space-y-2">
-            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Architectural Inquiry</label>
+            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/50 group-hover:text-gold-500 transition-colors">Architectural Inquiry</label>
             <textarea className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-5 h-32 focus:border-gold-500 outline-none transition-all duration-500 resize-none placeholder:text-white/5 text-sm" placeholder="What academic peaks are you aiming for?"></textarea>
           </div>
 

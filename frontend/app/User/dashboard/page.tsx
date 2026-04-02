@@ -203,7 +203,7 @@ export default function DashboardPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black"></div>
 
         <div className="absolute top-8 right-10 flex gap-4 z-20">
-          <button className="px-5 py-2.5 bg-white/5 backdrop-blur-xl rounded-xl text-white hover:bg-white/10 transition-all border border-white/10 text-[11px] font-bold flex items-center gap-2 group shadow-xl">
+          <button className="px-5 py-2.5 bg-white/5 backdrop-blur-xl rounded-xl text-white hover:bg-white/10 transition-all border border-[#d4af37]/20 text-[11px] font-bold flex items-center gap-2 group shadow-xl">
             <Share2 size={14} className="group-hover:rotate-12 transition-transform" /> Share
           </button>
           <button
@@ -217,7 +217,7 @@ export default function DashboardPage() {
 
       {/* ─── PROFILE IDENTITY AREA ─── */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 -mt-32 relative z-10">
-        <div className="bg-white/5 backdrop-blur-3xl rounded-[2.5rem] p-12 border border-white/10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] relative overflow-hidden group">
+        <div className="bg-white/5 backdrop-blur-3xl rounded-[2.5rem] p-12 border border-[#d4af37]/20 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.8)] relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-[#c9a84c]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
 
           <div className="flex flex-col md:flex-row items-center md:items-start gap-12 relative z-10">
@@ -251,7 +251,7 @@ export default function DashboardPage() {
                 <div className="flex gap-4">
                   <button
                     onClick={() => setOpenModal("linkedin")}
-                    className="text-[#c9a84c] hover:scale-110 transition-all bg-white/5 p-3 rounded-2xl border border-white/10 hover:border-[#c9a84c]/50 hover:bg-[#c9a84c]/10 group"
+                    className="text-[#c9a84c] hover:scale-110 transition-all bg-white/5 p-3 rounded-2xl border border-[#d4af37]/20 hover:border-[#c9a84c]/50 hover:bg-[#c9a84c]/10 group"
                   >
                     <svg className="w-7 h-7 group-hover:drop-shadow-[0_0_8px_rgba(201,168,76,0.5)] transition-all" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
@@ -286,7 +286,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Tab Bar - Dark Cinematic */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-xl mb-12">
+        <div className="bg-white/5 backdrop-blur-xl border border-[#d4af37]/20 rounded-2xl shadow-xl mb-12">
           <div className="flex px-10">
             <button className="px-10 py-5 border-b-[3px] border-[#c9a84c] text-white font-bold text-[13px] uppercase tracking-wider">
               Profile Overview
@@ -298,7 +298,7 @@ export default function DashboardPage() {
         <div className="max-w-6xl mx-auto space-y-16">
 
           {/* Section 1: Dashboard Identity */}
-          <section className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-xl">
+          <section className="bg-white/5 backdrop-blur-xl rounded-3xl border border-[#d4af37]/20 overflow-hidden shadow-xl">
             <div className="px-10 py-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
               <div className="flex items-center gap-4">
                 <div className="w-1.5 h-8 bg-[#c9a84c] rounded-full"></div>
@@ -324,7 +324,7 @@ export default function DashboardPage() {
           </section>
 
           {!isConsultant && (
-            <section className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-xl">
+            <section className="bg-white/5 backdrop-blur-xl rounded-3xl border border-[#d4af37]/20 overflow-hidden shadow-xl">
               <div className="px-10 py-6 border-b border-white/5 flex items-center gap-4 bg-white/[0.02]">
                 <div className="w-1.5 h-8 bg-[#c9a84c] rounded-full"></div>
                 <h2 className="text-[15px] font-bold text-white uppercase tracking-wider">Profile Progress</h2>
@@ -336,7 +336,7 @@ export default function DashboardPage() {
                       <span className="text-[12px] font-bold text-white/30 uppercase tracking-widest">Completion Status</span>
                       <span className="text-[16px] font-bold text-[#c9a84c]">{completedCount}/{total}</span>
                     </div>
-                    <div className="w-full bg-white/5 rounded-full h-3 overflow-hidden border border-white/10 p-0.5">
+                    <div className="w-full bg-white/5 rounded-full h-3 overflow-hidden border border-[#d4af37]/20 p-0.5">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${(completedCount / total) * 100}%` }}
@@ -346,8 +346,8 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <div className="flex gap-3">
-                    <button onClick={() => scroll("left")} disabled={currentIndex === 0} className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-all disabled:opacity-5"><ChevronLeft size={20} /></button>
-                    <button onClick={() => scroll("right")} disabled={currentIndex >= initialCards.length - visibleCount} className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-all disabled:opacity-5"><ChevronRight size={20} /></button>
+                    <button onClick={() => scroll("left")} disabled={currentIndex === 0} className="w-10 h-10 rounded-xl border border-[#d4af37]/20 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-all disabled:opacity-5"><ChevronLeft size={20} /></button>
+                    <button onClick={() => scroll("right")} disabled={currentIndex >= initialCards.length - visibleCount} className="w-10 h-10 rounded-xl border border-[#d4af37]/20 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-all disabled:opacity-5"><ChevronRight size={20} /></button>
                   </div>
                 </div>
 
@@ -357,7 +357,7 @@ export default function DashboardPage() {
                       <span className="text-4xl">{card.icon}</span>
                       <div>
                         <h3 className="font-bold text-white text-[14px] mb-2 uppercase tracking-wide">{card.title}</h3>
-                        <p className="text-[12px] text-white/40 leading-relaxed font-medium">{card.description}</p>
+                        <p className="text-[12px] text-white/50 leading-relaxed font-medium">{card.description}</p>
                       </div>
                       <button
                         onClick={() => setOpenModal(card.section)}
@@ -380,7 +380,7 @@ export default function DashboardPage() {
                 { id: 'projects', title: "Projects", icon: <FileText size={24} className="text-[#c9a84c]" />, desc: "Highlight your technical contributions" },
                 { id: 'volunteering', title: "Volunteering", icon: <Heart size={24} className="text-[#c9a84c]" />, desc: "Share your social contributions" }
               ].map((sec) => (
-                <section key={sec.id} className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-[#c9a84c]/30 transition-all group cursor-pointer shadow-lg" onClick={() => setOpenModal(sec.id)}>
+                <section key={sec.id} className="bg-white/5 backdrop-blur-xl rounded-2xl border border-[#d4af37]/20 hover:border-[#c9a84c]/30 transition-all group cursor-pointer shadow-lg" onClick={() => setOpenModal(sec.id)}>
                   <div className="px-10 py-8 flex items-center justify-between">
                     <div className="flex items-center gap-8">
                       <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-[#c9a84c]/20 transition-all font-bold">

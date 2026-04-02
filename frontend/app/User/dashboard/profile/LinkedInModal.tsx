@@ -22,7 +22,7 @@ export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: 
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-[#0a0a0a] rounded-3xl shadow-2xl w-full max-w-xl overflow-hidden border border-white/10"
+        className="bg-[#0a0a0a] rounded-3xl shadow-2xl w-full max-w-xl overflow-hidden border border-[#d4af37]/20"
       >
         <div className="p-10">
           <div className="flex items-center justify-between mb-10">
@@ -30,7 +30,7 @@ export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: 
               <h2 className="text-2xl font-black text-white uppercase tracking-[0.2em]">LinkedIn URL</h2>
               <p className="text-[10px] text-[#c9a84c] font-black uppercase tracking-widest">Connect your professional social profile</p>
             </div>
-            <button onClick={onClose} className="text-white/40 hover:text-white transition-colors p-3 bg-white/5 rounded-2xl group">
+            <button onClick={onClose} className="text-white/50 hover:text-white transition-colors p-3 bg-white/5 rounded-2xl group">
               <X size={24} className="group-hover:rotate-90 transition-transform" />
             </button>
           </div>
@@ -42,7 +42,7 @@ export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: 
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 placeholder="https://linkedin.com/in/username"
-                className="w-full px-6 py-5 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:border-[#c9a84c]/50 focus:ring-4 focus:ring-[#c9a84c]/5 transition-all text-white placeholder:text-white/20 font-bold"
+                className="w-full px-6 py-5 bg-white/5 border border-[#d4af37]/20 rounded-2xl focus:outline-none focus:border-[#c9a84c]/50 focus:ring-4 focus:ring-[#c9a84c]/5 transition-all text-white placeholder:text-white/20 font-bold"
               />
               <div className="absolute inset-0 bg-[#c9a84c]/2 opacity-0 group-hover:opacity-100 blur-xl -z-10 transition-opacity"></div>
             </div>

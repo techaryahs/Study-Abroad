@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-black/10 bg-white/80 backdrop-blur-md dark:border-white/10 dark:bg-black/80 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-black/10 bg-white/80 backdrop-blur-md dark:border-[#d4af37]/20 dark:bg-black/80 shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center space-x-2">
@@ -49,22 +49,22 @@ export default function Header() {
                   href="/auth/RegisterStudent"
                   className="flex items-center gap-4 px-4 py-3.5 group/item hover:bg-white/5 transition-colors"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-yellow-400 group-hover/item:bg-yellow-400 group-hover/item:text-black transition-all">🎓</div>
-                  <div className="font-bold text-sm text-white group-hover/item:text-yellow-400 transition-colors">Student</div>
+                  <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-[#d4af37] group-hover/item:bg-[#d4af37] group-hover/item:text-black transition-all">🎓</div>
+                  <div className="font-bold text-sm text-white group-hover/item:text-[#d4af37] transition-colors">Student</div>
                 </Link>
                 <Link
                   href="/auth/RegisterConsultant"
                   className="flex items-center gap-4 px-4 py-3.5 group/item hover:bg-white/5 transition-colors border-t border-white/5"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-yellow-400 group-hover/item:bg-yellow-400 group-hover/item:text-black transition-all">💼</div>
-                  <div className="font-bold text-sm text-white group-hover/item:text-yellow-400 transition-colors">Consultant</div>
+                  <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-[#d4af37] group-hover/item:bg-[#d4af37] group-hover/item:text-black transition-all">💼</div>
+                  <div className="font-bold text-sm text-white group-hover/item:text-[#d4af37] transition-colors">Consultant</div>
                 </Link>
                 <Link
                   href="/auth/RegisterParent"
                   className="flex items-center gap-4 px-4 py-3.5 group/item hover:bg-white/5 transition-colors border-t border-white/5"
                 >
-                  <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-yellow-400 group-hover/item:bg-yellow-400 group-hover/item:text-black transition-all">👪</div>
-                  <div className="font-bold text-sm text-white group-hover/item:text-yellow-400 transition-colors">Parent</div>
+                  <div className="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-[#d4af37] group-hover/item:bg-[#d4af37] group-hover/item:text-black transition-all">👪</div>
+                  <div className="font-bold text-sm text-white group-hover/item:text-[#d4af37] transition-colors">Parent</div>
                 </Link>
               </div>
             </div>

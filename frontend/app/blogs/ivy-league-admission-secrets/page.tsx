@@ -17,10 +17,10 @@ export default function IvyLeagueSecretsPage() {
           <section className="space-y-8">
             <h2 className="text-2xl md:text-3xl font-black gradient-text-gold tracking-tight italic uppercase">Beyond the Official Website</h2>
             <div className="prose prose-invert prose-lg">
-              <p className="text-white/40 leading-relaxed font-medium italic">
+              <p className="text-white/50 leading-relaxed font-medium italic">
                 Applying to Harvard, Yale, or Princeton isn't a checklist; it's an art. The Ivy League schools don't just want the smartest students—they have thousands of those. They want the most "impactful" class.
               </p>
-              <p className="text-white/40 leading-relaxed font-medium pt-4 italic">
+              <p className="text-white/50 leading-relaxed font-medium pt-4 italic">
                 At Global Counselling Center Global, we have worked with academics who have sat on these boards. Here is the 'Black Box' strategy we use to decode the admissions process for our elite students.
               </p>
             </div>
@@ -52,7 +52,7 @@ export default function IvyLeagueSecretsPage() {
 
           <section className="space-y-8">
             <h2 className="text-2xl font-black uppercase tracking-tight italic gradient-text-gold">The Story Arc Strategy</h2>
-            <p className="text-white/40 leading-relaxed text-lg font-normal italic">
+            <p className="text-white/50 leading-relaxed text-lg font-normal italic">
               Your application is a story. The admission officer is the reader. We ensure that your background, your grades, your SOP, and your LORs all follow the same "Hero's Journey" arc that leads perfectly to their university's front door.
             </p>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
