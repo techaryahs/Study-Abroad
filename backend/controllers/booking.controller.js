@@ -1,6 +1,6 @@
 const Booking = require("../models/Booking");
 const Consultant = require("../models/Consultant");
-const User = require("../models/User");
+const Student = require("../models/Student");
 
 // const transporter = require("../utils/transporter"); // nodemailer instance
 const sendEmail = require("../utils/sendEmail");     // used in bookConsultant
@@ -22,7 +22,7 @@ function escapeRegex(text) {
 
 /* =========================
    BOOK CONSULTANT
-========================= */
+ ========================= */
 exports.bookConsultant = async (req, res) => {
   try {
     let {
@@ -47,11 +47,12 @@ exports.bookConsultant = async (req, res) => {
 
     // Fetch consultant info if missing (Stronger Fetch)
     if (!consultantEmail || !consultantName) {
-      const consultant = await Consultant.findById(consultantId).populate('user');
-      
-        consultantEmail = consultantEmail || consultant.user?.email || consultant.email;
-        consultantName = consultantName || consultant.name || consultant.user?.name;
+      const consultant = await Consultant.findById(consultantId);
+      if (consultant) {
+        consultantEmail = consultantEmail || consultant.email;
+        consultantName = consultantName || consultant.name;
       }
+    }
     
 
     if (!consultantEmail) {
@@ -135,7 +136,7 @@ exports.bookConsultant = async (req, res) => {
 
 /* =========================
    GET BOOKED SLOTS
-========================= */
+ ========================= */
 exports.getBookedSlots = async (req, res) => {
   try {
     const { consultantId, date } = req.query;
@@ -155,7 +156,7 @@ exports.getBookedSlots = async (req, res) => {
 
 /* =========================
    USER COUNSELLING HISTORY
-========================= */
+ ========================= */
 exports.getUserCounselling = async (req, res) => {
   try {
     const bookings = await Booking.find({ userEmail: req.params.email })
@@ -164,9 +165,9 @@ exports.getUserCounselling = async (req, res) => {
 
     const enrichedBookings = await Promise.all(bookings.map(async (b) => {
       const bookingObj = b.toObject();
-      // Ensure student name is there (fetch from User if missing in booking)
+      // Ensure student name is there (fetch from Student if missing in booking)
       if (!bookingObj.userName) {
-        const user = await User.findOne({ email: req.params.email });
+        const user = await Student.findOne({ email: req.params.email });
         bookingObj.userName = user?.name || "Student";
       }
       return bookingObj;
@@ -181,7 +182,7 @@ exports.getUserCounselling = async (req, res) => {
 
 /* =========================
    GET USER BOOKINGS (FOR PROFILE)
-========================= */
+ ========================= */
 exports.getUserBookings = async (req, res) => {
   try {
     const bookings = await Booking.find({ userEmail: req.params.email })
@@ -196,18 +197,18 @@ exports.getUserBookings = async (req, res) => {
 
 /* =========================
    CONSULTANTS LIST
-========================= */
+ ========================= */
 exports.getAllConsultants = async (req, res) => {
-  const consultants = await Consultant.find({}).populate('user', 'email name');
+  const consultants = await Consultant.find({});
   res.json({ consultants });
 };
 
 /* =========================
    CONSULTANT BOOKINGS
-========================= */
+ ========================= */
 exports.getConsultantBookings = async (req, res) => {
   try {
-    const { consultantId } = req.params; // Can be User ID or Profile ID
+    const { consultantId } = req.params; // Document ID of the Consultant
     const { email } = req.query;
     console.log(`🔍 [Dashboard] Fetching bookings. ID: ${consultantId}, Email: ${email}`);
 
@@ -215,28 +216,13 @@ exports.getConsultantBookings = async (req, res) => {
       return res.status(400).json({ message: "Invalid ID provided" });
     }
 
-    // 1. Resolve Profile IDs for this User (could be Consultant )
-    const consultantProfiles = await Consultant.find({ user: consultantId });
-
-    const profileIds = [
-      ...consultantProfiles.map(p => p._id)
-    ];
-
-    // 2. Build a multi-prong query
-    let bookingsQuery = { $or: [] };
-
-    // Prong A: Direct ID matches (the passed ID is already a Profile ID)
-    bookingsQuery.$or.push({ consultantId: consultantId });
-
-    // Prong B: Mapped Profile IDs (the passed ID was a User ID)
-    if (profileIds.length > 0) {
-      bookingsQuery.$or.push({ consultantId: { $in: profileIds } });
-    }
-
-    // Prong C: Email Fallback (Bulletproof for dev/seed data)
-    if (email) {
-      bookingsQuery.$or.push({ consultantEmail: email });
-    }
+    // Since consultants are now standalone, we just query by consultantId directly
+    let bookingsQuery = {
+      $or: [
+        { consultantId: consultantId },
+        { consultantEmail: email }
+      ]
+    };
 
     const bookings = await Booking.find(bookingsQuery)
       .sort({ date: 1, time: 1 });
@@ -252,7 +238,7 @@ exports.getConsultantBookings = async (req, res) => {
 
 /* =========================
    ACCEPT BOOKING (EMAIL)
-========================= */
+ ========================= */
 exports.acceptBooking = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
@@ -261,7 +247,7 @@ exports.acceptBooking = async (req, res) => {
     booking.status = "accepted";
     await booking.save();
 
-    const user = await User.findOne({ email: booking.userEmail });
+    const user = await Student.findOne({ email: booking.userEmail });
 
     await sendEmail(
       booking.userEmail,
@@ -279,7 +265,7 @@ exports.acceptBooking = async (req, res) => {
 
 /* =========================
    REJECT BOOKING (EMAIL)
-========================= */
+ ========================= */
 exports.rejectBooking = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.id);
@@ -288,7 +274,7 @@ exports.rejectBooking = async (req, res) => {
     booking.status = "rejected";
     await booking.save();
 
-    const user = await User.findOne({ email: booking.userEmail });
+    const user = await Student.findOne({ email: booking.userEmail });
 
     await sendEmail(
       booking.userEmail,
@@ -303,6 +289,7 @@ exports.rejectBooking = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 /* =========================
    SEED DUMMY CONSULTANTS
 ========================= */

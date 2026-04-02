@@ -13,7 +13,8 @@ exports.logFeatureActivity = async (req, res) => {
         }
 
         // Map role → Mongo model
-        let userModel = "User";
+        let userModel = "User"; // Default for Parent/Admin
+        if (req.user.role === "student") userModel = "Student";
         if (req.user.role === "consultant") userModel = "Consultant";
 
         const activity = await FeatureActivity.create({

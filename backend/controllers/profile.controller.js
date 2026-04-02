@@ -1,16 +1,14 @@
-const User = require("../models/User");
+const Student = require("../models/Student");
 
 exports.getProfile = async (req, res) => {
   try {
     const userId = req.params.userId || (req.user ? req.user.id : null);
     if (!userId) return res.status(400).json({ message: "No user ID provided" });
 
-    const user = await User.findById(userId)
-      .select("-password")
-      .populate("profile.consultantProfile");
+    const user = await Student.findById(userId).select("-password");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Student not found" });
     }
 
     if (!user.profile) {
@@ -36,26 +34,23 @@ exports.updateProfile = async (req, res) => {
       imagePath = `/uploads/${req.file.filename}`;
     }
 
-    let user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    let user = await Student.findById(userId);
+    if (!user) return res.status(404).json({ message: "Student not found" });
 
     if (!user.profile) user.profile = {};
 
     if (name) user.name = name;
     if (mobile) user.mobile = mobile;
     
-    // Update basic profile fields if they exist at top level or in profile object
     if (req.body.bio) user.profile.bio = req.body.bio;
     if (req.body.location) user.profile.location = req.body.location;
     if (req.body.portfolio) user.profile.portfolio = req.body.portfolio;
     if (req.body.linkedin) user.profile.linkedin = req.body.linkedin;
 
-    // Bulk update nested profile sections (highSchool, workExperience, etc.)
     if (profile) {
       Object.keys(profile).forEach(key => {
         user.profile[key] = profile[key];
       });
-      // Handle Mongoose Mixed type or Array re-assignment
       user.markModified('profile');
     }
 
@@ -86,8 +81,8 @@ exports.addProfileItem = async (req, res) => {
       return res.status(400).json({ message: "Invalid profile section" });
     }
 
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const user = await Student.findById(userId);
+    if (!user) return res.status(404).json({ message: "Student not found" });
 
     if (!user.profile) user.profile = {};
     if (!user.profile[section]) user.profile[section] = [];
@@ -113,8 +108,8 @@ exports.updateProfileItem = async (req, res) => {
     if (!userId) return res.status(401).json({ message: "Authentication required" });
     if (!section || !itemId || !data) return res.status(400).json({ message: "Missing information" });
 
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const user = await Student.findById(userId);
+    if (!user) return res.status(404).json({ message: "Student not found" });
 
     if (!user.profile || !user.profile[section]) {
       return res.status(404).json({ message: "Section not found" });
@@ -125,9 +120,7 @@ exports.updateProfileItem = async (req, res) => {
       return res.status(404).json({ message: "Item not found" });
     }
 
-    // Merge existing data with new data
     user.profile[section][itemIndex] = { ...user.profile[section][itemIndex].toObject(), ...data };
-    
     user.markModified(`profile.${section}`);
     await user.save();
 
@@ -146,15 +139,14 @@ exports.deleteProfileItem = async (req, res) => {
     if (!userId) return res.status(401).json({ message: "Authentication required" });
     if (!section || !itemId) return res.status(400).json({ message: "Missing section or itemId" });
 
-    const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ message: "User not found" });
+    const user = await Student.findById(userId);
+    if (!user) return res.status(404).json({ message: "Student not found" });
 
     if (!user.profile || !user.profile[section]) {
       return res.status(404).json({ message: "Section not found" });
     }
 
     user.profile[section] = user.profile[section].filter(item => item._id.toString() !== itemId);
-    
     user.markModified(`profile.${section}`);
     await user.save();
 

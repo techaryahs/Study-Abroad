@@ -2,6 +2,7 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 const User = require("../models/User");
+const Student = require("../models/Student");
 
 // ✅ Correct JSON file path
 const filePath = path.join(__dirname, "../data/careersInterest.json");
@@ -185,7 +186,7 @@ exports.submitQuiz = async (req, res) => {
       return res.status(400).json({ message: "Score is required" });
     }
 
-    const student = await User.findById(studentId);
+    const student = await Student.findById(studentId);
     if (!student) return res.status(404).json({ message: "Student not found" });
 
     if (student.role !== "student") {
@@ -339,17 +340,17 @@ Return only the resume in markdown format. No introduction or explanation.
     }
 
     if (req.user && req.user.id) {
-      let profile = await Profile.findOne({ user: req.user.id });
-      if (profile) {
-        if (!profile.serviceActivity) profile.serviceActivity = {};
-        if (!profile.serviceActivity.resumeBuilder) profile.serviceActivity.resumeBuilder = {};
+      let student = await Student.findById(req.user.id);
+      if (student) {
+        if (!student.profile) student.profile = {};
+        if (!student.profile.serviceActivity) student.profile.serviceActivity = {};
+        if (!student.profile.serviceActivity.resumeBuilder) student.profile.serviceActivity.resumeBuilder = {};
 
-        profile.serviceActivity.resumeBuilder.used = true;
-        profile.serviceActivity.resumeBuilder.lastUsedAt = new Date();
+        student.profile.serviceActivity.resumeBuilder.used = true;
+        student.profile.serviceActivity.resumeBuilder.lastUsedAt = new Date();
 
-        // Tell Mongoose the nested mixed object changed, just in case
-        profile.markModified('serviceActivity');
-        await profile.save();
+        student.markModified('profile');
+        await student.save();
       }
     }
 
@@ -435,17 +436,18 @@ exports.startRoadmap = async (req, res) => {
     const { userId, careerName } = req.body;
 
     if (userId) {
-      let profile = await Profile.findOne({ user: userId });
-      if (profile) {
-        if (!profile.serviceActivity) profile.serviceActivity = {};
-        if (!profile.serviceActivity.careerRoadmap) profile.serviceActivity.careerRoadmap = {};
+      let student = await Student.findById(userId);
+      if (student) {
+        if (!student.profile) student.profile = {};
+        if (!student.profile.serviceActivity) student.profile.serviceActivity = {};
+        if (!student.profile.serviceActivity.careerRoadmap) student.profile.serviceActivity.careerRoadmap = {};
 
-        profile.serviceActivity.careerRoadmap.used = true;
-        profile.serviceActivity.careerRoadmap.lastUsedAt = new Date();
-        profile.serviceActivity.careerRoadmap.careerPathName = careerName;
+        student.profile.serviceActivity.careerRoadmap.used = true;
+        student.profile.serviceActivity.careerRoadmap.lastUsedAt = new Date();
+        student.profile.serviceActivity.careerRoadmap.careerPathName = careerName;
 
-        profile.markModified('serviceActivity');
-        await profile.save();
+        student.markModified('profile');
+        await student.save();
       }
     }
 

@@ -9,7 +9,7 @@ const activitySchema = new mongoose.Schema({
   userModel: {
     type: String,
     required: true,
-    enum: ['User', 'Consultant'] // dynamic reference to the collection
+    enum: ['User', 'Consultant', 'Student'] // dynamic reference to the collection
   },
   role: { type: String, required: true }, // e.g., 'student', 'parent', 'consultant'
   name: { type: String },

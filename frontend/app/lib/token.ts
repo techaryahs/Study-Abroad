@@ -25,6 +25,13 @@ export const removeToken = () => {
   }
 };
 
+export const clearAuth = () => {
+  if (typeof window !== "undefined") {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+  }
+};
+
 export const setUser = (user: any) => {
   if (typeof window !== "undefined") {
     localStorage.setItem(USER_KEY, JSON.stringify(user));

@@ -4,52 +4,77 @@ const sendEmail = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const Consultant = require("../models/Consultant");
+const Student = require("../models/Student");
+const { getEmailSearchRegex } = require("../utils/emailUtils");
+const { findUserByEmail } = require("../utils/userHelper");
 
 
 const otpStore = new Map();
+// Normalization now handled via regex in lookups, we keep the original for display.
 
 /* =========================
    REGISTER STUDENT (Base User)
 ========================= */
 exports.register = async (req, res) => {
   try {
-    const { name, email, mobile, password, dob, gender, country, state } = req.body;
-    const normalizedEmail = email.toLowerCase().trim();
-
-    // 🔍 2️⃣ Check if Email is Verified in otpStore
-    const storedData = otpStore.get(normalizedEmail);
+    const { name, email, mobile, password, dob, gender, country, state, profile: profileInput } = req.body;
+    const emailLower = email.toLowerCase().trim();
+    // 🔍 1. Check if Email is Verified in otpStore
+    const storedData = otpStore.get(emailLower);
     if (!storedData || !storedData.verified) {
       return res.status(400).json({ error: "Email not verified. Please verify your email before registering." });
     }
 
-    // 👤 Create user
-    const newUser = new User({
+    // 🎯 Prepare target universities from goal
+    const targetUniversities = [];
+    if (profileInput?.goal?.targetUniv) {
+      targetUniversities.push({
+        uniName: profileInput.goal.targetUniv,
+        degree: Array.isArray(profileInput.goal.degree) ? profileInput.goal.degree.join(", ") : profileInput.goal.degree,
+        major: profileInput.goal.targetMajor || "",
+        term: profileInput.goal.targetTerm,
+        year: profileInput.goal.targetYear
+      });
+    }
+
+    // 👤 Build Dynamic Profile Data
+    const profileData = {
+      isPremium: false,
+      isVerified: true
+    };
+
+    if (profileInput?.source) profileData.source = profileInput.source;
+    if (profileInput?.lookUpFor && profileInput.lookUpFor.length > 0) profileData.lookUpFor = profileInput.lookUpFor;
+    if (profileInput?.loanInterest !== undefined) profileData.loanInterest = profileInput.loanInterest;
+    if (targetUniversities.length > 0) profileData.targetUniversities = targetUniversities;
+
+    console.log("🛠️ Building Student Profile Data:", JSON.stringify(profileData, null, 2));
+
+    const newStudent = new Student({
       name,
-      email: normalizedEmail,
+      email: emailLower,
       mobile,
-      password: password, // Pre-save hook will hash
+      password: password,
       dob,
       gender,
       country,
       state,
       role: "student",
-      profile: {
-        isPremium: false,
-        isVerified: true // ✅ Marked as verified since we checked otpStore
-      }
+      profile: profileData
     });
 
-    await newUser.save();
+    await newStudent.save();
+    console.log(`✅ Student Saved with ${targetUniversities.length} target universities.`);
 
     // 🔢 3️⃣ Cleanup otpStore
-    otpStore.delete(normalizedEmail);
+    otpStore.delete(emailLower);
 
-    console.log(`✅ Student Registered Successfully: ${normalizedEmail}`);
+    console.log(`✅ Student Registered Successfully: ${emailLower}`);
 
     // 4️⃣ Send Success Response
-    res.status(201).json({ 
+    res.status(201).json({
       message: "Student registered successfully. Welcome aboard!",
-      user: { id: newUser._id, name: newUser.name, email: newUser.email }
+      user: { id: newStudent._id, name: newStudent.name, email: newStudent.email }
     });
   } catch (err) {
     console.error("❌ Registration error:", err);
@@ -66,24 +91,26 @@ exports.sendOtpSignup = async (req, res) => {
   try {
     const { email } = req.body;
     if (!email) return res.status(400).json({ error: "Email is required" });
-    const normalizedEmail = email.toLowerCase().trim();
+    const emailLower = email.toLowerCase().trim();
+    const searchRegex = getEmailSearchRegex(emailLower);
 
-    // 1️⃣ Check if already registered
-    const existingUser = await User.findOne({ email: normalizedEmail });
-    if (existingUser) {
+    // 1️⃣ Check if already registered (Search across all collections using regex)
+    const existing = await findUserByEmail(emailLower);
+
+    if (existing) {
       return res.status(400).json({ error: "Email already registered. Please log in." });
     }
 
     // 2️⃣ Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = Date.now() + 10 * 60 * 1000;
-    otpStore.set(normalizedEmail, { otp, expiresAt, verified: false });
+    otpStore.set(emailLower, { otp, expiresAt, verified: false });
 
-    console.log(`📌 OTP for Signup (${normalizedEmail}): ${otp}`);
+    console.log(`📌 OTP for Signup (${emailLower}): ${otp}`);
 
     // 3️⃣ Send Email
     await sendEmail(
-      normalizedEmail,
+      emailLower,
       "Verify Your Email - StudyAbroad",
       "",
       `<div style="font-family:serif;padding:30px;background:#090909;color:white;border-radius:20px;">
@@ -109,8 +136,8 @@ exports.sendOtpSignup = async (req, res) => {
 exports.verifyOtpSignup = async (req, res) => {
   try {
     const { email, otp } = req.body;
-    const normalizedEmail = email?.toLowerCase().trim();
-    const storedData = otpStore.get(normalizedEmail);
+    const emailLower = email?.toLowerCase().trim();
+    const storedData = otpStore.get(emailLower);
 
     if (!storedData) {
       return res.status(400).json({ error: "Verification record not found. Please try again." });
@@ -121,18 +148,45 @@ exports.verifyOtpSignup = async (req, res) => {
     }
 
     if (Date.now() > storedData.expiresAt) {
-      otpStore.delete(normalizedEmail);
+      otpStore.delete(emailLower);
       return res.status(400).json({ error: "Verification code has expired" });
     }
 
     // ✅ Mark as verified
     storedData.verified = true;
-    otpStore.set(normalizedEmail, storedData);
+    otpStore.set(emailLower, storedData);
 
     res.json({ message: "Email verified successfully", verified: true });
   } catch (err) {
     console.error("❌ verifyOtpSignup Error:", err);
     res.status(500).json({ error: "Verification failed" });
+  }
+};
+
+/* =========================
+   SEARCH STUDENT (For Parent Linking)
+========================= */
+exports.searchStudent = async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) return res.status(400).json({ error: "Email is required" });
+
+    const emailLower = email.toLowerCase().trim();
+    const searchRegex = getEmailSearchRegex(emailLower);
+
+    const student = await Student.findOne({
+      email: { $regex: searchRegex },
+      role: "student"
+    }).select("name email country dob profile.profileImage");
+
+    if (!student) {
+      return res.status(404).json({ error: "Student not found with this email." });
+    }
+
+    res.json({ success: true, student });
+  } catch (err) {
+    console.error("❌ searchStudent Error:", err);
+    res.status(500).json({ error: "Failed to search student" });
   }
 };
 
@@ -147,35 +201,37 @@ exports.login = async (req, res) => {
 
   try {
     // 🔥 NORMALIZE INPUT
-    const email = req.body.email?.toLowerCase().trim();
+    const emailInput = req.body.email?.toLowerCase().trim();
     const password = req.body.password?.trim();
 
-    if (!email || !password) {
+    if (!emailInput || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
 
-    // 1️⃣ FIND USER and populate nested Linked profiles
-    const user = await User.findOne({ email }).populate('profile.consultantProfile');
+    // 🔍 FIND USER
+    const identified = await findUserByEmail(emailInput);
+    if (!identified) {
+      return res.status(401).json({ error: "Email not registered" });
+    }
+
+    const { user, role } = identified;
 
     // Use the model method matchPassword
     if (user && (await user.matchPassword(password))) {
-
-      await user.save();
-
       const profile = user.profile || {};
 
       res.json({
         message: "Login successful",
-        token: generateToken(user._id, user.role),
+        token: generateToken(user._id, role),
         user: {
           _id: user._id,
           name: user.name,
           email: user.email,
-          role: user.role,
-          isVerified: profile.isVerified || false,
+          role: role,
+          isVerified: profile.isVerified || user.isVerified || false,
           mobile: user.mobile,
-          profileImage: profile.profileImage || profile.consultantProfile?.image || null,
-          isPremium: profile.isPremium || false
+          profileImage: profile.profileImage || user.image || null,
+          isPremium: profile.isPremium || user.isPremium || false
         }
       });
     } else {
@@ -192,17 +248,19 @@ exports.login = async (req, res) => {
 ========================= */
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password").populate('profile.consultantProfile');
+    let user;
+    if (req.user.role === "student") {
+      user = await Student.findById(req.user.id).select("-password");
+    } else if (req.user.role === "consultant") {
+      user = await Consultant.findById(req.user.id).select("-password");
+    } else {
+      user = await User.findById(req.user.id).select("-password");
+    }
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Safety fallback
-    if (!user.profile) {
-      user.profile = {};
-      await user.save();
-    }
     res.json({ success: true, user });
   } catch (err) {
     console.error("🔥 getMe error:", err);
@@ -232,10 +290,11 @@ exports.registerConsultant = async (req, res) => {
       image
     } = req.body;
 
-    const normalizedEmail = email?.toLowerCase().trim();
+    const emailLower = email?.toLowerCase().trim();
+    const normalizedEmail = normalizeEmail(emailLower);
 
     // 🔍 Check if Email is Verified in otpStore
-    const storedData = otpStore.get(normalizedEmail);
+    const storedData = otpStore.get(emailLower);
     if (!storedData || !storedData.verified) {
       return res.status(400).json({ error: "Email not verified. Please verify your email before registering." });
     }
@@ -254,61 +313,41 @@ exports.registerConsultant = async (req, res) => {
       }
     }
 
-    if (!normalizedEmail || !password || !name || !consultantRole || !expertise || !experience || !bio) {
+    if (!emailLower || !password || !name || !consultantRole || !expertise || !experience || !bio) {
       return res.status(400).json({ error: "Missing required professional profile fields." });
     }
 
-    // 2️⃣ CHECK UNIQUE EMAIL
-    const existingUser = await User.findOne({ email: normalizedEmail });
-    if (existingUser) {
+    // 2️⃣ CHECK UNIQUE EMAIL (Across all collections) using Regex
+    const existing = await findUserByEmail(emailLower);
+
+    if (existing) {
       return res.status(400).json({ error: "Email already registered" });
     }
 
     const newConsultant = new Consultant({
       name,
-      email: normalizedEmail,
+      email: emailLower,
+      mobile: '0000000000',
+      password: password,
       role: consultantRole,
       expertise,
       experience,
       bio,
       image,
-      availability: availability || [], // Now array of objects {day, startTime, endTime}
-      bookings: []
+      availability: availability || [],
+      isVerified: true,
+      isPremium: true
     });
 
-    // 3️⃣ CREATE USER (Role: consultant)
-    const newUser = new User({
-      name,
-      email: normalizedEmail,
-      mobile: '0000000000', // Placeholder
-      password: password,
-      role: "consultant",
-      profile: {
-        isPremium: true,
-        isVerified: true, // ✅ Marked as verified since we checked otpStore
-        consultantProfile: newConsultant._id
-      }
-    });
-
-    await newUser.save();
-
-    // 4️⃣ SAVE CONSULTANT
-    try {
-      newConsultant.user = newUser._id;
-      await newConsultant.save();
-    } catch (consultantErr) {
-      // Rollback User creation if Consultant fails to save
-      await User.findByIdAndDelete(newUser._id);
-      throw consultantErr; 
-    }
+    await newConsultant.save();
 
     // 🔢 Cleanup otpStore
-    otpStore.delete(normalizedEmail);
-    console.log(`✅ Consultant Registered Successfully: ${normalizedEmail}`);
+    otpStore.delete(emailLower);
+    console.log(`✅ Consultant Registered Successfully: ${emailLower}`);
 
     res.status(201).json({
       message: "Consultant registered successfully. Welcome to the Elite.",
-      email: normalizedEmail
+      email: emailLower
     });
 
   } catch (error) {
@@ -330,13 +369,14 @@ exports.registerConsultant = async (req, res) => {
 exports.registerParent = async (req, res) => {
   try {
     const { parentName, email, password, studentId } = req.body;
+    const emailLower = email?.toLowerCase().trim();
 
-    // Check existing
-    const existing = await User.findOne({ email });
+    // Check existing using Regex
+    const existing = await findUserByEmail(emailLower);
     if (existing) return res.status(400).json({ error: "Email already registered" });
 
-    // Validate Student
-    const student = await User.findById(studentId);
+    // Validate Student in the Students collection
+    const student = await Student.findById(studentId);
     if (!student || student.role !== "student") {
       return res.status(404).json({ error: "Student not found" });
     }
@@ -344,7 +384,7 @@ exports.registerParent = async (req, res) => {
     // Create Parent User
     const parent = new User({
       name: parentName,
-      email,
+      email: emailLower,
       password,
       role: "parent",
       profile: {
@@ -363,9 +403,9 @@ exports.registerParent = async (req, res) => {
     // Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = Date.now() + 10 * 60 * 1000;
-    otpStore.set(email, { otp, expiresAt });
+    otpStore.set(emailLower, { otp, expiresAt });
 
-    await sendEmail(email, "Verify Parent Account", "", `<p>OTP: ${otp}</p><p>Valid for 10 mins.</p>`);
+    await sendEmail(emailLower, "Verify Parent Account", "", `<p>OTP: ${otp}</p><p>Valid for 10 mins.</p>`);
 
     res.status(201).json({ message: "Parent registered", parentId: parent._id });
 
@@ -380,19 +420,22 @@ exports.registerParent = async (req, res) => {
 ========================= */
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ error: "User not found" });
+  const emailLower = email?.toLowerCase().trim();
+
+  const identified = await findUserByEmail(emailLower);
+  if (!identified) return res.status(404).json({ error: "User not found" });
 
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  otpStore.set(email, { otp, expiresAt: Date.now() + 600000 });
+  otpStore.set(emailLower, { otp, expiresAt: Date.now() + 600000 });
 
-  await sendEmail(email, "Reset Password", "", `<p>OTP: ${otp}</p>`);
+  await sendEmail(emailLower, "Reset Password", "", `<p>OTP: ${otp}</p>`);
   res.json({ message: "OTP sent" });
 };
 
 exports.verifyForgotOtp = async (req, res) => {
   const { email, otp } = req.body;
-  const data = otpStore.get(email);
+  const emailLower = email?.toLowerCase().trim();
+  const data = otpStore.get(emailLower);
 
   if (!data) return res.status(400).json({ error: "No OTP found" });
 
@@ -407,7 +450,10 @@ exports.verifyForgotOtp = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
-  const data = otpStore.get(email);
+  const emailLower = email?.toLowerCase().trim();
+  const normalizedEmail = normalizeEmail(emailLower);
+
+  const data = otpStore.get(emailLower);
 
   if (!data) return res.status(400).json({ error: "No OTP found" });
 
@@ -416,12 +462,23 @@ exports.resetPassword = async (req, res) => {
 
   if (!isOtpMatch) return res.status(400).json({ error: "Invalid OTP" });
   if (isExpired) {
-    otpStore.delete(email);
+    otpStore.delete(emailLower);
     return res.status(400).json({ error: "OTP expired" });
   }
 
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-  await User.findOneAndUpdate({ email }, { password: hashedPassword });
-  otpStore.delete(email);
+
+  // Find the user first to identify the correct collection
+  const identified = await findUserByEmail(emailLower);
+  if (!identified) {
+    return res.status(404).json({ error: "User no longer exists" });
+  }
+
+  // Update ONLY the identified collection
+  const { user, model } = identified;
+  user.password = hashedPassword;
+  await user.save();
+
+  otpStore.delete(emailLower);
   res.json({ message: "Password reset" });
 };
