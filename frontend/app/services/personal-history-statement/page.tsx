@@ -54,22 +54,71 @@ export default function PersonalHistoryStatementPage() {
                 Have questions about this service? Let's chat.
               </p>
 
-  {/* Dropdown */}
-  {showOptions && (
-    <div className="absolute mt-2 w-52 bg-white border rounded-lg shadow-md p-2 z-10">
-      
-      {/* WhatsApp */}
-      <button
-        onClick={() =>
-          window.open("https://wa.me/918987654321", "_blank")
-        }
-        className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded"
-      >
-         Chat on WhatsApp
-      </button>
+               {showOptions && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
 
-     </div>
-  )}
+    {/* Modal Box */}
+    <div className="bg-white rounded-xl w-[90%] max-w-md p-6 relative shadow-lg">
+
+      {/* Close Button */}
+       <button
+              onClick={() => setShowOptions(false)}
+              className="absolute top-3 right-4 text-gray-600 text-xl"
+            >
+              ×
+            </button>
+        
+        {/* Heading */}
+            <h2 className="text-lg font-semibold text-center mb-6 text-black">
+              Choose a Preferred Communication Method to Continue
+            </h2>
+
+      
+
+      {/* Options */}
+      <div className="space-y-4">
+
+        {/* WhatsApp */}
+        <div
+          onClick={() => window.open("https://wa.me/918987654321", "_blank")}
+          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+        >
+          <p className="font-medium text-green-600">WhatsApp</p>
+          <p className="text-sm text-gray-500">Chat on WhatsApp</p>
+        </div>
+
+        {/* Telegram */}
+        <div
+          onClick={() => window.open("https://t.me/", "_blank")}
+          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+        >
+          <p className="font-medium">Telegram</p>
+          <p className="text-sm text-gray-500">Continue on Telegram</p>
+        </div>
+
+        {/* Email */}
+    <div
+  onClick={() =>
+    window.open(
+      "https://mail.google.com/mail/?view=cm&fs=1&to=harshalisanap0902@gmail.com",
+      "_blank"
+    )
+  }
+  className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+>
+  <p className="font-medium">Email</p>
+  <p className="text-sm text-gray-500">
+    Continue on Email
+  </p>
+</div>
+
+      </div>
+
+    </div>
+  </div>
+)}
+
+
 </div>
           
         </div>

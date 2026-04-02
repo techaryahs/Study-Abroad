@@ -15,12 +15,11 @@ export default function ResumeDraftingPage() {
           {/* LEFT */}
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-black">
-              RESUME DRAFTING
+              LETTER OF RECOMMENDATION DRAFTING
             </h1>
 
             <p className="text-lg mb-6">
-              Learn the secret to a perfect resume that will truly set you apart
-              from any other applicant that you compete with.
+             Little known is the art of writing exactly what the admissions committee wants to see in an applicant. This can be more impacting than your SOP if done right.
             </p>
 
             {/* FEATURES */}
@@ -42,17 +41,19 @@ export default function ResumeDraftingPage() {
 
             {/* CTA */}
             <div className="flex items-center gap-6">
-               <button
-    onClick={() => setShowOptions(!showOptions)}
-    className="border border-yellow-500 px-6 py-3 rounded-lg hover:bg-yellow-500 hover:text-white transition" >
-    Discuss Your Case
-  </button>
+            <button
+  onClick={() => setShowOptions(true)}
+  className="border border-yellow-500 px-6 py-3 rounded-lg hover:bg-yellow-500 hover:text-white transition"
+>
+  Discuss Your Case
+</button>
   
 
               <p className="text-sm text-gray-500">
                 Have questions about this service? Let's chat.
               </p>
-                            {showOptions && (
+
+              {showOptions && (
   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
 
     {/* Modal Box */}
@@ -124,7 +125,7 @@ export default function ResumeDraftingPage() {
           {/* RIGHT IMAGE */}
           <div className="flex justify-center">
             <video
-    src="/ResumeDrafting.mp4"
+    src="/LOR.mp4"
     autoPlay
     muted
     loop
@@ -147,44 +148,26 @@ export default function ResumeDraftingPage() {
 
             <div className="space-y-5 text-gray-600 leading-relaxed mt-6">
               <p>
-                It is extremely critical to have an eye-catching one-page resume
-                unless you have an industry experience of over 5 years. When an
-                employer looks at my resume, he is usually amazed by the
-                conciseness, organization, and pertinence of the content.
+               Letters of Recommendation (LORs) are the documents that undeniably hold the most importance in your application. However, it is not that simple. These can either be the least influential documents or the only documents you need to secure that admit. If done right, they are the most important tool in your arsenal. Yes, even more critical than your SOP. Now, the reason that these are undermined is that most LORs I see are crafted to fall in the former category: the least influential documents in your application, which means you have wasted the only chance you had at winning the committee's support.
+
+Think about it. You are on the admissions committee. Would you put your faith in a random applicant or rather believe a professor or someone you know/follow from the same profession. It is that simple. Most LORs are general and are centered around the following statement: "Mr. X was the absolute best student in my class and he always completed his work in advance. He even asked me for more work and assignments while the other students struggled to complete their work. Moreover, he is an excellent all-rounded individual who also organized some of the most memorable events at our university."
+
+What a load of crap! No one cares. That cannot be the reason I would possibly give you an admit. You wouldn't give yourself an admit based on that either. Yet, most LORs I see are generic and based on the same idea.
+
+This service will also include recommendations on who you should take your letters from, given that you are only allowed to choose a limited number of recommenders. All of this will vary based on your profile, degree, and your network
               </p>
 
-              <p>
-                While the Statement of Purpose covers the most career-shaping
-                experiences, the resume provides insights into your professional
-                experience as a subject-matter expert.
-              </p>
+             
 
               <p className="font-semibold text-gray-800">
-                A well-crafted draft can boost your chances of bagging admits and
-                scholarships by over 18%.
+                Looking to really stand out? We have the secrets to creating STRONG LORs that cater to the international recommender standards. Book your drafts now!
               </p>
 
-              <p>
-                An average employer looks at a resume for less than 10 seconds.
-                With a stellar resume, an employer is bound to give your
-                application more attention than your competitors.
-              </p>
+             
             </div>
 
             {/* SAMPLE OUTPUT */}
-            <div className="mt-10">
-              <h3 className="font-semibold mb-4">Sample Output:</h3>
-
-              <div className="border rounded-lg overflow-hidden shadow">
-                <Image
-                   src="/sample-resume.avif"
-                  alt="Sample resume"
-                  width={800}
-                  height={600}
-                  className="w-full"
-                />
-              </div>
-            </div>
+           
           </div>
 
           {/* RIGHT SIDEBAR */}
@@ -197,8 +180,7 @@ export default function ResumeDraftingPage() {
               
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="font-semibold text-black">Services:</span>
-                  <span>Resume Help</span>
+                  
                 </div>
 
                 <div className="flex justify-between">
@@ -231,7 +213,25 @@ export default function ResumeDraftingPage() {
   <option value="DKK">Denmark (kr DKK)</option>
   </select>
 </div>
-              
+
+  <div className="mb-4 flex items-center gap-26">
+
+   {/* Label */}
+  <label className="text-sm font-medium whitespace-nowrap">
+    LORs:
+  </label>
+
+  {/* Dropdown */}
+  <select className="w-56 border border-black-300 rounded-md px-3 py-2 text-sm text-gray-600 ">
+    <option value="">Number of LORs</option>
+    <option value="1">1 LOR</option>
+    <option value="2">2 LORs</option>
+    <option value="3">3 LORs</option>
+    <option value="4">4 LORs</option>
+    <option value="5">5 LORs</option>
+  </select>
+
+</div>          
 {/* LIGHTNING SPEED */}
 <div className="flex items-start gap-2 mt-2">
   <input
@@ -248,37 +248,13 @@ export default function ResumeDraftingPage() {
 </div>
 
 
+{/* AMOUNT */}
+<div className="mt-4">
+  <p className="font-semibold text-black">Amount:</p>
+</div>
 
-
- <div className="flex justify-between">
-    <span className="font-semibold text-black">Actual Amount:</span>
-    <span className="text-gray-500 line-through">
-      INR 20,321.00
-    </span>
-  </div>
-  {/* AMOUNT */}
-  
-  <div className="flex justify-between">
-    <span className="font-semibold text-black">Amount:</span>
-    <span className="text-lg font-bold text-red-500">
-      INR 16,256.25
-    </span>
-  </div>
-{/* Savings */}
-  <div className="flex justify-between">
-    <span className="font-semibold text-black">You save:</span>
-    <span className="text-green-600">
-      INR 4,064.42
-    </span>
-  </div>
-    {/* Discount */}
-  <div className="text-green-600 text-right">
-    20% off
-  </div>
-  </div>
-  </div>
-
-          {/* Buttons */}
+<div>
+     {/* Buttons */}
           <div className="mt-6 flex gap-3">
             <button
   onClick={() => {
@@ -303,6 +279,13 @@ export default function ResumeDraftingPage() {
 >
   Buy Now
 </button>
+            
+          </div>
+</div>
+
+{/* LOGIN BUTTON */}
+
+    </div>
             </div>
 
             {/* CHAT BOX */}
