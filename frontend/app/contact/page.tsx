@@ -9,11 +9,27 @@ import { Suspense } from "react";
 function ContactContent() {
   const searchParams = useSearchParams();
   const service = searchParams.get("service");
+  const [phone, setPhone] = useState("");
   const [inquiry, setInquiry] = useState("");
+
+  const handleEmail = () => {
+    const subject = encodeURIComponent("Consulting Inquiry");
+    const body = encodeURIComponent(`Phone: ${phone}\n\nInquiry:\n${inquiry}`);
+    
+    // Attempt default mail client
+    window.location.href = `mailto:admissions@dralam.com?subject=${subject}&body=${body}`;
+    
+    // If browser doesn't lose focus to a Mail App after 600ms, assume failure and open Gmail Web
+    setTimeout(() => {
+        if (document.hasFocus()) {
+            window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=admissions@dralam.com&su=${subject}&body=${body}`, '_blank');
+        }
+    }, 600);
+  };
 
   useEffect(() => {
     if (service) {
-      setInquiry(`I am interested in the ${service.replace("-", " ")} service node. Specifically, I would like to discuss my candidacy for...`);
+      setInquiry(`I am interested in the ${service.replace(/-/g, " ")} service. Specifically, I would like to discuss...`);
     }
   }, [service]);
 
@@ -24,38 +40,42 @@ function ContactContent() {
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, scale: 0.8, y: 50 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
-      y: 0, 
-      transition: { 
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
         type: "spring",
         stiffness: 110,
         damping: 18,
         duration: 0.8
-      } 
+      }
     },
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24 grid lg:grid-cols-2 gap-20 relative z-10">
-      {/* LEFT CONTACT INFO */}
-      <motion.div 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={containerVariants}
-        className="space-y-12"
-      >
-        <motion.div variants={itemVariants} className="space-y-6">
-          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px]">Get In Touch</span>
-          <h1 className="text-4xl md:text-6xl font-black leading-[1.0] tracking-tight uppercase">
-            Craft Your <br /> <span className="gradient-text-gold italic">Global Future</span>.
-          </h1>
-          <p className="text-white/30 text-base md:text-lg max-w-md leading-relaxed font-normal italic border-l border-gold-500/20 pl-6 py-2">
-            Strategic mentorship for Ivy League and Tier-1 excellence. Our architects are ready to guide you.
-          </p>
-        </motion.div>
+    <main className="bg-dark-950 text-white min-h-screen relative overflow-hidden">
+      {/* Background ambient light */}
+      <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-gold-500/5 blur-[200px] rounded-full pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24 grid lg:grid-cols-2 gap-20 relative z-10">
+        {/* LEFT CONTACT INFO */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={containerVariants}
+          className="space-y-12"
+        >
+          <motion.div variants={itemVariants} className="space-y-6">
+            <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px]">Get In Touch</span>
+            <h1 className="text-4xl md:text-6xl font-black leading-[1.0] tracking-tight uppercase">
+              Craft Your <br /> <span className="gradient-text-gold italic">Global Future</span>.
+            </h1>
+            <p className="text-white/30 text-base md:text-lg max-w-md leading-relaxed font-normal italic border-l border-gold-500/20 pl-6 py-2">
+              Strategic mentorship for Ivy League and Tier-1 excellence. Our architects are ready to guide you.
+            </p>
+          </motion.div>
 
         <motion.div variants={itemVariants} className="space-y-8 pt-4">
           <div className="flex items-center gap-6 group">
@@ -97,68 +117,66 @@ function ContactContent() {
         </motion.div>
       </motion.div>
 
-      {/* RIGHT CONTACT FORM */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        whileHover={{ 
-          rotateX: 2,
-          rotateY: -2
-        }}
-        style={{ perspective: 1000 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="glass-card p-10 md:p-14 space-y-8 bg-white/[0.01] border-gold-500/10 transform-gpu relative"
-      >
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] -z-10 pointer-events-none"></div>
+        {/* RIGHT CONTACT FORM */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          whileHover={{ 
+            rotateX: 2,
+            rotateY: -2
+          }}
+          style={{ perspective: 1000 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="glass-card p-8 md:p-10 space-y-5 bg-white/[0.01] border-gold-500/10 transform-gpu relative"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] -z-10 pointer-events-none"></div>
 
-        <div className="grid grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">First Name</label>
-            <input type="text" className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-3 focus:border-gold-500 outline-none transition-all duration-500 placeholder:text-white/5 text-sm" placeholder="First Name" />
+          <div className="space-y-1.5">
+            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Phone Number</label>
+            <input 
+              type="tel" 
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-full bg-white/[0.02] border border-white/5 rounded-lg px-4 py-3 focus:border-gold-500 outline-none transition-all duration-500 placeholder:text-white/5 text-sm" 
+              placeholder="+1 (234) 567-8900" 
+            />
           </div>
-          <div className="space-y-2">
-            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Last Name</label>
-            <input type="text" className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-3 focus:border-gold-500 outline-none transition-all duration-500 placeholder:text-white/5 text-sm" placeholder="Last Name" />
+
+          <div className="space-y-1.5">
+            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Inquiry or Message</label>
+            <textarea 
+              value={inquiry}
+              onChange={(e) => setInquiry(e.target.value)}
+              className="w-full bg-white/[0.02] border border-white/5 rounded-lg px-4 py-3 h-24 focus:border-gold-500 outline-none transition-all duration-500 resize-none placeholder:text-white/5 text-sm" 
+              placeholder="How can we help you?" 
+            />
           </div>
-        </div>
+          <div className="grid grid-cols-2 gap-3 pt-2">
+            <button className="btn-gold w-full text-center py-3.5 rounded-lg text-[10px] uppercase tracking-[0.2em] font-black shadow-lg shadow-gold-500/5 hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
+              Submit Query
+            </button>
 
-        <div className="space-y-2">
-          <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Academic Email</label>
-          <input type="email" className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-3 focus:border-gold-500 outline-none transition-all duration-500 placeholder:text-white/5 text-sm" placeholder="your@email.com" />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Architectural Inquiry</label>
-          <textarea 
-            value={inquiry}
-            onChange={(e) => setInquiry(e.target.value)}
-            className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-5 h-32 focus:border-gold-500 outline-none transition-all duration-500 resize-none placeholder:text-white/5 text-sm" 
-            placeholder="What academic peaks are you aiming for?" 
-          />
-        </div>
-
-        <button className="btn-gold w-full text-center py-4 text-[11px] uppercase tracking-[0.3em] font-black shadow-lg shadow-gold-500/5 hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
-          Submit Application
-        </button>
-      </motion.div>
-    </div>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                handleEmail();
+              }}
+              className="btn-outline-gold flex items-center justify-center w-full h-full rounded-lg text-center py-3.5 text-[10px] uppercase tracking-[0.2em] font-black shadow-lg active:scale-95 transition-all duration-500"
+            >
+              Send via Email
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </main>
   );
 }
 
 export default function ContactPage() {
   return (
-    <main className="bg-dark-950 text-white min-h-screen relative overflow-hidden">
-      {/* Background ambient light */}
-      <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-gold-500/5 blur-[200px] rounded-full pointer-events-none"></div>
-      
-      <Suspense fallback={
-        <div className="flex items-center justify-center min-h-[60rem]">
-           <div className="w-8 h-8 border-2 border-gold-500/20 border-t-gold-500 rounded-full animate-spin" />
-        </div>
-      }>
-        <ContactContent />
-      </Suspense>
-    </main>
+    <Suspense fallback={<div className="min-h-screen bg-dark-950 flex items-center justify-center font-black text-gold-500 tracking-widest uppercase">Loading Portal...</div>}>
+      <ContactContent />
+    </Suspense>
   );
 }
