@@ -108,6 +108,21 @@ const Register = () => {
 
   const terms = ["Spring", "Fall", "Summer"];
   const years = Array.from({ length: 7 }, (_, i) => (2024 + i).toString());
+  
+  const customSelectStyles = {
+    control: (b: any) => ({ ...b, minHeight: '34px', borderRadius: '10px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', fontSize: '11px' }),
+    singleValue: (b: any) => ({ ...b, color: 'white' }),
+    menu: (b: any) => ({ ...b, backgroundColor: '#090909', border: '1px solid rgba(255,255,255,0.1)', fontSize: '11px', zIndex: 50 }),
+    option: (base: any, state: any) => ({
+      ...base,
+      backgroundColor: state.isSelected ? '#c9a84c' : state.isFocused ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+      color: state.isSelected ? 'black' : 'white',
+      cursor: 'pointer',
+      ":active": { backgroundColor: '#c9a84c' }
+    }),
+    input: (base: any) => ({ ...base, color: 'white' }),
+    placeholder: (base: any) => ({ ...base, color: 'rgba(255,255,255,0.3)' })
+  };
 
   const validateStep1 = () => {
     const newErrors: FormErrors = {};
@@ -419,18 +434,7 @@ const Register = () => {
                           instanceId="country-select"
                           options={Country.getAllCountries().map((c: any) => ({ value: c.isoCode, label: c.name }))}
                           onChange={handleCountryChange} value={formData.country} placeholder="..."
-                          styles={{
-                            control: (b: any) => ({ ...b, minHeight: '30px', borderRadius: '8px', backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,0.1)', fontSize: '10px' }),
-                            singleValue: (b: any) => ({ ...b, color: 'white' }),
-                            menu: (b: any) => ({ ...b, backgroundColor: '#090909', border: '1px solid rgba(255,255,255,0.1)', fontSize: '10px' }),
-                            option: (base, state) => ({
-                              ...base,
-                              backgroundColor: state.isSelected ? '#c9a84c' : state.isFocused ? 'rgba(201, 168, 76, 0.1)' : 'transparent',
-                              color: state.isSelected ? 'black' : 'white',
-                              cursor: 'pointer'
-                            }),
-                            input: (base) => ({ ...base, color: 'white' })
-                          }}
+                          styles={customSelectStyles}
                         />
                        </div>
                        <div>
@@ -439,11 +443,7 @@ const Register = () => {
                           instanceId="state-select"
                           options={formData.country ? State.getStatesOfCountry(formData.country.value).map((s: any) => ({ value: s.isoCode, label: s.name })) : []}
                           onChange={handleStateChange} value={formData.state} placeholder="..." isDisabled={!formData.country}
-                          styles={{
-                            control: (b: any) => ({ ...b, minHeight: '30px', borderRadius: '8px', backgroundColor: 'transparent', border: '1px solid rgba(255,255,255,0.1)', fontSize: '10px' }),
-                            singleValue: (b: any) => ({ ...b, color: 'white' }),
-                            menu: (b: any) => ({ ...b, backgroundColor: '#090909', fontSize: '10px' })
-                          }}
+                          styles={customSelectStyles}
                         />
                        </div>
                     </div>
@@ -553,18 +553,7 @@ const Register = () => {
                     <Select
                       instanceId="target-univ-select"
                       options={universities} onChange={(s: any) => setFormData(p => ({ ...p, targetUniv: s }))} value={formData.targetUniv} placeholder="Search..."
-                      styles={{
-                        control: (b: any) => ({ ...b, minHeight: '34px', borderRadius: '10px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', fontSize: '11px' }),
-                        singleValue: (b: any) => ({ ...b, color: 'white' }),
-                        menu: (b: any) => ({ ...b, backgroundColor: '#090909', border: '1px solid rgba(255,255,255,0.1)', fontSize: '11px' }),
-                        option: (base, state) => ({
-                          ...base,
-                          backgroundColor: state.isSelected ? '#c9a84c' : state.isFocused ? 'rgba(201, 168, 76, 0.1)' : 'transparent',
-                          color: state.isSelected ? 'black' : 'white',
-                          cursor: 'pointer'
-                        }),
-                        input: (base) => ({ ...base, color: 'white' })
-                      }}
+                      styles={customSelectStyles}
                     />
                   </div>
 
@@ -587,11 +576,9 @@ const Register = () => {
                   <div>
                     <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Target Major</label>
                     <Select
+                      instanceId="target-major-select"
                       options={majors} onChange={(s: any) => setFormData(p => ({ ...p, targetMajor: s }))} value={formData.targetMajor} placeholder="Search Major..."
-                      styles={{
-                        control: (b: any) => ({ ...b, minHeight: '34px', borderRadius: '10px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', fontSize: '11px' }),
-                        singleValue: (b: any) => ({ ...b, color: 'white' })
-                      }}
+                      styles={customSelectStyles}
                     />
                   </div>
 
