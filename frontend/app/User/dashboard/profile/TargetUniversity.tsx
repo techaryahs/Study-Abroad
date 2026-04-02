@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, Target, ArrowRight, ArrowLeft, Globe } from 'lucide-react';
 
@@ -8,19 +8,40 @@ interface TargetUniversityModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  initialData?: any;
 }
 
-export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ isOpen, onClose, onSubmit }) => {
+export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ isOpen, onClose, onSubmit, initialData }) => {
   const [step, setStep] = useState(0);
   const totalSteps = 3;
 
   const [formData, setFormData] = useState({
     degree: '',
-    university: '',
+    uniName: '',
     major: '',
     term: '',
     year: ''
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        degree: initialData.degree || '',
+        uniName: initialData.uniName || initialData.university || '',
+        major: initialData.major || '',
+        term: initialData.term || '',
+        year: initialData.year || ''
+      });
+    } else {
+        setFormData({
+            degree: '',
+            uniName: '',
+            major: '',
+            term: '',
+            year: ''
+          });
+    }
+  }, [initialData, isOpen]);
 
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
 
@@ -33,7 +54,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
     if (step === 0) {
       if (!formData.degree) newErrors.degree = true;
     } else if (step === 1) {
-      if (!formData.university.trim()) newErrors.university = true;
+      if (!formData.uniName.trim()) newErrors.uniName = true;
       if (!formData.major.trim()) newErrors.major = true;
       if (!formData.term) newErrors.term = true;
       if (!formData.year) newErrors.year = true;
@@ -115,9 +136,9 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
                 <motion.div key="step2" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -20, opacity: 0 }} className="space-y-6">
                   <div className="grid grid-cols-1 gap-4">
                     <input
-                      type="text" placeholder="Target University Node" value={formData.university}
-                      onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.university ? 'border-red-500/50' : 'border-white/5 focus:border-[#6a5acd]/50'}`}
+                      type="text" placeholder="Target University Node" value={formData.uniName}
+                      onChange={(e) => setFormData({ ...formData, uniName: e.target.value })}
+                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.uniName ? 'border-red-500/50' : 'border-white/5 focus:border-[#6a5acd]/50'}`}
                     />
                     <input
                       type="text" placeholder="Primary Specialization" value={formData.major}

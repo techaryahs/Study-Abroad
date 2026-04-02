@@ -236,24 +236,35 @@ export default function Navbar() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const refreshUser = () => {
+      const storedUser = getUser();
+      if (storedUser && (storedUser._id || storedUser.id)) {
+        setUserState(storedUser);
+      } else {
+        setUserState(null);
+      }
+    };
+
+    refreshUser();
+    window.addEventListener('user-updated', refreshUser);
+
     const storedUser = getUser();
-    if (storedUser && storedUser._id) {
-      setUserState(storedUser);
-      // Fetch full profile to get gender and up-to-date name/image
+    if (storedUser && (storedUser._id || storedUser.id)) {
       const fetchFullProfile = async () => {
+        const userId = storedUser._id || storedUser.id;
+        if (!userId) return;
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/profile/profile/${storedUser._id}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
           if (response.ok) {
             const data = await response.json();
-            // Merge profile data with basic user data (flatten for easy access)
-            setUserState({
+            const fullUser = {
               ...storedUser,
               ...data,
-              ...data.profile, // Profile fields like profileImage, gender might be flat or nested
-            });
+              ...(data.profile || {})
+            };
+            setUserState(fullUser);
           } else if (response.status === 401 || response.status === 404) {
-            // Token is likely invalid or stale for this collection
-            console.warn("Auth token invalid or user not found. Clearing session.");
+            console.warn("Auth session node stale on navbar hook. Resetting...");
             clearAuth();
             setUserState(null);
           }
@@ -263,6 +274,8 @@ export default function Navbar() {
       };
       fetchFullProfile();
     }
+
+    return () => window.removeEventListener('user-updated', refreshUser);
   }, []);
 
   const handleLogout = () => {
@@ -362,7 +375,7 @@ export default function Navbar() {
                     <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 overflow-hidden flex items-center justify-center hover:border-yellow-400/50 transition-colors">
                       {user.profileImage ? (
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                          src={user.profileImage.startsWith('http') ? user.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
                           alt="Profile"
                           className="w-full h-full object-cover"
                         />
@@ -395,7 +408,7 @@ export default function Navbar() {
                             <div className="w-full h-full rounded-[0.8rem] overflow-hidden bg-[#1a1a1a] flex items-center justify-center relative">
                               {user.profileImage ? (
                                 <img
-                                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                                  src={user.profileImage.startsWith('http') ? user.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
                                   alt="Profile"
                                   className="w-full h-full object-cover"
                                 />
@@ -427,7 +440,7 @@ export default function Navbar() {
                             <LayoutDashboard size={12} />
                             Dashboard
                           </Link>
-                          
+
                           <button
                             onClick={handleLogout}
                             className="flex items-center justify-center gap-2 w-full py-1.5 text-white/40 hover:text-white font-bold text-[10px] uppercase tracking-[0.2em] transition-colors"
@@ -571,14 +584,12 @@ export default function Navbar() {
           {user && (
             <div className="flex flex-col items-center gap-2 mb-4">
               <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center p-1">
-                <div className="w-full h-full rounded-xl overflow-hidden bg-[#1a1a1a] flex items-center justify-center">
+                    <div className="w-full h-full rounded-xl overflow-hidden bg-[#1a1a1a] flex items-center justify-center">
                   {user.profileImage ? (
-                    <Image
-                      src={`http://localhost:5000${user.profileImage}`}
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
                       alt="Profile"
-                      width={80}
-                      height={80}
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
                     <UserIcon size={32} className="text-gray-600" />

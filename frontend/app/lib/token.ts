@@ -35,6 +35,7 @@ export const clearAuth = () => {
 export const setUser = (user: any) => {
   if (typeof window !== "undefined") {
     localStorage.setItem(USER_KEY, JSON.stringify(user));
+    window.dispatchEvent(new Event('user-updated'));
   }
 };
 

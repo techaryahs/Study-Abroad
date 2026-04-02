@@ -1,180 +1,140 @@
 'use client';
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle, FileText, ArrowRight, ArrowLeft, Trophy } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { Trash2, Trophy, ArrowRight, ClipboardList } from 'lucide-react';
 
-interface TestField {
-  name: string;
-  label: string;
-  min: number;
-  max: number;
-  step?: number;
+interface TestScoresProps {
+  testScores?: any;
+  onEdit?: () => void;
+  onRemove?: (testKey: string) => void;
 }
 
-interface TestType {
-  id: string;
-  name: string;
-  fields: TestField[];
-}
-
-const TESTS: TestType[] = [
-  {
-    id: "toefl", name: "TOEFL", fields: [
-      { name: "reading", label: "Reading", min: 0, max: 30 },
-      { name: "speaking", label: "Speaking", min: 0, max: 30 },
-      { name: "listening", label: "Listening", min: 0, max: 30 },
-      { name: "writing", label: "Writing", min: 0, max: 30 },
-    ]
-  },
-  {
-    id: "ielts", name: "IELTS", fields: [
-      { name: "reading", label: "Reading", min: 0, max: 9, step: 0.5 },
-      { name: "speaking", label: "Speaking", min: 0, max: 9, step: 0.5 },
-      { name: "listening", label: "Listening", min: 0, max: 9, step: 0.5 },
-      { name: "writing", label: "Writing", min: 0, max: 9, step: 0.5 },
-    ]
-  },
-  {
-    id: "gre", name: "GRE", fields: [
-      { name: "verbal", label: "Verbal", min: 130, max: 170 },
-      { name: "quantitative", label: "Quantitative", min: 130, max: 170 },
-      { name: "writing", label: "Analytical Writing", min: 0, max: 6, step: 0.5 },
-    ]
-  },
-  {
-    id: "gmat", name: "GMAT", fields: [
-      { name: "verbal", label: "Verbal", min: 0, max: 60 },
-      { name: "quantitative", label: "Quantitative", min: 0, max: 60 },
-      { name: "reasoning", label: "Integrated Reasoning", min: 1, max: 8 },
-      { name: "writing", label: "Analytical Writing", min: 0, max: 6, step: 0.5 },
-    ]
-  },
-  {
-    id: "sat", name: "SAT", fields: [
-      { name: "reading_writing", label: "Reading & Writing", min: 200, max: 800 },
-      { name: "math", label: "Math", min: 200, max: 800 },
-    ]
-  },
-];
-
-export default function TestScores({ isOpen, onClose, onSubmit }: { isOpen: boolean; onClose: () => void; onSubmit: (data: any) => void }) {
-  const [selectedTestId, setSelectedTestId] = useState<string | null>(null);
-  const [testScores, setTestScores] = useState<Record<string, Record<string, string>>>({});
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  if (!isOpen) return null;
-
-  const currentTest = TESTS.find((t) => t.id === selectedTestId);
-  const progressPercent = selectedTestId ? 100 : 50;
-
-  const handleTestSelect = (id: string) => {
-    setSelectedTestId(id);
-    setErrors({});
-  };
-
-  const handleSubmitInternal = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!currentTest) return;
-
-    const data = testScores[currentTest.id];
-    if (!data || Object.keys(data).length < currentTest.fields.length) {
-      // simple validation
-      return;
+export default function TestScores({ testScores = {}, onEdit, onRemove }: TestScoresProps) {
+  // Normalizing test data into an array of active tests
+  const normalizeData = () => {
+    const list: any[] = [];
+    if (Array.isArray(testScores)) {
+      testScores.forEach(t => {
+        list.push({
+          id: t.testType.toLowerCase(),
+          name: t.testType,
+          score: t.score,
+          sections: t.sectionScores
+        });
+      });
+    } else {
+      Object.keys(testScores).forEach(testKey => {
+        const scores = testScores[testKey];
+        const hasData = scores && Object.values(scores).some(v => v !== '' && v !== null);
+        if (hasData) {
+          list.push({
+            id: testKey,
+            name: testKey.toUpperCase(),
+            score: (scores.overall || scores.total || ''),
+            sections: scores
+          });
+        }
+      });
     }
-    onSubmit({ testId: currentTest.id, scores: data });
+    return list;
   };
+
+  const activeTests = normalizeData();
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-white/10 font-sans">
-
-        <button onClick={onClose} className="absolute top-6 right-6 text-white/20 hover:text-white z-20 transition-all p-2 bg-white/5 rounded-xl group">
-          <X size={24} className="group-hover:rotate-90 transition-transform" />
+    <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-sm p-10 font-sans max-w-6xl mx-auto">
+      {/* Header Section */}
+      <div className="flex items-center justify-between mb-10">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-[#eef6ff] rounded-2xl flex items-center justify-center text-[#4d97f3]">
+             <ClipboardList size={24} />
+          </div>
+          <div>
+            <h2 className="text-3xl font-light text-gray-500 tracking-tight">Language scores</h2>
+            <p className="text-[10px] font-black uppercase text-gray-300 tracking-widest mt-1">Standardized Test Protocols</p>
+          </div>
+        </div>
+        <button 
+          onClick={onEdit}
+          className="px-10 py-3 bg-[#eef6ff] text-[#4d97f3] rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-[#dfeeff] transition-all border border-[#dcebff]"
+        >
+          Add or Edit Tests
         </button>
+      </div>
 
-        <div className="w-full md:w-[40%] bg-gradient-to-b from-[#FFB300] to-[#E6A100] p-12 flex flex-col items-center justify-center text-center text-[#0a0a0a] relative">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20"></div>
-          <div className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-white/10 shadow-2xl relative z-10">
-            <Trophy size={80} />
-          </div>
-          <h2 className="text-2xl font-black mb-4 leading-tight tracking-widest uppercase relative z-10">Score Sync</h2>
-          <p className="text-[#0a0a0a]/70 text-[12px] font-black leading-relaxed uppercase tracking-widest relative z-10">
-            {selectedTestId ? `Verifying performance metrics for ${currentTest?.name}.` : "Select a standardized test protocol to synchronize your scores."}
-          </p>
-        </div>
+      <div className="h-[1px] w-full bg-gray-50 mb-12" />
 
-        <div className="flex-1 p-12 flex flex-col relative text-white">
-          <div className="mb-8">
-            <div className="flex justify-between items-end mb-4">
-              <h1 className="text-xl font-black uppercase tracking-widest">Test Protocols</h1>
-              <span className="text-[10px] font-black text-[#FFB300] uppercase tracking-[0.3em]">
-                {selectedTestId ? "Field Input" : "Module Selection"}
-              </span>
-            </div>
-            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-              <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="bg-[#FFB300] h-full shadow-[0_0_15px_rgba(255,179,0,0.3)]" />
-            </div>
-          </div>
-
-          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
-            <AnimatePresence mode="wait">
-              {!selectedTestId ? (
-                <motion.div key="list" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-3">
-                  {TESTS.map(test => (
-                    <button
-                      key={test.id} onClick={() => handleTestSelect(test.id)}
-                      className="w-full p-6 rounded-2xl border-2 border-white/5 bg-white/5 hover:border-[#FFB300]/50 hover:bg-[#FFB300]/5 transition-all text-left flex items-center justify-between group"
-                    >
-                      <span className="font-black uppercase tracking-widest text-[#FFB300] group-hover:text-white">{test.name}</span>
-                      <ArrowRight size={20} className="text-white/20 group-hover:text-[#FFB300] group-hover:translate-x-1 transition-all" />
-                    </button>
-                  ))}
-                </motion.div>
-              ) : (
-                <motion.div key="form" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-8">
-                  <div className="flex items-center gap-4 mb-6">
-                    <button onClick={() => setSelectedTestId(null)} className="p-2 bg-white/5 rounded-xl hover:bg-white/10 text-[#FFB300] transition-all"><ArrowLeft size={20} /></button>
-                    <h3 className="font-black text-[#FFB300] uppercase tracking-widest">{currentTest?.name} Parameters</h3>
+      {/* Tests List - STACKED ONE BY ONE */}
+      <div className="space-y-16">
+        {activeTests.length > 0 ? (
+          activeTests.map((test, index) => (
+            <motion.div 
+              key={test.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+              className="group relative"
+            >
+              {/* Test Header Row */}
+              <div className="flex items-end justify-between mb-8 pb-4 border-b border-gray-50">
+                <div className="flex items-center gap-6">
+                  <div className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-400 group-hover:text-[#4d97f3] transition-colors">
+                    <Trophy size={18} />
                   </div>
-                  <div className="grid grid-cols-1 gap-6">
-                    {currentTest?.fields.map(field => (
-                      <div key={field.name} className="space-y-3">
-                        <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">{field.label}</label>
-                        <input
-                          type="number" step={field.step || 1} min={field.min} max={field.max}
-                          value={testScores[selectedTestId]?.[field.name] || ""}
-                          onChange={(e) => setTestScores(prev => ({
-                            ...prev, [selectedTestId]: { ...(prev[selectedTestId] || {}), [field.name]: e.target.value }
-                          }))}
-                          className="w-full px-6 py-4 bg-white/5 border-2 border-white/5 focus:border-[#FFB300]/50 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10"
-                        />
+                  <div className="space-y-1">
+                    <h3 className="text-[13px] font-black text-gray-700 uppercase tracking-widest">
+                      YOUR {test.name} RESULT :
+                    </h3>
+                    <div className="h-0.5 w-8 bg-[#4d97f3]/20 rounded-full" />
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-12">
+                   <div className="text-right">
+                      <span className="block text-[9px] font-black text-gray-300 uppercase tracking-widest mb-1">Total Score</span>
+                      <div className="text-5xl font-black text-[#4d97f3] tracking-tighter tabular-nums drop-shadow-sm">
+                        {test.score || "00"}
                       </div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+                   </div>
+                   <button 
+                     onClick={() => onRemove?.(test.id)}
+                     className="p-2 text-gray-200 hover:text-red-500 transition-colors"
+                   >
+                     <Trash2 size={18} />
+                   </button>
+                </div>
+              </div>
 
-          <div className="mt-auto pt-8 flex gap-4">
-            {selectedTestId && (
-              <button
-                onClick={handleSubmitInternal}
-                className="w-full py-4 bg-[#FFB300] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#E6A100] transition-all shadow-[0_0_30px_rgba(255,179,0,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2"
-              >
-                Integrate Protocol <CheckCircle size={16} />
-              </button>
-            )}
+              {/* Score Grid for this test */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
+                {Object.entries(test.sections).map(([field, value]: [string, any]) => {
+                  if (!value && value !== 0) return null;
+                  if (field === 'overall' || field === 'total') return null;
+
+                  return (
+                    <div 
+                      key={field} 
+                      className="flex flex-col gap-2 p-5 border border-gray-50 rounded-2xl bg-[#fafbfc]/50 group-hover:bg-white group-hover:border-[#4d97f3]/10 transition-all shadow-sm"
+                    >
+                      <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter capitalize">
+                        {field} :
+                      </span>
+                      <span className="text-xl font-black text-gray-800 tracking-tighter">
+                        {value}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          ))
+        ) : (
+          <div className="py-24 text-center border-2 border-dashed border-gray-50 rounded-[2.5rem] bg-[#fafbfc]/30">
+            <p className="text-xs text-gray-300 font-black uppercase tracking-[0.4em]">Initialize test protocols to see telemetry.</p>
           </div>
-        </div>
-      </motion.div>
-      <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.05); border-radius: 10px; }
-      `}</style>
+        )}
+      </div>
     </div>
   );
 }
