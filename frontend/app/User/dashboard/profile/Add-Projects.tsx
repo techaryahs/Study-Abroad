@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Layout, Calendar, Link as LinkIcon, CheckCircle, ArrowRight, ArrowLeft, Rocket } from 'lucide-react';
 
@@ -8,9 +6,10 @@ interface ProjectFormModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  initialData?: any;
 }
 
-export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectFormModalProps) {
+export default function ProjectFormModal({ isOpen, onClose, onSubmit, initialData }: ProjectFormModalProps) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
@@ -19,9 +18,35 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectF
     startDate: "",
     endDate: "",
     isOngoing: false,
-    url: "",
+    projectUrl: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        title: initialData.title || "",
+        role: initialData.role || "",
+        purpose: initialData.purpose || "",
+        startDate: initialData.startDate ? new Date(initialData.startDate).toISOString().split('T')[0] : "",
+        endDate: initialData.endDate ? new Date(initialData.endDate).toISOString().split('T')[0] : "",
+        isOngoing: initialData.isOngoing || false,
+        projectUrl: initialData.projectUrl || initialData.url || "",
+        description: initialData.description || "",
+      });
+    } else {
+        setFormData({
+            title: "",
+            role: "",
+            purpose: "",
+            startDate: "",
+            endDate: "",
+            isOngoing: false,
+            projectUrl: "",
+            description: "",
+          });
+    }
+  }, [initialData, isOpen]);
 
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
@@ -123,7 +148,7 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectF
                 <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Source / Deployment Link</label>
-                    <input type="text" value={formData.url} onChange={(e) => setFormData({...formData, url: e.target.value})} placeholder="https://..." className="w-full px-6 py-4 bg-white/5 border-2 border-white/5 focus:border-[#9C27B0]/50 rounded-2xl outline-none font-bold text-white placeholder:text-white/10" />
+                    <input type="text" value={formData.projectUrl} onChange={(e) => setFormData({...formData, projectUrl: e.target.value})} placeholder="https://..." className="w-full px-6 py-4 bg-white/5 border-2 border-white/5 focus:border-[#9C27B0]/50 rounded-2xl outline-none font-bold text-white placeholder:text-white/10" />
                   </div>
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Architecture Core (Description)</label>

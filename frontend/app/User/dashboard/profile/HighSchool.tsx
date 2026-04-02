@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, School, GraduationCap, ArrowRight, ArrowLeft } from 'lucide-react';
 
@@ -21,7 +21,7 @@ export const SuccessModal = ({ onClose }: { onClose: () => void }) => (
         <CheckCircle size={40} className="text-[#c9a84c]" />
       </div>
       <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-widest">Success</h3>
-      <p className="text-white/40 text-sm font-bold mb-10 leading-relaxed uppercase tracking-widest">Your academic credentials have been integrated.</p>
+      <p className="text-white/40 text-sm font-bold mb-10 leading-relaxed uppercase tracking-widest">Your school details have been saved.</p>
       <button
         onClick={onClose}
         className="w-full bg-[#c9a84c] text-[#0a0a0a] py-4 rounded-2xl font-black uppercase tracking-widest text-[11px] hover:bg-[#d4a843] transition-all shadow-lg active:scale-95"
@@ -36,15 +36,33 @@ interface HighSchoolModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  initialData?: any;
 }
 
-export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalProps) => {
+export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: HighSchoolModalProps) => {
   const [step, setStep] = useState(0); // 0, 1, 2
   const [formData, setFormData] = useState({
     schoolName: '',
     cgpa: '',
     outOf: '',
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        schoolName: initialData.schoolName || '',
+        cgpa: initialData.cgpa || '',
+        outOf: initialData.outOf || '',
+      });
+    } else {
+      setFormData({
+        schoolName: '',
+        cgpa: '',
+        outOf: '',
+      });
+    }
+  }, [initialData, isOpen]);
+
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
 
   if (!isOpen) return null;
@@ -113,9 +131,9 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalPr
           </motion.div>
           <h2 className="text-2xl font-black mb-4 leading-tight tracking-widest text-[#0a0a0a] uppercase relative z-10">Add High School</h2>
           <p className="text-[#0a0a0a]/70 text-[12px] max-w-[220px] font-black leading-relaxed uppercase tracking-widest relative z-10">
-            {step === 0 && "Where did you spend the final years of school life?"}
-            {step === 1 && "Provide your official academic standing."}
-            {step === 2 && "Verification complete. Ready for integration."}
+            {step === 0 && "Which school did you attend?"}
+            {step === 1 && "Enter your marks or CGPA."}
+            {step === 2 && "Information ready to be saved."}
           </p>
         </div>
 
@@ -123,7 +141,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalPr
         <div className="flex-1 p-12 flex flex-col relative">
           <div className="mb-8">
             <div className="flex justify-between items-end mb-4">
-              <h1 className="text-xl font-black text-white uppercase tracking-widest">Academic Data</h1>
+              <h1 className="text-xl font-black text-white uppercase tracking-widest">Education Info</h1>
               <span className="text-[10px] font-black text-[#c9a84c] uppercase tracking-[0.3em]">
                 Phase {step + 1} of 3
               </span>
@@ -203,8 +221,8 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalPr
                     <GraduationCap size={48} className="text-[#c9a84c]" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-black text-white uppercase tracking-widest mb-2">Ready to Sync</h2>
-                    <p className="text-white/30 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Confirm your academic credentials to integrate them with your ecosystem profile.</p>
+                    <h2 className="text-xl font-black text-white uppercase tracking-widest mb-2">Ready to Save</h2>
+                    <p className="text-white/30 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Confirm your details to add them to your profile.</p>
                   </div>
                 </motion.div>
               )}
@@ -224,7 +242,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit }: HighSchoolModalPr
               onClick={nextStep}
               className="flex-[2] py-4 bg-[#c9a84c] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#d4a843] transition-all shadow-[0_0_30px_rgba(201,168,76,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2"
             >
-              {step === totalSteps - 1 ? 'Integrate' : 'Continue'} <ArrowRight size={16} />
+              {step === totalSteps - 1 ? 'Submit' : 'Continue'} <ArrowRight size={16} />
             </button>
           </div>
         </div>

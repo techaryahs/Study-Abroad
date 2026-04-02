@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, GraduationCap, ArrowRight, ArrowLeft, School } from 'lucide-react';
 
@@ -8,17 +6,38 @@ interface UnderGradModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  initialData?: any;
 }
 
-export const UnderGradModal = ({ isOpen, onClose, onSubmit }: UnderGradModalProps) => {
+export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: UnderGradModalProps) => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
-    university: '',
-    major: '',
+    uniName: '',
+    degreeName: '',
     backlogs: '',
     cgpa: '',
     outOf: '',
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        uniName: initialData.uniName || initialData.university || '',
+        degreeName: initialData.degreeName || initialData.major || '',
+        backlogs: initialData.backlogs || '',
+        cgpa: initialData.cgpa || '',
+        outOf: initialData.outOf || '',
+      });
+    } else {
+        setFormData({
+            uniName: '',
+            degreeName: '',
+            backlogs: '',
+            cgpa: '',
+            outOf: '',
+          });
+    }
+  }, [initialData, isOpen]);
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
 
   if (!isOpen) return null;
@@ -29,8 +48,8 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit }: UnderGradModalProp
   const validateStep = (currentStep: number) => {
     let newErrors: { [key: string]: boolean } = {};
     if (currentStep === 0) {
-      if (!formData.university.trim()) newErrors.university = true;
-      if (!formData.major.trim()) newErrors.major = true;
+      if (!formData.uniName.trim()) newErrors.uniName = true;
+      if (!formData.degreeName.trim()) newErrors.degreeName = true;
     } else if (currentStep === 1) {
       if (!formData.backlogs.trim()) newErrors.backlogs = true;
       if (!formData.cgpa.trim()) newErrors.cgpa = true;
@@ -69,7 +88,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit }: UnderGradModalProp
           <p className="text-[#0a0a0a]/70 text-[12px] max-w-[220px] font-black leading-relaxed uppercase tracking-widest relative z-10">
             {step === 0 && "Identify your alma mater and specialized field of study."}
             {step === 1 && "Document your scholastic achievements and standing."}
-            {step === 2 && "Verification complete. Ready for ecosystem integration."}
+            {step === 2 && "Verification complete. Ready for submission."}
           </p>
         </div>
 
@@ -91,23 +110,23 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit }: UnderGradModalProp
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">University / College</label>
                     <input
-                      type="text" placeholder="e.g. Stanford University" value={formData.university}
+                      type="text" placeholder="e.g. Stanford University" value={formData.uniName}
                       onChange={(e) => {
-                        setFormData({ ...formData, university: e.target.value });
-                        if (errors.university) setErrors({ ...errors, university: false });
+                        setFormData({ ...formData, uniName: e.target.value });
+                        if (errors.uniName) setErrors({ ...errors, uniName: false });
                       }}
-                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.university ? 'border-red-500/50' : 'border-white/5 focus:border-[#20C997]/50'}`}
+                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.uniName ? 'border-red-500/50' : 'border-white/5 focus:border-[#20C997]/50'}`}
                     />
                   </div>
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Specialization / Major</label>
                     <input
-                      type="text" placeholder="e.g. Computer Science" value={formData.major}
+                      type="text" placeholder="e.g. Computer Science" value={formData.degreeName}
                       onChange={(e) => {
-                        setFormData({ ...formData, major: e.target.value });
-                        if (errors.major) setErrors({ ...errors, major: false });
+                        setFormData({ ...formData, degreeName: e.target.value });
+                        if (errors.degreeName) setErrors({ ...errors, degreeName: false });
                       }}
-                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.major ? 'border-red-500/50' : 'border-white/5 focus:border-[#20C997]/50'}`}
+                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.degreeName ? 'border-red-500/50' : 'border-white/5 focus:border-[#20C997]/50'}`}
                     />
                   </div>
                 </motion.div>
@@ -153,7 +172,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit }: UnderGradModalProp
                     <CheckCircle size={48} className="text-[#20C997]" />
                   </div>
                   <h2 className="text-xl font-black text-white uppercase tracking-widest">Protocol Verified</h2>
-                  <p className="text-white/30 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Integrated data is ready for ecosystem submission.</p>
+                  <p className="text-white/30 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Data is ready for ecosystem submission.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -164,7 +183,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit }: UnderGradModalProp
               <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-white/40 border border-white/10 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>
             )}
             <button onClick={nextStep} className="flex-[2] py-4 bg-[#20C997] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#1BA37A] transition-all shadow-[0_0_30px_rgba(32,201,151,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2">
-              {step === totalSteps - 1 ? 'Integrate' : 'Continue'} <ArrowRight size={16} />
+              {step === totalSteps - 1 ? 'Submit' : 'Continue'} <ArrowRight size={16} />
             </button>
           </div>
         </div>

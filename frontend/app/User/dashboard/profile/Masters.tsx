@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle, GraduationCap, ArrowRight, ArrowLeft } from 'lucide-react';
 
@@ -8,17 +6,38 @@ interface MastersModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  initialData?: any;
 }
 
-export const MastersModal = ({ isOpen, onClose, onSubmit }: MastersModalProps) => {
+export const MastersModal = ({ isOpen, onClose, onSubmit, initialData }: MastersModalProps) => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
-    university: '',
-    major: '',
+    uniName: '',
+    degreeName: '',
     backlogs: '',
     cgpa: '',
     outOf: '',
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        uniName: initialData.uniName || initialData.university || '',
+        degreeName: initialData.degreeName || initialData.major || '',
+        backlogs: initialData.backlogs || '',
+        cgpa: initialData.cgpa || '',
+        outOf: initialData.outOf || '',
+      });
+    } else {
+        setFormData({
+            uniName: '',
+            degreeName: '',
+            backlogs: '',
+            cgpa: '',
+            outOf: '',
+          });
+    }
+  }, [initialData, isOpen]);
   const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
 
   if (!isOpen) return null;
@@ -29,8 +48,8 @@ export const MastersModal = ({ isOpen, onClose, onSubmit }: MastersModalProps) =
   const validateStep = (currentStep: number) => {
     let newErrors: { [key: string]: boolean } = {};
     if (currentStep === 0) {
-      if (!formData.university.trim()) newErrors.university = true;
-      if (!formData.major.trim()) newErrors.major = true;
+      if (!formData.uniName.trim()) newErrors.uniName = true;
+      if (!formData.degreeName.trim()) newErrors.degreeName = true;
     } else if (currentStep === 1) {
       if (!formData.backlogs.trim()) newErrors.backlogs = true;
       if (!formData.cgpa.trim()) newErrors.cgpa = true;
@@ -94,23 +113,23 @@ export const MastersModal = ({ isOpen, onClose, onSubmit }: MastersModalProps) =
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">University Name</label>
                     <input
-                      type="text" placeholder="e.g. Imperial College London" value={formData.university}
+                      type="text" placeholder="e.g. Imperial College London" value={formData.uniName}
                       onChange={(e) => {
-                        setFormData({ ...formData, university: e.target.value });
-                        if (errors.university) setErrors({ ...errors, university: false });
+                        setFormData({ ...formData, uniName: e.target.value });
+                        if (errors.uniName) setErrors({ ...errors, uniName: false });
                       }}
-                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.university ? 'border-red-500/50' : 'border-white/5 focus:border-[#f1b441]/50'}`}
+                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.uniName ? 'border-red-500/50' : 'border-white/5 focus:border-[#f1b441]/50'}`}
                     />
                   </div>
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Interested Major</label>
                     <input
-                      type="text" placeholder="e.g. Data Science" value={formData.major}
+                      type="text" placeholder="e.g. Data Science" value={formData.degreeName}
                       onChange={(e) => {
-                        setFormData({ ...formData, major: e.target.value });
-                        if (errors.major) setErrors({ ...errors, major: false });
+                        setFormData({ ...formData, degreeName: e.target.value });
+                        if (errors.degreeName) setErrors({ ...errors, degreeName: false });
                       }}
-                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.major ? 'border-red-500/50' : 'border-white/5 focus:border-[#f1b441]/50'}`}
+                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.degreeName ? 'border-red-500/50' : 'border-white/5 focus:border-[#f1b441]/50'}`}
                     />
                   </div>
                 </motion.div>

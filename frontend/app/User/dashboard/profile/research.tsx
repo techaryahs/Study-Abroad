@@ -8,9 +8,10 @@ interface ResearchProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  initialData?: any;
 }
 
-export default function Research({ isOpen, onClose, onSubmit }: ResearchProps) {
+export default function Research({ isOpen, onClose, onSubmit, initialData }: ResearchProps) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
@@ -19,6 +20,26 @@ export default function Research({ isOpen, onClose, onSubmit }: ResearchProps) {
     url: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        title: initialData.title || "",
+        publisher: initialData.publisher || "",
+        date: initialData.date ? new Date(initialData.date).toISOString().split('T')[0] : "",
+        url: initialData.url || "",
+        description: initialData.description || "",
+      });
+    } else {
+        setFormData({
+            title: "",
+            publisher: "",
+            date: "",
+            url: "",
+            description: "",
+          });
+    }
+  }, [initialData, isOpen]);
 
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
@@ -122,7 +143,7 @@ export default function Research({ isOpen, onClose, onSubmit }: ResearchProps) {
           <div className="mt-auto pt-8 flex gap-4">
             {step > 0 && <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-white/40 border border-white/10 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>}
             <button onClick={nextStep} className="flex-[2] py-4 bg-[#607D8B] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#455A64] transition-all shadow-[0_0_30px_rgba(96,125,139,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2">
-              {step === 2 ? 'Incorporate Discovery' : 'Continue'} <ArrowRight size={16} />
+              {step === 2 ? 'Submit' : 'Continue'} <ArrowRight size={16} />
             </button>
           </div>
         </div>

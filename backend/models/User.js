@@ -45,9 +45,44 @@ const UserSchema = new mongoose.Schema(
       profileImage: { type: String, default: null },
       bio: { type: String, default: "" },
       location: { type: String, default: "" },
+      portfolio: { type: String, default: "" },
+      linkedin: { type: String, default: "" },
+
+      // QUIZ TRACKING
+      services: {
+        quiz: {
+          attempted: { type: Boolean, default: false },
+          totalAttempts: { type: Number, default: 0 },
+          bestScore: { type: Number, default: 0 },
+          lastAttemptAt: { type: Date, default: null }
+        }
+      },
+      // EXTENDED SERVICE USAGE
+      serviceActivity: {
+        resumeBuilder: {
+          used: { type: Boolean, default: false },
+          lastUsedAt: Date
+        },
+        careerRoadmap: {
+          used: { type: Boolean, default: false },
+          lastUsedAt: Date,
+          careerPathName: String
+        }
+      },
+
+      // 🔥 NEW REGISTRATION / DASHBOARD CARD DATA 🔥
+      highSchool: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      underGrad: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      masters: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      testScores: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      workExperience: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      research: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      projects: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      volunteering: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      targetUniversities: { type: [mongoose.Schema.Types.Mixed], default: [] },
     }
   },
-  { timestamps: true, autoCreate: false, autoIndex: false }
+  { timestamps: true }
 );
 
 // Pre-save hook to hash password
@@ -64,4 +99,7 @@ UserSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.models.User || mongoose.model("User", UserSchema);
+if (mongoose.models && mongoose.models.User) {
+  delete mongoose.models.User;
+}
+module.exports = mongoose.model("User", UserSchema);

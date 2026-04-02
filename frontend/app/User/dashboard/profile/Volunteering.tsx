@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Heart, Calendar, CheckCircle, ArrowRight, ArrowLeft, Globe } from 'lucide-react';
 
@@ -8,9 +6,10 @@ interface VolunteeringProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  initialData?: any;
 }
 
-export default function AddVolunteer({ isOpen, onClose, onSubmit }: VolunteeringProps) {
+export default function AddVolunteer({ isOpen, onClose, onSubmit, initialData }: VolunteeringProps) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     organization: "",
@@ -21,6 +20,30 @@ export default function AddVolunteer({ isOpen, onClose, onSubmit }: Volunteering
     cause: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        organization: initialData.organization || "",
+        role: initialData.role || "",
+        startDate: initialData.startDate ? new Date(initialData.startDate).toISOString().split('T')[0] : "",
+        endDate: initialData.endDate ? new Date(initialData.endDate).toISOString().split('T')[0] : "",
+        isOngoing: initialData.isOngoing || false,
+        cause: initialData.cause || "",
+        description: initialData.description || "",
+      });
+    } else {
+        setFormData({
+            organization: "",
+            role: "",
+            startDate: "",
+            endDate: "",
+            isOngoing: false,
+            cause: "",
+            description: "",
+          });
+    }
+  }, [initialData, isOpen]);
 
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 

@@ -264,6 +264,15 @@ export default function EB1Page() {
                    time: "1-2 Months", 
                    img: "/eb1-hero.png",
                    align: "left"
+                 },
+                 { 
+                   step: "Phase 04", 
+                   title: "Decision Node", 
+                   desc: "Receive your official I-797 approval notice.", 
+                   time: "15 Days / 8 Mo", 
+                   img: "/eb1-step4.png",
+                   align: "right",
+                   premium: true
                  }
                ].map((phase, i) => (
                  <motion.div 
@@ -281,12 +290,30 @@ export default function EB1Page() {
                     </div>
 
                     {/* CONTENT NODE */}
-                    <div className="md:w-1/2 space-y-4 px-6">
+                    <div className="md:w-1/2 space-y-4 px-6 text-left">
                        <h3 className="text-xl md:text-2xl font-black italic uppercase group-hover:text-gold-500 transition-colors uppercase">{phase.title}</h3>
                        <p className="text-white/30 text-[13px] font-medium italic leading-relaxed uppercase tracking-tight">{phase.desc}</p>
-                       <div className="flex items-center gap-4 pt-4">
-                          <span className="text-[10px] font-black text-white/10 uppercase tracking-widest border border-white/5 px-4 py-1.5 rounded-full uppercase italic">Cycle: {phase.time}</span>
-                       </div>
+                       
+                       {phase.premium ? (
+                          <div className="space-y-3 pt-4">
+                             <div className="flex gap-4 items-center">
+                                <div className="bg-gold-500/10 border border-gold-500/20 px-4 py-2 rounded-xl flex items-center justify-between gap-6 w-full">
+                                   <span className="text-[10px] font-black text-gold-500 uppercase tracking-widest">Premium Node</span>
+                                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">15 Calendar Days</span>
+                                </div>
+                             </div>
+                             <div className="flex gap-4 items-center">
+                                <div className="bg-white/[0.02] border border-white/5 px-4 py-2 rounded-xl flex items-center justify-between gap-6 w-full opacity-40">
+                                   <span className="text-[10px] font-black text-white/60 uppercase tracking-widest">Standard Node</span>
+                                   <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">4-8 Months</span>
+                                </div>
+                             </div>
+                          </div>
+                       ) : (
+                          <div className="flex items-center gap-4 pt-4">
+                             <span className="text-[10px] font-black text-white/10 uppercase tracking-widest border border-white/5 px-4 py-1.5 rounded-full uppercase italic">Cycle: {phase.time}</span>
+                          </div>
+                       )}
                     </div>
                  </motion.div>
                ))}
@@ -336,20 +363,25 @@ export default function EB1Page() {
 
                <div className="grid grid-cols-1 gap-4">
                   {[
-                    { name: "USA (O-1 Visa)", desc: "Priority Work Node.", flag: "🇺🇸" },
-                    { name: "UK (Global Talent)", desc: "Direct Global PR.", flag: "🇬🇧" },
-                    { name: "Australia (National Innovation)", desc: "Priority Access Node.", flag: "🇦🇺" }
+                    { name: "USA (O-1 Visa)", desc: "Priority Work Node.", flag: "US", path: "/services/o1" },
+                    { name: "UK (Global Talent)", desc: "Direct Global PR.", flag: "GB", path: "/services/uk-global-talent" },
+                    { name: "Australia (National Innovation)", desc: "Priority Access Node.", flag: "AU", path: "/services/australia-national-innovation" }
                   ].map((path, i) => (
-                    <div key={i} className="glass-card p-6 flex items-center justify-between border border-white/5 hover:border-gold-500/20 group transition-all duration-700 cursor-pointer">
-                       <div className="flex items-center gap-6">
-                          <span className="text-xl grayscale group-hover:grayscale-0 opacity-20 group-hover:opacity-100 transition-all">{path.flag}</span>
-                          <div>
-                             <h4 className="text-sm font-black uppercase italic group-hover:text-gold-500 transition-colors uppercase tracking-tight">{path.name}</h4>
-                             <p className="text-white/20 text-[9px] font-bold uppercase tracking-widest pt-1 italic">{path.desc}</p>
+                    <Link key={i} href={path.path}>
+                       <motion.div 
+                         whileHover={{ x: 10 }}
+                         className="glass-card p-6 flex items-center justify-between border border-white/5 hover:border-gold-500/20 group transition-all duration-700 cursor-pointer rounded-full"
+                        >
+                          <div className="flex items-center gap-6">
+                             <span className="text-[10px] font-black italic text-white/10 group-hover:text-gold-500 transition-colors uppercase tracking-[0.4em]">{path.flag}</span>
+                             <div>
+                                <h4 className="text-sm font-black uppercase italic group-hover:text-gold-500 transition-colors uppercase tracking-tight">{path.name}</h4>
+                                <p className="text-white/20 text-[9px] font-bold uppercase tracking-widest pt-1 italic">{path.desc}</p>
+                             </div>
                           </div>
-                       </div>
-                       <ChevronDown className="-rotate-90 text-white/10 group-hover:text-gold-500 transition-colors" size={14} />
-                    </div>
+                          <ChevronDown className="-rotate-90 text-white/20 group-hover:text-gold-500 transition-colors" size={14} />
+                       </motion.div>
+                    </Link>
                   ))}
                </div>
             </div>
