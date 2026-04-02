@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getToken } from "@/app/lib/token";
 import { HighSchoolModal, SuccessModal } from "./profile/HighSchool";
 import { UnderGradModal } from "./profile/UnderGrad";
 import { MastersModal } from "./profile/Masters";
@@ -60,6 +62,15 @@ export default function DashboardPage() {
   const [openModal, setOpenModal] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [router]);
 
   const BACKEND_URL = "http://localhost:5000";
   const visibleCount = 3;

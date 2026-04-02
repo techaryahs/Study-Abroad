@@ -16,10 +16,10 @@ exports.register = async (req, res) => {
     const { name, email, mobile, password, dob, gender, country, state } = req.body;
     const normalizedEmail = email.toLowerCase().trim();
 
-    // 🔍 Check existing user
-    const existingUser = await User.findOne({ email: normalizedEmail });
-    if (existingUser) {
-      return res.status(400).json({ error: "Email already registered" });
+    // 🔍 2️⃣ Check if Email is Verified in otpStore
+    const storedData = otpStore.get(normalizedEmail);
+    if (!storedData || !storedData.verified) {
+      return res.status(400).json({ error: "Email not verified. Please verify your email before registering." });
     }
 
     // 👤 Create user
@@ -35,77 +35,21 @@ exports.register = async (req, res) => {
       role: "student",
       profile: {
         isPremium: false,
-        isVerified: false
+        isVerified: true // ✅ Marked as verified since we checked otpStore
       }
     });
 
     await newUser.save();
 
-    // 🔢 Generate OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes from now
-    otpStore.set(normalizedEmail, { otp, expiresAt });
+    // 🔢 3️⃣ Cleanup otpStore
+    otpStore.delete(normalizedEmail);
 
-    console.log("📌 Generated OTP for student:", otp, "Expires at:", new Date(expiresAt).toLocaleString());
+    console.log(`✅ Student Registered Successfully: ${normalizedEmail}`);
 
-    // 📧 Send OTP
-    await sendEmail(
-      normalizedEmail,
-      "Verify Your Email - CareerGenAI",
-      "",
-      `
-      <div style="max-width:600px;margin:auto;font-family:Arial,sans-serif;
-                  background:#ffffff;border-radius:10px;
-                  box-shadow:0 10px 25px rgba(0,0,0,0.1);overflow:hidden;">
-
-        <div style="background:#1e40af;padding:20px;text-align:center;color:white;">
-          <h1 style="margin:0;">CareerGenAI</h1>
-          <p style="margin:5px 0;font-size:14px;">AI Powered Career Guidance</p>
-        </div>
-
-        <div style="padding:30px;color:#0f172a;">
-          <h2>Hello ${name}, 👋</h2>
-
-          <p>
-            Thank you for registering with <b>CareerGenAI</b>.
-            Please use the OTP below to verify your email address.
-          </p>
-
-          <div style="text-align:center;margin:30px 0;">
-            <span style="
-              display:inline-block;
-              padding:15px 30px;
-              font-size:28px;
-              letter-spacing:6px;
-              background:#f1f5f9;
-              border-radius:8px;
-              color:#1e40af;
-              font-weight:bold;">
-              ${otp}
-            </span>
-          </div>
-
-          <p style="font-size:14px;">
-            ⏰ This OTP is valid for <b>10 minutes</b>.
-          </p>
-
-          <p style="font-size:14px;color:#64748b;">
-            If you didn’t request this, you can safely ignore this email.
-          </p>
-
-          <hr style="margin:30px 0;" />
-
-          <p style="font-size:12px;color:#94a3b8;">
-            © ${new Date().getFullYear()} CareerGenAI. All rights reserved.
-          </p>
-        </div>
-      </div>
-      `
-    );
-
-    res.status(200).json({
-      message: "OTP sent to email successfully",
-      email: normalizedEmail,
+    // 4️⃣ Send Success Response
+    res.status(201).json({ 
+      message: "Student registered successfully. Welcome aboard!",
+      user: { id: newUser._id, name: newUser.name, email: newUser.email }
     });
   } catch (err) {
     console.error("❌ Registration error:", err);
@@ -113,103 +57,82 @@ exports.register = async (req, res) => {
   }
 };
 
+
+
 /* =========================
-   RESEND OTP
+   SEND OTP FOR SIGNUP (Pre-Registration)
 ========================= */
-exports.resendOtp = async (req, res) => {
+exports.sendOtpSignup = async (req, res) => {
   try {
     const { email } = req.body;
-    if (!email) {
-      console.warn("⚠️ Resend OTP called without email");
-      return res.status(400).json({ error: "Email is required to resend OTP" });
-    }
+    if (!email) return res.status(400).json({ error: "Email is required" });
     const normalizedEmail = email.toLowerCase().trim();
 
-    // Check if user exists
-    const user = await User.findOne({ email: normalizedEmail });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    // 1️⃣ Check if already registered
+    const existingUser = await User.findOne({ email: normalizedEmail });
+    if (existingUser) {
+      return res.status(400).json({ error: "Email already registered. Please log in." });
     }
 
-    if (user.profile && user.profile.isVerified) {
-      return res.status(400).json({ message: "User is already verified" });
-    }
-
-    // Generate OTP
+    // 2️⃣ Generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = Date.now() + 10 * 60 * 1000;
-    otpStore.set(normalizedEmail, { otp, expiresAt });
+    otpStore.set(normalizedEmail, { otp, expiresAt, verified: false });
 
-    console.log(`📌 Resent OTP for ${normalizedEmail}: ${otp} (Expires: ${new Date(expiresAt).toLocaleTimeString()})`);
+    console.log(`📌 OTP for Signup (${normalizedEmail}): ${otp}`);
 
+    // 3️⃣ Send Email
     await sendEmail(
       normalizedEmail,
-      "Resend - Verify Your Email",
+      "Verify Your Email - StudyAbroad",
       "",
-      `<div style="font-family:Arial,sans-serif;padding:20px;">
-         <h2>Hello ${user.name},</h2>
-         <p>Here is your new OTP for verification:</p>
-         <h1 style="color:#1e40af;letter-spacing:5px;">${otp}</h1>
-         <p>Valid for 10 minutes.</p>
+      `<div style="font-family:serif;padding:30px;background:#090909;color:white;border-radius:20px;">
+         <h2 style="color:#EAB308;font-style:italic;font-size:24px;">Confirm Your Identity</h2>
+         <p style="color:#9ca3af;">Use the code below to verify your email for StudyAbroad.</p>
+         <div style="background:#1a1a1a;color:#EAB308;padding:25px;text-align:center;font-size:36px;letter-spacing:12px;font-weight:900;border-radius:15px;margin:25px 0;border:1px solid #EAB308/20;">
+           ${otp}
+         </div>
+         <p style="font-size:12px;color:#4b5563;">This code expires in 10 minutes. If you didn't request this, ignore this email.</p>
        </div>`
     );
 
-    res.json({ message: "OTP resent successfully" });
-
+    res.json({ message: "Verification code sent successfully" });
   } catch (err) {
-    console.error("❌ Resend OTP error:", err);
-    res.status(500).json({ error: "Server error" });
+    console.error("❌ sendOtpSignup Error:", err);
+    res.status(500).json({ error: "Failed to send verification code" });
   }
 };
 
 /* =========================
-   VERIFY OTP
+   VERIFY OTP FOR SIGNUP
 ========================= */
-exports.verifyOtp = async (req, res) => {
+exports.verifyOtpSignup = async (req, res) => {
   try {
     const { email, otp } = req.body;
     const normalizedEmail = email?.toLowerCase().trim();
     const storedData = otpStore.get(normalizedEmail);
 
-    console.log("📌 OTP Verification Attempt:");
-    console.log("   - Email:", normalizedEmail);
-    console.log("   - Entered OTP:", otp);
-    console.log("   - Stored Data:", storedData);
-
     if (!storedData) {
-      return res.status(400).json({ error: 'No OTP found for this email. Please register again.' });
+      return res.status(400).json({ error: "Verification record not found. Please try again." });
     }
 
-    // Robust comparison (string vs string)
-    const isOtpMatch = storedData.otp.toString() === otp.toString();
-    const isExpired = Date.now() > storedData.expiresAt;
-
-    if (!isOtpMatch) {
-      console.warn("   ❌ OTP Mismatch");
-      return res.status(400).json({ error: 'Invalid OTP' });
+    if (storedData.otp.toString() !== otp.toString()) {
+      return res.status(400).json({ error: "Invalid verification code" });
     }
 
-    if (isExpired) {
-      console.warn("   ❌ OTP Expired");
+    if (Date.now() > storedData.expiresAt) {
       otpStore.delete(normalizedEmail);
-      return res.status(400).json({ error: 'OTP has expired. Please resend.' });
+      return res.status(400).json({ error: "Verification code has expired" });
     }
 
-    console.log("   ✅ OTP Verified Successfully");
+    // ✅ Mark as verified
+    storedData.verified = true;
+    otpStore.set(normalizedEmail, storedData);
 
-    // Find User to get ID, then update Profile
-    const user = await User.findOne({ email: normalizedEmail });
-    if (user) {
-      user.profile.isVerified = true;
-      await user.save();
-    }
-
-    otpStore.delete(normalizedEmail);
-    res.json({ message: 'OTP verified successfully' });
-
-  } catch (error) {
-    console.error("❌ verifyOtp Error:", error);
-    res.status(500).json({ error: "Server error during verification" });
+    res.json({ message: "Email verified successfully", verified: true });
+  } catch (err) {
+    console.error("❌ verifyOtpSignup Error:", err);
+    res.status(500).json({ error: "Verification failed" });
   }
 };
 
@@ -309,10 +232,19 @@ exports.registerConsultant = async (req, res) => {
       image
     } = req.body;
 
-    // 1️⃣ HANDLE MULTIPART (FormData) PARSING
-    if (req.file) {
-      image = `/uploads/${req.file.filename}`;
+    const normalizedEmail = email?.toLowerCase().trim();
+
+    // 🔍 Check if Email is Verified in otpStore
+    const storedData = otpStore.get(normalizedEmail);
+    if (!storedData || !storedData.verified) {
+      return res.status(400).json({ error: "Email not verified. Please verify your email before registering." });
     }
+
+    // 1️⃣ HANDLE MULTIPART (FormData) PARSING
+    if (!req.file) {
+      return res.status(400).json({ error: "Profile image is required for consultants." });
+    }
+    image = `/uploads/${req.file.filename}`;
 
     if (typeof availability === 'string') {
       try {
@@ -322,10 +254,8 @@ exports.registerConsultant = async (req, res) => {
       }
     }
 
-    const normalizedEmail = email?.toLowerCase().trim();
-
-    if (!normalizedEmail || !password || !name) {
-      return res.status(400).json({ error: "Missing required basic fields (name, email, password)" });
+    if (!normalizedEmail || !password || !name || !consultantRole || !expertise || !experience || !bio) {
+      return res.status(400).json({ error: "Missing required professional profile fields." });
     }
 
     // 2️⃣ CHECK UNIQUE EMAIL
@@ -354,37 +284,30 @@ exports.registerConsultant = async (req, res) => {
       password: password,
       role: "consultant",
       profile: {
-          isPremium: true,
-          isVerified: false,
-          consultantProfile: newConsultant._id
+        isPremium: true,
+        isVerified: true, // ✅ Marked as verified since we checked otpStore
+        consultantProfile: newConsultant._id
       }
     });
+
     await newUser.save();
 
     // 4️⃣ SAVE CONSULTANT
-    newConsultant.user = newUser._id;
-    await newConsultant.save();
+    try {
+      newConsultant.user = newUser._id;
+      await newConsultant.save();
+    } catch (consultantErr) {
+      // Rollback User creation if Consultant fails to save
+      await User.findByIdAndDelete(newUser._id);
+      throw consultantErr; 
+    }
 
-    // 7️⃣ GENERATE & SEND OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = Date.now() + 10 * 60 * 1000;
-    otpStore.set(normalizedEmail, { otp, expiresAt });
-
-    console.log("📌 Generated OTP for Consultant:", otp);
-
-    const emailHtml = `
-        <div style="font-family:Arial,sans-serif;padding:20px;">
-        <h2>Hello ${name}, 👋</h2>
-        <p>Thank you for registering as a Consultant on <b>CareerGenAI</b>.</p>
-        <p>Your OTP is: <b style="font-size:24px;color:#1e40af;">${otp}</b></p>
-        <p>This OTP is valid for 10 minutes.</p>
-      </div>
-        `;
-
-    await sendEmail(normalizedEmail, "Verify Consultant Account - CareerGenAI", "", emailHtml);
+    // 🔢 Cleanup otpStore
+    otpStore.delete(normalizedEmail);
+    console.log(`✅ Consultant Registered Successfully: ${normalizedEmail}`);
 
     res.status(201).json({
-      message: "OTP sent successfully. Please verify to complete registration.",
+      message: "Consultant registered successfully. Welcome to the Elite.",
       email: normalizedEmail
     });
 
@@ -425,8 +348,8 @@ exports.registerParent = async (req, res) => {
       password,
       role: "parent",
       profile: {
-          parentOf: [student._id],
-          isVerified: false
+        parentOf: [student._id],
+        isVerified: false
       }
     });
     await parent.save();

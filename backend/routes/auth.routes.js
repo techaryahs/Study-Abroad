@@ -12,8 +12,9 @@ router.post("/register-parent", authCtrl.registerParent); // ✅ Parent register
 const upload = require("../config/multer.config");
 router.post("/register-consultant", upload.single('image'), authCtrl.registerConsultant); // ✅ Consultant register (NEW)
 
-router.post("/verify-otp", authCtrl.verifyOtp);
-router.post("/resend-otp", authCtrl.resendOtp);
+router.post("/send-otp-signup", authCtrl.sendOtpSignup);
+router.post("/verify-otp-signup", authCtrl.verifyOtpSignup);
+
 router.post("/login", authCtrl.login);
 
 router.post("/forgot-password", authCtrl.forgotPassword);
