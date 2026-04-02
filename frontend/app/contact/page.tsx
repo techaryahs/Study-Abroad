@@ -1,8 +1,19 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function ContactPage() {
+  const searchParams = useSearchParams();
+  const service = searchParams.get("service");
+  const [inquiry, setInquiry] = useState("");
+
+  useEffect(() => {
+    if (service) {
+      setInquiry(`I am interested in the ${service.replace("-", " ")} service node. Specifically, I would like to discuss my candidacy for...`);
+    }
+  }, [service]);
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -120,7 +131,12 @@ export default function ContactPage() {
 
           <div className="space-y-2">
             <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Architectural Inquiry</label>
-            <textarea className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-5 h-32 focus:border-gold-500 outline-none transition-all duration-500 resize-none placeholder:text-white/5 text-sm" placeholder="What academic peaks are you aiming for?"></textarea>
+            <textarea 
+              value={inquiry}
+              onChange={(e) => setInquiry(e.target.value)}
+              className="w-full bg-white/[0.02] border border-white/5 rounded-xl px-5 py-5 h-32 focus:border-gold-500 outline-none transition-all duration-500 resize-none placeholder:text-white/5 text-sm" 
+              placeholder="What academic peaks are you aiming for?" 
+            />
           </div>
 
           <button className="btn-gold w-full text-center py-4 text-[11px] uppercase tracking-[0.3em] font-black shadow-lg shadow-gold-500/5 hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
