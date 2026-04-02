@@ -1,6 +1,18 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getToken } from "@/app/lib/token";
+import { HighSchoolModal, SuccessModal } from "./profile/HighSchool";
+import { UnderGradModal } from "./profile/UnderGrad";
+import { MastersModal } from "./profile/Masters";
+import { TargetUniversityModal } from "./profile/TargetUniversity";
+import TestScoresModal from "./profile/TestScores";
+import WorkExpModal from "./profile/WorkExp";
+import ResearchModal from "./profile/research";
+import { AnimatePresence } from "framer-motion";
+import ProjectFormModal from "./profile/Add-Projects";
+import AddVolunteer from "./profile/Volunteering";
 
 interface ProfileCard {
   id: number;
@@ -26,7 +38,17 @@ export default function ProfileRecommendationsPage() {
   const [cards, setCards] = useState<ProfileCard[]>(initialCards);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [openFormId, setOpenFormId] = useState<number | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      router.push("/auth/login");
+    }
+  }, [router]);
 
   const visibleCount = 3;
   const addedCount = cards.filter((c) => c.added).length;
@@ -68,71 +90,81 @@ export default function ProfileRecommendationsPage() {
             </h2>
           </div>
 
-{openFormId && (
-  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-    <div className="w-[750px] bg-white rounded-xl shadow-xl flex overflow-hidden">
-      
-      {/* LEFT PANEL */}
-      <div className="w-1/3 bg-yellow-400 flex flex-col items-center justify-center text-center p-6">
-        <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center mb-4">
-          📋
-        </div>
-        <h2 className="text-lg font-semibold text-white">
-          {cards.find(c => c.id === openFormId)?.title}
-        </h2>
-        <p className="text-sm text-white mt-3">
-          Include your professional or academic details here.
-        </p>
-      </div>
+        <AnimatePresence>
+          {openFormId === 1 && (
+            <TargetUniversityModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(1, "add"); }} 
+            />
+          )}
 
-      {/* RIGHT PANEL */}
-      <div className="w-2/3 p-6">
-        
-        {/* HEADER */}
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="font-semibold text-gray-700">
-            {cards.find(c => c.id === openFormId)?.title}
-          </h3>
-          <button
-            onClick={() => setOpenFormId(null)}
-            className="text-gray-500 hover:text-black"
-          >
-            ✕
-          </button>
-        </div>
+          {openFormId === 2 && (
+            <HighSchoolModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(2, "add"); }} 
+            />
+          )}
 
-        {/* PROGRESS */}
-        <div className="w-full bg-gray-200 h-1 rounded mb-6">
-          <div className="w-1/3 h-1 bg-gray-400 rounded"></div>
-        </div>
+          {openFormId === 3 && (
+            <UnderGradModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(3, "add"); }} 
+            />
+          )}
 
-        {/* FORM FIELDS (dummy for now) */}
-        <div className="space-y-4">
-          <input
-            type="text"
-            placeholder="Project title"
-            className="w-full border rounded-lg p-2 text-sm"
-          />
-          <input
-            type="text"
-            placeholder="Role"
-            className="w-full border rounded-lg p-2 text-sm"
-          />
-          <select className="w-full border rounded-lg p-2 text-sm">
-            <option>Select Purpose</option>
-          </select>
-        </div>
+          {openFormId === 4 && (
+            <MastersModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(4, "add"); }} 
+            />
+          )}
 
-        {/* BUTTON */}
-        <div className="flex justify-end mt-6">
-          <button className="bg-emerald-500 text-white px-5 py-2 rounded-lg">
-            Next
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+          {openFormId === 5 && (
+            <TestScoresModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(5, "add"); }} 
+            />
+          )}
+
+          {openFormId === 6 && (
+            <WorkExpModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(6, "add"); }} 
+            />
+          )}
+
+          {openFormId === 7 && (
+            <ResearchModal 
+              isOpen={true} 
+              onClose={() => setOpenFormId(null)} 
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(7, "add"); }} 
+            />
+          )}
+
+          {openFormId === 8 && (
+            <ProjectFormModal
+              isOpen={true}
+              onClose={() => setOpenFormId(null)}
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(8, "add"); }}
+            />
+          )}
+            
+          {openFormId === 9 && (
+            <AddVolunteer
+              isOpen={true}
+              onClose={() => setOpenFormId(null)}
+              onSubmit={() => { setOpenFormId(null); setShowSuccess(true); handleAction(9, "add"); }}
+            />
+          )}
+
+          {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
+        </AnimatePresence>
 
           {/* Profile Status */}
           <div className="mb-8">
@@ -169,13 +201,7 @@ export default function ProfileRecommendationsPage() {
               {visibleCards.map((card) => (
                 <div
                   key={card.id}
-                  className={`rounded-xl border p-5 flex flex-col gap-3 transition-all duration-300 ${
-                    card.added
-                      ? "border-emerald-300 bg-emerald-50"
-                      : card.skipped
-                      ? "border-gray-200 bg-gray-50 opacity-60"
-                      : "border-gray-200 bg-white hover:shadow-md"
-                  }`}
+                  className="rounded-xl border border-gray-200 bg-white hover:shadow-md p-5 flex flex-col gap-3 transition-all duration-300"
                 >
                   <div className="flex items-start gap-3">
                     <span className="text-3xl leading-none">{card.icon}</span>
@@ -189,47 +215,23 @@ export default function ProfileRecommendationsPage() {
                     </div>
                   </div>
 
-                  {card.added ? (
-                    <div className="flex items-center gap-2 mt-auto">
-                      <span className="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                        ✓ Added
-                      </span>
-                      <button
-                        onClick={() => handleAction(card.id, "skip")}
-                        className="ml-auto text-xs text-gray-400 underline hover:text-gray-600"
-                      >
-                        Undo
-                      </button>
-                    </div>
-                  ) : card.skipped ? (
-                    <div className="flex items-center gap-2 mt-auto">
-                      <span className="text-xs text-gray-400 font-medium">Skipped</span>
-                      <button
-                        onClick={() => handleAction(card.id, "add")}
-                        className="ml-auto text-xs text-emerald-600 underline hover:text-emerald-800"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex gap-2 mt-auto">
-                      <button
-                        onClick={() => handleAction(card.id, "skip")}
-                        className="flex-1 py-2 rounded-lg text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
-                      >
-                        Skip
-                      </button>
-                      <button
-                        onClick={() => {
-                          handleAction(card.id, "add");
-                          setOpenFormId(card.id); // open form
-}}
-                        className="flex-1 py-2 rounded-lg text-sm font-semibold text-white bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all"
-                      >
-                        Add
-                      </button>
-                    </div>
-                  )}
+                  <div className="flex gap-2 mt-auto">
+                    <button
+                      onClick={() => handleAction(card.id, "skip")}
+                      className="flex-1 py-2 rounded-lg text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors"
+                    >
+                      Skip
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleAction(card.id, "add");
+                        setOpenFormId(card.id);
+                      }}
+                      className="flex-1 py-2 rounded-lg text-sm font-semibold text-white bg-emerald-500 hover:bg-emerald-600 active:scale-95 transition-all"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
