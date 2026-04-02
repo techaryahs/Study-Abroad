@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const bookingSchema = new mongoose.Schema({
   userEmail: { type: String, required: true },
@@ -13,11 +14,11 @@ const slotSchema = new mongoose.Schema({
 }, { _id: false });
 
 const consultantSchema = new mongoose.Schema({
-  user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
-  },
+  email: { type: String, unique: true },
+  password: { type: String, required: true },
+  mobile: { type: String },
+  isVerified: { type: Boolean, default: false },
+
   name: { type: String, required: true },
   email: { type: String },
   role: { type: String, required: true }, // job role (Career Counselor, etc.)
@@ -29,6 +30,18 @@ const consultantSchema = new mongoose.Schema({
   isPremium: { type: Boolean, default: false },
   availability: [slotSchema],
   bookings: [bookingSchema]
-}, { timestamps: true });
+}, { timestamps: true, autoCreate: false, autoIndex: false });
+
+// Pre-save hook to hash password
+consultantSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// Method to verify password
+consultantSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
 
 module.exports = mongoose.models.Consultant || mongoose.model('Consultant', consultantSchema);

@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const progressReportSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Student",
     required: true,
     unique: true,
     index: true,

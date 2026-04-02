@@ -25,7 +25,7 @@ import {
   ShoppingCart,
 } from "lucide-react";
 import { useEffect } from "react";
-import { getUser, removeToken } from "@/app/lib/token";
+import { getUser, removeToken, clearAuth } from "@/app/lib/token";
 import Image from "next/image";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -251,6 +251,11 @@ export default function Navbar() {
               ...data,
               ...data.profile, // Profile fields like profileImage, gender might be flat or nested
             });
+          } else if (response.status === 401 || response.status === 404) {
+            // Token is likely invalid or stale for this collection
+            console.warn("Auth token invalid or user not found. Clearing session.");
+            clearAuth();
+            setUserState(null);
           }
         } catch (error) {
           console.error("Failed to fetch full user profile in Navbar:", error);
@@ -340,10 +345,6 @@ export default function Navbar() {
                       <Link href="/auth/RegisterConsultant" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
                         <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">💼</span>
                         <span className="group-hover/item:text-yellow-400 transition-colors">Consultant</span>
-                      </Link>
-                      <Link href="/auth/RegisterParent" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
-                        <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">👪</span>
-                        <span className="group-hover/item:text-yellow-400 transition-colors">Parent</span>
                       </Link>
                     </div>
                   </div>

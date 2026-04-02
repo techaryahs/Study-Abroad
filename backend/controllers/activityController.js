@@ -10,9 +10,8 @@ exports.recordHeartbeat = async (req, res) => {
     const { userId, role, name, email } = req.body;
     
     // Determine the collection model name based on role
-    // 'student'/'parent' -> 'User'
-    // 'consultant' -> 'Consultant'
-    let userModel = 'User';
+    let userModel = 'User'; // Default for Parent/Admin
+    if (role === 'student') userModel = 'Student';
     if (role === 'consultant') userModel = 'Consultant';
 
     // Find the most recent active session for this user (e.g. within last 30 mins)

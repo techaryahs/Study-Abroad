@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getToken } from "@/app/lib/token";
+import { getToken, clearAuth } from "@/app/lib/token";
 import { HighSchoolModal, SuccessModal } from "./profile/HighSchool";
 import { UnderGradModal } from "./profile/UnderGrad";
 import { MastersModal } from "./profile/Masters";
@@ -68,6 +68,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const token = getToken();
     if (!token) {
+      clearAuth(); // Explicitly clear any partial/corrupt data
       router.push("/auth/login");
     }
   }, [router]);
@@ -106,9 +107,14 @@ export default function DashboardPage() {
         const data = await response.json();
         setUserData(data);
         updateCardStatus(data.profile);
+      } else if (response.status === 401 || response.status === 404) {
+        // Token is likely invalid or stale
+        console.warn("Auth token invalid on dashboard. Redirecting to login.");
+        clearAuth();
+        router.push("/auth/login");
       }
     } catch (error) {
-      console.error("Failed to fetch profile:", error);
+      console.error("Error fetching profile:", error);
     } finally {
       setLoading(false);
     }
@@ -163,7 +169,9 @@ export default function DashboardPage() {
 
   const addedCount = cards.filter((c) => c.added).length;
   const total = cards.length + 1;
-  const completedCount = addedCount + (userData?.profile?.bio ? 1 : 0);
+  const isConsultant = userData?.role === "consultant";
+  const bioValue = userData?.profile?.bio || userData?.bio;
+  const completedCount = addedCount + (bioValue ? 1 : 0);
 
   const scroll = (direction: "left" | "right") => {
     const next =
@@ -217,8 +225,8 @@ export default function DashboardPage() {
             {/* Left-Aligned Profile Image */}
             <div className="relative">
               <div className="w-56 h-56 rounded-[2.5rem] border-[10px] border-black/50 bg-white/5 shadow-2xl overflow-hidden relative group/img">
-                {userData?.profile?.profileImage ? (
-                  <Image src={`${BACKEND_URL}${userData.profile.profileImage}`} alt="Profile" fill className="object-cover transition-transform duration-700 group-hover/img:scale-110" />
+                {(userData?.profile?.profileImage || userData?.image) ? (
+                  <Image src={`${BACKEND_URL}${userData?.profile?.profileImage || userData?.image}`} alt="Profile" fill className="object-cover transition-transform duration-700 group-hover/img:scale-110" />
                 ) : (
                   <div className="flex items-center justify-center w-full h-full text-white/10">
                     <User size={100} strokeWidth={1} />
@@ -255,21 +263,21 @@ export default function DashboardPage() {
               <div className="flex flex-wrap items-center gap-12 text-white/50 text-[14px]">
                 <div className="flex items-center gap-3 bg-white/5 px-5 py-2.5 rounded-xl border border-white/5">
                   <MapPin size={20} className="text-[#c9a84c]" />
-                  <span className="font-black uppercase tracking-[0.1em]">{userData?.profile?.location || "Global Citizen"}</span>
+                  <span className="font-black uppercase tracking-[0.1em]">{userData?.profile?.location || userData?.country || "Global Citizen"}</span>
                 </div>
                 <button
                   onClick={() => setOpenModal("bio")}
                   className="bg-[#c9a84c] text-[#0a0a0a] px-8 py-3 rounded-2xl font-black text-[12px] uppercase tracking-[0.2em] hover:bg-[#d4a843] transition-all flex items-center gap-3 shadow-[0_0_30px_rgba(201,168,76,0.2)] active:scale-95"
                 >
                   <Plus size={16} />
-                  {userData?.profile?.bio ? "Update Bio" : "Add Bio"}
+                  {bioValue ? "Update Bio" : "Add Bio"}
                 </button>
               </div>
 
-              {userData?.profile?.bio && (
+              {bioValue && (
                 <div className="max-w-3xl bg-white/5 border-l-[6px] border-[#c9a84c] p-6 rounded-r-3xl backdrop-blur-md">
                   <p className="text-[15px] text-white/70 leading-relaxed font-bold italic tracking-wide">
-                    "{userData.profile.bio}"
+                    "{bioValue}"
                   </p>
                 </div>
               )}
@@ -300,8 +308,8 @@ export default function DashboardPage() {
             <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
               {[
                 { icon: <User size={24} className="text-[#c9a84c]" />, label: "Alias", value: userData?.name || "User" },
-                { icon: <Briefcase size={24} className="text-[#c9a84c]" />, label: "Status", value: userData?.profile?.isPremium ? "Premium Member" : "Standard Member" },
-                { icon: <MapPin size={24} className="text-[#c9a84c]" />, label: "Base", value: userData?.profile?.location || "Not Set" },
+                { icon: <Briefcase size={24} className="text-[#c9a84c]" />, label: "Status", value: (userData?.isPremium || userData?.profile?.isPremium) ? "Premium Member" : "Standard Member" },
+                { icon: <MapPin size={24} className="text-[#c9a84c]" />, label: "Base", value: userData?.profile?.location || userData?.country || "Not Set" },
                 { icon: <Calendar size={24} className="text-[#c9a84c]" />, label: "Joined", value: userData?.createdAt ? new Date(userData.createdAt).toLocaleDateString() : "Recently" },
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-6 group/item">
@@ -315,87 +323,89 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          {/* Section 2: Achievement Journey (Carousel) */}
-          <section className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-xl">
-            <div className="px-10 py-6 border-b border-white/5 flex items-center gap-4 bg-white/[0.02]">
-              <div className="w-1.5 h-8 bg-[#c9a84c] rounded-full"></div>
-              <h2 className="text-[15px] font-bold text-white uppercase tracking-wider">Profile Progress</h2>
-            </div>
-            <div className="p-10">
-              <div className="mb-12 flex items-center gap-12">
-                <div className="flex-1">
-                  <div className="flex justify-between mb-4">
-                    <span className="text-[12px] font-bold text-white/30 uppercase tracking-widest">Completion Status</span>
-                    <span className="text-[16px] font-bold text-[#c9a84c]">{completedCount}/{total}</span>
+          {!isConsultant && (
+            <section className="bg-white/5 backdrop-blur-xl rounded-3xl border border-white/10 overflow-hidden shadow-xl">
+              <div className="px-10 py-6 border-b border-white/5 flex items-center gap-4 bg-white/[0.02]">
+                <div className="w-1.5 h-8 bg-[#c9a84c] rounded-full"></div>
+                <h2 className="text-[15px] font-bold text-white uppercase tracking-wider">Profile Progress</h2>
+              </div>
+              <div className="p-10">
+                <div className="mb-12 flex items-center gap-12">
+                  <div className="flex-1">
+                    <div className="flex justify-between mb-4">
+                      <span className="text-[12px] font-bold text-white/30 uppercase tracking-widest">Completion Status</span>
+                      <span className="text-[16px] font-bold text-[#c9a84c]">{completedCount}/{total}</span>
+                    </div>
+                    <div className="w-full bg-white/5 rounded-full h-3 overflow-hidden border border-white/10 p-0.5">
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: `${(completedCount / total) * 100}%` }}
+                        transition={{ duration: 1.5 }}
+                        className="h-full bg-[#c9a84c] rounded-full"
+                      />
+                    </div>
                   </div>
-                  <div className="w-full bg-white/5 rounded-full h-3 overflow-hidden border border-white/10 p-0.5">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(completedCount / total) * 100}%` }}
-                      transition={{ duration: 1.5 }}
-                      className="h-full bg-[#c9a84c] rounded-full"
-                    />
+                  <div className="flex gap-3">
+                    <button onClick={() => scroll("left")} disabled={currentIndex === 0} className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-all disabled:opacity-5"><ChevronLeft size={20} /></button>
+                    <button onClick={() => scroll("right")} disabled={currentIndex >= initialCards.length - visibleCount} className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-all disabled:opacity-5"><ChevronRight size={20} /></button>
                   </div>
                 </div>
-                <div className="flex gap-3">
-                  <button onClick={() => scroll("left")} disabled={currentIndex === 0} className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-all disabled:opacity-5"><ChevronLeft size={20} /></button>
-                  <button onClick={() => scroll("right")} disabled={currentIndex >= initialCards.length - visibleCount} className="w-10 h-10 rounded-xl border border-white/10 flex items-center justify-center text-white/50 hover:text-[#c9a84c] hover:border-[#c9a84c]/50 transition-all disabled:opacity-5"><ChevronRight size={20} /></button>
+
+                <div className="flex gap-8 overflow-hidden">
+                  {visibleCards.map((card) => (
+                    <div key={card.id} className="flex-1 min-w-[300px] bg-white/[0.02] rounded-3xl border border-white/5 p-8 flex flex-col gap-6 hover:border-[#c9a84c]/30 transition-all group">
+                      <span className="text-4xl">{card.icon}</span>
+                      <div>
+                        <h3 className="font-bold text-white text-[14px] mb-2 uppercase tracking-wide">{card.title}</h3>
+                        <p className="text-[12px] text-white/40 leading-relaxed font-medium">{card.description}</p>
+                      </div>
+                      <button
+                        onClick={() => setOpenModal(card.section)}
+                        className={`mt-4 w-full py-3.5 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all ${card.added ? 'bg-white/5 text-white/20' : 'bg-[#c9a84c] text-[#0a0a0a] hover:bg-[#d4a843]'}`}
+                      >
+                        {card.added ? "Added" : "Add Now"}
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
+            </section>
+          )}
 
-              <div className="flex gap-8 overflow-hidden">
-                {visibleCards.map((card) => (
-                  <div key={card.id} className="flex-1 min-w-[300px] bg-white/[0.02] rounded-3xl border border-white/5 p-8 flex flex-col gap-6 hover:border-[#c9a84c]/30 transition-all group">
-                    <span className="text-4xl">{card.icon}</span>
-                    <div>
-                      <h3 className="font-bold text-white text-[14px] mb-2 uppercase tracking-wide">{card.title}</h3>
-                      <p className="text-[12px] text-white/40 leading-relaxed font-medium">{card.description}</p>
+          {!isConsultant && (
+            <div className="space-y-6">
+              {[
+                { id: 'workExperience', title: "Work Experience", icon: <Briefcase size={24} className="text-[#c9a84c]" />, desc: "Document your career milestones" },
+                { id: 'underGrad', title: "Education", icon: <GraduationCap size={24} className="text-[#c9a84c]" />, desc: "Showcase your academic credentials" },
+                { id: 'projects', title: "Projects", icon: <FileText size={24} className="text-[#c9a84c]" />, desc: "Highlight your technical contributions" },
+                { id: 'volunteering', title: "Volunteering", icon: <Heart size={24} className="text-[#c9a84c]" />, desc: "Share your social contributions" }
+              ].map((sec) => (
+                <section key={sec.id} className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-[#c9a84c]/30 transition-all group cursor-pointer shadow-lg" onClick={() => setOpenModal(sec.id)}>
+                  <div className="px-10 py-8 flex items-center justify-between">
+                    <div className="flex items-center gap-8">
+                      <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-[#c9a84c]/20 transition-all font-bold">
+                        {sec.icon}
+                      </div>
+                      <div>
+                        <h2 className="text-[16px] font-bold text-white uppercase tracking-wider mb-2 group-hover:text-[#c9a84c] transition-colors">{sec.title}</h2>
+                        <p className="text-[12px] text-white/30 font-bold uppercase tracking-widest">{sec.desc}</p>
+                      </div>
                     </div>
-                    <button
-                      onClick={() => setOpenModal(card.section)}
-                      className={`mt-4 w-full py-3.5 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all ${card.added ? 'bg-white/5 text-white/20' : 'bg-[#c9a84c] text-[#0a0a0a] hover:bg-[#d4a843]'}`}
-                    >
-                      {card.added ? "Added" : "Add Now"}
+                    <button className="w-12 h-12 rounded-xl bg-[#c9a84c] text-[#0a0a0a] flex items-center justify-center hover:bg-[#d4a843] transition-all group-hover:scale-105 active:scale-95">
+                      <Plus size={24} />
                     </button>
                   </div>
-                ))}
-              </div>
+                </section>
+              ))}
             </div>
-          </section>
-
-          {/* Section 3: Professional Experience Cards */}
-          <div className="space-y-6">
-            {[
-              { id: 'workExperience', title: "Work Experience", icon: <Briefcase size={24} className="text-[#c9a84c]" />, desc: "Document your career milestones" },
-              { id: 'underGrad', title: "Education", icon: <GraduationCap size={24} className="text-[#c9a84c]" />, desc: "Showcase your academic credentials" },
-              { id: 'projects', title: "Projects", icon: <FileText size={24} className="text-[#c9a84c]" />, desc: "Highlight your technical contributions" },
-              { id: 'volunteering', title: "Volunteering", icon: <Heart size={24} className="text-[#c9a84c]" />, desc: "Share your social contributions" }
-            ].map((sec) => (
-              <section key={sec.id} className="bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-[#c9a84c]/30 transition-all group cursor-pointer shadow-lg" onClick={() => setOpenModal(sec.id)}>
-                <div className="px-10 py-8 flex items-center justify-between">
-                  <div className="flex items-center gap-8">
-                    <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-[#c9a84c]/20 transition-all font-bold">
-                      {sec.icon}
-                    </div>
-                    <div>
-                      <h2 className="text-[16px] font-bold text-white uppercase tracking-wider mb-2 group-hover:text-[#c9a84c] transition-colors">{sec.title}</h2>
-                      <p className="text-[12px] text-white/30 font-bold uppercase tracking-widest">{sec.desc}</p>
-                    </div>
-                  </div>
-                  <button className="w-12 h-12 rounded-xl bg-[#c9a84c] text-[#0a0a0a] flex items-center justify-center hover:bg-[#d4a843] transition-all group-hover:scale-105 active:scale-95">
-                    <Plus size={24} />
-                  </button>
-                </div>
-              </section>
-            ))}
-          </div>
+          )}
 
         </div>
       </div>
 
       {/* ─── MODALS ─── */}
       <AnimatePresence>
-        {openModal === "bio" && <BioModal isOpen={true} onClose={() => setOpenModal(null)} onSubmit={(v) => saveProfileField("bio", v)} initialValue={userData?.profile?.bio} />}
+        {openModal === "bio" && <BioModal isOpen={true} onClose={() => setOpenModal(null)} onSubmit={(v) => saveProfileField("bio", v)} initialValue={bioValue} />}
         {openModal === "linkedin" && <LinkedInModal isOpen={true} onClose={() => setOpenModal(null)} onSubmit={(v) => saveProfileField("linkedin", v)} initialValue={userData?.profile?.linkedin} />}
 
         {openModal === "targetUniversities" && <TargetUniversityModal isOpen={true} onClose={() => setOpenModal(null)} onSubmit={(d: any) => { addProfileItem("targetUniversities", d); }} />}
