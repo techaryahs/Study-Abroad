@@ -7,7 +7,8 @@ import { HighSchoolModal, SuccessModal } from "./profile/HighSchool";
 import { UnderGradModal } from "./profile/UnderGrad";
 import { MastersModal } from "./profile/Masters";
 import { TargetUniversityModal } from "./profile/TargetUniversity";
-import TestScoresModal from "./profile/TestScores";
+import TestScores from "./profile/TestScores";
+import { TestScoresModal } from "./profile/TestScores";
 import WorkExpModal from "./profile/WorkExp";
 import ResearchModal from "./profile/research";
 import { AnimatePresence, motion } from "framer-motion";
@@ -507,7 +508,7 @@ export default function DashboardPage() {
         {openModal === "projects" && <ProjectFormModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("projects", d); }} initialData={editingItem?.data} />}
         {openModal === "volunteering" && <AddVolunteer isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("volunteering", d); }} initialData={editingItem?.data} />}
         {openModal === "targetUniversities" && <TargetUniversityModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("targetUniversities", d); }} initialData={editingItem?.data} />}
-        {openModal === "testScores" && <TestScoresModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("testScores", d); }} initialData={editingItem?.data} />}
+        {openModal === "testScores" && <TestScoresModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (data: any) => { await addProfileItem("testScores", data); }} />}
         {openModal === "bio" && <BioModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (d: any) => { await updateCoreProfile("bio", d); }} initialValue={userData?.profile?.bio} />}
         {openModal === "linkedin" && <LinkedInModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (d: any) => { await updateCoreProfile("linkedin", d); }} initialData={userData?.profile?.linkedin} />}
         {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
