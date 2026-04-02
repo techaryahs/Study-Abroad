@@ -1,274 +1,142 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X, Heart, Calendar, CheckCircle, ArrowRight, ArrowLeft, Globe } from 'lucide-react';
 
-interface Props {
+interface VolunteeringProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit: (data: any) => void;
 }
 
-export default function AddVolunteer({ isOpen, onClose, onSubmit }: Props) {
-  const [step, setStep] = useState(1);
-
-  const [form, setForm] = useState({
+export default function AddVolunteer({ isOpen, onClose, onSubmit }: VolunteeringProps) {
+  const [step, setStep] = useState(0);
+  const [formData, setFormData] = useState({
     organization: "",
     role: "",
     startDate: "",
     endDate: "",
-    ongoing: false,
+    isOngoing: false,
     cause: "",
     description: "",
   });
 
-  const handleChange = (e: any) => {
-    const { name, value, type, checked } = e.target;
-
-    setForm({
-      ...form,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-
-  const isValid = () => {
-    if (step === 1) return form.organization && form.role;
-    if (step === 2) return form.startDate;
-    if (step === 3) return form.cause && form.description;
-    return true;
-  };
+  const [errors, setErrors] = useState<Record<string, boolean>>({});
 
   if (!isOpen) return null;
 
+  const totalSteps = 3;
+  const progressPercent = ((step + 1) / 3) * 100;
+
+  const validateStep = (currentStep: number) => {
+    let newErrors: Record<string, boolean> = {};
+    if (currentStep === 0) {
+      if (!formData.organization.trim()) newErrors.organization = true;
+      if (!formData.role.trim()) newErrors.role = true;
+    } else if (currentStep === 1) {
+      if (!formData.startDate) newErrors.startDate = true;
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const nextStep = () => {
+    if (validateStep(step)) {
+      if (step < 2) setStep(prev => prev + 1);
+      else onSubmit(formData);
+    }
+  };
+
+  const prevStep = () => setStep(prev => Math.max(prev - 1, 0));
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={onClose}
-        className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
-      />
-
-      <motion.div 
-        initial={{ scale: 0.95, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.95, opacity: 0, y: 20 }}
-        className="relative bg-white rounded-2xl w-[820px] flex shadow-2xl overflow-hidden font-sans"
-      >
-
-    {/* LEFT PANEL */}
-    <div className="w-1/3 bg-yellow-400 text-white p-8 flex flex-col justify-center text-center">
-      <h2 className="text-2xl font-bold mb-2">Volunteering Experience</h2>
-      <p className="text-sm opacity-90">
-        List your volunteering activities and contributions.
-      </p>
-    </div>
-
-    {/* RIGHT PANEL */}
-    <div className="w-2/3 p-8 relative text-black">
-
-      {/* CLOSE */}
-      <button
-        onClick={onClose}
-        className="absolute right-5 top-4 text-gray-500 hover:text-black text-lg"
-      >
-        ✕
-      </button>
-
-      {/* STEP */}
-      <h2 className="text-lg font-semibold text-gray-800 mb-1">
-        Step {step} of 3
-      </h2>
-
-      {/* PROGRESS */}
-      <div className="w-full bg-gray-200 h-2 rounded mb-6">
-        <div
-          className="bg-green-500 h-2 rounded"
-          style={{ width: `${(step / 3) * 100}%` }}
-        />
-      </div>
-
-      {/* STEP 1 */}
-      {step === 1 && (
-        <div className="space-y-4">
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Organization *
-            </label>
-            <input
-              name="organization"
-              placeholder="e.g. NGO, Company"
-              value={form.organization}
-              onChange={handleChange}
-             className="w-full p-3 rounded-lg border border-gray-300 
-bg-white text-black 
-placeholder-gray-400 
-focus:outline-none focus:ring-2 focus:ring-green-500" />
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Role *
-            </label>
-            <input
-              name="role"
-              placeholder="e.g. Volunteer Teacher"
-              value={form.role}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 
-bg-white text-black 
-placeholder-gray-400 
-focus:outline-none focus:ring-2 focus:ring-green-500"/>
-          </div>
-
-        </div>
-      )}
-
-      {/* STEP 2 */}
-      {step === 2 && (
-        <div className="space-y-4">
-
-          <label className="flex items-center gap-3 cursor-pointer">
-  
-  <input
-    type="checkbox"
-    name="ongoing"
-    checked={form.ongoing}
-    onChange={handleChange}
-    className="h-5 w-5 accent-green-500 cursor-pointer"
-  />
-
-  <span className="text-gray-700 text-sm font-medium">
-    Currently ongoing
-  </span>
-
-</label>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Start Date *
-            </label>
-            <input
-              type="date"
-              name="startDate"
-              value={form.startDate}
-              onChange={handleChange}
-             className="w-full p-3 rounded-lg border border-gray-300 
-bg-white text-black 
-placeholder-gray-400 
-focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          {!form.ongoing && (
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                End Date *
-              </label>
-              <input
-                type="date"
-                name="endDate"
-                value={form.endDate}
-                onChange={handleChange}
-           className="w-full p-3 rounded-lg border border-gray-300 
-bg-white text-black 
-placeholder-gray-400 
-focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-          )}
-
-        </div>
-      )}
-
-      {/* STEP 3 */}
-      {step === 3 && (
-        <div className="space-y-4">
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Cause *
-            </label>
-            <select
-              name="cause"
-              value={form.cause}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded-lg mt-1"
-            >
-              <option value="">Select Cause</option>
-              <option>Arts And Culture</option>
-              <option>Children</option>
-              <option>Animal Welfare</option>
-              <option>Civil Rights Abd Social Rights</option>
-              <option>Economic Empowerment</option>
-              <option>Education</option>
-              <option>Environment</option>
-              <option>Human Rights</option>
-              <option>Disaster And Humaterian Relif</option>
-              <option>Politics</option>
-              <option>Poverty Evaluation Programmers</option>
-              <option>Sciend And Technology</option>
-              <option>Veteran Supports</option>
-              <option>Social Services</option>
-              <option>Health</option>
-              <option>Others</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Description *
-            </label>
-            <textarea
-              name="description"
-              placeholder="Explain your contribution..."
-              value={form.description}
-              onChange={handleChange}
-              className="w-full p-3 rounded-lg border border-gray-300 bg-white text-black" 
-            />
-          </div>
-
-        </div>
-      )}
-
-      {/* BUTTONS */}
-      <div className="flex justify-between mt-8">
-
-        <button
-          onClick={() => setStep(step - 1)}
-          disabled={step === 1}
-          className="px-5 py-2 rounded-lg bg-gray-200 text-gray-700 disabled:opacity-40"
-        >
-          Previous
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-white/10 font-sans">
+        
+        <button onClick={onClose} className="absolute top-6 right-6 text-white/20 hover:text-white z-20 transition-all p-2 bg-white/5 rounded-xl group">
+          <X size={24} className="group-hover:rotate-90 transition-transform" />
         </button>
 
-        {step < 3 ? (
-          <button
-            onClick={() => setStep(step + 1)}
-            disabled={!isValid()}
-            className={`px-6 py-2 rounded-lg text-white ${
-              isValid()
-                ? "bg-green-500 hover:bg-green-600"
-                : "bg-gray-300 cursor-not-allowed"
-            }`}
-          >
-            Next
-          </button>
-        ) : (
-          <button
-            onClick={onSubmit}
-            disabled={!isValid()}
-            className="px-6 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600"
-          >
-            Submit
-          </button>
-        )}
-      </div>
+        <div className="w-full md:w-[40%] bg-gradient-to-b from-[#E91E63] to-[#C2185B] p-12 flex flex-col items-center justify-center text-center text-white relative">
+             <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
+             <div className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-white/10 shadow-2xl relative z-10">
+                <Heart size={80} />
+             </div>
+             <h2 className="text-2xl font-black mb-4 leading-tight tracking-widest uppercase relative z-10">Impact Node</h2>
+             <p className="text-white/70 text-[12px] font-black leading-relaxed uppercase tracking-widest relative z-10">
+               {step === 0 && "Identify your cause and organizational node."}
+               {step === 1 && "Sync the timeline of your contribution."}
+               {step === 2 && "Protocol Verified. Impact data logged."}
+             </p>
+        </div>
 
+        <div className="flex-1 p-12 flex flex-col relative text-white">
+          <div className="mb-8">
+            <div className="flex justify-between items-end mb-4">
+              <h1 className="text-xl font-black uppercase tracking-widest text-white">Social Data</h1>
+              <span className="text-[10px] font-black text-[#E91E63] uppercase tracking-[0.3em]">Step {step + 1} of 3</span>
+            </div>
+            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
+              <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="bg-[#E91E63] h-full shadow-[0_0_15px_rgba(233,30,99,0.3)]" />
+            </div>
+          </div>
+
+          <div className="flex-1 overflow-y-auto custom-scrollbar pr-2">
+            <AnimatePresence mode="wait">
+              {step === 0 && (
+                <motion.div key="s0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Organization</label>
+                    <input type="text" value={formData.organization} onChange={(e) => setFormData({...formData, organization: e.target.value})} placeholder="e.g. Global NGO" className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl outline-none font-bold text-white placeholder:text-white/10 transition-all ${errors.organization ? 'border-red-500/50' : 'border-white/5 focus:border-[#E91E63]/50'}`} />
+                  </div>
+                  <div className="space-y-4">
+                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Role / Node Input</label>
+                    <input type="text" value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})} placeholder="e.g. Volunteer Lead" className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl outline-none font-bold text-white placeholder:text-white/10 transition-all ${errors.role ? 'border-red-500/50' : 'border-white/5 focus:border-[#E91E63]/50'}`} />
+                  </div>
+                </motion.div>
+              )}
+              {step === 1 && (
+                <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  <div className="grid grid-cols-2 gap-4">
+                     <div className="space-y-2">
+                       <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Initiation</label>
+                       <input type="date" value={formData.startDate} onChange={(e) => setFormData({...formData, startDate: e.target.value})} className="w-full px-6 py-4 bg-white/5 border-2 border-white/5 focus:border-[#E91E63]/50 rounded-2xl outline-none font-bold text-white" />
+                     </div>
+                     <div className="space-y-2">
+                       <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Conclusion</label>
+                       <input type="date" disabled={formData.isOngoing} value={formData.endDate} onChange={(e) => setFormData({...formData, endDate: e.target.value})} className="w-full px-6 py-4 bg-white/5 border-2 border-white/5 focus:border-[#E91E63]/50 rounded-2xl outline-none font-bold text-white disabled:opacity-20" />
+                     </div>
+                  </div>
+                  <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setFormData({...formData, isOngoing: !formData.isOngoing})}>
+                     <div className={`w-5 h-5 rounded border-2 transition-all ${formData.isOngoing ? 'bg-[#E91E63] border-[#E91E63]' : 'border-white/10 group-hover:border-white/30'}`}>
+                        {formData.isOngoing && <CheckCircle size={16} className="text-[#0a0a0a]" />}
+                     </div>
+                     <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Active Mission</span>
+                  </div>
+                </motion.div>
+              )}
+              {step === 2 && (
+                <motion.div key="s2" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center text-center space-y-6">
+                   <div className="w-24 h-24 bg-[#E91E63]/10 rounded-full flex items-center justify-center border border-[#E91E63]/20">
+                      <CheckCircle size={48} className="text-[#E91E63]" />
+                   </div>
+                   <h2 className="text-xl font-black text-white uppercase tracking-widest">Protocol Verified</h2>
+                   <p className="text-white/30 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Impact data has been synchronized with the social network.</p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="mt-auto pt-8 flex gap-4">
+            {step > 0 && <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-white/40 border border-white/10 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>}
+            <button onClick={nextStep} className="flex-[2] py-4 bg-[#E91E63] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#C2185B] transition-all shadow-[0_0_30px_rgba(233,30,99,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2">
+              {step === 2 ? 'Incorporate Impact' : 'Continue'} <ArrowRight size={16} />
+            </button>
+          </div>
+        </div>
+      </motion.div>
     </div>
-  </motion.div>
-</div>
   );
 }
