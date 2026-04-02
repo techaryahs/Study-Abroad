@@ -19,7 +19,14 @@ import {
   Wand2,
   PenTool,
   ChevronRight,
+  User as UserIcon,
+  LogOut,
+  LayoutDashboard,
+  ShoppingCart,
 } from "lucide-react";
+import { useEffect } from "react";
+import { getUser, removeToken } from "@/app/lib/token";
+import Image from "next/image";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -224,7 +231,39 @@ export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<DropdownKey>(null);
+  const [user, setUserState] = useState<any>(null);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    const storedUser = getUser();
+    if (storedUser && storedUser._id) {
+      setUserState(storedUser);
+      // Fetch full profile to get gender and up-to-date name/image
+      const fetchFullProfile = async () => {
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/profile/profile/${storedUser._id}`);
+          if (response.ok) {
+            const data = await response.json();
+            // Merge profile data with basic user data (flatten for easy access)
+            setUserState({
+              ...storedUser,
+              ...data,
+              ...data.profile, // Profile fields like profileImage, gender might be flat or nested
+            });
+          }
+        } catch (error) {
+          console.error("Failed to fetch full user profile in Navbar:", error);
+        }
+      };
+      fetchFullProfile();
+    }
+  }, []);
+
+  const handleLogout = () => {
+    removeToken();
+    window.location.href = "/";
+  };
 
   const onEnter = useCallback((key: DropdownKey) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -276,37 +315,139 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-5 text-sm flex-shrink-0">
-            <Link href="/auth/login" className="text-gray-300 hover:text-yellow-400 transition-colors">
-              Sign In
-            </Link>
-            
-            {/* Multi-role Sign Up Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center gap-1.5 text-gray-300 hover:text-yellow-400 transition-colors font-semibold">
-                Sign Up
-                <ChevronRight size={14} className="group-hover:rotate-90 transition-transform duration-200" />
-              </button>
-              
-              <div className="absolute right-0 mt-3 w-48 origin-top-right rounded-xl bg-[#1f2937] shadow-3xl ring-1 ring-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden border border-white/5">
-                <div className="px-4 pt-3 pb-1 border-b border-white/10">
-                   <p className="text-[9px] font-black uppercase tracking-widest text-yellow-400/80">Select Role</p>
+            {!user ? (
+              <>
+                <Link href="/auth/login" className="text-gray-300 hover:text-yellow-400 transition-colors">
+                  Sign In
+                </Link>
+
+                {/* Multi-role Sign Up Dropdown */}
+                <div className="relative group">
+                  <button className="flex items-center gap-1.5 text-gray-300 hover:text-yellow-400 transition-colors font-semibold">
+                    Sign Up
+                    <ChevronRight size={14} className="group-hover:rotate-90 transition-transform duration-200" />
+                  </button>
+
+                  <div className="absolute right-0 mt-3 w-48 origin-top-right rounded-xl bg-[#1f2937] shadow-3xl ring-1 ring-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden border border-white/5">
+                    <div className="px-4 pt-3 pb-1 border-b border-white/10">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-yellow-400/80">Select Role</p>
+                    </div>
+                    <div className="py-1">
+                      <Link href="/auth/RegisterStudent" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white hover:bg-white/5 transition-colors">
+                        <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">🎓</span>
+                        <span className="group-hover/item:text-yellow-400 transition-colors">Student</span>
+                      </Link>
+                      <Link href="/auth/RegisterConsultant" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
+                        <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">💼</span>
+                        <span className="group-hover/item:text-yellow-400 transition-colors">Consultant</span>
+                      </Link>
+                      <Link href="/auth/RegisterParent" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
+                        <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">👪</span>
+                        <span className="group-hover/item:text-yellow-400 transition-colors">Parent</span>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-                <div className="py-1">
-                  <Link href="/auth/RegisterStudent" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white hover:bg-white/5 transition-colors">
-                    <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">🎓</span>
-                    <span className="group-hover/item:text-yellow-400 transition-colors">Student</span>
-                  </Link>
-                  <Link href="/auth/RegisterConsultant" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
-                    <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">💼</span>
-                    <span className="group-hover/item:text-yellow-400 transition-colors">Consultant</span>
-                  </Link>
-                  <Link href="/auth/RegisterParent" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
-                    <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">👪</span>
-                    <span className="group-hover/item:text-yellow-400 transition-colors">Parent</span>
-                  </Link>
+              </>
+            ) : (
+              <div className="flex items-center gap-4">
+                {/* Profile Menu */}
+                <div className="relative">
+                  <button
+                    onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                    onMouseEnter={() => setProfileDropdownOpen(true)}
+                    className="flex items-center gap-2 focus:outline-none transition-transform active:scale-95"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 overflow-hidden flex items-center justify-center hover:border-yellow-400/50 transition-colors">
+                      {user.profileImage ? (
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                          alt="Profile"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${user.name || 'User'}&background=FFD700&color=000&bold=true&rounded=true`}
+                          alt="Profile Placeholder"
+                          className="w-full h-full p-0.5"
+                        />
+                      )}
+                    </div>
+                    <ChevronRight size={14} className={`text-gray-400 transition-transform duration-200 ${profileDropdownOpen ? 'rotate-90' : ''}`} />
+                  </button>
+
+                  {/* Profile Dropdown Card */}
+                  {profileDropdownOpen && (
+                    <div
+                      onMouseLeave={() => setProfileDropdownOpen(false)}
+                      className="absolute right-0 mt-4 w-64 origin-top-right rounded-[1.25rem] bg-[#0a0a0a] border border-white/10 shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-50 overflow-hidden p-5 text-center"
+                      style={{
+                        animation: "dropIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both",
+                      }}
+                    >
+                      {/* Background Glow */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-transparent pointer-events-none" />
+
+                      <div className="flex flex-col items-center gap-3 relative z-10">
+                        <div className="relative group/avatar">
+                          <div className="w-16 h-16 rounded-[1rem] bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center p-1 transition-transform duration-500 group-hover/avatar:rotate-2">
+                            <div className="w-full h-full rounded-[0.8rem] overflow-hidden bg-[#1a1a1a] flex items-center justify-center relative">
+                              {user.profileImage ? (
+                                <img
+                                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                                  alt="Profile"
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <img
+                                  src={`https://ui-avatars.com/api/?name=${user.name || 'User'}&background=FFD700&color=000&bold=true&rounded=true`}
+                                  alt="Profile Avatar"
+                                  className="w-full h-full p-1"
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="space-y-0.5">
+                          <h3 className="text-white font-black text-md tracking-tight truncate max-w-[200px]">
+                            {user.name || "Premium User"}
+                          </h3>
+                          <p className="text-gray-500 text-[9px] font-bold uppercase tracking-widest truncate max-w-[180px]">
+                            {user.email || "user@example.com"}
+                          </p>
+                        </div>
+
+                        <div className="w-full pt-2 space-y-2">
+                          <Link
+                            href="/User/dashboard"
+                            className="flex items-center justify-center gap-2 w-full bg-yellow-400 text-black py-2.5 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-yellow-300 transition-all hover:scale-[1.02] active:scale-95 shadow-[0_10px_20px_rgba(234,179,8,0.2)]"
+                          >
+                            <LayoutDashboard size={12} />
+                            Dashboard
+                          </Link>
+                          
+                          <button
+                            onClick={handleLogout}
+                            className="flex items-center justify-center gap-2 w-full py-1.5 text-white/40 hover:text-white font-bold text-[10px] uppercase tracking-[0.2em] transition-colors"
+                          >
+                            Logout
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Small Cart Icon */}
+                <div className="relative group/cart cursor-pointer hover:scale-110 transition-transform px-2">
+                  <ShoppingCart size={20} className="text-white hover:text-yellow-400 transition-colors" />
+                  <span className="absolute -top-1.5 -right-0 bg-red-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    0
+                  </span>
                 </div>
               </div>
-            </div>
+            )}
 
             <Link
               href="/contact"
@@ -426,6 +567,30 @@ export default function Navbar() {
             ✕
           </button>
 
+          {user && (
+            <div className="flex flex-col items-center gap-2 mb-4">
+              <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center p-1">
+                <div className="w-full h-full rounded-xl overflow-hidden bg-[#1a1a1a] flex items-center justify-center">
+                  {user.profileImage ? (
+                    <Image
+                      src={`http://localhost:5000${user.profileImage}`}
+                      alt="Profile"
+                      width={80}
+                      height={80}
+                      className="object-cover"
+                    />
+                  ) : (
+                    <UserIcon size={32} className="text-gray-600" />
+                  )}
+                </div>
+              </div>
+              <div className="text-center">
+                <h3 className="text-white font-black text-lg tracking-tighter">{user.name}</h3>
+                <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest">{user.email}</p>
+              </div>
+            </div>
+          )}
+
           {navItems.map((item) => (
             <Link
               key={item.path}
@@ -448,6 +613,17 @@ export default function Navbar() {
             </Link>
           ))}
 
+          {user && (
+            <Link
+              href="/User/dashboard"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 font-bold transition-colors"
+            >
+              <LayoutDashboard size={18} />
+              Dashboard
+            </Link>
+          )}
+
           <Link
             href="/contact"
             onClick={() => setMenuOpen(false)}
@@ -455,6 +631,19 @@ export default function Navbar() {
           >
             Book Session
           </Link>
+
+          {user && (
+            <button
+              onClick={() => {
+                handleLogout();
+                setMenuOpen(false);
+              }}
+              className="text-red-400/70 hover:text-red-400 text-sm font-bold uppercase tracking-widest transition-colors flex items-center gap-2"
+            >
+              <LogOut size={16} />
+              Logout
+            </button>
+          )}
 
           <div className="mt-2 text-sm text-gray-500">+91 89876 54321</div>
         </div>
