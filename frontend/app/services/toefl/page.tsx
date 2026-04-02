@@ -10,6 +10,7 @@ import {
     Search
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
+import AddToCart from "@/components/shared/AddToCart";
 
 const consultationSteps = [
     "You take a mock test.",
@@ -18,8 +19,6 @@ const consultationSteps = [
 ];
 
 export default function ToeflHelpPage() {
-    const [currency, setCurrency] = useState("INR");
-
     return (
         <main className="min-h-screen bg-dark-950 text-white selection:bg-gold-500/30 font-base overflow-x-hidden">
             {/* ── HERO SECTION ── */}
@@ -168,71 +167,7 @@ export default function ToeflHelpPage() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="lg:sticky lg:top-24 h-max"
                     >
-                        <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.08] shadow-2xl relative">
-                            <h3 className="text-xl font-bold mb-8 text-center text-white">Start Now</h3>
-                            
-                            <div className="space-y-5">
-                                <div className="flex justify-between items-start gap-4">
-                                    <span className="font-bold text-white/90 text-sm">Services:</span>
-                                    <span className="text-white/70 text-sm text-right">TOEFL Consulting Session via Zoom</span>
-                                </div>
-
-                                <div className="flex justify-between items-center">
-                                    <span className="font-bold text-white/90 text-sm">Duration:</span>
-                                    <span className="text-white/70 text-sm flex items-center gap-1.5">
-                                        60 Minutes 
-                                        <div className="w-3.5 h-3.5 rounded-full border border-blue-400 text-blue-400 flex items-center justify-center text-[10px] font-bold cursor-help">i</div>
-                                    </span>
-                                </div>
-
-                                <div className="flex justify-between items-center">
-                                    <span className="font-bold text-white/90 text-sm">Currency:</span>
-                                    <select 
-                                        value={currency}
-                                        onChange={(e) => setCurrency(e.target.value)}
-                                        className="bg-dark-950 text-white/80 border border-white/20 rounded px-3 py-1.5 outline-none text-sm w-32 focus:border-gold-500 transition-colors"
-                                    >
-                                        <option value="INR">INR</option>
-                                        <option value="USD">USD</option>
-                                    </select>
-                                </div>
-
-                                <div className="flex justify-between items-center pt-3 mt-1 border-t border-white/5">
-                                    <span className="font-bold text-white/90 text-sm">Actual Amount:</span>
-                                    <span className="text-white/40 line-through text-sm">
-                                        {currency === "INR" ? "INR 11,612.00" : "USD 140.00"}
-                                    </span>
-                                </div>
-                                
-                                <div className="flex justify-between items-center">
-                                    <span className="font-bold text-white/90 text-sm">Amount:</span>
-                                    <span className="text-red-500 font-bold text-lg">
-                                        {currency === "INR" ? "INR 9,289.47" : "USD 112.00"}
-                                    </span>
-                                </div>
-                                
-                                <div className="flex justify-between items-center">
-                                    <span className="font-bold text-white/90 text-sm">You save:</span>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-white/60 text-sm">
-                                            {currency === "INR" ? "INR 2,322.53" : "USD 28.00"}
-                                        </span>
-                                        <span className="bg-[#b35e2b] text-white px-2 py-0.5 rounded text-xs font-medium">
-                                            20% off
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-4 pt-6">
-                                    <button className="border border-gold-500 text-gold-500 py-3 rounded-lg text-sm font-bold hover:bg-gold-500/10 transition-colors text-center">
-                                        Add to Cart
-                                    </button>
-                                    <button className="bg-gold-500 text-black py-3 rounded-lg text-sm font-bold hover:bg-gold-400 transition-colors text-center">
-                                        Buy Now
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                            <AddToCart serviceId="toefl" />
 
                         <Link href="/contact" className="mt-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] shadow-md flex items-center gap-4 hover:bg-white/[0.04] transition-colors cursor-pointer block">
                             <div className="w-10 h-10 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0">

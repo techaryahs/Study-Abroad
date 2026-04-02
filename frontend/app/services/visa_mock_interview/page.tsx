@@ -14,6 +14,7 @@ import {
     ArrowLeft
 } from "lucide-react";
 import FAQSection, { defaultFaqs } from "@/components/shared/FAQSection";
+import AddToCart from "@/components/shared/AddToCart";
 
 const visaFaqs = [...defaultFaqs];
 visaFaqs.splice(5, 0, {
@@ -49,12 +50,6 @@ const features = [
 // ─── Components ──────────────────────────────────────────────────────────────
 
 export default function VisaMockInterviewPage() {
-    const [sessions, setSessions] = useState(1);
-    const [currency, setCurrency] = useState("INR");
-
-    const pricePerSession = currency === "INR" ? 2499 : 35;
-    const totalPrice = sessions * pricePerSession;
-
     return (
         <div className="min-h-screen bg-dark-950 text-white selection:bg-gold-500/30">
             <main className="flex flex-col">
@@ -216,59 +211,7 @@ export default function VisaMockInterviewPage() {
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="lg:sticky lg:top-24"
                         >
-                            <div className="p-6 rounded-[2.5rem] bg-dark-950 border border-white/[0.08] shadow-4xl relative overflow-hidden group">
-                                <div className="flex items-center justify-between mb-6">
-                                    <h3 className="text-base font-black uppercase tracking-widest">Start Training</h3>
-                                    <Star className="text-gold-500 w-4 h-4 fill-gold-500" />
-                                </div>
-
-                                <div className="space-y-4">
-                                    <div className="flex justify-between items-center py-3 border-b border-white/[0.05]">
-                                        <span className="text-[10px] text-white/40 font-black uppercase tracking-widest">Pricing</span>
-                                        <select
-                                            value={currency}
-                                            onChange={(e) => setCurrency(e.target.value)}
-                                            className="bg-transparent text-gold-500 text-[10px] font-black uppercase outline-none cursor-pointer"
-                                        >
-                                            <option value="INR" className="bg-dark-950">INR</option>
-                                            <option value="USD" className="bg-dark-950">USD</option>
-                                        </select>
-                                    </div>
-
-                                    <div className="flex justify-between items-center py-3 border-b border-white/[0.05]">
-                                        <span className="text-[10px] text-white/40 font-black uppercase tracking-widest">Sessions</span>
-                                        <div className="flex items-center gap-4">
-                                            <button onClick={() => setSessions(Math.max(1, sessions - 1))} className="text-sm font-black hover:text-gold-500 transition-colors">-</button>
-                                            <span className="text-xs font-black">{sessions}</span>
-                                            <button onClick={() => setSessions(sessions + 1)} className="text-sm font-black hover:text-gold-500 transition-colors">+</button>
-                                        </div>
-                                    </div>
-
-                                    <div className="pt-4">
-                                        <div className="flex justify-between items-end mb-6">
-                                            <span className="text-[9px] text-white/20 font-black uppercase tracking-[0.2em]">Total</span>
-                                            <span className="text-3xl font-black gradient-text-gold leading-none tracking-tighter">
-                                                {currency === "INR" ? "₹" : "$"}{totalPrice.toLocaleString()}
-                                            </span>
-                                        </div>
-
-                                        <div className="grid gap-3">
-                                            <button className="btn-gold py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-xl">
-                                                Buy Now
-                                            </button>
-                                            <button className="btn-outline-gold py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest">
-                                                Add to Cart
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="mt-6 pt-4 border-t border-white/[0.05] text-center">
-                                    <p className="text-[8px] text-white/20 font-black uppercase tracking-[0.3em] flex items-center justify-center gap-2">
-                                        <ShieldCheck size={10} /> Secure Checkout
-                                    </p>
-                                </div>
-                            </div>
+                            <AddToCart serviceId="visa_mock_interview" />
                         </motion.div>
                     </div>
                 </section>
