@@ -480,11 +480,11 @@ export default function Navbar() {
 
                         <div className="w-full pt-2 space-y-2">
                           <Link
-                            href="/User/dashboard"
+                            href={user?.role === 'consultant' || user?.role === 'admin' ? '/consultant-dashboard' : '/User/dashboard'}
                             className="flex items-center justify-center gap-2 w-full bg-[#d4af37] text-black py-2.5 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-yellow-300 transition-all hover:scale-[1.02] active:scale-95 shadow-[0_10px_20px_rgba(234,179,8,0.2)]"
                           >
                             <LayoutDashboard size={12} />
-                            Dashboard
+                            {user?.role === 'consultant' ? 'Consultant Portal' : 'Dashboard'}
                           </Link>
 
                           <button
@@ -673,12 +673,12 @@ export default function Navbar() {
 
           {user && (
             <Link
-              href="/User/dashboard"
+              href={user?.role === 'consultant' || user?.role === 'admin' ? '/consultant-dashboard' : '/User/dashboard'}
               onClick={() => setMenuOpen(false)}
               className="flex items-center gap-2 text-[#d4af37] hover:text-yellow-300 font-bold transition-colors"
             >
               <LayoutDashboard size={18} />
-              Dashboard
+              {user?.role === 'consultant' ? 'Consultant Portal' : 'Dashboard'}
             </Link>
           )}
 

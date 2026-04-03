@@ -207,6 +207,8 @@ export default function Home() {
               src="/hero-main.png"
               alt="Global Counselling Center Global Education"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority
               className="object-contain filter drop-shadow-[0_60px_120px_rgba(194,168,120,0.4)] relative z-10 animate-float"
             />
           </div>

@@ -545,3 +545,49 @@ exports.getCounsellingSession = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+/* =========================
+   GET BOOKINGS BY CONSULTANT EMAIL
+   GET /api/bookings/by-email?email=...
+   Used by the consultant dashboard when the Mongo _id is not available.
+ ========================= */
+exports.getBookingsByConsultantEmail = async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) {
+      return res.status(400).json({ message: 'email query param is required' });
+    }
+
+    const bookings = await Booking.find({ consultantEmail: email })
+      .sort({ date: 1, time: 1 });
+
+    console.log(`📋 [ByEmail] Found ${bookings.length} bookings for consultant: ${email}`);
+    res.json(bookings);
+  } catch (err) {
+    console.error('❌ getBookingsByConsultantEmail error:', err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/* =========================
+   COMPLETE BOOKING
+   PUT /api/bookings/:id/complete
+   Marks a booking as completed (moves to history).
+ ========================= */
+exports.completeBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { status: 'completed' },
+      { new: true }
+    );
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+    console.log(`✅ Booking ${req.params.id} marked as completed`);
+    res.json(booking);
+  } catch (err) {
+    console.error('❌ completeBooking error:', err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
