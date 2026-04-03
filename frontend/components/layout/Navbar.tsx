@@ -38,6 +38,7 @@ interface DropdownItem {
   description: string;
   href: string;
   badge?: "NEW" | null;
+  subItems?: { name: string; href: string }[];
 }
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -48,6 +49,19 @@ const universityItems: DropdownItem[] = [
     title: "Top Universities By Country",
     description: "Find statistics like acceptance rates, expenses, deadlines, and test scores.",
     href: "/universities/by-country",
+    subItems: [
+      { name: "USA", href: "/universities/by-country/usa" },
+      { name: "Canada", href: "/universities/by-country/canada" },
+      { name: "United Kingdom", href: "/universities/by-country/united-kingdom" },
+      { name: "Germany", href: "/universities/by-country/germany" },
+      { name: "Australia", href: "/universities/by-country/australia" },
+      { name: "Singapore", href: "/universities/by-country/singapore" },
+      { name: "Ireland", href: "/universities/by-country/ireland" },
+      { name: "Netherlands", href: "/universities/by-country/netherlands" },
+      { name: "France", href: "/universities/by-country/france" },
+      { name: "Switzerland", href: "/universities/by-country/switzerland" },
+      { name: "New Zealand", href: "/universities/by-country/new-zealand" },
+    ]
   },
   {
     icon: <BarChart2 size={18} />,
@@ -159,10 +173,11 @@ function DropdownPanel({
   onMouseLeave: () => void;
 }) {
   const posClass = align === "center" ? "left-1/2 -translate-x-1/2" : "left-0";
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div
-      className={`absolute top-full mt-1 ${posClass} rounded-xl shadow-2xl z-50 overflow-hidden`}
+      className={`absolute top-full mt-1 ${posClass} rounded-xl shadow-2xl z-50`}
       style={{
         background: "#1f2937",
         width,
@@ -172,7 +187,7 @@ function DropdownPanel({
       onMouseLeave={onMouseLeave}
     >
       {/* Section label */}
-      <div className="px-4 pt-4 pb-2 border-b border-white/10">
+      <div className="px-4 pt-4 pb-2 border-b border-white/10 rounded-t-xl">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-yellow-400">
           {label}
         </p>
@@ -180,8 +195,13 @@ function DropdownPanel({
 
       {/* Items */}
       <ul className="py-2">
-        {items.map((item) => (
-          <li key={item.href}>
+        {items.map((item, index) => (
+          <li 
+            key={item.href}
+            className="relative"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
             <Link
               href={item.href}
               className="group flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors duration-150"
@@ -207,12 +227,38 @@ function DropdownPanel({
                 className="mt-1 flex-shrink-0 text-gray-600 group-hover:text-yellow-400 group-hover:translate-x-0.5 transition-all duration-150"
               />
             </Link>
+
+            {/* Sub-menu if items present */}
+            {item.subItems && hoveredIndex === index && (
+              <div
+                className="absolute left-full top-0 ml-1 bg-[#1f2937] rounded-xl shadow-2xl border border-white/10 w-48 z-50 flex flex-col"
+                style={{ animation: "dropIn 0.15s ease-out both" }}
+              >
+                <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-yellow-400">
+                    Countries
+                  </p>
+                </div>
+                <ul className="py-2 max-h-[280px] overflow-y-auto">
+                  {item.subItems.map((sub) => (
+                    <li key={sub.name}>
+                      <Link
+                        href={sub.href}
+                        className="block px-4 py-2.5 text-sm font-medium text-gray-300 hover:text-yellow-400 hover:bg-white/5 transition-colors"
+                      >
+                        {sub.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </li>
         ))}
       </ul>
 
       {/* Footer CTA */}
-      <div className="px-4 py-3 border-t border-white/10 bg-white/5">
+      <div className="px-4 py-3 border-t border-white/10 bg-white/5 rounded-b-xl">
         <Link
           href={browseHref}
           className="text-xs text-yellow-400 hover:text-yellow-300 font-medium flex items-center gap-1 transition-colors"
