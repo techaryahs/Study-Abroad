@@ -74,14 +74,14 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-white/10">
+      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-[#d4af37]/20">
         <button onClick={onClose} className="absolute top-6 right-6 text-white/20 hover:text-white z-20 transition-all p-2 bg-white/5 rounded-xl group">
           <X size={24} className="group-hover:rotate-90 transition-transform" />
         </button>
 
         <div className="w-full md:w-[40%] bg-gradient-to-b from-[#20C997] to-[#1BA37A] p-12 flex flex-col items-center justify-center text-center text-[#0a0a0a] relative">
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
-          <div className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-white/10 shadow-2xl relative z-10">
+          <div className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-[#d4af37]/20 shadow-2xl relative z-10">
             <GraduationCap size={80} />
           </div>
           <h2 className="text-2xl font-black mb-4 leading-tight tracking-widest uppercase relative z-10">Undergrad Degree</h2>
@@ -180,7 +180,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
 
           <div className="mt-auto pt-8 flex gap-4">
             {step > 0 && (
-              <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-white/40 border border-white/10 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>
+              <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-white/50 border border-[#d4af37]/20 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>
             )}
             <button onClick={nextStep} className="flex-[2] py-4 bg-[#20C997] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#1BA37A] transition-all shadow-[0_0_30px_rgba(32,201,151,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2">
               {step === totalSteps - 1 ? 'Submit' : 'Continue'} <ArrowRight size={16} />

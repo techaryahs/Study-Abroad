@@ -16,10 +16,10 @@ export default function GermanyWorkingPage() {
           <section className="space-y-8">
             <h2 className="text-2xl md:text-3xl font-black gradient-text-gold tracking-tight italic uppercase">Europe's Career Powerhouse</h2>
             <div className="prose prose-invert prose-lg">
-              <p className="text-white/40 leading-relaxed font-medium italic">
+              <p className="text-white/50 leading-relaxed font-medium italic">
                 Germany is a global economic leader with a massive demand for skilled international talent. From the automotive giants of Stuttgart to the tech startups of Berlin, the "Made in Germany" brand is built on precision.
               </p>
-              <p className="text-white/40 leading-relaxed font-medium pt-4 italic">
+              <p className="text-white/50 leading-relaxed font-medium pt-4 italic">
                 The German government has established clear, legal pathways (such as the 18-month jobseeker period) specifically designed to retain global talent like you.
               </p>
             </div>

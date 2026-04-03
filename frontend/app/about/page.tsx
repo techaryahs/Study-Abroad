@@ -91,7 +91,7 @@ export default function AboutPage() {
                 Architecting <br />
                 <span className="gradient-text-gold italic block mt-2">Global Careers</span>
               </h1>
-              <p className="text-lg md:text-xl text-white/40 max-w-xl leading-relaxed font-normal italic !opacity-100 !visible">
+              <p className="text-lg md:text-xl text-white/50 max-w-xl leading-relaxed font-normal italic !opacity-100 !visible">
                 At Global Counselling Center Admissions, we believe education is a transformative leap. We turn raw potential into global prestige.
               </p>
             </div>
@@ -110,7 +110,7 @@ export default function AboutPage() {
             className="md:w-2/5 relative group"
           >
             <div className="absolute -inset-16 bg-gold-500/15 blur-[150px] rounded-full scale-95 group-hover:scale-105 transition-all duration-2000 pointer-events-none"></div>
-            <div className="relative w-full aspect-square md:h-[550px] rounded-[4rem] overflow-hidden border border-white/10 glass-card p-0 shadow-4xl hover:shadow-gold-500/30 transition-all duration-1000">
+            <div className="relative w-full aspect-square md:h-[550px] rounded-[4rem] overflow-hidden border border-[#d4af37]/20 glass-card p-0 shadow-4xl hover:shadow-gold-500/30 transition-all duration-1000">
               <Image
                 src="/about-hero.png"
                 alt="Academic Excellence Symbolic"
@@ -159,13 +159,13 @@ export default function AboutPage() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             viewport={{ once: true }}
             style={{ perspective: 1000 }}
-            className="space-y-6 glass-card p-10 md:p-12 border border-white/10 relative group bg-white/[0.01] hover:bg-gold-500 hover:text-black duration-700 transform-gpu"
+            className="space-y-6 glass-card p-10 md:p-12 border border-[#d4af37]/20 relative group bg-white/[0.01] hover:bg-gold-500 hover:text-black duration-700 transform-gpu"
           >
             <div className="text-gold-500 group-hover:text-black font-black uppercase tracking-[0.4em] text-[9px] mb-4 flex items-center gap-4 transition-colors">
               <span className="w-12 h-[1px] bg-current opacity-30"></span> Our Vision
             </div>
             <h2 className="text-2xl md:text-3xl font-black leading-tight uppercase italic">Unlocking <br />Global Potential</h2>
-            <p className="text-white/40 group-hover:text-black/60 leading-relaxed text-base font-normal italic transition-colors">
+            <p className="text-white/50 group-hover:text-black/60 leading-relaxed text-base font-normal italic transition-colors">
               We bridge the gap between local talent and world-class opportunities. Our vision is a world where every deserving student has access to top-tier global learning hubs.
             </p>
             <div className="absolute bottom-0 right-0 w-48 h-48 bg-gold-500/10 -z-10 blur-[100px] group-hover:bg-black/20 transition-colors duration-1000"></div>
@@ -183,13 +183,13 @@ export default function AboutPage() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
             viewport={{ once: true }}
             style={{ perspective: 1000 }}
-            className="space-y-6 glass-card p-10 md:p-12 border border-white/10 relative group bg-white/[0.01] hover:bg-gold-500 hover:text-black duration-700 transform-gpu"
+            className="space-y-6 glass-card p-10 md:p-12 border border-[#d4af37]/20 relative group bg-white/[0.01] hover:bg-gold-500 hover:text-black duration-700 transform-gpu"
           >
             <div className="text-gold-500 group-hover:text-black font-black uppercase tracking-[0.4em] text-[9px] mb-4 flex items-center gap-4 transition-colors">
               <span className="w-12 h-[1px] bg-current opacity-30"></span> Our Mission
             </div>
             <h2 className="text-2xl md:text-3xl font-black leading-tight uppercase italic">Precision <br />Admissions</h2>
-            <p className="text-white/40 group-hover:text-black/60 leading-relaxed text-base font-normal italic transition-colors">
+            <p className="text-white/50 group-hover:text-black/60 leading-relaxed text-base font-normal italic transition-colors">
               Our mission is to empower students through personalized admission strategies and meticulous mentorship, ensuring success at Ivy League and global institutions.
             </p>
             <div className="absolute bottom-0 right-0 w-48 h-48 bg-gold-500/10 -z-10 blur-[100px] group-hover:bg-black/20 transition-colors duration-1000"></div>
@@ -225,7 +225,7 @@ export default function AboutPage() {
                   {item.icon}
                 </div>
                 <h3 className="text-lg font-black uppercase tracking-widest mb-2 group-hover:text-gold-500 transition-colors">{item.title}</h3>
-                <p className="text-white/20 text-xs leading-relaxed italic font-medium group-hover:text-white/40 transition-colors">{item.desc}</p>
+                <p className="text-white/20 text-xs leading-relaxed italic font-medium group-hover:text-white/50 transition-colors">{item.desc}</p>
               </motion.div>
             ))}
           </motion.div>

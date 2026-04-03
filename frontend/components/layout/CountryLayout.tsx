@@ -62,7 +62,7 @@ export default function CountryLayout({ name, code, description, benefits, unive
           {/* Left Column: Vision */}
           <motion.div variants={itemVariants} className="space-y-10">
             <div className="flex items-center gap-8">
-              <div className="w-24 h-16 relative overflow-hidden rounded-xl shadow-2xl border border-white/10 group-hover:border-gold-500/30 transition-all duration-700 transform-gpu animate-float">
+              <div className="w-24 h-16 relative overflow-hidden rounded-xl shadow-2xl border border-[#d4af37]/20 group-hover:border-gold-500/30 transition-all duration-700 transform-gpu animate-float">
                 <Flag code={code} className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
@@ -112,7 +112,7 @@ export default function CountryLayout({ name, code, description, benefits, unive
                       className="flex items-center gap-6 group/item"
                     >
                       <div className="w-4 h-[1px] bg-gold-500 group-hover/item:w-8 transition-all"></div>
-                      <span className="text-white/40 group-hover/item:text-gold-500 text-sm font-medium transition-colors uppercase tracking-[0.1em]">{benefit}</span>
+                      <span className="text-white/50 group-hover/item:text-gold-500 text-sm font-medium transition-colors uppercase tracking-[0.1em]">{benefit}</span>
                     </motion.li>
                   ))}
                 </ul>

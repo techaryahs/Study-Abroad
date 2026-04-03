@@ -77,7 +77,7 @@ export default function BlogLayout({ title, category, date, readTime, content, i
         </motion.div>
 
         {/* HERO IMAGE */}
-        <motion.div variants={itemVariants} className="relative w-full aspect-[21/9] rounded-3xl overflow-hidden border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.6)] bg-dark-900 group transform-gpu">
+        <motion.div variants={itemVariants} className="relative w-full aspect-[21/9] rounded-3xl overflow-hidden border border-[#d4af37]/20 shadow-[0_40px_100px_rgba(0,0,0,0.6)] bg-dark-900 group transform-gpu">
           <Image
             src={image}
             alt={title}
@@ -99,7 +99,7 @@ export default function BlogLayout({ title, category, date, readTime, content, i
         >
           {/* MAIN CONTENT */}
           <motion.div variants={itemVariants} className="lg:col-span-8 space-y-12">
-            <div className="prose prose-invert prose-lg max-w-none text-white/40 leading-relaxed font-medium selection:bg-gold-500/30">
+            <div className="prose prose-invert prose-lg max-w-none text-white/50 leading-relaxed font-medium selection:bg-gold-500/30">
               {content}
             </div>
           </motion.div>
@@ -123,7 +123,7 @@ export default function BlogLayout({ title, category, date, readTime, content, i
               <p className="text-[9px] text-white/20 uppercase font-black tracking-[0.4em]">Inside Insights</p>
               <ul className="space-y-4">
                 {["Core Authority", "Success Roadmap", "Expert Commentary", "Global Network"].map((item) => (
-                  <li key={item} className="flex items-center gap-4 text-white/40 hover:text-gold-500 cursor-pointer transition-colors text-[11px] uppercase font-black tracking-widest">
+                  <li key={item} className="flex items-center gap-4 text-white/50 hover:text-gold-500 cursor-pointer transition-colors text-[11px] uppercase font-black tracking-widest">
                     <div className="w-1 h-1 rounded-full bg-gold-500"></div> {item}
                   </li>
                 ))}

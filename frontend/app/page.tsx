@@ -178,7 +178,7 @@ export default function Home() {
             </h1>
           </motion.div>
 
-          <motion.p variants={itemVariants} className="text-2xl md:text-3xl text-white/40 max-w-2xl leading-relaxed font-normal italic">
+          <motion.p variants={itemVariants} className="text-2xl md:text-3xl text-white/50 max-w-2xl leading-relaxed font-normal italic">
             Elite academic mentorship for the USA, UK, Germany, and beyond.
             We turn potential into global prestige.
           </motion.p>
@@ -251,7 +251,7 @@ export default function Home() {
                 className="glass-card flex flex-col items-start gap-8 group cursor-pointer hover:bg-gold-500 hover:text-black duration-700 h-full relative transform-gpu"
               >
                 <div className="absolute inset-0 bg-gold-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-3xl group-hover:bg-black group-hover:text-gold-500 transition-all duration-700 shadow-3xl">
+                <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-[#d4af37]/20 flex items-center justify-center text-3xl group-hover:bg-black group-hover:text-gold-500 transition-all duration-700 shadow-3xl">
                   {service.icon}
                 </div>
                 <div className="space-y-4 relative z-10">
@@ -302,10 +302,10 @@ export default function Home() {
                   z: 20
                 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-white/[0.01] border border-white/10 p-8 rounded-[3rem] text-center hover:bg-gold-500 hover:text-black transition-all duration-700 group cursor-pointer flex flex-col items-center gap-6 shadow-4xl hover:shadow-gold-500/20 relative overflow-hidden transform-gpu"
+                className="bg-white/[0.01] border border-[#d4af37]/20 p-8 rounded-[3rem] text-center hover:bg-gold-500 hover:text-black transition-all duration-700 group cursor-pointer flex flex-col items-center gap-6 shadow-4xl hover:shadow-gold-500/20 relative overflow-hidden transform-gpu"
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="w-16 h-10 relative overflow-hidden rounded-lg shadow-2xl border border-white/10 group-hover:border-black/20 transition-all">
+                <div className="w-16 h-10 relative overflow-hidden rounded-lg shadow-2xl border border-[#d4af37]/20 group-hover:border-black/20 transition-all">
                   <Flag code={country.code} className="w-full h-full object-cover" />
                 </div>
                 <div className="text-[10px] font-black uppercase tracking-[0.2em] relative z-10">{country.name}</div>

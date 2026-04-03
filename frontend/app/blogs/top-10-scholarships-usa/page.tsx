@@ -16,10 +16,10 @@ export default function ScholarshipsUSAPage() {
           <section className="space-y-8">
             <h2 className="text-2xl md:text-3xl font-black gradient-text-gold tracking-tighter italic uppercase">The Full Funding Strategy</h2>
             <div className="prose prose-invert prose-lg">
-              <p className="text-white/40 leading-relaxed font-medium italic">
+              <p className="text-white/50 leading-relaxed font-medium italic">
                 Studying in the USA is a high-return investment, but the ticket price can be daunting. Billion of dollars in dedicated funding are reserved for international students who can articulate an 'Impact Story'.
               </p>
-              <p className="text-white/40 leading-relaxed font-medium pt-4 italic">
+              <p className="text-white/50 leading-relaxed font-medium pt-4 italic">
                 At Global Counselling Center Global, we help you build a profile that makes you the most desirable candidate. Here is our curated list of the top scholarships.
               </p>
             </div>

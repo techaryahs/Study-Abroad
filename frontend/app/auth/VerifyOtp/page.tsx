@@ -106,7 +106,7 @@ const VerifyOtpContent = () => {
         <div className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] bg-gold-500/5 blur-[150px] rounded-full" />
       </div>
 
-      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-white/10 rounded-[32px] shadow-2xl w-full max-w-md p-10 relative z-10 text-center mb-8 mt-auto lg:mt-0 xl:mt-[4vh]">
+      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-[#d4af37]/20 rounded-[32px] shadow-2xl w-full max-w-md p-10 relative z-10 text-center mb-8 mt-auto lg:mt-0 xl:mt-[4vh]">
         <div className="mb-8 flex flex-col items-center">
           <div className="w-16 h-16 bg-gold-500 rounded-3xl flex items-center justify-center mb-6 shadow-xl shadow-gold-500/20">
             <ShieldCheck className="w-9 h-9 text-black" />
@@ -129,7 +129,7 @@ const VerifyOtpContent = () => {
               ref={(el) => { inputRefs.current[index] = el; }}
               onChange={(e) => handleChange(e, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className="w-12 h-16 text-center text-3xl font-black rounded-2xl border border-white/10 bg-white/[0.03] text-gold-500 focus:outline-none focus:border-gold-500 transition-all shadow-[0_0_20px_rgba(234,179,8,0.05)]"
+              className="w-12 h-16 text-center text-3xl font-black rounded-2xl border border-[#d4af37]/20 bg-white/[0.03] text-gold-500 focus:outline-none focus:border-gold-500 transition-all shadow-[0_0_20px_rgba(234,179,8,0.05)]"
               required
             />
           ))}
@@ -169,7 +169,7 @@ const VerifyOtpContent = () => {
 
         {/* Small badge */}
         <div className="absolute top-6 right-6">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/10 text-[9px] font-black text-gray-500 uppercase tracking-widest">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-[#d4af37]/20 text-[9px] font-black text-gray-500 uppercase tracking-widest">
             <Sparkles className="w-3 h-3 text-gold-500" /> Secure
           </div>
         </div>

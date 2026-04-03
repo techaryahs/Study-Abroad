@@ -24,7 +24,7 @@ export default function Header() {
     return () => window.removeEventListener('user-updated', refreshUser);
   }, []);
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-black/10 bg-white/80 backdrop-blur-md dark:border-white/10 dark:bg-black/80 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-black/10 bg-white/80 backdrop-blur-md dark:border-[#d4af37]/20 dark:bg-black/80 shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center space-x-2">

@@ -15,7 +15,7 @@ export const SuccessModal = ({ onClose }: { onClose: () => void }) => (
     <motion.div
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      className="relative bg-[#0a0a0a] p-12 rounded-[2.5rem] shadow-2xl max-w-sm w-full text-center border border-white/10"
+      className="relative bg-[#0a0a0a] p-12 rounded-[2.5rem] shadow-2xl max-w-sm w-full text-center border border-[#d4af37]/20"
     >
       <div className="w-20 h-20 bg-[#c9a84c]/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-[#c9a84c]/30">
         <CheckCircle size={40} className="text-[#c9a84c]" />
@@ -108,7 +108,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
         initial={{ scale: 0.95, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 20 }}
-        className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-white/10"
+        className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-[#d4af37]/20"
       >
         {/* Close Button */}
         <button
@@ -125,7 +125,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
             key={step}
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-white/10 shadow-2xl relative z-10"
+            className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-[#d4af37]/20 shadow-2xl relative z-10"
           >
             {step < 2 ? <School size={80} className="text-[#0a0a0a]" /> : <CheckCircle size={80} className="text-[#0a0a0a]" />}
           </motion.div>
@@ -233,7 +233,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
             {step > 0 && (
               <button
                 onClick={prevStep}
-                className="flex-1 py-4 text-[10px] font-black text-white/40 border border-white/10 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"
+                className="flex-1 py-4 text-[10px] font-black text-white/50 border border-[#d4af37]/20 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"
               >
                 <ArrowLeft size={16} /> Back
               </button>

@@ -98,7 +98,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
                   className="flex items-center gap-4 group/item"
                 >
                   <div className="w-3 h-[1px] bg-gold-500 group-hover/item:w-6 transition-all duration-500"></div>
-                  <span className="text-white/40 group-hover/item:text-gold-500 text-[13px] font-medium transition-colors uppercase tracking-[0.1em]">{detail}</span>
+                  <span className="text-white/50 group-hover/item:text-gold-500 text-[13px] font-medium transition-colors uppercase tracking-[0.1em]">{detail}</span>
                 </motion.li>
               ))}
             </ul>

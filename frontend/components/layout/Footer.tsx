@@ -36,7 +36,7 @@ export default function Footer() {
           <h3 className="font-black mb-8 text-white uppercase tracking-[0.4em] text-[10px]">
             Navigation
           </h3>
-          <ul className="space-y-4 text-white/40 text-sm font-medium">
+          <ul className="space-y-4 text-white/50 text-sm font-medium">
             <li><Link href="/" className="hover:text-gold-500 transition-colors">Home</Link></li>
             <li><Link href="/about" className="hover:text-gold-500 transition-colors">About Us</Link></li>
             <li><Link href="/services" className="hover:text-gold-500 transition-colors">Our Services</Link></li>
@@ -50,7 +50,7 @@ export default function Footer() {
           <h3 className="font-black mb-8 text-white uppercase tracking-[0.4em] text-[10px]">
             Expertise
           </h3>
-          <ul className="space-y-4 text-white/40 text-sm font-medium">
+          <ul className="space-y-4 text-white/50 text-sm font-medium">
             <li><Link href="/services/admission-guidance" className="hover:text-gold-500 transition-colors">Admission Guidance</Link></li>
             <li><Link href="/services/university-shortlisting" className="hover:text-gold-500 transition-colors">University Shortlisting</Link></li>
             <li><Link href="/services/scholarship-assistance" className="hover:text-gold-500 transition-colors">Scholarship Assistance</Link></li>
@@ -64,7 +64,7 @@ export default function Footer() {
           <h3 className="font-black mb-8 text-white uppercase tracking-[0.4em] text-[10px]">
             Contact
           </h3>
-          <div className="space-y-6 text-white/40 text-sm font-medium">
+          <div className="space-y-6 text-white/50 text-sm font-medium">
             <p className="flex items-start gap-4">
               <span className="text-gold-500 text-xs">📍</span>
               Excellence Tower, Mumbai, India
