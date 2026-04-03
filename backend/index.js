@@ -67,5 +67,12 @@ app.use("/api/feature-activity", featureActivityRoutes);
 // Setup WebRTC Signaling
 setupWebRTCSignaling(server);
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Important: Export for Vercel Serverless Functions
+module.exports = app;
+
+// Only listen if run directly (useful for local development)
+if (require.main === module) {
+  const PORT = process.env.PORT || 5001;
+  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
