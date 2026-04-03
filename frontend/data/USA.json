@@ -1,0 +1,172 @@
+{
+  "_id": "uni_002",
+  "slug": "massachusetts-institute-of-technology",
+  "name": "Massachusetts Institute of Technology",
+  "logo": "https://upload.wikimedia.org/wikipedia/commons/0/0c/MIT_logo.svg",
+
+  "location": {
+    "city": "Cambridge",
+    "state": "Massachusetts",
+    "country": "United States"
+  },
+
+  "branches": [
+    {
+      "name": "Engineering",
+      "description": "MIT School of Engineering is globally ranked #1, offering programs in AI, Robotics, Aerospace, Computer Science, and Mechanical Engineering with strong industry collaboration.",
+
+      "stats": {
+        "avg_gpa": 3.9,
+        "avg_gre": 330,
+        "acceptance_rate": 6.7,
+        "tuition_fee": 59750,
+        "living_expense": 22000,
+        "avg_salary": 145000
+      },
+
+      "student_demographics": {
+        "male": 58,
+        "female": 42,
+        "international_students": 60,
+        "total_enrollment": 11500
+      },
+
+      "admitted_profiles": {
+        "avg_gpa": 3.9,
+        "avg_gre": 330,
+        "toefl_min": 90,
+        "toefl_avg": 108,
+        "ielts_min": 7.0
+      }
+    },
+
+    {
+      "name": "Business",
+      "description": "MIT Sloan School of Management is known for innovation, entrepreneurship, and analytics-driven MBA programs with strong tech integration.",
+
+      "stats": {
+        "avg_gpa": 3.7,
+        "avg_gmat": 730,
+        "acceptance_rate": 14.6,
+        "tuition_fee": 82700,
+        "living_expense": 30000,
+        "avg_salary": 150000
+      },
+
+      "student_demographics": {
+        "male": 60,
+        "female": 40,
+        "international_students": 42,
+        "total_enrollment": 1300
+      },
+
+      "admitted_profiles": {
+        "avg_gpa": 3.7,
+        "avg_gmat": 730,
+        "toefl_min": 100,
+        "toefl_avg": 110,
+        "ielts_min": 7.0
+      }
+    },
+
+    {
+      "name": "Science",
+      "description": "MIT School of Science offers programs in Physics, Chemistry, Mathematics, and Biology with cutting-edge research and Nobel laureate faculty.",
+
+      "stats": {
+        "avg_gpa": 3.85,
+        "avg_gre": 328,
+        "acceptance_rate": 7.5,
+        "tuition_fee": 59000,
+        "living_expense": 22000,
+        "avg_salary": 120000
+      },
+
+      "student_demographics": {
+        "male": 55,
+        "female": 45,
+        "international_students": 55,
+        "total_enrollment": 4500
+      },
+
+      "admitted_profiles": {
+        "avg_gpa": 3.85,
+        "avg_gre": 328,
+        "toefl_min": 90,
+        "toefl_avg": 105,
+        "ielts_min": 7.0
+      }
+    },
+
+    {
+      "name": "Architecture & Planning",
+      "description": "MIT School of Architecture and Planning focuses on urban development, design innovation, and sustainable architecture.",
+
+      "stats": {
+        "avg_gpa": 3.75,
+        "avg_gre": 320,
+        "acceptance_rate": 10,
+        "tuition_fee": 58000,
+        "living_expense": 22000,
+        "avg_salary": 95000
+      },
+
+      "student_demographics": {
+        "male": 48,
+        "female": 52,
+        "international_students": 50,
+        "total_enrollment": 1200
+      },
+
+      "admitted_profiles": {
+        "avg_gpa": 3.75,
+        "avg_gre": 320,
+        "toefl_min": 90,
+        "toefl_avg": 102,
+        "ielts_min": 7.0
+      }
+    },
+
+    {
+      "name": "Undergrad",
+      "description": "MIT undergraduate programs are highly selective with strong emphasis on STEM, innovation, and research opportunities.",
+
+      "stats": {
+        "avg_sat": 1540,
+        "acceptance_rate": 4.8,
+        "tuition_fee": 59750,
+        "living_expense": 20000,
+        "avg_salary": 95000
+      },
+
+      "student_demographics": {
+        "male": 52,
+        "female": 48,
+        "international_students": 11,
+        "total_enrollment": 4500
+      }
+    }
+  ],
+
+  "common_sections": {
+    "employment_figures": {
+      "employed": 85,
+      "employed_within_3_months": 92,
+      "average_salary": 140000
+    },
+
+    "financial_awards": {
+      "officer": {
+        "name": "Student Financial Services Office",
+        "phone": "+1-617-258-8600"
+      }
+    },
+
+    "reviews": [
+      {
+        "rating": 5,
+        "comment": "Top-tier institute for technology and innovation with excellent career outcomes."
+      }
+    ]
+  }
+}
