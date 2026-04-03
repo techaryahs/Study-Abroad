@@ -20,7 +20,7 @@ interface Service {
 
 const services: Service[] = [
   { slug: "counselling", title: "Counselling Session", description: "Google Meet session with our counsellors. Get transparency on your case for study/work overseas. Charges fully adjustable in services' pricing.", icon: "🎯", badge: "fire" },
-  { slug: "research-paper", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
+  { slug: "research-papers", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
   { slug: "visa-application-help", title: "Visa Application Help", description: "Ace the visa application through our help in the paperwork, financial planning, and visa interview mock rounds. Applicable for USA, Canada, UK, Germany, and more.", icon: "🛂", badge: null },
   { slug: "eb1", title: "Apply For An EB-1 Visa", description: "The EB-1 visa is a talent-based immigrant visa in the US for individuals with extraordinary ability in their field.", icon: "🌟", badge: "fire" },
   { slug: "application-help", title: "Complete Application Help", description: "Get your application into the top 10% of the applications the committee evaluates for admission.", icon: "📋", badge: "popular" },

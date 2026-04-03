@@ -40,7 +40,7 @@ const featureActivitySchema = new mongoose.Schema(
       default: "Completed",
     },
   },
-  { timestamps: true }
+  { timestamps: true, autoCreate: false, autoIndex: false }
 );
 
 module.exports = mongoose.model(

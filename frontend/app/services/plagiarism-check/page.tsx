@@ -1,5 +1,6 @@
 
 import ServiceFAQ from "@/components/ServiceFAQ";
+import AddToCart from "@/components/shared/AddToCart";
 
 export default function Page() {
   return (
@@ -132,60 +133,8 @@ export default function Page() {
       <div className="w-[40%] flex flex-col items-end gap-6">
 
         {/* PRICE CARD */}
-        <div className="bg-[#f9f9f9] rounded-[20px] p-6 w-full max-w-[350px] shadow-sm">
-
-          <h3 className="text-center text-black text-[20px] font-semibold mb-6">
-            Start Now
-          </h3>
-
-          <div className="space-y-4 text-[14px] text-gray-800">
-
-            <div className="flex justify-between">
-              <span className="font-medium">Services:</span>
-              <span>Similarity Report</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium">Duration:</span>
-              <span>1-2 days</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="font-medium">Currency:</span>
-
-              <select className="border px-3 py-2 rounded-md text-sm">
-                <option>INR</option>
-                <option>USD</option>
-              </select>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium">Actual Amount:</span>
-              <span className="line-through text-gray-400">INR 3,475.00</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium">Amount:</span>
-              <span className="text-red-600 font-semibold">INR 2,780.27</span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="font-medium">You save:</span>
-
-              <div className="flex items-center gap-2">
-                <span>INR 694.73</span>
-                <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded">
-                  20% off
-                </span>
-              </div>
-            </div>
-
-          </div>
-
-          <button className="w-full mt-6 bg-green-500 text-white py-3 rounded-full text-[16px] font-medium hover:bg-green-600">
-            Log In To Pay
-          </button>
-
+        <div className="w-full max-w-[350px]">
+          <AddToCart serviceId="plagiarism-check" />
         </div>
 
         {/* CHAT CARD */}
@@ -366,11 +315,16 @@ export default function Page() {
       {/* RIGHT VIDEO */}
       <div className="w-[50%] flex justify-center">
 
-        <div className="w-full max-w-[500px] rounded-lg overflow-hidden shadow-lg">
-
-         <iframe width="560" height="315" src="https://www.youtube.com/embed/DUZf0oSEJ0w?si=wJSg7dn_VDEPn8ar" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-        </div>
+          <iframe 
+            width="560" 
+            height="315" 
+            src="https://www.youtube.com/embed/DUZf0oSEJ0w?si=wJSg7dn_VDEPn8ar" 
+            title="YouTube video player" 
+            frameBorder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerPolicy="strict-origin-when-cross-origin" 
+            allowFullScreen
+          ></iframe>
 
       </div>
 

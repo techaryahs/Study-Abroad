@@ -4,9 +4,10 @@ import ServiceLayout from "@/components/layout/ServiceLayout";
 
 export default function ProfileBuildingPage() {
   return (
-    <ServiceLayout 
+    <ServiceLayout
       title="Profile Building"
       accentClass="accent-glow-purple"
+      serviceId="profile-building"
       description="Strategies to enhance your profile with research papers, internships, and certifications before applying for Ivy League universities."
       details={[
         "Research paper publication help",
