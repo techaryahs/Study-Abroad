@@ -16,20 +16,20 @@ const navSections = ["About", "Will you get in?", "Student demographics", "Admit
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function useInView(threshold = 0.12) {
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
     const [visible, setVisible] = useState(false);
     useEffect(() => {
         const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold });
         if (ref.current) obs.observe(ref.current);
         return () => obs.disconnect();
-    }, []);
-    return [ref, visible];
+    }, [threshold]);
+    return [ref, visible] as const;
 }
 
-function CountUp({ target, decimals = 0, prefix = "", suffix = "", duration = 1600 }) {
+function CountUp({ target, decimals = 0, prefix = "", suffix = "", duration = 1600 }: { target: number, decimals?: number, prefix?: string, suffix?: string, duration?: number }) {
     const [val, setVal] = useState(0);
     const [started, setStarted] = useState(false);
-    const ref = useRef(null);
+    const ref = useRef<HTMLSpanElement>(null);
     useEffect(() => {
         const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setStarted(true); }, { threshold: 0.5 });
         if (ref.current) obs.observe(ref.current);
@@ -37,8 +37,8 @@ function CountUp({ target, decimals = 0, prefix = "", suffix = "", duration = 16
     }, []);
     useEffect(() => {
         if (!started) return;
-        let start = null;
-        const step = (ts) => {
+        let start: number | null = null;
+        const step = (ts: number) => {
             if (!start) start = ts;
             const p = Math.min((ts - start) / duration, 1);
             const ease = 1 - Math.pow(1 - p, 3);
@@ -50,9 +50,9 @@ function CountUp({ target, decimals = 0, prefix = "", suffix = "", duration = 16
     return <span ref={ref}>{prefix}{decimals ? val.toFixed(decimals) : val.toLocaleString()}{suffix}</span>;
 }
 
-function RingChart({ pct, size = 100, stroke = 9, color = "#eab308", label }) {
+function RingChart({ pct, size = 100, stroke = 9, color = "#eab308", label }: { pct: number, size?: number, stroke?: number, color?: string, label: string }) {
     const [started, setStarted] = useState(false);
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement>(null);
     useEffect(() => {
         const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setStarted(true); }, { threshold: 0.5 });
         if (ref.current) obs.observe(ref.current);
@@ -79,10 +79,10 @@ function RingChart({ pct, size = 100, stroke = 9, color = "#eab308", label }) {
     );
 }
 
-function ScatterPlot({ points, visible }) {
+function ScatterPlot({ points, visible }: { points: Array<{ gre: number, gpa: number, type: 'admit' | 'reject' | 'applied' }>, visible: boolean }) {
     const greMin = 260, greMax = 340, gpaMin = 1, gpaMax = 10;
     const w = 100, h = 100;
-    const colors = { admit: "#22c55e", reject: "#ef4444", applied: "#eab308" };
+    const colors: Record<'admit' | 'reject' | 'applied', string> = { admit: "#22c55e", reject: "#ef4444", applied: "#eab308" };
     return (
         <svg viewBox="0 0 100 100" style={{ width: "100%", height: 260, overflow: "visible" }}>
             {/* Grid */}
@@ -599,8 +599,8 @@ export default function UniversityPage() {
 
                                 <div className="card" style={{ padding: 28 }}>
                                     <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
-                                        <RingChart pct={usaData.common_sections?.employment_figures?.employed || 79.1} size={120} label="Employed" />
-                                        <RingChart pct={usaData.common_sections?.employment_figures?.employed_within_3_months || 89.3} size={120} label="Employed within 3 months" />
+                                        <RingChart pct={data?.common_sections?.employment_figures?.employed || 79.1} size={120} label="Employed" />
+                                        <RingChart pct={data?.common_sections?.employment_figures?.employed_within_3_months || 89.3} size={120} label="Employed within 3 months" />
                                     </div>
                                     <div style={{ border: "1px solid rgba(202,138,4,.15)", borderRadius: 14, padding: "18px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                         <span style={{ fontSize: 13, color: "#78716c" }}>Average Salary</span>
@@ -631,7 +631,7 @@ export default function UniversityPage() {
                                         <p style={{ fontSize: 12, color: "#78716c", marginBottom: 14 }}>Financial Aid Officer</p>
                                         <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
                                             <div style={{ width: 52, height: 52, borderRadius: "50%", background: "rgba(202,138,4,.10)", border: "1px solid rgba(202,138,4,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>👔</div>
-                                            <span className="fd" style={{ fontSize: 16, fontWeight: 600 }}>{usaData.common_sections?.financial_awards?.officer?.name || "Tracey Newman"}</span>
+                                            <span className="fd" style={{ fontSize: 16, fontWeight: 600 }}>{data?.common_sections?.financial_awards?.officer?.name || "Tracey Newman"}</span>
                                         </div>
                                     </div>
                                 </div>

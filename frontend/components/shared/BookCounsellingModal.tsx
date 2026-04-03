@@ -570,7 +570,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                         <div>
                           <h3 className="text-2xl font-black text-white">Session Booked!</h3>
                           <p className="text-white/45 text-sm mt-1 max-w-xs">
-                            A confirmation email has been sent to <span className="text-white">{booking.userEmail}</span>
+                            A confirmation email has been sent to <span className="text-white">{userEmail}</span>
                           </p>
                         </div>
                       </div>

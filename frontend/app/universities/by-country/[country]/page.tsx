@@ -13,7 +13,7 @@ import ausData from "@/data/AUS.json";
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 function useInView(threshold = 0.08) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -22,8 +22,8 @@ function useInView(threshold = 0.08) {
     );
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
-  }, []);
-  return [ref, visible];
+  }, [threshold]);
+  return [ref, visible] as const;
 }
 
 type CountryKey = "singapore" | "new zealand" | "germany" | "united states" | "usa" | "australia" | "united kingdom" | "uk";
@@ -60,7 +60,7 @@ const SORT_OPTIONS = ["Ranking", "Name (A–Z)", "Acceptance Rate", "Tuition (Lo
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
-function FilterSection({ title, icon, options, active, onChange }) {
+function FilterSection({ title, icon, options, active, onChange }: { title: string, icon: string, options: any[], active: number, onChange: (i: number) => void }) {
   const [open, setOpen] = useState(true);
   return (
     <div style={{ borderBottom: "1px solid rgba(202,138,4,.12)", paddingBottom: 16, marginBottom: 16 }}>
@@ -103,7 +103,7 @@ function FilterSection({ title, icon, options, active, onChange }) {
   );
 }
 
-function StatPill({ icon, value, label }) {
+function StatPill({ icon, value, label }: { icon: string, value: string | number, label: string }) {
   return (
     <div style={{
       display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
