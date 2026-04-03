@@ -14,17 +14,35 @@ interface Props {
 export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialData }: Props) => {
   const [url, setUrl] = useState(initialData || '');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => { setUrl(initialData || ''); }, [initialData]);
+  useEffect(() => { 
+    setUrl(initialData || ''); 
+    setError(null);
+  }, [initialData]);
+
+  const validateLinkedIn = (value: string) => {
+    if (!value) return true;
+    const regex = /^https?:\/\/(www\.)?([a-z]+\.)?linkedin\.com\/.*$/i;
+    return regex.test(value);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+    if (!validateLinkedIn(url)) {
+      setError("Please enter a valid LinkedIn URL (e.g., https://linkedin.com/in/username)");
+      return;
+    }
+
     setLoading(true);
     try {
       await onSubmit(url);
       onClose();
     } catch (e) {
       console.error(e);
+      setError("Failed to save. Please check your connection.");
     } finally {
       setLoading(false);
     }
@@ -46,14 +64,22 @@ export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialData }: Props)
                 <input 
                   type="url" 
                   value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  placeholder="https://linkedin.com/..."
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-gold-500/50 transition-all"
+                  onChange={(e) => {
+                    setUrl(e.target.value);
+                    if (error) setError(null);
+                  }}
+                  placeholder="https://linkedin.com/in/username"
+                  className={`w-full bg-white/[0.03] border ${error ? 'border-red-500/50' : 'border-white/10'} rounded-xl px-4 py-3 text-sm text-white focus:outline-none ${error ? 'focus:border-red-500' : 'focus:border-gold-500/50'} transition-all`}
                   required
                 />
+                {error && (
+                  <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-[10px] text-red-500 font-bold uppercase tracking-widest ml-1">
+                    {error}
+                  </motion.p>
+                )}
               </div>
 
-              <button disabled={loading} type="submit" className="w-full py-3.5 bg-gold-500 text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg hover:bg-gold-400 transition-all">
+              <button disabled={loading} type="submit" className="w-full py-3.5 bg-gold-500 text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg hover:bg-gold-400 transition-all disabled:opacity-50">
                 {loading ? "Saving..." : "Save Platform Node"}
               </button>
             </form>
