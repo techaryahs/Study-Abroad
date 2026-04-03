@@ -1,0 +1,607 @@
+{
+  "source_file": "Top Universities In Germany _ YMGrad_compressed-1.pdf",
+  "country": "Germany",
+  "record_count": 66,
+  "universities": [
+    {
+      "source_pdf_page": 2,
+      "ymgrad_rank": 48,
+      "university_name": "University of Munich",
+      "city": "Munich",
+      "country": "Germany",
+      "tuition_fees_eur": 314,
+      "acceptance_rate_pct": 10.0
+    },
+    {
+      "source_pdf_page": 2,
+      "ymgrad_rank": 54,
+      "university_name": "Heidelberg University",
+      "city": "Heidelberg",
+      "country": "Germany",
+      "tuition_fees_eur": 28864,
+      "acceptance_rate_pct": 79.0
+    },
+    {
+      "source_pdf_page": 3,
+      "ymgrad_rank": 80,
+      "university_name": "Technical University of Munich",
+      "city": "Munich",
+      "country": "Germany",
+      "tuition_fees_eur": 19492,
+      "acceptance_rate_pct": 8.0
+    },
+    {
+      "source_pdf_page": 3,
+      "ymgrad_rank": 90,
+      "university_name": "Humboldt-Universität zu Berlin",
+      "city": "Berlin",
+      "country": "Germany",
+      "tuition_fees_eur": 3606,
+      "acceptance_rate_pct": 75.0
+    },
+    {
+      "source_pdf_page": 3,
+      "ymgrad_rank": 109,
+      "university_name": "University of Bonn",
+      "city": "Bonn",
+      "country": "Germany",
+      "tuition_fees_eur": 1213,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 4,
+      "ymgrad_rank": 116,
+      "university_name": "Freie Universität Berlin",
+      "city": "Berlin",
+      "country": "Germany",
+      "tuition_fees_eur": 340,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 5,
+      "ymgrad_rank": 139,
+      "university_name": "University of Göttingen",
+      "city": "Göttingen",
+      "country": "Germany",
+      "tuition_fees_eur": 688,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 5,
+      "ymgrad_rank": 150,
+      "university_name": "University of Hamburg",
+      "city": "Hamburg",
+      "country": "Germany",
+      "tuition_fees_eur": 299,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 5,
+      "ymgrad_rank": 159,
+      "university_name": "Eberhard Karls University, Tübingen",
+      "city": "Tübingen",
+      "country": "Germany",
+      "tuition_fees_eur": 3000,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 6,
+      "ymgrad_rank": 163,
+      "university_name": "University of Freiburg",
+      "city": "Freiburg",
+      "country": "Germany",
+      "tuition_fees_eur": 4000,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 6,
+      "ymgrad_rank": 180,
+      "university_name": "RWTH Aachen University",
+      "city": "Aachen",
+      "country": "Germany",
+      "tuition_fees_eur": 20000,
+      "acceptance_rate_pct": 10.0
+    },
+    {
+      "source_pdf_page": 7,
+      "ymgrad_rank": 184,
+      "university_name": "Karlsruhe Institute of Technology",
+      "city": "Karlsruhe",
+      "country": "Germany",
+      "tuition_fees_eur": 3000,
+      "acceptance_rate_pct": 30.0
+    },
+    {
+      "source_pdf_page": 7,
+      "ymgrad_rank": 185,
+      "university_name": "Technical University of Dresden",
+      "city": "Dresden",
+      "country": "Germany",
+      "tuition_fees_eur": 600,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 8,
+      "ymgrad_rank": 190,
+      "university_name": "Johann Wolfgang Goethe University Frankfurt am Main",
+      "city": "Frankfurt am Main",
+      "country": "Germany",
+      "tuition_fees_eur": 759,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 8,
+      "ymgrad_rank": 197,
+      "university_name": "University of Würzburg",
+      "city": "Würzburg",
+      "country": "Germany",
+      "tuition_fees_eur": 260,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 8,
+      "ymgrad_rank": 201,
+      "university_name": "Johannes Gutenberg University of Mainz",
+      "city": "Mainz",
+      "country": "Germany",
+      "tuition_fees_eur": 651,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 9,
+      "ymgrad_rank": 207,
+      "university_name": "University of Münster",
+      "city": "Münster",
+      "country": "Germany",
+      "tuition_fees_eur": 654,
+      "acceptance_rate_pct": 20.0
+    },
+    {
+      "source_pdf_page": 9,
+      "ymgrad_rank": 230,
+      "university_name": "University of Erlangen Nuremberg",
+      "city": "Erlangen",
+      "country": "Germany",
+      "tuition_fees_eur": 269,
+      "acceptance_rate_pct": 50.0
+    },
+    {
+      "source_pdf_page": 10,
+      "ymgrad_rank": 244,
+      "university_name": "University of Cologne",
+      "city": "Köln",
+      "country": "Germany",
+      "tuition_fees_eur": 27250,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 10,
+      "ymgrad_rank": 253,
+      "university_name": "University of Kiel",
+      "city": "Kiel",
+      "country": "Germany",
+      "tuition_fees_eur": 579,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 10,
+      "ymgrad_rank": 287,
+      "university_name": "University of Duisburg-Essen",
+      "city": "Essen",
+      "country": "Germany",
+      "tuition_fees_eur": 645,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 11,
+      "ymgrad_rank": 291,
+      "university_name": "University of Ulm",
+      "city": "Ulm",
+      "country": "Germany",
+      "tuition_fees_eur": 3032,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 11,
+      "ymgrad_rank": 311,
+      "university_name": "Technical University of Berlin",
+      "city": "Berlin",
+      "country": "Germany",
+      "tuition_fees_eur": 10000,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 12,
+      "ymgrad_rank": 331,
+      "university_name": "Ruhr University Bochum",
+      "city": "Bochum",
+      "country": "Germany",
+      "tuition_fees_eur": 717,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 12,
+      "ymgrad_rank": 340,
+      "university_name": "Heinrich Heine University of Dusseldorf",
+      "city": "Düsseldorf",
+      "country": "Germany",
+      "tuition_fees_eur": 677,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 12,
+      "ymgrad_rank": 353,
+      "university_name": "University of Leipzig",
+      "city": "Leipzig",
+      "country": "Germany",
+      "tuition_fees_eur": 1085,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 13,
+      "ymgrad_rank": 359,
+      "university_name": "Friedrich Schiller University of Jena",
+      "city": "Jena",
+      "country": "Germany",
+      "tuition_fees_eur": 1297,
+      "acceptance_rate_pct": 8.0
+    },
+    {
+      "source_pdf_page": 13,
+      "ymgrad_rank": 361,
+      "university_name": "Hannover Medical School",
+      "city": "Hannover",
+      "country": "Germany",
+      "tuition_fees_eur": null,
+      "acceptance_rate_pct": null,
+      "note": "Data coming soon"
+    },
+    {
+      "source_pdf_page": 13,
+      "ymgrad_rank": 378,
+      "university_name": "University of Giessen",
+      "city": "Giessen",
+      "country": "Germany",
+      "tuition_fees_eur": 636,
+      "acceptance_rate_pct": 9.0
+    },
+    {
+      "source_pdf_page": 14,
+      "ymgrad_rank": 419,
+      "university_name": "University of Regensburg",
+      "city": "Regensburg",
+      "country": "Germany",
+      "tuition_fees_eur": 1060,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 14,
+      "ymgrad_rank": 423,
+      "university_name": "University of Potsdam",
+      "city": "Potsdam",
+      "country": "Germany",
+      "tuition_fees_eur": 660,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 15,
+      "ymgrad_rank": 424,
+      "university_name": "Dortmund University of Technology",
+      "city": "Dortmund",
+      "country": "Germany",
+      "tuition_fees_eur": 651,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 15,
+      "ymgrad_rank": 435,
+      "university_name": "Philipps University of Marburg",
+      "city": "Marburg",
+      "country": "Germany",
+      "tuition_fees_eur": 14200,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 15,
+      "ymgrad_rank": 449,
+      "university_name": "Darmstadt University of Technology",
+      "city": "Darmstadt",
+      "country": "Germany",
+      "tuition_fees_eur": 590,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 16,
+      "ymgrad_rank": 477,
+      "university_name": "University of Stuttgart",
+      "city": "Stuttgart",
+      "country": "Germany",
+      "tuition_fees_eur": 3000,
+      "acceptance_rate_pct": 71.0
+    },
+    {
+      "source_pdf_page": 16,
+      "ymgrad_rank": 480,
+      "university_name": "University of Konstanz",
+      "city": "Konstanz",
+      "country": "Germany",
+      "tuition_fees_eur": 3000,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 17,
+      "ymgrad_rank": 510,
+      "university_name": "Saarland University",
+      "city": "Saarbrücken",
+      "country": "Germany",
+      "tuition_fees_eur": 12000,
+      "acceptance_rate_pct": 35.0
+    },
+    {
+      "source_pdf_page": 17,
+      "ymgrad_rank": 511,
+      "university_name": "University of Wuppertal",
+      "city": "Wuppertal",
+      "country": "Germany",
+      "tuition_fees_eur": 664,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 17,
+      "ymgrad_rank": 514,
+      "university_name": "University of Bremen",
+      "city": "Bremen",
+      "country": "Germany",
+      "tuition_fees_eur": 842,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 18,
+      "ymgrad_rank": 527,
+      "university_name": "Bielefeld University",
+      "city": "Bielefeld",
+      "country": "Germany",
+      "tuition_fees_eur": 842,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 18,
+      "ymgrad_rank": 530,
+      "university_name": "Universitat Siegen",
+      "city": "Siegen",
+      "country": "Germany",
+      "tuition_fees_eur": 566,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 18,
+      "ymgrad_rank": 547,
+      "university_name": "University of Hannover",
+      "city": "Hannover",
+      "country": "Germany",
+      "tuition_fees_eur": 946,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 19,
+      "ymgrad_rank": 561,
+      "university_name": "University of Bayreuth",
+      "city": "Bayreuth",
+      "country": "Germany",
+      "tuition_fees_eur": 239,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 19,
+      "ymgrad_rank": 576,
+      "university_name": "University of Rostock",
+      "city": "Rostock",
+      "country": "Germany",
+      "tuition_fees_eur": 442,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 20,
+      "ymgrad_rank": 584,
+      "university_name": "Martin Luther University of Halle-Wittenberg",
+      "city": "Halle (Saale)",
+      "country": "Germany",
+      "tuition_fees_eur": null,
+      "acceptance_rate_pct": 55.0
+    },
+    {
+      "source_pdf_page": 20,
+      "ymgrad_rank": 619,
+      "university_name": "University of Mannheim",
+      "city": "Mannheim",
+      "country": "Germany",
+      "tuition_fees_eur": 39900,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 20,
+      "ymgrad_rank": 638,
+      "university_name": "University of Lubeck",
+      "city": "Lübeck",
+      "country": "Germany",
+      "tuition_fees_eur": null,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 21,
+      "ymgrad_rank": 652,
+      "university_name": "University Hohenheim",
+      "city": "Stuttgart",
+      "country": "Germany",
+      "tuition_fees_eur": 3000,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 21,
+      "ymgrad_rank": 672,
+      "university_name": "Braunschweig University of Technology",
+      "city": "Braunschweig",
+      "country": "Germany",
+      "tuition_fees_eur": 841,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 21,
+      "ymgrad_rank": 684,
+      "university_name": "Ernst Moritz Arndt Universitat Greifswald",
+      "city": "Greifswald",
+      "country": "Germany",
+      "tuition_fees_eur": 111,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 22,
+      "ymgrad_rank": 696,
+      "university_name": "Otto von Guericke University",
+      "city": "Magdeburg",
+      "country": "Germany",
+      "tuition_fees_eur": 6400,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 22,
+      "ymgrad_rank": 724,
+      "university_name": "Carl von Ossietzky Universitat Oldenburg",
+      "city": "Oldenburg",
+      "country": "Germany",
+      "tuition_fees_eur": 426,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 23,
+      "ymgrad_rank": 804,
+      "university_name": "University of Kaiserslautern",
+      "city": "Kaiserslautern",
+      "country": "Germany",
+      "tuition_fees_eur": 1400,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 23,
+      "ymgrad_rank": 839,
+      "university_name": "University of Paderborn",
+      "city": "Paderborn",
+      "country": "Germany",
+      "tuition_fees_eur": 620,
+      "acceptance_rate_pct": 50.0
+    },
+    {
+      "source_pdf_page": 23,
+      "ymgrad_rank": 860,
+      "university_name": "Hamburg University of Technology",
+      "city": "Hamburg",
+      "country": "Germany",
+      "tuition_fees_eur": 682,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 24,
+      "ymgrad_rank": 869,
+      "university_name": "Universitat Kassel",
+      "city": "Kassel",
+      "country": "Germany",
+      "tuition_fees_eur": 59268,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 24,
+      "ymgrad_rank": 878,
+      "university_name": "Jacobs University",
+      "city": "Bremen",
+      "country": "Germany",
+      "tuition_fees_eur": 21786,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 25,
+      "ymgrad_rank": 897,
+      "university_name": "University of Augsburg",
+      "city": "Augsburg",
+      "country": "Germany",
+      "tuition_fees_eur": 15059,
+      "acceptance_rate_pct": 69.0
+    },
+    {
+      "source_pdf_page": 25,
+      "ymgrad_rank": 965,
+      "university_name": "Technische Universitat Chemnitz",
+      "city": "Chemnitz",
+      "country": "Germany",
+      "tuition_fees_eur": 518,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 25,
+      "ymgrad_rank": null,
+      "university_name": "University Osnabruck",
+      "city": "Osnabruck",
+      "country": "Germany",
+      "tuition_fees_eur": 716,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 26,
+      "ymgrad_rank": null,
+      "university_name": "Technical University Freiberg",
+      "city": "Freiberg",
+      "country": "Germany",
+      "tuition_fees_eur": 188,
+      "acceptance_rate_pct": null
+    },
+    {
+      "source_pdf_page": 26,
+      "ymgrad_rank": null,
+      "university_name": "Witten Herdecke University",
+      "city": "Witten",
+      "country": "Germany",
+      "tuition_fees_eur": null,
+      "acceptance_rate_pct": null,
+      "note": "Data coming soon"
+    },
+    {
+      "source_pdf_page": 26,
+      "ymgrad_rank": null,
+      "university_name": "Clausthal University of Technology",
+      "city": null,
+      "country": "Germany",
+      "tuition_fees_eur": null,
+      "acceptance_rate_pct": null,
+      "note": "Data coming soon"
+    },
+    {
+      "source_pdf_page": 27,
+      "ymgrad_rank": null,
+      "university_name": "Julius Maximilians University of Würzburg",
+      "city": null,
+      "country": "Germany",
+      "tuition_fees_eur": null,
+      "acceptance_rate_pct": null,
+      "note": "Data coming soon"
+    },
+    {
+      "source_pdf_page": 27,
+      "ymgrad_rank": null,
+      "university_name": "Weihenstephan-Triesdorf University of Applied Sciences",
+      "city": null,
+      "country": "Germany",
+      "tuition_fees_eur": null,
+      "acceptance_rate_pct": null,
+      "note": "Data coming soon"
+    },
+    {
+      "source_pdf_page": 27,
+      "ymgrad_rank": null,
+      "university_name": "University of Osnabrück",
+      "city": null,
+      "country": "Germany",
+      "tuition_fees_eur": null,
+      "acceptance_rate_pct": null,
+      "note": "Data coming soon"
+    }
+  ]
+}

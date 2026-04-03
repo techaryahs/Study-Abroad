@@ -1,104 +1,45 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Flag from "react-world-flags";
 import { motion, Variants } from "framer-motion";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 export default function Home() {
+  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.4,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.8, y: 50 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      scale: 1,
       y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 110,
-        damping: 18,
-        duration: 0.8
-      }
+      transition: { type: "spring", stiffness: 100, damping: 20 },
     },
   };
 
-  const services = [
-    {
-      title: "Admission Guidance",
-      slug: "admission-guidance",
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm0 0V20" />
-        </svg>
-      )
-    },
-    {
-      title: "University Shortlisting",
-      slug: "shortlisting",
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-        </svg>
-      )
-    },
-    {
-      title: "SOP & LOR Support",
-      slug: "sop",
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-        </svg>
-      )
-    },
-    {
-      title: "Scholarship Assistance",
-      slug: "scholarship-assistance",
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
-    },
-    {
-      title: "Visa Guidance",
-      slug: "visa-guidance",
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-        </svg>
-      )
-    },
-    {
-      title: "Profile Building",
-      slug: "profile-building",
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.382-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-        </svg>
-      )
-    },
-    {
-      title: "EB-1 Visa",
-      slug: "eb1",
-      icon: (
-        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" />
-        </svg>
-      )
-    },
+  const servicesRow = [
+    { title: "Admission Guidance", icon: "🏛️", link: "/services/admission-guidance" },
+    { title: "University Shortlisting", icon: "📋", link: "/services/shortlisting" },
+    { title: "SOP & LOR Support", icon: "✍️", link: "/services/sop" },
+    { title: "Scholarship Assistance", icon: "🎓", link: "/services/scholarship-assistance" },
+    { title: "Visa Guidance", icon: "🛂", link: "/services/visa-guidance" },
+    { title: "Profile Building", icon: "📈", link: "/services/profile-building" },
   ];
 
-  const preferredCountries = [
+  const flagsRow = [
     { name: "USA", code: "US" },
     { name: "UK", code: "GB" },
     { name: "Germany", code: "DE" },
@@ -108,282 +49,190 @@ export default function Home() {
     { name: "Canada", code: "CA" },
   ];
 
-  const stats = [
-    { val: "15+", label: "Countries" },
-    { val: "360+", label: "Universities" },
-    { val: "1k+", label: "Students" },
-    { val: "500+", label: "Admissions" },
-    {
-      val: "5",
-      label: "User Rating",
-      icon: (
-        <svg className="w-6 h-6 text-gold-500 inline-block ml-2 mb-1" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-        </svg>
-      )
-    },
+  const statsRow = [
+    { value: "15+", label: "Countries" },
+    { value: "360+", label: "Top Universities" },
+    { value: "1000+", label: "Admits Received" },
+    { value: "500+", label: "Tier 1 Institutes" },
+  ];
+
+  const dreams = [
+    { code: "US", name: "USA", stat: "₹2Cr", sub: "Scholarship" },
+    { code: "GB", name: "UK", stat: "Merit", sub: "Honors Awards" },
+    { code: "DE", name: "GER", stat: "Full", sub: "Scholarship" },
+    { code: "AU", name: "AUS", stat: "50%", sub: "Fee Waiver" },
   ];
 
   return (
-    <main className="bg-dark-950 text-white relative overflow-hidden">
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[75vh] flex flex-col md:flex-row items-center px-8 md:px-20 pt-24 pb-16 md:pt-32 gap-10">
-        {/* BACKGROUND IMAGE WITH BLUR */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <Image
-            src="/hero-bg.png"
-            alt="Hero Background"
-            fill
-            className="object-cover opacity-20 blur-[5px] scale-110"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark-950 via-dark-950/80 to-transparent"></div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2, ease: "easeOut" }}
-            className="absolute top-0 right-0 w-[800px] h-[800px] bg-gold-500/10 blur-[200px] rounded-full"
-          ></motion.div>
+    <main className="relative min-h-screen bg-[#05070F] text-white overflow-hidden pt-16">
+
+      {/* 🌌 BACKGROUND */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Sky / Universe dark overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#1a2747_0%,#040712_70%)] z-0"></div>
+        
+        {/* University Background Image Layer */}
+        <div className="absolute inset-0 z-10 mix-blend-luminosity opacity-40">
+           <Image
+             src="/university.png"
+             alt="University Background"
+             fill
+             className="object-cover object-center"
+             priority
+           />
         </div>
 
-        {/* HERO CONTENT */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={containerVariants}
-          className="md:w-3/5 z-10 relative space-y-12"
-        >
-          <motion.div variants={itemVariants} className="space-y-6">
-            <span className="text-gold-500 uppercase tracking-[0.6em] font-black text-[10px] bg-gold-500/5 px-6 py-2 rounded-full border border-gold-500/20 backdrop-blur-3xl inline-block shadow-[0_0_20px_rgba(194,168,120,0.1)]">
-              Global Counselling Center Global Admissions
-            </span>
-            <h1 className="text-3xl md:text-5xl font-black leading-[1.1] uppercase">
-              <motion.span
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="block"
+        {/* Gradient overlays to darken the bottom and left edges of the University Image */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#040712] via-transparent to-transparent z-10 w-full h-full"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040712] via-transparent to-transparent z-10 w-full h-full"></div>
+
+        {/* Gold Glow behind the person */}
+        <div className="absolute right-[-10%] top-[20%] w-[700px] h-[700px] bg-[#d4af37]/30 blur-[150px] rounded-full z-10"></div>
+
+        {/* Curved Golden Divider (simulated with radial element) */}
+        <div className="absolute top-[48%] left-[-10%] w-[120%] h-[300px] bg-transparent border-t border-[#d4af37]/50 rounded-[50%] shadow-[0_-10px_30px_rgba(212,175,55,0.15)] z-20"></div>
+      </div>
+
+      {/* CONTENT */}
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-16 flex flex-col xl:flex-row gap-10 pt-10">
+
+        {/* LEFT */}
+        <div className="xl:w-3/5 space-y-12">
+
+          {/* HERO TEXT */}
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
+            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[3.8rem] leading-[1.1] font-semibold">
+              Principal-Led Path to <br />
+              <span className="bg-gradient-to-r from-[#f5e6c8] to-[#d4af37] bg-clip-text text-transparent font-bold">
+                Ivy League &
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-[#f5e6c8] to-[#d4af37] bg-clip-text text-transparent font-bold">
+                Top Global Universities
+              </span>
+            </motion.h1>
+
+            <motion.p variants={itemVariants} className="text-gray-300 text-sm leading-relaxed">
+              Personalized higher study guidance for USA, UK, Germany,
+              Australia, Ireland, and Dubai — powered by AI-driven support.
+            </motion.p>
+
+            <motion.div variants={itemVariants} className="flex gap-4">
+              <button
+                onClick={() => setShowCounsellingModal(true)}
+                className="bg-gradient-to-r from-[#e6c47a] to-[#caa24d] text-black px-6 py-3 rounded-md font-semibold shadow-lg hover:scale-105 transition"
               >
-                Architecting
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 1.2, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="gradient-text-gold italic block mt-2"
+                Book Free Profile Evaluation
+              </button>
+
+              <button
+                onClick={() => setShowCounsellingModal(true)}
+                className="border border-[#d4af37]/40 px-6 py-3 rounded-md text-[#e6c47a] hover:bg-[#d4af37]/10 transition"
               >
-                Global Careers
-              </motion.span>
-            </h1>
+                Talk to an Expert
+              </button>
+            </motion.div>
           </motion.div>
 
-          <motion.p variants={itemVariants} className="text-2xl md:text-3xl text-white/50 max-w-2xl leading-relaxed font-normal italic">
-            Elite academic mentorship for the USA, UK, Germany, and beyond.
-            We turn potential into global prestige.
-          </motion.p>
+          {/* SERVICES */}
+          <div>
+            <h3 className="text-xl mb-4 font-semibold">Why Students Trust Us</h3>
 
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-8 items-center pt-4">
-            <Link href="/contact" className="btn-gold px-8 py-3.5 text-[11px]">
-              Evaluate My Profile
-            </Link>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {servicesRow.map((s, i) => (
+                <Link key={i} href={s.link}>
+                  <div className="bg-[#f8f5ef] p-4 rounded-xl text-center shadow-lg border-b-4 border-[#caa24d] hover:scale-105 transition">
+                    <div className="w-12 h-12 mx-auto mb-2 bg-[#0c1324] text-[#d4af37] flex items-center justify-center rounded-lg">
+                      {s.icon}
+                    </div>
+                    <p className="text-black text-xs font-semibold">{s.title}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
 
-            <Link href="/services" className="btn-outline-gold px-8 py-3.5 text-[11px]">
-              Our Expertise
-            </Link>
-          </motion.div>
-        </motion.div>
+          {/* FLAGS */}
+          <div>
+            <h3 className="text-xl mb-4 font-semibold">Top Destinations</h3>
 
-        {/* HERO IMAGE CONTAINER */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, x: 100 }}
-          animate={{ opacity: 1, scale: 1, x: 0 }}
-          transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
-          className="md:w-2/5 z-10 relative flex justify-center md:justify-end items-center"
-        >
-          <div className="relative w-full aspect-square md:w-[550px] group">
-            <div className="absolute inset-0 bg-gold-500/20 blur-[180px] rounded-full animate-pulse group-hover:bg-gold-500/30 duration-2000 transition-colors"></div>
-            <Image
-              src="/hero-main.png"
-              alt="Global Counselling Center Global Education"
-              fill
-              className="object-contain filter drop-shadow-[0_60px_120px_rgba(194,168,120,0.4)] relative z-10 animate-float"
+            <div className="flex justify-between max-w-[600px] relative">
+              <div className="absolute top-4 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
+
+              {flagsRow.map((f, i) => (
+                <div key={i} className="flex flex-col items-center z-10">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#d4af37]">
+                    <Flag code={f.code} className="w-full h-full object-cover" />
+                  </div>
+                  <span className="text-xs mt-1">{f.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* STATS */}
+          <div className="flex gap-10 pt-6">
+            {statsRow.map((stat, i) => (
+              <div key={i}>
+                <h2 className="text-[#d4af37] text-2xl font-bold">{stat.value}</h2>
+                <p className="text-xs text-gray-400 uppercase">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* BUTTONS */}
+          <div className="flex gap-4">
+            <button
+              onClick={() => setShowCounsellingModal(true)}
+              className="bg-gradient-to-r from-[#e6c47a] to-[#caa24d] text-black px-8 py-3 rounded-md font-bold"
+            >
+              Book Now
+            </button>
+
+            <a
+              href="https://wa.me/918987654321"
+              target="_blank"
+              className="border px-8 py-3 rounded-md"
+            >
+              Whatsapp Us
+            </a>
+          </div>
+        </div>
+
+        {/* RIGHT */}
+        <div className="xl:w-2/5 flex flex-col items-center relative z-20 pb-16">
+
+          {/* IMAGE */}
+          <div className="relative w-full max-w-[450px] h-[550px] rounded-2xl overflow-hidden border border-[#d4af37]/30 shadow-2xl">
+            <Image 
+              src="/hero-main.png" 
+              alt="Dr Alam" 
+              fill 
+              sizes="(max-width: 768px) 100vw, 450px"
+              className="object-cover" 
             />
           </div>
-        </motion.div>
-      </section>
 
-      {/* ================= SERVICES ================= */}
-      <section className="py-32 px-8 md:px-20 relative bg-dark-900 border-y border-white/5">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="text-center mb-24 space-y-4"
-        >
-          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px] block">Expertise Portfolio</span>
-          <h2 className="text-3xl md:text-5xl font-black uppercase italic leading-none">
-            Elite <span className="gradient-text-gold">Admissions</span> <br />Mentorship
-          </h2>
-        </motion.div>
+          {/* DREAMS */}
+          <div className="mt-6 bg-[#f8f5ef] text-black p-4 rounded-xl grid grid-cols-4 gap-3 shadow-xl w-full max-w-[450px]">
+            {dreams.map((d, i) => (
+              <div key={i} className="text-center">
+                <Flag code={d.code} className="w-6 h-4 mx-auto mb-1" />
+                <p className="text-xs font-bold">{d.name}</p>
+                <p className="text-sm font-bold">{d.stat}</p>
+                <p className="text-[9px] text-gray-500">{d.sub}</p>
+              </div>
+            ))}
+          </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
-        >
-          {services.map((service, i) => (
-            <Link key={i} href={`/services/${service.slug}`}>
-              <motion.div
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.02,
-                  y: -10,
-                  rotateX: 5,
-                  rotateY: -5,
-                  z: 50
-                }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                style={{ perspective: 1000 }}
-                className="glass-card flex flex-col items-start gap-8 group cursor-pointer hover:bg-gold-500 hover:text-black duration-700 h-full relative transform-gpu"
-              >
-                <div className="absolute inset-0 bg-gold-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-[#d4af37]/20 flex items-center justify-center text-3xl group-hover:bg-black group-hover:text-gold-500 transition-all duration-700 shadow-3xl">
-                  {service.icon}
-                </div>
-                <div className="space-y-4 relative z-10">
-                  <h3 className="text-2xl font-black uppercase tracking-[0.2em] leading-none">{service.title}</h3>
-                  <p className="text-white/30 group-hover:text-black/60 text-base font-medium leading-relaxed italic">Precise, strategic guidance for Ivy League and Global Tier-1 excellence.</p>
-                </div>
-              </motion.div>
-            </Link>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* ================= COUNTRIES ================= */}
-      <section className="py-32 px-8 md:px-20 bg-dark-950 relative overflow-hidden">
-        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-gold-500/5 blur-[180px] rounded-full pointer-events-none"></div>
-
-        <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12 text-center md:text-left">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true }}
-            className="md:w-1/2 space-y-6"
-          >
-            <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px]">Global Destinations</span>
-            <h2 className="text-4xl md:text-6xl font-black uppercase leading-none italic">Your <span className="gradient-text-gold underline decoration-gold-500/10 underline-offset-[10px] decoration-4">Future Hub</span>.</h2>
-          </motion.div>
-          <Link href="/countries" className="nav-link !text-gold-500 border-b-2 border-gold-500/30 pb-2 text-sm font-black hover:border-gold-500 hover:tracking-[0.4em] transition-all duration-700">
-            Explore All Destinations
-          </Link>
         </div>
+      </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-2 lg:grid-cols-7 gap-6"
-        >
-          {preferredCountries.map((country, i) => (
-            <Link key={i} href={`/countries/${country.name.toLowerCase()}`}>
-              <motion.div
-                variants={itemVariants}
-                whileHover={{
-                  y: -10,
-                  scale: 1.05,
-                  rotateY: 10,
-                  z: 20
-                }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-white/[0.01] border border-[#d4af37]/20 p-8 rounded-[3rem] text-center hover:bg-gold-500 hover:text-black transition-all duration-700 group cursor-pointer flex flex-col items-center gap-6 shadow-4xl hover:shadow-gold-500/20 relative overflow-hidden transform-gpu"
-              >
-                <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="w-16 h-10 relative overflow-hidden rounded-lg shadow-2xl border border-[#d4af37]/20 group-hover:border-black/20 transition-all">
-                  <Flag code={country.code} className="w-full h-full object-cover" />
-                </div>
-                <div className="text-[10px] font-black uppercase tracking-[0.2em] relative z-10">{country.name}</div>
-              </motion.div>
-            </Link>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* ================= STATS SECTION ================= */}
-      <section className="py-24 px-8 md:px-20 bg-dark-900 border-y border-white/5 relative z-10">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={containerVariants}
-          className="grid grid-cols-2 lg:grid-cols-5 gap-12 text-center items-center"
-        >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={i}
-              variants={itemVariants}
-              whileHover={{ scale: 1.1, rotateZ: 2 }}
-              className="space-y-4 group"
-            >
-              <h3 className="text-3xl md:text-5xl font-black tracking-tight gradient-text-gold transition-transform duration-700">{stat.val}</h3>
-              <p className="uppercase tracking-[0.3em] font-black text-[9px] text-white/20 group-hover:text-gold-500 transition-colors duration-700">{stat.label}</p>
-              {stat.icon && (
-                <div className="mt-2 opacity-20 group-hover:opacity-100 transition-all duration-700">{stat.icon}</div>
-              )}
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      {/* ================= FINAL CTA ================= */}
-      <section className="py-48 px-8 md:px-20 text-center bg-dark-950 relative overflow-hidden">
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.2, 0.4, 0.2]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gold-500/5 blur-[300px] rounded-full pointer-events-none"
-        ></motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="space-y-10 relative z-10"
-        >
-          <h2 className="text-3xl md:text-5xl font-black italic uppercase leading-[1.0] gradient-text-gold">
-            ARCHITECT <br />YOUR FUTURE.
-          </h2>
-          <p className="text-white/30 text-base md:text-lg max-w-2xl mx-auto font-normal leading-relaxed italic border-t border-white/5 pt-12">
-            Partner with the academic elite. <br />
-            Turn your global ambitions into reality.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="flex flex-col md:flex-row justify-center gap-6 pt-16 relative z-10"
-        >
-          <Link href="/contact" className="btn-gold px-10 py-4 text-[13px]">
-            Book Evaluation
-          </Link>
-
-          <Link href="/about" className="btn-outline-gold px-10 py-4 text-[13px] hover:bg-gold-500 hover:text-black">
-            Our Pedigree
-          </Link>
-        </motion.div>
-      </section>
+      {/* MODAL */}
+      <BookCounsellingModal
+        isOpen={showCounsellingModal}
+        onClose={() => setShowCounsellingModal(false)}
+      />
     </main>
   );
 }

@@ -27,6 +27,7 @@ import {
 import { useEffect } from "react";
 import { getUser, removeToken, clearAuth } from "@/app/lib/token";
 import Image from "next/image";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -38,6 +39,7 @@ interface DropdownItem {
   description: string;
   href: string;
   badge?: "NEW" | null;
+  subItems?: { name: string; href: string }[];
 }
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -48,6 +50,19 @@ const universityItems: DropdownItem[] = [
     title: "Top Universities By Country",
     description: "Find statistics like acceptance rates, expenses, deadlines, and test scores.",
     href: "/universities/by-country",
+    subItems: [
+      { name: "USA", href: "/universities/by-country/usa" },
+      { name: "Canada", href: "/universities/by-country/canada" },
+      { name: "United Kingdom", href: "/universities/by-country/united-kingdom" },
+      { name: "Germany", href: "/universities/by-country/germany" },
+      { name: "Australia", href: "/universities/by-country/australia" },
+      { name: "Singapore", href: "/universities/by-country/singapore" },
+      { name: "Ireland", href: "/universities/by-country/ireland" },
+      { name: "Netherlands", href: "/universities/by-country/netherlands" },
+      { name: "France", href: "/universities/by-country/france" },
+      { name: "Switzerland", href: "/universities/by-country/switzerland" },
+      { name: "New Zealand", href: "/universities/by-country/new-zealand" },
+    ]
   },
   {
     icon: <BarChart2 size={18} />,
@@ -159,10 +174,11 @@ function DropdownPanel({
   onMouseLeave: () => void;
 }) {
   const posClass = align === "center" ? "left-1/2 -translate-x-1/2" : "left-0";
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div
-      className={`absolute top-full mt-1 ${posClass} rounded-xl shadow-2xl z-50 overflow-hidden`}
+      className={`absolute top-full mt-1 ${posClass} rounded-xl shadow-2xl z-50`}
       style={{
         background: "#1f2937",
         width,
@@ -180,8 +196,13 @@ function DropdownPanel({
 
       {/* Items */}
       <ul className="py-2">
-        {items.map((item) => (
-          <li key={item.href}>
+        {items.map((item, index) => (
+          <li
+            key={item.href}
+            className="relative"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+          >
             <Link
               href={item.href}
               className="group flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors duration-150"
@@ -207,6 +228,32 @@ function DropdownPanel({
                 className="mt-1 flex-shrink-0 text-gray-600 group-hover:text-[#d4af37] group-hover:translate-x-0.5 transition-all duration-150"
               />
             </Link>
+
+            {/* Sub-menu if items present */}
+            {item.subItems && hoveredIndex === index && (
+              <div
+                className="absolute left-full top-0 ml-1 bg-[#1f2937] rounded-xl shadow-2xl border border-white/10 w-48 z-50 flex flex-col"
+                style={{ animation: "dropIn 0.15s ease-out both" }}
+              >
+                <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-yellow-400">
+                    Countries
+                  </p>
+                </div>
+                <ul className="py-2 max-h-[280px] overflow-y-auto">
+                  {item.subItems.map((sub) => (
+                    <li key={sub.name}>
+                      <Link
+                        href={sub.href}
+                        className="block px-4 py-2.5 text-sm font-medium text-gray-300 hover:text-yellow-400 hover:bg-white/5 transition-colors"
+                      >
+                        {sub.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </li>
         ))}
       </ul>
@@ -233,6 +280,7 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<DropdownKey>(null);
   const [user, setUserState] = useState<any>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -463,12 +511,21 @@ export default function Navbar() {
               </div>
             )}
 
-            <Link
-              href="/contact"
-              className="bg-[#d4af37] text-black px-4 py-1.5 rounded-lg font-semibold text-sm hover:bg-yellow-300 transition-colors"
+            <button
+              onClick={() => setShowCounsellingModal(true)}
+              className="relative px-6 py-3 rounded-md text-[#e6c47a] font-semibold overflow-hidden group border border-[#e6c47a]/40 bg-[#0f1524] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(230,196,122,0.4)]"
             >
-              Book Counseling Session
-            </Link>
+              {/* Glow Overlay */}
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[#e6c47a]/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 blur-sm"></span>
+
+              {/* Shine Animation */}
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
+
+              {/* Text */}
+              <span className="relative z-10 tracking-wide">
+                Book Counselling Session
+              </span>
+            </button>
           </div>
 
           <button
@@ -584,7 +641,7 @@ export default function Navbar() {
           {user && (
             <div className="flex flex-col items-center gap-2 mb-4">
               <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center p-1">
-                    <div className="w-full h-full rounded-xl overflow-hidden bg-[#1a1a1a] flex items-center justify-center">
+                <div className="w-full h-full rounded-xl overflow-hidden bg-[#1a1a1a] flex items-center justify-center">
                   {user.profileImage ? (
                     <img
                       src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
@@ -660,6 +717,12 @@ export default function Navbar() {
           <div className="mt-2 text-sm text-gray-500">+91 89876 54321</div>
         </div>
       )}
+
+      {/* ── Book Counselling Modal ──────────────────────────────────────── */}
+      <BookCounsellingModal
+        isOpen={showCounsellingModal}
+        onClose={() => setShowCounsellingModal(false)}
+      />
     </>
   );
 }
