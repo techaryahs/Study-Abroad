@@ -6,6 +6,8 @@ import Link from "next/link";
 import Flag from "react-world-flags";
 import { motion, Variants } from "framer-motion";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
 
 export default function Home() {
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
@@ -63,6 +65,8 @@ export default function Home() {
     { code: "AU", name: "AUS", stat: "50%", sub: "Fee Waiver" },
   ];
 
+  const images = ["/sirbgggg.png", "/sirbgg.png", "/sirbggg.png"];
+
   return (
     <main className="relative min-h-screen bg-[#05070F] text-white overflow-hidden pt-16">
 
@@ -70,16 +74,16 @@ export default function Home() {
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Sky / Universe dark overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#1a2747_0%,#040712_70%)] z-0"></div>
-        
+
         {/* University Background Image Layer */}
         <div className="absolute inset-0 z-10 mix-blend-luminosity opacity-40">
-           <Image
-             src="/university.png"
-             alt="University Background"
-             fill
-             className="object-cover object-center"
-             priority
-           />
+          <Image
+            src="/universityy.png"
+            alt="University Background"
+            fill
+            className="object-cover object-center"
+            priority
+          />
         </div>
 
         {/* Gradient overlays to darken the bottom and left edges of the University Image */}
@@ -102,7 +106,7 @@ export default function Home() {
           {/* HERO TEXT */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
             <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[3.8rem] leading-[1.1] font-semibold">
-              Principal-Led Path to <br />
+              Education Leader - Led Path to <br />
               <span className="bg-gradient-to-r from-[#f5e6c8] to-[#d4af37] bg-clip-text text-transparent font-bold">
                 Ivy League &
               </span>
@@ -204,13 +208,30 @@ export default function Home() {
 
           {/* IMAGE */}
           <div className="relative w-full max-w-[450px] h-[550px] rounded-2xl overflow-hidden border border-[#d4af37]/30 shadow-2xl">
-            <Image 
-              src="/hero-main.png" 
-              alt="Dr Alam" 
-              fill 
-              sizes="(max-width: 768px) 100vw, 450px"
-              className="object-cover" 
-            />
+
+            <Swiper
+              modules={[Pagination, Autoplay]}
+              pagination={{ clickable: true }}
+              autoplay={{ delay: 3000, disableOnInteraction: false }}
+              loop={true}
+              speed={800}
+              className="w-full h-full"
+            >
+              {images.map((src, i) => (
+                <SwiperSlide key={i} className="h-full">
+                  <div className="w-full h-full">
+                    <Image
+                      src={src}
+                      alt={`Dr Alam ${i}`}
+                      width={450}
+                      height={550}
+                      className="object-cover w-full h-full"
+                      priority={i === 0}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
 
           {/* DREAMS */}
