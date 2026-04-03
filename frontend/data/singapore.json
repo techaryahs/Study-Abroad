@@ -1,0 +1,177 @@
+{
+  "source": "YMGrad",
+  "date": "March 2026",
+  "country": "Singapore",
+  "currency": "SGD (S$)",
+  "total_institutions": 21,
+  "universities": [
+    {
+      "id": 1,
+      "university": "National University of Singapore",
+      "address": "21 Lower Kent Ridge Road, Singapore 119077",
+      "location": "Singapore",
+      "acceptance_rate_pct": 25.0,
+      "annual_tuition_sgd": 34050
+    },
+    {
+      "id": 2,
+      "university": "Nanyang Technological University",
+      "address": "50 Nanyang Avenue, Singapore 639798",
+      "location": "Singapore",
+      "acceptance_rate_pct": 25.0,
+      "annual_tuition_sgd": 20100
+    },
+    {
+      "id": 3,
+      "university": "Embry-Riddle Asia",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 4,
+      "university": "Lee Kuan Yew School of Public Policy",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 5,
+      "university": "Singapore University of Technology and Design",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 6,
+      "university": "Lee Kong Chian School of Business",
+      "address": "50 Stamford Rd, Singapore 178899",
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 7,
+      "university": "ESSEC Business School, Singapore",
+      "address": "5 Nepal Park, Singapore 139408",
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 8,
+      "university": "National Institute of Education",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 9,
+      "university": "Nanyang Institute of Management",
+      "address": "6 Eu Tong Sen Street #04-05, The Central, Singapore 059817",
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 10,
+      "university": "Management Development Institute of Singapore",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 11,
+      "university": "Singapore University of Social Sciences",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": 31680
+    },
+    {
+      "id": 12,
+      "university": "INSEAD Asia Campus",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 13,
+      "university": "James Lind Institute",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 14,
+      "university": "James Cook University Singapore",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": 40176
+    },
+    {
+      "id": 15,
+      "university": "S P Jain School of Global Management, Singapore",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 16,
+      "university": "Singapore Management University",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": 116630
+    },
+    {
+      "id": 17,
+      "university": "DIMENSIONS International College",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 18,
+      "university": "Singapore Institute of Management",
+      "address": "461 Clementi Rd, Singapore 599491",
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": 34379
+    },
+    {
+      "id": 19,
+      "university": "S. Rajaratnam School of International Studies",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 20,
+      "university": "Yong Siew Toh Conservatory of Music",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": null
+    },
+    {
+      "id": 21,
+      "university": "Curtin University Singapore",
+      "address": null,
+      "location": "Singapore",
+      "acceptance_rate_pct": null,
+      "annual_tuition_sgd": 24624
+    }
+  ]
+}

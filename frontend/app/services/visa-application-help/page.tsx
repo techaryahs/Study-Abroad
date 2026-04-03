@@ -227,11 +227,10 @@ export default function VisaApplicationPage() {
                 <button
                   key={c}
                   onClick={() => setActiveCountry(c)}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${
-                    activeCountry === c
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${activeCountry === c
                       ? "bg-[#ffffff] text-[#000000] shadow-lg"
                       : "text-[#a1a1a1] hover:text-[#ffffff] hover:bg-white/5"
-                  }`}
+                    }`}
                 >
                   <span className="text-lg">{countryFlags[c]}</span>
                   {c}

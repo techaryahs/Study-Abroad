@@ -3,16 +3,14 @@ const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
   {
-    // For Consultants
+    // For Consultants / Counsellors
     consultantId: { type: mongoose.Schema.Types.ObjectId, ref: "Consultant" },
     consultantEmail: { type: String },
     consultantName: { type: String },
 
-
-
     bookingType: {
       type: String,
-      enum: ["consultant"],
+      enum: ["consultant", "counselling"],
       default: "consultant"
     },
     classMode: {
@@ -22,15 +20,22 @@ const bookingSchema = new mongoose.Schema(
 
     date: { type: String, required: true }, // Format: YYYY-MM-DD
     time: { type: String, required: true }, // Format: "HH:mm" (24-hour)
+    endTime: { type: String },              // Format: "HH:mm" (end of 1-hour slot)
+    duration: { type: Number, default: 60 }, // in minutes
+
     userEmail: { type: String, required: true },
-    userPhone: { type: String, required: true },
+    userPhone: { type: String, default: "" },
     userName: { type: String },
+
     status: {
       type: String,
-      enum: ["pending", "accepted", "rejected"],
+      enum: ["pending", "accepted", "rejected", "booked", "completed", "cancelled"],
       default: "pending"
     },
-    meetingId: { type: String }, // For video calls
+
+    // Meeting / WebRTC
+    sessionId: { type: String, unique: true, sparse: true }, // Unique per counselling session
+    meetingId: { type: String }, // Short hash used by WebRTC room
   },
   { timestamps: true }
 );

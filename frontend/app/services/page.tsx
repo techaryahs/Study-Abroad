@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import Link from "next/link";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -34,12 +35,9 @@ const services: Service[] = [
   { slug: "university-finalization", title: "University Finalization Help", description: "Have some of your admits in hand and need help with finalizing on one? Get a detailed review of the right pick as per your circumstances.", icon: "🎓", badge: null },
   { slug: "plagiarism-check", title: "Plagiarism Check Report", description: "Use our best-in-class instructor-level Turnitin reporting software to generate reports for your drafts. Can be used on SOPs, LORs, research papers, and even assignments.", icon: "🔍", badge: null },
   { slug: "scholarship", title: "Scholarship Application Help", description: "Over 60% of our applicants get a scholarship/fellowship before they step into their university. Now, you can get one too.", icon: "💰", badge: null },
-  { slug: "job", title: "Job Application Help", description: "End-to-End support for you to fetch the job of your dreams. Apply to jobs in multiple countries with our support and network.", icon: "💼", badge: null },
   { slug: "toefl", title: "TOEFL Prep-Plan Building/Coaching Session", description: "TOEFL scores are your gateway to financial aid and teaching assistantships. Learn how I scored a 119/120 and YOU can too.", icon: "🗣️", badge: null },
   { slug: "canada-sop", title: "Canada Visa SOP/Letter of Explanation", description: "Over 1000 students have been issued study permits with us. With our expertise in the most common reasons for rejection, we can help you ensure success.", icon: "🍁", badge: null },
   { slug: "profile-building", title: "Profile Building Guidance", description: "Have more than 3 months of time for your applications? Join us for one-on-one mentorship on profile boosting in customized sessions.", icon: "📈", badge: null },
-  { slug: "assignment", title: "Assignment Help", description: "Join the privileged 3000+ students who've found a solution to their academic pain. Hire an expert to help with your assignment today!", icon: "📚", badge: null },
-  { slug: "housing", title: "Housing Search", description: "Make your housing search hassle-free with customized accommodation help. Use our network and expertise to find safe and affordable housing.", icon: "🏠", badge: null },
   { slug: "cover-letter", title: "Cover Letter Drafting", description: "Command the attention of top recruiters with a cover letter that makes lasting impressions.", icon: "✉️", badge: null },
   { slug: "linkedin", title: "LinkedIn Profile Boosting", description: "Revamp your LinkedIn profile from 0 to 99. The outcomes include better admits, job opportunities, placements, and a bigger network.", icon: "💡", badge: null },
   { slug: "express-entry", title: "Express Entry/PNP Help", description: "Canada Permanent Residence (PR) via the Express Entry route. Get your applications filed via experts who have changed lives of hundreds of applicants already.", icon: "🍁", badge: null },
@@ -71,13 +69,19 @@ function SearchIcon({ className }: { className?: string }) {
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function ServiceCard({ service, index }: { service: Service; index: number }) {
-  return (
-    <Link
-      href={`/services/${service.slug}`}
-      className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-white/[0.08] bg-[#0f0f0f] hover:border-[#d4af37]/30 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)] transition-all duration-200 overflow-hidden"
-      style={{ animationDelay: `${index * 35}ms` }}
-    >
+function ServiceCard({
+  service,
+  index,
+  onCounsellingClick,
+}: {
+  service: Service;
+  index: number;
+  onCounsellingClick: () => void;
+}) {
+  const isCounselling = service.slug === "counselling";
+
+  const inner = (
+    <>
       {/* top accent */}
       <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 
@@ -105,9 +109,38 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         {service.description}
       </p>
 
-      <span className="self-end text-[#d4af37] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-        →
-      </span>
+      {isCounselling ? (
+        <span className="self-end text-xs font-bold text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/20 px-3 py-1 rounded-full transition-all duration-200 shadow-sm shadow-[#d4af37]/10">
+          Book Now →
+        </span>
+      ) : (
+        <span className="self-end text-[#d4af37] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+          →
+        </span>
+      )}
+    </>
+  );
+
+  if (isCounselling) {
+    return (
+      <button
+        id="book-counselling-btn"
+        onClick={onCounsellingClick}
+        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#0f0f0f] to-[#1a1200] hover:border-[#d4af37]/50 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(212,175,55,0.15)] transition-all duration-200 overflow-hidden text-left w-full"
+        style={{ animationDelay: `${index * 35}ms` }}
+      >
+        {inner}
+      </button>
+    );
+  }
+
+  return (
+    <Link
+      href={`/services/${service.slug}`}
+      className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-white/[0.08] bg-[#0f0f0f] hover:border-[#d4af37]/30 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)] transition-all duration-200 overflow-hidden"
+      style={{ animationDelay: `${index * 35}ms` }}
+    >
+      {inner}
     </Link>
   );
 }
@@ -118,6 +151,7 @@ export default function ServicesPage() {
   const [query, setQuery] = useState<string>("");
   const [form, setForm] = useState({ name: "", email: "", mobile: "", service: "" });
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
 
   const filtered = services.filter(
     (s) =>
@@ -205,7 +239,12 @@ export default function ServicesPage() {
         {filtered.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((service, i) => (
-              <ServiceCard key={service.slug} service={service} index={i} />
+              <ServiceCard
+                key={service.slug}
+                service={service}
+                index={i}
+                onCounsellingClick={() => setShowCounsellingModal(true)}
+              />
             ))}
           </div>
         ) : (
@@ -327,6 +366,12 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Book Counselling Modal ──────────────────────────────────────── */}
+      <BookCounsellingModal
+        isOpen={showCounsellingModal}
+        onClose={() => setShowCounsellingModal(false)}
+      />
     </main>
   );
 }

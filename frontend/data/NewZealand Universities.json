@@ -1,0 +1,201 @@
+{
+  "source": "YMGrad",
+  "date": "March 2026",
+  "country": "New Zealand",
+  "currency": "EUR (€) as shown on YMGrad",
+  "total_institutions": 24,
+  "universities": [
+    {
+      "id": 1,
+      "university": "University of Auckland",
+      "address": "6 Boyle Crescent, Auckland 1023",
+      "city": "Auckland",
+      "acceptance_rate_pct": 45.0,
+      "annual_tuition_eur": 33894
+    },
+    {
+      "id": 2,
+      "university": "University of Otago",
+      "address": "362 Leith Street, Dunedin 9016",
+      "city": "Dunedin",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 35182
+    },
+    {
+      "id": 3,
+      "university": "University of Canterbury",
+      "address": "20 Kirkwood Avenue, Christchurch 8140",
+      "city": "Christchurch",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 26729
+    },
+    {
+      "id": 4,
+      "university": "Victoria University of Wellington",
+      "address": "Kelburn Parade, Wellington 6012",
+      "city": "Wellington",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 29400
+    },
+    {
+      "id": 5,
+      "university": "Massey University",
+      "address": "Tennent Drive, Palmerston North 4474",
+      "city": "Palmerston North",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 31320
+    },
+    {
+      "id": 6,
+      "university": "Auckland University of Technology",
+      "address": "55 Wellesley St E, Auckland 1142",
+      "city": "Auckland",
+      "acceptance_rate_pct": 45.0,
+      "annual_tuition_eur": 31000
+    },
+    {
+      "id": 7,
+      "university": "University of Waikato",
+      "address": "Gate 1 Knighton Road, Hamilton 3240",
+      "city": "Hamilton",
+      "acceptance_rate_pct": 60.0,
+      "annual_tuition_eur": 27210
+    },
+    {
+      "id": 8,
+      "university": "Manukau Institute of Technology",
+      "address": null,
+      "city": "Auckland",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 29700
+    },
+    {
+      "id": 9,
+      "university": "Ara Institute of Canterbury",
+      "address": null,
+      "city": "Christchurch",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 25000
+    },
+    {
+      "id": 10,
+      "university": "Unitec Institute of Technology",
+      "address": null,
+      "city": "Auckland",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 32867
+    },
+    {
+      "id": 11,
+      "university": "Southern Institute of Technology",
+      "address": null,
+      "city": "Invercargill",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 27500
+    },
+    {
+      "id": 12,
+      "university": "The University of Auckland",
+      "address": null,
+      "city": "Auckland",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": null
+    },
+    {
+      "id": 13,
+      "university": "Auckland Institute of Studies",
+      "address": null,
+      "city": "Auckland",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 23250
+    },
+    {
+      "id": 14,
+      "university": "Nelson Marlborough Institute of Technology",
+      "address": null,
+      "city": "Nelson",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 25000
+    },
+    {
+      "id": 15,
+      "university": "Otago Polytechnic",
+      "address": null,
+      "city": "Dunedin",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 32500
+    },
+    {
+      "id": 16,
+      "university": "Wellington Institute of Technology",
+      "address": null,
+      "city": "Wellington",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 25000
+    },
+    {
+      "id": 17,
+      "university": "Whitecliffe College of Arts & Design",
+      "address": "3 Osterley Way, Manukau City Centre, Auckland 2104",
+      "city": "Auckland",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 27300
+    },
+    {
+      "id": 18,
+      "university": "Eastern Institute of Technology, Auckland",
+      "address": "Floors 4-6, 238 Queen Street, Auckland CBD 1010",
+      "city": "Auckland",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 22375
+    },
+    {
+      "id": 19,
+      "university": "Media Design School",
+      "address": null,
+      "city": "Auckland",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": null
+    },
+    {
+      "id": 20,
+      "university": "University in Lincoln, New Zealand",
+      "address": null,
+      "city": "Lincoln",
+      "acceptance_rate_pct": 90.3,
+      "annual_tuition_eur": 48000
+    },
+    {
+      "id": 21,
+      "university": "Whitireia Community Polytech",
+      "address": null,
+      "city": "Porirua",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 22000
+    },
+    {
+      "id": 22,
+      "university": "Toi Ohomai Institute of Technology",
+      "address": null,
+      "city": "Rotorua",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 24375
+    },
+    {
+      "id": 23,
+      "university": "Whitireia New Zealand",
+      "address": null,
+      "city": "Porirua",
+      "acceptance_rate_pct": 85.0,
+      "annual_tuition_eur": 25000
+    },
+    {
+      "id": 24,
+      "university": "Western Institute of Technology (WITT)",
+      "address": null,
+      "city": "New Plymouth",
+      "acceptance_rate_pct": null,
+      "annual_tuition_eur": 20000
+    }
+  ]
+}
