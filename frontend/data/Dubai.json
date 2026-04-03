@@ -3,297 +3,268 @@
     "_id": "uni_dubai_001",
     "slug": "university-of-birmingham-dubai",
     "name": "University of Birmingham Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/5/58/University_of_Birmingham_logo.svg",
+    "logo": "https://www.google.com/s2/favicons?domain=birmingham.ac.uk&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Engineering",
         "description": "University of Birmingham Dubai offers globally recognized UK degrees with strong focus on engineering, business, and data science. Its modern campus and research-driven approach ensure high employability and global exposure.",
-        "stats": { "acceptance_rate": 65, "tuition_fee": 35000, "living_expense": 15000, "avg_salary": 70000 }
+        "stats": { "acceptance_rate": 65, "tuition_fee": 35000, "living_expense": 15000, "avg_salary": 70000, "avg_sat": 1380, "avg_gpa": 3.7, "avg_gre": 315 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 75000 }
     }
   },
-
   {
     "_id": "uni_dubai_002",
     "slug": "middlesex-university-dubai",
     "name": "Middlesex University Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/1/1c/Middlesex_University_logo.svg",
+    "logo": "https://www.google.com/s2/favicons?domain=mdx.ac.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business & IT",
         "description": "Middlesex Dubai is one of the largest international branch campuses offering diverse programs in business, law, and IT. It emphasizes practical learning and strong industry connections in Dubai’s business ecosystem.",
-        "stats": { "acceptance_rate": 75, "tuition_fee": 30000, "living_expense": 15000, "avg_salary": 65000 }
+        "stats": { "acceptance_rate": 75, "tuition_fee": 30000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1320, "avg_gpa": 3.5, "avg_gre": 308 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 68000 }
     }
   },
-
   {
     "_id": "uni_dubai_003",
     "slug": "heriot-watt-university-dubai",
     "name": "Heriot-Watt University Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/7/7c/Heriot-Watt_University_logo.svg",
+    "logo": "https://www.google.com/s2/favicons?domain=hw.ac.uk&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Engineering & Business",
         "description": "Heriot-Watt Dubai is known for engineering, construction, and business programs with strong UK academic standards. Its graduates are highly valued in engineering and finance sectors.",
-        "stats": { "acceptance_rate": 70, "tuition_fee": 32000, "living_expense": 15000, "avg_salary": 68000 }
+        "stats": { "acceptance_rate": 70, "tuition_fee": 32000, "living_expense": 15000, "avg_salary": 68000, "avg_sat": 1350, "avg_gpa": 3.6, "avg_gre": 312 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 87, "employed_within_3_months": 89, "average_salary": 70000 }
     }
   },
-
   {
     "_id": "uni_dubai_004",
     "slug": "university-of-wollongong-in-dubai",
     "name": "University of Wollongong in Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/5/5e/University_of_Wollongong_logo.svg",
+    "logo": "https://www.google.com/s2/favicons?domain=uowdubai.ac.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business & IT",
         "description": "UOWD is one of the oldest international universities in Dubai offering Australian degrees. It is known for business, IT, and media programs with strong career outcomes.",
-        "stats": { "acceptance_rate": 75, "tuition_fee": 32000, "living_expense": 15000, "avg_salary": 70000 }
+        "stats": { "acceptance_rate": 75, "tuition_fee": 32000, "living_expense": 15000, "avg_salary": 70000, "avg_sat": 1340, "avg_gpa": 3.55, "avg_gre": 310 },
+        "admitted_profiles": { "toefl_min": 82, "ielts_min": 6.5, "toefl_avg": 94 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 86, "employed_within_3_months": 89, "average_salary": 72000 }
     }
   },
-
   {
     "_id": "uni_dubai_005",
     "slug": "manchester-university-dubai",
     "name": "University of Manchester Dubai",
-    "logo": "https://www.staffnet.manchester.ac.uk/brand/visual-identity/logo/logo_col_background.gif",
+    "logo": "https://www.google.com/s2/favicons?domain=manchester.ac.uk&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business (MBA)",
         "description": "Manchester Dubai offers one of the world’s top-ranked part-time MBA programs with strong global alumni network and leadership focus.",
-        "stats": { "acceptance_rate": 60, "tuition_fee": 45000, "living_expense": 15000, "avg_salary": 90000 }
+        "stats": { "acceptance_rate": 60, "tuition_fee": 45000, "living_expense": 15000, "avg_salary": 90000, "avg_sat": 1400, "avg_gpa": 3.8, "avg_gre": 322 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 108 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 90, "employed_within_3_months": 92, "average_salary": 95000 }
     }
   },
-
   {
     "_id": "uni_dubai_006",
     "slug": "british-university-in-dubai",
     "name": "The British University in Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/4/4d/British_University_in_Dubai_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=buid.ac.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Engineering & Education",
         "description": "BUID offers postgraduate-focused education with strong research in engineering, education, and sustainability aligned with UK standards.",
-        "stats": { "acceptance_rate": 70, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 65000 }
+        "stats": { "acceptance_rate": 70, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1300, "avg_gpa": 3.5, "avg_gre": 305 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 84, "employed_within_3_months": 87, "average_salary": 67000 }
     }
   },
-
   {
     "_id": "uni_dubai_007",
     "slug": "american-university-in-dubai",
     "name": "American University in Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/3/3c/American_University_in_Dubai_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=aud.edu&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business & Media",
         "description": "AUD offers American-style education with strengths in business, architecture, and media studies. It has strong industry connections across the UAE.",
-        "stats": { "acceptance_rate": 75, "tuition_fee": 30000, "living_expense": 15000, "avg_salary": 65000 }
+        "stats": { "acceptance_rate": 75, "tuition_fee": 30000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1320, "avg_gpa": 3.6, "avg_gre": 310 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 68000 }
     }
   },
-
   {
     "_id": "uni_dubai_008",
     "slug": "american-university-in-the-emirates",
     "name": "American University in the Emirates",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/5/5f/American_University_in_the_Emirates_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=aue.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business & Law",
         "description": "AUE provides American curriculum with focus on business, law, and media programs, preparing students for regional careers.",
-        "stats": { "acceptance_rate": 80, "tuition_fee": 25000, "living_expense": 15000, "avg_salary": 60000 }
+        "stats": { "acceptance_rate": 80, "tuition_fee": 25000, "living_expense": 15000, "avg_salary": 60000, "avg_sat": 1280, "avg_gpa": 3.4, "avg_gre": 300 },
+        "admitted_profiles": { "toefl_min": 79, "ielts_min": 6.0, "toefl_avg": 88 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 82, "employed_within_3_months": 85, "average_salary": 62000 }
     }
   },
-
   {
     "_id": "uni_dubai_009",
     "slug": "manipal-academy-of-higher-education-dubai",
     "name": "Manipal Academy of Higher Education Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/0/0f/Manipal_University_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=manipal.edu&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Engineering & IT",
         "description": "Manipal Dubai offers Indian-origin education with strong programs in engineering, IT, and business. It is popular among international students.",
-        "stats": { "acceptance_rate": 85, "tuition_fee": 20000, "living_expense": 15000, "avg_salary": 55000 }
+        "stats": { "acceptance_rate": 85, "tuition_fee": 20000, "living_expense": 15000, "avg_salary": 55000, "avg_sat": 1250, "avg_gpa": 3.3, "avg_gre": 298 },
+        "admitted_profiles": { "toefl_min": 75, "ielts_min": 6.0, "toefl_avg": 85 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 80, "employed_within_3_months": 83, "average_salary": 58000 }
     }
   },
-
   {
     "_id": "uni_dubai_010",
     "slug": "amity-university-dubai",
     "name": "Amity University Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/0/0f/Amity_University_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=amityuniversity.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business & Engineering",
         "description": "Amity Dubai offers a wide range of programs with focus on industry readiness, internships, and global exposure.",
-        "stats": { "acceptance_rate": 85, "tuition_fee": 22000, "living_expense": 15000, "avg_salary": 55000 }
+        "stats": { "acceptance_rate": 85, "tuition_fee": 22000, "living_expense": 15000, "avg_salary": 55000, "avg_sat": 1260, "avg_gpa": 3.4, "avg_gre": 300 },
+        "admitted_profiles": { "toefl_min": 79, "ielts_min": 6.0, "toefl_avg": 86 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 80, "employed_within_3_months": 85, "average_salary": 57000 }
     }
   },
-
   {
     "_id": "uni_dubai_011",
     "slug": "university-of-dubai",
     "name": "University of Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/3/3a/University_of_Dubai_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=ud.ac.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business",
         "description": "University of Dubai is known for business, law, and IT programs with strong accreditation and industry partnerships.",
-        "stats": { "acceptance_rate": 75, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 65000 }
+        "stats": { "acceptance_rate": 75, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1320, "avg_gpa": 3.6, "avg_gre": 310 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 68000 }
     }
   },
-
   {
     "_id": "uni_dubai_012",
     "slug": "zayed-university",
     "name": "Zayed University",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/7/7c/Zayed_University_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=zu.ac.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business & Communication",
         "description": "Zayed University is a leading public university in the UAE offering strong programs in business, communication, and social sciences.",
-        "stats": { "acceptance_rate": 70, "tuition_fee": 25000, "living_expense": 15000, "avg_salary": 65000 }
+        "stats": { "acceptance_rate": 70, "tuition_fee": 25000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1350, "avg_gpa": 3.7, "avg_gre": 315 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 87, "employed_within_3_months": 90, "average_salary": 70000 }
     }
   },
-
   {
     "_id": "uni_dubai_013",
     "slug": "murdoch-university-dubai",
     "name": "Murdoch University Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/4/4a/Murdoch_University_logo.svg",
+    "logo": "https://www.google.com/s2/favicons?domain=murdochdubai.ac.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business & Psychology",
         "description": "Murdoch Dubai offers Australian degrees with focus on business, psychology, and IT with flexible learning options.",
-        "stats": { "acceptance_rate": 80, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 60000 }
+        "stats": { "acceptance_rate": 80, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 60000, "avg_sat": 1300, "avg_gpa": 3.45, "avg_gre": 305 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 83, "employed_within_3_months": 86, "average_salary": 62000 }
     }
   },
-
   {
     "_id": "uni_dubai_014",
     "slug": "canadian-university-dubai",
     "name": "Canadian University Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/6/6b/Canadian_University_Dubai_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=cud.ac.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business & Architecture",
         "description": "CUD offers Canadian-style education with pathways to study in Canada and strong programs in business and architecture.",
-        "stats": { "acceptance_rate": 80, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 60000 }
+        "stats": { "acceptance_rate": 80, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 60000, "avg_sat": 1320, "avg_gpa": 3.6, "avg_gre": 310 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 84, "employed_within_3_months": 87, "average_salary": 62000 }
     }
   },
-
   {
     "_id": "uni_dubai_015",
     "slug": "synergy-university-dubai",
     "name": "Synergy University Dubai",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/0/0b/Synergy_University_logo.png",
+    "logo": "https://www.google.com/s2/favicons?domain=synergy.ae&sz=128",
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
-
     "branches": [
       {
         "name": "Business",
         "description": "Synergy University Dubai focuses on business, digital economy, and entrepreneurship programs with international exposure.",
-        "stats": { "acceptance_rate": 85, "tuition_fee": 20000, "living_expense": 15000, "avg_salary": 55000 }
+        "stats": { "acceptance_rate": 85, "tuition_fee": 20000, "living_expense": 15000, "avg_salary": 55000, "avg_sat": 1240, "avg_gpa": 3.3, "avg_gre": 295 },
+        "admitted_profiles": { "toefl_min": 75, "ielts_min": 6.0, "toefl_avg": 85 }
       }
     ],
-
     "common_sections": {
       "employment_figures": { "employed": 80, "employed_within_3_months": 83, "average_salary": 58000 }
     }

@@ -9,12 +9,14 @@
       {
         "name": "Engineering",
         "description": "Harvard SEAS offers interdisciplinary programs in AI, robotics, and data science with strong research integration. Students benefit from cross-field collaboration and global academic prestige.",
-        "stats": { "avg_gpa": 3.8, "avg_gre": 326, "acceptance_rate": 7.2, "tuition_fee": 53605, "living_expense": 17682, "avg_salary": 139339 }
+        "stats": { "avg_gpa": 3.8, "avg_gre": 326, "acceptance_rate": 7.2, "tuition_fee": 53605, "living_expense": 17682, "avg_salary": 139339, "avg_sat": 1520 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 112 }
       },
       {
         "name": "Business",
         "description": "Harvard Business School is globally renowned for its MBA programs, leadership development, and case-study learning approach.",
-        "stats": { "avg_gpa": 3.71, "avg_gmat": 731, "acceptance_rate": 10.4, "tuition_fee": 72804, "living_expense": 28592, "avg_salary": 150000 }
+        "stats": { "avg_gpa": 3.71, "avg_gmat": 731, "acceptance_rate": 10.4, "tuition_fee": 72804, "living_expense": 28592, "avg_salary": 150000 },
+        "admitted_profiles": { "toefl_min": 105, "ielts_min": 7.5, "toefl_avg": 115 }
       }
     ],
     "common_sections": {
@@ -31,12 +33,8 @@
       {
         "name": "Engineering",
         "description": "MIT is a global leader in engineering, AI, robotics, and innovation with strong industry collaboration and cutting-edge research.",
-        "stats": { "avg_gpa": null, "avg_gre": 324, "acceptance_rate": 21.2, "tuition_fee": 51514, "living_expense": 16390, "avg_salary": 135105 }
-      },
-      {
-        "name": "Business",
-        "description": "MIT Sloan is known for innovation-driven MBA programs blending technology, analytics, and entrepreneurship.",
-        "stats": { "avg_gpa": 3.57, "avg_gmat": 728, "acceptance_rate": 14.6, "tuition_fee": 51514, "living_expense": 16390, "avg_salary": 135105 }
+        "stats": { "avg_gpa": 3.9, "avg_gre": 324, "acceptance_rate": 21.2, "tuition_fee": 51514, "living_expense": 16390, "avg_salary": 135105, "avg_sat": 1540 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
       }
     ],
     "common_sections": {
@@ -53,12 +51,8 @@
       {
         "name": "Engineering",
         "description": "Stanford Engineering is globally renowned for innovation, AI, and entrepreneurship with deep ties to Silicon Valley.",
-        "stats": { "avg_gpa": 3.8, "avg_gre": 328, "acceptance_rate": 20, "tuition_fee": 53922, "living_expense": 16433, "avg_salary": 145559 }
-      },
-      {
-        "name": "Business",
-        "description": "Stanford GSB offers one of the world’s most competitive MBA programs focused on leadership and innovation.",
-        "stats": { "avg_gpa": 3.73, "avg_gmat": 732, "acceptance_rate": 6.2, "tuition_fee": 53922, "living_expense": 16433, "avg_salary": 145559 }
+        "stats": { "avg_gpa": 3.8, "avg_gre": 328, "acceptance_rate": 20, "tuition_fee": 53922, "living_expense": 16433, "avg_salary": 145559, "avg_sat": 1500 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
       }
     ],
     "common_sections": {
@@ -75,7 +69,8 @@
       {
         "name": "Engineering",
         "description": "Caltech is a top STEM-focused institution known for aerospace, AI, and applied sciences with strong NASA collaborations.",
-        "stats": { "avg_gpa": null, "avg_gre": 330, "acceptance_rate": 6.4, "tuition_fee": 60864, "living_expense": 20000, "avg_salary": 140000 }
+        "stats": { "avg_gpa": 3.9, "avg_gre": 330, "acceptance_rate": 6.4, "tuition_fee": 60864, "living_expense": 20000, "avg_salary": 140000, "avg_sat": 1530 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
       }
     ],
     "common_sections": {
@@ -92,7 +87,8 @@
       {
         "name": "Engineering",
         "description": "UChicago offers interdisciplinary programs combining engineering, data science, and molecular innovation.",
-        "stats": { "avg_gpa": null, "avg_gre": 325, "acceptance_rate": 12, "tuition_fee": 60552, "living_expense": 20000, "avg_salary": 130000 }
+        "stats": { "avg_gpa": 3.8, "avg_gre": 325, "acceptance_rate": 12, "tuition_fee": 60552, "living_expense": 20000, "avg_salary": 130000, "avg_sat": 1510 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
       }
     ],
     "common_sections": {
@@ -109,7 +105,8 @@
       {
         "name": "Business",
         "description": "Wharton School is one of the world’s top business schools with strong finance, analytics, and entrepreneurship focus.",
-        "stats": { "avg_gpa": 3.6, "avg_gmat": 733, "acceptance_rate": 9, "tuition_fee": 78000, "living_expense": 25000, "avg_salary": 155000 }
+        "stats": { "avg_gpa": 3.6, "avg_gmat": 733, "acceptance_rate": 9, "tuition_fee": 78000, "living_expense": 25000, "avg_salary": 155000, "avg_sat": 1490 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
       }
     ],
     "common_sections": {
@@ -126,7 +123,8 @@
       {
         "name": "Engineering",
         "description": "Cornell Engineering offers strong programs in computer science, mechanical, and electrical engineering.",
-        "stats": { "avg_gpa": null, "avg_gre": 326, "acceptance_rate": 15, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 130000 }
+        "stats": { "avg_gpa": 3.8, "avg_gre": 326, "acceptance_rate": 15, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 130000, "avg_sat": 1480 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 105 }
       }
     ],
     "common_sections": {
@@ -143,7 +141,8 @@
       {
         "name": "Engineering",
         "description": "UC Berkeley is globally renowned for AI, computer science, and electrical engineering innovation.",
-        "stats": { "avg_gpa": null, "avg_gre": 327, "acceptance_rate": 17, "tuition_fee": 44000, "living_expense": 25000, "avg_salary": 140000 }
+        "stats": { "avg_gpa": 3.8, "avg_gre": 327, "acceptance_rate": 17, "tuition_fee": 44000, "living_expense": 25000, "avg_salary": 140000, "avg_sat": 1490 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
       }
     ],
     "common_sections": {
@@ -160,7 +159,8 @@
       {
         "name": "Law",
         "description": "Yale Law School is one of the most prestigious globally with strong focus on legal research and policy.",
-        "stats": { "avg_gpa": 3.9, "avg_lsAT": 173, "acceptance_rate": 7, "tuition_fee": 70000, "living_expense": 22000, "avg_salary": 160000 }
+        "stats": { "avg_gpa": 3.9, "avg_lsAT": 173, "acceptance_rate": 7, "tuition_fee": 70000, "living_expense": 22000, "avg_salary": 160000, "avg_sat": 1510 },
+        "admitted_profiles": { "toefl_min": 105, "ielts_min": 7.5, "toefl_avg": 112 }
       }
     ],
     "common_sections": {
@@ -177,7 +177,8 @@
       {
         "name": "Medicine",
         "description": "Johns Hopkins is globally recognized for medical education, biomedical research, and hospital systems.",
-        "stats": { "avg_gpa": 3.92, "avg_mcat": 521, "acceptance_rate": 6, "tuition_fee": 62000, "living_expense": 20000, "avg_salary": 180000 }
+        "stats": { "avg_gpa": 3.92, "avg_mcat": 521, "acceptance_rate": 6, "tuition_fee": 62000, "living_expense": 20000, "avg_salary": 180000, "avg_sat": 1500 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
       }
     ],
     "common_sections": {
