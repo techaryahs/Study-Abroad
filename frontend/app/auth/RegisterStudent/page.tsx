@@ -318,7 +318,7 @@ const Register = () => {
         {verifyModal.show && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-[320px] bg-[#0f1115] rounded-[24px] shadow-2xl p-6 text-center border border-white/10">
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-[320px] bg-[#0f1115] rounded-[24px] shadow-2xl p-6 text-center border border-[#d4af37]/20">
               {verifyModal.mode !== 'loading' && (
                 <button onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute top-4 right-4 text-gray-500 hover:text-white"><X className="w-4 h-4" /></button>
               )}
@@ -337,7 +337,7 @@ const Register = () => {
               {verifyModal.mode === 'otp' && (
                 <div className="animate-in fade-in">
                   <h3 className="text-lg font-black text-white mb-4 tracking-tighter">Enter Code</h3>
-                  <input type="text" maxLength={6} value={otpValue} onChange={(e) => setOtpValue(e.target.value)} className="w-full text-center text-xl font-black tracking-[0.5em] py-3 bg-white/[0.03] border border-white/10 rounded-lg mb-4 text-gold-500 outline-none focus:border-gold-500" placeholder="000000" />
+                  <input type="text" maxLength={6} value={otpValue} onChange={(e) => setOtpValue(e.target.value)} className="w-full text-center text-xl font-black tracking-[0.5em] py-3 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg mb-4 text-gold-500 outline-none focus:border-gold-500" placeholder="000000" />
                   <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6} className="w-full py-3 bg-gold-500 text-black font-black rounded-lg disabled:opacity-50 text-[10px] uppercase tracking-widest">Verify Protocol</button>
                 </div>
               )}
@@ -348,7 +348,7 @@ const Register = () => {
         )}
       </AnimatePresence>
 
-      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-white/10 rounded-[24px] shadow-2xl w-full max-w-5xl flex h-[90vh] lg:h-auto max-h-[700px] overflow-hidden relative z-10">
+      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-[#d4af37]/20 rounded-[24px] shadow-2xl w-full max-w-5xl flex h-[90vh] lg:h-auto max-h-[700px] overflow-hidden relative z-10">
         {/* Left Branding - Slimmer */}
         <div className="hidden lg:flex lg:w-[35%] bg-[#050505] p-8 flex-col justify-between text-white relative border-r border-white/5">
           <div>
@@ -396,14 +396,14 @@ const Register = () => {
                       <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block ml-1">Full Name</label>
                       <div className="relative group">
                         <User className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 group-focus-within:text-gold-500" />
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" maxLength={50} className="w-full pl-8 pr-3 py-1.5 bg-white/[0.03] border border-white/10 rounded-lg text-[11px] text-white focus:border-gold-500 outline-none" />
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" maxLength={50} className="w-full pl-8 pr-3 py-1.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[11px] text-white focus:border-gold-500 outline-none" />
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1">
                       <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block ml-1">Email</label>
                       <div className="relative">
                         <Mail className={`absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 ${isEmailVerified ? 'text-green-500' : 'text-gray-500'}`} />
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className={`w-full pl-8 pr-14 py-1.5 bg-white/[0.03] border border-white/10 rounded-lg text-[11px] text-white outline-none ${isEmailVerified ? 'border-green-500/50' : 'focus:border-gold-500'}`} />
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className={`w-full pl-8 pr-14 py-1.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[11px] text-white outline-none ${isEmailVerified ? 'border-green-500/50' : 'focus:border-gold-500'}`} />
                         {formData.email && !isEmailVerified && (
                           <button onClick={() => setVerifyModal({ show: true, type: 'email', value: formData.email, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-gold-500 text-black px-2 rounded-md font-black text-[8px] uppercase">Verify</button>
                         )}
@@ -414,12 +414,12 @@ const Register = () => {
                     <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-2">
                        <div>
                         <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">DOB</label>
-                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2 py-1.5 bg-white/[0.03] border rounded-lg text-[10px] text-white focus:border-gold-500 outline-none [color-scheme:dark] ${errors.dob ? 'border-red-500' : 'border-white/10'}`} />
+                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2 py-1.5 bg-white/[0.03] border rounded-lg text-[10px] text-white focus:border-gold-500 outline-none [color-scheme:dark] ${errors.dob ? 'border-red-500' : 'border-[#d4af37]/20'}`} />
                         {errors.dob && <p className="text-red-500 text-[8px] font-bold mt-1 uppercase tracking-tighter">{errors.dob}</p>}
                        </div>
                        <div>
                         <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Gender</label>
-                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2 py-1.5 bg-white/[0.03] border border-white/10 rounded-lg text-[10px] text-white focus:border-gold-500 outline-none appearance-none">
+                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2 py-1.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[10px] text-white focus:border-gold-500 outline-none appearance-none">
                           <option value="" className="bg-black">Select</option>
                           <option value="Male" className="bg-black">Male</option>
                           <option value="Female" className="bg-black">Female</option>
@@ -451,9 +451,9 @@ const Register = () => {
                     <div className="col-span-2 md:col-span-1">
                       <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Mobile</label>
                       <div className="flex gap-1.5">
-                        <div className="w-12 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white font-black text-[10px] text-center">{formData.mobilePrefix}</div>
+                        <div className="w-12 py-1.5 bg-white/5 border border-[#d4af37]/20 rounded-lg text-white font-black text-[10px] text-center">{formData.mobilePrefix}</div>
                         <div className="relative flex-1">
-                          <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={15} className={`w-full px-3 py-1.5 pr-14 bg-white/[0.03] border border-white/10 rounded-lg text-[11px] text-white outline-none ${isMobileVerified ? 'border-green-500' : 'focus:border-gold-500'}`} />
+                          <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={15} className={`w-full px-3 py-1.5 pr-14 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[11px] text-white outline-none ${isMobileVerified ? 'border-green-500' : 'focus:border-gold-500'}`} />
                           {formData.mobile && !isMobileVerified && (
                             <button onClick={() => setVerifyModal({ show: true, type: 'mobile', value: `${formData.mobilePrefix} ${formData.mobile}`, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-gold-500 text-black px-2 rounded-md font-black text-[8px] uppercase">Verify</button>
                           )}
@@ -462,7 +462,7 @@ const Register = () => {
                     </div>
                     <div className="col-span-2 md:col-span-1">
                       <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Source</label>
-                      <select name="source" value={formData.source} onChange={handleChange} className="w-full px-3 py-1.5 bg-white/[0.03] border border-white/10 rounded-lg text-[11px] text-white focus:border-gold-500 outline-none appearance-none">
+                      <select name="source" value={formData.source} onChange={handleChange} className="w-full px-3 py-1.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[11px] text-white focus:border-gold-500 outline-none appearance-none">
                         <option value="" className="bg-black">Select Source</option>
                         <option value="Google" className="bg-black">Google</option>
                         <option value="Instagram" className="bg-black">Instagram</option>
@@ -473,7 +473,7 @@ const Register = () => {
                     <div className="col-span-2 md:col-span-1">
                       <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Password</label>
                       <div className="relative">
-                        <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} minLength={6} maxLength={32} className={`w-full px-3 pr-8 py-1.5 bg-white/[0.03] border rounded-lg text-[11px] text-white focus:border-gold-500 outline-none ${errors.password ? 'border-red-500' : 'border-white/10'}`} />
+                        <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} minLength={6} maxLength={32} className={`w-full px-3 pr-8 py-1.5 bg-white/[0.03] border rounded-lg text-[11px] text-white focus:border-gold-500 outline-none ${errors.password ? 'border-red-500' : 'border-[#d4af37]/20'}`} />
                         <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-600"><Eye className="w-3 h-3" /></button>
                       </div>
                       {errors.password && <p className="text-red-500 text-[8px] font-bold mt-0.5 uppercase tracking-tighter">{errors.password}</p>}
@@ -481,7 +481,7 @@ const Register = () => {
                     <div className="col-span-2 md:col-span-1">
                       <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Confirm</label>
                       <div className="relative">
-                        <input type={showPassword ? "text" : "password"} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className={`w-full px-3 pr-8 py-1.5 bg-white/[0.03] border rounded-lg text-[11px] text-white focus:border-gold-500 outline-none ${errors.confirmPassword ? 'border-red-500' : 'border-white/10'}`} />
+                        <input type={showPassword ? "text" : "password"} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className={`w-full px-3 pr-8 py-1.5 bg-white/[0.03] border rounded-lg text-[11px] text-white focus:border-gold-500 outline-none ${errors.confirmPassword ? 'border-red-500' : 'border-[#d4af37]/20'}`} />
                       </div>
                       {errors.confirmPassword && <p className="text-red-500 text-[8px] font-bold mt-0.5 uppercase tracking-tighter">Passwords don't match</p>}
                     </div>

@@ -187,8 +187,8 @@ function DropdownPanel({
       onMouseLeave={onMouseLeave}
     >
       {/* Section label */}
-      <div className="px-4 pt-4 pb-2 border-b border-white/10 rounded-t-xl">
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-yellow-400">
+      <div className="px-4 pt-4 pb-2 border-b border-[#d4af37]/20">
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-[#d4af37]">
           {label}
         </p>
       </div>
@@ -196,7 +196,7 @@ function DropdownPanel({
       {/* Items */}
       <ul className="py-2">
         {items.map((item, index) => (
-          <li 
+          <li
             key={item.href}
             className="relative"
             onMouseEnter={() => setHoveredIndex(index)}
@@ -206,10 +206,10 @@ function DropdownPanel({
               href={item.href}
               className="group flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors duration-150"
             >
-              <div className="mt-0.5 flex-shrink-0 text-yellow-400">{item.icon}</div>
+              <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-white group-hover:text-yellow-400 transition-colors duration-150 leading-snug">
+                  <span className="text-sm font-medium text-white group-hover:text-[#d4af37] transition-colors duration-150 leading-snug">
                     {item.title}
                   </span>
                   {item.badge === "NEW" && (
@@ -224,7 +224,7 @@ function DropdownPanel({
               </div>
               <ChevronRight
                 size={14}
-                className="mt-1 flex-shrink-0 text-gray-600 group-hover:text-yellow-400 group-hover:translate-x-0.5 transition-all duration-150"
+                className="mt-1 flex-shrink-0 text-gray-600 group-hover:text-[#d4af37] group-hover:translate-x-0.5 transition-all duration-150"
               />
             </Link>
 
@@ -258,10 +258,10 @@ function DropdownPanel({
       </ul>
 
       {/* Footer CTA */}
-      <div className="px-4 py-3 border-t border-white/10 bg-white/5 rounded-b-xl">
+      <div className="px-4 py-3 border-t border-[#d4af37]/20 bg-white/5">
         <Link
           href={browseHref}
-          className="text-xs text-yellow-400 hover:text-yellow-300 font-medium flex items-center gap-1 transition-colors"
+          className="text-xs text-[#d4af37] hover:text-yellow-300 font-medium flex items-center gap-1 transition-colors"
         >
           {browseLabel}
           <ChevronRight size={12} />
@@ -282,24 +282,35 @@ export default function Navbar() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    const refreshUser = () => {
+      const storedUser = getUser();
+      if (storedUser && (storedUser._id || storedUser.id)) {
+        setUserState(storedUser);
+      } else {
+        setUserState(null);
+      }
+    };
+
+    refreshUser();
+    window.addEventListener('user-updated', refreshUser);
+
     const storedUser = getUser();
-    if (storedUser && storedUser._id) {
-      setUserState(storedUser);
-      // Fetch full profile to get gender and up-to-date name/image
+    if (storedUser && (storedUser._id || storedUser.id)) {
       const fetchFullProfile = async () => {
+        const userId = storedUser._id || storedUser.id;
+        if (!userId) return;
         try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/profile/profile/${storedUser._id}`);
+          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
           if (response.ok) {
             const data = await response.json();
-            // Merge profile data with basic user data (flatten for easy access)
-            setUserState({
+            const fullUser = {
               ...storedUser,
               ...data,
-              ...data.profile, // Profile fields like profileImage, gender might be flat or nested
-            });
+              ...(data.profile || {})
+            };
+            setUserState(fullUser);
           } else if (response.status === 401 || response.status === 404) {
-            // Token is likely invalid or stale for this collection
-            console.warn("Auth token invalid or user not found. Clearing session.");
+            console.warn("Auth session node stale on navbar hook. Resetting...");
             clearAuth();
             setUserState(null);
           }
@@ -309,6 +320,8 @@ export default function Navbar() {
       };
       fetchFullProfile();
     }
+
+    return () => window.removeEventListener('user-updated', refreshUser);
   }, []);
 
   const handleLogout = () => {
@@ -352,11 +365,11 @@ export default function Navbar() {
         {/* ── TOP BAR ── */}
         <div className="bg-black text-white flex items-center justify-between px-6 md:px-16 h-14 border-b border-gray-800">
 
-          <Link href="/" className="text-yellow-400 font-bold text-xl tracking-tight flex-shrink-0">
+          <Link href="/" className="text-[#d4af37] font-bold text-xl tracking-tight flex-shrink-0">
             Global Counselling Center
           </Link>
 
-          <div className="hidden md:flex items-center bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 w-[480px] focus-within:border-yellow-400/60 transition-colors">
+          <div className="hidden md:flex items-center bg-gray-900 border border-gray-700 rounded-lg px-3 py-1.5 w-[480px] focus-within:border-[#d4af37]/60 transition-colors">
             <Search size={15} className="text-gray-500 mr-2 flex-shrink-0" />
             <input
               type="text"
@@ -368,29 +381,29 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-5 text-sm flex-shrink-0">
             {!user ? (
               <>
-                <Link href="/auth/login" className="text-gray-300 hover:text-yellow-400 transition-colors">
+                <Link href="/auth/login" className="text-gray-300 hover:text-[#d4af37] transition-colors">
                   Sign In
                 </Link>
 
                 {/* Multi-role Sign Up Dropdown */}
                 <div className="relative group">
-                  <button className="flex items-center gap-1.5 text-gray-300 hover:text-yellow-400 transition-colors font-semibold">
+                  <button className="flex items-center gap-1.5 text-gray-300 hover:text-[#d4af37] transition-colors font-semibold">
                     Sign Up
                     <ChevronRight size={14} className="group-hover:rotate-90 transition-transform duration-200" />
                   </button>
 
                   <div className="absolute right-0 mt-3 w-48 origin-top-right rounded-xl bg-[#1f2937] shadow-3xl ring-1 ring-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden border border-white/5">
-                    <div className="px-4 pt-3 pb-1 border-b border-white/10">
-                      <p className="text-[9px] font-black uppercase tracking-widest text-yellow-400/80">Select Role</p>
+                    <div className="px-4 pt-3 pb-1 border-b border-[#d4af37]/20">
+                      <p className="text-[9px] font-black uppercase tracking-widest text-[#d4af37]/80">Select Role</p>
                     </div>
                     <div className="py-1">
                       <Link href="/auth/RegisterStudent" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white hover:bg-white/5 transition-colors">
-                        <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">🎓</span>
-                        <span className="group-hover/item:text-yellow-400 transition-colors">Student</span>
+                        <span className="text-[#d4af37] group-hover/item:scale-125 transition-transform">🎓</span>
+                        <span className="group-hover/item:text-[#d4af37] transition-colors">Student</span>
                       </Link>
                       <Link href="/auth/RegisterConsultant" className="group/item flex items-center gap-3 px-4 py-2.5 text-sm text-white border-t border-white/5 hover:bg-white/5 transition-colors">
-                        <span className="text-yellow-400 group-hover/item:scale-125 transition-transform">💼</span>
-                        <span className="group-hover/item:text-yellow-400 transition-colors">Consultant</span>
+                        <span className="text-[#d4af37] group-hover/item:scale-125 transition-transform">💼</span>
+                        <span className="group-hover/item:text-[#d4af37] transition-colors">Consultant</span>
                       </Link>
                     </div>
                   </div>
@@ -405,10 +418,10 @@ export default function Navbar() {
                     onMouseEnter={() => setProfileDropdownOpen(true)}
                     className="flex items-center gap-2 focus:outline-none transition-transform active:scale-95"
                   >
-                    <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 overflow-hidden flex items-center justify-center hover:border-yellow-400/50 transition-colors">
+                    <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 overflow-hidden flex items-center justify-center hover:border-[#d4af37]/50 transition-colors">
                       {user.profileImage ? (
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                          src={user.profileImage.startsWith('http') ? user.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
                           alt="Profile"
                           className="w-full h-full object-cover"
                         />
@@ -427,7 +440,7 @@ export default function Navbar() {
                   {profileDropdownOpen && (
                     <div
                       onMouseLeave={() => setProfileDropdownOpen(false)}
-                      className="absolute right-0 mt-4 w-64 origin-top-right rounded-[1.25rem] bg-[#0a0a0a] border border-white/10 shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-50 overflow-hidden p-5 text-center"
+                      className="absolute right-0 mt-4 w-64 origin-top-right rounded-[1.25rem] bg-[#0a0a0a] border border-[#d4af37]/20 shadow-[0_30px_100px_rgba(0,0,0,0.8)] z-50 overflow-hidden p-5 text-center"
                       style={{
                         animation: "dropIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both",
                       }}
@@ -437,11 +450,11 @@ export default function Navbar() {
 
                       <div className="flex flex-col items-center gap-3 relative z-10">
                         <div className="relative group/avatar">
-                          <div className="w-16 h-16 rounded-[1rem] bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center p-1 transition-transform duration-500 group-hover/avatar:rotate-2">
+                          <div className="w-16 h-16 rounded-[1rem] bg-white/5 border border-[#d4af37]/20 overflow-hidden flex items-center justify-center p-1 transition-transform duration-500 group-hover/avatar:rotate-2">
                             <div className="w-full h-full rounded-[0.8rem] overflow-hidden bg-[#1a1a1a] flex items-center justify-center relative">
                               {user.profileImage ? (
                                 <img
-                                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                                  src={user.profileImage.startsWith('http') ? user.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
                                   alt="Profile"
                                   className="w-full h-full object-cover"
                                 />
@@ -468,15 +481,15 @@ export default function Navbar() {
                         <div className="w-full pt-2 space-y-2">
                           <Link
                             href="/User/dashboard"
-                            className="flex items-center justify-center gap-2 w-full bg-yellow-400 text-black py-2.5 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-yellow-300 transition-all hover:scale-[1.02] active:scale-95 shadow-[0_10px_20px_rgba(234,179,8,0.2)]"
+                            className="flex items-center justify-center gap-2 w-full bg-[#d4af37] text-black py-2.5 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-yellow-300 transition-all hover:scale-[1.02] active:scale-95 shadow-[0_10px_20px_rgba(234,179,8,0.2)]"
                           >
                             <LayoutDashboard size={12} />
                             Dashboard
                           </Link>
-                          
+
                           <button
                             onClick={handleLogout}
-                            className="flex items-center justify-center gap-2 w-full py-1.5 text-white/40 hover:text-white font-bold text-[10px] uppercase tracking-[0.2em] transition-colors"
+                            className="flex items-center justify-center gap-2 w-full py-1.5 text-white/50 hover:text-white font-bold text-[10px] uppercase tracking-[0.2em] transition-colors"
                           >
                             Logout
                           </button>
@@ -488,7 +501,7 @@ export default function Navbar() {
 
                 {/* Small Cart Icon */}
                 <div className="relative group/cart cursor-pointer hover:scale-110 transition-transform px-2">
-                  <ShoppingCart size={20} className="text-white hover:text-yellow-400 transition-colors" />
+                  <ShoppingCart size={20} className="text-white hover:text-[#d4af37] transition-colors" />
                   <span className="absolute -top-1.5 -right-0 bg-red-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                     0
                   </span>
@@ -498,7 +511,7 @@ export default function Navbar() {
 
             <Link
               href="/contact"
-              className="bg-yellow-400 text-black px-4 py-1.5 rounded-lg font-semibold text-sm hover:bg-yellow-300 transition-colors"
+              className="bg-[#d4af37] text-black px-4 py-1.5 rounded-lg font-semibold text-sm hover:bg-yellow-300 transition-colors"
             >
               Book Counseling Session
             </Link>
@@ -529,7 +542,7 @@ export default function Navbar() {
                 >
                   <Link
                     href={item.path}
-                    className={`flex items-center gap-1.5 px-3 py-3 text-sm transition-colors duration-150 hover:text-yellow-400 ${isActive || isOpen ? "text-yellow-400" : "text-white"
+                    className={`flex items-center gap-1.5 px-3 py-3 text-sm transition-colors duration-150 hover:text-[#d4af37] ${isActive || isOpen ? "text-[#d4af37]" : "text-white"
                       }`}
                   >
                     {item.name}
@@ -547,7 +560,7 @@ export default function Navbar() {
 
                   {/* Active underline */}
                   {(isActive || isOpen) && (
-                    <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-yellow-400 rounded-full" />
+                    <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-[#d4af37] rounded-full" />
                   )}
 
                   {/* Universities dropdown */}
@@ -596,7 +609,7 @@ export default function Navbar() {
             })}
           </nav>
 
-          <div className="text-white/60 hover:text-yellow-400 cursor-pointer text-sm transition-colors flex items-center gap-1.5">
+          <div className="text-white/70 hover:text-[#d4af37] cursor-pointer text-sm transition-colors flex items-center gap-1.5">
             <span>📱</span>
             <span>Download app</span>
           </div>
@@ -619,12 +632,10 @@ export default function Navbar() {
               <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center p-1">
                 <div className="w-full h-full rounded-xl overflow-hidden bg-[#1a1a1a] flex items-center justify-center">
                   {user.profileImage ? (
-                    <Image
-                      src={`http://localhost:5000${user.profileImage}`}
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
                       alt="Profile"
-                      width={80}
-                      height={80}
-                      className="object-cover"
+                      className="w-full h-full object-cover"
                     />
                   ) : (
                     <UserIcon size={32} className="text-gray-600" />
@@ -643,7 +654,7 @@ export default function Navbar() {
               key={item.path}
               href={item.path}
               onClick={() => setMenuOpen(false)}
-              className={`flex items-center gap-2 hover:text-yellow-400 transition-colors ${pathname === item.path ? "text-yellow-400" : ""
+              className={`flex items-center gap-2 hover:text-[#d4af37] transition-colors ${pathname === item.path ? "text-[#d4af37]" : ""
                 }`}
             >
               {item.name}
@@ -664,7 +675,7 @@ export default function Navbar() {
             <Link
               href="/User/dashboard"
               onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-2 text-yellow-400 hover:text-yellow-300 font-bold transition-colors"
+              className="flex items-center gap-2 text-[#d4af37] hover:text-yellow-300 font-bold transition-colors"
             >
               <LayoutDashboard size={18} />
               Dashboard
@@ -674,7 +685,7 @@ export default function Navbar() {
           <Link
             href="/contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-2 bg-yellow-400 text-black px-6 py-2.5 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
+            className="mt-2 bg-[#d4af37] text-black px-6 py-2.5 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
           >
             Book Session
           </Link>

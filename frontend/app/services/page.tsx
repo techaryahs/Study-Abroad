@@ -19,27 +19,24 @@ interface Service {
 
 const services: Service[] = [
   { slug: "counselling", title: "Counselling Session", description: "Google Meet session with our counsellors. Get transparency on your case for study/work overseas. Charges fully adjustable in services' pricing.", icon: "🎯", badge: "fire" },
-  { slug: "research-paper-drafting", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
+  { slug: "research-paper", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
   { slug: "visa-application-help", title: "Visa Application Help", description: "Ace the visa application through our help in the paperwork, financial planning, and visa interview mock rounds. Applicable for USA, Canada, UK, Germany, and more.", icon: "🛂", badge: null },
   { slug: "eb1", title: "Apply For An EB-1 Visa", description: "The EB-1 visa is a talent-based immigrant visa in the US for individuals with extraordinary ability in their field.", icon: "🌟", badge: "fire" },
   { slug: "application-help", title: "Complete Application Help", description: "Get your application into the top 10% of the applications the committee evaluates for admission.", icon: "📋", badge: "popular" },
   { slug: "shortlisting", title: "Profile Evaluation & University Shortlisting", description: "Use our pruning strategy to get admits from the best universities your profile can get you into without wasting money.", icon: "🏛️", badge: null },
   { slug: "sop", title: "Statement of Purpose/Essay Writing", description: "Ivy league graduates work FROM SCRATCH or with your existing draft, zero plagiarism, and unlimited changes - free of charge.", icon: "✍️", badge: null },
   { slug: "o1", title: "Apply For An O-1 Visa", description: "The O-1 visa is a talent-based non-immigrant work visa in the US for individuals with extraordinary ability in their field.", icon: "🏆", badge: null },
-  { slug: "mock-interview", title: "US Visa Mock Interview", description: "The final step to your US visa is a Visa interview with an officer from the US consulate. Ace the interview with proven tricks and techniques.", icon: "🎤", badge: null },
+  { slug: "visa_mock_interview", title: "US Visa Mock Interview", description: "The final step to your US visa is a Visa interview with an officer from the US consulate. Ace the interview with proven tricks and techniques.", icon: "🎤", badge: null },
   { slug: "lor", title: "Letter of Recommendation Drafting", description: "Little known is the art of writing exactly what the admissions committee wants to see in an applicant. This can be more impacting than your SOP if done right.", icon: "📝", badge: null },
   { slug: "personal-history", title: "Personal History Statement", description: "The Personal History Statement reflects your ability to connect the barriers you have overcome in the past to your current interest in the program.", icon: "📖", badge: null },
   { slug: "resume", title: "Resume Drafting", description: "Learn the secret to a perfect resume that will truly set you apart from any other applicant that you compete with.", icon: "🗂️", badge: null },
-  { slug: "gre", title: "GRE Prep-Plan Building", description: "The secret to an excellent GRE score is NOT hard work. I scored a 329/340 and helped thousands do the same. Are you next? (Day-by-day schedule)", icon: "📊", badge: null },
+  { slug: "gre-prep", title: "GRE Prep-Plan Building", description: "The secret to an excellent GRE score is NOT hard work. I scored a 329/340 and helped thousands do the same. Are you next? (Day-by-day schedule)", icon: "📊", badge: null },
   { slug: "university-finalization", title: "University Finalization Help", description: "Have some of your admits in hand and need help with finalizing on one? Get a detailed review of the right pick as per your circumstances.", icon: "🎓", badge: null },
-  { slug: "plagiarism", title: "Plagiarism Check Report", description: "Use our best-in-class instructor-level Turnitin reporting software to generate reports for your drafts. Can be used on SOPs, LORs, research papers, and even assignments.", icon: "🔍", badge: null },
+  { slug: "plagiarism-check", title: "Plagiarism Check Report", description: "Use our best-in-class instructor-level Turnitin reporting software to generate reports for your drafts. Can be used on SOPs, LORs, research papers, and even assignments.", icon: "🔍", badge: null },
   { slug: "scholarship", title: "Scholarship Application Help", description: "Over 60% of our applicants get a scholarship/fellowship before they step into their university. Now, you can get one too.", icon: "💰", badge: null },
-  { slug: "job", title: "Job Application Help", description: "End-to-End support for you to fetch the job of your dreams. Apply to jobs in multiple countries with our support and network.", icon: "💼", badge: null },
   { slug: "toefl", title: "TOEFL Prep-Plan Building/Coaching Session", description: "TOEFL scores are your gateway to financial aid and teaching assistantships. Learn how I scored a 119/120 and YOU can too.", icon: "🗣️", badge: null },
   { slug: "canada-sop", title: "Canada Visa SOP/Letter of Explanation", description: "Over 1000 students have been issued study permits with us. With our expertise in the most common reasons for rejection, we can help you ensure success.", icon: "🍁", badge: null },
   { slug: "profile-building", title: "Profile Building Guidance", description: "Have more than 3 months of time for your applications? Join us for one-on-one mentorship on profile boosting in customized sessions.", icon: "📈", badge: null },
-  { slug: "assignment", title: "Assignment Help", description: "Join the privileged 3000+ students who've found a solution to their academic pain. Hire an expert to help with your assignment today!", icon: "📚", badge: null },
-  { slug: "housing", title: "Housing Search", description: "Make your housing search hassle-free with customized accommodation help. Use our network and expertise to find safe and affordable housing.", icon: "🏠", badge: null },
   { slug: "cover-letter", title: "Cover Letter Drafting", description: "Command the attention of top recruiters with a cover letter that makes lasting impressions.", icon: "✉️", badge: null },
   { slug: "linkedin", title: "LinkedIn Profile Boosting", description: "Revamp your LinkedIn profile from 0 to 99. The outcomes include better admits, job opportunities, placements, and a bigger network.", icon: "💡", badge: null },
   { slug: "express-entry", title: "Express Entry/PNP Help", description: "Canada Permanent Residence (PR) via the Express Entry route. Get your applications filed via experts who have changed lives of hundreds of applicants already.", icon: "🍁", badge: null },
@@ -75,7 +72,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
   return (
     <Link
       href={`/services/${service.slug}`}
-      className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-white/[0.08] bg-[#141414] hover:border-yellow-400/30 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)] transition-all duration-200 overflow-hidden"
+      className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-white/[0.08] bg-[#0f0f0f] hover:border-[#d4af37]/30 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)] transition-all duration-200 overflow-hidden"
       style={{ animationDelay: `${index * 35}ms` }}
     >
       {/* top accent */}
@@ -93,19 +90,19 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         </span>
       )}
 
-      <div className="w-10 h-10 rounded-xl bg-yellow-400/10 flex items-center justify-center text-lg flex-shrink-0">
+      <div className="w-10 h-10 rounded-xl bg-[#d4af37]/10 flex items-center justify-center text-lg flex-shrink-0">
         {service.icon}
       </div>
 
-      <h3 className="font-bold text-[15px] leading-snug text-white group-hover:text-yellow-400 transition-colors duration-200">
+      <h3 className="font-bold text-[15px] leading-snug text-white group-hover:text-[#d4af37] transition-colors duration-200">
         {service.title}
       </h3>
 
-      <p className="text-white/40 text-[13px] leading-relaxed flex-1">
+      <p className="text-white/50 text-[13px] leading-relaxed flex-1">
         {service.description}
       </p>
 
-      <span className="self-end text-yellow-400 text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+      <span className="self-end text-[#d4af37] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
         →
       </span>
     </Link>
@@ -135,7 +132,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0b0b0b] text-white overflow-x-hidden">
+    <main className="min-h-screen bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#000000] text-white overflow-x-hidden">
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
       <section className="relative px-4 sm:px-8 md:px-14 lg:px-20 pt-14 pb-12 border-b border-white/[0.08] overflow-hidden">
@@ -143,9 +140,9 @@ export default function ServicesPage() {
         <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[420px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,197,24,0.12)_0%,transparent_70%)]" />
 
         {/* badge */}
-        <div className="inline-flex items-center gap-2 mb-6 bg-yellow-400/[0.08] border border-yellow-400/25 rounded-full px-4 py-1.5">
-          <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-          <span className="text-yellow-400 text-xs font-semibold tracking-widest uppercase">Our Services</span>
+        <div className="inline-flex items-center gap-2 mb-6 bg-[#d4af37]/[0.08] border border-[#d4af37]/25 rounded-full px-4 py-1.5">
+          <span className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse" />
+          <span className="text-[#d4af37] text-xs font-semibold tracking-widest uppercase">Our Services</span>
         </div>
 
         {/* heading */}
@@ -157,24 +154,24 @@ export default function ServicesPage() {
         <div className="max-w-3xl space-y-3.5">
           <p className="text-white/55 text-sm sm:text-[15px] leading-relaxed">
             Having worked with students from over{" "}
-            <strong className="text-white font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, YMGrad forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
+            <strong className="text-white font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
             <strong className="text-white font-semibold">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
           </p>
           <p className="text-white/55 text-sm sm:text-[15px] leading-relaxed">
             We support applications to most countries including but not limited to{" "}
             <strong className="text-white font-semibold">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
           </p>
-          <p className="text-yellow-400 text-sm font-medium pt-1">
+          <p className="text-[#d4af37] text-sm font-medium pt-1">
             ✦ To see the charges, you can click on the service, select the currency and other relevant options (if any). Crypto payments now accepted!
           </p>
         </div>
 
         {/* chat strip */}
-        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#141414] border border-white/[0.08] rounded-xl px-5 py-3.5">
+        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#0f0f0f] border border-white/[0.08] rounded-xl px-5 py-3.5">
           <span className="text-white/45 text-sm">To reach our sales team</span>
           <Link
             href="#"
-            className="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-yellow-500 active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 bg-[#d4af37] text-black font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-yellow-500 active:scale-95 transition-all"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
@@ -191,9 +188,9 @@ export default function ServicesPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for a service…"
-            className="w-full bg-[#141414] border border-white/[0.08] rounded-xl px-4 py-3 pr-11 text-sm text-white placeholder-white/30 focus:outline-none focus:border-yellow-400/40 transition-colors"
+            className="w-full bg-[#0f0f0f] border border-white/[0.08] rounded-xl px-4 py-3 pr-11 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#d4af37]/40 transition-colors"
           />
-          <button className="absolute right-3 top-1/2 -translate-y-1/2 text-yellow-400" aria-label="Search">
+          <button className="absolute right-3 top-1/2 -translate-y-1/2 text-[#d4af37]" aria-label="Search">
             <SearchIcon className="w-5 h-5" />
           </button>
         </div>
@@ -217,7 +214,7 @@ export default function ServicesPage() {
 
       {/* ── CTA BANNER ───────────────────────────────────────────────────────── */}
       <div className="px-4 sm:px-8 md:px-14 lg:px-20 py-4">
-        <div className="relative overflow-hidden rounded-2xl border border-yellow-400/20 bg-gradient-to-br from-[#1a1500] to-[#111] px-6 py-12 sm:px-14 flex flex-col items-center text-center gap-5">
+        <div className="relative overflow-hidden rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1500] to-[#111] px-6 py-12 sm:px-14 flex flex-col items-center text-center gap-5">
           <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-48 rounded-full bg-[radial-gradient(ellipse,rgba(245,197,24,0.13),transparent_70%)]" />
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Questions? Start a chat with us.</h2>
           <p className="text-white/45 text-sm sm:text-base max-w-sm">
@@ -225,7 +222,7 @@ export default function ServicesPage() {
           </p>
           <Link
             href="#"
-            className="inline-flex items-center gap-2 bg-yellow-400 text-black font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:bg-yellow-500 active:scale-95 transition-all"
+            className="inline-flex items-center gap-2 bg-[#d4af37] text-black font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:bg-yellow-500 active:scale-95 transition-all"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
@@ -239,15 +236,15 @@ export default function ServicesPage() {
 
           {/* Left */}
           <div>
-            <div className="inline-flex items-center gap-2 mb-4 bg-yellow-400/[0.08] border border-yellow-400/20 rounded-full px-3 py-1">
-              <span className="text-yellow-400 text-xs font-semibold tracking-widest uppercase">Custom Request</span>
+            <div className="inline-flex items-center gap-2 mb-4 bg-[#d4af37]/[0.08] border border-[#d4af37]/20 rounded-full px-3 py-1">
+              <span className="text-[#d4af37] text-xs font-semibold tracking-widest uppercase">Custom Request</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">Service Request</h2>
             <p className="text-white/45 text-sm sm:text-[15px] leading-relaxed mb-8">
               Tell us what you need. If it&apos;s not listed, we&apos;ll do our best to create a solution just for you. Use the form for custom services.
             </p>
             {/* Illustration */}
-            <div className="bg-[#141414] border border-white/[0.08] rounded-2xl p-6 flex flex-col gap-3">
+            <div className="bg-[#0f0f0f] border border-white/[0.08] rounded-2xl p-6 flex flex-col gap-3">
               <div className="flex gap-3">
                 <div className="h-8 flex-1 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
                 <div className="h-8 flex-1 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
@@ -255,22 +252,22 @@ export default function ServicesPage() {
               <div className="h-8 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
               <div className="h-8 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
               <div className="h-16 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
-              <div className="h-10 rounded-lg bg-yellow-400 flex items-center justify-center text-black text-xs font-black tracking-widest">
+              <div className="h-10 rounded-lg bg-[#d4af37] flex items-center justify-center text-black text-xs font-black tracking-widest">
                 SUBMIT →
               </div>
             </div>
           </div>
 
           {/* Right — form */}
-          <div className="bg-[#141414] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+          <div className="bg-[#0f0f0f] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
-                <div className="w-16 h-16 rounded-full bg-yellow-400/10 flex items-center justify-center text-3xl">✅</div>
+                <div className="w-16 h-16 rounded-full bg-[#d4af37]/10 flex items-center justify-center text-3xl">✅</div>
                 <h3 className="text-xl font-black">Request Submitted!</h3>
                 <p className="text-white/45 text-sm max-w-xs">Thanks! Our team will get back to you shortly with the best solution.</p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-2 text-yellow-400 text-sm underline underline-offset-2 hover:text-yellow-300"
+                  className="mt-2 text-[#d4af37] text-sm underline underline-offset-2 hover:text-yellow-300"
                 >
                   Submit another request
                 </button>
@@ -297,7 +294,7 @@ export default function ServicesPage() {
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         required={field.name !== "mobile"}
-                        className="bg-[#1a1a1a] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-yellow-400/40 transition-colors"
+                        className="bg-[#1a1a1a] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#d4af37]/40 transition-colors"
                       />
                     </div>
                   ))}
@@ -311,13 +308,13 @@ export default function ServicesPage() {
                       placeholder="What do you need help with? Please be as descriptive as possible and provide time or any other constraints that you may have."
                       required
                       rows={4}
-                      className="bg-[#1a1a1a] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-yellow-400/40 transition-colors resize-none"
+                      className="bg-[#1a1a1a] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#d4af37]/40 transition-colors resize-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="mt-1 w-full bg-yellow-400 text-black font-black text-sm sm:text-base py-3.5 rounded-xl hover:bg-yellow-500 active:scale-[0.98] transition-all"
+                    className="mt-1 w-full bg-[#d4af37] text-black font-black text-sm sm:text-base py-3.5 rounded-xl hover:bg-yellow-500 active:scale-[0.98] transition-all"
                   >
                     Submit
                   </button>

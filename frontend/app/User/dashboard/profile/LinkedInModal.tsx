@@ -1,69 +1,91 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { X } from "lucide-react";
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Link as LinkIcon, ShieldCheck } from 'lucide-react';
 
-interface LinkedInModalProps {
+interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (url: string) => void;
-  initialValue?: string;
+  onSubmit: (data: any) => Promise<void>;
+  initialData?: string;
 }
 
-export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: LinkedInModalProps) => {
-  const [url, setUrl] = useState(initialValue);
+export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialData }: Props) => {
+  const [url, setUrl] = useState(initialData || '');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  if (!isOpen) return null;
+  useEffect(() => { 
+    setUrl(initialData || ''); 
+    setError(null);
+  }, [initialData]);
+
+  const validateLinkedIn = (value: string) => {
+    if (!value) return true;
+    const regex = /^https?:\/\/(www\.)?([a-z]+\.)?linkedin\.com\/.*$/i;
+    return regex.test(value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!validateLinkedIn(url)) {
+      setError("Please enter a valid LinkedIn URL (e.g., https://linkedin.com/in/username)");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await onSubmit(url);
+      onClose();
+    } catch (e) {
+      console.error(e);
+      setError("Failed to save. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md font-sans">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="bg-[#0a0a0a] rounded-3xl shadow-2xl w-full max-w-xl overflow-hidden border border-white/10"
-      >
-        <div className="p-10">
-          <div className="flex items-center justify-between mb-10">
-            <div className="space-y-1">
-              <h2 className="text-2xl font-black text-white uppercase tracking-[0.2em]">LinkedIn URL</h2>
-              <p className="text-[10px] text-[#c9a84c] font-black uppercase tracking-widest">Connect your professional social profile</p>
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm">
+          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="bg-dark-900 border border-white/10 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+            <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
+                <h2 className="text-xs font-black text-white uppercase tracking-widest">LinkedIn Profile</h2>
+              <button onClick={onClose} className="p-1 hover:bg-white/5 rounded-lg text-gray-500 transition-all"><X size={18} /></button>
             </div>
-            <button onClick={onClose} className="text-white/40 hover:text-white transition-colors p-3 bg-white/5 rounded-2xl group">
-              <X size={24} className="group-hover:rotate-90 transition-transform" />
-            </button>
-          </div>
+            
+            <form onSubmit={handleSubmit} className="p-8 space-y-6">
+              <div className="space-y-3">
+                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Profile URL</p>
+                <input 
+                  type="url" 
+                  value={url}
+                  onChange={(e) => {
+                    setUrl(e.target.value);
+                    if (error) setError(null);
+                  }}
+                  placeholder="https://linkedin.com/in/username"
+                  className={`w-full bg-white/[0.03] border ${error ? 'border-red-500/50' : 'border-white/10'} rounded-xl px-4 py-3 text-sm text-white focus:outline-none ${error ? 'focus:border-red-500' : 'focus:border-gold-500/50'} transition-all`}
+                  required
+                />
+                {error && (
+                  <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-[10px] text-red-500 font-bold uppercase tracking-widest ml-1">
+                    {error}
+                  </motion.p>
+                )}
+              </div>
 
-          <div className="flex flex-col gap-6">
-            <div className="relative group">
-              <input
-                type="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://linkedin.com/in/username"
-                className="w-full px-6 py-5 bg-white/5 border border-white/10 rounded-2xl focus:outline-none focus:border-[#c9a84c]/50 focus:ring-4 focus:ring-[#c9a84c]/5 transition-all text-white placeholder:text-white/20 font-bold"
-              />
-              <div className="absolute inset-0 bg-[#c9a84c]/2 opacity-0 group-hover:opacity-100 blur-xl -z-10 transition-opacity"></div>
-            </div>
-
-            <div className="flex gap-4 mt-4">
-              <button
-                onClick={onClose}
-                className="flex-1 py-4 bg-white/5 hover:bg-white/10 text-white font-black rounded-2xl transition-all uppercase tracking-widest text-[11px] border border-white/5"
-              >
-                Go Back
+              <button disabled={loading} type="submit" className="w-full py-3.5 bg-gold-500 text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg hover:bg-gold-400 transition-all disabled:opacity-50">
+                {loading ? "Saving..." : "Save Platform Node"}
               </button>
-              <button
-                onClick={() => { onSubmit(url); onClose(); }}
-                className="flex-[2] py-4 bg-[#20C997] hover:bg-[#1BA37A] text-[#0a0a0a] font-black rounded-2xl shadow-[0_0_30px_rgba(32,201,151,0.2)] transition-all active:scale-95 uppercase tracking-widest text-[11px]"
-              >
-                Submit URL
-              </button>
-            </div>
-          </div>
+            </form>
+          </motion.div>
         </div>
-      </motion.div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 };

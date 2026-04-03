@@ -1,489 +1,451 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, ReactNode } from "react";
 
-const countries = ["USA", "Canada", "UK"];
+// ─── Components ──────────────────────────────────────────────────────────────
 
-const visaData = {
+interface AccordionProps {
+  title: string;
+  children?: ReactNode;
+}
+
+function Accordion({ title, children }: AccordionProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div className="border border-[#c6a96b]/20 rounded-xl bg-[#0a0a0a] overflow-hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex justify-between items-center p-5 text-left font-bold text-[#ffffff] hover:bg-white/[0.02] transition-colors"
+      >
+        <span className="text-sm md:text-base tracking-tight">{title}</span>
+        <span className="text-[#d4af37] text-2xl leading-none">{isOpen ? "−" : "+"}</span>
+      </button>
+      {isOpen && children && (
+        <div className="p-5 pt-0 text-sm text-[#e5e5e5]/70 border-t border-white/5 leading-relaxed">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Country Tab Content ──────────────────────────────────────────────────────
+
+type Country = "USA" | "Canada" | "UK";
+
+const countryContent: Record<
+  Country,
+  {
+    highlight: { icon: string; title: string; desc: string };
+    visaTypes?: { category: string; tags: string[] }[];
+    intro?: string;
+    features: { icon: string; title: string; desc: string }[];
+  }
+> = {
   USA: {
-    student: ["F-1", "F-2", "J-1", "J-2", "M-1", "M-2"],
-    work: ["H-4", "H-1B", "L-1A", "L-2"],
-    business: ["B1", "B2"],
-    others: ["K / U / O / C1-D"],
+    highlight: {
+      icon: "⏱️",
+      title: "Quick Appointments",
+      desc: "Leverage the best-in-class 24/7 visa monitoring and faster appointment booking without any effort needed on your end.",
+    },
+    visaTypes: [
+      { category: "Student Visas", tags: ["F-1", "F-2", "J-1", "J-2", "M-1", "M-2"] },
+      { category: "Work Visas", tags: ["H-4", "H-1B", "L-1A", "L-2"] },
+      { category: "Business & Tourism", tags: ["B1", "B2"] },
+      { category: "Others", tags: ["K/ U/ O/ C1-D"] },
+    ],
+    features: [
+      { icon: "📄", title: "Visa Documentation", desc: "Ensure correctness in the DS-160 & Visa Portal to minimize the chances of rejections." },
+      { icon: "💰", title: "Financial Documentation", desc: "Prove the right amount of finances needed to get your visa." },
+      { icon: "🎭", title: "Mock Interviews", desc: "Get tailored training for your case on tackling the visa interview with confidence." },
+      { icon: "📱", title: "Social Media Vetting", desc: "We vet your social media beforehand to ensure compliance." },
+    ],
   },
   Canada: {
-    student: ["Study Permit", "Co-op Work Permit"],
-    work: ["LMIA", "ICT", "PGWP"],
-    business: ["Visitor Visa", "eTA"],
-    others: ["PR / Express Entry"],
+    intro:
+      "Whether it's the Canadian Study Permit, Work Permit, or Temporary Resident (Tourist) Visa, here's how we make it smooth for you.",
+    highlight: {
+      icon: "🚦",
+      title: "Picking the Right Stream",
+      desc: "We'll see which study permit stream suits you best, whether it's SDS or General.",
+    },
+    features: [
+      { icon: "📄", title: "Visa Documentation", desc: "Ensure correctness in the GCKey Visa Application to minimize the chances of rejections." },
+      { icon: "💰", title: "Financial Documentation", desc: "Prove the right amount of finances needed to get your visa." },
+      { icon: "🎭", title: "Mock Interviews", desc: "Get tailored training for your case on tackling the visa interview with confidence." },
+      { icon: "📱", title: "Social Media Vetting", desc: "We vet your social media beforehand to ensure compliance." },
+    ],
   },
   UK: {
-    student: ["Student Visa (Tier 4)"],
-    work: ["Skilled Worker", "Graduate Route"],
-    business: ["Standard Visitor"],
-    others: ["Global Talent", "Health & Care"],
+    intro:
+      "We offer assistance with the Tier 4 (Student), Tourist, and Business Visitor visa applications. We offer end-to-end assistance till you get your UK visa in your hands.",
+    highlight: {
+      icon: "⏱️",
+      title: "Point-Based Immigration System",
+      desc: "Get support for meeting the minimum points threshold required for your UK Visa.",
+    },
+    features: [
+      { icon: "📄", title: "Visa Documentation", desc: "Ensure correctness in the Visa Application Form while minimizing chances of rejections." },
+      { icon: "💰", title: "Financial Documentation", desc: "Prove the right amount of finances needed to get your visa." },
+      { icon: "🎭", title: "Mock Interviews", desc: "Get tailored training for your case on tackling the visa interview with confidence." },
+      { icon: "📱", title: "Social Media Vetting", desc: "We vet your social media beforehand to ensure compliance." },
+    ],
   },
 };
 
-const features = [
-  { icon: "📋", title: "Visa Documentation", desc: "Ensure correctness in DS-160 & Visa Portal submissions with zero errors." },
-  { icon: "💳", title: "Financial Documentation", desc: "Prove the right amount of finances to satisfy consulate requirements." },
-  { icon: "🎤", title: "Mock Interviews", desc: "Train for visa interviews with proven techniques and real-time feedback." },
-  { icon: "📱", title: "Social Media Vetting", desc: "Ensure your online presence is fully compliant before submission." },
-];
-
-function useInView() {
-  const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  return [ref, visible];
-}
-
-function CountUp({ target, duration = 1800, suffix = "" }) {
-  const [val, setVal] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) setStarted(true);
-    }, { threshold: 0.5 });
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!started) return;
-    let start = null;
-    const step = (ts) => {
-      if (!start) start = ts;
-      const p = Math.min((ts - start) / duration, 1);
-      const ease = 1 - Math.pow(1 - p, 3);
-      setVal(+(target * ease).toFixed(1));
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }, [started, target, duration]);
-
-  return <span ref={ref}>{val}{suffix}</span>;
-}
+// ─── Main Page ───────────────────────────────────────────────────────────────
 
 export default function VisaApplicationPage() {
-  const [activeCountry, setActiveCountry] = useState("USA");
+  const [currency, setCurrency] = useState("INR");
   const [dependents, setDependents] = useState(0);
   const [mocks, setMocks] = useState(1);
-  const [mounted, setMounted] = useState(false);
-  const [featuresRef, featuresVisible] = useInView();
-  const [visaRef, visaVisible] = useInView();
+  const [activeCountry, setActiveCountry] = useState<Country>("USA");
 
-  useEffect(() => { setMounted(true); }, []);
+  const baseINR = 55772.95;
+  const originalINR = 69716.0;
+  const baseUSD = 669;
+  const originalUSD = 836;
 
-  const base = 55898;
-  const original = 69874;
-  const addon = dependents * 3500 + (mocks - 1) * 2500;
+  const dependentMultiplier = 1 + dependents * 0.3;
+  const mockMultiplier = 1 + (mocks - 1) * 0.15;
 
-  const visa = visaData[activeCountry];
+  const currentAmount =
+    currency === "INR"
+      ? `₹${(baseINR * dependentMultiplier * mockMultiplier).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`
+      : `$${(baseUSD * dependentMultiplier * mockMultiplier).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+
+  const originalAmount =
+    currency === "INR"
+      ? `INR ${originalINR.toLocaleString("en-IN", { minimumFractionDigits: 2 })}`
+      : `USD ${originalUSD.toLocaleString("en-US")}.00`;
+
+  const countries: Country[] = ["USA", "Canada", "UK"];
+  const countryFlags: Record<Country, string> = { USA: "🇺🇸", Canada: "🇨🇦", UK: "🇬🇧" };
+  const content = countryContent[activeCountry];
+
+  const faqs = [
+    { q: "Do you only help for applications to the US? What about other countries?", a: "We support applications to most countries including but not limited to USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore." },
+    { q: "Does the price include GST/Taxes?", a: "Yes, all prices shown are inclusive of applicable taxes unless stated otherwise at checkout." },
+    { q: "Since the services are offered online, how do we ensure the process will be as smooth as an offline consulting service?", a: "We use structured Google Meet sessions, dedicated support channels, and encrypted document sharing to replicate the experience of in-person consulting." },
+    { q: "What is the best time for me to enroll in the services?", a: "As early as possible — ideally 2–3 months before your intended visa appointment to allow for thorough documentation review." },
+    { q: "I have done most of the process by myself but I am unable to find a date for my Visa appointment at my convenience.", a: "We offer 24/7 slot monitoring and will book the fastest available appointment on your behalf with no additional effort needed from you." },
+    { q: "Are the timelines mentioned on the website followed religiously?", a: "We adhere strictly to our stated 1–2 month timelines and will notify you proactively if any delays are anticipated." },
+    { q: "Is there a slot booking guarantee with a specific deadline?", a: "Yes, we guarantee appointment slot booking within a defined window based on your target travel date. Details are shared at onboarding." },
+    { q: "Is the embassy fee included in our service fee?", a: "No, embassy/consulate fees are paid directly by you to the respective government. Our service fee covers only our consulting support." },
+    { q: "Are there any ongoing discount offers?", a: "A 20% discount is currently applied. This is a limited-time offer." },
+    { q: "Do you offer support for applying for the Emergency Appointments?", a: "Yes, we have a dedicated process for emergency appointment booking and will prioritize your case accordingly." },
+    { q: "What does the Visa Guarantee in the service mean?", a: "Our Visa Guarantee means we will work with you at no extra charge until your visa is approved, subject to our terms and conditions." },
+    { q: "Which documents will I need to begin with the service?", a: "A valid passport, admission/offer letter (if applicable), financial statements, and any prior visa history. Our team will provide a complete checklist upon enrollment." },
+  ];
 
   return (
-    <div className="min-h-screen text-stone-100 overflow-x-hidden relative" style={{ background: "#0a0a0f", fontFamily: "'DM Sans', sans-serif" }}>
+    <main className="min-h-screen bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#000000] text-[#e5e5e5] selection:bg-[#d4af37]/30">
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+      {/* ── HERO SECTION ───────────────────────────────────────────────────── */}
+      <section className="relative px-6 py-16 md:px-20 overflow-hidden border-b border-white/5">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#d4af37]/10 rounded-full blur-[120px] -z-10" />
 
-        @keyframes fadeUp   { from{opacity:0;transform:translateY(32px);}  to{opacity:1;transform:translateY(0);} }
-        @keyframes floatY   { 0%,100%{transform:translateY(0);}            50%{transform:translateY(-10px);} }
-        @keyframes spinCW   { from{transform:rotate(0deg);}                to{transform:rotate(360deg);} }
-        @keyframes spinCCW  { from{transform:rotate(0deg);}                to{transform:rotate(-360deg);} }
-        @keyframes shimmer  { 0%{background-position:-200% center;}        100%{background-position:200% center;} }
-        @keyframes pulseGlow{ 0%,100%{box-shadow:0 0 0 0 rgba(234,179,8,.45);} 50%{box-shadow:0 0 0 10px rgba(234,179,8,0);} }
-        @keyframes orbD1    { 0%,100%{transform:translate(0,0) scale(1);}  50%{transform:translate(40px,-28px) scale(1.12);} }
-        @keyframes orbD2    { 0%,100%{transform:translate(0,0) scale(1);}  50%{transform:translate(-28px,20px) scale(0.9);} }
-        @keyframes tabSlide { from{opacity:0;transform:translateY(10px);}  to{opacity:1;transform:translateY(0);} }
-        @keyframes badgePop { from{opacity:0;transform:scale(0.7);}        to{opacity:1;transform:scale(1);} }
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase leading-[0.9]">
+              Visa Application Help
+            </h1>
+            <p className="text-lg text-[#e5e5e5]/80 mb-10 max-w-xl leading-relaxed font-medium">
+              Ace the visa application through our help in the paperwork, financial planning, and visa Interview mock rounds.{" "}
+              <span className="text-[#ffffff]">Applicable for USA, Canada, UK, Germany, and more.</span>
+            </p>
 
-        .fd  { font-family:'Cormorant Garamond',Georgia,serif; }
-        .afu { animation:fadeUp   0.8s cubic-bezier(.16,1,.3,1) both; }
-        .afl { animation:floatY  6s ease-in-out infinite; }
-        .acw { animation:spinCW 22s linear infinite; }
-        .accw{ animation:spinCCW 32s linear infinite; }
-        .aglow{ animation:pulseGlow 2.5s ease-in-out infinite; }
-        .aorb1{ animation:orbD1 14s ease-in-out infinite; }
-        .aorb2{ animation:orbD2 18s ease-in-out infinite; }
-        .atab { animation:tabSlide 0.35s cubic-bezier(.16,1,.3,1) both; }
-        .abadge{ animation:badgePop 0.4s cubic-bezier(.34,1.56,.64,1) both; }
-
-        .d1{animation-delay:.10s;} .d2{animation-delay:.20s;}
-        .d3{animation-delay:.30s;} .d4{animation-delay:.40s;}
-        .d5{animation-delay:.55s;}
-
-        .gold-shimmer {
-          background:linear-gradient(90deg,#ca8a04,#fde68a,#ca8a04,#d4a555,#ca8a04);
-          background-size:300% auto;
-          -webkit-background-clip:text;
-          -webkit-text-fill-color:transparent;
-          background-clip:text;
-          animation:shimmer 4s linear infinite;
-        }
-
-        .grid-texture {
-          background-image:
-            linear-gradient(rgba(202,138,4,.09) 1px,transparent 1px),
-            linear-gradient(90deg,rgba(202,138,4,.09) 1px,transparent 1px);
-          background-size:72px 72px;
-        }
-
-        .tag {
-          display:inline-block; font-size:10px; letter-spacing:.15em;
-          text-transform:uppercase; color:#eab308;
-          border:1px solid rgba(202,138,4,.38); border-radius:999px;
-          padding:5px 16px;
-        }
-
-        .card {
-          background:rgba(255,255,255,.035);
-          border:1px solid rgba(202,138,4,.13);
-          border-radius:18px;
-          transition:transform .35s ease,border-color .35s ease,background .35s ease;
-        }
-        .card:hover {
-          transform:translateY(-4px);
-          border-color:rgba(202,138,4,.38);
-          background:rgba(202,138,4,.05);
-        }
-
-        .btn-gold {
-          background:#ca8a04; color:#0a0a0f; font-weight:600;
-          border:none; border-radius:999px; padding:14px 32px;
-          font-size:14px; cursor:pointer;
-          transition:background .25s,transform .2s;
-        }
-        .btn-gold:hover{ background:#eab308; transform:scale(1.04); }
-
-        .btn-outline {
-          background:transparent; color:#eab308;
-          border:1px solid rgba(202,138,4,.42); border-radius:12px;
-          padding:11px 20px; font-size:13px; cursor:pointer; width:100%;
-          transition:background .25s,border-color .25s;
-        }
-        .btn-outline:hover{ background:rgba(202,138,4,.10); border-color:#eab308; }
-
-        .country-tab {
-          padding:8px 22px; border-radius:999px; font-size:13px;
-          font-weight:500; cursor:pointer; border:1px solid rgba(202,138,4,.22);
-          color:#a8a29e; background:transparent;
-          transition:all .25s ease;
-        }
-        .country-tab:hover { border-color:rgba(202,138,4,.50); color:#eab308; }
-        .country-tab.active {
-          background:#ca8a04; color:#0a0a0f;
-          border-color:#ca8a04; font-weight:700;
-        }
-
-        .visa-pill {
-          display:inline-block; font-size:11px; letter-spacing:.06em;
-          color:#d6d3d1; border:1px solid rgba(255,255,255,.10);
-          border-radius:999px; padding:4px 12px; margin:3px 3px 0 0;
-          transition:all .2s ease;
-        }
-        .visa-pill:hover {
-          border-color:rgba(202,138,4,.45); color:#eab308;
-          background:rgba(202,138,4,.07);
-        }
-
-        .stat-divider { border-right:1px solid rgba(202,138,4,.18); }
-        .stat-divider:last-child { border-right:none; }
-
-        .field {
-          width:100%; background:rgba(255,255,255,.04);
-          border:1px solid rgba(202,138,4,.20); border-radius:12px;
-          color:#f5f5f4; font-size:13px; padding:10px 14px;
-          outline:none; margin-top:6px;
-          font-family:'DM Sans',sans-serif;
-          transition:border-color .25s;
-        }
-        .field:focus{ border-color:rgba(202,138,4,.65); }
-        select.field option{ background:#111118; }
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button{ -webkit-appearance:none; }
-        input[type=number]{ -moz-appearance:textfield; }
-      `}</style>
-
-      {/* ── Ambient background ── */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
-        <div className="aorb1 absolute rounded-full"
-          style={{ width:520,height:520,top:-160,right:-160,background:"radial-gradient(circle,rgba(202,138,4,.12) 0%,transparent 70%)",filter:"blur(60px)" }} />
-        <div className="aorb2 absolute rounded-full"
-          style={{ width:420,height:420,bottom:-80,left:-160,background:"radial-gradient(circle,rgba(30,80,200,.07) 0%,transparent 70%)",filter:"blur(60px)" }} />
-        <div className="absolute rounded-full"
-          style={{ width:300,height:300,top:"50%",left:"50%",background:"radial-gradient(circle,rgba(234,179,8,.04) 0%,transparent 70%)",filter:"blur(50px)" }} />
-        <div className="absolute inset-0 grid-texture" />
-      </div>
-
-      {/* ── Page ── */}
-      <div className="relative max-w-6xl mx-auto px-6 py-12" style={{ zIndex:1 }}>
-
-        {/* ══ HERO ══ */}
-        <section className="mb-20">
-          <div className={mounted ? "afu mb-6" : "opacity-0 mb-6"}>
-            <span className="tag">Visa Services</span>
-          </div>
-
-          <div className="grid gap-16 items-center" style={{ gridTemplateColumns:"1fr 1fr" }}>
-            {/* Copy */}
-            <div>
-              <h1 className={`fd ${mounted?"afu d1":"opacity-0"}`}
-                style={{ fontSize:"clamp(44px,5.5vw,72px)",fontWeight:700,lineHeight:1.0,letterSpacing:"-0.02em",marginBottom:24 }}>
-                Visa<br />
-                Application <span className="gold-shimmer">Help</span>
-              </h1>
-
-              <p className={mounted?"afu d2":"opacity-0"}
-                style={{ color:"#a8a29e",fontSize:16,lineHeight:1.7,maxWidth:440,marginBottom:28 }}>
-                Ace your visa application through expert help in paperwork, financial planning,
-                and mock interviews. Applicable for USA, Canada, UK, Germany, and more.
-              </p>
-
-              <div className={`flex flex-wrap gap-3 ${mounted?"afu d3":"opacity-0"}`} style={{ marginBottom:28 }}>
-                {["📹 Video Call","📞 Audio Call","💬 Text Support"].map((f,i) => (
-                  <span key={i} style={{ fontSize:12,color:"#78716c",background:"rgba(255,255,255,.04)",border:"1px solid rgba(255,255,255,.09)",borderRadius:999,padding:"7px 16px" }}>{f}</span>
-                ))}
+            <div className="flex gap-10 mb-10">
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">📹</div>
+                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Video call</span>
               </div>
-
-              <div className={`flex items-center gap-4 ${mounted?"afu d4":"opacity-0"}`}>
-                <button className="btn-gold aglow">Discuss Your Case →</button>
-                <span style={{ fontSize:12,color:"#57534e" }}>Free consultation</span>
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">🎧</div>
+                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Audio call</span>
+              </div>
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-14 h-14 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center text-2xl text-green-400">💬</div>
+                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Text Support</span>
               </div>
             </div>
 
-            {/* Orbital graphic — passport / visa theme */}
-            <div className={`flex justify-center ${mounted?"afu d3":"opacity-0"}`}>
-              <div className="relative" style={{ width:280,height:280 }}>
-                <div className="acw absolute inset-0 rounded-full"
-                  style={{ border:"1px solid rgba(202,138,4,.18)" }} />
-                <div className="accw absolute rounded-full"
-                  style={{ inset:24,border:"1px dashed rgba(202,138,4,.10)" }} />
+            <div className="flex flex-wrap items-center gap-6">
+              <button className="bg-[#c6a96b] text-[#000000] font-black py-4 px-10 rounded-xl hover:bg-[#d4af37] hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#c6a96b]/20 uppercase tracking-widest text-xs">
+                Discuss Your Case
+              </button>
+              <p className="text-sm text-[#a1a1a1] italic">Have questions about this service? Let's chat.</p>
+            </div>
+          </div>
 
-                {/* Center */}
-                <div className="afl absolute rounded-full flex flex-col items-center justify-center"
-                  style={{ inset:64,background:"rgba(202,138,4,.08)",border:"1px solid rgba(202,138,4,.28)" }}>
-                  <span style={{ fontSize:36,marginBottom:4 }}>🛂</span>
-                  <span style={{ fontSize:10,letterSpacing:".12em",textTransform:"uppercase",color:"#eab308" }}>Approved</span>
+          {/* Hero illustration */}
+          <div className="w-[85%] mx-auto flex items-center justify-center">
+            <div className="relative w-full h-[320px] md:h-[400px]">
+              <div className="absolute inset-0 bg-[#d4af37]/8 rounded-[60%_40%_50%_50%/50%_60%_40%_50%] blur-2xl" />
+              <div className="absolute inset-6 flex flex-col items-center justify-center gap-6">
+                {/* Expert badge */}
+                <div className="bg-[#0f0f0f] border border-[#c6a96b]/30 rounded-2xl px-8 py-5 shadow-2xl text-center">
+                  <p className="text-[#c6a96b] text-xs font-black uppercase tracking-widest mb-1">Expert Support</p>
+                  <p className="text-[#ffffff] font-black text-base">Get support from Visa experts</p>
+                  <p className="text-[#a1a1a1] text-sm">with decades of experience</p>
                 </div>
-
-                {/* Country flags orbiting */}
-                {[["🇺🇸","USA"],["🇨🇦","CA"],["🇬🇧","UK"]].map(([flag,label],i) => {
-                  const angle = (i*120 - 90)*(Math.PI/180);
-                  const r=108,cx=140,cy=140;
-                  return (
-                    <div key={i} className="afl absolute"
-                      style={{
-                        left: cx+r*Math.cos(angle)-26,
-                        top:  cy+r*Math.sin(angle)-13,
-                        fontSize:11,color:"#e7e5e4",
-                        background:"rgba(202,138,4,.10)",
-                        border:"1px solid rgba(202,138,4,.28)",
-                        borderRadius:999,padding:"5px 12px",
-                        animationDelay:`${i*0.8}s`,
-                      }}>
-                      {flag} {label}
+                {/* Country flags */}
+                <div className="flex gap-4">
+                  {(["🇺🇸", "🇨🇦", "🇬🇧", "🇩🇪"] as const).map((flag, i) => (
+                    <div key={i} className="w-12 h-12 bg-[#0f0f0f] border border-[#c6a96b]/20 rounded-xl flex items-center justify-center text-2xl hover:border-[#c6a96b]/50 transition-all">
+                      {flag}
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className={`flex ${mounted?"afu d5":"opacity-0"}`}
-            style={{ marginTop:48,border:"1px solid rgba(202,138,4,.15)",borderRadius:18,background:"rgba(255,255,255,.03)",overflow:"hidden" }}>
-            {[["98.7%","Success Rate"],["10,000+","Visas Approved"],["55+","Countries Served"]].map(([val,label],i) => (
-              <div key={i} className={`flex-1 text-center py-6 ${i<2?"stat-divider":""}`}>
-                <p className="fd" style={{ fontSize:30,fontWeight:700,color:"#eab308",marginBottom:4 }}>{val}</p>
-                <p style={{ fontSize:11,color:"#57534e",letterSpacing:".12em",textTransform:"uppercase" }}>{label}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ══ MAIN GRID ══ */}
-        <div className="grid gap-10" style={{ gridTemplateColumns:"1fr 360px" }}>
-
-          {/* ── LEFT ── */}
-          <div style={{ display:"flex",flexDirection:"column",gap:56 }}>
-
-            {/* Heading */}
-            <div>
-              <span className="tag" style={{ marginBottom:20,display:"inline-block" }}>About Service</span>
-              <h2 className="fd" style={{ fontSize:40,fontWeight:700,letterSpacing:"-0.01em",marginBottom:12 }}>Visa Application Help</h2>
-              <div style={{ width:52,height:2,background:"linear-gradient(90deg,#eab308,transparent)",borderRadius:2,marginBottom:12 }} />
-              <p style={{ color:"#78716c",fontSize:14 }}>Expert guidance through every step of your visa journey.</p>
-            </div>
-
-            {/* Country tabs + visa types */}
-            <div ref={visaRef}>
-              <div className="flex gap-3" style={{ marginBottom:24 }}>
-                {countries.map(c => (
-                  <button key={c} className={`country-tab ${activeCountry===c?"active":""}`}
-                    onClick={() => setActiveCountry(c)}>{c}</button>
-                ))}
-              </div>
-
-              <div className="card p-7"
-                style={{
-                  opacity: visaVisible?1:0,
-                  transform: visaVisible?"translateY(0)":"translateY(20px)",
-                  transition:"opacity .6s ease,transform .6s ease",
-                }}>
-                <p style={{ fontSize:13,color:"#a8a29e",marginBottom:20 }}>
-                  This service is valid for the following visa types:
-                </p>
-
-                {[
-                  ["🎓 Student Visas", visa.student],
-                  ["💼 Work Visas",    visa.work],
-                  ["🤝 Business",      visa.business],
-                  ["🔖 Others",        visa.others],
-                ].map(([label, items], i) => (
-                  <div key={i} style={{ marginBottom:16 }}>
-                    <p style={{ fontSize:12,letterSpacing:".08em",textTransform:"uppercase",color:"#eab308",marginBottom:8 }}>{label}</p>
-                    <div className="atab" style={{ animationDelay:`${i*60}ms` }}>
-                      {items.map(v => <span key={v} className="visa-pill">{v}</span>)}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick appointment highlight */}
-            <div style={{
-              position:"relative",overflow:"hidden",
-              border:"1px solid rgba(202,138,4,.24)",
-              background:"rgba(202,138,4,.04)",
-              borderRadius:24,padding:"36px 40px",
-            }}>
-              <div style={{ position:"absolute",top:-40,right:-40,width:180,height:180,borderRadius:"50%",background:"radial-gradient(circle,rgba(202,138,4,.14) 0%,transparent 70%)",filter:"blur(24px)",pointerEvents:"none" }} />
-              <span className="tag" style={{ marginBottom:18,display:"inline-block" }}>Quick Appointments</span>
-              <h3 className="fd" style={{ fontSize:28,fontWeight:600,marginBottom:10 }}>24/7 Visa Monitoring</h3>
-              <p style={{ color:"#a8a29e",fontSize:14,lineHeight:1.7,maxWidth:480 }}>
-                Faster appointment booking with round-the-clock monitoring — no effort required on your end. We handle the queues so you don't have to.
-              </p>
-            </div>
-
-            {/* Feature cards */}
-            <div>
-              <span className="tag" style={{ marginBottom:20,display:"inline-block" }}>What's Included</span>
-              <div ref={featuresRef} className="grid gap-4" style={{ gridTemplateColumns:"1fr 1fr" }}>
-                {features.map((item,i) => (
-                  <div key={i} className="card p-6"
-                    style={{
-                      opacity: featuresVisible?1:0,
-                      transform: featuresVisible?"translateY(0)":"translateY(24px)",
-                      transition:`opacity .6s ease ${i*80}ms, transform .6s ease ${i*80}ms`,
-                    }}>
-                    <span style={{ fontSize:28,display:"block",marginBottom:14 }}>{item.icon}</span>
-                    <h4 className="fd" style={{ fontSize:20,fontWeight:600,marginBottom:8 }}>{item.title}</h4>
-                    <p style={{ fontSize:13,color:"#a8a29e",lineHeight:1.6 }}>{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Success rate */}
-            <div style={{
-              position:"relative",borderRadius:24,overflow:"hidden",
-              background:"rgba(202,138,4,.05)",
-              border:"1px solid rgba(202,138,4,.22)",
-              padding:"48px 40px",
-            }}>
-              <div style={{ position:"absolute",inset:0,background:"radial-gradient(ellipse at 80% 50%,rgba(202,138,4,.12) 0%,transparent 65%)",pointerEvents:"none" }} />
-              <span className="tag" style={{ marginBottom:18,display:"inline-block" }}>Track Record</span>
-              <h3 className="fd" style={{ fontSize:28,fontWeight:600,marginBottom:10 }}>Success Rate</h3>
-              <p style={{ color:"#a8a29e",fontSize:14,marginBottom:24,maxWidth:440 }}>
-                You can rest assured your application is in safe hands. Thousands of approvals and counting.
-              </p>
-              <p className="fd" style={{ fontSize:80,fontWeight:700,lineHeight:1,color:"#eab308",letterSpacing:"-0.03em" }}>
-                <CountUp target={98.7} suffix="%" />
-              </p>
-            </div>
-          </div>
-
-          {/* ── RIGHT SIDEBAR ── */}
-          <div style={{ position:"sticky",top:32,height:"fit-content",display:"flex",flexDirection:"column",gap:16 }}>
-
-            {/* Pricing */}
-            <div style={{ position:"relative",overflow:"hidden",background:"rgba(255,255,255,.035)",border:"1px solid rgba(202,138,4,.20)",borderRadius:20,padding:28 }}>
-              <div style={{ position:"absolute",top:-32,right:-32,width:120,height:120,borderRadius:"50%",background:"radial-gradient(circle,rgba(202,138,4,.15) 0%,transparent 70%)",filter:"blur(20px)",pointerEvents:"none" }} />
-
-              <span className="tag" style={{ marginBottom:16,display:"inline-block" }}>Limited Offer</span>
-              <h3 className="fd" style={{ fontSize:20,fontWeight:600,marginBottom:4 }}>Visa Application Help</h3>
-              <p style={{ fontSize:12,color:"#57534e",marginBottom:24 }}>1–2 months end-to-end support</p>
-
-              <div style={{ borderTop:"1px solid rgba(202,138,4,.10)",paddingTop:20,marginBottom:16 }}>
-                <label style={{ fontSize:11,textTransform:"uppercase",letterSpacing:".12em",color:"#57534e",display:"block",marginBottom:4 }}>Currency</label>
-                <select className="field">
-                  <option>INR — Indian Rupee</option>
-                  <option>USD — US Dollar</option>
-                </select>
-              </div>
-
-              <div style={{ marginBottom:16 }}>
-                <label style={{ fontSize:11,textTransform:"uppercase",letterSpacing:".12em",color:"#57534e",display:"block",marginBottom:4 }}>Dependents</label>
-                <input type="number" min={0} max={5} value={dependents} className="field"
-                  onChange={e => setDependents(Math.max(0,parseInt(e.target.value)||0))} />
-                {dependents>0 && <p style={{ fontSize:11,color:"#eab308",marginTop:5 }}>+₹{(dependents*3500).toLocaleString()} for {dependents} dependent{dependents>1?"s":""}</p>}
-              </div>
-
-              <div style={{ marginBottom:24 }}>
-                <label style={{ fontSize:11,textTransform:"uppercase",letterSpacing:".12em",color:"#57534e",display:"block",marginBottom:4 }}>Mock Interviews</label>
-                <input type="number" min={1} max={5} value={mocks} className="field"
-                  onChange={e => setMocks(Math.max(1,parseInt(e.target.value)||1))} />
-                {mocks>1 && <p style={{ fontSize:11,color:"#eab308",marginTop:5 }}>+₹{((mocks-1)*2500).toLocaleString()} for {mocks-1} additional mock{mocks>2?"s":""}</p>}
-              </div>
-
-              <div style={{ borderTop:"1px solid rgba(202,138,4,.10)",paddingTop:20,marginBottom:24 }}>
-                <p style={{ fontSize:13,color:"#44403c",textDecoration:"line-through",marginBottom:4 }}>₹{(original+addon).toLocaleString()}</p>
-                <p className="fd" style={{ fontSize:38,fontWeight:700,color:"#eab308",lineHeight:1 }}>₹{(base+addon).toLocaleString()}</p>
-                <p style={{ fontSize:11,color:"#57534e",marginTop:6 }}>Save ₹{(original-base).toLocaleString()} today</p>
-              </div>
-
-              <button className="btn-gold aglow" style={{ width:"100%",borderRadius:12 }}>Log In to Pay</button>
-            </div>
-
-            {/* Chat */}
-            <div style={{ background:"rgba(255,255,255,.035)",border:"1px solid rgba(202,138,4,.14)",borderRadius:20,padding:"24px",textAlign:"center" }}>
-              <span style={{ fontSize:30,display:"block",marginBottom:12 }}>💬</span>
-              <h4 className="fd" style={{ fontSize:18,fontWeight:600,marginBottom:4 }}>Have Questions?</h4>
-              <p style={{ fontSize:12,color:"#57534e",marginBottom:18 }}>Our advisors are available 24/7</p>
-              <button className="btn-outline">Message Now</button>
-            </div>
-
-            {/* Trust badge */}
-            <div style={{ background:"rgba(202,138,4,.05)",border:"1px solid rgba(202,138,4,.18)",borderRadius:20,padding:"22px 24px" }}>
-              <div style={{ display:"flex",alignItems:"center",gap:12,marginBottom:14 }}>
-                <span style={{ fontSize:24 }}>🛡️</span>
-                <div>
-                  <h4 className="fd" style={{ fontSize:16,fontWeight:600 }}>100% Refund Policy</h4>
-                  <p style={{ fontSize:11,color:"#57534e" }}>If visa is rejected due to our error</p>
+                  ))}
                 </div>
-              </div>
-              <div style={{ display:"flex",flexDirection:"column",gap:8 }}>
-                {["No hidden charges","Transparent process","Expert counsellors only"].map((t,i) => (
-                  <div key={i} style={{ display:"flex",alignItems:"center",gap:8,fontSize:12,color:"#a8a29e" }}>
-                    <span style={{ color:"#eab308",fontSize:14 }}>✦</span>{t}
-                  </div>
-                ))}
+                {/* Success rate badge */}
+                <div className="flex items-center gap-3 bg-[#c6a96b]/5 border border-[#c6a96b]/20 rounded-xl px-6 py-3">
+                  <span className="text-3xl font-black text-[#d4af37]">98.7%</span>
+                  <span className="text-xs text-[#a1a1a1] font-bold uppercase tracking-widest">Success Rate</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      {/* ── CONTENT GRID ───────────────────────────────────────────────────── */}
+      <section className="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-3 gap-16">
+
+        {/* ── LEFT / MAIN ─────────────────────────────────────────────── */}
+        <div className="lg:col-span-2 space-y-20">
+
+          {/* About Service */}
+          <div>
+            <div className="mb-10">
+              <h2 className="text-3xl font-black mb-2 text-[#ffffff]">About Service</h2>
+              <div className="w-20 h-1.5 bg-[#c6a96b] rounded-full" />
+            </div>
+
+            {/* Country Tabs */}
+            <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-2 flex gap-2 mb-8">
+              {countries.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setActiveCountry(c)}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${activeCountry === c
+                      ? "bg-[#ffffff] text-[#000000] shadow-lg"
+                      : "text-[#a1a1a1] hover:text-[#ffffff] hover:bg-white/5"
+                    }`}
+                >
+                  <span className="text-lg">{countryFlags[c]}</span>
+                  {c}
+                </button>
+              ))}
+            </div>
+
+            {/* Visa Types (USA only) */}
+            {content.visaTypes && (
+              <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-6 mb-6">
+                <h3 className="text-xs font-black text-[#c6a96b] uppercase tracking-[0.3em] mb-5">
+                  This service is valid for the following visa types:
+                </h3>
+                <div className="space-y-4">
+                  {content.visaTypes.map((vt) => (
+                    <div key={vt.category} className="flex flex-wrap items-center gap-3">
+                      <span className="text-sm font-bold text-[#e5e5e5]/80 w-40 shrink-0">{vt.category}:</span>
+                      <div className="flex flex-wrap gap-2">
+                        {vt.tags.map((tag) => (
+                          <span key={tag} className="border border-[#c6a96b]/30 text-[#c6a96b] text-[11px] font-black px-3 py-1 rounded-lg hover:bg-[#c6a96b]/10 transition-all">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Canada/UK intro */}
+            {content.intro && (
+              <p className="text-[#e5e5e5]/80 text-base leading-relaxed mb-6">{content.intro}</p>
+            )}
+
+            {/* Highlight card */}
+            <div className="relative bg-[#1a2a35] border border-[#c6a96b]/20 rounded-2xl p-8 mb-8">
+              <div className="absolute -top-5 left-8 w-10 h-10 bg-[#0a0a0a] border border-[#c6a96b]/30 rounded-xl flex items-center justify-center text-2xl">
+                {content.highlight.icon}
+              </div>
+              <div className="mt-2">
+                <h3 className="font-black text-[#ffffff] text-base mb-2">{content.highlight.title}</h3>
+                <p className="text-sm text-[#e5e5e5]/70 leading-relaxed">{content.highlight.desc}</p>
+              </div>
+            </div>
+
+            {/* Feature cards */}
+            <div className="grid sm:grid-cols-2 gap-5">
+              {content.features.map((f, idx) => (
+                <div key={idx} className="relative bg-[#c6a96b]/5 border border-[#c6a96b]/15 rounded-2xl p-6 hover:border-[#c6a96b]/40 transition-all group">
+                  <div className="absolute -top-4 left-6 w-9 h-9 bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-xl flex items-center justify-center text-lg group-hover:border-[#c6a96b]/50 transition-all">
+                    {f.icon}
+                  </div>
+                  <div className="mt-3">
+                    <h4 className="font-black text-[#ffffff] text-sm mb-2">{f.title}</h4>
+                    <p className="text-xs text-[#a1a1a1] leading-relaxed">{f.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Success Rate Banner */}
+          <div className="relative rounded-3xl overflow-hidden border border-[#c6a96b]/10">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0d1a22] via-[#1a2a35] to-[#0d1a22]" />
+            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=60')] bg-cover bg-center opacity-10" />
+            <div className="relative px-10 py-12 flex flex-col sm:flex-row items-center justify-between gap-8">
+              <div>
+                <h3 className="text-2xl font-black text-[#ffffff] mb-2">Success Rate</h3>
+                <p className="text-sm text-[#a1a1a1] max-w-xs leading-relaxed">
+                  You can rest assured that your application is in safe hands.
+                </p>
+              </div>
+              <div className="text-center">
+                <span className="text-7xl font-black text-[#d4af37] tracking-tighter">98.7%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Don't let the last step block */}
+          <div>
+            <p className="text-[#e5e5e5]/70 text-base leading-relaxed">
+              Don't let the last step of the process be a showstopper. Once you enroll, our goal is the same as yours:{" "}
+              <span className="text-[#ffffff] font-semibold">to get you and your family that visa seamlessly and quickly.</span>
+            </p>
+          </div>
+
+          {/* The Help You Need */}
+          <div className="bg-gradient-to-r from-[#0d1a22] to-[#141414] border border-[#c6a96b]/10 rounded-3xl p-10">
+            <h3 className="text-2xl font-black text-center text-[#ffffff] mb-2 uppercase tracking-tight">The Help YOU Need</h3>
+            <div className="w-16 h-[2px] bg-[#c6a96b] mx-auto mb-8 rounded-full" />
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <p className="text-[#a1a1a1] text-base leading-relaxed">
+                Understand what's in the service after your purchase.
+              </p>
+              <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-6 flex items-center gap-4 hover:border-[#c6a96b]/50 transition-all cursor-pointer group">
+                <div className="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center text-2xl">▶️</div>
+                <div>
+                  <p className="text-xs font-black text-[#c6a96b] uppercase tracking-widest mb-1">Watch on YouTube</p>
+                  <p className="text-sm font-bold text-[#ffffff]">How do services work?</p>
+                  <p className="text-xs text-[#a1a1a1]">SAM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
+        <div className="lg:col-span-1">
+          <div className="sticky top-12 bg-[#0a0a0a] border border-[#c6a96b]/20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] rounded-[32px] p-8 space-y-8">
+            <div className="text-center">
+              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#c6a96b]">Start Now</h3>
+              <div className="w-10 h-[1px] bg-[#c6a96b]/30 mx-auto mt-4" />
+            </div>
+
+            <div className="space-y-5">
+              <div className="flex justify-between items-center text-xs uppercase tracking-widest font-bold">
+                <span className="text-[#a1a1a1]">Services</span>
+                <span className="text-[#ffffff] text-right text-[11px]">Visa Application Help</span>
+              </div>
+              <div className="flex justify-between items-center text-xs uppercase tracking-widest font-bold">
+                <span className="text-[#a1a1a1]">Duration</span>
+                <span className="text-[#ffffff]">1–2 months</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Currency</span>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
+                >
+                  <option value="INR">INR</option>
+                  <option value="USD">USD</option>
+                </select>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Dependents</span>
+                <select
+                  value={dependents}
+                  onChange={(e) => setDependents(Number(e.target.value))}
+                  className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
+                >
+                  {[0, 1, 2, 3, 4].map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Mocks</span>
+                <select
+                  value={mocks}
+                  onChange={(e) => setMocks(Number(e.target.value))}
+                  className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
+                >
+                  {[1, 2, 3, 4, 5].map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Visa Guarantee badge */}
+            <div className="bg-gradient-to-r from-[#c6a96b]/20 to-[#d4af37]/20 border border-[#c6a96b]/40 rounded-xl p-4 text-center">
+              <p className="text-xs font-black text-[#d4af37] uppercase tracking-widest">✦ Visa Guarantee Included</p>
+            </div>
+
+            <div className="pt-2 border-t border-white/5">
+              <p className="text-[#a1a1a1] text-sm line-through mb-1 opacity-50 tracking-tighter">{originalAmount}</p>
+              <div className="flex items-baseline gap-4">
+                <p className="text-3xl font-black text-[#ffffff] tracking-tighter">{currentAmount}</p>
+              </div>
+              <div className="flex items-center gap-3 mt-2">
+                <span className="text-[#a1a1a1] text-xs">You save:</span>
+                <span className="bg-[#c6a96b] text-[#000000] text-[10px] font-black px-2 py-0.5 rounded-md">20% off</span>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <button className="w-full py-5 bg-[#c6a96b] text-[#000000] font-black rounded-xl shadow-xl shadow-[#c6a96b]/10 hover:bg-[#d4af37] transition-all text-xs uppercase tracking-widest">
+                Log In To Pay
+              </button>
+            </div>
+
+            {/* Discuss Card */}
+            <div className="border-t border-white/5 pt-6">
+              <div className="flex gap-4 items-start">
+                <div className="w-12 h-12 rounded-full bg-[#c6a96b]/10 border border-[#c6a96b]/20 overflow-hidden flex items-center justify-center text-lg shrink-0">👤</div>
+                <div>
+                  <p className="text-xs font-black text-[#c6a96b] uppercase tracking-widest mb-1">Discuss Your Case</p>
+                  <p className="text-xs text-[#a1a1a1] leading-relaxed">Chat with a team member to see how we can help.</p>
+                  <button className="mt-3 text-xs font-bold text-[#ffffff] border border-white/10 px-4 py-2 rounded-lg hover:bg-white/5 transition-all">
+                    Message now →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 px-6 md:px-20 border-t border-white/5 bg-[#050505]">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-black text-center mb-16 tracking-tighter uppercase text-[#ffffff]">
+            Frequently Asked <span className="text-[#c6a96b] italic font-serif">Questions!</span>
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((faq, idx) => (
+              <Accordion key={idx} title={faq.q}>
+                {faq.a}
+              </Accordion>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

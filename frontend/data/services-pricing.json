@@ -1,0 +1,38 @@
+{
+  "linkedin": {
+    "title": "LinkedIn Profile Boosting",
+    "duration": "1 week",
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "13,967.00", "discounted": "11,173.21", "save": "2,793.79", "off": "20% off" },
+      "USD": { "actual": "170.00", "discounted": "136.00", "save": "34.00", "off": "20% off" }
+    }
+  },
+  "toefl": {
+    "title": "TOEFL Consulting Session via Zoom",
+    "duration": "60 Minutes",
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "11,612.00", "discounted": "9,289.47", "save": "2,322.53", "off": "20% off" },
+      "USD": { "actual": "140.00", "discounted": "112.00", "save": "28.00", "off": "20% off" }
+    }
+  },
+  "scholarship": {
+    "title": "Scholarship Application Help",
+    "duration": "1-2 weeks",
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "58,059.00", "discounted": "46,447.37", "save": "11,611.63", "off": "20% off" },
+      "USD": { "actual": "700.00", "discounted": "560.00", "save": "140.00", "off": "20% off" }
+    }
+  },
+  "visa_mock_interview": {
+    "title": "Visa Mock Interview",
+    "duration": "60 Minutes",
+    "type": "variable",
+    "pricing": {
+      "INR": { "pricePerSession": 2499, "symbol": "₹" },
+      "USD": { "pricePerSession": 35, "symbol": "$" }
+    }
+  }
+}

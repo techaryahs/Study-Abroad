@@ -28,10 +28,10 @@ exports.updateProfile = async (req, res) => {
     const userId = req.params.userId || (req.user ? req.user.id : null);
     if (!userId) return res.status(401).json({ message: "Authentication required" });
 
-    const { name, mobile, profile } = req.body;
+    const { name, mobile, email, gender, dob, country, profile } = req.body;
     let imagePath = null;
     if (req.file) {
-      imagePath = `/uploads/${req.file.filename}`;
+      imagePath = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
     }
 
     let user = await Student.findById(userId);
@@ -41,7 +41,11 @@ exports.updateProfile = async (req, res) => {
 
     if (name) user.name = name;
     if (mobile) user.mobile = mobile;
-    
+    if (email) user.email = email;
+    if (gender) user.gender = gender;
+    if (dob) user.dob = dob;
+    if (country) user.country = country;
+
     if (req.body.bio) user.profile.bio = req.body.bio;
     if (req.body.location) user.profile.location = req.body.location;
     if (req.body.portfolio) user.profile.portfolio = req.body.portfolio;
@@ -73,7 +77,7 @@ exports.addProfileItem = async (req, res) => {
     if (!section || !data) return res.status(400).json({ message: "Missing section or data" });
 
     const validSections = [
-      "highSchool", "underGrad", "masters", "testScores", "workExperience", 
+      "highSchool", "underGrad", "masters", "testScores", "workExperience",
       "research", "projects", "volunteering", "targetUniversities"
     ];
 
@@ -90,9 +94,9 @@ exports.addProfileItem = async (req, res) => {
     user.profile[section].push(data);
     await user.save();
 
-    res.json({ 
-      message: `${section} added successfully`, 
-      profile: user.profile 
+    res.json({
+      message: `${section} added successfully`,
+      profile: user.profile
     });
   } catch (err) {
     console.error("Profile add error:", err);

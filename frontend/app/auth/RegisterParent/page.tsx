@@ -118,7 +118,7 @@ export default function RegisterParent() {
         <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-gold-500/5 blur-[120px] rounded-full" />
       </div>
 
-      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-white/10 rounded-[32px] shadow-2xl w-full max-w-4xl flex overflow-hidden relative z-10">
+      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-[#d4af37]/20 rounded-[32px] shadow-2xl w-full max-w-4xl flex overflow-hidden relative z-10">
         
         {/* Left Side - Brand */}
         <div className="hidden lg:flex lg:w-2/5 bg-[#050505] p-10 flex-col justify-between text-white relative overflow-hidden border-r border-white/5">
@@ -162,7 +162,7 @@ export default function RegisterParent() {
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                       <input 
                         type="text" name="name" value={formData.name} onChange={handleChange}
-                        className="w-full pl-9 pr-4 py-2 bg-white/[0.03] border border-white/10 rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none"
+                        className="w-full pl-9 pr-4 py-2 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none"
                         placeholder="John Doe"
                         maxLength={50}
                       />
@@ -176,7 +176,7 @@ export default function RegisterParent() {
                       <input 
                         type="email" name="email" value={formData.email} onChange={handleChange}
                         disabled={isEmailVerified}
-                        className={`w-full pl-9 pr-16 py-2 bg-white/[0.03] border ${isEmailVerified ? 'border-green-500/30' : 'border-white/10'} rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none`}
+                        className={`w-full pl-9 pr-16 py-2 bg-white/[0.03] border ${isEmailVerified ? 'border-green-500/30' : 'border-[#d4af37]/20'} rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none`}
                         placeholder="parent@example.com"
                       />
                       {!isEmailVerified && formData.email && (
@@ -196,7 +196,7 @@ export default function RegisterParent() {
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                         <input 
                           type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange}
-                          className="w-full pl-9 pr-4 py-2 bg-white/[0.03] border border-white/10 rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none"
+                          className="w-full pl-9 pr-4 py-2 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none"
                           placeholder="••••••••"
                           minLength={6}
                           maxLength={32}
@@ -209,7 +209,7 @@ export default function RegisterParent() {
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                         <input 
                           type={showPassword ? "text" : "password"} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange}
-                          className="w-full pl-9 pr-4 py-2 bg-white/[0.03] border border-white/10 rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none"
+                          className="w-full pl-9 pr-4 py-2 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none"
                           placeholder="••••••••"
                         />
                         <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-white">
@@ -234,13 +234,13 @@ export default function RegisterParent() {
                   key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
                   className="space-y-4"
                 >
-                  <div className="bg-white/[0.03] border border-white/10 p-4 rounded-2xl">
+                  <div className="bg-white/[0.03] border border-[#d4af37]/20 p-4 rounded-2xl">
                     <p className="text-[10px] font-black text-white uppercase tracking-wider mb-2">Search your child</p>
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                       <input 
                         type="email" value={studentSearch} onChange={(e) => setStudentSearch(e.target.value)}
-                        className="w-full pl-10 pr-24 py-2.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:border-gold-500 outline-none"
+                        className="w-full pl-10 pr-24 py-2.5 bg-black/40 border border-[#d4af37]/20 rounded-xl text-xs text-white focus:border-gold-500 outline-none"
                         placeholder="child.email@gmail.com"
                       />
                       <button 
@@ -311,7 +311,7 @@ export default function RegisterParent() {
             />
             <motion.div 
               initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }}
-              className="relative bg-[#1a1a1a] border border-white/10 rounded-[28px] p-8 w-full max-w-[320px] shadow-2xl text-center"
+              className="relative bg-[#1a1a1a] border border-[#d4af37]/20 rounded-[28px] p-8 w-full max-w-[320px] shadow-2xl text-center"
             >
               <div className="w-12 h-12 bg-gold-500/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-gold-500/20">
                 <ShieldCheck className="w-6 h-6 text-gold-500" />
@@ -322,7 +322,7 @@ export default function RegisterParent() {
               <input 
                 type="text" value={verifyModal.otp} onChange={(e) => setVerifyModal({ ...verifyModal, otp: e.target.value })}
                 placeholder="000 000"
-                className="w-full text-center text-2xl font-black bg-white/[0.05] border border-white/10 rounded-xl py-3 text-gold-500 outline-none focus:border-gold-500/50 mb-6 tracking-[8px]"
+                className="w-full text-center text-2xl font-black bg-white/[0.05] border border-[#d4af37]/20 rounded-xl py-3 text-gold-500 outline-none focus:border-gold-500/50 mb-6 tracking-[8px]"
                 maxLength={6}
               />
 

@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Layout, Calendar, Link as LinkIcon, CheckCircle, ArrowRight, ArrowLeft, Rocket } from 'lucide-react';
 
@@ -8,9 +6,10 @@ interface ProjectFormModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
+  initialData?: any;
 }
 
-export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectFormModalProps) {
+export default function ProjectFormModal({ isOpen, onClose, onSubmit, initialData }: ProjectFormModalProps) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     title: "",
@@ -19,9 +18,35 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectF
     startDate: "",
     endDate: "",
     isOngoing: false,
-    url: "",
+    projectUrl: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        title: initialData.title || "",
+        role: initialData.role || "",
+        purpose: initialData.purpose || "",
+        startDate: initialData.startDate ? new Date(initialData.startDate).toISOString().split('T')[0] : "",
+        endDate: initialData.endDate ? new Date(initialData.endDate).toISOString().split('T')[0] : "",
+        isOngoing: initialData.isOngoing || false,
+        projectUrl: initialData.projectUrl || initialData.url || "",
+        description: initialData.description || "",
+      });
+    } else {
+        setFormData({
+            title: "",
+            role: "",
+            purpose: "",
+            startDate: "",
+            endDate: "",
+            isOngoing: false,
+            projectUrl: "",
+            description: "",
+          });
+    }
+  }, [initialData, isOpen]);
 
   const [errors, setErrors] = useState<Record<string, boolean>>({});
 
@@ -54,7 +79,7 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectF
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-white/10 font-sans">
+      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-[#d4af37]/20 font-sans">
         
         <button onClick={onClose} className="absolute top-6 right-6 text-white/20 hover:text-white z-20 transition-all p-2 bg-white/5 rounded-xl group">
           <X size={24} className="group-hover:rotate-90 transition-transform" />
@@ -62,7 +87,7 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectF
 
         <div className="w-full md:w-[40%] bg-gradient-to-b from-[#9C27B0] to-[#7B1FA2] p-12 flex flex-col items-center justify-center text-center text-white relative">
              <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
-             <div className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-white/10 shadow-2xl relative z-10">
+             <div className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-[#d4af37]/20 shadow-2xl relative z-10">
                 <Rocket size={80} />
              </div>
              <h2 className="text-2xl font-black mb-4 leading-tight tracking-widest uppercase relative z-10">Project Lab</h2>
@@ -112,10 +137,10 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectF
                      </div>
                   </div>
                   <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setFormData({...formData, isOngoing: !formData.isOngoing})}>
-                     <div className={`w-5 h-5 rounded border-2 transition-all ${formData.isOngoing ? 'bg-[#9C27B0] border-[#9C27B0]' : 'border-white/10 group-hover:border-white/30'}`}>
+                     <div className={`w-5 h-5 rounded border-2 transition-all ${formData.isOngoing ? 'bg-[#9C27B0] border-[#9C27B0]' : 'border-[#d4af37]/20 group-hover:border-white/30'}`}>
                         {formData.isOngoing && <CheckCircle size={16} className="text-[#0a0a0a]" />}
                      </div>
-                     <span className="text-[10px] font-black uppercase tracking-widest text-white/40">Active Prototyping</span>
+                     <span className="text-[10px] font-black uppercase tracking-widest text-white/50">Active Prototyping</span>
                   </div>
                 </motion.div>
               )}
@@ -123,7 +148,7 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectF
                 <motion.div key="s2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Source / Deployment Link</label>
-                    <input type="text" value={formData.url} onChange={(e) => setFormData({...formData, url: e.target.value})} placeholder="https://..." className="w-full px-6 py-4 bg-white/5 border-2 border-white/5 focus:border-[#9C27B0]/50 rounded-2xl outline-none font-bold text-white placeholder:text-white/10" />
+                    <input type="text" value={formData.projectUrl} onChange={(e) => setFormData({...formData, projectUrl: e.target.value})} placeholder="https://..." className="w-full px-6 py-4 bg-white/5 border-2 border-white/5 focus:border-[#9C27B0]/50 rounded-2xl outline-none font-bold text-white placeholder:text-white/10" />
                   </div>
                   <div className="space-y-4">
                     <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Architecture Core (Description)</label>
@@ -144,7 +169,7 @@ export default function ProjectFormModal({ isOpen, onClose, onSubmit }: ProjectF
           </div>
 
           <div className="mt-auto pt-8 flex gap-4">
-            {step > 0 && <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-white/40 border border-white/10 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>}
+            {step > 0 && <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-white/50 border border-[#d4af37]/20 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>}
             <button onClick={nextStep} className="flex-[2] py-4 bg-[#9C27B0] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#7B1FA2] transition-all shadow-[0_0_30px_rgba(156,39,176,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2">
               {step === 3 ? 'Deploy Node' : 'Continue'} <ArrowRight size={16} />
             </button>

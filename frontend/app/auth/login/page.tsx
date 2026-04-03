@@ -73,7 +73,7 @@ const Login: React.FC = () => {
         <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-gold-500/5 blur-[150px] rounded-full" />
       </div>
 
-      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-white/10 rounded-[32px] shadow-2xl w-full max-w-4xl flex flex-col lg:flex-row overflow-hidden relative z-10">
+      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-[#d4af37]/20 rounded-[32px] shadow-2xl w-full max-w-4xl flex flex-col lg:flex-row overflow-hidden relative z-10">
 
         {/* Left Side - Brand Promise */}
         <div className="hidden lg:flex lg:w-2/5 p-8 flex-col justify-between relative overflow-hidden group border-r border-white/5">
@@ -92,7 +92,7 @@ const Login: React.FC = () => {
             </p>
           </div>
 
-          <div className="relative z-10 flex items-center gap-3 border-t border-white/10 pt-6 mt-8">
+          <div className="relative z-10 flex items-center gap-3 border-t border-[#d4af37]/20 pt-6 mt-8">
             <div className="flex -space-x-3">
               {[1, 2, 3].map(i => <div key={i} className="w-8 h-8 rounded-full bg-gray-800 border-2 border-[#0f1115]" />)}
             </div>
@@ -118,7 +118,7 @@ const Login: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="johndoe@university.com"
-                  className="w-full pl-9 pr-4 py-2 bg-white/[0.03] border border-white/10 rounded-xl text-xs text-white placeholder:text-gray-600 focus:border-gold-500 transition-all outline-none"
+                  className="w-full pl-9 pr-4 py-2 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white placeholder:text-gray-600 focus:border-gold-500 transition-all outline-none"
                 />
               </div>
             </div>
@@ -133,7 +133,7 @@ const Login: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="w-full pl-9 pr-9 py-2 bg-white/[0.03] border border-white/10 rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none"
+                  className="w-full pl-9 pr-9 py-2 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white focus:border-gold-500 transition-all outline-none"
                 />
                 <button
                   type="button"

@@ -44,7 +44,7 @@ export default function Home() {
     },
     {
       title: "University Shortlisting",
-      slug: "university-shortlisting",
+      slug: "shortlisting",
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -53,7 +53,7 @@ export default function Home() {
     },
     {
       title: "SOP & LOR Support",
-      slug: "sop-lor-support",
+      slug: "sop",
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -84,6 +84,15 @@ export default function Home() {
       icon: (
         <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.382-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+        </svg>
+      )
+    },
+    {
+      title: "EB-1 Visa",
+      slug: "eb1",
+      icon: (
+        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z" />
         </svg>
       )
     },
@@ -169,7 +178,7 @@ export default function Home() {
             </h1>
           </motion.div>
 
-          <motion.p variants={itemVariants} className="text-2xl md:text-3xl text-white/40 max-w-2xl leading-relaxed font-normal italic">
+          <motion.p variants={itemVariants} className="text-2xl md:text-3xl text-white/50 max-w-2xl leading-relaxed font-normal italic">
             Elite academic mentorship for the USA, UK, Germany, and beyond.
             We turn potential into global prestige.
           </motion.p>
@@ -242,7 +251,7 @@ export default function Home() {
                 className="glass-card flex flex-col items-start gap-8 group cursor-pointer hover:bg-gold-500 hover:text-black duration-700 h-full relative transform-gpu"
               >
                 <div className="absolute inset-0 bg-gold-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-                <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-3xl group-hover:bg-black group-hover:text-gold-500 transition-all duration-700 shadow-3xl">
+                <div className="w-20 h-20 rounded-2xl bg-white/[0.03] border border-[#d4af37]/20 flex items-center justify-center text-3xl group-hover:bg-black group-hover:text-gold-500 transition-all duration-700 shadow-3xl">
                   {service.icon}
                 </div>
                 <div className="space-y-4 relative z-10">
@@ -293,10 +302,10 @@ export default function Home() {
                   z: 20
                 }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-white/[0.01] border border-white/10 p-8 rounded-[3rem] text-center hover:bg-gold-500 hover:text-black transition-all duration-700 group cursor-pointer flex flex-col items-center gap-6 shadow-4xl hover:shadow-gold-500/20 relative overflow-hidden transform-gpu"
+                className="bg-white/[0.01] border border-[#d4af37]/20 p-8 rounded-[3rem] text-center hover:bg-gold-500 hover:text-black transition-all duration-700 group cursor-pointer flex flex-col items-center gap-6 shadow-4xl hover:shadow-gold-500/20 relative overflow-hidden transform-gpu"
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="w-16 h-10 relative overflow-hidden rounded-lg shadow-2xl border border-white/10 group-hover:border-black/20 transition-all">
+                <div className="w-16 h-10 relative overflow-hidden rounded-lg shadow-2xl border border-[#d4af37]/20 group-hover:border-black/20 transition-all">
                   <Flag code={country.code} className="w-full h-full object-cover" />
                 </div>
                 <div className="text-[10px] font-black uppercase tracking-[0.2em] relative z-10">{country.name}</div>

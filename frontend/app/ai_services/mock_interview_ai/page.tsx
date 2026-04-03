@@ -1320,7 +1320,7 @@ export default function USVisaMockInterview() {
                     }}
                     className="gold-gradient-text"
                 >
-                    YMGrad
+                    
                 </div>
                 <p
                     style={{
@@ -1330,7 +1330,7 @@ export default function USVisaMockInterview() {
                         letterSpacing: 1,
                     }}
                 >
-                    © 2026 YMGrad · Architecting Global Careers
+                    © 2026 · Architecting Global Careers
                 </p>
             </footer>
         </div>

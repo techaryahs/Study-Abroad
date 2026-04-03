@@ -226,7 +226,7 @@ export default function AIHumanizerPage() {
             <section style={{ padding: "5rem 1.5rem", background: bgSurface, borderBottom: `1px solid ${bgBorder}` }}>
                 <p style={{ ...S.label, textAlign: "center" }}>Performance</p>
                 <h2 style={{ ...S.h2, textAlign: "center" }}>Proven to Perform — Built for Real Results</h2>
-                <p style={{ ...S.sub, textAlign: "center" }}>Here's why users are switching to the YMGrad Humanizer.</p>
+                <p style={{ ...S.sub, textAlign: "center" }}>Here's why users are switching to the Humanizer.</p>
                 <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2rem", maxWidth: 900, margin: "0 auto" }}>
                     {[
                         { stat: "99.1%", label: "Accuracy", sub: "in preserving original meaning and intent", icon: "✦" },
@@ -450,7 +450,7 @@ export default function AIHumanizerPage() {
                 <p style={{ ...S.label, justifyContent: "center", display: "flex" }}>Get Started</p>
                 <h2 style={{ fontSize: "2.2rem", fontWeight: 700, color: textPrimary, marginBottom: "1rem", fontFamily: "'Georgia', serif" }}>Ready to Make Your Writing Undetectable?</h2>
                 <p style={{ color: textMuted, marginBottom: "2.5rem", fontFamily: "sans-serif", fontSize: "0.95rem" }}>
-                    Join thousands of students, researchers, and professionals using YMGrad Humanizer.
+                    Join thousands of students, researchers, and professionals using Humanizer.
                 </p>
                 <button style={{ background: gold, color: "#0d0d0d", padding: "14px 40px", borderRadius: 12, fontWeight: 700, fontSize: "1rem", border: "none", cursor: "pointer", fontFamily: "sans-serif", letterSpacing: "0.02em" }}>
                     Get Started Free →
