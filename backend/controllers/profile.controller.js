@@ -47,10 +47,10 @@ exports.updateProfile = async (req, res) => {
     if (country) user.country = country;
 
     if (req.body.bio) user.profile.bio = req.body.bio;
-    if (req.body.location) user.profile.location = req.body.location;
     if (req.body.portfolio) user.profile.portfolio = req.body.portfolio;
     if (req.body.linkedin) user.profile.linkedin = req.body.linkedin;
-
+    if (req.body.isPublic !== undefined) user.profile.isPublic = req.body.isPublic;
+    
     if (profile) {
       Object.keys(profile).forEach(key => {
         user.profile[key] = profile[key];

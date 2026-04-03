@@ -421,18 +421,25 @@ export default function Navbar() {
                     className="flex items-center gap-2 focus:outline-none transition-transform active:scale-95"
                   >
                     <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 overflow-hidden flex items-center justify-center hover:border-[#d4af37]/50 transition-colors">
-                      {user.profileImage ? (
+                      {user.profileImage || user.image ? (
                         <img
-                          src={user.profileImage.startsWith('http') ? user.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                          src={(user.profileImage || user.image).startsWith('http') ? (user.profileImage || user.image) : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage || user.image}`}
                           alt="Profile"
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const initials = (user.name || 'U').split(' ').map((n:string) => n[0]).join('').toUpperCase().substring(0,2);
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-xs uppercase">${initials}</div>`;
+                            }
+                          }}
                         />
                       ) : (
-                        <img
-                          src={`https://ui-avatars.com/api/?name=${user.name || 'User'}&background=FFD700&color=000&bold=true&rounded=true`}
-                          alt="Profile Placeholder"
-                          className="w-full h-full p-0.5"
-                        />
+                        <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-xs uppercase">
+                          {(user.name || 'U').split(' ').map((n:any)=>n[0]).join('').toUpperCase().substring(0,2)}
+                        </div>
                       )}
                     </div>
                     <ChevronRight size={14} className={`text-gray-400 transition-transform duration-200 ${profileDropdownOpen ? 'rotate-90' : ''}`} />
@@ -450,22 +457,29 @@ export default function Navbar() {
                       {/* Background Glow */}
                       <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-transparent pointer-events-none" />
 
-                      <div className="flex flex-col items-center gap-3 relative z-10">
+                      <div className="flex flex-col items-center gap-4 relative z-10">
                         <div className="relative group/avatar">
-                          <div className="w-16 h-16 rounded-[1rem] bg-white/5 border border-[#d4af37]/20 overflow-hidden flex items-center justify-center p-1 transition-transform duration-500 group-hover/avatar:rotate-2">
-                            <div className="w-full h-full rounded-[0.8rem] overflow-hidden bg-[#1a1a1a] flex items-center justify-center relative">
-                              {user.profileImage ? (
+                          <div className="w-16 h-16 rounded-[1.2rem] bg-white/5 border border-[#d4af37]/20 p-1 flex items-center justify-center transition-transform group-hover:rotate-2">
+                            <div className="w-full h-full rounded-[1rem] overflow-hidden bg-[#1a1a1a] flex items-center justify-center relative">
+                              {user.profileImage || user.image ? (
                                 <img
-                                  src={user.profileImage.startsWith('http') ? user.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                                  src={(user.profileImage || user.image).startsWith('http') ? (user.profileImage || user.image) : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage || user.image}`}
                                   alt="Profile"
                                   className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                    const initials = (user.name || 'U').split(' ').map((n:string) => n[0]).join('').toUpperCase().substring(0,2);
+                                    const parent = target.parentElement;
+                                    if (parent) {
+                                      parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-lg uppercase">${initials}</div>`;
+                                    }
+                                  }}
                                 />
                               ) : (
-                                <img
-                                  src={`https://ui-avatars.com/api/?name=${user.name || 'User'}&background=FFD700&color=000&bold=true&rounded=true`}
-                                  alt="Profile Avatar"
-                                  className="w-full h-full p-1"
-                                />
+                                <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-lg uppercase">
+                                  {(user.name || 'U').split(' ').map((n:any)=>n[0]).join('').toUpperCase().substring(0,2)}
+                                </div>
                               )}
                             </div>
                           </div>
@@ -482,7 +496,7 @@ export default function Navbar() {
 
                         <div className="w-full pt-2 space-y-2">
                           <Link
-                            href="/User/dashboard"
+                            href={user.role === 'admin' ? '/admin-dashboard' : user.role === 'consultant' ? '/consultant-dashboard' : '/User/dashboard'}
                             className="flex items-center justify-center gap-2 w-full bg-[#d4af37] text-black py-2.5 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-yellow-300 transition-all hover:scale-[1.02] active:scale-95 shadow-[0_10px_20px_rgba(234,179,8,0.2)]"
                           >
                             <LayoutDashboard size={12} />

@@ -185,7 +185,7 @@ export default function DashboardPage() {
     }
   };
 
-  const updateCoreProfile = async (field: string, value: any) => {
+  const updateCoreProfile = async (field: string, value: any, silent = false) => {
     const userId = getUserId();
     if (!userId) {
       alert("Session Expired. Please login.");
@@ -200,8 +200,10 @@ export default function DashboardPage() {
       if (response.ok) {
         setOpenModal(null);
         fetchProfile();
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 2000);
+        if (!silent) {
+           setShowSuccess(true);
+           setTimeout(() => setShowSuccess(false), 2000);
+        }
       }
     } catch (error) {
       console.error("Failed to update core profile:", error);
@@ -297,6 +299,27 @@ export default function DashboardPage() {
               <div className="flex flex-col gap-3 text-center md:text-left">
                  <div className="flex flex-col md:flex-row items-center gap-4">
                     <h1 className="text-3xl font-black text-white uppercase tracking-widest font-serif italic">{userData?.name || "Student Member"}</h1>
+                    
+                    {/* VISIBILITY TOGGLE - PREMIUM SWITCH */}
+                    <div className="flex items-center gap-3">
+                        <span className={`text-[10px] font-black uppercase tracking-wider transition-colors ${userData?.profile?.isPublic ? 'text-green-500' : 'text-gray-600'}`}>
+                            {userData?.profile?.isPublic ? "Public" : "Private"}
+                        </span>
+                        <button 
+                            type="button"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                updateCoreProfile("isPublic", !userData?.profile?.isPublic, true);
+                            }}
+                            className={`relative w-11 h-6 rounded-full transition-all duration-500 flex items-center px-1 border cursor-pointer z-10 ${userData?.profile?.isPublic ? 'bg-green-500/20 border-green-500/30' : 'bg-white/5 border-white/10'}`}
+                        >
+                            <motion.div 
+                                animate={{ x: userData?.profile?.isPublic ? 20 : 0 }}
+                                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                className={`w-4 h-4 rounded-full shadow-lg pointer-events-none ${userData?.profile?.isPublic ? 'bg-green-500' : 'bg-gray-600'}`}
+                            />
+                        </button>
+                    </div>
                  </div>
                  {userData?.profile?.bio && (
                     <p className="text-[10px] font-black uppercase text-gray-500 max-w-md tracking-widest leading-relaxed mb-2 italic">

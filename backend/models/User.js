@@ -40,6 +40,7 @@ const UserSchema = new mongoose.Schema(
 
       // OTP & VERIFICATION
       isVerified: { type: Boolean, default: false },
+      isPublic: { type: Boolean, default: false },
 
       // COSMETIC PROFILE DATA
       profileImage: { type: String, default: null },

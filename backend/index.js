@@ -44,6 +44,9 @@ app.use("/api", require("./routes/chat.routes"));
 // 📅 Booking & Consultants
 app.use("/api/bookings", require("./routes/booking.routes"));
 
+// 🧑‍💼 Consultant Profile Management
+app.use("/api/consultant", require("./routes/consultantProfile.routes"));
+
 app.use("/api/progress", require("./routes/progressRoutes"));
 
 app.use('/api/enquiry', require('./routes/enquiryRoutes'));
@@ -60,6 +63,7 @@ app.use("/api/parent", require("./routes/parent.routes"));
 app.use("/api/activity", require("./routes/activityRoutes"));
 
 app.use("/api/feature-activity", featureActivityRoutes);
+app.use("/api/research-groups", require("./routes/researchGroup.routes"));
 
 
 
