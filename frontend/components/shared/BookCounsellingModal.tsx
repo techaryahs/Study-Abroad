@@ -29,6 +29,7 @@ interface BookingResult {
   time: string;
   endTime: string;
   consultantName: string;
+  userEmail: string;
 }
 
 interface Props {

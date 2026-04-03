@@ -368,7 +368,7 @@ export default function Page() {
 
         <div className="w-full max-w-[500px] rounded-lg overflow-hidden shadow-lg">
 
-         <iframe width="560" height="315" src="https://www.youtube.com/embed/DUZf0oSEJ0w?si=wJSg7dn_VDEPn8ar" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/DUZf0oSEJ0w?si=wJSg7dn_VDEPn8ar" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
 
         </div>
 

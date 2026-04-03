@@ -38,10 +38,17 @@ function useInView() {
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
   }, []);
-  return [ref, visible];
+  return [ref, visible] as const;
 }
 
-function AnimatedBar({ pct, gold, visible, delay }) {
+interface AnimatedBarProps {
+  pct: number;
+  gold: boolean;
+  visible: boolean;
+  delay: number;
+}
+
+function AnimatedBar({ pct, gold, visible, delay }: AnimatedBarProps) {
   const [width, setWidth] = useState(0);
   useEffect(() => {
     if (!visible) return;
