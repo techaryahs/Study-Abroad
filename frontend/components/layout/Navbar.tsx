@@ -27,6 +27,7 @@ import {
 import { useEffect } from "react";
 import { getUser, removeToken, clearAuth } from "@/app/lib/token";
 import Image from "next/image";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -279,6 +280,7 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<DropdownKey>(null);
   const [user, setUserState] = useState<any>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -509,12 +511,21 @@ export default function Navbar() {
               </div>
             )}
 
-            <Link
-              href="/contact"
-              className="bg-[#d4af37] text-black px-4 py-1.5 rounded-lg font-semibold text-sm hover:bg-yellow-300 transition-colors"
+            <button
+              onClick={() => setShowCounsellingModal(true)}
+              className="relative px-6 py-3 rounded-md text-[#e6c47a] font-semibold overflow-hidden group border border-[#e6c47a]/40 bg-[#0f1524] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(230,196,122,0.4)]"
             >
-              Book Counseling Session
-            </Link>
+              {/* Glow Overlay */}
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[#e6c47a]/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 blur-sm"></span>
+
+              {/* Shine Animation */}
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
+
+              {/* Text */}
+              <span className="relative z-10 tracking-wide">
+                Book Counselling Session
+              </span>
+            </button>
           </div>
 
           <button
@@ -706,6 +717,12 @@ export default function Navbar() {
           <div className="mt-2 text-sm text-gray-500">+91 89876 54321</div>
         </div>
       )}
+
+      {/* ── Book Counselling Modal ──────────────────────────────────────── */}
+      <BookCounsellingModal
+        isOpen={showCounsellingModal}
+        onClose={() => setShowCounsellingModal(false)}
+      />
     </>
   );
 }
