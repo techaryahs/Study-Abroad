@@ -1,172 +1,187 @@
-{
-  "_id": "uni_002",
-  "slug": "massachusetts-institute-of-technology",
-  "name": "Massachusetts Institute of Technology",
-  "logo": "https://upload.wikimedia.org/wikipedia/commons/0/0c/MIT_logo.svg",
-
-  "location": {
-    "city": "Cambridge",
-    "state": "Massachusetts",
-    "country": "United States"
-  },
-
-  "branches": [
-    {
-      "name": "Engineering",
-      "description": "MIT School of Engineering is globally ranked #1, offering programs in AI, Robotics, Aerospace, Computer Science, and Mechanical Engineering with strong industry collaboration.",
-
-      "stats": {
-        "avg_gpa": 3.9,
-        "avg_gre": 330,
-        "acceptance_rate": 6.7,
-        "tuition_fee": 59750,
-        "living_expense": 22000,
-        "avg_salary": 145000
-      },
-
-      "student_demographics": {
-        "male": 58,
-        "female": 42,
-        "international_students": 60,
-        "total_enrollment": 11500
-      },
-
-      "admitted_profiles": {
-        "avg_gpa": 3.9,
-        "avg_gre": 330,
-        "toefl_min": 90,
-        "toefl_avg": 108,
-        "ielts_min": 7.0
-      }
-    },
-
-    {
-      "name": "Business",
-      "description": "MIT Sloan School of Management is known for innovation, entrepreneurship, and analytics-driven MBA programs with strong tech integration.",
-
-      "stats": {
-        "avg_gpa": 3.7,
-        "avg_gmat": 730,
-        "acceptance_rate": 14.6,
-        "tuition_fee": 82700,
-        "living_expense": 30000,
-        "avg_salary": 150000
-      },
-
-      "student_demographics": {
-        "male": 60,
-        "female": 40,
-        "international_students": 42,
-        "total_enrollment": 1300
-      },
-
-      "admitted_profiles": {
-        "avg_gpa": 3.7,
-        "avg_gmat": 730,
-        "toefl_min": 100,
-        "toefl_avg": 110,
-        "ielts_min": 7.0
-      }
-    },
-
-    {
-      "name": "Science",
-      "description": "MIT School of Science offers programs in Physics, Chemistry, Mathematics, and Biology with cutting-edge research and Nobel laureate faculty.",
-
-      "stats": {
-        "avg_gpa": 3.85,
-        "avg_gre": 328,
-        "acceptance_rate": 7.5,
-        "tuition_fee": 59000,
-        "living_expense": 22000,
-        "avg_salary": 120000
-      },
-
-      "student_demographics": {
-        "male": 55,
-        "female": 45,
-        "international_students": 55,
-        "total_enrollment": 4500
-      },
-
-      "admitted_profiles": {
-        "avg_gpa": 3.85,
-        "avg_gre": 328,
-        "toefl_min": 90,
-        "toefl_avg": 105,
-        "ielts_min": 7.0
-      }
-    },
-
-    {
-      "name": "Architecture & Planning",
-      "description": "MIT School of Architecture and Planning focuses on urban development, design innovation, and sustainable architecture.",
-
-      "stats": {
-        "avg_gpa": 3.75,
-        "avg_gre": 320,
-        "acceptance_rate": 10,
-        "tuition_fee": 58000,
-        "living_expense": 22000,
-        "avg_salary": 95000
-      },
-
-      "student_demographics": {
-        "male": 48,
-        "female": 52,
-        "international_students": 50,
-        "total_enrollment": 1200
-      },
-
-      "admitted_profiles": {
-        "avg_gpa": 3.75,
-        "avg_gre": 320,
-        "toefl_min": 90,
-        "toefl_avg": 102,
-        "ielts_min": 7.0
-      }
-    },
-
-    {
-      "name": "Undergrad",
-      "description": "MIT undergraduate programs are highly selective with strong emphasis on STEM, innovation, and research opportunities.",
-
-      "stats": {
-        "avg_sat": 1540,
-        "acceptance_rate": 4.8,
-        "tuition_fee": 59750,
-        "living_expense": 20000,
-        "avg_salary": 95000
-      },
-
-      "student_demographics": {
-        "male": 52,
-        "female": 48,
-        "international_students": 11,
-        "total_enrollment": 4500
-      }
-    }
-  ],
-
-  "common_sections": {
-    "employment_figures": {
-      "employed": 85,
-      "employed_within_3_months": 92,
-      "average_salary": 140000
-    },
-
-    "financial_awards": {
-      "officer": {
-        "name": "Student Financial Services Office",
-        "phone": "+1-617-258-8600"
-      }
-    },
-
-    "reviews": [
+[
+  {
+    "_id": "uni_001",
+    "slug": "harvard-university",
+    "name": "Harvard University",
+    "logo": "https://www.google.com/s2/favicons?domain=harvard.edu&sz=128",
+    "location": { "city": "Cambridge", "state": "Massachusetts", "country": "United States" },
+    "branches": [
       {
-        "rating": 5,
-        "comment": "Top-tier institute for technology and innovation with excellent career outcomes."
+        "name": "Engineering",
+        "description": "Harvard SEAS offers interdisciplinary programs in AI, robotics, and data science with strong research integration. Students benefit from cross-field collaboration and global academic prestige.",
+        "stats": { "avg_gpa": 3.8, "avg_gre": 326, "acceptance_rate": 7.2, "tuition_fee": 53605, "living_expense": 17682, "avg_salary": 139339 }
+      },
+      {
+        "name": "Business",
+        "description": "Harvard Business School is globally renowned for its MBA programs, leadership development, and case-study learning approach.",
+        "stats": { "avg_gpa": 3.71, "avg_gmat": 731, "acceptance_rate": 10.4, "tuition_fee": 72804, "living_expense": 28592, "avg_salary": 150000 }
       }
-    ]
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 80, "employed_within_3_months": 89, "average_salary": 139000 }
+    }
+  },
+  {
+    "_id": "uni_002",
+    "slug": "massachusetts-institute-of-technology",
+    "name": "Massachusetts Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=mit.edu&sz=128",
+    "location": { "city": "Cambridge", "state": "Massachusetts", "country": "United States" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "MIT is a global leader in engineering, AI, robotics, and innovation with strong industry collaboration and cutting-edge research.",
+        "stats": { "avg_gpa": null, "avg_gre": 324, "acceptance_rate": 21.2, "tuition_fee": 51514, "living_expense": 16390, "avg_salary": 135105 }
+      },
+      {
+        "name": "Business",
+        "description": "MIT Sloan is known for innovation-driven MBA programs blending technology, analytics, and entrepreneurship.",
+        "stats": { "avg_gpa": 3.57, "avg_gmat": 728, "acceptance_rate": 14.6, "tuition_fee": 51514, "living_expense": 16390, "avg_salary": 135105 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 92, "average_salary": 140000 }
+    }
+  },
+  {
+    "_id": "uni_003",
+    "slug": "stanford-university",
+    "name": "Stanford University",
+    "logo": "https://www.google.com/s2/favicons?domain=stanford.edu&sz=128",
+    "location": { "city": "Stanford", "state": "California", "country": "United States" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Stanford Engineering is globally renowned for innovation, AI, and entrepreneurship with deep ties to Silicon Valley.",
+        "stats": { "avg_gpa": 3.8, "avg_gre": 328, "acceptance_rate": 20, "tuition_fee": 53922, "living_expense": 16433, "avg_salary": 145559 }
+      },
+      {
+        "name": "Business",
+        "description": "Stanford GSB offers one of the world’s most competitive MBA programs focused on leadership and innovation.",
+        "stats": { "avg_gpa": 3.73, "avg_gmat": 732, "acceptance_rate": 6.2, "tuition_fee": 53922, "living_expense": 16433, "avg_salary": 145559 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 84, "employed_within_3_months": 91, "average_salary": 140000 }
+    }
+  },
+  {
+    "_id": "uni_004",
+    "slug": "california-institute-of-technology",
+    "name": "California Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=caltech.edu&sz=128",
+    "location": { "city": "Pasadena", "state": "California", "country": "United States" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Caltech is a top STEM-focused institution known for aerospace, AI, and applied sciences with strong NASA collaborations.",
+        "stats": { "avg_gpa": null, "avg_gre": 330, "acceptance_rate": 6.4, "tuition_fee": 60864, "living_expense": 20000, "avg_salary": 140000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 83, "employed_within_3_months": 90, "average_salary": 135000 }
+    }
+  },
+  {
+    "_id": "uni_005",
+    "slug": "university-of-chicago",
+    "name": "University of Chicago",
+    "logo": "https://www.google.com/s2/favicons?domain=uchicago.edu&sz=128",
+    "location": { "city": "Chicago", "state": "Illinois", "country": "United States" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "UChicago offers interdisciplinary programs combining engineering, data science, and molecular innovation.",
+        "stats": { "avg_gpa": null, "avg_gre": 325, "acceptance_rate": 12, "tuition_fee": 60552, "living_expense": 20000, "avg_salary": 130000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 82, "employed_within_3_months": 90, "average_salary": 130000 }
+    }
+  },
+  {
+    "_id": "uni_006",
+    "slug": "university-of-pennsylvania",
+    "name": "University of Pennsylvania",
+    "logo": "https://www.google.com/s2/favicons?domain=upenn.edu&sz=128",
+    "location": { "city": "Philadelphia", "state": "Pennsylvania", "country": "United States" },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "Wharton School is one of the world’s top business schools with strong finance, analytics, and entrepreneurship focus.",
+        "stats": { "avg_gpa": 3.6, "avg_gmat": 733, "acceptance_rate": 9, "tuition_fee": 78000, "living_expense": 25000, "avg_salary": 155000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 92, "average_salary": 150000 }
+    }
+  },
+  {
+    "_id": "uni_007",
+    "slug": "cornell-university",
+    "name": "Cornell University",
+    "logo": "https://www.google.com/s2/favicons?domain=cornell.edu&sz=128",
+    "location": { "city": "Ithaca", "state": "New York", "country": "United States" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Cornell Engineering offers strong programs in computer science, mechanical, and electrical engineering.",
+        "stats": { "avg_gpa": null, "avg_gre": 326, "acceptance_rate": 15, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 130000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 83, "employed_within_3_months": 90, "average_salary": 130000 }
+    }
+  },
+  {
+    "_id": "uni_008",
+    "slug": "university-of-california-berkeley",
+    "name": "University of California, Berkeley",
+    "logo": "https://www.google.com/s2/favicons?domain=berkeley.edu&sz=128",
+    "location": { "city": "Berkeley", "state": "California", "country": "United States" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "UC Berkeley is globally renowned for AI, computer science, and electrical engineering innovation.",
+        "stats": { "avg_gpa": null, "avg_gre": 327, "acceptance_rate": 17, "tuition_fee": 44000, "living_expense": 25000, "avg_salary": 140000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 92, "average_salary": 140000 }
+    }
+  },
+  {
+    "_id": "uni_009",
+    "slug": "yale-university",
+    "name": "Yale University",
+    "logo": "https://www.google.com/s2/favicons?domain=yale.edu&sz=128",
+    "location": { "city": "New Haven", "state": "Connecticut", "country": "United States" },
+    "branches": [
+      {
+        "name": "Law",
+        "description": "Yale Law School is one of the most prestigious globally with strong focus on legal research and policy.",
+        "stats": { "avg_gpa": 3.9, "avg_lsAT": 173, "acceptance_rate": 7, "tuition_fee": 70000, "living_expense": 22000, "avg_salary": 160000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 84, "employed_within_3_months": 91, "average_salary": 150000 }
+    }
+  },
+  {
+    "_id": "uni_010",
+    "slug": "johns-hopkins-university",
+    "name": "Johns Hopkins University",
+    "logo": "https://www.google.com/s2/favicons?domain=jhu.edu&sz=128",
+    "location": { "city": "Baltimore", "state": "Maryland", "country": "United States" },
+    "branches": [
+      {
+        "name": "Medicine",
+        "description": "Johns Hopkins is globally recognized for medical education, biomedical research, and hospital systems.",
+        "stats": { "avg_gpa": 3.92, "avg_mcat": 521, "acceptance_rate": 6, "tuition_fee": 62000, "living_expense": 20000, "avg_salary": 180000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 86, "employed_within_3_months": 93, "average_salary": 160000 }
+    }
   }
-}
+]

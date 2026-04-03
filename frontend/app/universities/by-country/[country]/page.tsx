@@ -5,9 +5,10 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import UniversityCard from "../UniversityCard";
 import singaporeData from "@/data/singapore.json";
 import newZealandData from "@/data/NewZealand Universities.json";
-import germanyData from "@/data/YM_Grad_Germany_Universities.json";
-import germanyPart2Data from "@/data/Germany_Universities_Part2.json";
+import germanyData from "@/data/Germany.json";
 import usaData from "@/data/USA.json";
+import ukData from "@/data/UK.json";
+import ausData from "@/data/AUS.json";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -25,12 +26,17 @@ function useInView(threshold = 0.08) {
   return [ref, visible];
 }
 
-const COUNTRY_META = {
+type CountryKey = "singapore" | "new zealand" | "germany" | "united states" | "usa" | "australia" | "united kingdom" | "uk";
+
+const COUNTRY_META: Record<string, { flag: string; color: string; label: string; hero: string }> = {
   "singapore":      { flag: "🇸🇬", color: "#ef4444", label: "Singapore",     hero: "Finance & Tech Hub" },
   "new zealand":    { flag: "🇳🇿", color: "#16a34a", label: "New Zealand",   hero: "World-Class Education" },
   "germany":        { flag: "🇩🇪", color: "#60a5fa", label: "Germany",       hero: "Engineering Excellence" },
   "united states":  { flag: "🇺🇸", color: "#3b82f6", label: "United States", hero: "Ivy League & Beyond" },
   "usa":            { flag: "🇺🇸", color: "#3b82f6", label: "United States", hero: "Ivy League & Beyond" },
+  "australia":      { flag: "🇦🇺", color: "#fbbf24", label: "Australia",     hero: "Innovation & Excellence" },
+  "united kingdom": { flag: "🇬🇧", color: "#8b5cf6", label: "United Kingdom", hero: "Legacy of Excellence" },
+  "uk":             { flag: "🇬🇧", color: "#8b5cf6", label: "United Kingdom", hero: "Legacy of Excellence" },
 };
 
 const FILTER_RANGES = {
@@ -151,7 +157,7 @@ export default function CountryPage() {
 
   // ── Dataset selection ──
   const countryLower = (country as string).toLowerCase().replace(/-/g, " ");
-  const meta = COUNTRY_META[countryLower] ?? { flag: "🌍", color: "#eab308", label: country, hero: "World-Class Education" };
+  const meta = COUNTRY_META[countryLower] ?? { flag: "🌍", color: "#eab308", label: (country as string), hero: "World-Class Education" };
 
   let dataCountry = meta.label;
   let rawUniversities: any[] = [];
@@ -163,11 +169,17 @@ export default function CountryPage() {
     dataCountry = newZealandData.country || "New Zealand";
     rawUniversities = newZealandData.universities;
   } else if (countryLower === "germany") {
-    dataCountry = germanyData.country || "Germany";
-    rawUniversities = [...germanyData.universities, ...(germanyPart2Data as any[])];
+    dataCountry = "Germany";
+    rawUniversities = germanyData;
   } else if (countryLower === "usa" || countryLower === "united states") {
     dataCountry = "United States";
-    rawUniversities = [usaData];
+    rawUniversities = usaData;
+  } else if (countryLower === "uk" || countryLower === "united kingdom") {
+    dataCountry = "United Kingdom";
+    rawUniversities = ukData;
+  } else if (countryLower === "australia") {
+    dataCountry = "Australia";
+    rawUniversities = ausData;
   }
 
   // ── Normalize ──

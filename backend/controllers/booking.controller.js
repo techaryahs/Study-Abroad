@@ -367,3 +367,157 @@ exports.deleteBooking = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+/* ==============================================================================
+   COUNSELLING SESSION LOGIC (Added to resolve TypeError crash)
+============================================================================== */
+
+/**
+ * 📅 Get Available Slots for a specific Date
+ * returns 9:00 AM to 6:00 PM (1-hour slots)
+ */
+exports.getAvailableSlots = async (req, res) => {
+  try {
+    const { date, consultantId } = req.query;
+    if (!date) return res.status(400).json({ message: "Date is required" });
+
+    // Defined working hours: 9:00 to 18:00
+    const allSlots = [];
+    for (let h = 9; h < 18; h++) {
+      const timeStr = `${String(h).padStart(2, "0")}:00`;
+      const endTimeStr = `${String(h + 1).padStart(2, "0")}:00`;
+      allSlots.push({ time: timeStr, endTime: endTimeStr });
+    }
+
+    // Find already booked sessions for this date
+    // Note: for "auto-assign" (consultantId="auto"), we don't filter by consultant here yet, 
+    // but in a real system we'd check if ANY consultant is free.
+    const query = { date, status: { $nin: ["rejected", "cancelled"] } };
+    if (consultantId && consultantId !== "auto") {
+      query.consultantId = consultantId;
+    }
+    const bookedSessions = await Booking.find(query);
+    const bookedTimes = bookedSessions.map(b => b.time);
+
+    // Current time check for "past" slots
+    const now = new Date();
+    const todayStr = now.toISOString().split("T")[0];
+
+    const slots = allSlots.map(slot => {
+      const isBooked = bookedTimes.includes(slot.time);
+      const isPast = (date === todayStr && slot.time <= now.toTimeString().substring(0, 5));
+      return {
+        ...slot,
+        booked: isBooked,
+        past: isPast,
+        available: !isBooked && !isPast
+      };
+    });
+
+    res.json({ slots });
+  } catch (err) {
+    console.error("❌ getAvailableSlots Error:", err);
+    res.status(500).json({ message: "Error fetching slots" });
+  }
+};
+
+/**
+ * 🚀 Book a private Counselling Session
+ */
+exports.bookCounsellingSession = async (req, res) => {
+  try {
+    const { date, time, userEmail, userName, consultantId } = req.body;
+
+    if (!date || !time || !userEmail) {
+      return res.status(400).json({ message: "Missing required booking details (date, time, email)" });
+    }
+
+    // Check if slot already taken
+    const existing = await Booking.findOne({ date, time, status: "booked" });
+    if (existing) {
+      return res.status(400).json({ message: "This slot has already been booked. Please pick another one." });
+    }
+
+    // Auto-assign or use provided consultant
+    let finalConsultantId = consultantId;
+    let finalConsultantName = "Academic Counsellor";
+    let finalConsultantEmail = "counselling@careergenai.com";
+
+    if (consultantId && consultantId !== "auto") {
+      const c = await Consultant.findById(consultantId);
+      if (c) {
+        finalConsultantName = c.name;
+        finalConsultantEmail = c.email;
+      }
+    }
+
+    // Generate session & meeting identifiers
+    const sessionId = randomUUID();
+    const meetingId = generateMeetingId(`${sessionId}-${userEmail}`);
+    const endH = parseInt(time.split(":")[0]) + 1;
+    const endTime = `${String(endH).padStart(2, "0")}:00`;
+
+    const newBooking = new Booking({
+      bookingType: "counselling",
+      consultantId: finalConsultantId || null,
+      consultantName: finalConsultantName,
+      consultantEmail: finalConsultantEmail,
+      date,
+      time,
+      endTime,
+      userEmail,
+      userName,
+      status: "booked",
+      sessionId,
+      meetingId
+    });
+
+    await newBooking.save();
+
+    // Notify student
+    try {
+        await sendEmail(
+            userEmail,
+            "✅ Counselling Session Confirmed",
+            "",
+            `<p>Hi ${userName || "Student"},</p>
+             <p>Your counselling session is confirmed for <b>${date}</b> at <b>${time}</b>.</p>
+             <p>Meeting ID: <b>${meetingId}</b></p>
+             <p>Session ID: <b>${sessionId}</b></p>`
+        );
+    } catch (e) {
+        console.warn("Email notify failed during session booking", e.message);
+    }
+
+    res.status(201).json({
+      message: "Session booked successfully",
+      booking: {
+        sessionId,
+        meetingId,
+        date,
+        time,
+        endTime,
+        consultantName: finalConsultantName,
+        userEmail
+      }
+    });
+
+  } catch (err) {
+    console.error("❌ bookCounsellingSession Error:", err);
+    res.status(500).json({ message: "Error completing session booking" });
+  }
+};
+
+/**
+ * 🔍 Get details of a single Counselling Session
+ */
+exports.getCounsellingSession = async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const session = await Booking.findOne({ sessionId });
+    if (!session) return res.status(404).json({ message: "Session not found" });
+    res.json(session);
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching session details" });
+  }
+};

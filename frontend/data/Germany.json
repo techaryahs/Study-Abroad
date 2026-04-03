@@ -1,0 +1,240 @@
+[
+  {
+    "_id": "uni_001",
+    "slug": "technical-university-of-munich",
+    "name": "Technical University of Munich",
+    "logo": "https://www.google.com/s2/favicons?domain=tum.de&sz=128",
+    "location": { "city": "Munich", "state": "Bavaria", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "TUM is one of Europe’s top technical universities, known for innovation, research excellence, and strong industry ties.",
+        "stats": { "avg_gpa": 3.6, "avg_gre": 323, "acceptance_rate": 8, "tuition_fee": 19492, "living_expense": 11644, "avg_salary": 108354 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 75, "average_salary": 60000 }
+    }
+  },
+  {
+    "_id": "uni_002",
+    "slug": "ludwig-maximilians-university-munich",
+    "name": "Ludwig-Maximilians-Universität München",
+    "logo": "https://www.google.com/s2/favicons?domain=lmu.de&sz=128",
+    "location": { "city": "Munich", "state": "Bavaria", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "LMU Munich is one of Europe’s most prestigious universities, offering top-tier programs in business and economics.",
+        "stats": { "avg_gpa": 3.6, "avg_gre": 322, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 85000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 87, "employed_within_3_months": 78, "average_salary": 65000 }
+    }
+  },
+  {
+    "_id": "uni_003",
+    "slug": "heidelberg-university",
+    "name": "Universität Heidelberg",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-heidelberg.de&sz=128",
+    "location": { "city": "Heidelberg", "state": "Baden-Württemberg", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Medicine",
+        "description": "Heidelberg is Germany’s oldest university and a global leader in medical and life sciences research.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 1500, "living_expense": 11000, "avg_salary": 85000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 86, "employed_within_3_months": 78, "average_salary": 62000 }
+    }
+  },
+  {
+    "_id": "uni_004",
+    "slug": "freie-universitat-berlin",
+    "name": "Freie Universitaet Berlin",
+    "logo": "https://www.google.com/s2/favicons?domain=fu-berlin.de&sz=128",
+    "location": { "city": "Berlin", "state": "Berlin", "country": "Germany" },
+    "branches": [
+      {
+        "name": "International Studies",
+        "description": "Freie Universität Berlin is known for its strong focus on international relations and political science.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 80000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 84, "employed_within_3_months": 76, "average_salary": 58000 }
+    }
+  },
+  {
+    "_id": "uni_005",
+    "slug": "karlsruhe-institute-of-technology",
+    "name": "Karlsruhe Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=kit.edu&sz=128",
+    "location": { "city": "Karlsruhe", "state": "Baden-Württemberg", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "KIT is one of Germany’s top engineering universities, known for innovation and applied research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 90000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 80, "average_salary": 70000 }
+    }
+  },
+  {
+    "_id": "uni_006",
+    "slug": "rwth-aachen-university",
+    "name": "RWTH Aachen University",
+    "logo": "https://www.google.com/s2/favicons?domain=rwth-aachen.de&sz=128",
+    "location": { "city": "Aachen", "state": "North Rhine-Westphalia", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "RWTH Aachen is one of Europe’s leading engineering institutions with strong industry partnerships.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 92000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 89, "employed_within_3_months": 82, "average_salary": 72000 }
+    }
+  },
+  {
+    "_id": "uni_007",
+    "slug": "humboldt-university-of-berlin",
+    "name": "Humboldt-Universität zu Berlin",
+    "logo": "https://www.google.com/s2/favicons?domain=hu-berlin.de&sz=128",
+    "location": { "city": "Berlin", "state": "Berlin", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Economics",
+        "description": "Humboldt University is one of Germany’s most prestigious institutions with strong emphasis on research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 77, "average_salary": 60000 }
+    }
+  },
+  {
+    "_id": "uni_008",
+    "slug": "technical-university-of-berlin",
+    "name": "Technische Universität Berlin",
+    "logo": "https://www.google.com/s2/favicons?domain=tu-berlin.de&sz=128",
+    "location": { "city": "Berlin", "state": "Berlin", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "TU Berlin is a leading technical university known for engineering, innovation, and research excellence.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 88000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 87, "employed_within_3_months": 79, "average_salary": 65000 }
+    }
+  },
+  {
+    "_id": "uni_009",
+    "slug": "university-of-hamburg",
+    "name": "Universität Hamburg",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-hamburg.de&sz=128",
+    "location": { "city": "Hamburg", "state": "Hamburg", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "University of Hamburg offers strong programs in business and economics with emphasis on research.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 80000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 77, "average_salary": 60000 }
+    }
+  },
+  {
+    "_id": "uni_010",
+    "slug": "university-of-freiburg",
+    "name": "Albert-Ludwigs-Universitaet Freiburg",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-freiburg.de&sz=128",
+    "location": { "city": "Freiburg", "state": "Baden-Württemberg", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Sustainability Studies",
+        "description": "University of Freiburg is known for sustainability, environmental sciences, and interdisciplinary research.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 80000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 86, "employed_within_3_months": 78, "average_salary": 62000 }
+    }
+  },
+  {
+    "_id": "uni_011",
+    "slug": "university-of-bonn",
+    "name": "University of Bonn",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-bonn.de&sz=128",
+    "location": { "city": "Bonn", "state": "North Rhine-Westphalia", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Economics",
+        "description": "University of Bonn is globally recognized for economics and research excellence.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 87, "employed_within_3_months": 79, "average_salary": 63000 }
+    }
+  },
+  {
+    "_id": "uni_012",
+    "slug": "university-of-tubingen",
+    "name": "Eberhard Karls Universität Tübingen",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-tuebingen.de&sz=128",
+    "location": { "city": "Tübingen", "state": "Baden-Württemberg", "country": "Germany" },
+    "branches": [
+      {
+        "name": "AI & Data Science",
+        "description": "Tübingen is globally recognized for artificial intelligence and research excellence.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 1500, "living_expense": 11000, "avg_salary": 78000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 86, "employed_within_3_months": 77, "average_salary": 62000 }
+    }
+  },
+  {
+    "_id": "uni_013",
+    "slug": "tu-dresden",
+    "name": "Technische Universität Dresden",
+    "logo": "https://www.google.com/s2/favicons?domain=tu-dresden.de&sz=128",
+    "location": { "city": "Dresden", "state": "Saxony", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "TU Dresden is a leading engineering university known for strong research and innovation.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 85000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 87, "employed_within_3_months": 80, "average_salary": 63000 }
+    }
+  },
+  {
+    "_id": "uni_014",
+    "slug": "fau-erlangen-nurnberg",
+    "name": "Friedrich-Alexander-Universität Erlangen-Nürnberg",
+    "logo": "https://www.google.com/s2/favicons?domain=fau.de&sz=128",
+    "location": { "city": "Erlangen", "state": "Bavaria", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "FAU Erlangen-Nürnberg is a top German university for engineering and innovation.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 85000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 80, "average_salary": 70000 }
+    }
+  }
+]

@@ -1,0 +1,97 @@
+[
+  {
+    "_id": "uni_101",
+    "slug": "imperial-college-london",
+    "name": "Imperial College London",
+    "logo": "https://www.google.com/s2/favicons?domain=imperial.ac.uk&sz=128",
+    "location": { "city": "London", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Imperial is a world-leading science and engineering university known for innovation, research excellence, and industry impact. It focuses on STEM disciplines and produces highly employable graduates globally.",
+        "stats": { "avg_gpa": 3.7, "avg_gre": 322, "acceptance_rate": 14, "tuition_fee": 34446, "living_expense": 8542, "avg_salary": 88322 }
+      },
+      {
+        "name": "Business",
+        "description": "Imperial Business School integrates technology and analytics with business education. Students gain strong industry exposure and global career opportunities.",
+        "stats": { "avg_gpa": 3.7, "avg_gmat": 642, "acceptance_rate": 20, "tuition_fee": 34446, "living_expense": 8542, "avg_salary": 88322 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 90, "employed_within_3_months": 93, "average_salary": 60000 }
+    }
+  },
+  {
+    "_id": "uni_102",
+    "slug": "university-of-oxford",
+    "name": "University of Oxford",
+    "logo": "https://www.google.com/s2/favicons?domain=ox.ac.uk&sz=128",
+    "location": { "city": "Oxford", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Oxford Engineering combines deep theoretical knowledge with cutting-edge research in AI, robotics, and systems engineering. It is globally renowned for academic rigor.",
+        "stats": { "avg_gpa": 3.9, "avg_gre": 328, "acceptance_rate": 14, "tuition_fee": 37000, "living_expense": 18000, "avg_salary": 90000 }
+      },
+      {
+        "name": "Business",
+        "description": "Saïd Business School delivers globally ranked MBA programs with emphasis on leadership, entrepreneurship, and global impact.",
+        "stats": { "avg_gpa": 3.7, "avg_gmat": 690, "acceptance_rate": 20, "tuition_fee": 65000, "living_expense": 20000, "avg_salary": 110000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 93, "average_salary": 90000 }
+    }
+  },
+  {
+    "_id": "uni_103",
+    "slug": "university-of-cambridge",
+    "name": "University of Cambridge",
+    "logo": "https://www.google.com/s2/favicons?domain=cam.ac.uk&sz=128",
+    "location": { "city": "Cambridge", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Cambridge Engineering is globally renowned for innovation and interdisciplinary research across multiple engineering domains.",
+        "stats": { "avg_gpa": 3.9, "avg_gre": 325, "acceptance_rate": 13, "tuition_fee": 37000, "living_expense": 18000, "avg_salary": 88322 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 90, "employed_within_3_months": null, "average_salary": 76897 }
+    }
+  },
+  {
+    "_id": "uni_104",
+    "slug": "university-college-london",
+    "name": "University College London",
+    "logo": "https://www.google.com/s2/favicons?domain=ucl.ac.uk&sz=128",
+    "location": { "city": "London", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "UCL is a globally ranked university known for innovation in AI, infrastructure, and engineering research.",
+        "stats": { "avg_gpa": 3.7, "avg_gre": 320, "acceptance_rate": 18, "tuition_fee": 36000, "living_expense": 20000, "avg_salary": 75000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 75000 }
+    }
+  },
+  {
+    "_id": "uni_105",
+    "slug": "kings-college-london",
+    "name": "King's College London",
+    "logo": "https://www.google.com/s2/favicons?domain=kcl.ac.uk&sz=128",
+    "location": { "city": "London", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "King’s engineering programs focus on AI, robotics, and biomedical innovation with strong research output.",
+        "stats": { "avg_gpa": 3.7, "avg_gre": 320, "acceptance_rate": 20, "tuition_fee": 32000, "living_expense": 20000, "avg_salary": 70000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 87, "employed_within_3_months": 90, "average_salary": 75000 }
+    }
+  }
+]

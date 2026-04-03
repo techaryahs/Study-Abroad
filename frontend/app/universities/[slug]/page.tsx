@@ -3,6 +3,11 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import usaData from "@/data/USA.json";
+import ausData from "@/data/AUS.json";
+import germanyData from "@/data/Germany.json";
+import ukData from "@/data/UK.json";
+import singaporeData from "@/data/singapore.json";
+import newZealandData from "@/data/NewZealand Universities.json";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -112,8 +117,32 @@ export default function UniversityPage() {
     const params = useParams();
     const slug = params?.slug;
 
-    // Use usaData as our data source since we are fully dynamically rendering it from JSON
-    const data: any = usaData;
+    // ─── Dynamic Data Lookup ───────────────────────────────────────────────
+    const combinedData = [
+        ...singaporeData.universities,
+        ...newZealandData.universities,
+        ...germanyData,
+        ...usaData,
+        ...ukData,
+        ...ausData
+    ];
+
+    const data: any = combinedData.find((uni: any) => {
+        const uniName = uni.university || uni.university_name || uni.name || "";
+        const uniSlug = uni.slug || uniName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+        return uniSlug === slug;
+    });
+
+    if (!data) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] text-white">
+                <div className="text-center">
+                    <h1 className="text-4xl font-bold mb-4">University Not Found</h1>
+                    <p className="text-stone-400">We couldn't find the university you're looking for.</p>
+                </div>
+            </div>
+        );
+    }
     
     const currentPrograms = data.branches?.map((b: any) => b.name) || ["Engineering"];
     const [activeProgram, setActiveProgram] = useState(currentPrograms[0]);
