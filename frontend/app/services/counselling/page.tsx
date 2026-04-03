@@ -2,6 +2,7 @@
 
 import React, { useState, ReactNode } from "react";
 import Link from "next/link";
+import AddToCart from "@/components/shared/AddToCart";
 
 // ─── Components ──────────────────────────────────────────────────────────────
 
@@ -33,14 +34,6 @@ function Accordion({ title, children }: AccordionProps) {
 // ─── Main Page ───────────────────────────────────────────────────────────────
 
 export default function CounsellingPage() {
-  const [currency, setCurrency] = useState("INR");
-
-  const prices = {
-    INR: { current: "₹11,658", original: "INR 14,573.00" },
-    USD: { current: "$139", original: "USD 175.00" }
-  };
-
-  const currentPrice = currency === "USD" ? prices.USD : prices.INR;
   
   const services = [
     { name: "Complete Application Help", link: "/services/application-help" },
@@ -160,47 +153,9 @@ export default function CounsellingPage() {
         </div>
 
         {/* Sidebar */}
-        <div className="lg:col-span-1">
-          <div className="sticky top-12 bg-[#0a0a0a] border border-[#c6a96b]/20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] rounded-[32px] p-8 space-y-8">
-            <div className="text-center">
-                <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#c6a96b]">Book Now</h3>
-                <div className="w-10 h-[1px] bg-[#c6a96b]/30 mx-auto mt-4" />
-            </div>
-            
-            <div className="space-y-5">
-              <div className="flex justify-between items-center text-xs uppercase tracking-widest font-bold">
-                <span className="text-[#a1a1a1]">Tier</span>
-                <span className="text-[#ffffff]">Initial Session</span>
-              </div>
-              <div className="flex justify-between items-center text-xs uppercase tracking-widest font-bold">
-                <span className="text-[#a1a1a1]">Duration</span>
-                <span className="text-[#ffffff]">1 hour</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Currency</span>
-                <select 
-                    value={currency} 
-                    onChange={(e) => setCurrency(e.target.value)}
-                    className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
-                >
-                  <option value="INR">INR</option>
-                  <option value="USD">USD</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="pt-6 border-t border-white/5">
-              <p className="text-[#a1a1a1] text-sm line-through mb-1 opacity-50 tracking-tighter">{currentPrice.original}</p>
-              <div className="flex items-baseline gap-4">
-                <p className="text-4xl font-black text-[#ffffff] tracking-tighter">{currentPrice.current}</p>
-                <span className="text-[#c6a96b] text-[10px] font-black uppercase tracking-widest">Save 20%</span>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-                <button className="w-full py-4 bg-transparent border border-[#c6a96b]/20 text-[#ffffff] font-bold rounded-xl hover:bg-white/5 transition-all text-xs uppercase tracking-widest">Add to Cart</button>
-                <button className="w-full py-5 bg-[#c6a96b] text-[#000000] font-black rounded-xl shadow-xl shadow-[#c6a96b]/10 hover:bg-[#d4af37] transition-all text-xs uppercase tracking-widest">Buy Now</button>
-            </div>
+        <div className="lg:col-span-1 pb-20">
+          <div className="sticky top-28">
+            <AddToCart serviceId="counselling" />
           </div>
         </div>
       </section>

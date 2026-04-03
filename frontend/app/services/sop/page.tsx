@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import AddToCart from "@/components/shared/AddToCart";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
@@ -24,12 +25,7 @@ import {
 } from "lucide-react";
 
 export default function SOPPage() {
-  const [currency, setCurrency] = useState("INR");
-  const [skipQueue, setSkipQueue] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const basePrice = 39900.00;
-  const discountedPrice = 29500.00;
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -165,31 +161,9 @@ export default function SOPPage() {
          </div>
       </section>
 
-      {/* ── SETTLEMENT NODE ── */}
-      <section className="py-24 px-8 md:px-20 z-10 relative">
-         <div className="max-w-4xl mx-auto">
-            <motion.div 
-               whileHover={{ y: -5 }}
-               className="glass-card p-8 flex flex-col md:flex-row gap-12 overflow-hidden bg-white/[0.01] border border-white/10 hover:border-gold-500/20 items-center"
-            >
-               <div className="md:w-1/2 space-y-6">
-                  <h3 className="text-xl font-black uppercase tracking-[0.4em] gradient-text-gold italic">START NOW</h3>
-                  <div className="space-y-4 border-l-2 border-gold-500/20 pl-6">
-                     <p className="text-sm font-black italic uppercase">Master Manuscript Settlement Node</p>
-                     <p className="text-2xl font-black gradient-text-gold">IDR 29,500,000</p>
-                  </div>
-               </div>
-               <div className="md:w-1/2 grid grid-cols-1 gap-4">
-                  <Link href="/contact?service=sop" className="btn-gold px-8 py-4 text-[10px] tracking-widest text-center !rounded-xl">
-                     Initiate Case Review
-                  </Link>
-                  <Link href="/checkout?service=sop" className="btn-outline-gold px-8 py-4 text-[10px] tracking-widest text-center !rounded-xl">
-                     Secure Settlement
-                  </Link>
-               </div>
-            </motion.div>
-         </div>
-      </section>
+        <div className="max-w-md mx-auto py-12 relative z-10">
+            <AddToCart serviceId="sop" />
+        </div>
 
       {/* ── FAQ (COMPACT) ── */}
       <section className="py-24 px-8 md:px-20 bg-dark-900 overflow-hidden relative z-10 border-y border-white/5">

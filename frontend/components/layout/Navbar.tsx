@@ -281,6 +281,7 @@ export default function Navbar() {
   const [user, setUserState] = useState<any>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -295,6 +296,28 @@ export default function Navbar() {
 
     refreshUser();
     window.addEventListener('user-updated', refreshUser);
+
+    const fetchCartCount = async () => {
+      const token = localStorage.getItem("auth_token");
+      if (!token) {
+        setCartCount(0);
+        return;
+      }
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/get-cart`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setCartCount(data.cart?.length || 0);
+        }
+      } catch (error) {
+        console.error("Failed to fetch cart count:", error);
+      }
+    };
+
+    fetchCartCount();
+    window.addEventListener('cart-updated', fetchCartCount);
 
     const storedUser = getUser();
     if (storedUser && (storedUser._id || storedUser.id)) {
@@ -323,7 +346,10 @@ export default function Navbar() {
       fetchFullProfile();
     }
 
-    return () => window.removeEventListener('user-updated', refreshUser);
+    return () => {
+      window.removeEventListener('user-updated', refreshUser);
+      window.removeEventListener('cart-updated', fetchCartCount);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -429,7 +455,7 @@ export default function Navbar() {
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.style.display = 'none';
-                            const initials = (user.name || 'U').split(' ').map((n:string) => n[0]).join('').toUpperCase().substring(0,2);
+                            const initials = (user.name || 'U').split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2);
                             const parent = target.parentElement;
                             if (parent) {
                               parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-xs uppercase">${initials}</div>`;
@@ -438,7 +464,7 @@ export default function Navbar() {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-xs uppercase">
-                          {(user.name || 'U').split(' ').map((n:any)=>n[0]).join('').toUpperCase().substring(0,2)}
+                          {(user.name || 'U').split(' ').map((n: any) => n[0]).join('').toUpperCase().substring(0, 2)}
                         </div>
                       )}
                     </div>
@@ -469,7 +495,7 @@ export default function Navbar() {
                                   onError={(e) => {
                                     const target = e.target as HTMLImageElement;
                                     target.style.display = 'none';
-                                    const initials = (user.name || 'U').split(' ').map((n:string) => n[0]).join('').toUpperCase().substring(0,2);
+                                    const initials = (user.name || 'U').split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2);
                                     const parent = target.parentElement;
                                     if (parent) {
                                       parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-lg uppercase">${initials}</div>`;
@@ -478,7 +504,7 @@ export default function Navbar() {
                                 />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-lg uppercase">
-                                  {(user.name || 'U').split(' ').map((n:any)=>n[0]).join('').toUpperCase().substring(0,2)}
+                                  {(user.name || 'U').split(' ').map((n: any) => n[0]).join('').toUpperCase().substring(0, 2)}
                                 </div>
                               )}
                             </div>
@@ -517,10 +543,14 @@ export default function Navbar() {
 
                 {/* Small Cart Icon */}
                 <div className="relative group/cart cursor-pointer hover:scale-110 transition-transform px-2">
-                  <ShoppingCart size={20} className="text-white hover:text-[#d4af37] transition-colors" />
-                  <span className="absolute -top-1.5 -right-0 bg-red-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    0
-                  </span>
+                  <Link href="/User/cart">
+                    <ShoppingCart size={20} className="text-white hover:text-[#d4af37] transition-colors" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1.5 -right-0 bg-red-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
                 </div>
               </div>
             )}

@@ -2,6 +2,8 @@
 
 import React, { useState, ReactNode } from "react";
 import Link from "next/link";
+import AddToCart from "@/components/shared/AddToCart";
+
 
 // ─── Components ──────────────────────────────────────────────────────────────
 
@@ -54,23 +56,7 @@ function StatBar({ label, value }: { label: string; value: number }) {
 // ─── Main Page ───────────────────────────────────────────────────────────────
 
 export default function ResearchPaperPage() {
-  const [currency, setCurrency] = useState("INR");
-  const [coAuthors, setCoAuthors] = useState(0);
-
-  const baseINR = 69671.05;
-  const originalINR = 87089.0;
-  const baseUSD = 836;
-  const originalUSD = 1045;
-
-  const currentAmount =
-    currency === "INR"
-      ? `₹${(baseINR * (1 + coAuthors * 0.8)).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`
-      : `$${(baseUSD * (1 + coAuthors * 0.8)).toLocaleString("en-US")}`;
-
-  const originalAmount =
-    currency === "INR"
-      ? `INR ${originalINR.toLocaleString("en-IN", { minimumFractionDigits: 2 })}`
-      : `USD ${originalUSD.toLocaleString("en-US")}.00`;
+  const [activeTab, setActiveTab] = useState("overview");
 
   const advantages = [
     { icon: "🏛️", text: "Admits from some of the top-most universities worldwide!" },
@@ -446,114 +432,41 @@ export default function ResearchPaperPage() {
         </div>
 
         {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
-        <div className="lg:col-span-1 space-y-8">
-          {/* Pricing Card */}
-          <div className="sticky top-12 bg-[#0a0a0a] border border-[#c6a96b]/20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] rounded-[32px] p-8 space-y-8">
-            <div className="text-center">
-              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#c6a96b]">Start Now</h3>
-              <div className="w-10 h-[1px] bg-[#c6a96b]/30 mx-auto mt-4" />
-            </div>
+        <div className="lg:col-span-1 pb-20">
+          <div className="sticky top-28">
+            <AddToCart serviceId="research-papers" />
 
-            <div className="space-y-5">
-              <div className="flex justify-between items-center text-xs uppercase tracking-widest font-bold">
-                <span className="text-[#a1a1a1]">Services</span>
-                <span className="text-[#ffffff] text-right text-[11px]">Research Paper Drafting &amp; Publishing Help</span>
-              </div>
-              <div className="flex justify-between items-center text-xs uppercase tracking-widest font-bold">
-                <span className="text-[#a1a1a1]">Duration</span>
-                <span className="text-[#ffffff]">3–4 weeks</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Currency</span>
-                <select
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
-                >
-                  <option value="INR">INR</option>
-                  <option value="USD">USD</option>
-                </select>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Co-Authors</span>
-                <select
-                  value={coAuthors}
-                  onChange={(e) => setCoAuthors(Number(e.target.value))}
-                  className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
-                >
-                  {[0, 1, 2, 3].map((n) => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="pt-6 border-t border-white/5">
-              <p className="text-[#a1a1a1] text-sm line-through mb-1 opacity-50 tracking-tighter">{originalAmount}</p>
-              <div className="flex items-baseline gap-4">
-                <p className="text-3xl font-black text-[#ffffff] tracking-tighter">{currentAmount}</p>
-                <span className="text-[#c6a96b] text-[10px] font-black uppercase tracking-widest">/author</span>
-              </div>
-              <div className="flex items-center gap-3 mt-2">
-                <span className="text-[#a1a1a1] text-xs">You save:</span>
-                <span className="bg-[#c6a96b] text-[#000000] text-[10px] font-black px-2 py-0.5 rounded-md">20% off</span>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <p className="text-[#c6a96b] text-xs text-center underline cursor-pointer hover:text-[#d4af37] transition-colors">
-                Do you want to join or create a research group?
-              </p>
-              <button className="w-full py-5 bg-[#c6a96b] text-[#000000] font-black rounded-xl shadow-xl shadow-[#c6a96b]/10 hover:bg-[#d4af37] transition-all text-xs uppercase tracking-widest">
-                Log In To Pay
-              </button>
-            </div>
-
-            {/* Discuss Card */}
-            <div className="border-t border-white/5 pt-6">
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 rounded-full bg-[#c6a96b]/10 border border-[#c6a96b]/20 overflow-hidden flex items-center justify-center text-lg shrink-0">👤</div>
-                <div>
-                  <p className="text-xs font-black text-[#c6a96b] uppercase tracking-widest mb-1">Discuss Your Case</p>
-                  <p className="text-xs text-[#a1a1a1] leading-relaxed">Chat with a team member to see how we can help.</p>
-                  <button className="mt-3 text-xs font-bold text-[#ffffff] border border-white/10 px-4 py-2 rounded-lg hover:bg-white/5 transition-all">
-                    Message now →
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Research Groups */}
-          <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-[32px] p-8">
-            <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#c6a96b] mb-6">Join or Create a Research Group</h3>
-            <div className="space-y-4">
-              {researchGroups.map((g, idx) => (
-                <div key={idx} className="bg-[#141414] border border-white/5 rounded-xl overflow-hidden hover:border-[#c6a96b]/20 transition-all">
-                  <div className="bg-gradient-to-r from-[#0d1a22] to-[#141414] px-4 py-3 flex justify-between items-center">
-                    <span className="text-[10px] text-[#a1a1a1]">Created on: {g.date}</span>
-                    <span className="text-[10px] text-[#c6a96b] font-bold">👥 {g.slots}</span>
-                  </div>
-                  <div className="px-4 py-3">
-                    <h4 className="text-xs font-black text-[#ffffff] mb-2">{g.title}</h4>
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[8px] font-bold text-[#a1a1a1]">{g.user}</div>
-                      <p className="text-[10px] text-[#a1a1a1]">{g.desc}</p>
+            {/* Research Groups */}
+            <div className="mt-8 bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-[32px] p-8">
+              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#c6a96b] mb-6">Join or Create a Research Group</h3>
+              <div className="space-y-4">
+                {researchGroups.map((g, idx) => (
+                  <div key={idx} className="bg-[#141414] border border-white/5 rounded-xl overflow-hidden hover:border-[#c6a96b]/20 transition-all">
+                    <div className="bg-gradient-to-r from-[#0d1a22] to-[#141414] px-4 py-3 flex justify-between items-center">
+                      <span className="text-[10px] text-[#a1a1a1]">Created on: {g.date}</span>
+                      <span className="text-[10px] text-[#c6a96b] font-bold">👥 {g.slots}</span>
                     </div>
-                    <div className="flex gap-2 mt-3">
-                      <button className="flex-1 text-[10px] font-bold border border-white/10 py-1.5 rounded-lg text-[#a1a1a1] hover:bg-white/5 transition-all">View Members</button>
-                      <button className="flex-1 text-[10px] font-black bg-[#c6a96b] text-[#000000] py-1.5 rounded-lg hover:bg-[#d4af37] transition-all">Join Group</button>
+                    <div className="px-4 py-3">
+                      <h4 className="text-xs font-black text-[#ffffff] mb-2">{g.title}</h4>
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[8px] font-bold text-[#a1a1a1]">{g.user}</div>
+                        <p className="text-[10px] text-[#a1a1a1]">{g.desc}</p>
+                      </div>
+                      <div className="flex gap-2 mt-3">
+                        <button className="flex-1 text-[10px] font-bold border border-white/10 py-1.5 rounded-lg text-[#a1a1a1] hover:bg-white/5 transition-all">View Members</button>
+                        <button className="flex-1 text-[10px] font-black bg-[#c6a96b] text-[#000000] py-1.5 rounded-lg hover:bg-[#d4af37] transition-all">Join Group</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 text-center space-y-2">
-              <p className="text-xs text-[#a1a1a1]">Didn't find what you were looking for?</p>
-              <button className="w-full border border-[#c6a96b]/20 text-[#ffffff] font-bold py-3 rounded-xl text-xs hover:bg-white/5 transition-all">
-                + Create Research Group
-              </button>
-              <button className="text-xs text-[#c6a96b] underline hover:text-[#d4af37] transition-colors">View More Groups</button>
+                ))}
+              </div>
+              <div className="mt-6 text-center space-y-2">
+                <p className="text-xs text-[#a1a1a1]">Didn't find what you were looking for?</p>
+                <button className="w-full border border-[#c6a96b]/20 text-[#ffffff] font-bold py-3 rounded-xl text-xs hover:bg-white/5 transition-all">
+                  + Create Research Group
+                </button>
+                <button className="text-xs text-[#c6a96b] underline hover:text-[#d4af37] transition-colors">View More Groups</button>
+              </div>
             </div>
           </div>
         </div>

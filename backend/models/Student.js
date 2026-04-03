@@ -80,7 +80,11 @@ const StudentSchema = new mongoose.Schema(
       targetUniversities: [{
         uniName: String, degree: String, major: String, term: String, year: String
       }],
-    }
+    },
+    cart: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
   },
   { timestamps: true, autoCreate: false, autoIndex: false }
 );

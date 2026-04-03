@@ -37,7 +37,7 @@ const bookingSchema = new mongoose.Schema(
     sessionId: { type: String, unique: true, sparse: true }, // Unique per counselling session
     meetingId: { type: String }, // Short hash used by WebRTC room
   },
-  { timestamps: true }
+  { timestamps: true, autoCreate: false, autoIndex: false }
 );
 
 module.exports = mongoose.models.Booking || mongoose.model("Booking", bookingSchema);

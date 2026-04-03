@@ -1,332 +1,211 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
+import AddToCart from "@/components/shared/AddToCart";
 
 export default function ResumeDraftingPage() {
-    const [showOptions, setShowOptions] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+
   return (
     <div className="w-full bg-white text-gray-800">
       {/* HERO SECTION */}
-      <section className="bg-[#f7f4ef] py-16 px-6 md:px-16">
+      <section className="bg-[#fcfcfc] py-16 px-6 md:px-16 border-b">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-          
-          {/* LEFT */}
+          {/* LEFT CONTENT */}
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-black">
-              RESUME DRAFTING
+            <h1 className="text-4xl md:text-5xl font-black text-black mb-6 uppercase tracking-tight">
+              Resume Drafting
             </h1>
 
-            <p className="text-lg mb-6">
-              Learn the secret to a perfect resume that will truly set you apart
-              from any other applicant that you compete with.
+            <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+              Learn the secret to a perfect resume that will truly set you apart from any other applicant that you compete with. Our expert drafts are optimized for international standards.
             </p>
 
             {/* FEATURES */}
-            <div className="flex gap-10 mb-6">
+            <div className="flex gap-10 mb-8">
               <div className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center text-xl shadow-lg ring-4 ring-gray-50">
                   📞
                 </div>
-                <span className="text-sm mt-2">Audio call</span>
+                <span className="text-xs mt-3 font-bold text-gray-500 uppercase tracking-widest">Audio call</span>
               </div>
 
-               <div className="flex flex-col items-center">
-                    <div className="bg-green-600 text-white p-3 rounded-full flex items-center justify-center">
-                  <FaWhatsapp size={20} />
+              <div className="flex flex-col items-center">
+                <div className="bg-green-600 text-white p-3 rounded-full flex items-center justify-center shadow-lg ring-4 ring-green-50">
+                  <FaWhatsapp size={24} />
                 </div>
-                <span className="text-sm mt-2">Text Support</span>
+                <span className="text-xs mt-3 font-bold text-gray-500 uppercase tracking-widest">Text Support</span>
               </div>
             </div>
 
             {/* CTA */}
-            <div className="flex items-center gap-6">
-               <button
-    onClick={() => setShowOptions(!showOptions)}
-    className="border border-yellow-500 px-6 py-3 rounded-lg hover:bg-yellow-500 hover:text-white transition" >
-    Discuss Your Case
-  </button>
-  
+            <div className="flex flex-wrap items-center gap-6">
+              <button
+                onClick={() => setShowOptions(true)}
+                className="bg-yellow-500 text-black px-8 py-4 rounded-xl hover:bg-black hover:text-white transition-all duration-300 font-black uppercase tracking-widest shadow-xl shadow-yellow-500/20"
+              >
+                Discuss Your Case
+              </button>
 
-              <p className="text-sm text-gray-500">
-                Have questions about this service? Let's chat.
-              </p>
-                            {showOptions && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+              <div className="text-sm font-medium text-gray-400 italic">
+                Questions? <span className="text-yellow-600 not-italic font-bold">Chat with us.</span>
+              </div>
 
-    {/* Modal Box */}
-    <div className="bg-white rounded-xl w-[90%] max-w-md p-6 relative shadow-lg">
-
-      {/* Close Button */}
-       <button
-              onClick={() => setShowOptions(false)}
-              className="absolute top-3 right-4 text-gray-600 text-xl"
-            >
-              ×
-            </button>
-        
-        {/* Heading */}
-            <h2 className="text-lg font-semibold text-center mb-6 text-black">
-              Choose a Preferred Communication Method to Continue
-            </h2>
-
-      
-
-      {/* Options */}
-      <div className="space-y-4">
-
-        {/* WhatsApp */}
-        <div
-          onClick={() => window.open("https://wa.me/918987654321", "_blank")}
-          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-        >
-          <p className="font-medium text-green-600">WhatsApp</p>
-          <p className="text-sm text-gray-500">Chat on WhatsApp</p>
-        </div>
-
-        {/* Telegram */}
-        <div
-          onClick={() => window.open("https://t.me/", "_blank")}
-          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-        >
-          <p className="font-medium">Telegram</p>
-          <p className="text-sm text-gray-500">Continue on Telegram</p>
-        </div>
-
-        {/* Email */}
-    <div
-  onClick={() =>
-    window.open(
-      "https://mail.google.com/mail/?view=cm&fs=1&to=harshalisanap0902@gmail.com",
-      "_blank"
-    )
-  }
-  className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
->
-  <p className="font-medium">Email</p>
-  <p className="text-sm text-gray-500">
-    Continue on Email
-  </p>
-</div>
-
-      </div>
-
-    </div>
-  </div>
-)}
-
-
-</div>
-            
+              {showOptions && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md px-4">
+                  <div className="bg-white rounded-3xl w-full max-w-md p-8 relative shadow-2xl animate-in fade-in zoom-in duration-300 border border-gray-100">
+                    <button
+                      onClick={() => setShowOptions(false)}
+                      className="absolute top-5 right-6 text-gray-400 hover:text-black text-2xl transition"
+                    >
+                      ×
+                    </button>
+                    <h2 className="text-2xl font-black text-center mb-8 text-black uppercase tracking-tighter">
+                      Connect With Us
+                    </h2>
+                    <div className="space-y-4">
+                      <div
+                        onClick={() => window.open("https://wa.me/918987654321", "_blank")}
+                        className="flex items-center gap-5 border-2 border-green-50 rounded-2xl p-5 hover:border-green-500 hover:bg-green-50 transition cursor-pointer group"
+                      >
+                        <div className="bg-green-100 p-3 rounded-full group-hover:bg-green-500 group-hover:text-white transition">
+                           <FaWhatsapp size={24} />
+                        </div>
+                        <div>
+                          <p className="font-black text-green-700 tracking-tight">WhatsApp</p>
+                          <p className="text-xs text-gray-400 font-bold uppercase mt-1">Instant Strategy</p>
+                        </div>
+                      </div>
+                      
+                      <div
+                        onClick={() => window.open("https://mail.google.com/mail/?view=cm&fs=1&to=harshalisanap0902@gmail.com", "_blank")}
+                        className="flex items-center gap-5 border-2 border-gray-50 rounded-2xl p-5 hover:border-black hover:bg-gray-50 transition cursor-pointer group"
+                      >
+                        <div className="bg-gray-100 p-3 rounded-full group-hover:bg-black group-hover:text-white transition text-xl">
+                           📧
+                        </div>
+                        <div>
+                          <p className="font-black text-gray-900 tracking-tight">Email Support</p>
+                          <p className="text-xs text-gray-400 font-bold uppercase mt-1">Detailed Queries</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* RIGHT IMAGE */}
+          {/* RIGHT VIDEO */}
           <div className="flex justify-center">
-            <video
-    src="/ResumeDrafting.mp4"
-    autoPlay
-    muted
-    loop
-    controls
-    className="rounded-xl w-full max-w-md shadow"
-  />
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-yellow-500/10 rounded-[3rem] blur-2xl group-hover:bg-yellow-500/20 transition duration-500"></div>
+              <video
+                className="rounded-[2rem] w-full max-w-md shadow-2xl relative border-8 border-white"
+                controls
+                autoPlay
+                loop
+                muted
+              >
+                <source src="/ResumeDrafting.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
         </div>
       </section>
 
       {/* ABOUT + SIDEBAR */}
-      <section className="py-16 px-6 md:px-16">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
-          
+      <section className="max-w-7xl mx-auto px-6 md:px-16 py-20">
+        <div className="grid md:grid-cols-3 gap-16">
           {/* LEFT CONTENT */}
-          <div className="md:col-span-2">
-            <h2 className="text-2xl font-semibold mb-4 border-b-2 border-yellow-500 inline-block text-black">
-  About Service
-</h2>
+          <div className="md:col-span-2 space-y-12">
+            <div>
+              <h2 className="text-3xl font-black text-black mb-6 relative inline-block">
+                Service Overview
+                <span className="absolute -bottom-2 left-0 w-full h-1.5 bg-yellow-400 rounded-full"></span>
+              </h2>
+              
+              <div className="space-y-6 text-gray-600 leading-relaxed text-lg font-medium">
+                <p>
+                  It is extremely critical to have an eye-catching one-page resume unless you have an industry experience of over 5 years. When an employer looks at my resume, he is usually amazed by the conciseness, organization, and pertinence of the content.
+                </p>
 
-            <div className="space-y-5 text-gray-600 leading-relaxed mt-6">
-              <p>
-                It is extremely critical to have an eye-catching one-page resume
-                unless you have an industry experience of over 5 years. When an
-                employer looks at my resume, he is usually amazed by the
-                conciseness, organization, and pertinence of the content.
-              </p>
+                <p>
+                  While the Statement of Purpose covers the most career-shaping experiences, the resume provides insights into your professional experience as a subject-matter expert.
+                </p>
 
-              <p>
-                While the Statement of Purpose covers the most career-shaping
-                experiences, the resume provides insights into your professional
-                experience as a subject-matter expert.
-              </p>
+                <div className="bg-black text-white p-8 rounded-3xl shadow-2xl border-l-8 border-yellow-500">
+                   <p className="text-xl font-bold italic leading-snug">
+                    "A well-crafted draft can boost your chances of bagging admits and scholarships by over 18%."
+                  </p>
+                </div>
 
-              <p className="font-semibold text-gray-800">
-                A well-crafted draft can boost your chances of bagging admits and
-                scholarships by over 18%.
-              </p>
-
-              <p>
-                An average employer looks at a resume for less than 10 seconds.
-                With a stellar resume, an employer is bound to give your
-                application more attention than your competitors.
-              </p>
+                <p>
+                  An average employer looks at a resume for less than 10 seconds. With a stellar resume, an employer is bound to give your application more attention than your competitors.
+                </p>
+              </div>
             </div>
 
             {/* SAMPLE OUTPUT */}
-            <div className="mt-10">
-              <h3 className="font-semibold mb-4">Sample Output:</h3>
+            <div className="pt-8">
+              <h3 className="text-xl font-black text-black mb-6 uppercase tracking-widest flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-sm">✓</span>
+                Sample Output
+              </h3>
 
-              <div className="border rounded-lg overflow-hidden shadow">
+              <div className="border-4 border-gray-50 rounded-[2rem] overflow-hidden shadow-2xl group cursor-zoom-in">
                 <Image
-                   src="/sample-resume.avif"
+                  src="/sample-resume.avif"
                   alt="Sample resume"
                   width={800}
-                  height={600}
-                  className="w-full"
+                  height={1000}
+                  className="w-full transition duration-500 group-hover:scale-105"
                 />
               </div>
             </div>
           </div>
 
           {/* RIGHT SIDEBAR */}
-          <div className="space-y-6">
-            {/* CARD */}
-            <div className="border rounded-xl p-6 shadow-sm">
-           <h3 className="text-lg font-semibold mb-4 text-black text-center">
-          Start Now
-            </h3>
+          <div className="space-y-8">
+            <div className="w-full sticky top-8">
+              <AddToCart serviceId="resume-drafting" />
               
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="font-semibold text-black">Services:</span>
-                  <span>Resume Help</span>
+              <div className="mt-8 bg-black rounded-3xl p-8 flex flex-col gap-6 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                
+                <div className="flex items-center gap-6 relative">
+                  <div className="relative">
+                    <Image
+                      src="/man_holding_phone.png"
+                      alt="Chat Support"
+                      width={80}
+                      height={80}
+                      className="rounded-2xl object-cover border-2 border-yellow-500/50"
+                    />
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-black rounded-full"></div>
+                  </div>
+                  
+                  <div className="flex-1">
+                    <h4 className="text-lg font-black text-white mb-1 tracking-tighter">
+                      Discuss Your Case
+                    </h4>
+                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-tight">
+                      Expert Consultation
+                    </p>
+                  </div>
                 </div>
 
-                <div className="flex justify-between">
-                  <span className="font-semibold text-black">Duration:</span>
-                  <span>1-1.5 weeks</span>
-                </div>
-<div className="flex justify-between items-center">
-  <span className="font-semibold text-black">Currency:</span>
-
-  <select
-    className="border rounded px-2 py-1 text-sm"
-    defaultValue="INR"
-  >
-    <option value="INR">India (₹ INR)</option>
-  <option value="USD">United States ($ USD)</option>
-  <option value="GBP">United Kingdom (£ GBP)</option>
-  <option value="EUR">Germany (€ EUR)</option>
-  <option value="EUR">France (€ EUR)</option>
-  <option value="CAD">Canada ($ CAD)</option>
-  <option value="AUD">Australia ($ AUD)</option>
-  <option value="SGD">Singapore ($ SGD)</option>
-  <option value="AED">UAE (د.إ AED)</option>
-  <option value="JPY">Japan (¥ JPY)</option>
-  <option value="CNY">China (¥ CNY)</option>
-  <option value="NZD">New Zealand ($ NZD)</option>
-  <option value="ZAR">South Africa (R ZAR)</option>
-  <option value="CHF">Switzerland (CHF)</option>
-  <option value="SEK">Sweden (kr SEK)</option>
-  <option value="NOK">Norway (kr NOK)</option>
-  <option value="DKK">Denmark (kr DKK)</option>
-  </select>
-</div>
-              
-{/* LIGHTNING SPEED */}
-<div className="flex items-start gap-2 mt-2">
-  <input
-    type="checkbox"
-    id="lightning"
-    className="mt-1"
-  />
-
-  <label htmlFor="lightning" className="text-sm">
-    <span className="font-semibold text-black">Lightning Speed:</span>
-    <br />
-    Skip the queue - Delivered within 3-5 days for a 25% surcharge
-  </label>
-</div>
-
-
-
-
- <div className="flex justify-between">
-    <span className="font-semibold text-black">Actual Amount:</span>
-    <span className="text-gray-500 line-through">
-      INR 20,321.00
-    </span>
-  </div>
-  {/* AMOUNT */}
-  
-  <div className="flex justify-between">
-    <span className="font-semibold text-black">Amount:</span>
-    <span className="text-lg font-bold text-red-500">
-      INR 16,256.25
-    </span>
-  </div>
-{/* Savings */}
-  <div className="flex justify-between">
-    <span className="font-semibold text-black">You save:</span>
-    <span className="text-green-600">
-      INR 4,064.42
-    </span>
-  </div>
-    {/* Discount */}
-  <div className="text-green-600 text-right">
-    20% off
-  </div>
-  </div>
-  </div>
-
-          {/* Buttons */}
-          <div className="mt-6 flex gap-3">
-            <button
-  onClick={() => {
-    const item = {
-      name: "Personal History Statement",
-      price: 20607.25,
-    };
-
-    localStorage.setItem("cartItem", JSON.stringify(item));
-    alert("Added to cart ✅");
-  }}
-  className="flex-1 border border-yellow-500 py-2 rounded-lg hover:bg-yellow-100"
->
-  Add to Cart
-</button>
-
-<button
-  onClick={() => {
-    window.location.href = "/checkout";
-  }}
-  className="flex-1 bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600"
->
-  Buy Now
-</button>
-            </div>
-
-            {/* CHAT BOX */}
-            <div className="border rounded-xl p-4 flex items-center gap-4">
-              <Image
-                src="/man_holding_phone.png"
-                alt="chat"
-                width={60}
-                height={60}
-                className="rounded-full"
-              />
-
-              <div>
-                <p className="font-medium">Discuss Your Case</p>
-                <p className="text-sm text-gray-500">
-                  Chat with a team member to see how we can help.
+                <p className="text-sm text-gray-400 leading-relaxed font-medium">
+                  Have specific requirements for your industry? Chat with our team to customize your package.
                 </p>
-                 <button
-  onClick={() => {
-    window.open("https://wa.me/+918987654321", "_blank");
-  }}
-  className="mt-3 text-yellow-600 font-medium hover:underline">
-  Message now →
-</button>
+                
+                <button
+                  onClick={() => window.open("https://wa.me/+918987654321", "_blank")}
+                  className="w-full bg-white text-black py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-yellow-500 transition duration-300"
+                >
+                  Message now →
+                </button>
               </div>
             </div>
           </div>

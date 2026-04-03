@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AddToCart from "@/components/shared/AddToCart";
 
 // ─── Components ──────────────────────────────────────────────────────────────
 
@@ -49,7 +50,6 @@ function IncludeItem({ icon, title }: { icon: string; title: string }) {
 // ─── Main Page ───────────────────────────────────────────────────────────────
 
 export default function ApplicationHelpPage() {
-  const [numUnis, setNumUnis] = useState("8 Universities");
 
   return (
     <main className="min-h-screen bg-[#050505] text-[#e5e5e5] selection:bg-[#c6a96b]/30">
@@ -176,48 +176,8 @@ export default function ApplicationHelpPage() {
 
         {/* ── SIDEBAR ──────────────────────────────────────────────────────── */}
         <div className="lg:col-span-1">
-          <div className="sticky top-12 bg-[#0a0a0a] border border-white/10 rounded-[32px] p-8 space-y-10 shadow-2xl">
-            <div className="text-center space-y-3">
-                <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c6a96b]">Enrolment Portal</h3>
-                <div className="w-10 h-[1px] bg-[#c6a96b] mx-auto opacity-50" />
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex justify-between items-center text-xs uppercase tracking-widest">
-                <span className="text-[#a1a1a1]">Standard Support</span>
-                <span className="text-white">1 Year Unlimited</span>
-              </div>
-              <div className="space-y-3">
-                <label className="text-[9px] font-black text-[#a1a1a1] uppercase tracking-widest">University Scope</label>
-                <select 
-                  className="w-full bg-black border border-white/10 rounded-lg px-4 py-4 text-xs tracking-widest outline-none focus:border-[#c6a96b]/50 text-white transition-all cursor-pointer"
-                  value={numUnis}
-                  onChange={(e) => setNumUnis(e.target.value)}
-                >
-                  <option>8 Universities</option>
-                  <option>10 Universities</option>
-                  <option>12 Universities</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="p-5 bg-white/[0.02] border border-white/5 rounded-xl flex items-center gap-4">
-              <span className="text-[#c6a96b] text-xl">✦</span>
-              <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#c6a96b]">Legally Binding Admission Guarantee</span>
-            </div>
-
-            <div className="pt-8 border-t border-white/5">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-[#a1a1a1] text-xs line-through tracking-widest opacity-40">INR 2,25,601</span>
-                <span className="bg-[#c6a96b]/10 text-[#c6a96b] text-[9px] font-bold px-3 py-1 rounded border border-[#c6a96b]/20 tracking-tighter">ELITE DISCOUNT 20%</span>
-              </div>
-              <p className="text-5xl font-light tracking-tighter text-white">₹1,80,481</p>
-            </div>
-
-            <div className="space-y-3 pt-4">
-                <button className="w-full py-5 bg-[#c6a96b] text-[#1a1a1a] text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:brightness-110 transition-all shadow-xl shadow-black">Secure Package</button>
-                <button className="w-full py-5 bg-transparent border border-white/10 text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:bg-white/5 transition-all">Save to Cart</button>
-            </div>
+          <div className="sticky top-28">
+            <AddToCart serviceId="application-help" />
           </div>
         </div>
       </section>

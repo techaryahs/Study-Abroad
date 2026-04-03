@@ -9,7 +9,7 @@ const apiKeySchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
-});
+}, { autoCreate: false, autoIndex: false });
 
 const ApiKey = mongoose.model('ApiKey', apiKeySchema);
 

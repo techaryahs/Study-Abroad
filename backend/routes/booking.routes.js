@@ -15,9 +15,9 @@ router.delete("/:id", bookingCtrl.deleteBooking);
 router.post("/seed", bookingCtrl.seedConsultants);
 
 // ── Counselling Session routes ─────────────────────────────────────────────
-router.post("/book-session", bookingCtrl.bookCounsellingSession);
-router.get("/available-slots", bookingCtrl.getAvailableSlots);
-router.get("/session/:sessionId", bookingCtrl.getCounsellingSession);
+// router.post("/book-session", bookingCtrl.bookCounsellingSession);
+// router.get("/available-slots", bookingCtrl.getAvailableSlots);
+// router.get("/session/:sessionId", bookingCtrl.getCounsellingSession);
 
 module.exports = router;
 
