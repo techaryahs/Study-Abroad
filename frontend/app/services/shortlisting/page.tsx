@@ -93,7 +93,7 @@ export default function ShortlistingPage() {
 
             <div className="space-y-4 pt-2">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gold-500/40 italic">Global Tier Exposure:</p>
-              <div className="flex flex-wrap gap-8 items-center opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
+              <div className="flex flex-wrap gap-8 items-center">
                 {logos.map((logo, i) => (
                    <Image key={i} src={logo.src} alt={logo.name} width={28} height={28} className="object-contain" />
                 ))}

@@ -27,6 +27,7 @@ export default function UniversitiesPage() {
     { name: "Canada", code: "CA", slug: "canada", count: "100+ Universities", popular: false },
     { name: "Australia", code: "AU", slug: "australia", count: "40+ Universities", popular: false },
     { name: "France", code: "FR", slug: "france", count: "80+ Universities", popular: false },
+    { name: "Ireland", code: "IE", slug: "ireland", count: "10+ Universities", popular: false },
   ];
 
   return (
