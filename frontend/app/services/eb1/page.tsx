@@ -207,7 +207,7 @@ export default function EB1Page() {
       <section className="py-24 px-8 md:px-20 relative z-10">
          <div className="max-w-7xl mx-auto space-y-16">
             <div className="text-center space-y-4">
-               <h2 className="text-2xl md:text-4xl font-black uppercase italic gradient-text-gold">Why Choose YMGrad for EB-1</h2>
+               <h2 className="text-2xl md:text-4xl font-black uppercase italic gradient-text-gold">Why Choose Us for EB-1</h2>
                <p className="text-white/20 text-[10px] uppercase tracking-[0.4em] max-w-2xl mx-auto font-black italic">Elite-Level End-to-End Petitioner Services</p>
             </div>
 

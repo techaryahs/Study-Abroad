@@ -20,7 +20,6 @@ const consultantSchema = new mongoose.Schema({
   isVerified: { type: Boolean, default: false },
 
   name: { type: String, required: true },
-  email: { type: String },
   role: { type: String, required: true }, // job role (Career Counselor, etc.)
   expertise: { type: String, required: true },
   experience: { type: String, required: true },

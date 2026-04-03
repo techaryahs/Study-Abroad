@@ -11,6 +11,7 @@ router.get("/consultants", bookingCtrl.getAllConsultants);
 router.get("/consultant/:consultantId", bookingCtrl.getConsultantBookings);
 router.put("/:id/accept", bookingCtrl.acceptBooking);
 router.put("/:id/reject", bookingCtrl.rejectBooking);
+router.delete("/:id", bookingCtrl.deleteBooking);
 router.post("/seed", bookingCtrl.seedConsultants);
 
 // ── Counselling Session routes ─────────────────────────────────────────────
