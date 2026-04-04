@@ -1,6 +1,82 @@
 [
   {
-    "_id": "uni_101",
+    "_id": "uni_gb_001",
+    "slug": "university-of-oxford",
+    "name": "University of Oxford",
+    "logo": "https://www.google.com/s2/favicons?domain=ox.ac.uk&sz=128",
+    "location": { "city": "Oxford", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Medical Sciences",
+        "description": "Oxford's Medical Sciences Division is a world-leader in biomedical research and clinical training, famously developing the Oxford-AstraZeneca vaccine.",
+        "stats": { "acceptance_rate": 9, "tuition_fee": 52000, "living_expense": 18000, "avg_salary": 95000, "avg_gpa": 3.9 },
+        "student_demographics": { "male": 48, "female": 52, "international_students": 25, "total_enrollment": 3500 }
+      },
+      {
+        "name": "Business",
+        "description": "Saïd Business School is a top-tier global business school that blends traditional academic excellence with entrepreneurial innovation.",
+        "stats": { "acceptance_rate": 18, "tuition_fee": 71000, "living_expense": 20000, "avg_salary": 115000, "avg_gmat": 715 }
+      },
+      {
+        "name": "Humanities",
+        "description": "The Faculty of Humanities at Oxford is one of the world's most prestigious, covering deep research in philosophy, history, and literature.",
+        "stats": { "acceptance_rate": 15, "tuition_fee": 38000, "living_expense": 18000, "avg_salary": 55000 }
+      },
+      {
+        "name": "Law",
+        "description": "Oxford Law is world-renowned for its rigorous academic standards and produces elite leaders in international law and the judiciary.",
+        "stats": { "acceptance_rate": 12, "tuition_fee": 42000, "living_expense": 18000, "avg_salary": 110000 }
+      },
+      {
+        "name": "MPLS (Science)",
+        "description": "The Mathematical, Physical and Life Sciences Division leads global innovation in AI, quantum computing, and climate science.",
+        "stats": { "acceptance_rate": 14, "tuition_fee": 45000, "living_expense": 18000, "avg_salary": 85000, "avg_gre": 328 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 92, "employed_within_3_months": 94, "average_salary": 90000 }
+    }
+  },
+  {
+    "_id": "uni_gb_002",
+    "slug": "university-of-cambridge",
+    "name": "University of Cambridge",
+    "logo": "https://www.google.com/s2/favicons?domain=cam.ac.uk&sz=128",
+    "location": { "city": "Cambridge", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Technology & CS",
+        "description": "Cambridge is Europe's tech hub, with the Department of Computer Science leading in AI foundations and 'Silicon Fen' industry ties.",
+        "stats": { "acceptance_rate": 11, "tuition_fee": 48000, "living_expense": 18000, "avg_salary": 105000, "avg_gpa": 3.95, "avg_gre": 330 },
+        "student_demographics": { "male": 70, "female": 30, "international_students": 40, "total_enrollment": 3000 }
+      },
+      {
+        "name": "Clinical Medicine",
+        "description": "The School of Clinical Medicine is integrated with world-leading research institutes at the Cambridge Biomedical Campus.",
+        "stats": { "acceptance_rate": 8, "tuition_fee": 64000, "living_expense": 18000, "avg_salary": 92000 }
+      },
+      {
+        "name": "Business",
+        "description": "Judge Business School provides an intensive, collaborative learning environment known for its focus on experiential learning and consulting.",
+        "stats": { "acceptance_rate": 20, "tuition_fee": 68000, "living_expense": 18000, "avg_salary": 108000, "avg_gmat": 710 }
+      },
+      {
+        "name": "Biological Sciences",
+        "description": "A global leader in genomics, stem cell research, and evolutionary biology.",
+        "stats": { "acceptance_rate": 18, "tuition_fee": 42000, "living_expense": 18000, "avg_salary": 68000 }
+      },
+      {
+        "name": "Law",
+        "description": "Cambridge Law is one of the oldest and most respected faculties in the world, with a heavy emphasis on legal theory and international rights.",
+        "stats": { "acceptance_rate": 15, "tuition_fee": 36000, "living_expense": 18000, "avg_salary": 105000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 91, "employed_within_3_months": 93, "average_salary": 88000 }
+    }
+  },
+  {
+    "_id": "uni_gb_003",
     "slug": "imperial-college-london",
     "name": "Imperial College London",
     "logo": "https://www.google.com/s2/favicons?domain=imperial.ac.uk&sz=128",
@@ -8,97 +84,223 @@
     "branches": [
       {
         "name": "Engineering",
-        "description": "Imperial is a world-leading science and engineering university known for innovation, research excellence, and industry impact. It focuses on STEM disciplines and produces highly employable graduates globally.",
-        "stats": { "avg_gpa": 3.7, "avg_gre": 322, "acceptance_rate": 14, "tuition_fee": 34446, "living_expense": 8542, "avg_salary": 88322 },
-        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+        "description": "The world's premier engineering faculty, leading in aerospace, mechanical, and civil engineering with cutting-edge laboratories.",
+        "stats": { "acceptance_rate": 12, "tuition_fee": 41000, "living_expense": 22000, "avg_salary": 98000, "avg_gpa": 3.8, "avg_gre": 326 },
+        "student_demographics": { "male": 65, "female": 35, "international_students": 50, "total_enrollment": 10000 }
+      },
+      {
+        "name": "Computing",
+        "description": "Imperial Computing is a global leader in software engineering and AI, with massive industry recruitment from Silicon Valley.",
+        "stats": { "acceptance_rate": 9, "tuition_fee": 42000, "living_expense": 22000, "avg_salary": 115000 }
       },
       {
         "name": "Business",
-        "description": "Imperial Business School integrates technology and analytics with business education. Students gain strong industry exposure and global career opportunities.",
-        "stats": { "avg_gpa": 3.7, "avg_gmat": 642, "acceptance_rate": 20, "tuition_fee": 34446, "living_expense": 8542, "avg_salary": 88322 },
-        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
-      }
-    ],
-    "common_sections": {
-      "employment_figures": { "employed": 90, "employed_within_3_months": 93, "average_salary": 60000 }
-    }
-  },
-  {
-    "_id": "uni_102",
-    "slug": "university-of-oxford",
-    "name": "University of Oxford",
-    "logo": "https://www.google.com/s2/favicons?domain=ox.ac.uk&sz=128",
-    "location": { "city": "Oxford", "state": "England", "country": "United Kingdom" },
-    "branches": [
-      {
-        "name": "Engineering",
-        "description": "Oxford Engineering combines deep theoretical knowledge with cutting-edge research in AI, robotics, and systems engineering. It is globally renowned for academic rigor.",
-        "stats": { "avg_gpa": 3.9, "avg_gre": 328, "acceptance_rate": 14, "tuition_fee": 37000, "living_expense": 18000, "avg_salary": 90000 },
-        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+        "description": "Imperial College Business School blends tech-driven analytics with modern commerce, ideal for future fintech and strategy leaders.",
+        "stats": { "acceptance_rate": 22, "tuition_fee": 62000, "living_expense": 24000, "avg_salary": 102000, "avg_gmat": 690 }
       },
       {
-        "name": "Business",
-        "description": "Saïd Business School delivers globally ranked MBA programs with emphasis on leadership, entrepreneurship, and global impact.",
-        "stats": { "avg_gpa": 3.7, "avg_gmat": 690, "acceptance_rate": 20, "tuition_fee": 65000, "living_expense": 20000, "avg_salary": 110000 },
-        "admitted_profiles": { "toefl_min": 105, "ielts_min": 7.5, "toefl_avg": 112 }
-      }
-    ],
-    "common_sections": {
-      "employment_figures": { "employed": 88, "employed_within_3_months": 93, "average_salary": 90000 }
-    }
-  },
-  {
-    "_id": "uni_103",
-    "slug": "university-of-cambridge",
-    "name": "University of Cambridge",
-    "logo": "https://www.google.com/s2/favicons?domain=cam.ac.uk&sz=128",
-    "location": { "city": "Cambridge", "state": "England", "country": "United Kingdom" },
-    "branches": [
+        "name": "Medicine",
+        "description": "One of Europe's largest medical schools, providing unparalleled clinical experience in London's major teaching hospitals.",
+        "stats": { "acceptance_rate": 7, "tuition_fee": 55000, "living_expense": 22000, "avg_salary": 88000 }
+      },
       {
-        "name": "Engineering",
-        "description": "Cambridge Engineering is globally renowned for innovation and interdisciplinary research across multiple engineering domains.",
-        "stats": { "avg_gpa": 3.9, "avg_gre": 325, "acceptance_rate": 13, "tuition_fee": 37000, "living_expense": 18000, "avg_salary": 88322 },
-        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+        "name": "Natural Sciences",
+        "description": "Leading research in theoretical physics, chemistry, and climate math with 14 Nobel Prize laureates associated with the faculty.",
+        "stats": { "acceptance_rate": 25, "tuition_fee": 39000, "living_expense": 22000, "avg_salary": 72000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 90, "employed_within_3_months": null, "average_salary": 76897 }
+      "employment_figures": { "employed": 94, "employed_within_3_months": 96, "average_salary": 95000 }
     }
   },
   {
-    "_id": "uni_104",
+    "_id": "uni_gb_004",
     "slug": "university-college-london",
     "name": "University College London",
     "logo": "https://www.google.com/s2/favicons?domain=ucl.ac.uk&sz=128",
     "location": { "city": "London", "state": "England", "country": "United Kingdom" },
     "branches": [
       {
-        "name": "Engineering",
-        "description": "UCL is a globally ranked university known for innovation in AI, infrastructure, and engineering research.",
-        "stats": { "avg_gpa": 3.7, "avg_gre": 320, "acceptance_rate": 18, "tuition_fee": 36000, "living_expense": 20000, "avg_salary": 75000 },
-        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+        "name": "Engineering Sciences",
+        "description": "UCL Engineering is a dynamic multidisciplinary faculty known for its 'Integrated Engineering Programme' and high research output.",
+        "stats": { "acceptance_rate": 18, "tuition_fee": 38000, "living_expense": 22000, "avg_salary": 85000 },
+        "student_demographics": { "male": 60, "female": 40, "international_students": 45, "total_enrollment": 5000 }
+      },
+      {
+        "name": "The Bartlett (Design)",
+        "description": "Consistently ranked as the world's best school for architecture and the built environment, focusing on urban sustainability.",
+        "stats": { "acceptance_rate": 12, "tuition_fee": 32000, "living_expense": 22000, "avg_salary": 72000 }
+      },
+      {
+        "name": "Laws",
+        "description": "UCL Laws is a leader in research-led teaching, situated in the heart of London's legal district.",
+        "stats": { "acceptance_rate": 14, "tuition_fee": 34000, "living_expense": 22000, "avg_salary": 105000 }
+      },
+      {
+        "name": "Social & Historical",
+        "description": "Global leaders in economics, geography, and political science with a focus on solving modern societal challenges.",
+        "stats": { "acceptance_rate": 40, "tuition_fee": 30000, "living_expense": 22000, "avg_salary": 65000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "UCL Medical School is at the forefront of medical training, partnering with 7 major London hospitals.",
+        "stats": { "acceptance_rate": 8, "tuition_fee": 52000, "living_expense": 22000, "avg_salary": 90000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 75000 }
+      "employment_figures": { "employed": 90, "employed_within_3_months": 92, "average_salary": 82000 }
     }
   },
   {
-    "_id": "uni_105",
-    "slug": "kings-college-london",
-    "name": "King's College London",
-    "logo": "https://www.google.com/s2/favicons?domain=kcl.ac.uk&sz=128",
+    "_id": "uni_gb_005",
+    "slug": "london-school-of-economics",
+    "name": "London School of Economics",
+    "logo": "https://www.google.com/s2/favicons?domain=lse.ac.uk&sz=128",
     "location": { "city": "London", "state": "England", "country": "United Kingdom" },
     "branches": [
       {
-        "name": "Engineering",
-        "description": "King’s engineering programs focus on AI, robotics, and biomedical innovation with strong research output.",
-        "stats": { "avg_gpa": 3.7, "avg_gre": 320, "acceptance_rate": 20, "tuition_fee": 32000, "living_expense": 20000, "avg_salary": 70000 },
-        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
+        "name": "Economics",
+        "description": "The world's most prestigious economics department, producing more Nobel Prize winners in the field than any other UK institution.",
+        "stats": { "acceptance_rate": 7, "tuition_fee": 32000, "living_expense": 24000, "avg_salary": 120000, "avg_gre": 168 },
+        "student_demographics": { "male": 55, "female": 45, "international_students": 70, "total_enrollment": 1500 }
+      },
+      {
+        "name": "Government & Politics",
+        "description": "A global powerhouse for political science and public policy research, situated minutes from Westminster.",
+        "stats": { "acceptance_rate": 15, "tuition_fee": 28000, "living_expense": 24000, "avg_salary": 75000 }
+      },
+      {
+        "name": "Finance",
+        "description": "LSE Finance is the ultimate target for investment banking, known for its extreme rigor and elite job placement in the City.",
+        "stats": { "acceptance_rate": 10, "tuition_fee": 42000, "living_expense": 24000, "avg_salary": 140000, "avg_gmat": 730 }
+      },
+      {
+        "name": "Law",
+        "description": "Renowned for international corporate law and human rights, with a highly international student body.",
+        "stats": { "acceptance_rate": 12, "tuition_fee": 30000, "living_expense": 24000, "avg_salary": 115000 }
+      },
+      {
+        "name": "Sociology",
+        "description": "Leading global research in social theory, urban studies, and data science for society.",
+        "stats": { "acceptance_rate": 25, "tuition_fee": 26000, "living_expense": 24000, "avg_salary": 58000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 90, "average_salary": 75000 }
+      "employment_figures": { "employed": 93, "employed_within_3_months": 95, "average_salary": 110000 }
+    }
+  },
+  {
+    "_id": "uni_gb_006",
+    "slug": "university-of-manchester",
+    "name": "University of Manchester",
+    "logo": "https://www.google.com/s2/favicons?domain=manchester.ac.uk&sz=128",
+    "location": { "city": "Manchester", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "A research powerhouse in materials science (birthplace of Graphene) and advanced manufacturing systems.",
+        "stats": { "acceptance_rate": 35, "tuition_fee": 28000, "living_expense": 14000, "avg_salary": 78000 },
+        "student_demographics": { "male": 68, "female": 32, "international_students": 25, "total_enrollment": 8000 }
+      },
+      {
+        "name": "Alliance Business",
+        "description": "Alliance Manchester Business School is a leader in business research and project-led learning with a global campus network.",
+        "stats": { "acceptance_rate": 28, "tuition_fee": 35000, "living_expense": 14000, "avg_salary": 88000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "One of the largest medical schools in the UK, focusing on patient-centered learning and clinical excellence.",
+        "stats": { "acceptance_rate": 15, "tuition_fee": 45000, "living_expense": 14000, "avg_salary": 82000 }
+      },
+      {
+        "name": "Science",
+        "description": "Strong programs in physics, chemistry, and environmental science with a large focus on industrial application.",
+        "stats": { "acceptance_rate": 45, "tuition_fee": 26000, "living_expense": 14000, "avg_salary": 65000 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Expansive faculty covering history, linguistics, and international relations with a focus on global development.",
+        "stats": { "acceptance_rate": 55, "tuition_fee": 22000, "living_expense": 14000, "avg_salary": 52000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 89, "employed_within_3_months": 91, "average_salary": 72000 }
+    }
+  },
+  {
+    "_id": "uni_gb_007",
+    "slug": "university-of-edinburgh",
+    "name": "University of Edinburgh",
+    "logo": "https://www.google.com/s2/favicons?domain=ed.ac.uk&sz=128",
+    "location": { "city": "Edinburgh", "state": "Scotland", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Informatics (CS & AI)",
+        "description": "One of the world's most prestigious schools of informatics, leading in AI, robotics, and natural language processing.",
+        "stats": { "acceptance_rate": 18, "tuition_fee": 34000, "living_expense": 15000, "avg_salary": 92000, "avg_gpa": 3.8 },
+        "student_demographics": { "male": 62, "female": 38, "international_students": 45, "total_enrollment": 2500 }
+      },
+      {
+        "name": "Medicine & Vet Med",
+        "description": "Rich in history and innovation, particularly in regenerative medicine and veterinary biosciences.",
+        "stats": { "acceptance_rate": 10, "tuition_fee": 48000, "living_expense": 15000, "avg_salary": 85000 }
+      },
+      {
+        "name": "Business",
+        "description": "Edinburgh Business School is known for its focus on entrepreneurship, finance, and social responsibility.",
+        "stats": { "acceptance_rate": 25, "tuition_fee": 32000, "living_expense": 15000, "avg_salary": 82000 }
+      },
+      {
+        "name": "Science & Engineering",
+        "description": "Leading research in energy systems, astronomy, and chemical engineering.",
+        "stats": { "acceptance_rate": 42, "tuition_fee": 30000, "living_expense": 15000, "avg_salary": 68000 }
+      },
+      {
+        "name": "Arts/Humanities",
+        "description": "A global leader in English literature, history, and the arts with strong ties to the Edinburgh Festival.",
+        "stats": { "acceptance_rate": 50, "tuition_fee": 26000, "living_expense": 15000, "avg_salary": 54000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 91, "employed_within_3_months": 93, "average_salary": 78000 }
+    }
+  },
+  {
+    "_id": "uni_gb_008",
+    "slug": "university-of-warwick",
+    "name": "University of Warwick",
+    "logo": "https://www.google.com/s2/favicons?domain=warwick.ac.uk&sz=128",
+    "location": { "city": "Coventry", "state": "England", "country": "United Kingdom" },
+    "branches": [
+      {
+        "name": "Warwick Business (WBS)",
+        "description": "WBS is a top-tier business school known for its excellence in finance, management, and strategy research.",
+        "stats": { "acceptance_rate": 20, "tuition_fee": 36000, "living_expense": 12000, "avg_salary": 95000, "avg_gmat": 690 },
+        "student_demographics": { "male": 58, "female": 42, "international_students": 35, "total_enrollment": 3500 }
+      },
+      {
+        "name": "WMG (Engineering)",
+        "description": "Warwick Manufacturing Group is a world leader in collaborative research between academia and global industry partners.",
+        "stats": { "acceptance_rate": 30, "tuition_fee": 30000, "living_expense": 12000, "avg_salary": 82000 }
+      },
+      {
+        "name": "Mathematics",
+        "description": "One of the UK's powerhouse math departments, with strong programs in pure math and statistics.",
+        "stats": { "acceptance_rate": 25, "tuition_fee": 28000, "living_expense": 12000, "avg_salary": 88000 }
+      },
+      {
+        "name": "Law",
+        "description": "Warwick Law is known for its 'Law in Context' approach, examining law within its social and global environment.",
+        "stats": { "acceptance_rate": 35, "tuition_fee": 26000, "living_expense": 12000, "avg_salary": 78000 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Strong rankings in economics, politics, and sociology with a focus on global sustainability.",
+        "stats": { "acceptance_rate": 45, "tuition_fee": 24000, "living_expense": 12000, "avg_salary": 62000 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 92, "employed_within_3_months": 94, "average_salary": 85000 }
     }
   }
 ]

@@ -1,177 +1,367 @@
-{
-  "source": "YMGrad",
-  "date": "March 2026",
-  "country": "Singapore",
-  "currency": "SGD (S$)",
-  "total_institutions": 21,
-  "universities": [
-    {
-      "id": 1,
-      "university": "National University of Singapore",
-      "address": "21 Lower Kent Ridge Road, Singapore 119077",
-      "location": "Singapore",
-      "acceptance_rate_pct": 25.0,
-      "annual_tuition_sgd": 34050
+[
+  {
+    "_id": "uni_sg_001",
+    "slug": "national-university-of-singapore",
+    "name": "National University of Singapore (NUS)",
+    "logo": "https://www.google.com/s2/favicons?domain=nus.edu.sg&sz=128",
+    "location": {
+      "city": "Singapore",
+      "state": "Singapore",
+      "country": "Singapore"
     },
-    {
-      "id": 2,
-      "university": "Nanyang Technological University",
-      "address": "50 Nanyang Avenue, Singapore 639798",
-      "location": "Singapore",
-      "acceptance_rate_pct": 25.0,
-      "annual_tuition_sgd": 20100
+    "branches": [
+      {
+        "name": "IT & Engineering",
+        "description": "NUS Computing and Engineering are globally ranked in the top 10. The faculty is a leader in AI, cybersecurity, and quantum computing, with strong government and industry partnerships.",
+        "stats": {
+          "avg_gpa": 3.85,
+          "avg_gre": 326,
+          "acceptance_rate": 8,
+          "tuition_fee": 38000,
+          "living_expense": 24000,
+          "avg_salary": 72000
+        },
+        "student_demographics": {
+          "male": 65,
+          "female": 35,
+          "international_students": 40,
+          "total_enrollment": 12000
+        },
+        "admitted_profiles": {
+          "avg_gpa": 3.85,
+          "avg_gre": 326,
+          "toefl_min": 100,
+          "ielts_min": 7.5
+        }
+      },
+      {
+        "name": "Business",
+        "description": "NUS Business School is a premier institution in Asia, offering a wide array of programs with a focus on leadership in the digital age.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "avg_gmat": 710,
+          "acceptance_rate": 15,
+          "tuition_fee": 42000,
+          "living_expense": 24000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Medicine",
+        "description": "Yong Loo Lin School of Medicine is the oldest and most prestigious medical school in Singapore, focused on clinical excellence and biomedical research.",
+        "stats": {
+          "avg_gpa": 3.9,
+          "acceptance_rate": 5,
+          "tuition_fee": 65000,
+          "living_expense": 24000,
+          "avg_salary": 95000
+        }
+      },
+      {
+        "name": "Law",
+        "description": "NUS Law is widely considered the top law school in Asia, known for its expertise in international commercial law and arbitration.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "acceptance_rate": 10,
+          "tuition_fee": 36000,
+          "living_expense": 24000,
+          "avg_salary": 80000
+        }
+      },
+      {
+        "name": "Science",
+        "description": "The Faculty of Science at NUS is a multi-disciplinary research powerhouse covering chemistry, physics, and life sciences.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "acceptance_rate": 20,
+          "tuition_fee": 35000,
+          "living_expense": 24000,
+          "avg_salary": 60000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_sg_002",
+    "slug": "nanyang-technological-university",
+    "name": "Nanyang Technological University (NTU)",
+    "logo": "https://www.google.com/s2/favicons?domain=ntu.edu.sg&sz=128",
+    "location": {
+      "city": "Singapore",
+      "state": "Singapore",
+      "country": "Singapore"
     },
-    {
-      "id": 3,
-      "university": "Embry-Riddle Asia",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "NTU Engineering is one of the world's largest, ranked within the top 5 globally for Materials Science and Engineering excellence.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "avg_gre": 322,
+          "acceptance_rate": 25,
+          "tuition_fee": 35000,
+          "living_expense": 22000,
+          "avg_salary": 68000
+        },
+        "student_demographics": {
+          "male": 70,
+          "female": 30,
+          "international_students": 35,
+          "total_enrollment": 15000
+        }
+      },
+      {
+        "name": "Business",
+        "description": "Nanyang Business School is the first in Singapore and among the few globally to be accredited by both EQUIS and AACSB.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "avg_gmat": 690,
+          "acceptance_rate": 28,
+          "tuition_fee": 40000,
+          "living_expense": 22000,
+          "avg_salary": 82000
+        }
+      },
+      {
+        "name": "Medicine",
+        "description": "Lee Kong Chian School of Medicine is a joint school between NTU and Imperial College London, offering world-class medical training.",
+        "stats": {
+          "avg_gpa": 3.85,
+          "acceptance_rate": 12,
+          "tuition_fee": 60000,
+          "living_expense": 22000,
+          "avg_salary": 92000
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Focusing on interdisciplinary science, sustainability, and environmental research within the Nanyang environment.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 30,
+          "tuition_fee": 32000,
+          "living_expense": 22000,
+          "avg_salary": 58000
+        }
+      },
+      {
+        "name": "Humanities",
+        "description": "Strong programs in communication, media, and digital humanities designed for the global Asian hub.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 35,
+          "tuition_fee": 28000,
+          "living_expense": 22000,
+          "avg_salary": 52000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_sg_003",
+    "slug": "singapore-management-university",
+    "name": "Singapore Management University (SMU)",
+    "logo": "https://www.google.com/s2/favicons?domain=smu.edu.sg&sz=128",
+    "location": {
+      "city": "Singapore",
+      "state": "Singapore",
+      "country": "Singapore"
     },
-    {
-      "id": 4,
-      "university": "Lee Kuan Yew School of Public Policy",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
+    "branches": [
+      {
+        "name": "Business",
+        "description": "Lee Kong Chian School of Business is SMU's flagship, known for its interactive pedagogy and high career outcomes in the finance industry.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "avg_gmat": 680,
+          "acceptance_rate": 22,
+          "tuition_fee": 45000,
+          "living_expense": 26000,
+          "avg_salary": 90000
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Yong Pung How School of Law is recognized for its excellence in commercial law and legal innovation.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "acceptance_rate": 18,
+          "tuition_fee": 48000,
+          "living_expense": 26000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Economics",
+        "description": "A research-focused economics faculty with strong ties to policy-making and global financial hub research.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "acceptance_rate": 25,
+          "tuition_fee": 38000,
+          "living_expense": 26000,
+          "avg_salary": 75000
+        }
+      },
+      {
+        "name": "Accountancy",
+        "description": "The first school in Singapore to offer an accountancy degree, maintaining top-tier industry relations.",
+        "stats": {
+          "avg_gpa": 3.55,
+          "acceptance_rate": 30,
+          "tuition_fee": 36000,
+          "living_expense": 26000,
+          "avg_salary": 65000
+        }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Multidisciplinary programs focusing on psychology, sociology, and political science in an urban context.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 35,
+          "tuition_fee": 34000,
+          "living_expense": 26000,
+          "avg_salary": 58000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_sg_004",
+    "slug": "singapore-university-of-technology-and-design",
+    "name": "Singapore University of Technology and Design (SUTD)",
+    "logo": "https://www.google.com/s2/favicons?domain=sutd.edu.sg&sz=128",
+    "location": {
+      "city": "Singapore",
+      "state": "Singapore",
+      "country": "Singapore"
     },
-    {
-      "id": 5,
-      "university": "Singapore University of Technology and Design",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
+    "branches": [
+      {
+        "name": "Engineering Product Development",
+        "description": "EPD focuses on the design and development of products for the global market, integrating mechanical and electrical engineering.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 20,
+          "tuition_fee": 32000,
+          "living_expense": 24000,
+          "avg_salary": 70000
+        }
+      },
+      {
+        "name": "Architecture",
+        "description": "Architecture and Sustainable Design (ASD) focuses on the intersection of architecture, urbanism, and environmental conservation.",
+        "stats": {
+          "avg_gpa": 3.55,
+          "acceptance_rate": 15,
+          "tuition_fee": 32000,
+          "living_expense": 24000,
+          "avg_salary": 62000
+        }
+      },
+      {
+        "name": "IT",
+        "description": "Information Systems Technology and Design (ISTD) focuses on software systems and digital security innovation.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 18,
+          "tuition_fee": 32000,
+          "living_expense": 24000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Engineering Systems",
+        "description": "ESD focuses on the design of large-scale systems such as transport, logistics, and energy grids.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "acceptance_rate": 22,
+          "tuition_fee": 32000,
+          "living_expense": 24000,
+          "avg_salary": 78000
+        }
+      },
+      {
+        "name": "DMan",
+        "description": "Design and Artificial Intelligence (DAI) is SUTD's newest branch, focusing on AI-driven industrial design.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "acceptance_rate": 12,
+          "tuition_fee": 34000,
+          "living_expense": 24000,
+          "avg_salary": 90000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_sg_005",
+    "slug": "insead-singapore",
+    "name": "INSEAD Asia Campus",
+    "logo": "https://www.google.com/s2/favicons?domain=insead.edu&sz=128",
+    "location": {
+      "city": "Singapore",
+      "state": "Singapore",
+      "country": "Singapore"
     },
-    {
-      "id": 6,
-      "university": "Lee Kong Chian School of Business",
-      "address": "50 Stamford Rd, Singapore 178899",
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 7,
-      "university": "ESSEC Business School, Singapore",
-      "address": "5 Nepal Park, Singapore 139408",
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 8,
-      "university": "National Institute of Education",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 9,
-      "university": "Nanyang Institute of Management",
-      "address": "6 Eu Tong Sen Street #04-05, The Central, Singapore 059817",
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 10,
-      "university": "Management Development Institute of Singapore",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 11,
-      "university": "Singapore University of Social Sciences",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": 31680
-    },
-    {
-      "id": 12,
-      "university": "INSEAD Asia Campus",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 13,
-      "university": "James Lind Institute",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 14,
-      "university": "James Cook University Singapore",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": 40176
-    },
-    {
-      "id": 15,
-      "university": "S P Jain School of Global Management, Singapore",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 16,
-      "university": "Singapore Management University",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": 116630
-    },
-    {
-      "id": 17,
-      "university": "DIMENSIONS International College",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 18,
-      "university": "Singapore Institute of Management",
-      "address": "461 Clementi Rd, Singapore 599491",
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": 34379
-    },
-    {
-      "id": 19,
-      "university": "S. Rajaratnam School of International Studies",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 20,
-      "university": "Yong Siew Toh Conservatory of Music",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": null
-    },
-    {
-      "id": 21,
-      "university": "Curtin University Singapore",
-      "address": null,
-      "location": "Singapore",
-      "acceptance_rate_pct": null,
-      "annual_tuition_sgd": 24624
-    }
-  ]
-}
+    "branches": [
+      {
+        "name": "MBA",
+        "description": "INSEAD's MBA program is consistently ranked among the best in the world, known for its extreme international diversity and accelerated 1-year track.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "avg_gmat": 710,
+          "acceptance_rate": 30,
+          "tuition_fee": 150000,
+          "living_expense": 35000,
+          "avg_salary": 185000
+        }
+      },
+      {
+        "name": "Finance",
+        "description": "Executive Master in Finance focuses on advanced financial strategy and global capital markets.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "avg_gmat": 720,
+          "acceptance_rate": 20,
+          "tuition_fee": 120000,
+          "living_expense": 35000,
+          "avg_salary": 210000
+        }
+      },
+      {
+        "name": "Management",
+        "description": "The Master in Management (MIM) is for young professionals seeking a high-speed entry into global strategy roles.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "acceptance_rate": 25,
+          "tuition_fee": 85000,
+          "living_expense": 35000,
+          "avg_salary": 110000
+        }
+      },
+      {
+        "name": "Leadership",
+        "description": "Executive leadership programs designed for C-suite professionals and entrepreneurs in Asia.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 40,
+          "tuition_fee": 60000,
+          "living_expense": 35000,
+          "avg_salary": 250000
+        }
+      },
+      {
+        "name": "Strategy",
+        "description": "Focusing on corporate governance and strategic innovation in the Asian market.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 35,
+          "tuition_fee": 55000,
+          "living_expense": 35000,
+          "avg_salary": 190000
+        }
+      }
+    ]
+  }
+]
