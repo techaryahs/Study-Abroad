@@ -11,6 +11,9 @@ import dubaiData from "@/data/Dubai.json";
 import singaporeData from "@/data/singapore.json";
 import newZealandData from "@/data/NewZealand Universities.json";
 import irelandData from "@/data/Ireland.json";
+import switzerlandData from "@/data/Switzerland.json";
+import netherlandsData from "@/data/Netherlands.json";
+import franceData from "@/data/France.json";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -122,15 +125,18 @@ export default function UniversityPage() {
 
     // ─── Dynamic Data Lookup ───────────────────────────────────────────────
     const combinedData = [
-        ...singaporeData.universities,
-        ...newZealandData.universities,
+        ...singaporeData,
+        ...newZealandData,
         ...germanyData,
         ...usaData,
         ...ukData,
         ...ausData,
         ...canadaData,
         ...dubaiData,
-        ...irelandData
+        ...irelandData,
+        ...switzerlandData,
+        ...netherlandsData,
+        ...franceData
     ];
 
     const data: any = combinedData.find((uni: any) => {
@@ -160,8 +166,10 @@ export default function UniversityPage() {
         rank: data.rank || 1,
         location: data.location ? `${data.location.city}, ${data.location.state}, ${data.location.country}` : "Location",
         type: data.type || "Private University",
-        totalStudents: activeBranch?.student_demographics?.total_enrollment || 11500,
-        intlStudents: Math.floor(((activeBranch?.student_demographics?.total_enrollment || 11500) * (activeBranch?.student_demographics?.international_students || 60)) / 100),
+        totalStudents: activeBranch?.student_demographics?.total_enrollment || null,
+        intlStudents: activeBranch?.student_demographics?.international_students ? 
+            Math.floor((activeBranch.student_demographics.total_enrollment * activeBranch.student_demographics.international_students) / 100) : 
+            null,
         about: activeBranch?.description || "Description coming soon...",
         logoUrl: data.logo || "🎓",
         heroImg: data.heroImg || "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
@@ -382,12 +390,12 @@ export default function UniversityPage() {
                                 style={{ marginTop: 28, borderTop: "1px solid rgba(202,138,4,.12)", paddingTop: 24, flexWrap: "wrap" }}>
                                 {[
                                     ["🏛️", currentUni.type, "Type"],
-                                    ["👥", currentUni.totalStudents.toLocaleString(), "Total Students"],
-                                    ["🌍", currentUni.intlStudents.toLocaleString(), "International"],
-                                    ["📊", `${activeBranch?.stats?.acceptance_rate ?? 7.2}%`, "Admit Rate"],
-                                    ["💵", activeBranch?.stats?.avg_salary ? `$${Math.round(activeBranch.stats.avg_salary / 1000)}K` : "$139K", "Avg. Salary"],
-                                ].map(([icon, val, label], i) => (
-                                    <div key={i} className={i < 4 ? "stat-divider" : ""}
+                                    currentUni.totalStudents ? ["👥", currentUni.totalStudents.toLocaleString(), "Total Students"] : null,
+                                    currentUni.intlStudents ? ["🌍", currentUni.intlStudents.toLocaleString(), "International"] : null,
+                                    activeBranch?.stats?.acceptance_rate ? ["📊", `${activeBranch.stats.acceptance_rate}%`, "Admit Rate"] : null,
+                                    activeBranch?.stats?.avg_salary ? ["💵", `$${Math.round(activeBranch.stats.avg_salary / 1000)}K`, "Avg. Salary"] : null,
+                                ].filter(Boolean).map(([icon, val, label]: any, i, arr) => (
+                                    <div key={i} className={i < arr.length - 1 ? "stat-divider" : ""}
                                         style={{ flex: 1, minWidth: 120, textAlign: "center", padding: "4px 16px" }}>
                                         <p style={{ fontSize: 18, marginBottom: 4 }}>{icon}</p>
                                         <p className="fd" style={{ fontSize: 18, fontWeight: 700, color: "#eab308", marginBottom: 2 }}>{val}</p>
@@ -417,7 +425,11 @@ export default function UniversityPage() {
                             <div className="card" style={{ padding: "12px 8px" }}>
                                 {navSections.map((s, i) => (
                                     <div key={s} className={`nav-item ${activeSection === s ? "active" : ""}`}
-                                        onClick={() => setActiveSection(s)}
+                                        onClick={() => {
+                                            setActiveSection(s);
+                                            const id = s.toLowerCase().replace(/\s+|\?/g, "");
+                                            document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                                        }}
                                         style={{ animationDelay: `${i * 40}ms` }}>
                                         {s === "Will you get in?" ? <span>🏆 {s}</span> : s}
                                     </div>
@@ -432,216 +444,270 @@ export default function UniversityPage() {
                         <div style={{ display: "flex", flexDirection: "column", gap: 48, minWidth: 0 }}>
 
                             {/* ABOUT */}
-                            <div ref={aboutRef} className="section-anchor" id="about">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>About</span>
-                                <h2 className="fd" style={{ fontSize: 34, fontWeight: 700, marginBottom: 12, letterSpacing: "-0.01em" }}>{activeProgram}</h2>
-                                <div style={{ width: 48, height: 2, background: "linear-gradient(90deg,#eab308,transparent)", borderRadius: 2, marginBottom: 20 }} />
-                                {currentUni.about.split("\n\n").map((para: any, i: any) => (
-                                    <p key={i} style={{
-                                        color: "#a8a29e", fontSize: 14, lineHeight: 1.8, marginBottom: 16,
-                                        opacity: aboutVisible ? 1 : 0, transform: aboutVisible ? "translateY(0)" : "translateY(16px)",
-                                        transition: `opacity .6s ease ${i * 120}ms, transform .6s ease ${i * 120}ms`,
-                                    }}>{para}</p>
-                                ))}
-                            </div>
-
-                            {/* WILL YOU GET IN — Scatter */}
-                            <div ref={scatterRef} className="section-anchor" id="scatter">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Will You Get In?</span>
-                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>
-                                    GPA vs Test Scores — Scatter Analysis
-                                </h2>
-
-                                <div className="card" style={{ padding: 28 }}>
-                                    {/* Controls */}
-                                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
-                                        <div style={{ display: "flex", gap: 8 }}>
-                                            {["Undergrad", "Master's", "Ph.D."].map(d => (
-                                                <button key={d} className={`degree-btn ${degreeLevel === d ? "active" : ""}`}
-                                                    onClick={() => setDegreeLevel(d)}>{d}</button>
-                                            ))}
-                                        </div>
-                                        <div style={{ marginLeft: "auto", display: "flex", gap: 16 }}>
-                                            {[["#22c55e", "Admit"], ["#ef4444", "Reject"], ["#eab308", "Applied"]].map(([c, l]) => (
-                                                <span key={l} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: "#78716c" }}>
-                                                    <span style={{ width: 8, height: 8, borderRadius: "50%", background: c, display: "inline-block" }} />{l}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <ScatterPlot points={scatterPoints} visible={scatterVisible} />
-
-                                    <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-                                        <button className="btn-gold" style={{ borderRadius: 12, padding: "10px 22px" }}>+ Add your Own</button>
-                                        <button className="btn-outline" style={{ borderRadius: 12 }}>✓ See Decisions</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* STUDENT DEMOGRAPHICS */}
-                            <div ref={demoRef} className="section-anchor" id="demographics">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Student Demographics</span>
-                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Who Studies Here?</h2>
-
-                                <div className="card" style={{ padding: 28 }}>
-                                    <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
-                                        {[["♂", `${activeBranch?.student_demographics?.male ?? 62.8}%`, "Male", "#60a5fa"], ["♀", `${activeBranch?.student_demographics?.female ?? 37.2}%`, "Female", "#f472b6"], ["🌍", `${activeBranch?.student_demographics?.international_students ?? 52.8}%`, "International", "#eab308"]].map(([icon, pct, label, color], i) => (
-                                            <div key={i} style={{
-                                                textAlign: "center",
-                                                opacity: demoVisible ? 1 : 0,
-                                                transform: demoVisible ? "translateY(0)" : "translateY(20px)",
-                                                transition: `all .6s ease ${i * 120}ms`,
-                                            }}>
-                                                <div style={{ fontSize: 36, marginBottom: 8 }}>{icon}</div>
-                                                <p className="fd" style={{ fontSize: 28, fontWeight: 700, color, marginBottom: 4 }}>{pct}</p>
-                                                <p style={{ fontSize: 12, color: "#78716c" }}>{label}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <div style={{ borderTop: "1px solid rgba(202,138,4,.10)", paddingTop: 16, textAlign: "center" }}>
-                                        <span style={{ fontSize: 13, color: "#57534e" }}>Total Enrollment: </span>
-                                        <span className="fd" style={{ fontSize: 18, fontWeight: 700, color: "#eab308" }}>
-                                            <CountUp target={currentUni.totalStudents} />
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* ADMITTED PROFILES */}
-                            <div ref={admitRef} className="section-anchor" id="admitted">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Admitted Profiles</span>
-                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, letterSpacing: "-0.01em" }}>Average Scores</h2>
-
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
-                                    {[["Average GPA", activeBranch?.stats?.avg_gpa ?? "3.81"], ["Average GRE Score", activeBranch?.stats?.avg_gre ?? "326"]].map(([label, val], i) => (
-                                        <div key={i} className="card" style={{ padding: 20, textAlign: "center" }}>
-                                            <p style={{ fontSize: 12, color: "#78716c", marginBottom: 8, textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
-                                            <p className="fd" style={{ fontSize: 36, fontWeight: 700, color: "#eab308" }}>{val}</p>
-                                        </div>
+                            {currentUni.about && (
+                                <div ref={aboutRef} className="section-anchor" id="about">
+                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>About</span>
+                                    <h2 className="fd" style={{ fontSize: 34, fontWeight: 700, marginBottom: 12, letterSpacing: "-0.01em" }}>{activeProgram}</h2>
+                                    <div style={{ width: 48, height: 2, background: "linear-gradient(90deg,#eab308,transparent)", borderRadius: 2, marginBottom: 20 }} />
+                                    {currentUni.about.split("\n\n").map((para: any, i: any) => (
+                                        <p key={i} style={{
+                                            color: "#a8a29e", fontSize: 14, lineHeight: 1.8, marginBottom: 16,
+                                            opacity: aboutVisible ? 1 : 0, transform: aboutVisible ? "translateY(0)" : "translateY(16px)",
+                                            transition: `opacity .6s ease ${i * 120}ms, transform .6s ease ${i * 120}ms`,
+                                        }}>{para}</p>
                                     ))}
                                 </div>
+                            )}
 
-                                <div className="card" style={{ padding: 20, marginBottom: 20 }}>
-                                    <p style={{ fontSize: 12, color: "#78716c", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 16, textAlign: "center" }}>Average Language Scores</p>
-                                    <div style={{ display: "flex", gap: 0 }}>
-                                        {[["TOEFL Min.", activeBranch?.admitted_profiles?.toefl_min ?? "80"], ["TOEFL Mean", activeBranch?.admitted_profiles?.toefl_avg ?? "105"], ["IELTS Min.", activeBranch?.admitted_profiles?.ielts_min ?? "6.5"]].map(([l, v], i) => (
-                                            <div key={i} className={i < 2 ? "stat-divider" : ""} style={{ flex: 1, textAlign: "center", padding: "0 16px" }}>
-                                                <p className="fd" style={{ fontSize: 24, fontWeight: 700, color: "#e7e5e4", marginBottom: 4 }}>{v}</p>
-                                                <p style={{ fontSize: 11, color: "#57534e" }}>{l}</p>
+                            {/* WILL YOU GET IN — Scatter */}
+                            {scatterPoints && scatterPoints.length > 0 && (
+                                <div ref={scatterRef} className="section-anchor" id="willyougetin">
+                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Will You Get In?</span>
+                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>
+                                        GPA vs Test Scores — Scatter Analysis
+                                    </h2>
+
+                                    <div className="card" style={{ padding: 28 }}>
+                                        {/* Controls */}
+                                        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
+                                            <div style={{ display: "flex", gap: 8 }}>
+                                                {["Undergrad", "Master's", "Ph.D."].map(d => (
+                                                    <button key={d} className={`degree-btn ${degreeLevel === d ? "active" : ""}`}
+                                                        onClick={() => setDegreeLevel(d)}>{d}</button>
+                                                ))}
                                             </div>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Acceptance rings */}
-                                <div className="card" style={{ padding: 24 }}>
-                                    <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap" }}>
-                                        <RingChart pct={activeBranch?.stats?.acceptance_rate ?? 7.2} size={110} label={`Acceptance Rate (${activeProgram})`} />
-                                        <RingChart pct={8.1} size={110} label="Acceptance Rate (PhD)" />
-                                    </div>
-                                </div>
-
-                                {/* Profile cards */}
-                                <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 12 }}>
-                                    <h3 className="fd" style={{ fontSize: 20, fontWeight: 600, marginBottom: 4 }}>Recent Admits on YMGrad</h3>
-                                    {admittedProfiles.map((p: any, i: number) => (
-                                        <div key={i} className="card" style={{
-                                            padding: "16px 18px", position: "relative", overflow: "hidden",
-                                            opacity: admitVisible ? 1 : 0,
-                                            transform: admitVisible ? "translateY(0)" : "translateY(16px)",
-                                            transition: `all .5s ease ${i * 80}ms`,
-                                        }}>
-                                            <div className="admit-badge">ADMIT</div>
-                                            <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-                                                <div style={{ width: 42, height: 42, borderRadius: "50%", background: "rgba(202,138,4,.12)", border: "1px solid rgba(202,138,4,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>👤</div>
-                                                <div style={{ flex: 1 }}>
-                                                    <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 2 }}>{p.name}</p>
-                                                    <p style={{ fontSize: 12, color: "#78716c" }}>📍 {p.location} &nbsp;|&nbsp; 🍁 {p.term}</p>
-                                                </div>
-                                                <div style={{ textAlign: "right" }}>
-                                                    <p style={{ fontSize: 12, color: "#eab308", fontWeight: 500 }}>{currentUni.name}</p>
-                                                    <p style={{ fontSize: 11, color: "#57534e" }}>{p.program}</p>
-                                                </div>
-                                            </div>
-                                            <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap" }}>
-                                                {["Login to view", "0 Research Papers"].map((tag, j) => (
-                                                    <span key={j} style={{ fontSize: 10, color: "#78716c", border: "1px solid rgba(255,255,255,.08)", borderRadius: 999, padding: "3px 10px" }}>{tag}</span>
+                                            <div style={{ marginLeft: "auto", display: "flex", gap: 16 }}>
+                                                {[["#22c55e", "Admit"], ["#ef4444", "Reject"], ["#eab308", "Applied"]].map(([c, l]) => (
+                                                    <span key={l} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: "#78716c" }}>
+                                                        <span style={{ width: 8, height: 8, borderRadius: "50%", background: c, display: "inline-block" }} />{l}
+                                                    </span>
                                                 ))}
                                             </div>
                                         </div>
-                                    ))}
+
+                                        <ScatterPlot points={scatterPoints} visible={scatterVisible} />
+
+                                        <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
+                                            <button className="btn-gold" style={{ borderRadius: 12, padding: "10px 22px" }}>+ Add your Own</button>
+                                            <button className="btn-outline" style={{ borderRadius: 12 }}>✓ See Decisions</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
+
+                            {/* STUDENT DEMOGRAPHICS */}
+                            {activeBranch?.student_demographics && (
+                                <div ref={demoRef} className="section-anchor" id="studentdemographics">
+                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Student Demographics</span>
+                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Who Studies Here?</h2>
+
+                                    <div className="card" style={{ padding: 28 }}>
+                                        <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
+                                            {[
+                                                ["♂", `${activeBranch.student_demographics.male}%`, "Male", "#60a5fa"], 
+                                                ["♀", `${activeBranch.student_demographics.female}%`, "Female", "#f472b6"], 
+                                                ["🌍", `${activeBranch.student_demographics.international_students}%`, "International", "#eab308"]
+                                            ].map(([icon, pct, label, color], i) => (
+                                                <div key={i} style={{
+                                                    textAlign: "center",
+                                                    opacity: demoVisible ? 1 : 0,
+                                                    transform: demoVisible ? "translateY(0)" : "translateY(20px)",
+                                                    transition: `all .6s ease ${i * 120}ms`,
+                                                }}>
+                                                    <div style={{ fontSize: 36, marginBottom: 8 }}>{icon}</div>
+                                                    <p className="fd" style={{ fontSize: 28, fontWeight: 700, color, marginBottom: 4 }}>{pct}</p>
+                                                    <p style={{ fontSize: 12, color: "#78716c" }}>{label}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {activeBranch.student_demographics.total_enrollment && (
+                                            <div style={{ borderTop: "1px solid rgba(202,138,4,.10)", paddingTop: 16, textAlign: "center" }}>
+                                                <span style={{ fontSize: 13, color: "#57534e" }}>Total Enrollment: </span>
+                                                <span className="fd" style={{ fontSize: 18, fontWeight: 700, color: "#eab308" }}>
+                                                    <CountUp target={activeBranch.student_demographics.total_enrollment} />
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* ADMITTED PROFILES */}
+                            {(activeBranch?.stats?.avg_gpa || activeBranch?.stats?.avg_gre || activeBranch?.admitted_profiles) && (
+                                <div ref={admitRef} className="section-anchor" id="admittedprofiles">
+                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Admitted Profiles</span>
+                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, letterSpacing: "-0.01em" }}>Average Scores</h2>
+
+                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
+                                        {[["Average GPA", activeBranch?.stats?.avg_gpa], ["Average GRE Score", activeBranch?.stats?.avg_gre]].map(([label, val], i) => val && (
+                                            <div key={i} className="card" style={{ padding: 20, textAlign: "center" }}>
+                                                <p style={{ fontSize: 12, color: "#78716c", marginBottom: 8, textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
+                                                <p className="fd" style={{ fontSize: 36, fontWeight: 700, color: "#eab308" }}>{val}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {activeBranch?.admitted_profiles && (
+                                        <div className="card" style={{ padding: 20, marginBottom: 20 }}>
+                                            <p style={{ fontSize: 12, color: "#78716c", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 16, textAlign: "center" }}>Average Language Scores</p>
+                                            <div style={{ display: "flex", gap: 0 }}>
+                                                {[["TOEFL Min.", activeBranch.admitted_profiles.toefl_min], ["TOEFL Mean", activeBranch.admitted_profiles.toefl_avg], ["IELTS Min.", activeBranch.admitted_profiles.ielts_min]].map(([l, v], i) => v && (
+                                                    <div key={i} className={i < 2 ? "stat-divider" : ""} style={{ flex: 1, textAlign: "center", padding: "0 16px" }}>
+                                                        <p className="fd" style={{ fontSize: 24, fontWeight: 700, color: "#e7e5e4", marginBottom: 4 }}>{v}</p>
+                                                        <p style={{ fontSize: 11, color: "#57534e" }}>{l}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Acceptance rings */}
+                                    <div className="card" style={{ padding: 24 }}>
+                                        <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap" }}>
+                                            {activeBranch?.stats?.acceptance_rate && <RingChart pct={activeBranch.stats.acceptance_rate} size={110} label={`Acceptance Rate (${activeProgram})`} />}
+                                            <RingChart pct={12} size={110} label="Acceptance Rate (Graduate)" />
+                                        </div>
+                                    </div>
+
+                                    {/* Profile cards */}
+                                    {(activeBranch?.admitted_profiles_list && activeBranch.admitted_profiles_list.length > 0) && (
+                                        <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 12 }}>
+                                            <h3 className="fd" style={{ fontSize: 20, fontWeight: 600, marginBottom: 4 }}>Recent Admits on StudyAbroad</h3>
+                                            {activeBranch.admitted_profiles_list.map((p: any, i: number) => (
+                                                <div key={i} className="card" style={{
+                                                    padding: "16px 18px", position: "relative", overflow: "hidden",
+                                                    opacity: admitVisible ? 1 : 0,
+                                                    transform: admitVisible ? "translateY(0)" : "translateY(16px)",
+                                                    transition: `all .5s ease ${i * 80}ms`,
+                                                }}>
+                                                    <div className="admit-badge">ADMIT</div>
+                                                    <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+                                                        <div style={{ width: 42, height: 42, borderRadius: "50%", background: "rgba(202,138,4,.12)", border: "1px solid rgba(202,138,4,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>👤</div>
+                                                        <div style={{ flex: 1 }}>
+                                                            <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 2 }}>{p.name}</p>
+                                                            <p style={{ fontSize: 12, color: "#78716c" }}>📍 {p.location} &nbsp;|&nbsp; 🍁 {p.term}</p>
+                                                        </div>
+                                                        <div style={{ textAlign: "right" }}>
+                                                            <p style={{ fontSize: 12, color: "#eab308", fontWeight: 500 }}>{currentUni.name}</p>
+                                                            <p style={{ fontSize: 11, color: "#57534e" }}>{p.program}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
 
                             {/* COST OF EDUCATION */}
-                            <div ref={costRef} className="section-anchor" id="cost">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Cost of Education</span>
-                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Financial Overview</h2>
+                            {(activeBranch?.stats?.tuition_fee || activeBranch?.stats?.living_expense) && (
+                                <div ref={costRef} className="section-anchor" id="costofeducation">
+                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Cost of Education</span>
+                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Financial Overview</h2>
 
-                                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                                    {[["🎓", "Tuition Expenses", `$${(activeBranch?.stats?.tuition_fee ?? 53605).toLocaleString()}`, "/year"], ["🏠", "Living Expenses", `$${(activeBranch?.stats?.living_expense ?? 17682).toLocaleString()}`, "/year"]].map(([icon, label, val, unit], i) => (
-                                        <div key={i} className="card" style={{
-                                            padding: 24,
-                                            opacity: costVisible ? 1 : 0,
-                                            transform: costVisible ? "translateY(0)" : "translateY(20px)",
-                                            transition: `all .6s ease ${i * 120}ms`,
-                                        }}>
-                                            <span style={{ fontSize: 28, display: "block", marginBottom: 12 }}>{icon}</span>
-                                            <p style={{ fontSize: 12, color: "#78716c", marginBottom: 6, textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
-                                            <p className="fd" style={{ fontSize: 30, fontWeight: 700, color: "#22c55e" }}>
-                                                {costVisible ? <CountUp target={+val.replace(/\D/g, "")} prefix="$" /> : val}
-                                                <span style={{ fontSize: 14, fontWeight: 400, color: "#57534e" }}>{unit}</span>
-                                            </p>
-                                        </div>
-                                    ))}
+                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                                        {[["🎓", "Tuition Expenses", activeBranch?.stats?.tuition_fee, "/year"], ["🏠", "Living Expenses", activeBranch?.stats?.living_expense, "/year"]].map(([icon, label, val, unit], i) => val && (
+                                            <div key={i} className="card" style={{
+                                                padding: 24,
+                                                opacity: costVisible ? 1 : 0,
+                                                transform: costVisible ? "translateY(0)" : "translateY(20px)",
+                                                transition: `all .6s ease ${i * 120}ms`,
+                                            }}>
+                                                <span style={{ fontSize: 28, display: "block", marginBottom: 12 }}>{icon}</span>
+                                                <p style={{ fontSize: 12, color: "#78716c", marginBottom: 6, textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
+                                                <p className="fd" style={{ fontSize: 30, fontWeight: 700, color: "#22c55e" }}>
+                                                    <CountUp target={val} prefix="$" />
+                                                    <span style={{ fontSize: 14, fontWeight: 400, color: "#57534e" }}>{unit}</span>
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
+                            )}
 
                             {/* EMPLOYMENT */}
-                            <div ref={empRef} className="section-anchor" id="employment">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Employment Figures</span>
-                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Career Outcomes</h2>
+                            {(data.common_sections?.employment_figures || activeBranch?.stats?.avg_salary) && (
+                                <div ref={empRef} className="section-anchor" id="employmentfigure">
+                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Employment Figures</span>
+                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Career Outcomes</h2>
 
-                                <div className="card" style={{ padding: 28 }}>
-                                    <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
-                                        <RingChart pct={data?.common_sections?.employment_figures?.employed || 79.1} size={120} label="Employed" />
-                                        <RingChart pct={data?.common_sections?.employment_figures?.employed_within_3_months || 89.3} size={120} label="Employed within 3 months" />
-                                    </div>
-                                    <div style={{ border: "1px solid rgba(202,138,4,.15)", borderRadius: 14, padding: "18px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                        <span style={{ fontSize: 13, color: "#78716c" }}>Average Salary</span>
-                                        <span className="fd" style={{ fontSize: 28, fontWeight: 700, color: "#22c55e" }}>
-                                            {empVisible ? <CountUp target={activeBranch?.stats?.avg_salary ?? 139339} prefix="$" suffix="/yr" /> : `$${(activeBranch?.stats?.avg_salary ?? 139339).toLocaleString()}/yr`}
-                                        </span>
+                                    <div className="card" style={{ padding: 28 }}>
+                                        <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
+                                            {data.common_sections?.employment_figures?.employed && <RingChart pct={data.common_sections.employment_figures.employed} size={120} label="Employed" />}
+                                            {data.common_sections?.employment_figures?.employed_within_3_months && <RingChart pct={data.common_sections.employment_figures.employed_within_3_months} size={120} label="Employed within 3 months" />}
+                                        </div>
+                                        {(activeBranch?.stats?.avg_salary || data.common_sections?.employment_figures?.average_salary) && (
+                                            <div style={{ border: "1px solid rgba(202,138,4,.15)", borderRadius: 14, padding: "18px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                                <span style={{ fontSize: 13, color: "#78716c" }}>Average Salary</span>
+                                                <span className="fd" style={{ fontSize: 28, fontWeight: 700, color: "#22c55e" }}>
+                                                    <CountUp target={activeBranch.stats?.avg_salary || data.common_sections?.employment_figures?.average_salary || 0} prefix="$" suffix="/yr" />
+                                                </span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                            </div>
+                            )}
 
                             {/* FINANCIAL AWARDS */}
-                            <div ref={awardsRef} className="section-anchor" id="awards">
+                            <div ref={awardsRef} className="section-anchor" id="financialawards">
                                 <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Financial Awards</span>
                                 <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Funding Opportunities</h2>
 
                                 <div className="card" style={{ padding: 28 }}>
                                     <div style={{ display: "flex", gap: 0, marginBottom: 24 }}>
-                                        {[["154", "Fellowships"], ["81", "Teaching Assistantships"], ["295", "Research Assistantships"]].map(([val, label], i) => (
+                                        {[["150+", "Fellowships"], ["50+", "Teaching Assistantships"], ["200+", "Research Assistantships"]].map(([val, label], i) => (
                                             <div key={i} className={i < 2 ? "stat-divider" : ""} style={{ flex: 1, textAlign: "center", padding: "0 16px" }}>
                                                 <p className="fd" style={{ fontSize: 36, fontWeight: 700, color: "#eab308", marginBottom: 4 }}>
-                                                    {awardsVisible ? <CountUp target={+val} /> : val}
+                                                    {awardsVisible ? <CountUp target={parseInt(val)} suffix="+" /> : val}
                                                 </p>
                                                 <p style={{ fontSize: 11, color: "#57534e", textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
                                             </div>
                                         ))}
                                     </div>
                                     <div style={{ borderTop: "1px solid rgba(202,138,4,.10)", paddingTop: 18, textAlign: "center" }}>
-                                        <p style={{ fontSize: 12, color: "#78716c", marginBottom: 14 }}>Financial Aid Officer</p>
+                                        <p style={{ fontSize: 12, color: "#78716c", marginBottom: 14 }}>Financial Aid Support</p>
                                         <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
                                             <div style={{ width: 52, height: 52, borderRadius: "50%", background: "rgba(202,138,4,.10)", border: "1px solid rgba(202,138,4,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>👔</div>
-                                            <span className="fd" style={{ fontSize: 16, fontWeight: 600 }}>{data?.common_sections?.financial_awards?.officer?.name || "Tracey Newman"}</span>
+                                            <span className="fd" style={{ fontSize: 16, fontWeight: 600 }}>Contact Financial Aid Office</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+                            {/* REVIEWS */}
+                            <div className="section-anchor" id="reviews">
+                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Student Reviews</span>
+                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>What Students Say</h2>
+                                <div className="space-y-4">
+                                    {(data.common_sections?.reviews || [
+                                        { rating: 5, comment: "Exceptional academic environment and world-class research facilities." }
+                                    ]).map((rev: any, i: number) => (
+                                        <div key={i} className="card" style={{ padding: 24 }}>
+                                            <div style={{ display: "flex", gap: 4, color: "#eab308", marginBottom: 12 }}>
+                                                {[...Array(5)].map((_, j) => <span key={j}>{j < rev.rating ? "★" : "☆"}</span>)}
+                                            </div>
+                                            <p style={{ fontSize: 14, color: "#a8a29e", lineHeight: 1.6, fontStyle: "italic" }}>"{rev.comment}"</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* FAQ */}
+                            <div className="section-anchor" id="faq">
+                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>FAQ</span>
+                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Common Queries</h2>
+                                <div className="space-y-3">
+                                    {(data.common_sections?.faq || [
+                                        { q: "What is the application deadline?", a: "Deadlines vary by program. Generally, Fall intake applications close in January-March." }
+                                    ]).map((item: any, i: number) => (
+                                        <div key={i} className="card" style={{ padding: 20 }}>
+                                            <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 8, color: "#eab308" }}>Q: {item.q}</p>
+                                            <p style={{ fontSize: 13, color: "#a8a29e", lineHeight: 1.5 }}>{item.a}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
                         </div>
 
                         {/* ── RIGHT SIDEBAR ── */}
@@ -655,53 +721,34 @@ export default function UniversityPage() {
                                 <div className="card" style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
                                     <span style={{ fontSize: 24 }}>📋</span>
                                     <div style={{ flex: 1 }}>
-                                        <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 2 }}>Complete Application Help</p>
-                                        <p style={{ fontSize: 11, color: "#78716c" }}>Expert-guided application review</p>
+                                        <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 2 }}>Application Support</p>
+                                        <p style={{ fontSize: 11, color: "#78716c" }}>Expert reviewer team</p>
                                     </div>
-                                    <button className="btn-gold" style={{ padding: "8px 14px", fontSize: 12, borderRadius: 10, whiteSpace: "nowrap" }}>Check Now</button>
+                                    <button className="btn-gold" style={{ padding: "8px 14px", fontSize: 12, borderRadius: 10, whiteSpace: "nowrap" }}>Apply</button>
                                 </div>
                                 <div className="card" style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 14 }}>
                                     <span style={{ fontSize: 24 }}>🎯</span>
                                     <div style={{ flex: 1 }}>
-                                        <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 2 }}>Profile Evaluation</p>
-                                        <p style={{ fontSize: 11, color: "#78716c" }}>Know your admit chances</p>
+                                        <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 2 }}>Profile Eval</p>
+                                        <p style={{ fontSize: 11, color: "#78716c" }}>Target evaluation</p>
                                     </div>
-                                    <button className="btn-gold" style={{ padding: "8px 14px", fontSize: 12, borderRadius: 10 }}>Try Free</button>
+                                    <button className="btn-gold" style={{ padding: "8px 14px", fontSize: 12, borderRadius: 10 }}>Eval</button>
                                 </div>
-                            </div>
-
-                            {/* Programs list */}
-                            <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(202,138,4,.12)", borderRadius: 18, padding: "18px 14px" }}>
-                                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14, padding: "0 4px" }}>
-                                    <p style={{ fontSize: 13, fontWeight: 600 }}>Top Programs</p>
-                                    <input placeholder="🔍 Search…" style={{
-                                        background: "rgba(255,255,255,.05)", border: "1px solid rgba(202,138,4,.18)",
-                                        borderRadius: 8, padding: "5px 10px", fontSize: 11, color: "#d6d3d1",
-                                        outline: "none", width: 110, fontFamily: "'DM Sans',sans-serif",
-                                    }} />
-                                </div>
-                                {currentPrograms.map((prog: any, i: number) => (
-                                    <div key={i} className="similar-row">
-                                        <div style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(202,138,4,.10)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, flexShrink: 0 }}>🎓</div>
-                                        <div>
-                                            <p style={{ fontSize: 12, fontWeight: 500, marginBottom: 1 }}>{prog}</p>
-                                            <p style={{ fontSize: 10, color: "#57534e" }}>{currentUni.name}</p>
-                                        </div>
-                                    </div>
-                                ))}
                             </div>
 
                             {/* Similar universities */}
                             <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(202,138,4,.12)", borderRadius: 18, padding: "18px 14px" }}>
-                                <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 14, padding: "0 4px" }}>Similar Universities</p>
-                                {similarUniversities.map((u: any, i: number) => (
+                                <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 14, padding: "0 4px" }}>Similar Institutions</p>
+                                {(data.similarUniversities || [
+                                    { name: "Top Tier Institutional Peer", location: data.location?.country || "International", emoji: "🏛️" }
+                                ]).map((u: any, i: number) => (
                                     <div key={i} className="similar-row">
                                         <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(202,138,4,.10)", border: "1px solid rgba(202,138,4,.20)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
-                                            {u.emoji}
+                                            {u.emoji || "🏛️"}
                                         </div>
                                         <div>
-                                            <p style={{ fontSize: 12, fontWeight: 500, marginBottom: 1 }}>{u.name}</p>
-                                            <p style={{ fontSize: 10, color: "#57534e" }}>{u.location}</p>
+                                            <p style={{ fontSize: 12, fontWeight: 500, marginBottom: 1 }}>{u.university || u.name}</p>
+                                            <p style={{ fontSize: 10, color: "#57534e" }}>{u.location?.city || u.location}</p>
                                         </div>
                                     </div>
                                 ))}

@@ -6,18 +6,18 @@ import data from "@/data/singapore.json";
 export default function ByCountryPage() {
   
   // 🔥 Transform dataset
-  const universities = data.universities.map((uni: any, index: number) => ({
-    id: uni.id,
-    name: uni.university,
-    slug: uni.university.toLowerCase().replace(/\s+/g, "-"),
-    location: uni.location,
-    address: uni.address,
-    tuition: uni.annual_tuition_sgd
-      ? `S$${uni.annual_tuition_sgd.toLocaleString()}`
-      : null,
-    acceptance: uni.acceptance_rate_pct
-      ? `${uni.acceptance_rate_pct}%`
-      : null,
+  const universities = data.map((uni: any, index: number) => ({
+    id: uni._id || index,
+    name: uni.name,
+    slug: uni.slug || uni.name.toLowerCase().replace(/\s+/g, "-"),
+    location: uni.location ? `${uni.location.city}, ${uni.location.country}` : "Singapore",
+    address: uni.location?.city || "Singapore",
+    tuition: uni.branches?.[0]?.stats?.tuition_fee
+      ? `S$${uni.branches[0].stats.tuition_fee.toLocaleString()}`
+      : "N/A",
+    acceptance: uni.branches?.[0]?.stats?.acceptance_rate
+      ? `${uni.branches[0].stats.acceptance_rate}%`
+      : "N/A",
     image: "/university-placeholder.png", // keep placeholder
     ranking: index + 1,
   }));
@@ -27,7 +27,7 @@ export default function ByCountryPage() {
 
       {/* TITLE */}
       <h1 className="text-3xl font-bold text-gray-800 mb-8">
-        Top Universities in {data.country}
+        Top Universities in Singapore
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

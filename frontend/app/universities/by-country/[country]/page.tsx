@@ -12,6 +12,9 @@ import ausData from "@/data/AUS.json";
 import canadaData from "@/data/Canada.json";
 import dubaiData from "@/data/Dubai.json";
 import irelandData from "@/data/Ireland.json";
+import switzerlandData from "@/data/Switzerland.json";
+import netherlandsData from "@/data/Netherlands.json";
+import franceData from "@/data/France.json";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -44,6 +47,9 @@ const COUNTRY_META: Record<string, { flag: string; color: string; label: string;
   "dubai":          { flag: "🇦🇪", color: "#10b981", label: "Dubai",          hero: "Innovation & Business Hub" },
   "uae":            { flag: "🇦🇪", color: "#10b981", label: "Dubai",          hero: "Innovation & Business Hub" },
   "ireland":        { flag: "🇮🇪", color: "#16a34a", label: "Ireland",        hero: "Emerald Isle of Excellence" },
+  "switzerland":    { flag: "🇨🇭", color: "#ef4444", label: "Switzerland",    hero: "Peak of Innovation & Research" },
+  "netherlands":    { flag: "🇳🇱", color: "#f97316", label: "Netherlands",    hero: "Gateway to Global Careers" },
+  "france":         { flag: "🇫🇷", color: "#3b82f6", label: "France",         hero: "Legacy of Elite Education" },
 };
 
 const FILTER_RANGES = {
@@ -170,11 +176,11 @@ export default function CountryPage() {
   let rawUniversities: any[] = [];
 
   if (countryLower === "singapore") {
-    dataCountry = singaporeData.country || "Singapore";
-    rawUniversities = singaporeData.universities;
+    dataCountry = "Singapore";
+    rawUniversities = singaporeData;
   } else if (countryLower === "new zealand") {
-    dataCountry = newZealandData.country || "New Zealand";
-    rawUniversities = newZealandData.universities;
+    dataCountry = "New Zealand";
+    rawUniversities = newZealandData;
   } else if (countryLower === "germany") {
     dataCountry = "Germany";
     rawUniversities = germanyData;
@@ -196,6 +202,15 @@ export default function CountryPage() {
   } else if (countryLower === "ireland") {
     dataCountry = "Ireland";
     rawUniversities = irelandData;
+  } else if (countryLower === "switzerland") {
+    dataCountry = "Switzerland";
+    rawUniversities = switzerlandData;
+  } else if (countryLower === "netherlands") {
+    dataCountry = "Netherlands";
+    rawUniversities = netherlandsData;
+  } else if (countryLower === "france") {
+    dataCountry = "France";
+    rawUniversities = franceData;
   }
 
   // ── Normalize ──
@@ -212,7 +227,14 @@ export default function CountryPage() {
     else if (uni.annual_tuition_eur) { tuition = `€${uni.annual_tuition_eur.toLocaleString()}`; tuitionRaw = uni.annual_tuition_eur; }
     else if (uni.tuition_fees_eur) { tuition = `€${uni.tuition_fees_eur.toLocaleString()}`; tuitionRaw = uni.tuition_fees_eur; }
     else if (uni.tuition_eur) { tuition = `€${uni.tuition_eur.toLocaleString()}`; tuitionRaw = uni.tuition_eur; }
-    else if (uni.branches?.[0]?.stats?.tuition_fee) { tuition = `$${uni.branches[0].stats.tuition_fee.toLocaleString()}`; tuitionRaw = uni.branches[0].stats.tuition_fee; }
+    else if (uni.tuition_fees_chf) { tuition = `CHF ${uni.tuition_fees_chf.toLocaleString()}`; tuitionRaw = uni.tuition_fees_chf; }
+    else if (uni.branches?.[0]?.stats?.tuition_fee) { 
+      const amount = uni.branches[0].stats.tuition_fee;
+      if (countryLower === "switzerland") tuition = `CHF ${amount.toLocaleString()}`;
+      else if (countryLower === "uk" || countryLower === "united kingdom") tuition = `£${amount.toLocaleString()}`;
+      else tuition = `$${amount.toLocaleString()}`;
+      tuitionRaw = amount;
+    }
 
     let acceptance = null, acceptanceRaw = null;
     if (uni.acceptance_rate_pct != null) { acceptance = `${uni.acceptance_rate_pct}%`; acceptanceRaw = uni.acceptance_rate_pct; }
@@ -243,6 +265,32 @@ export default function CountryPage() {
       ranking: uni.ymgrad_rank || index + 1,
     };
   }), [rawUniversities]);
+
+  // ── Stats Calculation ──
+  const stats = useMemo(() => {
+    const list = universities.filter(u => u.acceptanceRaw || u.tuitionRaw);
+    if (!list.length) return { acc: "N/A", tuition: "N/A" };
+    
+    const accPoints = universities.filter(u => u.acceptanceRaw).map(u => u.acceptanceRaw as number);
+    const avgAcc = accPoints.length ? Math.round(accPoints.reduce((a, b) => a + b, 0) / accPoints.length) : null;
+    
+    const tPoints = universities.filter(u => u.tuitionRaw).map(u => u.tuitionRaw as number);
+    const avgT = tPoints.length ? Math.round(tPoints.reduce((a, b) => a + b, 0) / tPoints.length) : null;
+
+    let tFormatted = "N/A";
+    if (avgT) {
+      if (countryLower === "singapore") tFormatted = `S$${Math.round(avgT/1000)}K+`;
+      else if (["germany", "ireland", "netherlands", "france"].includes(countryLower)) tFormatted = `€${Math.round(avgT/1000)}K+`;
+      else if (countryLower === "switzerland") tFormatted = `CHF ${Math.round(avgT/1000)}K+`;
+      else if (countryLower === "uk" || countryLower === "united kingdom") tFormatted = `£${Math.round(avgT/1000)}K+`;
+      else tFormatted = `$${Math.round(avgT/1000)}K+`;
+    }
+
+    return {
+      acc: avgAcc ? `${Math.max(5, avgAcc - 5)}–${avgAcc + 5}%` : "N/A",
+      tuition: tFormatted
+    };
+  }, [universities, countryLower]);
 
   // ── Filter + sort ──
   const filtered = useMemo(() => {
@@ -422,8 +470,8 @@ export default function CountryPage() {
               style={{ display: "flex", marginTop: 32, overflow: "hidden" }}>
               <StatPill icon="🏛️" value={universities.length} label="Universities" />
               <StatPill icon="🌍" value={dataCountry} label="Country" />
-              <StatPill icon="📊" value="7–15%" label="Avg. Accept Rate" />
-              <StatPill icon="💵" value="$40–80K" label="Avg. Tuition / yr" />
+              <StatPill icon="📊" value={stats.acc} label="Avg. Accept Rate" />
+              <StatPill icon="💵" value={stats.tuition} label="Avg. Tuition / yr" />
               <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: "12px 20px" }}>
                 <span style={{ fontSize: 20 }}>⭐</span>
                 <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, fontWeight: 700, color: "#eab308" }}>Top Ranked</span>

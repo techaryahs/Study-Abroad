@@ -7,14 +7,34 @@
     "location": { "city": "Toronto", "state": "Ontario", "country": "Canada" },
     "branches": [
       {
-        "name": "Engineering & Computer Science",
-        "description": "UofT is Canada’s top-ranked university known for AI, engineering, and research excellence. It has strong global partnerships and produces highly employable graduates.",
-        "stats": { "acceptance_rate": 43, "tuition_fee": 60000, "living_expense": 20000, "avg_salary": 85000, "avg_sat": 1460, "avg_gpa": 3.85, "avg_gre": 324 },
-        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 108 }
+        "name": "Engineering & CS",
+        "description": "UofT's Faculty of Applied Science & Engineering is Canada's top-ranked engineering school, a global leader in AI, robotics, and clean energy.",
+        "stats": { "acceptance_rate": 22, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 95000, "avg_gpa": 3.9, "avg_gre": 326 },
+        "student_demographics": { "male": 62, "female": 38, "international_students": 30, "total_enrollment": 8000 }
+      },
+      {
+        "name": "Business",
+        "description": "Rotman School of Management is renowned for its 'Integrative Thinking' approach and is the primary hub for finance and strategy in Canada.",
+        "stats": { "acceptance_rate": 18, "tuition_fee": 65000, "living_expense": 22000, "avg_salary": 110000, "avg_gmat": 710 }
+      },
+      {
+        "name": "Medicine",
+        "description": "The Temerty Faculty of Medicine is at the forefront of global healthcare innovation, famously the birthplace of insulin and stem cell research.",
+        "stats": { "acceptance_rate": 6, "tuition_fee": 95000, "living_expense": 22000, "avg_salary": 180000 }
+      },
+      {
+        "name": "Law",
+        "description": "UofT Law is Canada's most selective law school, producing leaders in constitutional, international, and commercial law.",
+        "stats": { "acceptance_rate": 10, "tuition_fee": 38000, "living_expense": 22000, "avg_salary": 120000 }
+      },
+      {
+        "name": "Arts & Science",
+        "description": "A massive faculty covering 300+ programs, from theoretical physics to fine arts, with a focus on interdisciplinary research.",
+        "stats": { "acceptance_rate": 45, "tuition_fee": 58000, "living_expense": 22000, "avg_salary": 65000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 90, "employed_within_3_months": 92, "average_salary": 90000 }
+      "employment_figures": { "employed": 92, "employed_within_3_months": 94, "average_salary": 92000 }
     }
   },
   {
@@ -25,14 +45,34 @@
     "location": { "city": "Vancouver", "state": "British Columbia", "country": "Canada" },
     "branches": [
       {
-        "name": "Engineering & Business",
-        "description": "UBC is globally recognized for sustainability, engineering, and business programs with strong research output and global exposure.",
-        "stats": { "acceptance_rate": 52, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 82000, "avg_sat": 1420, "avg_gpa": 3.8, "avg_gre": 320 },
-        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+        "name": "Applied Science",
+        "description": "UBC Engineering is a powerhouse of research and innovation, particularly in sustainable infrastructure and marine technology.",
+        "stats": { "acceptance_rate": 35, "tuition_fee": 56000, "living_expense": 24000, "avg_salary": 88000, "avg_gpa": 3.8, "avg_gre": 322 },
+        "student_demographics": { "male": 68, "female": 32, "international_students": 35, "total_enrollment": 6000 }
+      },
+      {
+        "name": "Business",
+        "description": "The Sauder School of Business is Canada's leading academic business school, recognized for its global focus and entrepreneurial spirit.",
+        "stats": { "acceptance_rate": 22, "tuition_fee": 54000, "living_expense": 24000, "avg_salary": 95000, "avg_gmat": 690 }
+      },
+      {
+        "name": "Science",
+        "description": "UBC Science is home to over 8,000 students and some of the world's most cited researchers in life sciences and sustainability.",
+        "stats": { "acceptance_rate": 42, "tuition_fee": 52000, "living_expense": 24000, "avg_salary": 68000 }
+      },
+      {
+        "name": "Arts",
+        "description": "The Faculty of Arts is a dynamic research environment focusing on social justice, international relations, and creative media.",
+        "stats": { "acceptance_rate": 55, "tuition_fee": 48000, "living_expense": 24000, "avg_salary": 58000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "UBC Faculty of Medicine provides industry-leading training and research across 80+ sites in British Columbia.",
+        "stats": { "acceptance_rate": 8, "tuition_fee": 85000, "living_expense": 24000, "avg_salary": 170000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 85000 }
+      "employment_figures": { "employed": 89, "employed_within_3_months": 91, "average_salary": 87000 }
     }
   },
   {
@@ -43,14 +83,33 @@
     "location": { "city": "Montreal", "state": "Quebec", "country": "Canada" },
     "branches": [
       {
-        "name": "Medicine & Science",
-        "description": "McGill is one of Canada’s most prestigious universities known for medicine, science, and global research excellence.",
-        "stats": { "acceptance_rate": 46, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 80000, "avg_sat": 1440, "avg_gpa": 3.85, "avg_gre": 322 },
-        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+        "name": "Medicine",
+        "description": "McGill Medicine is world-renowned for its clinical research, notably in neurology, oncology, and infectious diseases.",
+        "stats": { "acceptance_rate": 7, "tuition_fee": 65000, "living_expense": 18000, "avg_salary": 165000, "avg_gpa": 3.9 }
+      },
+      {
+        "name": "Management",
+        "description": "Desautels Faculty of Management offers a highly integrated curriculum with clear focus on global strategy and social innovation.",
+        "stats": { "acceptance_rate": 25, "tuition_fee": 62000, "living_expense": 18000, "avg_salary": 105000, "avg_gmat": 705 }
+      },
+      {
+        "name": "Engineering",
+        "description": "McGill Engineering produces elite graduates in aerospace, mining, and software engineering with a strong bilingual advantage.",
+        "stats": { "acceptance_rate": 30, "tuition_fee": 58000, "living_expense": 18000, "avg_salary": 92000, "avg_gre": 324 }
+      },
+      {
+        "name": "Science",
+        "description": "A research-intensive faculty known for its contributions to green chemistry and climate change mitigation.",
+        "stats": { "acceptance_rate": 40, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 65000 }
+      },
+      {
+        "name": "Law",
+        "description": "McGill Law is unique for its trans-systemic program, teaching both Civil and Common Law concurrently.",
+        "stats": { "acceptance_rate": 12, "tuition_fee": 35000, "living_expense": 18000, "avg_salary": 115000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 89, "average_salary": 82000 }
+      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 84000 }
     }
   },
   {
@@ -61,14 +120,34 @@
     "location": { "city": "Waterloo", "state": "Ontario", "country": "Canada" },
     "branches": [
       {
-        "name": "Computer Science & Engineering",
-        "description": "Waterloo is globally famous for co-op programs and top-tier computer science and engineering education.",
-        "stats": { "acceptance_rate": 53, "tuition_fee": 60000, "living_expense": 18000, "avg_salary": 90000, "avg_sat": 1450, "avg_gpa": 3.9, "avg_gre": 325 },
-        "admitted_profiles": { "toefl_min": 94, "ielts_min": 7.0, "toefl_avg": 105 }
+        "name": "Computer Science",
+        "description": "The David R. Cheriton School of Computer Science is Canada's premier CS school, globally famous for its elite co-op program.",
+        "stats": { "acceptance_rate": 15, "tuition_fee": 64000, "living_expense": 18000, "avg_salary": 115000, "avg_gpa": 3.95, "avg_gre": 328 },
+        "student_demographics": { "male": 75, "female": 25, "international_students": 45, "total_enrollment": 4000 }
+      },
+      {
+        "name": "Engineering",
+        "description": "Waterloo Engineering is the largest engineering school in Canada, known for its extreme focus on entrepreneurship and industry co-op.",
+        "stats": { "acceptance_rate": 20, "tuition_fee": 62000, "living_expense": 18000, "avg_salary": 98000, "avg_gre": 325 }
+      },
+      {
+        "name": "Mathematics",
+        "description": "The only dedicated Faculty of Mathematics in North America, leading in actuarial science and cryptography.",
+        "stats": { "acceptance_rate": 28, "tuition_fee": 52000, "living_expense": 18000, "avg_salary": 85000 }
+      },
+      {
+        "name": "Environment",
+        "description": "A world-leading faculty for sustainability, geomatics, and climate change urban planning.",
+        "stats": { "acceptance_rate": 45, "tuition_fee": 45000, "living_expense": 18000, "avg_salary": 62000 }
+      },
+      {
+        "name": "Science",
+        "description": "Research-focused faculty with strong programs in nanotechnology and quantum computing research.",
+        "stats": { "acceptance_rate": 40, "tuition_fee": 48000, "living_expense": 18000, "avg_salary": 68000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 92, "employed_within_3_months": 94, "average_salary": 95000 }
+      "employment_figures": { "employed": 94, "employed_within_3_months": 96, "average_salary": 98000 }
     }
   },
   {
@@ -79,14 +158,33 @@
     "location": { "city": "Edmonton", "state": "Alberta", "country": "Canada" },
     "branches": [
       {
-        "name": "Engineering & Energy",
-        "description": "UAlberta is known for engineering, energy, and environmental research with strong industry ties.",
-        "stats": { "acceptance_rate": 58, "tuition_fee": 45000, "living_expense": 18000, "avg_salary": 78000, "avg_sat": 1380, "avg_gpa": 3.7, "avg_gre": 318 },
-        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 98 }
+        "name": "Engineering",
+        "description": "UAlberta Engineering is a research powerhouse, especially in chemical and petroleum engineering, with over $65 million in annual research funding.",
+        "stats": { "acceptance_rate": 38, "tuition_fee": 42000, "living_expense": 18000, "avg_salary": 85000, "avg_gpa": 3.7 }
+      },
+      {
+        "name": "Science",
+        "description": "The Faculty of Science is a global leader in AI and machine learning, hosting the Alberta Machine Intelligence Institute (Amii).",
+        "stats": { "acceptance_rate": 42, "tuition_fee": 38000, "living_expense": 18000, "avg_salary": 72000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "The Faculty of Medicine & Dentistry is one of Canada's premier medical schools, known for research in virology and immunology.",
+        "stats": { "acceptance_rate": 10, "tuition_fee": 75000, "living_expense": 18000, "avg_salary": 160000 }
+      },
+      {
+        "name": "Business",
+        "description": "Alberta School of Business is one of the world's leading research-intensive business schools, known for its expertise in natural resources.",
+        "stats": { "acceptance_rate": 30, "tuition_fee": 35000, "living_expense": 18000, "avg_salary": 78000 }
+      },
+      {
+        "name": "Law",
+        "description": "The Faculty of Law is the oldest in Western Canada, renowned for its focus on energy law and aboriginal legal issues.",
+        "stats": { "acceptance_rate": 15, "tuition_fee": 28000, "living_expense": 18000, "avg_salary": 95000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 86, "employed_within_3_months": 88, "average_salary": 80000 }
+      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 82000 }
     }
   },
   {
@@ -115,14 +213,33 @@
     "location": { "city": "Hamilton", "state": "Ontario", "country": "Canada" },
     "branches": [
       {
-        "name": "Medicine & Engineering",
-        "description": "McMaster is known for problem-based learning and top medical and engineering programs.",
-        "stats": { "acceptance_rate": 58, "tuition_fee": 50000, "living_expense": 18000, "avg_salary": 78000, "avg_sat": 1400, "avg_gpa": 3.8, "avg_gre": 320 },
-        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 102 }
+        "name": "Health Sciences",
+        "description": "McMaster's Health Sciences program is world-famous for its 'problem-based learning' approach and is the most competitive in Canada.",
+        "stats": { "acceptance_rate": 4, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 140000, "avg_gpa": 3.95 }
+      },
+      {
+        "name": "Engineering",
+        "description": "The Faculty of Engineering is known for its multi-disciplinary programs and strong focus on student-led innovation and the 'Integrated Biomedical Engineering' track.",
+        "stats": { "acceptance_rate": 20, "tuition_fee": 52000, "living_expense": 18000, "avg_salary": 85000, "avg_gre": 322 }
+      },
+      {
+        "name": "Business",
+        "description": "DeGroote School of Business focuses on experiential learning and is a leader in business-tech integration.",
+        "stats": { "acceptance_rate": 28, "tuition_fee": 48000, "living_expense": 18000, "avg_salary": 75000 }
+      },
+      {
+        "name": "Science",
+        "description": "A research-intensive faculty with world-class facilities for nuclear research and life sciences.",
+        "stats": { "acceptance_rate": 40, "tuition_fee": 45000, "living_expense": 18000, "avg_salary": 65000 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Focused on developing critical thinking through interdisciplinary studies in digital humanities and global justice.",
+        "stats": { "acceptance_rate": 55, "tuition_fee": 40000, "living_expense": 18000, "avg_salary": 55000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 89, "average_salary": 80000 }
+      "employment_figures": { "employed": 89, "employed_within_3_months": 91, "average_salary": 82000 }
     }
   },
   {
@@ -170,13 +287,32 @@
     "branches": [
       {
         "name": "Business",
-        "description": "Western is known for Ivey Business School and strong programs in finance and management.",
-        "stats": { "acceptance_rate": 58, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 85000, "avg_sat": 1420, "avg_gpa": 3.75, "avg_gre": 320 },
-        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+        "description": "Ivey Business School is Canada's premier case-method business school, renowned for producing top-tier consultants and investment bankers.",
+        "stats": { "acceptance_rate": 15, "tuition_fee": 62000, "living_expense": 18000, "avg_salary": 115000, "avg_gmat": 710 }
+      },
+      {
+        "name": "Engineering",
+        "description": "Western Engineering offers a unique 'Dual Degree' option, allowing students to combine engineering with a second degree from Ivey or Law.",
+        "stats": { "acceptance_rate": 30, "tuition_fee": 54000, "living_expense": 18000, "avg_salary": 82000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Schulich School of Medicine & Dentistry is a leader in medical imaging, robotics, and brain research.",
+        "stats": { "acceptance_rate": 8, "tuition_fee": 85000, "living_expense": 18000, "avg_salary": 175000 }
+      },
+      {
+        "name": "Law",
+        "description": "Western Law focuses on business law in the global economy and is highly regarded by Big Law firms in Toronto.",
+        "stats": { "acceptance_rate": 18, "tuition_fee": 32000, "living_expense": 18000, "avg_salary": 110000 }
+      },
+      {
+        "name": "Social Science",
+        "description": "One of the largest and most diverse social science faculties in Canada, with a focus on economics and political science.",
+        "stats": { "acceptance_rate": 50, "tuition_fee": 48000, "living_expense": 18000, "avg_salary": 60000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 87000 }
+      "employment_figures": { "employed": 90, "employed_within_3_months": 92, "average_salary": 88000 }
     }
   },
   {
@@ -187,14 +323,33 @@
     "location": { "city": "Kingston", "state": "Ontario", "country": "Canada" },
     "branches": [
       {
-        "name": "Business & Engineering",
-        "description": "Queen’s is known for strong business programs and leadership-focused education.",
-        "stats": { "acceptance_rate": 42, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 85000, "avg_sat": 1400, "avg_gpa": 3.8, "avg_gre": 320 },
-        "admitted_profiles": { "toefl_min": 94, "ielts_min": 7.0, "toefl_avg": 102 }
+        "name": "Business",
+        "description": "Smith School of Business is globally recognized for its MBA and commerce programs, with a focus on team-based learning and leadership.",
+        "stats": { "acceptance_rate": 12, "tuition_fee": 58000, "living_expense": 18000, "avg_salary": 108000, "avg_gmat": 700 }
+      },
+      {
+        "name": "Engineering",
+        "description": "Queen's Engineering is known for its strong community and project-based learning, especially in mining and mechanical engineering.",
+        "stats": { "acceptance_rate": 25, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 88000 }
+      },
+      {
+        "name": "Law",
+        "description": "Queen's Law is a leader in legal education, with strong programs in corporate and criminal law and a unique international campus at Herstmonceux Castle.",
+        "stats": { "acceptance_rate": 15, "tuition_fee": 34000, "living_expense": 18000, "avg_salary": 105000 }
+      },
+      {
+        "name": "Science",
+        "description": "Faculty of Arts and Science offers intensive research opportunities in physics (home to Nobel Prize winner Arthur McDonald) and life sciences.",
+        "stats": { "acceptance_rate": 40, "tuition_fee": 50000, "living_expense": 18000, "avg_salary": 62000 }
+      },
+      {
+        "name": "Arts",
+        "description": "Focusing on the humanities and social sciences with a strong emphasis on tradition and academic rigor.",
+        "stats": { "acceptance_rate": 55, "tuition_fee": 45000, "living_expense": 18000, "avg_salary": 56000 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 89, "employed_within_3_months": 91, "average_salary": 88000 }
+      "employment_figures": { "employed": 91, "employed_within_3_months": 93, "average_salary": 89000 }
     }
   },
   {

@@ -6,19 +6,88 @@
     "logo": "https://www.google.com/s2/favicons?domain=harvard.edu&sz=128",
     "location": { "city": "Cambridge", "state": "Massachusetts", "country": "United States" },
     "branches": [
-      {
-        "name": "Engineering",
-        "description": "Harvard SEAS offers interdisciplinary programs in AI, robotics, and data science with strong research integration. Students benefit from cross-field collaboration and global academic prestige.",
-        "stats": { "avg_gpa": 3.8, "avg_gre": 326, "acceptance_rate": 7.2, "tuition_fee": 53605, "living_expense": 17682, "avg_salary": 139339, "avg_sat": 1520 },
-        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 112 }
-      },
-      {
-        "name": "Business",
-        "description": "Harvard Business School is globally renowned for its MBA programs, leadership development, and case-study learning approach.",
-        "stats": { "avg_gpa": 3.71, "avg_gmat": 731, "acceptance_rate": 10.4, "tuition_fee": 72804, "living_expense": 28592, "avg_salary": 150000 },
-        "admitted_profiles": { "toefl_min": 105, "ielts_min": 7.5, "toefl_avg": 115 }
-      }
-    ],
+  {
+    "name": "Engineering",
+    "description": "Harvard John A. Paulson School of Engineering and Applied Sciences offers cutting-edge programs in AI, robotics, bioengineering, and data science with strong interdisciplinary research.",
+    "stats": {
+      "avg_gpa": 3.8,
+      "avg_gre": 326,
+      "acceptance_rate": 7.2,
+      "tuition_fee": 53605,
+      "living_expense": 17682,
+      "avg_salary": 139339,
+      "avg_sat": 1520
+    },
+    "admitted_profiles": {
+      "toefl_min": 100,
+      "ielts_min": 7.5,
+      "toefl_avg": 112
+    }
+  },
+  {
+    "name": "Business",
+    "description": "Harvard Business School is globally recognized for its MBA program, focusing on leadership, entrepreneurship, and case-based learning.",
+    "stats": {
+      "avg_gpa": 3.71,
+      "avg_gmat": 731,
+      "acceptance_rate": 10.4,
+      "tuition_fee": 72804,
+      "living_expense": 28592,
+      "avg_salary": 150000
+    },
+    "admitted_profiles": {
+      "toefl_min": 105,
+      "ielts_min": 7.5,
+      "toefl_avg": 115
+    }
+  },
+  {
+    "name": "Law",
+    "description": "Harvard Law School is one of the most prestigious law schools globally, specializing in constitutional law, corporate law, and international law.",
+    "stats": {
+      "avg_gpa": 3.9,
+      "avg_lsat": 174,
+      "acceptance_rate": 10,
+      "tuition_fee": 74800,
+      "living_expense": 28000,
+      "avg_salary": 180000
+    },
+    "admitted_profiles": {
+      "toefl_min": 100,
+      "ielts_min": 7.5
+    }
+  },
+  {
+    "name": "Medicine",
+    "description": "Harvard Medical School leads in biomedical research and clinical education, affiliated with top hospitals like Massachusetts General Hospital.",
+    "stats": {
+      "avg_gpa": 3.92,
+      "avg_mcat": 520,
+      "acceptance_rate": 3.5,
+      "tuition_fee": 65000,
+      "living_expense": 30000,
+      "avg_salary": 210000
+    },
+    "admitted_profiles": {
+      "toefl_min": 100
+    }
+  },
+  {
+    "name": "Arts & Humanities",
+    "description": "Harvard’s Faculty of Arts and Sciences offers programs in history, philosophy, literature, and social sciences with strong global academic influence.",
+    "stats": {
+      "avg_gpa": 3.7,
+      "acceptance_rate": 8,
+      "tuition_fee": 54000,
+      "living_expense": 20000,
+      "avg_salary": 70000
+    },
+    "admitted_profiles": {
+      "toefl_min": 100,
+      "ielts_min": 7.5
+    }
+  }
+],
     "common_sections": {
       "employment_figures": { "employed": 80, "employed_within_3_months": 89, "average_salary": 139000 }
     }
@@ -35,6 +104,27 @@
         "description": "MIT is a global leader in engineering, AI, robotics, and innovation with strong industry collaboration and cutting-edge research.",
         "stats": { "avg_gpa": 3.9, "avg_gre": 324, "acceptance_rate": 21.2, "tuition_fee": 51514, "living_expense": 16390, "avg_salary": 135105, "avg_sat": 1540 },
         "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+      },
+      {
+        "name": "Science",
+        "description": "MIT's School of Science is world-renowned for fundamental and applied research in physics, chemistry, and mathematics.",
+        "stats": { "avg_gpa": 3.9, "avg_gre": 328, "acceptance_rate": 15, "tuition_fee": 55000, "living_expense": 20000, "avg_salary": 110000 },
+        "admitted_profiles": { "toefl_min": 100, "toefl_avg": 112 }
+      },
+      {
+        "name": "Business",
+        "description": "MIT Sloan School of Management focuses on innovation, entrepreneurship, and quantitative leadership in the global economy.",
+        "stats": { "avg_gpa": 3.62, "avg_gmat": 730, "acceptance_rate": 14.6, "tuition_fee": 82000, "living_expense": 28000, "avg_salary": 165000 }
+      },
+      {
+        "name": "Humanities",
+        "description": "The School of Humanities, Arts, and Social Sciences (SHASS) at MIT explores the human impact of technological breakthroughs.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 25, "tuition_fee": 55000, "living_expense": 20000, "avg_salary": 85000 }
+      },
+      {
+        "name": "Architecture",
+        "description": "MIT Department of Architecture is a pioneer in sustainable design, computational architecture, and urban planning.",
+        "stats": { "avg_gpa": 3.65, "acceptance_rate": 18, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 90000 }
       }
     ],
     "common_sections": {
@@ -53,6 +143,26 @@
         "description": "Stanford Engineering is globally renowned for innovation, AI, and entrepreneurship with deep ties to Silicon Valley.",
         "stats": { "avg_gpa": 3.8, "avg_gre": 328, "acceptance_rate": 20, "tuition_fee": 53922, "living_expense": 16433, "avg_salary": 145559, "avg_sat": 1500 },
         "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
+      },
+      {
+        "name": "Business",
+        "description": "Stanford Graduate School of Business (GSB) is a premier MBA destination focusing on leadership and venture capital ecosystems.",
+        "stats": { "avg_gpa": 3.78, "avg_gmat": 737, "acceptance_rate": 6.8, "tuition_fee": 76000, "living_expense": 32000, "avg_salary": 175000 }
+      },
+      {
+        "name": "Law",
+        "description": "Stanford Law School is a top-3 global law school, specializing in legal theory, intellectual property, and public interest law.",
+        "stats": { "avg_gpa": 3.9, "avg_lsat": 171, "acceptance_rate": 9, "tuition_fee": 70000, "living_expense": 28000, "avg_salary": 190000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Stanford Medicine focuses on precision health and translational medicine, integrated with the Stanford Hospital complex.",
+        "stats": { "avg_gpa": 3.89, "avg_mcat": 519, "acceptance_rate": 2.3, "tuition_fee": 62000, "living_expense": 28000, "avg_salary": 200000 }
+      },
+      {
+        "name": "Arts & Sciences",
+        "description": "The School of Humanities and Sciences at Stanford offers cross-disciplinary programs in literature, sociology, and biology.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 10, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 95000 }
       }
     ],
     "common_sections": {
@@ -71,6 +181,26 @@
         "description": "Caltech is a top STEM-focused institution known for aerospace, AI, and applied sciences with strong NASA collaborations.",
         "stats": { "avg_gpa": 3.9, "avg_gre": 330, "acceptance_rate": 6.4, "tuition_fee": 60864, "living_expense": 20000, "avg_salary": 140000, "avg_sat": 1530 },
         "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+      },
+      {
+        "name": "Physics",
+        "description": "Caltech Physics is legendary, offering unparalleled research focus in astrophysics, quantum mechanics, and theoretical physics.",
+        "stats": { "avg_gpa": 3.92, "avg_gre": 335, "acceptance_rate": 8, "tuition_fee": 60864, "living_expense": 20000, "avg_salary": 110000 }
+      },
+      {
+        "name": "Chemistry",
+        "description": "One of the world's premier centers for chemical engineering and molecular science.",
+        "stats": { "avg_gpa": 3.85, "avg_gre": 328, "acceptance_rate": 12, "tuition_fee": 60864, "living_expense": 20000, "avg_salary": 105000 }
+      },
+      {
+        "name": "Biology",
+        "description": "Research-intensive programs in genetics, neurobiology, and bio-engineering.",
+        "stats": { "avg_gpa": 3.88, "avg_gre": 325, "acceptance_rate": 10, "tuition_fee": 60864, "living_expense": 20000, "avg_salary": 95000 }
+      },
+      {
+        "name": "Humanities",
+        "description": "The Division of the Humanities and Social Sciences (HSS) integrates technological perspectives into social research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 20, "tuition_fee": 60864, "living_expense": 20000, "avg_salary": 80000 }
       }
     ],
     "common_sections": {
@@ -85,10 +215,31 @@
     "location": { "city": "Chicago", "state": "Illinois", "country": "United States" },
     "branches": [
       {
+        "name": "Economics",
+        "description": "UChicago is a global leader in Economics, having produced 30+ Nobel Prize winners in the field.",
+        "stats": { "avg_gpa": 3.85, "avg_gre": 328, "acceptance_rate": 10, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 145000, "avg_sat": 1520 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 112 }
+      },
+      {
         "name": "Engineering",
-        "description": "UChicago offers interdisciplinary programs combining engineering, data science, and molecular innovation.",
-        "stats": { "avg_gpa": 3.8, "avg_gre": 325, "acceptance_rate": 12, "tuition_fee": 60552, "living_expense": 20000, "avg_salary": 130000, "avg_sat": 1510 },
-        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
+        "description": "The Pritzker School of Molecular Engineering focuses on nanotechnology, quantum engineering, and molecular innovation.",
+        "stats": { "avg_gpa": 3.8, "avg_gre": 325, "acceptance_rate": 12, "tuition_fee": 60552, "living_expense": 20000, "avg_salary": 130000 },
+        "admitted_profiles": { "toefl_min": 100, "toefl_avg": 108 }
+      },
+      {
+        "name": "Law",
+        "description": "UChicago Law is recognized for its rigorous analytical approach and focus on law and economics.",
+        "stats": { "avg_gpa": 3.91, "avg_lsat": 172, "acceptance_rate": 12, "tuition_fee": 72000, "living_expense": 25000, "avg_salary": 175000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "The Pritzker School of Medicine is one of the most selective medical schools with a heavy research focus.",
+        "stats": { "avg_gpa": 3.9, "avg_mcat": 520, "acceptance_rate": 4, "tuition_fee": 60000, "living_expense": 25000, "avg_salary": 195000 }
+      },
+      {
+        "name": "Humanities",
+        "description": "UChicago's Humanities division offers profound programs in philosophy, literature, and art history.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 15, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 80000 }
       }
     ],
     "common_sections": {
@@ -107,6 +258,26 @@
         "description": "Wharton School is one of the world’s top business schools with strong finance, analytics, and entrepreneurship focus.",
         "stats": { "avg_gpa": 3.6, "avg_gmat": 733, "acceptance_rate": 9, "tuition_fee": 78000, "living_expense": 25000, "avg_salary": 155000, "avg_sat": 1490 },
         "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+      },
+      {
+        "name": "Engineering",
+        "description": "Penn Engineering offers premier programs in robotics, computer science, and bio-engineering.",
+        "stats": { "avg_gpa": 3.82, "avg_gre": 326, "acceptance_rate": 16, "tuition_fee": 63000, "living_expense": 22000, "avg_salary": 135000 }
+      },
+      {
+        "name": "Law",
+        "description": "Penn Carey Law is a leader in corporate law and legal education, emphasizing a cross-disciplinary curriculum.",
+        "stats": { "avg_gpa": 3.89, "avg_lsat": 172, "acceptance_rate": 11, "tuition_fee": 71000, "living_expense": 24000, "avg_salary": 185000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Perelman School of Medicine is the first medical school in the USA and a global research leader.",
+        "stats": { "avg_gpa": 3.91, "avg_mcat": 521, "acceptance_rate": 4, "tuition_fee": 66000, "living_expense": 25000, "avg_salary": 205000 }
+      },
+      {
+        "name": "Arts & Sciences",
+        "description": "The College of Arts and Sciences offers breadth and depth in social sciences, humanities, and natural sciences.",
+        "stats": { "avg_gpa": 3.75, "acceptance_rate": 12, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 90000 }
       }
     ],
     "common_sections": {
@@ -125,6 +296,26 @@
         "description": "Cornell Engineering offers strong programs in computer science, mechanical, and electrical engineering.",
         "stats": { "avg_gpa": 3.8, "avg_gre": 326, "acceptance_rate": 15, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 130000, "avg_sat": 1480 },
         "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 105 }
+      },
+      {
+        "name": "Business",
+        "description": "The Johnson Graduate School of Management specializes in finance and operations management.",
+        "stats": { "avg_gpa": 3.55, "avg_gmat": 710, "acceptance_rate": 20, "tuition_fee": 72000, "living_expense": 26000, "avg_salary": 150000 }
+      },
+      {
+        "name": "Hotel Admin",
+        "description": "The Nolan School of Hotel Administration is globally recognized as the leader in hospitality education.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 95000 }
+      },
+      {
+        "name": "Law",
+        "description": "Cornell Law School offers a world-class legal education with international and commercial law focus.",
+        "stats": { "avg_gpa": 3.82, "avg_lsat": 169, "acceptance_rate": 14, "tuition_fee": 73000, "living_expense": 24000, "avg_salary": 170000 }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "The College of Agriculture and Life Sciences at Cornell is a global leader in environmental and food security research.",
+        "stats": { "avg_gpa": 3.75, "acceptance_rate": 16, "tuition_fee": 42000, "living_expense": 20000, "avg_salary": 85000 }
       }
     ],
     "common_sections": {
@@ -143,6 +334,26 @@
         "description": "UC Berkeley is globally renowned for AI, computer science, and electrical engineering innovation.",
         "stats": { "avg_gpa": 3.8, "avg_gre": 327, "acceptance_rate": 17, "tuition_fee": 44000, "living_expense": 25000, "avg_salary": 140000, "avg_sat": 1490 },
         "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
+      },
+      {
+        "name": "Business",
+        "description": "Haas School of Business is a top-ranked program known for entrepreneurship and organizational leadership.",
+        "stats": { "avg_gpa": 3.65, "avg_gmat": 725, "acceptance_rate": 12, "tuition_fee": 70000, "living_expense": 30000, "avg_salary": 155000 }
+      },
+      {
+        "name": "Law",
+        "description": "Berkeley Law is highly regarded for technology law, intellectual property, and civil rights law.",
+        "stats": { "avg_gpa": 3.81, "avg_lsat": 170, "acceptance_rate": 15, "tuition_fee": 60000, "living_expense": 28000, "avg_salary": 170000 }
+      },
+      {
+        "name": "Science",
+        "description": "The College of Letters and Science at Berkeley offers premier programs in physics and environmental science.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 20, "tuition_fee": 44000, "living_expense": 25000, "avg_salary": 90000 }
+      },
+      {
+        "name": "Design",
+        "description": "The College of Environmental Design focuses on sustainable architecture and urban development.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 22, "tuition_fee": 44000, "living_expense": 25000, "avg_salary": 85000 }
       }
     ],
     "common_sections": {
@@ -161,6 +372,26 @@
         "description": "Yale Law School is one of the most prestigious globally with strong focus on legal research and policy.",
         "stats": { "avg_gpa": 3.9, "avg_lsAT": 173, "acceptance_rate": 7, "tuition_fee": 70000, "living_expense": 22000, "avg_salary": 160000, "avg_sat": 1510 },
         "admitted_profiles": { "toefl_min": 105, "ielts_min": 7.5, "toefl_avg": 112 }
+      },
+      {
+        "name": "Business",
+        "description": "Yale School of Management (SOM) is known for its leadership in the nonprofit and social enterprise sectors.",
+        "stats": { "avg_gpa": 3.65, "avg_gmat": 725, "acceptance_rate": 23.6, "tuition_fee": 75000, "living_expense": 28000, "avg_salary": 155000 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Yale School of Medicine is famous for its independent research 'Yale System' approach.",
+        "stats": { "avg_gpa": 3.9, "avg_mcat": 519, "acceptance_rate": 4, "tuition_fee": 65000, "living_expense": 28000, "avg_salary": 200000 }
+      },
+      {
+        "name": "Arts & Humanities",
+        "description": "Yale offers unmatched depth in English literature, history, and the fine arts.",
+        "stats": { "avg_gpa": 3.75, "acceptance_rate": 8, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 80000 }
+      },
+      {
+        "name": "Science",
+        "description": "Premier programs in biochemistry, physics, and ecology research.",
+        "stats": { "avg_gpa": 3.8, "acceptance_rate": 15, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 90000 }
       }
     ],
     "common_sections": {
@@ -179,6 +410,26 @@
         "description": "Johns Hopkins is globally recognized for medical education, biomedical research, and hospital systems.",
         "stats": { "avg_gpa": 3.92, "avg_mcat": 521, "acceptance_rate": 6, "tuition_fee": 62000, "living_expense": 20000, "avg_salary": 180000, "avg_sat": 1500 },
         "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+      },
+      {
+        "name": "Engineering",
+        "description": "The Whiting School of Engineering is a leader in biomedical engineering and applied physics.",
+        "stats": { "avg_gpa": 3.85, "avg_gre": 328, "acceptance_rate": 18, "tuition_fee": 60000, "living_expense": 22000, "avg_salary": 130000 }
+      },
+      {
+        "name": "International Relations",
+        "description": "SAIS is one of the top programs for international relations and global diplomacy, based in DC.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 25, "tuition_fee": 55000, "living_expense": 25000, "avg_salary": 95000 }
+      },
+      {
+        "name": "Arts & Sciences",
+        "description": "The Zanvyl Krieger School of Arts and Sciences offers diverse research-oriented liberal arts programs.",
+        "stats": { "avg_gpa": 3.75, "acceptance_rate": 15, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 85000 }
+      },
+      {
+        "name": "Public Health",
+        "description": "The Bloomberg School of Public Health is the #1 ranked school of public health in the world.",
+        "stats": { "avg_gpa": 3.8, "acceptance_rate": 14, "tuition_fee": 52000, "living_expense": 20000, "avg_salary": 105000 }
       }
     ],
     "common_sections": {
