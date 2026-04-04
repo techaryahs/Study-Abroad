@@ -268,5 +268,1236 @@
     "common_sections": {
       "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 78000 }
     }
+  },
+  {
+  "_id": "uni_can_016",
+  "slug": "carleton-university",
+  "name": "Carleton University",
+  "logo": "https://www.google.com/s2/favicons?domain=carleton.ca&sz=128",
+  "location": { "city": "Ottawa", "state": "Ontario", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts and Social Sciences",
+      "description": "Faculty of Arts and Social Sciences offering programs in English, history, political science, sociology, global studies, and interdisciplinary humanities.",
+      "stats": {
+        "acceptance_rate": 20,
+        "tuition_fee": 48000,
+        "living_expense": 18000,
+        "avg_salary": 58000
+      },
+      "admitted_profiles": {
+        "toefl_min": 95,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Engineering and Computer Science",
+      "description": "Faculty of Engineering and Design plus School of Computer Science offering programs in systems and computer engineering, software engineering, and computer science with strong co‑op and research in AI and cybersecurity.",
+      "stats": {
+        "acceptance_rate": 10,
+        "tuition_fee": 52000,
+        "living_expense": 18000,
+        "avg_salary": 68000
+      },
+      "admitted_profiles": {
+        "toefl_min": 100,
+        "ielts_min": 7.0,
+        "toefl_avg": 108
+      }
+    },
+    {
+      "name": "Business",
+      "description": "Sprott School of Business offering undergraduate and graduate programs in business administration, economics, and management.",
+      "stats": {
+        "acceptance_rate": 12,
+        "tuition_fee": 50000,
+        "living_expense": 18000,
+        "avg_salary": 65000
+      },
+      "admitted_profiles": {
+        "toefl_min": 95,
+        "ielts_min": 6.5,
+        "toefl_avg": 102
+      }
+    },
+    {
+      "name": "Public Affairs and International Studies",
+      "description": "Arthur Kroeger College of Public Affairs and Norman Paterson School of International Affairs offering programs in public policy and international affairs.",
+      "stats": {
+        "acceptance_rate": 13,
+        "tuition_fee": 48000,
+        "living_expense": 18000,
+        "avg_salary": 60000
+      },
+      "admitted_profiles": {
+        "toefl_min": 95,
+        "ielts_min": 7.0,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Science",
+      "description": "Science faculty offering programs in physics, mathematics, environmental science, and related disciplines.",
+      "stats": {
+        "acceptance_rate": 14,
+        "tuition_fee": 49000,
+        "living_expense": 18000,
+        "avg_salary": 62000
+      },
+      "admitted_profiles": {
+        "toefl_min": 95,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 88,
+      "employed_within_3_months": 65,
+      "average_salary": 65000
+    }
   }
+},
+{
+  "_id": "uni_can_017",
+  "slug": "university-of-victoria",
+  "name": "University of Victoria",
+  "logo": "https://www.google.com/s2/favicons?domain=uvic.ca&sz=128",
+  "location": { "city": "Victoria", "state": "British Columbia", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts and Social Sciences",
+      "description": "Programs in English, history, political science, sociology, and interdisciplinary humanities and social sciences.",
+      "stats": {
+        "acceptance_rate": 65,
+        "tuition_fee": 43000,
+        "living_expense": 18000,
+        "avg_salary": 52000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 95
+      }
+    },
+    {
+      "name": "Engineering and Computer Science",
+      "description": "Faculty of Engineering and Computer Science focusing on computer engineering, software engineering, and applied computing with co‑op emphasis.",
+      "stats": {
+        "acceptance_rate": 55,
+        "tuition_fee": 45000,
+        "living_expense": 18000,
+        "avg_salary": 70000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 7.0,
+        "toefl_avg": 102
+      }
+    },
+    {
+      "name": "Business",
+      "description": "Peter B. Gustavson School of Business offering undergraduate and graduate business programs including finance and management.",
+      "stats": {
+        "acceptance_rate": 58,
+        "tuition_fee": 44000,
+        "living_expense": 18000,
+        "avg_salary": 65000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Science",
+      "description": "Science programs in biology, chemistry, earth and ocean sciences, mathematics, and related fields.",
+      "stats": {
+        "acceptance_rate": 60,
+        "tuition_fee": 43000,
+        "living_expense": 18000,
+        "avg_salary": 58000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 83,
+      "employed_within_3_months": 48,
+      "average_salary": 50000
+    }
+  }
+},
+{
+  "_id": "uni_can_018",
+  "slug": "concordia-university",
+  "name": "Concordia University",
+  "logo": "https://www.google.com/s2/favicons?domain=concordia.ca&sz=128",
+  "location": { "city": "Montreal", "state": "Quebec", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts and Science",
+      "description": "Faculty of Arts and Science offering programs in humanities, social sciences, and natural sciences.",
+      "stats": {
+        "acceptance_rate": 62,
+        "tuition_fee": 42000,
+        "living_expense": 17000,
+        "avg_salary": 54000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    },
+    {
+      "name": "Engineering and Computer Science",
+      "description": "Gina Cody School of Engineering and Computer Science with programs in computer science, software engineering, electrical engineering, and AI.",
+      "stats": {
+        "acceptance_rate": 55,
+        "tuition_fee": 45000,
+        "living_expense": 17000,
+        "avg_salary": 72000
+      },
+      "admitted_profiles": {
+        "toefl_min": 95,
+        "ielts_min": 7.0,
+        "toefl_avg": 105
+      }
+    },
+    {
+      "name": "Business",
+      "description": "John Molson School of Business offering undergraduate and graduate management, finance, and entrepreneurship programs.",
+      "stats": {
+        "acceptance_rate": 57,
+        "tuition_fee": 44000,
+        "living_expense": 17000,
+        "avg_salary": 68000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Fine Arts",
+      "description": "Creative programs in film, design, visual arts, music, theatre, and dance.",
+      "stats": {
+        "acceptance_rate": 65,
+        "tuition_fee": 42000,
+        "living_expense": 17000,
+        "avg_salary": 50000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 95
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 85,
+      "employed_within_3_months": 60,
+      "average_salary": 68000
+    }
+  }
+},
+{
+  "_id": "uni_can_019",
+  "slug": "memorial-university",
+  "name": "Memorial University of Newfoundland",
+  "logo": "https://www.google.com/s2/favicons?domain=mun.ca&sz=128",
+  "location": { "city": "St. John's", "state": "Newfoundland and Labrador", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Engineering and Applied Science",
+      "description": "Engineering and applied science programs with focus on offshore and marine‑related engineering and technology.",
+      "stats": {
+        "acceptance_rate": 65,
+        "tuition_fee": 35000,
+        "living_expense": 15000,
+        "avg_salary": 63000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Humanities and Social Sciences",
+      "description": "Programs in English, history, political science, sociology, and Indigenous‑focused studies.",
+      "stats": {
+        "acceptance_rate": 70,
+        "tuition_fee": 34000,
+        "living_expense": 15000,
+        "avg_salary": 52000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    },
+    {
+      "name": "Science",
+      "description": "Science programs in biology, chemistry, physics, and environmental sciences.",
+      "stats": {
+        "acceptance_rate": 68,
+        "tuition_fee": 34500,
+        "living_expense": 15000,
+        "avg_salary": 56000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    },
+    {
+      "name": "Business",
+      "description": "Faculty of Business offering business and economics‑oriented degrees.",
+      "stats": {
+        "acceptance_rate": 67,
+        "tuition_fee": 35000,
+        "living_expense": 15000,
+        "avg_salary": 60000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 82,
+      "employed_within_3_months": 55,
+      "average_salary": 60000
+    }
+  }
+},
+{
+  "_id": "uni_can_020",
+  "slug": "university-of-manitoba",
+  "name": "University of Manitoba",
+  "logo": "https://www.google.com/s2/favicons?domain=umanitoba.ca&sz=128",
+  "location": { "city": "Winnipeg", "state": "Manitoba", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Engineering",
+      "description": "Price Faculty of Engineering offering civil, mechanical, electrical, computer, and biosystems engineering programs.",
+      "stats": {
+        "acceptance_rate": 60,
+        "tuition_fee": 38000,
+        "living_expense": 16000,
+        "avg_salary": 68000
+      },
+      "admitted_profiles": {
+        "toefl_min": 86,
+        "ielts_min": 6.5,
+        "toefl_avg": 102
+      }
+    },
+    {
+      "name": "Science",
+      "description": "Science programs in biology, chemistry, physics, mathematics, and computer science.",
+      "stats": {
+        "acceptance_rate": 65,
+        "tuition_fee": 37000,
+        "living_expense": 16000,
+        "avg_salary": 60000
+      },
+      "admitted_profiles": {
+        "toefl_min": 86,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    },
+    {
+      "name": "Business",
+      "description": "I.H. Asper School of Business offering undergraduate and graduate business degrees.",
+      "stats": {
+        "acceptance_rate": 62,
+        "tuition_fee": 37500,
+        "living_expense": 16000,
+        "avg_salary": 65000
+      },
+      "admitted_profiles": {
+        "toefl_min": 86,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Arts and Social Sciences",
+      "description": "Broad humanities and social‑sciences programs including history, psychology, economics, and political science.",
+      "stats": {
+        "acceptance_rate": 68,
+        "tuition_fee": 36000,
+        "living_expense": 16000,
+        "avg_salary": 54000
+      },
+      "admitted_profiles": {
+        "toefl_min": 86,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 84,
+      "employed_within_3_months": 60,
+      "average_salary": 62000
+    }
+  }
+},
+{
+  "_id": "uni_can_021",
+  "slug": "university-of-windsor",
+  "name": "University of Windsor",
+  "logo": "https://www.google.com/s2/favicons?domain=uwindsor.ca&sz=128",
+  "location": { "city": "Windsor", "state": "Ontario", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Engineering",
+      "description": "Engineering programs with strengths in automotive, mechanical, electrical, and software engineering.",
+      "stats": {
+        "acceptance_rate": 65,
+        "tuition_fee": 36000,
+        "living_expense": 15000,
+        "avg_salary": 65000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 102
+      }
+    },
+    {
+      "name": "Science",
+      "description": "Science programs in biology, chemistry, physics, mathematics, and computer science.",
+      "stats": {
+        "acceptance_rate": 70,
+        "tuition_fee": 35000,
+        "living_expense": 15000,
+        "avg_salary": 58000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    },
+    {
+      "name": "Business",
+      "description": "Odette School of Business offering undergraduate and graduate business and management programs.",
+      "stats": {
+        "acceptance_rate": 68,
+        "tuition_fee": 36000,
+        "living_expense": 15000,
+        "avg_salary": 62000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Arts, Humanities and Social Sciences",
+      "description": "Broad humanities and social‑sciences programs including English, history, political science, and sociology.",
+      "stats": {
+        "acceptance_rate": 75,
+        "tuition_fee": 34000,
+        "living_expense": 15000,
+        "avg_salary": 52000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    },
+    {
+      "name": "Law",
+      "description": "Faculty of Law with JD and related legal studies.",
+      "stats": {
+        "acceptance_rate": 70,
+        "tuition_fee": 37000,
+        "living_expense": 15000,
+        "avg_salary": 70000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Health Sciences",
+      "description": "Nursing and health‑related programs focusing on clinical and community‑based care.",
+      "stats": {
+        "acceptance_rate": 66,
+        "tuition_fee": 37000,
+        "living_expense": 15000,
+        "avg_salary": 64000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 82,
+      "employed_within_3_months": 55,
+      "average_salary": 60000
+    }
+  }
+},
+{
+  "_id": "uni_can_022",
+  "slug": "toronto-metropolitan-university",
+  "name": "Toronto Metropolitan University",
+  "logo": "https://www.google.com/s2/favicons?domain=torontomu.ca&sz=128",
+  "location": { "city": "Toronto", "state": "Ontario", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Engineering and Computer Science",
+      "description": "Practice‑oriented engineering and computer science programs including software engineering, computer engineering, and applied AI.",
+      "stats": {
+        "acceptance_rate": 52,
+        "tuition_fee": 42000,
+        "living_expense": 20000,
+        "avg_salary": 68000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 102
+      }
+    },
+    {
+      "name": "Business",
+      "description": "Ted Rogers School of Management offering business, management, and entrepreneurship programs.",
+      "stats": {
+        "acceptance_rate": 55,
+        "tuition_fee": 43000,
+        "living_expense": 20000,
+        "avg_salary": 65000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Arts and Social Sciences",
+      "description": "Programs in communication, media, social sciences, and social innovation‑oriented studies.",
+      "stats": {
+        "acceptance_rate": 60,
+        "tuition_fee": 40000,
+        "living_expense": 20000,
+        "avg_salary": 54000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    },
+    {
+      "name": "Science",
+      "description": "Science and math‑oriented programs including biology, chemistry, and applied statistics.",
+      "stats": {
+        "acceptance_rate": 58,
+        "tuition_fee": 41000,
+        "living_expense": 20000,
+        "avg_salary": 60000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 85,
+      "employed_within_3_months": 60,
+      "average_salary": 65000
+    }
+  }
+},
+{
+  "_id": "uni_can_023",
+  "slug": "university-of-lethbridge",
+  "name": "University of Lethbridge",
+  "logo": "https://www.google.com/s2/favicons?domain=ulethbridge.ca&sz=128",
+  "location": { "city": "Lethbridge", "state": "Alberta", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts and Science",
+      "description": "Largest faculty with programs in humanities, social sciences, natural sciences, and mathematics.",
+      "stats": {
+        "acceptance_rate": 78,
+        "tuition_fee": 35000,
+        "living_expense": 14000,
+        "avg_salary": 52000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 95
+      }
+    },
+    {
+      "name": "Education",
+      "description": "Teacher education and educational‑leadership programs.",
+      "stats": {
+        "acceptance_rate": 80,
+        "tuition_fee": 34000,
+        "living_expense": 14000,
+        "avg_salary": 50000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    },
+    {
+      "name": "Fine Arts",
+      "description": "Creative programs in visual arts, music, theatre, and digital media.",
+      "stats": {
+        "acceptance_rate": 85,
+        "tuition_fee": 34000,
+        "living_expense": 14000,
+        "avg_salary": 48000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 93
+      }
+    },
+    {
+      "name": "Health Sciences",
+      "description": "Health‑related programs including kinesiology and health‑sciences‑oriented studies.",
+      "stats": {
+        "acceptance_rate": 75,
+        "tuition_fee": 35000,
+        "living_expense": 14000,
+        "avg_salary": 56000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 80,
+      "employed_within_3_months": 50,
+      "average_salary": 58000
+    }
+  }
+},{
+  "_id": "uni_can_024",
+  "slug": "lakehead-university",
+  "name": "Lakehead University",
+  "logo": "https://www.google.com/s2/favicons?domain=lakeheadu.ca&sz=128",
+  "location": { "city": "Thunder Bay", "state": "Ontario", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Engineering",
+      "description": "Engineering programs including civil, mechanical, electrical, chemical, and software engineering.",
+      "stats": {
+        "acceptance_rate": 70,
+        "tuition_fee": 32000,
+        "living_expense": 14000,
+        "avg_salary": 63000
+      },
+      "admitted_profiles": {
+        "toefl_min": 80,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    },
+    {
+      "name": "Science",
+      "description": "Science programs in biology, chemistry, computer science, mathematics, and environmental sciences.",
+      "stats": {
+        "acceptance_rate": 75,
+        "tuition_fee": 31000,
+        "living_expense": 14000,
+        "avg_salary": 58000
+      },
+      "admitted_profiles": {
+        "toefl_min": 80,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    },
+    {
+      "name": "Business",
+      "description": "Business and commerce programs including accounting, finance, business analytics, and management.",
+      "stats": {
+        "acceptance_rate": 72,
+        "tuition_fee": 32000,
+        "living_expense": 14000,
+        "avg_salary": 62000
+      },
+      "admitted_profiles": {
+        "toefl_min": 80,
+        "ielts_min": 6.5,
+        "toefl_avg": 97
+      }
+    },
+    {
+      "name": "Natural Resources Management",
+      "description": "Forestry, environmental management, and natural‑resources programs with focus on sustainability.",
+      "stats": {
+        "acceptance_rate": 80,
+        "tuition_fee": 31000,
+        "living_expense": 14000,
+        "avg_salary": 55000
+      },
+      "admitted_profiles": {
+        "toefl_min": 80,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    },
+    {
+      "name": "Health and Behavioural Sciences",
+      "description": "Nursing, psychology, kinesiology, social work, and health‑sciences programs.",
+      "stats": {
+        "acceptance_rate": 68,
+        "tuition_fee": 32000,
+        "living_expense": 14000,
+        "avg_salary": 60000
+      },
+      "admitted_profiles": {
+        "toefl_min": 80,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 81,
+      "employed_within_3_months": 55,
+      "average_salary": 56000
+    }
+  }
+},{
+  "_id": "uni_can_025",
+  "slug": "trent-university",
+  "name": "Trent University",
+  "logo": "https://www.google.com/s2/favicons?domain=trentu.ca&sz=128",
+  "location": { "city": "Peterborough", "state": "Ontario", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts and Humanities",
+      "description": "Humanities‑focused programs in English, history, philosophy, languages, and interdisciplinary studies.",
+      "stats": {
+        "acceptance_rate": 80,
+        "tuition_fee": 33000,
+        "living_expense": 14000,
+        "avg_salary": 50000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    },
+    {
+      "name": "Social Sciences",
+      "description": "Social‑sciences programs such as sociology, political science, economics, and Indigenous studies.",
+      "stats": {
+        "acceptance_rate": 78,
+        "tuition_fee": 32000,
+        "living_expense": 14000,
+        "avg_salary": 54000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    },
+    {
+      "name": "Science and Environmental Studies",
+      "description": "Science and environment‑focused programs in biology, chemistry, environmental science, and sustainability.",
+      "stats": {
+        "acceptance_rate": 75,
+        "tuition_fee": 34000,
+        "living_expense": 14000,
+        "avg_salary": 58000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    },
+    {
+      "name": "Education",
+      "description": "Teacher education and professional‑studies‑oriented education programs.",
+      "stats": {
+        "acceptance_rate": 82,
+        "tuition_fee": 32000,
+        "living_expense": 14000,
+        "avg_salary": 52000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 80,
+      "employed_within_3_months": 50,
+      "average_salary": 58000
+    }
+  }
+},
+{
+  "_id": "uni_can_026",
+  "slug": "brock-university",
+  "name": "Brock University",
+  "logo": "https://www.google.com/s2/favicons?domain=brocku.ca&sz=128",
+  "location": { "city": "St. Catharines", "state": "Ontario", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts",
+      "description": "Humanities programs in English, history, languages, philosophy, and interdisciplinary arts and culture studies.",
+      "stats": {
+        "acceptance_rate": 72,
+        "tuition_fee": 34000,
+        "living_expense": 15000,
+        "avg_salary": 52000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    },
+    {
+      "name": "Social Sciences",
+      "description": "Programs in psychology, sociology, political science, economics, and criminal justice.",
+      "stats": {
+        "acceptance_rate": 70,
+        "tuition_fee": 34000,
+        "living_expense": 15000,
+        "avg_salary": 56000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    },
+    {
+      "name": "Education",
+      "description": "Faculty of Education offering teacher‑education and graduate programs in education leadership and policy.",
+      "stats": {
+        "acceptance_rate": 75,
+        "tuition_fee": 33000,
+        "living_expense": 15000,
+        "avg_salary": 54000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 95
+      }
+    },
+    {
+      "name": "Business",
+      "description": "Goodman School of Business offering undergraduate and graduate programs in business, accounting, and management.",
+      "stats": {
+        "acceptance_rate": 68,
+        "tuition_fee": 36000,
+        "living_expense": 15000,
+        "avg_salary": 62000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Health Sciences",
+      "description": "Programs in nursing, health sciences, kinesiology, and public‑health‑oriented studies.",
+      "stats": {
+        "acceptance_rate": 66,
+        "tuition_fee": 37000,
+        "living_expense": 15000,
+        "avg_salary": 64000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    },
+    {
+      "name": "Mathematics & Statistics",
+      "description": "Mathematics, statistics, and applied data‑science‑oriented programs with strong analytics focus.",
+      "stats": {
+        "acceptance_rate": 67,
+        "tuition_fee": 35000,
+        "living_expense": 15000,
+        "avg_salary": 60000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 97
+      }
+    },
+    {
+      "name": "Computer Science & Digital Arts",
+      "description": "Computer science, interactive arts and science, and digital media programs with strong interdisciplinary tech focus.",
+      "stats": {
+        "acceptance_rate": 65,
+        "tuition_fee": 37000,
+        "living_expense": 15000,
+        "avg_salary": 68000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 102
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 81,
+      "employed_within_3_months": 52,
+      "average_salary": 56000
+    }
+  }
+},{
+  "_id": "uni_can_027",
+  "slug": "ontario-tech-university",
+  "name": "Ontario Tech University",
+  "logo": "https://www.google.com/s2/favicons?domain=ontariotechu.ca&sz=128",
+  "location": { "city": "Oshawa", "state": "Ontario", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Engineering",
+      "description": "Engineering programs with focus on automotive, mechatronics, computer, and environmental engineering.",
+      "stats": {
+        "acceptance_rate": 58,
+        "tuition_fee": 42000,
+        "living_expense": 16000,
+        "avg_salary": 65000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 102
+      }
+    },
+    {
+      "name": "Computer Science & IT",
+      "description": "Computer science, cybersecurity, data analytics, and IT‑oriented programs with strong co‑op.",
+      "stats": {
+        "acceptance_rate": 55,
+        "tuition_fee": 44000,
+        "living_expense": 16000,
+        "avg_salary": 70000
+      },
+      "admitted_profiles": {
+        "toefl_min": 92,
+        "ielts_min": 7.0,
+        "toefl_avg": 104
+      }
+    },
+    {
+      "name": "Business",
+      "description": "L‑PSB School of Business offering technology‑infused business, management, and analytics programs.",
+      "stats": {
+        "acceptance_rate": 60,
+        "tuition_fee": 43000,
+        "living_expense": 16000,
+        "avg_salary": 63000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Science",
+      "description": "Science programs in physics, chemistry, and applied environmental sciences.",
+      "stats": {
+        "acceptance_rate": 62,
+        "tuition_fee": 41000,
+        "living_expense": 16000,
+        "avg_salary": 58000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 83,
+      "employed_within_3_months": 55,
+      "average_salary": 63000
+    }
+  }
+},{
+  "_id": "uni_can_028",
+  "slug": "university-of-guelph",
+  "name": "University of Guelph",
+  "logo": "https://www.google.com/s2/favicons?domain=uoguelph.ca&sz=128",
+  "location": { "city": "Guelph", "state": "Ontario", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts",
+      "stats": {
+        "acceptance_rate": 70,
+        "tuition_fee": 34000,
+        "living_expense": 16000,
+        "avg_salary": 52000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 95
+      }
+    },
+    {
+      "name": "Social Sciences",
+      "stats": {
+        "acceptance_rate": 68,
+        "tuition_fee": 35000,
+        "living_expense": 16000,
+        "avg_salary": 56000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 97
+      }
+    },
+    {
+      "name": "Business",
+      "stats": {
+        "acceptance_rate": 65,
+        "tuition_fee": 37000,
+        "living_expense": 16000,
+        "avg_salary": 62000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 100
+      }
+    },
+    {
+      "name": "Engineering & Computing",
+      "description": "Engineering, computer science, and data‑science‑oriented programs with strong industry‑project focus.",
+      "stats": {
+        "acceptance_rate": 62,
+        "tuition_fee": 38000,
+        "living_expense": 16000,
+        "avg_salary": 65000
+      },
+      "admitted_profiles": {
+        "toefl_min": 90,
+        "ielts_min": 6.5,
+        "toefl_avg": 102
+      }
+    },
+    {
+      "name": "Agriculture & Food",
+      "description": "Agriculture, food science, and environmental agricultural programs.",
+      "stats": {
+        "acceptance_rate": 75,
+        "tuition_fee": 34000,
+        "living_expense": 16000,
+        "avg_salary": 54000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 84,
+      "employed_within_3_months": 58,
+      "average_salary": 60000
+    }
+  }
+},{
+  "_id": "uni_can_029",
+  "slug": "university-of-regina",
+  "name": "University of Regina",
+  "logo": "https://www.google.com/s2/favicons?domain=uregina.ca&sz=128",
+  "location": { "city": "Regina", "state": "Saskatchewan", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts",
+      "stats": {
+        "acceptance_rate": 74,
+        "tuition_fee": 32000,
+        "living_expense": 14000,
+        "avg_salary": 50000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    },
+    {
+      "name": "Science",
+      "stats": {
+        "acceptance_rate": 72,
+        "tuition_fee": 33000,
+        "living_expense": 14000,
+        "avg_salary": 56000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    },
+    {
+      "name": "Engineering & Computer Science",
+      "description": "Engineering and computer science with energy, AI, and applied‑software‑development focus.",
+      "stats": {
+        "acceptance_rate": 68,
+        "tuition_fee": 34000,
+        "living_expense": 14000,
+        "avg_salary": 60000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 98
+      }
+    },
+    {
+      "name": "Business",
+      "stats": {
+        "acceptance_rate": 70,
+        "tuition_fee": 33000,
+        "living_expense": 14000,
+        "avg_salary": 58000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 97
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 82,
+      "employed_within_3_months": 53,
+      "average_salary": 56000
+    }
+  }
+},{
+  "_id": "uni_can_030",
+  "slug": "university-of-northern-british-columbia",
+  "name": "University of Northern British Columbia",
+  "logo": "https://www.google.com/s2/favicons?domain=unbc.ca&sz=128",
+  "location": { "city": "Prince George", "state": "British Columbia", "country": "Canada" },
+  "branches": [
+    {
+      "name": "Arts & Science",
+      "stats": {
+        "acceptance_rate": 78,
+        "tuition_fee": 30000,
+        "living_expense": 13000,
+        "avg_salary": 50000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 93
+      }
+    },
+    {
+      "name": "Engineering & Environmental Science",
+      "description": "Engineering and environmental‑science‑linked programs with northern‑resource and sustainability focus.",
+      "stats": {
+        "acceptance_rate": 72,
+        "tuition_fee": 32000,
+        "living_expense": 13000,
+        "avg_salary": 58000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 96
+      }
+    },
+    {
+      "name": "Business",
+      "stats": {
+        "acceptance_rate": 75,
+        "tuition_fee": 31000,
+        "living_expense": 13000,
+        "avg_salary": 54000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 80,
+      "employed_within_3_months": 50,
+      "average_salary": 53000
+    }
+  }
+}
 ]
