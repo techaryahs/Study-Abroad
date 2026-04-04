@@ -8,13 +8,61 @@
     "branches": [
       {
         "name": "Engineering",
-        "description": "TUM is one of Europe’s top technical universities, known for innovation, research excellence, and strong industry ties.",
-        "stats": { "avg_gpa": 3.6, "avg_gre": 323, "acceptance_rate": 8, "tuition_fee": 19492, "living_expense": 11644, "avg_salary": 108354 },
+        "description": "Consistently ranked as Germany’s best engineering faculty with top-tier research in climate-neutral tech.",
+        "stats": { "avg_gpa": 3.6, "avg_gre": 323, "acceptance_rate": 8, "tuition_fee": 12000, "living_expense": 11644, "avg_salary": 108354 },
         "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Leading faculty for robotics, AI, and distributed systems with massive industry funding.",
+        "stats": { "avg_gpa": 3.7, "avg_gre": 325, "acceptance_rate": 7, "tuition_fee": 12000, "living_expense": 11644, "avg_salary": 115000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 100 }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "International programs in molecular biology, biochemistry, and plant sciences.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 9, "tuition_fee": 12000, "living_expense": 11644, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Elite medical studies integrated with clinical research at the MRI Hospital.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 15000, "living_expense": 11644, "avg_salary": 120000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Management",
+        "description": "Triple-accredited management school focused on the intersection of management and technology.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 10000, "living_expense": 11644, "avg_salary": 95000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 97 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "Physics, Chemistry, and Math programs that have produced multiple Nobel laureates.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 8000, "living_expense": 11644, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Aerospace & Geodesy",
+        "description": "Dedicated department for aerospace engineering and satellite navigation.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 6, "tuition_fee": 12000, "living_expense": 11644, "avg_salary": 110000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 100 }
+      },
+      {
+        "name": "Sport & Health Sciences",
+        "description": "Leading faculty for sports science, health promotion, and nutrition research.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 15, "tuition_fee": 6000, "living_expense": 11644, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Education",
+        "description": "Focused on STEM education and vocational training in a technical university context.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 4000, "living_expense": 11644, "avg_salary": 68000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 85, "employed_within_3_months": 75, "average_salary": 60000 }
+      "employment_figures": { "employed": 85, "employed_within_3_months": 80, "average_salary": 92000 }
     }
   },
   {
@@ -26,13 +74,61 @@
     "branches": [
       {
         "name": "Business",
-        "description": "LMU Munich is one of Europe’s most prestigious universities, offering top-tier programs in business and economics.",
-        "stats": { "avg_gpa": 3.6, "avg_gre": 322, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 85000 },
+        "description": "Renowned Business School with deep roots in management science and digital strategy.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Economics",
+        "description": "Leading faculty for applied economics research with focus on public policy.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 11, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Law",
+        "description": "Historically significant law faculty with specializations in Civil and International Law.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 9, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+      },
+      {
+        "name": "Medicine",
+        "description": "One of Germany's top medical training centers, home to Nobel prize winning research.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 3, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 115000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "Comprehensive programs in Physics, Chemistry, and Biology within a high-tech ecosystem.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Broad spectrum of cultural, historical, and language studies with global recognition.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Strong research in Sociology, Psychology, and Political Science.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Veterinary Medicine",
+        "description": "Elite veterinary training and research center with historic clinic facilities.",
+        "stats": { "avg_gpa": 3.8, "acceptance_rate": 5, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Cultural Studies",
+        "description": "Interdisciplinary focus on art history, archaeology, and world cultures.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 62000 },
         "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 78, "average_salary": 65000 }
+      "employment_figures": { "employed": 87, "employed_within_3_months": 82, "average_salary": 78000 }
     }
   },
   {
@@ -44,13 +140,79 @@
     "branches": [
       {
         "name": "Medicine",
-        "description": "Heidelberg is Germany’s oldest university and a global leader in medical and life sciences research.",
-        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 1500, "living_expense": 11000, "avg_salary": 85000 },
+        "description": "Germany’s highest-ranked medical faculty with world-class clinical research facilities.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 85000 },
         "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "Research powerhous in molecular biology, genetics, and biotechnology.",
+        "stats": { "avg_gpa": 3.8, "acceptance_rate": 6, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Biotechnology",
+        "description": "Advanced studies in biotech and pharma-science in a life-science intensive region.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 7, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Physics & Astronomy",
+        "description": "Pioneering faculty in quantum physics, astrophysics, and material science.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 10, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Law",
+        "description": "One of the most prestigious law faculties in Germany with major international influence.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 12, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Wide-ranging programs in history, philosophy, and classical studies.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 15, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 60000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Focused research in political science, economics, and behavioral sciences.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Biosciences",
+        "description": "Top-tier center for biology, biochemistry, and life-science innovations.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 8, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Theology",
+        "description": "Historic faculty with focus on ecumenical and biblical research traditions.",
+        "stats": { "avg_gpa": 3.3, "acceptance_rate": 20, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 55000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "Advanced research in physics, chemistry, and molecular biology.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "Top-tier center for biology, neuroscience, and translational science.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 8, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Theology",
+        "description": "Historic faculty for theological and religious studies and ethics research.",
+        "stats": { "avg_gpa": 3.3, "acceptance_rate": 22, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 54000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 102 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 86, "employed_within_3_months": 78, "average_salary": 62000 }
+      "employment_figures": { "employed": 86, "employed_within_3_months": 80, "average_salary": 78000 }
     }
   },
   {
@@ -61,14 +223,62 @@
     "location": { "city": "Berlin", "state": "Berlin", "country": "Germany" },
     "branches": [
       {
-        "name": "International Studies",
-        "description": "Freie Universität Berlin is known for its strong focus on international relations and political science.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 80000 },
+        "name": "International Relations",
+        "description": "Globally ranked IR programs with focus on diplomacy, international law, and global systems.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 80000 },
         "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Political Science",
+        "description": "Top research faculty in theoretical and empirical political science.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Sociology",
+        "description": "Influential research in demographic shifts, social stratification, and public policy.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Distinguished programs in literature, history, and area studies.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Law",
+        "description": "Modern law faculty with emphasis on European and International commercial law.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Business",
+        "description": "Specialized programs in digital management and finance in the capital's startup hub.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Electrical Engineering",
+        "description": "Excellence in smart grids, telecommunications, and digital systems.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Planning Building Environment",
+        "description": "Focused research on urban planning, environmental tech, and civil engineering.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Humanities & Education",
+        "description": "Specialized teacher training and historical studies in a technical context.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 84, "employed_within_3_months": 76, "average_salary": 58000 }
+      "employment_figures": { "employed": 84, "employed_within_3_months": 78, "average_salary": 72000 }
     }
   },
   {
@@ -80,13 +290,77 @@
     "branches": [
       {
         "name": "Engineering",
-        "description": "KIT is one of Germany’s top engineering universities, known for innovation and applied research.",
-        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 90000 },
+        "description": "World-class engineering faculty with massive clusters in energy and mobility research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 90000 },
         "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Leading faculty for software engineering, cybersecurity, and cloud tech.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 9, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 95000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Robotics",
+        "description": "Advanced center for human-machine interaction and intelligent robotic systems.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 8, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 98000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Architecture",
+        "description": "Focus on high-tech building systems and sustainable urban design.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Economics & Management",
+        "description": "Specialized programs in industrial engineering and tech-oriented management.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "High-impact research in physics, chemistry, and materials science.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Strong CS programs with research in AI and systems.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 15,
+          "tuition_fee": 1500,
+          "living_expense": 10500,
+          "avg_salary": 90000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 93
+        }
+      },
+      {
+        "name": "Chemistry & Pharmacy",
+        "description": "Advanced technical studies in medicinal chemistry and clinical pharmacy.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Biology",
+        "description": "Leading research in plant sciences, neurobiology, and evolutionary theory.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Philology",
+        "description": "Specialized focus on linguistics, comparative literature, and world languages.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 60000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 88, "employed_within_3_months": 80, "average_salary": 70000 }
+      "employment_figures": { "employed": 88, "employed_within_3_months": 83, "average_salary": 90000 }
     }
   },
   {
@@ -97,14 +371,62 @@
     "location": { "city": "Aachen", "state": "North Rhine-Westphalia", "country": "Germany" },
     "branches": [
       {
-        "name": "Engineering",
-        "description": "RWTH Aachen is one of Europe’s leading engineering institutions with strong industry partnerships.",
-        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 92000 },
+        "name": "Mechanical Engineering",
+        "description": "Europe’s premier faculty for mechanical and production engineering.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 8, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 100 }
+      },
+      {
+        "name": "Electrical Engineering",
+        "description": "Top research in photonics, semiconductor technology, and power grids.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 9, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 94000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Industrial Engineering",
+        "description": "Highly successful blend of technical engineering and management science.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 11, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 90000 },
         "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Elite CS programs with strong focus on software construction and AI.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 7, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 95000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 100 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Integrated medical studies with technological focus at the University Hospital RWTH Aachen.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 110000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Business",
+        "description": "Technology-driven business programs within an engineering-heavy ecosystem.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Civil Engineering",
+        "description": "Leading civil engineering programs for urban systems and construction management.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Electrical Engineering",
+        "description": "Pioneering focus on power systems, automation, and microelectronics.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 95000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Georesources & Materials",
+        "description": "Unique research in sustainable mining, recycling, and high-performance materials.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 89, "employed_within_3_months": 82, "average_salary": 72000 }
+      "employment_figures": { "employed": 89, "employed_within_3_months": 85, "average_salary": 94000 }
     }
   },
   {
@@ -116,13 +438,43 @@
     "branches": [
       {
         "name": "Economics",
-        "description": "Humboldt University is one of Germany’s most prestigious institutions with strong emphasis on research.",
-        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "description": "Globally respected economics faculty with strong emphasis on econometrics and research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Philosophy",
+        "description": "Historic faculty with world-renowned research in analytical and continental philosophy.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Interdisciplinary research focus on society, urban life, and democratic systems.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 75000 },
         "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Law",
+        "description": "Elite law studies with major focus on constitutional and European legal frameworks.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "Strong programs in agriculture, biology, and molecular sciences.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Arts & Humanities",
+        "description": "Comprehensive studies in history, languages, and cultural heritage.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 85, "employed_within_3_months": 77, "average_salary": 60000 }
+      "employment_figures": { "employed": 85, "employed_within_3_months": 80, "average_salary": 80000 }
     }
   },
   {
@@ -134,13 +486,43 @@
     "branches": [
       {
         "name": "Engineering",
-        "description": "TU Berlin is a leading technical university known for engineering, innovation, and research excellence.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 88000 },
+        "description": "Leading faculty for mechanical, automotive, and aerospace engineering.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 88000 },
         "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Advanced degrees in distributed systems, AI, and data technology.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 11, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Architecture",
+        "description": "Distinguished programs in urban design and modern building tech.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Economics & Management",
+        "description": "Management programs integrated with innovation and technical contexts.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Humanities (Integrated Tech)",
+        "description": "Unique studies in ethics of technology and history of science.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 68000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Physics & Math",
+        "description": "Focus on optics, solid-state physics, and applied mathematics.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 79, "average_salary": 65000 }
+      "employment_figures": { "employed": 87, "employed_within_3_months": 82, "average_salary": 85000 }
     }
   },
   {
@@ -152,34 +534,187 @@
     "branches": [
       {
         "name": "Business",
-        "description": "University of Hamburg offers strong programs in business and economics with emphasis on research.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 80000 },
-        "admitted_profiles": { "toefl_min": 82, "ielts_min": 6.0, "toefl_avg": 90 }
-      }
-    ],
-    "common_sections": {
-      "employment_figures": { "employed": 85, "employed_within_3_months": 77, "average_salary": 60000 }
-    }
-  },
-  {
-    "_id": "uni_010",
-    "slug": "university-of-freiburg",
-    "name": "Albert-Ludwigs-Universitaet Freiburg",
-    "logo": "https://www.google.com/s2/favicons?domain=uni-freiburg.de&sz=128",
-    "location": { "city": "Freiburg", "state": "Baden-Württemberg", "country": "Germany" },
-    "branches": [
+        "description": "Leading faculty for business and marketing in Germany's largest port city.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 100 }
+      },
       {
-        "name": "Sustainability Studies",
-        "description": "University of Freiburg is known for sustainability, environmental sciences, and interdisciplinary research.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 80000 },
+        "name": "Economics",
+        "description": "Strong research programs in global markets, policy and econometrics.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Finance",
+        "description": "Specialized degrees in risk management and investment banking.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 13, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Premier medical education at the UKE (University Medical Center Hamburg-Eppendorf).",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 110000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Law",
+        "description": "Respected faculty with strong focus on maritime and commercial law.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 11, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Broad research in history, languages, and cross-cultural studies.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "High-impact studies in chemistry, physics, and earth sciences.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Law",
+        "description": "Respected faculty for maritime and commercial law hub in Northern Germany.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Psychology & Human Movement",
+        "description": "Strong reputation for behavioral sciences and sport sociology research.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Education",
+        "description": "Comprehensive school pedagogy and teacher training for a diverse urban area.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 11000, "avg_salary": 65000 },
         "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 86, "employed_within_3_months": 78, "average_salary": 62000 }
+      "employment_figures": { "employed": 85, "employed_within_3_months": 80, "average_salary": 76000 }
     }
   },
-  {
+ {
+  "_id": "uni_010",
+  "slug": "university-of-freiburg",
+  "name": "Albert-Ludwigs-Universität Freiburg",
+  "logo": "https://www.google.com/s2/favicons?domain=uni-freiburg.de&sz=128",
+  "location": {
+    "city": "Freiburg",
+    "state": "Baden-Württemberg",
+    "country": "Germany"
+  },
+  "branches": [
+    {
+      "name": "Sustainability Studies",
+      "description": "One of Europe’s leading universities for sustainability and environmental policy.",
+      "stats": {
+        "avg_gpa": 3.5,
+        "acceptance_rate": 14,
+        "tuition_fee": 1500,
+        "living_expense": 10500,
+        "avg_salary": 80000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 94
+      }
+    },
+    {
+      "name": "Environmental Science",
+      "description": "Focus on climate change, ecosystems, and environmental systems.",
+      "stats": {
+        "avg_gpa": 3.5,
+        "acceptance_rate": 13,
+        "tuition_fee": 1500,
+        "living_expense": 10500,
+        "avg_salary": 78000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 92
+      }
+    },
+    {
+      "name": "Renewable Energy Engineering",
+      "description": "Specialization in solar, wind, and sustainable energy systems.",
+      "stats": {
+        "avg_gpa": 3.6,
+        "acceptance_rate": 12,
+        "tuition_fee": 1500,
+        "living_expense": 10500,
+        "avg_salary": 82000
+      },
+      "admitted_profiles": {
+        "toefl_min": 88,
+        "ielts_min": 6.5,
+        "toefl_avg": 95
+      }
+    },
+    {
+      "name": "Forestry & Environmental Management",
+      "description": "Globally recognized programs in forestry and ecosystem management.",
+      "stats": {
+        "avg_gpa": 3.4,
+        "acceptance_rate": 16,
+        "tuition_fee": 1500,
+        "living_expense": 10500,
+        "avg_salary": 75000
+      },
+      "admitted_profiles": {
+        "toefl_min": 82,
+        "ielts_min": 6.0,
+        "toefl_avg": 90
+      }
+    },
+    {
+      "name": "Computer Science",
+      "description": "Strong CS programs with research in AI and systems.",
+      "stats": {
+        "avg_gpa": 3.5,
+        "acceptance_rate": 15,
+        "tuition_fee": 1500,
+        "living_expense": 10500,
+        "avg_salary": 90000
+      },
+      "admitted_profiles": {
+        "toefl_min": 85,
+        "ielts_min": 6.5,
+        "toefl_avg": 93
+      }
+    },
+    {
+      "name": "Chemistry & Pharmacy",
+      "description": "Advanced technical studies in medicinal chemistry and clinical pharmacy.",
+      "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 88000 },
+      "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+    },
+    {
+      "name": "Biology",
+      "description": "Leading research in plant sciences, neurobiology, and evolutionary theory.",
+      "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 76000 },
+      "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+    },
+    {
+      "name": "Philology",
+      "description": "Specialized focus on linguistics, comparative literature, and world languages.",
+      "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 60000 },
+      "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+    }
+  ],
+  "common_sections": {
+    "employment_figures": {
+      "employed": 86,
+      "employed_within_3_months": 78,
+      "average_salary": 62000
+    }
+  }
+},{
     "_id": "uni_011",
     "slug": "university-of-bonn",
     "name": "University of Bonn",
@@ -188,13 +723,61 @@
     "branches": [
       {
         "name": "Economics",
-        "description": "University of Bonn is globally recognized for economics and research excellence.",
-        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "description": "One of the world’s leading centers for microeconomics and game theory.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
+      },
+      {
+        "name": "Mathematics",
+        "description": "Historic faculty with global reputation for fundamental research and excellence.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Data Science",
+        "description": "Modern interdisciplinary program merging mathematics and computational science.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 11, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 90000 },
         "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Leading faculty with major research focus on life-science medical applications.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 105000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Law",
+        "description": "Traditional law programs with strong focus on German and International legal theory.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 11, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Agriculture",
+        "description": "Unique research focus on soil science, plant nutrition, and sustainability.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Broad research fields in history, philosophy, and cultural anthropology.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Life & Medical Sciences",
+        "description": "Innovative center for molecular medicine and high-tech biotechnology.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 8, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Philosophy",
+        "description": "Historic faculty for theoretical philosophy and ethical research traditions.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 58000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 79, "average_salary": 63000 }
+      "employment_figures": { "employed": 87, "employed_within_3_months": 82, "average_salary": 75000 }
     }
   },
   {
@@ -205,14 +788,62 @@
     "location": { "city": "Tübingen", "state": "Baden-Württemberg", "country": "Germany" },
     "branches": [
       {
-        "name": "AI & Data Science",
-        "description": "Tübingen is globally recognized for artificial intelligence and research excellence.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 1500, "living_expense": 11000, "avg_salary": 78000 },
+        "name": "Artificial Intelligence",
+        "description": "Part of the Cyber Valley hub, focusing on advanced robotics and ML research.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 100 }
+      },
+      {
+        "name": "Machine Learning",
+        "description": "Elite research programs in deep learning, computer vision, and autonomous systems.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Neuroscience",
+        "description": "Top-tier brain research institute merging biology with digital computation.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Renowned clinical faculty with specializations in pharmacology and medical tech.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 102000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Law",
+        "description": "Historic law studies focus on constitutional law and international comparisons.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 12, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "Diverse research programs in biochemistry, plant biology, and geosciences.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 16, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 76000 },
         "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Strong legacy in philosophy, religious studies, and classical philology.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
+      },
+      {
+        "name": "Theology",
+        "description": "Renowned center for Protestant and Catholic theological research.",
+        "stats": { "avg_gpa": 3.3, "acceptance_rate": 20, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 55000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Economics",
+        "description": "Focus on institutional economics, finance, and empirical methods.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 86, "employed_within_3_months": 77, "average_salary": 62000 }
+      "employment_figures": { "employed": 86, "employed_within_3_months": 80, "average_salary": 82000 }
     }
   },
   {
@@ -224,13 +855,61 @@
     "branches": [
       {
         "name": "Engineering",
-        "description": "TU Dresden is a leading engineering university known for strong research and innovation.",
+        "description": "Top technical programs in mechanical and automotive systems, part of Silicon Saxony.",
         "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 85000 },
-        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.5, "toefl_avg": 90 }
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
+      },
+      {
+        "name": "Microelectronics",
+        "description": "Global center for advanced semiconductor research and nanotechnology.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 13, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Civil Engineering",
+        "description": "Innovative center for sustainable urban systems and construction tech.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Leading research focus on personalized medicine and biotechnology.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 5, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 100000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Economics",
+        "description": "Modern economics and management programs integrated with technical studies.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Specialized focus on cultural management, history, and media studies.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "Focused research in molecular bio-engineering and solid-state physics.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Architecture",
+        "description": "Innovative center for modern urban design and sustainable architecture.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 64000 },
+        "admitted_profiles": { "toefl_min": 82, "ielts_min": 6.0, "toefl_avg": 90 }
+      },
+      {
+        "name": "Environmental Sciences",
+        "description": "Leading faculty for ecology, hydrobiology, and forestry research.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 80, "average_salary": 63000 }
+      "employment_figures": { "employed": 87, "employed_within_3_months": 82, "average_salary": 80000 }
     }
   },
   {
@@ -242,13 +921,967 @@
     "branches": [
       {
         "name": "Engineering",
-        "description": "FAU Erlangen-Nürnberg is a top German university for engineering and innovation.",
+        "description": "Powerhouse in innovative technical sciences with major industry partnerships (Siemens).",
         "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Artificial Intelligence",
+        "description": "Leading faculty for pattern recognition, medical AI, and computer vision.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Business Economics",
+        "description": "Renowned School of Business and Economics based in Nuremberg with global network.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 17, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Medicine",
+        "description": "High-impact research focus on medical engineering and clinical practice.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 5, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 105000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Law",
+        "description": "Traditional law programs with strong focus on German legal tradition.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "Broad spectrum research in chemistry, earth systems, and biology.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Comprehensive humanities research in cultural and social studies.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Sciences",
+        "description": "Wide-ranging research in physics, chemistry, and biological sciences.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Theology",
+        "description": "Historic faculty focus on practical theology and ecumenical research.",
+        "stats": { "avg_gpa": 3.3, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 54000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 102 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 82, "average_salary": 90000 }
+    }
+  },
+  {
+    "_id": "uni_015",
+    "slug": "university-of-mannheim",
+    "name": "University of Mannheim",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-mannheim.de&sz=128",
+    "location": { "city": "Mannheim", "state": "Baden-Württemberg", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "Consistent #1 ranked business school in Germany with global recognition.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 15, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 98000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 108 }
+      },
+      {
+        "name": "Economics",
+        "description": "Prestigious research center for quantitative and theoretical economics.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Information Systems",
+        "description": "High-impact interdisciplinary programs merging management and technical CS.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 16, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 6.5, "toefl_avg": 100 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Global hub for empirical sociology and political science research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 20, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Broad programs in media studies, history, and modern languages.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 22, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 96 }
+      },
+      {
+        "name": "Law",
+        "description": "Traditional law faculty focused on economic law and legal foundations.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Mathematics",
+        "description": "Research programs in pure and applied mathematics with focus on business applications.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Arts",
+        "description": "Broad focus on modern culture, media, and creative industries.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 60000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Business Informatics",
+        "description": "Leading interdisciplinary program merging data science and management.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 6.5, "toefl_avg": 102 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 92, "employed_within_3_months": 88, "average_salary": 92000 }
+    }
+  },
+  {
+    "_id": "uni_016",
+    "slug": "university-of-stuttgart",
+    "name": "University of Stuttgart",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-stuttgart.de&sz=128",
+    "location": { "city": "Stuttgart", "state": "Baden-Württemberg", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Mechanical Engineering",
+        "description": "Premier center for automotive and aerospace research hubs in Germany.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Highly advanced research in high-performance computing and visualization systems.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Civil Engineering",
+        "description": "Focus on structural engineering, environmental fluid mechanics, and sustainable cities.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Architecture",
+        "description": "Innovative degrees in integrative computational design and construction tech.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "Strong physics and chemistry programs with specialization in materials science.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Business Administration",
+        "description": "Technical-oriented management programs within a large technical university context.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Interdisciplinary focus on technology, media, and society studies.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Management & Social Sciences",
+        "description": "Technical-oriented sociology, psychology, and management programs.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Economics",
+        "description": "Research powerhous for sustainable economy and technological innovations.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 3000, "living_expense": 11000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 89, "employed_within_3_months": 85, "average_salary": 90000 }
+    }
+  },
+  {
+    "_id": "uni_017",
+    "slug": "tu-darmstadt",
+    "name": "TU Darmstadt",
+    "logo": "https://www.google.com/s2/favicons?domain=tu-darmstadt.de&sz=128",
+    "location": { "city": "Darmstadt", "state": "Hesse", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Computer Science",
+        "description": "Consistently ranked as one of Germany's top CS faculties with major cybersecurity focus.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 95000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Electrical Engineering",
+        "description": "Global research in microelectronics, control systems, and power technology.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Mechanical Engineering",
+        "description": "Innovative center for production technology and robotics integration.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Civil Engineering",
+        "description": "Advanced research in transport systems and sustainable building materials.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Architecture",
+        "description": "Modern focus on tech-based design architectures and urban ecosystems.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 68000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Economics",
+        "description": "Innovation-centered economics programs for the digital era.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Physics",
+        "description": "High-impact research in quantum technologies and nuclear physics.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 13, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Human Sciences",
+        "description": "Innovative center for cognitive psychology, education, and sports science.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "History & Social Sciences",
+        "description": "Advanced research in political science, modern history, and societal shifts.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 64000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 90, "employed_within_3_months": 85, "average_salary": 94000 }
+    }
+  },
+  {
+    "_id": "uni_018",
+    "slug": "university-of-cologne",
+    "name": "University of Cologne",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-koeln.de&sz=128",
+    "location": { "city": "Cologne", "state": "North Rhine-Westphalia", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "One of Germany's most prestigious faculties for management and accounting.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Economics",
+        "description": "Research powerhous in public policy, behaviorial economics, and finance.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
+      },
+      {
+        "name": "Law",
+        "description": "Famed law faculty with global research network and large alumni presence.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Major focus on health economics, oncology, and general clinical excellence.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 110000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Broad research fields in history, philosophy, and cultural studies.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Top-tier research in empirical social science and political processes.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Natural Sciences",
+        "description": "Strong physics, chemistry, and biology programs within a central European research hub.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Human Sciences",
+        "description": "Premier center for educational research, therapy, and psychology.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Arts and Humanities",
+        "description": "Comprehensive studies in philosophy, modern languages, and historical theory.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 104 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 86, "employed_within_3_months": 80, "average_salary": 78000 }
+    }
+  },
+  {
+    "_id": "uni_019",
+    "slug": "university-of-gottingen",
+    "name": "University of Göttingen",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-goettingen.de&sz=128",
+    "location": { "city": "Göttingen", "state": "Lower Saxony", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Life Sciences",
+        "description": "Historic faculty with global prestige in biodiversity and molecular biology studies.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 75000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Physics",
+        "description": "Famed physics hub with legacy of Einstein and Planck, focus on quantum matter research.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Law",
+        "description": "Respected faculty with strong legal theory and human rights specialization.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Economics",
+        "description": "Focus on international development economics and macro-policy research.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Extensive programs in history, theology, and philosophy.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 60000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Empirical systems focus on political science and sociological processes.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Mathematics",
+        "description": "Strong reputation in mathematical physics and logic research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Agricultural Sciences",
+        "description": "Top-tier center for modern farming tech, soil science, and food security.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Forestry and Forest Ecology",
+        "description": "Leading faculty for forest management, wood science, and ecosystems.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 70000 },
         "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 88, "employed_within_3_months": 80, "average_salary": 70000 }
+      "employment_figures": { "employed": 85, "employed_within_3_months": 78, "average_salary": 72000 }
+    }
+  },
+  {
+    "_id": "uni_020",
+    "slug": "university-of-munster",
+    "name": "University of Münster",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-muenster.de&sz=128",
+    "location": { "city": "Münster", "state": "North Rhine-Westphalia", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Information Systems",
+        "description": "Leading faculty for merging digital strategy with enterprise computing.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Business School",
+        "description": "Renowned for its finance, accounting, and marketing programs in the region.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Excellence in oncology, inflammation research, and cardiovascular medicine.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 105000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Law",
+        "description": "One of Germany's largest law faculties with strong international focus.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Broad research in history, philosophy, and philology with historic libraries.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Focus on political systems, communication research, and sociology.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 68000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Theology",
+        "description": "Comprehensive center for Protestant and Catholic studies and ethics.",
+        "stats": { "avg_gpa": 3.3, "acceptance_rate": 22, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 53000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Biology",
+        "description": "Advanced research in microbiology, plant biology, and environmental sciences.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 80, "average_salary": 78000 }
+    }
+  },
+  {
+    "_id": "uni_021",
+    "slug": "university-of-wurzburg",
+    "name": "University of Würzburg",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-wuerzburg.de&sz=128",
+    "location": { "city": "Würzburg", "state": "Bavaria", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Physics",
+        "description": "Top-tier physics research focusing on solid-state physics and quantum technology.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Biology",
+        "description": "Comprehensive biology programs with focus on plant sciences and molecular biology.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 75000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Strong clinical research focus on cardiovascular disease and oncology.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 5, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 108000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 106 }
+      },
+      {
+        "name": "Psychology",
+        "description": "Highly ranked psychology department with focus on cognitive and clinical studies.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 8, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Law",
+        "description": "Traditional law program with emphasis on German constitutional and European law.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Theology",
+        "description": "Catholic theology faculty with historic research in liturgy and church history.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 58000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Arts",
+        "description": "Focus on musicology, art history, and cultural heritage research.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 84, "employed_within_3_months": 75, "average_salary": 74000 }
+    }
+  },
+  {
+    "_id": "uni_022",
+    "slug": "leipzig-university",
+    "name": "Leipzig University",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-leipzig.de&sz=128",
+    "location": { "city": "Leipzig", "state": "Saxony", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Global Studies",
+        "description": "Interdisciplinary international program focusing on globalization and international policy.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.5, "toefl_avg": 90 }
+      },
+      {
+        "name": "Economics",
+        "description": "Historic economics faculty with focus on modern market dynamics and policy.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 22, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 74000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Medicine",
+        "description": "One of the oldest medical faculties in Germany with major research hubs.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 6, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 102000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Law",
+        "description": "High-impact legal research with focus on civil and commercial law.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Renowned programs in cultural studies, history, and linguistic research.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 25, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 65000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Veterinary Medicine",
+        "description": "Excellence in veterinary clinical training and research hub.",
+        "stats": { "avg_gpa": 3.8, "acceptance_rate": 5, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Sport Science",
+        "description": "Leading faculty for high-performance sports and health pedagogy.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 62000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 82, "employed_within_3_months": 74, "average_salary": 68000 }
+    }
+  },
+  {
+    "_id": "uni_023",
+    "slug": "university-of-jena",
+    "name": "University of Jena",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-jena.de&sz=128",
+    "location": { "city": "Jena", "state": "Thuringia", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Photonics",
+        "description": "Global leader in optics and photonics research, home to the Abbe School of Photonics.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 76000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Physics",
+        "description": "Advanced research in optics, astrophysics, and quantum systems.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 74000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Focus on life sciences, molecular medicine, and clinical research excellence.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 5, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 105000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Economics",
+        "description": "Modern economics and business management programs with a research orientation.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Humanities",
+        "description": "Broad offerings in philosophy, history, and modern languages research.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 22, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 64000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Biological Sciences",
+        "description": "Cutting-edge research in genetics, botany, and zoology.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Theology",
+        "description": "Historic faculty with focus on ecumenical and historical theology.",
+        "stats": { "avg_gpa": 3.3, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 9000, "avg_salary": 55000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 78, "average_salary": 70000 }
+    }
+  },
+  {
+    "_id": "uni_024",
+    "slug": "university-of-bremen",
+    "name": "University of Bremen",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-bremen.de&sz=128",
+    "location": { "city": "Bremen", "state": "Bremen", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Logistics",
+        "description": "Leading programs in supply chain management and logistics in a major port city.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 22, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Marine Sciences",
+        "description": "World-class research in oceanography, marine biology, and climate science.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Strong focus on cybersecurity, automation, and industrial software systems.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Specialized research in political science and sociology within a modern context.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 25, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 68000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Production Engineering",
+        "description": "Top-tier center for automotive systems, automation, and manufacturing.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Law",
+        "description": "Focus on maritime law, environmental law, and European legal theory.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 83, "employed_within_3_months": 76, "average_salary": 68000 }
+    }
+  },
+  {
+    "_id": "uni_025",
+    "slug": "whu-otto-beisheim-school-of-management",
+    "name": "WHU - Otto Beisheim School of Management",
+    "logo": "https://www.google.com/s2/favicons?domain=whu.edu&sz=128",
+    "location": { "city": "Vallendar", "state": "Rhineland-Palatinate", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Business (Master of Management)",
+        "description": "Consistently ranked as Germany’s top master’s program in management and entrepreneurship.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 12, "tuition_fee": 32000, "living_expense": 11000, "avg_salary": 115000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Entrepreneurship & Innovation",
+        "description": "A leading hub for founders and venture capital networking in Europe.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 32000, "living_expense": 11000, "avg_salary": 110000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Finance",
+        "description": "Prestige focus on corporate finance, investment banking, and market analytics.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 14, "tuition_fee": 32000, "living_expense": 11000, "avg_salary": 118000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 106 }
+      },
+      {
+        "name": "MBA",
+        "description": "Full-time and part-time MBA programs with top-tier global accreditation and networking.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 20, "tuition_fee": 40000, "living_expense": 11000, "avg_salary": 125000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Executive MBA",
+        "description": "Designed for senior leaders with focus on strategic leadership and innovation.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 45000, "living_expense": 11000, "avg_salary": 140000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
+      },
+      {
+        "name": "Online MBA",
+        "description": "Flexible online program for working professionals with global virtual network.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 25, "tuition_fee": 30000, "living_expense": 0, "avg_salary": 110000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 102 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 95, "employed_within_3_months": 98, "average_salary": 120000 }
+    }
+  },
+  {
+    "_id": "uni_026",
+    "slug": "frankfurt-school-of-finance-management",
+    "name": "Frankfurt School of Finance & Management",
+    "logo": "https://www.google.com/s2/favicons?domain=frankfurt-school.de&sz=128",
+    "location": { "city": "Frankfurt am Main", "state": "Hesse", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Finance",
+        "description": "Leading finance program in Germany with direct access to European Central Bank and major banks.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 35000, "living_expense": 12000, "avg_salary": 110000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Data Science for Business",
+        "description": "Innovative program merging technical data science skills with business strategy.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 20, "tuition_fee": 30000, "living_expense": 12000, "avg_salary": 95000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Management",
+        "description": "Comprehensive leadership and strategic management training in the heart of Frankfurt.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 32000, "living_expense": 12000, "avg_salary": 105000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 104 }
+      },
+      {
+        "name": "Accounting",
+        "description": "Top-tier specialized programs for professional accounting and auditing careers.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 22, "tuition_fee": 30000, "living_expense": 12000, "avg_salary": 98000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Corporate Restructuring",
+        "description": "Advanced specialization in turnaround management and performance strategy.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 35000, "living_expense": 12000, "avg_salary": 120000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 108 }
+      },
+      {
+        "name": "AI for Business",
+        "description": "Unique program focused on leveraging artificial intelligence for management and strategy.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 15, "tuition_fee": 32000, "living_expense": 12000, "avg_salary": 115000 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 106 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 94, "employed_within_3_months": 96, "average_salary": 105000 }
+    }
+  },
+  {
+    "_id": "uni_027",
+    "slug": "university-of-regensburg",
+    "name": "University of Regensburg",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-regensburg.de&sz=128",
+    "location": { "city": "Regensburg", "state": "Bavaria", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Physics",
+        "description": "Strong reputation for excellence in spintronics and quantum transport research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 75000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "Comprehensive research in molecular biology, genetics, and biotechnology.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Medicine",
+        "description": "Elite training with focus on translational research and high-tech diagnostics.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 5, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 106000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Law",
+        "description": "Traditional law programs with specializations in religious law and foundations.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      },
+      {
+        "name": "Economics",
+        "description": "Innovative business and economics programs with a strong regional network.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Biology & Pre-clinical",
+        "description": "Research center for molecular life sciences and pre-clinical training focus.",
+        "stats": { "avg_gpa": 3.8, "acceptance_rate": 6, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
+      },
+      {
+        "name": "Catholic Theology",
+        "description": "Respected faculty with focus on christian ethics and church history studies.",
+        "stats": { "avg_gpa": 3.3, "acceptance_rate": 22, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 55000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 86, "employed_within_3_months": 78, "average_salary": 72000 }
+    }
+  },
+  {
+    "_id": "uni_028",
+    "slug": "university-of-duisburg-essen",
+    "name": "University of Duisburg-Essen",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-due.de&sz=128",
+    "location": { "city": "Duisburg", "state": "North Rhine-Westphalia", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Major engineering hub focusing on mechanical, civil, and materials engineering in the Ruhr region.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 25, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
+      },
+      {
+        "name": "Logistics",
+        "description": "One of Germany's leading programs in logistics and supply chain management.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 22, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 75000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Interdisciplinary CS programs with focus on software engineering and networks.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Medicine",
+        "description": "High-impact medical research focus on immunology and genetic therapies.",
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 6, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 102000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Empirical studies focus on educational systems and social inequalities.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 28, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 68000 },
+        "admitted_profiles": { "toefl_min": 82, "ielts_min": 6.0, "toefl_avg": 90 }
+      },
+      {
+        "name": "Chemistry",
+        "description": "Strong focus on polymer chemistry and industrial material science.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Physics",
+        "description": "Advanced research in nanophysics and solid-state systems hub.",
+        "stats": { "avg_gpa": 3.7, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 84, "employed_within_3_months": 76, "average_salary": 74000 }
+    }
+  },
+  {
+    "_id": "uni_029",
+    "slug": "tu-braunschweig",
+    "name": "TU Braunschweig",
+    "logo": "https://www.google.com/s2/favicons?domain=tu-braunschweig.de&sz=128",
+    "location": { "city": "Braunschweig", "state": "Lower Saxony", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Automotive Engineering",
+        "description": "Renowned for its close collaboration with the Volkswagen group and automotive research.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Mechanical Engineering",
+        "description": "Top technical programs in aerodynamics, flight mechanics, and production tech.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Excellence in robotics, high-performance computing, and distributed systems.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 16, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Architecture",
+        "description": "Innovative center for sustainable urbanism and architectural engineering.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 68000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 88 }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "High-tech biotechnology and pharmaceutical research Hub.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 20, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      },
+      {
+        "name": "Humanities & Education",
+        "description": "Focused research on pedagogy, history, and social education systems.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 25, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 64000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Physics",
+        "description": "Advanced physics research hub for laser technology and surface physics.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 80, "average_salary": 82000 }
+    }
+  },
+  {
+    "_id": "uni_030",
+    "slug": "university-of-hohenheim",
+    "name": "University of Hohenheim",
+    "logo": "https://www.google.com/s2/favicons?domain=uni-hohenheim.de&sz=128",
+    "location": { "city": "Stuttgart", "state": "Baden-Württemberg", "country": "Germany" },
+    "branches": [
+      {
+        "name": "Bioeconomy",
+        "description": "Globally leading programs in sustainable agriculture and biological resource economics.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 72000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 98 }
+      },
+      {
+        "name": "Agricultural Sciences",
+        "description": "Consistently ranked as Germany’s #1 university for agricultural and food sciences.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 20, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 70000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
+      },
+      {
+        "name": "Food Science",
+        "description": "Top-ranked programs in food technology, nutrition, and beverage systems.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 68000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 94 }
+      },
+      {
+        "name": "Business & Economics",
+        "description": "Specialized agribusiness management and institutional economics programs.",
+        "stats": { "avg_gpa": 3.4, "acceptance_rate": 22, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 98 }
+      },
+      {
+        "name": "Consumer Science",
+        "description": "Top-tier interdisciplinary studies in consumer behavior, marketing, and nutrition.",
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 75000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      },
+      {
+        "name": "Bioeconomy Research",
+        "description": "Leading faculty for sustainable resource management and bio-based economies.",
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 14, "tuition_fee": 3000, "living_expense": 10500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 102 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 77, "average_salary": 68000 }
     }
   }
 ]
