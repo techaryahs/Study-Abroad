@@ -148,10 +148,11 @@ function ServiceCard({
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function ServicesPage() {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState("");
+  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+  const contactPhone = process.env.NEXT_PUBLIC_WTSP_PHONE || "919967716945";
   const [form, setForm] = useState({ name: "", email: "", mobile: "", service: "" });
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
 
   const filtered = services.filter(
     (s) =>
@@ -206,13 +207,15 @@ export default function ServicesPage() {
         {/* chat strip */}
         <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#0f0f0f] border border-white/[0.08] rounded-xl px-5 py-3.5">
           <span className="text-white/45 text-sm">To reach our sales team</span>
-          <Link
-            href="#"
-            className="inline-flex items-center gap-2 bg-[#d4af37] text-black font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-yellow-500 active:scale-95 transition-all"
+          <a
+            href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in the your services service. Specifically, I would like to discuss...`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#d4af37] text-black font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-yellow-500 active:scale-95 transition-all text-center"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -262,13 +265,15 @@ export default function ServicesPage() {
           <p className="text-white/45 text-sm sm:text-base max-w-sm">
             We&apos;re here to help you navigate your study, work, or immigration journey.
           </p>
-          <Link
-            href="#"
-            className="inline-flex items-center gap-2 bg-[#d4af37] text-black font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:bg-yellow-500 active:scale-95 transition-all"
+          <a
+            href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in the your services service. Specifically, I would like to discuss...`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#d4af37] text-black font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:bg-yellow-500 active:scale-95 transition-all text-center"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
-          </Link>
+          </a>
         </div>
       </div>
 

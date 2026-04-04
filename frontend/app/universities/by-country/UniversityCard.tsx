@@ -345,7 +345,7 @@ export default function UniversityCard({ uni }: any) {
               onMouseOver={e => (e.currentTarget.style.color = "#eab308")}
               onMouseOut={e => (e.currentTarget.style.color = "#57534e")}
             >
-              View full profile →
+              View Details →
             </Link>
           </div>
         </div>

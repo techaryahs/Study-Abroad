@@ -86,12 +86,7 @@ export default function SOPPage() {
 
 
 
-            <DiscussionSection serviceId="sop" />
-            <div className="pt-2 pl-2">
-              <Link href="/checkout?service=sop" className="text-white/40 text-[10px] font-black uppercase tracking-[0.3em] hover:text-gold-500 transition-colors border-b border-transparent hover:border-gold-500/20 pb-1 italic">
-                Start Settlement Node
-              </Link>
-            </div>
+            <DiscussionSection serviceId="sop" /> 
           </motion.div>
 
           <motion.div 

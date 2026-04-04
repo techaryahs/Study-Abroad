@@ -98,10 +98,7 @@ export default function ResumeDraftingPage() {
           <div className="space-y-8">
             <div className="w-full sticky top-8">
               <AddToCart serviceId="resume-drafting" />
-              
-              {/* <div className="mt-8 bg-black rounded-3xl p-8 shadow-2xl relative overflow-hidden border border-white/5">
-                <DiscussionSection serviceId="resume-drafting" />
-              </div> */}
+      
             </div>
           </div>
         </div>

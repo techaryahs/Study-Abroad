@@ -60,7 +60,7 @@ export default function VisaMockInterviewPage() {
                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold-500/5 blur-[100px] rounded-full pointer-events-none -mr-32 -mt-32" />
 
                     <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-start relative z-10 w-full">
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: false, margin: '-50px' }}
@@ -77,8 +77,8 @@ export default function VisaMockInterviewPage() {
                                 <span className="gradient-text-gold">Interview</span>
                             </h1>
                             <div className="pb-2">
-                                <Link 
-                                    href="/services" 
+                                <Link
+                                    href="/services"
                                     className="inline-flex items-center gap-2 text-white/40 hover:text-gold-500 transition-colors group relative z-20"
                                 >
                                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -94,7 +94,7 @@ export default function VisaMockInterviewPage() {
                             <DiscussionSection serviceId="visa_mock_interview" />
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: false, margin: '-50px' }}
@@ -128,7 +128,7 @@ export default function VisaMockInterviewPage() {
                 {/* ── ABOUT & BOOKING ── */}
                 <section className="py-16 px-6 md:px-16 bg-dark-900/20">
                     <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-10">
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: false, margin: "-50px" }}
@@ -177,7 +177,7 @@ export default function VisaMockInterviewPage() {
                             </div>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: false, margin: "-50px" }}
@@ -198,7 +198,7 @@ export default function VisaMockInterviewPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-dark-950 via-dark-950/40 to-transparent" />
 
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: false, margin: "-50px" }}
