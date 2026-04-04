@@ -47,12 +47,14 @@ exports.bookConsultant = async (req, res) => {
     }
 
     // Fetch consultant info if missing (Stronger Fetch)
+    const consultant = await Consultant.findById(consultantId);
+    if (!consultant) {
+      return res.status(404).json({ message: 'Consultant not found' });
+    }
+
     if (!consultantEmail || !consultantName) {
-      const consultant = await Consultant.findById(consultantId);
-      if (consultant) {
-        consultantEmail = consultantEmail || consultant.email;
-        consultantName = consultantName || consultant.name;
-      }
+      consultantEmail = consultantEmail || consultant.email;
+      consultantName = consultantName || consultant.name;
     }
     
 
@@ -209,15 +211,22 @@ exports.getAllConsultants = async (req, res) => {
  ========================= */
 exports.getConsultantBookings = async (req, res) => {
   try {
-    const { consultantId } = req.params; // Document ID of the Consultant
+    const { consultantId } = req.params;
     const { email } = req.query;
-    console.log(`🔍 [Dashboard] Fetching bookings. ID: ${consultantId}, Email: ${email}`);
 
     if (!consultantId || consultantId === "undefined") {
       return res.status(400).json({ message: "Invalid ID provided" });
     }
 
-    // Since consultants are now standalone, we just query by consultantId directly
+    // Get consultant info first
+    const consultant = await Consultant.findById(consultantId);
+    if (!consultant) {
+      return res.json([]);
+    }
+    
+    const consultantVideoEnabled = consultant.videoCallEnabled || false;
+
+    // Query bookings - match by ID or email
     let bookingsQuery = {
       $or: [
         { consultantId: consultantId },
@@ -228,8 +237,31 @@ exports.getConsultantBookings = async (req, res) => {
     const bookings = await Booking.find(bookingsQuery)
       .sort({ date: 1, time: 1 });
 
-    console.log(`📊 [Dashboard] Found ${bookings.length} bookings using query:`, JSON.stringify(bookingsQuery));
-    res.json(bookings);
+    // Auto-complete past bookings
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+    const currentTime = now.toTimeString().substring(0, 5);
+
+    for (const booking of bookings) {
+      if (booking.status === 'booked' || booking.status === 'accepted') {
+        const isPast = booking.date < todayStr || 
+                      (booking.date === todayStr && booking.endTime && booking.endTime < currentTime);
+        
+        if (isPast) {
+          booking.status = 'completed';
+          await booking.save();
+        }
+      }
+    }
+
+    // Enrich bookings with consultant video access info
+    const enrichedBookings = bookings.map(booking => {
+      const bookingObj = booking.toObject();
+      bookingObj.consultantVideoEnabled = consultantVideoEnabled;
+      return bookingObj;
+    });
+
+    res.json(enrichedBookings);
   } catch (err) {
     console.error("❌ [Dashboard] Error:", err.message);
     res.status(500).json({ message: "Error fetching bookings" });
@@ -442,12 +474,14 @@ exports.bookCounsellingSession = async (req, res) => {
     let finalConsultantId = consultantId;
     let finalConsultantName = "Academic Counsellor";
     let finalConsultantEmail = "counselling@careergenai.com";
+    let consultantVideoEnabled = false;
 
     if (consultantId && consultantId !== "auto") {
       const c = await Consultant.findById(consultantId);
       if (c) {
         finalConsultantName = c.name;
         finalConsultantEmail = c.email;
+        consultantVideoEnabled = c.videoCallEnabled || false;
       }
     }
 
@@ -498,7 +532,8 @@ exports.bookCounsellingSession = async (req, res) => {
         time,
         endTime,
         consultantName: finalConsultantName,
-        userEmail
+        userEmail,
+        consultantVideoEnabled
       }
     });
 
@@ -514,10 +549,79 @@ exports.bookCounsellingSession = async (req, res) => {
 exports.getCounsellingSession = async (req, res) => {
   try {
     const { sessionId } = req.params;
-    const session = await Booking.findOne({ sessionId });
+    const session = await Booking.findOne({ sessionId })
+      .populate('consultantId', 'videoCallEnabled name email');
+    
     if (!session) return res.status(404).json({ message: "Session not found" });
-    res.json(session);
+    
+    const sessionObj = session.toObject();
+    
+    // Add videoCallEnabled from populated consultant
+    if (session.consultantId && typeof session.consultantId === 'object') {
+      sessionObj.consultantVideoEnabled = session.consultantId.videoCallEnabled || false;
+    } else {
+      sessionObj.consultantVideoEnabled = false;
+    }
+    
+    res.json(sessionObj);
   } catch (err) {
     res.status(500).json({ message: "Error fetching session details" });
+  }
+};
+
+/* =========================
+   GET BOOKINGS BY CONSULTANT EMAIL
+   GET /api/bookings/by-email?email=...
+   Used by the consultant dashboard when the Mongo _id is not available.
+ ========================= */
+exports.getBookingsByConsultantEmail = async (req, res) => {
+  try {
+    const { email } = req.query;
+    if (!email) {
+      return res.status(400).json({ message: 'email query param is required' });
+    }
+
+    // Get consultant info by email
+    const consultant = await Consultant.findOne({ email: email });
+    const consultantVideoEnabled = consultant?.videoCallEnabled || false;
+
+    const bookings = await Booking.find({ consultantEmail: email })
+      .sort({ date: 1, time: 1 });
+
+    // Enrich bookings with consultant video access info
+    const enrichedBookings = bookings.map(booking => {
+      const bookingObj = booking.toObject();
+      bookingObj.consultantVideoEnabled = consultantVideoEnabled;
+      return bookingObj;
+    });
+
+    console.log(`📋 [ByEmail] Found ${bookings.length} bookings for consultant: ${email} with videoEnabled: ${consultantVideoEnabled}`);
+    res.json(enrichedBookings);
+  } catch (err) {
+    console.error('❌ getBookingsByConsultantEmail error:', err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/* =========================
+   COMPLETE BOOKING
+   PUT /api/bookings/:id/complete
+   Marks a booking as completed (moves to history).
+ ========================= */
+exports.completeBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { status: 'completed' },
+      { new: true }
+    );
+    if (!booking) {
+      return res.status(404).json({ message: 'Booking not found' });
+    }
+    console.log(`✅ Booking ${req.params.id} marked as completed`);
+    res.json(booking);
+  } catch (err) {
+    console.error('❌ completeBooking error:', err.message);
+    res.status(500).json({ message: 'Server error' });
   }
 };

@@ -20,9 +20,10 @@ import { getUser, getToken, clearAuth } from "@/app/lib/token";
 interface Booking {
   _id: string;
   userEmail: string;
-  status: "pending" | "accepted" | "rejected";
+  status: "pending" | "accepted" | "rejected" | "booked" | "completed" | "cancelled";
   date: string;
   time: string;
+  consultantVideoEnabled?: boolean;
   [key: string]: any;
 }
 
@@ -44,7 +45,8 @@ const ConsultantDashboard = () => {
     
     setUser(storedUser);
     fetchBookings(storedUser);
-  }, [router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const fetchBookings = async (currentUser: any) => {
     if (!currentUser?._id) return;
@@ -68,7 +70,7 @@ const ConsultantDashboard = () => {
 
   const bookingSummary = useMemo(() => {
     const pendingCount = bookings.filter((b) => b.status === "pending").length;
-    const acceptedCount = bookings.filter((b) => b.status === "accepted").length;
+    const acceptedCount = bookings.filter((b) => b.status === "accepted" || b.status === "booked").length;
     const rejectedCount = bookings.filter((b) => b.status === "rejected").length;
     const totalBookings = bookings.length;
 
@@ -238,8 +240,8 @@ const ConsultantDashboard = () => {
              </div>
 
              <div className="space-y-4">
-                {bookings.filter((b) => b.status === "accepted").length > 0 ? (
-                  bookings.filter((b) => b.status === "accepted").map((booking) => (
+                {bookings.filter((b) => b.status === "accepted" || b.status === "booked").length > 0 ? (
+                  bookings.filter((b) => b.status === "accepted" || b.status === "booked").map((booking) => (
                     <div key={booking._id} className="group flex flex-col md:flex-row items-center justify-between gap-6 p-6 md:p-8 bg-[#c2a878]/[0.02] border border-[#c2a878]/10 rounded-[2rem] hover:bg-[#c2a878]/[0.04] transition-colors">
                        <div className="flex flex-col gap-2 text-center md:text-left">
                           <div className="flex items-center gap-3 justify-center md:justify-start">
@@ -254,12 +256,18 @@ const ConsultantDashboard = () => {
                           </div>
                        </div>
                        <div className="flex items-center gap-3">
-                          <button 
-                            onClick={() => router.push(`/video-call/${booking._id}`)}
-                            className="flex items-center gap-3 px-8 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(194,168,120,0.3)]"
-                          >
-                             <Video size={14} /> Start Call
-                          </button>
+                          {booking.consultantVideoEnabled ? (
+                            <button 
+                              onClick={() => router.push(`/video-call/${booking._id}`)}
+                              className="flex items-center gap-3 px-8 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(194,168,120,0.3)]"
+                            >
+                               <Video size={14} /> Start Call
+                            </button>
+                          ) : (
+                            <div className="flex items-center gap-2 px-8 py-3 bg-white/[0.02] border border-white/[0.05] rounded-xl text-gray-600 text-[10px] font-black uppercase tracking-[0.2em]">
+                               <span>No Video Call Available</span>
+                            </div>
+                          )}
                           <button 
                             onClick={() => deleteBooking(booking._id)}
                             className="p-2.5 text-gray-700 hover:text-rose-500 transition-colors ml-2"
@@ -276,6 +284,47 @@ const ConsultantDashboard = () => {
                 )}
              </div>
           </section>
+
+          {/* Completed Bookings */}
+          {bookings.filter((b) => b.status === "completed").length > 0 && (
+             <section>
+                <div className="flex items-center gap-4 mb-10">
+                   <Check size={20} className="text-emerald-500" />
+                   <h2 className="text-sm font-black uppercase tracking-[0.3em] text-white/90">Completed Bookings</h2>
+                   <div className="flex-1 h-[1px] bg-gradient-to-r from-white/10 to-transparent" />
+                </div>
+                
+                <div className="space-y-4">
+                   {bookings.filter((b) => b.status === "completed").map((booking) => (
+                     <div key={booking._id} className="group flex flex-col md:flex-row items-center justify-between gap-6 p-6 md:p-8 bg-emerald-500/[0.02] border border-emerald-500/10 rounded-[2rem] opacity-60">
+                        <div className="flex flex-col gap-2 text-center md:text-left">
+                           <div className="flex items-center gap-3 justify-center md:justify-start">
+                              <span className="text-sm font-bold text-white tracking-tight">{booking.userEmail}</span>
+                              <span className="text-[8px] px-2 py-0.5 bg-emerald-500/20 text-emerald-400 font-black uppercase rounded-full">Completed</span>
+                           </div>
+                           <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-gray-600 justify-center md:justify-start">
+                              <Clock size={12} className="text-emerald-500" />
+                              <span>{booking.date}</span>
+                              <span className="w-1 h-1 bg-gray-800 rounded-full" />
+                              <span className="text-emerald-500">{booking.time}</span>
+                           </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                           <div className="px-8 py-3 bg-emerald-500/5 border border-emerald-500/10 text-emerald-500/50 rounded-xl text-[10px] font-black uppercase tracking-[0.2em]">
+                              Session Complete
+                           </div>
+                           <button 
+                             onClick={() => deleteBooking(booking._id)}
+                             className="p-2.5 text-gray-700 hover:text-rose-500 transition-colors ml-2"
+                           >
+                              <Trash2 size={16} />
+                           </button>
+                        </div>
+                     </div>
+                   ))}
+                </div>
+             </section>
+          )}
 
           {/* Archives */}
           {bookings.filter((b) => b.status === "rejected").length > 0 && (

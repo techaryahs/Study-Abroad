@@ -27,6 +27,7 @@ const consultantSchema = new mongoose.Schema({
   image: { type: String, required: true },
   price: { type: Number, default: 0 },
   isPremium: { type: Boolean, default: false },
+  videoCallEnabled: { type: Boolean, default: false },
   availability: [slotSchema],
   bookings: [bookingSchema]
 }, { timestamps: true, autoCreate: false, autoIndex: false });

@@ -11,4 +11,8 @@ router.post("/deny", adminCtrl.denyUser);
 
 router.post("/register-consultant", adminCtrl.registerConsultant);
 
+// Consultant video call management
+router.get("/consultants", adminCtrl.getAllConsultantsForAdmin);
+router.put("/consultants/:consultantId/toggle-video", adminCtrl.toggleConsultantVideoCall);
+
 module.exports = router;
