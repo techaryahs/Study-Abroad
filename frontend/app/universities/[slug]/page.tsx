@@ -544,7 +544,7 @@ export default function UniversityPage() {
 
                                 {/* Profile cards */}
                                 <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 12 }}>
-                                    <h3 className="fd" style={{ fontSize: 20, fontWeight: 600, marginBottom: 4 }}>Recent Admits on YMGrad</h3>
+                                    <h3 className="fd" style={{ fontSize: 20, fontWeight: 600, marginBottom: 4 }}>Recent Admits on Global Counselling Center</h3>
                                     {admittedProfiles.map((p: any, i: number) => (
                                         <div key={i} className="card" style={{
                                             padding: "16px 18px", position: "relative", overflow: "hidden",

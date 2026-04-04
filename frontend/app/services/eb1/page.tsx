@@ -203,7 +203,7 @@ export default function EB1Page() {
          </motion.div>
       </section>
 
-      {/* ── WHY CHOOSE YMGRAD ── */}
+      {/* ── WHY CHOOSE Global Counselling Center ── */}
       <section className="py-24 px-8 md:px-20 relative z-10">
          <div className="max-w-7xl mx-auto space-y-16">
             <div className="text-center space-y-4">

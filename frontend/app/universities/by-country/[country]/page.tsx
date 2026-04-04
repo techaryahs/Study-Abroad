@@ -240,7 +240,7 @@ export default function CountryPage() {
       location, address, tuition, tuitionRaw, acceptance, acceptanceRaw,
       salary, sat, toefl, gpa,
       image: uni.logo || "/assets/university-placeholder.jpg",
-      ranking: uni.ymgrad_rank || index + 1,
+      ranking: uni.Global Counselling Center_rank || index + 1,
     };
   }), [rawUniversities]);
 
