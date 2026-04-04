@@ -70,16 +70,16 @@ export default function Home() {
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         {/* Sky / Universe dark overlay */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#1a2747_0%,#040712_70%)] z-0"></div>
-        
+
         {/* University Background Image Layer */}
         <div className="absolute inset-0 z-10 mix-blend-luminosity opacity-40">
-           <Image
-             src="/university.png"
-             alt="University Background"
-             fill
-             className="object-cover object-center"
-             priority
-           />
+          <Image
+            src="/university.png"
+            alt="University Background"
+            fill
+            className="object-cover object-center"
+            priority
+          />
         </div>
 
         {/* Gradient overlays to darken the bottom and left edges of the University Image */}
@@ -204,12 +204,12 @@ export default function Home() {
 
           {/* IMAGE */}
           <div className="relative w-full max-w-[450px] h-[550px] rounded-2xl overflow-hidden border border-[#d4af37]/30 shadow-2xl">
-            <Image 
-              src="/hero-main.png" 
-              alt="Dr Alam" 
-              fill 
+            <Image
+              src="/hero-main.png"
+              alt="Dr Alam"
+              fill
               sizes="(max-width: 768px) 100vw, 450px"
-              className="object-cover" 
+              className="object-cover"
             />
           </div>
 
