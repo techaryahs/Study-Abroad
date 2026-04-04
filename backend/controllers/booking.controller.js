@@ -211,15 +211,22 @@ exports.getAllConsultants = async (req, res) => {
  ========================= */
 exports.getConsultantBookings = async (req, res) => {
   try {
-    const { consultantId } = req.params; // Document ID of the Consultant
+    const { consultantId } = req.params;
     const { email } = req.query;
-    console.log(`🔍 [Dashboard] Fetching bookings. ID: ${consultantId}, Email: ${email}`);
 
     if (!consultantId || consultantId === "undefined") {
       return res.status(400).json({ message: "Invalid ID provided" });
     }
 
-    // Since consultants are now standalone, we just query by consultantId directly
+    // Get consultant info first
+    const consultant = await Consultant.findById(consultantId);
+    if (!consultant) {
+      return res.json([]);
+    }
+    
+    const consultantVideoEnabled = consultant.videoCallEnabled || false;
+
+    // Query bookings - match by ID or email
     let bookingsQuery = {
       $or: [
         { consultantId: consultantId },
@@ -228,22 +235,32 @@ exports.getConsultantBookings = async (req, res) => {
     };
 
     const bookings = await Booking.find(bookingsQuery)
-      .populate('consultantId', 'videoCallEnabled name email')
       .sort({ date: 1, time: 1 });
+
+    // Auto-complete past bookings
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+    const currentTime = now.toTimeString().substring(0, 5);
+
+    for (const booking of bookings) {
+      if (booking.status === 'booked' || booking.status === 'accepted') {
+        const isPast = booking.date < todayStr || 
+                      (booking.date === todayStr && booking.endTime && booking.endTime < currentTime);
+        
+        if (isPast) {
+          booking.status = 'completed';
+          await booking.save();
+        }
+      }
+    }
 
     // Enrich bookings with consultant video access info
     const enrichedBookings = bookings.map(booking => {
       const bookingObj = booking.toObject();
-      // Add videoCallEnabled from populated consultant
-      if (booking.consultantId && typeof booking.consultantId === 'object') {
-        bookingObj.consultantVideoEnabled = booking.consultantId.videoCallEnabled || false;
-      } else {
-        bookingObj.consultantVideoEnabled = false;
-      }
+      bookingObj.consultantVideoEnabled = consultantVideoEnabled;
       return bookingObj;
     });
 
-    console.log(`📊 [Dashboard] Found ${bookings.length} bookings using query:`, JSON.stringify(bookingsQuery));
     res.json(enrichedBookings);
   } catch (err) {
     console.error("❌ [Dashboard] Error:", err.message);
@@ -564,23 +581,21 @@ exports.getBookingsByConsultantEmail = async (req, res) => {
       return res.status(400).json({ message: 'email query param is required' });
     }
 
+    // Get consultant info by email
+    const consultant = await Consultant.findOne({ email: email });
+    const consultantVideoEnabled = consultant?.videoCallEnabled || false;
+
     const bookings = await Booking.find({ consultantEmail: email })
-      .populate('consultantId', 'videoCallEnabled name email')
       .sort({ date: 1, time: 1 });
 
     // Enrich bookings with consultant video access info
     const enrichedBookings = bookings.map(booking => {
       const bookingObj = booking.toObject();
-      // Add videoCallEnabled from populated consultant
-      if (booking.consultantId && typeof booking.consultantId === 'object') {
-        bookingObj.consultantVideoEnabled = booking.consultantId.videoCallEnabled || false;
-      } else {
-        bookingObj.consultantVideoEnabled = false;
-      }
+      bookingObj.consultantVideoEnabled = consultantVideoEnabled;
       return bookingObj;
     });
 
-    console.log(`📋 [ByEmail] Found ${bookings.length} bookings for consultant: ${email}`);
+    console.log(`📋 [ByEmail] Found ${bookings.length} bookings for consultant: ${email} with videoEnabled: ${consultantVideoEnabled}`);
     res.json(enrichedBookings);
   } catch (err) {
     console.error('❌ getBookingsByConsultantEmail error:', err.message);
