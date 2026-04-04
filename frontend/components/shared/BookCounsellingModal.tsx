@@ -29,6 +29,8 @@ interface BookingResult {
   time: string;
   endTime: string;
   consultantName: string;
+  userEmail: string;
+  consultantVideoEnabled?: boolean;
 }
 
 interface Props {
@@ -591,24 +593,37 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                       </div>
 
                       {/* Join meeting CTA */}
-                      <button
-                        id="join-meeting-btn"
-                        onClick={() => {
-                          onClose();
-                          router.push(`/meeting/${booking.sessionId}`);
-                        }}
-                        className="w-full group relative overflow-hidden bg-[#d4af37] text-black font-black text-sm py-4 rounded-2xl hover:bg-yellow-400 transition-all duration-200 active:scale-[0.98] shadow-lg shadow-[#d4af37]/20"
-                      >
-                        <span className="relative z-10 flex items-center justify-center gap-2">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.868V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
-                          </svg>
-                          Join Meeting Room
-                        </span>
-                      </button>
+                      {booking.consultantVideoEnabled ? (
+                        <button
+                          id="join-meeting-btn"
+                          onClick={() => {
+                            onClose();
+                            router.push(`/meeting/${booking.sessionId}`);
+                          }}
+                          className="w-full group relative overflow-hidden bg-[#d4af37] text-black font-black text-sm py-4 rounded-2xl hover:bg-yellow-400 transition-all duration-200 active:scale-[0.98] shadow-lg shadow-[#d4af37]/20"
+                        >
+                          <span className="relative z-10 flex items-center justify-center gap-2">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.868V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+                            </svg>
+                            Join Meeting Room
+                          </span>
+                        </button>
+                      ) : (
+                        <div className="w-full bg-white/[0.02] border border-white/[0.05] text-white/40 font-bold text-sm py-4 rounded-2xl text-center">
+                          <span className="flex items-center justify-center gap-2">
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Video calls not available for this session
+                          </span>
+                        </div>
+                      )}
 
                       <p className="text-center text-white/25 text-xs">
-                        You can also join later from your dashboard at the scheduled time.
+                        {booking.consultantVideoEnabled 
+                          ? "You can also join later from your dashboard at the scheduled time."
+                          : "This is a booking-only session. The consultant will contact you via email."}
                       </p>
                     </motion.div>
                   )}

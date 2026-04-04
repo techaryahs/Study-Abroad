@@ -12,6 +12,7 @@ const setupWebRTCSignaling = (server) => {
     const meetings = new Map();
     const participants = new Map();
     const activeCalls = new Map();
+    const autoEndTimers = new Map(); // sessionId -> setTimeout handle
 
     // Log connection errors
     io.engine.on("connection_error", (err) => {
@@ -29,6 +30,14 @@ const setupWebRTCSignaling = (server) => {
             console.log(`📞 Host ${hostName} started call for session ${sessionId}`);
             const now = new Date();
             const endTime = new Date(now.getTime() + (duration || 30) * 60000);
+
+            // Clear any existing auto-end timer if host is restarting
+            if (autoEndTimers.has(sessionId)) {
+                clearTimeout(autoEndTimers.get(sessionId));
+                autoEndTimers.delete(sessionId);
+                console.log(`⏱️ Cleared auto-end timer for session ${sessionId} (host restarted)`);
+            }
+
             activeCalls.set(sessionId, {
                 meetingId,
                 hostName,
@@ -53,7 +62,25 @@ const setupWebRTCSignaling = (server) => {
         socket.on('end-call', ({ sessionId }) => {
             console.log(`📞 Call ended for session ${sessionId}`);
             activeCalls.delete(sessionId);
+            // Clear any auto-end timer
+            if (autoEndTimers.has(sessionId)) {
+                clearTimeout(autoEndTimers.get(sessionId));
+                autoEndTimers.delete(sessionId);
+            }
             io.emit('call-ended', { sessionId });
+        });
+
+        // ── Force end from dashboard (marks booking as completed via REST separately) ──
+        socket.on('force-end-meeting', ({ sessionId, meetingId }) => {
+            console.log(`🛑 Force-ending meeting for session ${sessionId} from dashboard`);
+            activeCalls.delete(sessionId);
+            if (autoEndTimers.has(sessionId)) {
+                clearTimeout(autoEndTimers.get(sessionId));
+                autoEndTimers.delete(sessionId);
+            }
+            // Notify everyone in the meeting room
+            io.emit('call-ended', { sessionId });
+            io.emit('meeting-force-ended', { sessionId, meetingId });
         });
 
         socket.on('join-meeting', ({ meetingId, participantId, participantName, isHost, sessionId }) => {
@@ -86,6 +113,12 @@ const setupWebRTCSignaling = (server) => {
                 .filter(p => p && p.socketId !== socket.id);
 
             if (isHost && currentParticipants.length > 0) {
+                // Host rejoined — cancel any auto-end timer
+                if (autoEndTimers.has(sessionId)) {
+                    clearTimeout(autoEndTimers.get(sessionId));
+                    autoEndTimers.delete(sessionId);
+                    console.log(`⏱️ Host rejoined — cancelled auto-end timer for session ${sessionId}`);
+                }
                 socket.to(meetingId).emit('host-rejoined', {
                     hostName: participantName,
                     meetingId: meetingId,
@@ -155,18 +188,18 @@ const setupWebRTCSignaling = (server) => {
         });
 
         socket.on('leave-meeting', ({ meetingId, participantId }) => {
-            handleParticipantLeave(socket, meetingId, participantId, io, meetings, participants);
+            handleParticipantLeave(socket, meetingId, participantId, io, meetings, participants, autoEndTimers, activeCalls);
         });
 
         socket.on('disconnect', () => {
             const participant = participants.get(socket.id);
             if (participant) {
-                handleParticipantLeave(socket, participant.meetingId, participant.participantId, io, meetings, participants);
+                handleParticipantLeave(socket, participant.meetingId, participant.participantId, io, meetings, participants, autoEndTimers, activeCalls);
             }
         });
     });
 
-    const handleParticipantLeave = (socket, meetingId, participantId, io, meetings, participants) => {
+    const handleParticipantLeave = (socket, meetingId, participantId, io, meetings, participants, autoEndTimers, activeCalls) => {
         const participant = participants.get(socket.id);
         if (participant) {
             console.log(`${participant.participantName} left meeting ${meetingId}`);
@@ -174,13 +207,40 @@ const setupWebRTCSignaling = (server) => {
                 participantId: participant.participantId,
                 participantName: participant.participantName
             });
+
             if (participant.isHost) {
+                const sessionId = participant.sessionId;
                 socket.to(meetingId).emit('host-left', {
                     hostName: participant.participantName,
                     meetingId: meetingId,
-                    sessionId: participant.sessionId
+                    sessionId: sessionId
                 });
+
+                // ── Start 15-minute auto-end timer ──────────────────────
+                if (sessionId && !autoEndTimers.has(sessionId)) {
+                    const AUTO_END_MINUTES = 15;
+                    console.log(`⏱️ Host left session ${sessionId}. Starting ${AUTO_END_MINUTES}-minute auto-end timer.`);
+
+                    const timer = setTimeout(() => {
+                        console.log(`⏱️ Auto-ending session ${sessionId} after ${AUTO_END_MINUTES} minutes.`);
+                        activeCalls.delete(sessionId);
+                        autoEndTimers.delete(sessionId);
+                        io.emit('call-ended', { sessionId });
+                        io.emit('meeting-auto-ended', { sessionId, meetingId, reason: `Meeting auto-ended after ${AUTO_END_MINUTES} minutes without host.` });
+                    }, AUTO_END_MINUTES * 60 * 1000);
+
+                    autoEndTimers.set(sessionId, timer);
+
+                    // Notify remaining participants about the countdown
+                    socket.to(meetingId).emit('auto-end-started', {
+                        sessionId,
+                        meetingId,
+                        autoEndMinutes: AUTO_END_MINUTES,
+                        autoEndAt: new Date(Date.now() + AUTO_END_MINUTES * 60 * 1000).toISOString()
+                    });
+                }
             }
+
             socket.leave(meetingId);
             participants.delete(socket.id);
             if (meetings.has(meetingId)) {

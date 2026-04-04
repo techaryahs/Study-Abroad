@@ -23,6 +23,7 @@ interface Booking {
   status: "pending" | "accepted" | "rejected";
   date: string;
   time: string;
+  consultantVideoEnabled?: boolean;
   [key: string]: any;
 }
 
@@ -254,12 +255,18 @@ const ConsultantDashboard = () => {
                           </div>
                        </div>
                        <div className="flex items-center gap-3">
-                          <button 
-                            onClick={() => router.push(`/video-call/${booking._id}`)}
-                            className="flex items-center gap-3 px-8 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(194,168,120,0.3)]"
-                          >
-                             <Video size={14} /> Start Call
-                          </button>
+                          {booking.consultantVideoEnabled ? (
+                            <button 
+                              onClick={() => router.push(`/video-call/${booking._id}`)}
+                              className="flex items-center gap-3 px-8 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(194,168,120,0.3)]"
+                            >
+                               <Video size={14} /> Start Call
+                            </button>
+                          ) : (
+                            <div className="flex items-center gap-2 px-8 py-3 bg-white/[0.02] border border-white/[0.05] rounded-xl text-gray-600 text-[10px] font-black uppercase tracking-[0.2em]">
+                               <span>No Video Call Available</span>
+                            </div>
+                          )}
                           <button 
                             onClick={() => deleteBooking(booking._id)}
                             className="p-2.5 text-gray-700 hover:text-rose-500 transition-colors ml-2"

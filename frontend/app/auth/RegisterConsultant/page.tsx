@@ -55,7 +55,8 @@ const RegisterConsultant = () => {
   const handleSendOtp = async () => {
     setVerifyModal(p => ({ ...p, mode: 'loading' }));
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/send-otp-signup`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+      const res = await fetch(`${BACKEND_URL}/api/auth/send-otp-signup`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email }),
       });
@@ -71,7 +72,8 @@ const RegisterConsultant = () => {
   const handleVerifyOtp = async () => {
     setIsVerifyLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/verify-otp-signup`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+      const res = await fetch(`${BACKEND_URL}/api/auth/verify-otp-signup`, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: form.email, otp: otpValue }),
       });
@@ -114,7 +116,8 @@ const RegisterConsultant = () => {
       });
       if (imageFile) formData.append("image", imageFile);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register-consultant`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+      const res = await fetch(`${BACKEND_URL}/api/auth/register-consultant`, {
         method: "POST", body: formData
       });
       const data = await res.json();
