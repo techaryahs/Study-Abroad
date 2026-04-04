@@ -1,5 +1,6 @@
 "use client";
-import FAQSection from "@/components/FAQSection";
+import FAQSection from "@/components/shared/FAQSection";
+import AddToCart from "@/components/shared/AddToCart";
 
 export default function UniversityFinalizationPage() {
   return (
@@ -157,73 +158,8 @@ export default function UniversityFinalizationPage() {
       <div className="w-[40%] flex flex-col items-end gap-6">
 
         {/* PRICE CARD */}
-        <div className="bg-white rounded-[20px] shadow-lg p-6 w-full max-w-[350px]">
-
-          <h3 className="text-center text-lg font-semibold mb-5 text-black">
-            Start Now
-          </h3>
-
-          <div className="space-y-3 text-sm">
-          
-
-          <div className="flex justify-between">
-  <span className="font-medium text-gray-700">Services:</span>
-  <span className="text-gray-800 text-right">University Finalization Help</span>
-</div>
-
-         
-             <div className="flex justify-between">
-  <span className="font-medium text-gray-700">Duration:</span>
-  <span className="text-gray-800 text-right">3-5 days</span>
-</div>
-
-            <div className="flex justify-between items-center">
-              <span className="font-medium text-gray-700">Currency:</span>
-              <select className="border border-gray-300 rounded-md px-4 py-2 text-gray-800 bg-white w-[150px] focus:outline-none focus:ring-2 focus:ring-blue-400">
-  <option>INR</option>
-  <option>USD</option>
-  <option>AED</option>
-</select>
-<svg
-    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    viewBox="0 0 24 24"
-  >
-    <path d="M19 9l-7 7-7-7" />
-  </svg>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium text-gray-700">Actual Amount:</span>
-              <span className="line-through text-gray-500">
-                INR 11,545.00
-              </span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium text-gray-700">Amount:</span>
-              <span className="text-red-600 font-bold">
-                INR 9,236.38
-              </span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="font-medium text-gray-700">You save:</span>
-              <span className="flex items-center gap-2 text-gray-800">
-                INR 2,308.62
-                <span className="bg-orange-500 text-white px-2 py-1 rounded text-xs">
-                  20% off
-                </span>
-              </span>
-            </div>
-
-          </div>
-
-          <button className="w-full mt-5 bg-green-500 text-white py-3 rounded-full text-[13px] font-medium hover:bg-green-600">
-            Log In To Pay
-          </button>
+        <div className="w-full max-w-[350px]">
+          <AddToCart serviceId="university-finalization" />
         </div>
 
         {/* CHAT CARD */}

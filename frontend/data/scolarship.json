@@ -1,0 +1,111 @@
+{
+  "student": "Ahana",
+  "program": "NYU MS CS",
+  "scholarships": [
+    {
+      "id": "1",
+      "slug": "nyu-tandon-scholarship",
+      "name": "NYU Tandon Scholarship",
+      "sponsor": "New York University",
+      "amount": "₹13–14L",
+      "category": "Tandon School of Engineering",
+      "deadline": "Already awarded",
+      "number_of_awards": "Multiple",
+      "conditions": "Merit-based",
+      "income_criteria": "No income limit",
+      "description": "The NYU Tandon Scholarship is awarded to incoming graduate students at the Tandon School of Engineering based on academic merit. The scholarship aims to support high-achieving students pursuing their graduate studies.",
+      "perks": "Significant tuition fellowship. Access to Tandon's state-of-the-art facilities and research opportunities.",
+      "host_country": "United States",
+      "contact": {
+        "address": "6 MetroTech Center, Brooklyn, NY 11201, USA",
+        "phone": "+1-646-997-3600",
+        "email": "tandon.admissions@nyu.edu"
+      },
+      "apply_link": "https://engineering.nyu.edu/admissions/graduate/financial-aid-and-scholarships"
+    },
+    {
+      "id": "2",
+      "slug": "hope-for-healing",
+      "name": "Hope for Healing",
+      "sponsor": "FHE Health",
+      "deadline": "Jan 15, 2026",
+      "amount": "$5,000",
+      "category": "Medical",
+      "number_of_awards": "2",
+      "conditions": "Enrolled in undergraduate/graduate program",
+      "income_criteria": "No strict limit",
+      "description": "FHE Health is accepting applications for two $5000 \"Hope for Healing\" Scholarships. The scholarship is offered to one qualified, college-level applicant enrolled in an undergraduate program of study and one qualified, graduate-level applicant enrolled in a Masters or Doctorate program of study.",
+      "perks": "A $5,000 scholarship for tuition and academic expenses. Recognition as a Hope for Healing scholar.",
+      "host_country": "United States",
+      "contact": {
+        "address": "505 Federal Hwy #2, Deerfield Beach, Flo, 33441, United States",
+        "phone": "4042178767",
+        "email": "krdover@fhehealth.com"
+      },
+      "apply_link": "https://fhehealth.com/scholarship/"
+    },
+    {
+      "id": "3",
+      "slug": "inlaks-scholarship",
+      "name": "Inlaks Scholarship",
+      "sponsor": "Inlaks Shivdasani Foundation",
+      "amount": "₹20L–₹80L+",
+      "category": "Excellence",
+      "deadline": "31 March",
+      "number_of_awards": "Variable",
+      "conditions": "Exceptional merit, top admits",
+      "income_criteria": "No strict limit, but need preferred",
+      "description": "The Inlaks Shivdasani Foundation awards scholarships to meritorious Indian students to study at top universities abroad. The scholarship covers tuition fees, living expenses, and travel.",
+      "perks": "Full or partial funding for overseas studies. Membership in a prestigious network of scholars.",
+      "host_country": "Global (Top Universities)",
+      "contact": {
+        "address": "Mumbai, India",
+        "phone": "N/A",
+        "email": "info@inlaksfoundation.org"
+      },
+      "apply_link": "https://www.inlaksfoundation.org/scholarships/"
+    },
+    {
+      "id": "4",
+      "slug": "narotam-sekhsaria",
+      "name": "Narotam Sekhsaria",
+      "sponsor": "Narotam Sekhsaria Foundation",
+      "amount": "₹10L–₹20L",
+      "category": "Merit",
+      "deadline": "Applied",
+      "number_of_awards": "Variable",
+      "conditions": "Merit + interview",
+      "income_criteria": "No strict limit",
+      "description": "The Narotam Sekhsaria Foundation provides interest-free loan scholarships to Indian students with a consistently good academic record who wish to pursue postgraduate studies at prestigious institutions abroad.",
+      "perks": "Interest-free loan scholarship. Mentorship and guidance for academic success.",
+      "host_country": "Global",
+      "contact": {
+        "address": "1st Floor, Nirmal Building, Nariman Point, Mumbai 400021",
+        "phone": "+91-22-61326200",
+        "email": "pgscholarships@nsfoundation.co.in"
+      },
+      "apply_link": "https://pg.nsfoundation.co.in/"
+    },
+    {
+      "id": "5",
+      "slug": "kc-mahindra",
+      "name": "KC Mahindra",
+      "sponsor": "K. C. Mahindra Education Trust",
+      "amount": "₹5L–₹10L",
+      "category": "Merit",
+      "deadline": "31 March",
+      "number_of_awards": "Interest-free loan scholarships",
+      "conditions": "Merit + SOP",
+      "income_criteria": "No strict limit",
+      "description": "The K. C. Mahindra Education Trust provides interest-free loan scholarships to Indian graduates wishing to pursue postgraduate studies abroad in various fields.",
+      "perks": "Financial support for higher education abroad. Recognition by a leading philanthropic trust.",
+      "host_country": "Global",
+      "contact": {
+        "address": "Mahindra Towers, P.K. Kurne Chowk, Worli, Mumbai 400018",
+        "phone": "+91-22-24917000",
+        "email": "kcmtr@mahindra.com"
+      },
+      "apply_link": "https://www.kcmet.org/overseas-scholarships.aspx"
+    }
+  ]
+}

@@ -134,7 +134,7 @@ const RegisterConsultant = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 selection:bg-gold-500 selection:text-black font-sans relative overflow-hidden">
-      
+
       {/* Verify Modal Overlay */}
       <AnimatePresence>
         {verifyModal.show && (
@@ -142,13 +142,13 @@ const RegisterConsultant = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setVerifyModal({ show: false, email: "", otp: "", mode: "confirm" })} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
             <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="bg-[#0f1115] border border-[#d4af37]/20 p-7 rounded-[28px] w-full max-w-[320px] relative shadow-2xl text-center">
               <button onClick={() => setVerifyModal({ show: false, email: "", otp: "", mode: "confirm" })} className="absolute top-6 right-6 text-gray-400 hover:text-white"><X className="w-5 h-5" /></button>
-              
+
               <div className="w-10 h-10 rounded-xl bg-gold-500/10 flex items-center justify-center mb-5 border border-gold-500/20 mx-auto">
                 <ShieldCheck className="w-5 h-5 text-gold-500" />
               </div>
               <h3 className="text-lg font-black text-white uppercase tracking-wider mb-1.5">Verify Identity</h3>
               <p className="text-gray-400 text-[9px] font-bold uppercase tracking-widest mb-6 leading-relaxed">System Verification Required</p>
-              
+
               {verifyModal.mode === 'confirm' && (
                 <div className="space-y-3">
                   <div className="bg-white/5 py-3 px-4 rounded-xl border border-white/5">
@@ -160,7 +160,7 @@ const RegisterConsultant = () => {
                   </div>
                 </div>
               )}
-              
+
               {verifyModal.mode === 'otp' && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <p className="text-gray-500 text-[9px] uppercase font-bold tracking-widest mb-4">Code sent to your email</p>
@@ -182,7 +182,7 @@ const RegisterConsultant = () => {
       </div>
 
       <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-[#d4af37]/20 rounded-[32px] shadow-2xl w-full max-w-5xl flex overflow-hidden relative z-10">
-        
+
         {/* Left Side */}
         <div className="hidden lg:flex lg:w-[40%] bg-[#050505] p-10 flex-col justify-between relative overflow-hidden group border-r border-white/5 text-white">
           <div className="relative z-10">
@@ -269,19 +269,19 @@ const RegisterConsultant = () => {
                       <textarea name="bio" value={form.bio} onChange={handleChange} placeholder="Describe your methodology and success rate..." maxLength={500} className="w-full px-4 py-2.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white outline-none focus:border-gold-500 transition-colors min-h-[60px] resize-none" />
                     </div>
                     <div className="col-span-2">
-                       <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Profile Photo</label>
-                       <div className="flex items-center gap-3">
-                         <div className="w-8 h-8 rounded-full bg-white/5 border border-[#d4af37]/20 flex items-center justify-center overflow-hidden shrink-0">
-                           {imageFile ? <img src={URL.createObjectURL(imageFile)} className="w-full h-full object-cover" alt="Preview"/> : <User className="w-3.5 h-3.5 text-gray-500"/>}
-                         </div>
-                         <div className="flex-1 relative">
-                           <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
-                           <div className="w-full px-3 py-2 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg flex items-center gap-2 text-gray-400 hover:border-gold-500 transition-colors">
-                             <ImageIcon className="w-3.5 h-3.5" />
-                             <span className="text-[9px] font-bold truncate tracking-widest uppercase">{imageFile ? imageFile.name : 'Upload HD Photo'}</span>
-                           </div>
-                         </div>
-                       </div>
+                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Profile Photo</label>
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-white/5 border border-[#d4af37]/20 flex items-center justify-center overflow-hidden shrink-0">
+                          {imageFile ? <img src={URL.createObjectURL(imageFile)} className="w-full h-full object-cover" alt="Preview" /> : <User className="w-3.5 h-3.5 text-gray-500" />}
+                        </div>
+                        <div className="flex-1 relative">
+                          <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                          <div className="w-full px-3 py-2 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg flex items-center gap-2 text-gray-400 hover:border-gold-500 transition-colors">
+                            <ImageIcon className="w-3.5 h-3.5" />
+                            <span className="text-[9px] font-bold truncate tracking-widest uppercase">{imageFile ? imageFile.name : 'Upload HD Photo'}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div className="flex gap-3 pt-1">
@@ -344,9 +344,9 @@ const RegisterConsultant = () => {
               )}
             </AnimatePresence>
 
-          <div className="mt-8 text-center text-[10px] font-black text-gray-600 uppercase tracking-widest">
-            Step {step} Complete • Application Secure
-          </div>
+            <div className="mt-8 text-center text-[10px] font-black text-gray-600 uppercase tracking-widest">
+              Step {step} Complete • Application Secure
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import AddToCart from "@/components/shared/AddToCart";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
@@ -23,12 +24,7 @@ import {
 } from "lucide-react";
 
 export default function ShortlistingPage() {
-  const [currency, setCurrency] = useState("INR");
-  const [skipQueue, setSkipQueue] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const basePrice = 29900.00;
-  const discountedPrice = 19500.00;
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -53,12 +49,12 @@ export default function ShortlistingPage() {
   };
 
   const logos = [
-    { name: "UPenn", src: "https://upload.wikimedia.org/wikipedia/commons/9/92/UPenn_shield_with_banner.svg" },
-    { name: "Columbia", src: "https://upload.wikimedia.org/wikipedia/en/3/36/Columbia_University_shield.svg" },
-    { name: "Harvard", src: "https://upload.wikimedia.org/wikipedia/en/2/29/Harvard_shield_w_motto.svg" },
-    { name: "Stanford", src: "https://upload.wikimedia.org/wikipedia/en/b/b7/Stanford_University_seal_2003.svg" },
-    { name: "Yale", src: "https://upload.wikimedia.org/wikipedia/en/2/22/Yale_University_Shield.svg" },
-    { name: "MIT", src: "https://upload.wikimedia.org/wikipedia/en/4/44/MIT_Seal.svg" }
+    { name: "UPenn", src: "https://www.google.com/s2/favicons?domain=upenn.edu&sz=128" },
+    { name: "Columbia", src: "https://www.google.com/s2/favicons?domain=columbia.edu&sz=128" },
+    { name: "Harvard", src: "https://www.google.com/s2/favicons?domain=harvard.edu&sz=128" },
+    { name: "Stanford", src: "https://www.google.com/s2/favicons?domain=stanford.edu&sz=128" },
+    { name: "Yale", src: "https://www.google.com/s2/favicons?domain=yale.edu&sz=128" },
+    { name: "MIT", src: "https://www.google.com/s2/favicons?domain=mit.edu&sz=128" }
   ];
 
   return (
@@ -97,7 +93,7 @@ export default function ShortlistingPage() {
 
             <div className="space-y-4 pt-2">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gold-500/40 italic">Global Tier Exposure:</p>
-              <div className="flex flex-wrap gap-8 items-center opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
+              <div className="flex flex-wrap gap-8 items-center">
                 {logos.map((logo, i) => (
                    <Image key={i} src={logo.src} alt={logo.name} width={28} height={28} className="object-contain" />
                 ))}
@@ -164,31 +160,9 @@ export default function ShortlistingPage() {
          </div>
       </section>
 
-      {/* ── SETTLEMENT NODE ── */}
-      <section className="py-24 px-8 md:px-20 z-10 relative">
-         <div className="max-w-4xl mx-auto">
-            <motion.div 
-               whileHover={{ y: -5 }}
-               className="glass-card p-8 flex flex-col md:flex-row gap-12 overflow-hidden bg-white/[0.01] border border-white/10 hover:border-gold-500/20 items-center"
-            >
-               <div className="md:w-1/2 space-y-6">
-                  <h3 className="text-xl font-black uppercase tracking-[0.4em] gradient-text-gold italic">START NOW</h3>
-                  <div className="space-y-4 border-l-2 border-gold-500/20 pl-6">
-                     <p className="text-sm font-black italic uppercase">Comprehensive Shortlisting Node</p>
-                     <p className="text-2xl font-black gradient-text-gold">IDR 19,500,000</p>
-                  </div>
-               </div>
-               <div className="md:w-1/2 grid grid-cols-1 gap-4">
-                  <Link href="/contact?service=shortlisting" className="btn-gold px-8 py-4 text-[10px] tracking-widest text-center !rounded-xl">
-                     Initiate Case Review
-                  </Link>
-                  <Link href="/checkout?service=shortlisting" className="btn-outline-gold px-8 py-4 text-[10px] tracking-widest text-center !rounded-xl">
-                     Secure Settlement
-                  </Link>
-               </div>
-            </motion.div>
-         </div>
-      </section>
+        <div className="max-w-md mx-auto py-12 relative z-10">
+            <AddToCart serviceId="shortlisting" />
+        </div>
 
       {/* ── FAQ (COMPACT) ── */}
       <section className="py-24 px-8 md:px-20 bg-dark-900 overflow-hidden relative z-10 border-y border-white/5">

@@ -24,7 +24,7 @@ const activitySchema = new mongoose.Schema({
   // DURATION (in minutes or seconds, updated on heartbeat)
   sessionDuration: { type: Number, default: 0 } // in minutes
 
-}, { timestamps: true });
+}, { timestamps: true, autoCreate: false, autoIndex: false });
 
 // Index for quick lookup of active users
 activitySchema.index({ lastActive: 1 });

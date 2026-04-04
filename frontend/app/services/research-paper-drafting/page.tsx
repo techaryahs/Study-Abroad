@@ -28,7 +28,7 @@ const stats = [
 ];
 
 function useInView() {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -41,14 +41,7 @@ function useInView() {
   return [ref, visible] as const;
 }
 
-interface AnimatedBarProps {
-  pct: number;
-  gold: boolean;
-  visible: boolean;
-  delay: number;
-}
-
-function AnimatedBar({ pct, gold, visible, delay }: AnimatedBarProps) {
+function AnimatedBar({ pct, gold, visible, delay }: { pct: number, gold: boolean, visible: boolean, delay: number }) {
   const [width, setWidth] = useState(0);
   useEffect(() => {
     if (!visible) return;

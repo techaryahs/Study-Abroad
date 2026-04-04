@@ -2,6 +2,7 @@
 
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
+import AddToCart from "@/components/shared/AddToCart";
 
 interface ServiceLayoutProps {
   title: string;
@@ -9,9 +10,10 @@ interface ServiceLayoutProps {
   details: string[];
   icon: React.ReactNode;
   accentClass?: string;
+  serviceId?: string;
 }
 
-export default function ServiceLayout({ title, description, details, icon, accentClass = "accent-glow-gold" }: ServiceLayoutProps) {
+export default function ServiceLayout({ title, description, details, icon, accentClass = "accent-glow-gold", serviceId }: ServiceLayoutProps) {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -50,8 +52,9 @@ export default function ServiceLayout({ title, description, details, icon, accen
           Back to expertise
         </Link>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          <motion.div variants={itemVariants} className="space-y-6">
+        <div className="grid lg:grid-cols-3 gap-12 items-start">
+          {/* Header & Description */}
+          <motion.div variants={itemVariants} className="space-y-6 lg:sticky lg:top-32">
             <div className="w-16 h-16 rounded-2xl bg-gold-500 flex items-center justify-center text-black shadow-2xl shadow-gold-500/20 transform-gpu animate-float">
               <div className="scale-60">
                 {icon}
@@ -60,7 +63,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
             
             <div className="space-y-3">
               <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[9px]">Strategic Expertise</span>
-              <h1 className="text-3xl md:text-4xl font-black tracking-tight leading-none uppercase">
+              <h1 className="text-3xl md:text-3xl font-black tracking-tight leading-none uppercase">
                 {title.split(' ').slice(0, -1).join(' ')} <br />
                 <span className="gradient-text-gold italic">{title.split(' ').slice(-1)}</span>
               </h1>
@@ -77,33 +80,44 @@ export default function ServiceLayout({ title, description, details, icon, accen
             </div>
           </motion.div>
 
-          <motion.div 
-            variants={itemVariants} 
-            whileHover={{ 
-              rotateX: 2,
-              rotateY: -2,
-              scale: 1.01
-            }}
-            style={{ perspective: 1000 }}
-            className="glass-card p-8 md:p-12 space-y-8 border-gold-500/10 transform-gpu transition-all duration-700 bg-white/[0.01]"
-          >
-            <h3 className="text-lg font-black uppercase tracking-[0.3em] border-b border-white/5 pb-6">Detailed Breakdown:</h3>
-            <ul className="space-y-5">
-              {details.map((detail, i) => (
-                <motion.li 
-                  key={i}
-                  initial={{ opacity: 0, x: 15 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 + i * 0.1 }}
-                  className="flex items-center gap-4 group/item"
-                >
-                  <div className="w-3 h-[1px] bg-gold-500 group-hover/item:w-6 transition-all duration-500"></div>
-                  <span className="text-white/50 group-hover/item:text-gold-500 text-[13px] font-medium transition-colors uppercase tracking-[0.1em]">{detail}</span>
-                </motion.li>
-              ))}
-            </ul>
+          {/* Detailed Breakdown */}
+          <div className="space-y-12">
+            <motion.div 
+                variants={itemVariants} 
+                whileHover={{ 
+                rotateX: 2,
+                rotateY: -2,
+                scale: 1.01
+                }}
+                style={{ perspective: 1000 }}
+                className="glass-card p-8 md:p-12 space-y-8 border-gold-500/10 transform-gpu transition-all duration-700 bg-white/[0.01]"
+            >
+                <h3 className="text-lg font-black uppercase tracking-[0.3em] border-b border-white/5 pb-6">Detailed Breakdown:</h3>
+                <ul className="space-y-5">
+                {details.map((detail, i) => (
+                    <motion.li 
+                    key={i}
+                    initial={{ opacity: 0, x: 15 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 + i * 0.1 }}
+                    className="flex items-center gap-4 group/item"
+                    >
+                    <div className="w-3 h-[1px] bg-gold-500 group-hover/item:w-6 transition-all duration-500"></div>
+                    <span className="text-white/50 group-hover/item:text-gold-500 text-[13px] font-medium transition-colors uppercase tracking-[0.1em]">{detail}</span>
+                    </motion.li>
+                ))}
+                </ul>
 
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] -z-10 group-hover:bg-gold-500/10 transition-colors pointer-events-none"></div>
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] -z-10 group-hover:bg-gold-500/10 transition-colors pointer-events-none"></div>
+            </motion.div>
+          </div>
+
+          {/* AddToCart Section */}
+          <motion.div 
+            variants={itemVariants}
+            className="lg:sticky lg:top-32"
+          >
+            {serviceId && <AddToCart serviceId={serviceId} />}
           </motion.div>
         </div>
       </motion.div>

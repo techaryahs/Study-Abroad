@@ -1,0 +1,272 @@
+[
+  {
+    "_id": "uni_can_001",
+    "slug": "university-of-toronto",
+    "name": "University of Toronto",
+    "logo": "https://www.google.com/s2/favicons?domain=utoronto.ca&sz=128",
+    "location": { "city": "Toronto", "state": "Ontario", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Engineering & Computer Science",
+        "description": "UofT is Canada’s top-ranked university known for AI, engineering, and research excellence. It has strong global partnerships and produces highly employable graduates.",
+        "stats": { "acceptance_rate": 43, "tuition_fee": 60000, "living_expense": 20000, "avg_salary": 85000, "avg_sat": 1460, "avg_gpa": 3.85, "avg_gre": 324 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 108 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 90, "employed_within_3_months": 92, "average_salary": 90000 }
+    }
+  },
+  {
+    "_id": "uni_can_002",
+    "slug": "university-of-british-columbia",
+    "name": "University of British Columbia",
+    "logo": "https://www.google.com/s2/favicons?domain=ubc.ca&sz=128",
+    "location": { "city": "Vancouver", "state": "British Columbia", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Engineering & Business",
+        "description": "UBC is globally recognized for sustainability, engineering, and business programs with strong research output and global exposure.",
+        "stats": { "acceptance_rate": 52, "tuition_fee": 58000, "living_expense": 20000, "avg_salary": 82000, "avg_sat": 1420, "avg_gpa": 3.8, "avg_gre": 320 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 104 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 85000 }
+    }
+  },
+  {
+    "_id": "uni_can_003",
+    "slug": "mcgill-university",
+    "name": "McGill University",
+    "logo": "https://www.google.com/s2/favicons?domain=mcgill.ca&sz=128",
+    "location": { "city": "Montreal", "state": "Quebec", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Medicine & Science",
+        "description": "McGill is one of Canada’s most prestigious universities known for medicine, science, and global research excellence.",
+        "stats": { "acceptance_rate": 46, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 80000, "avg_sat": 1440, "avg_gpa": 3.85, "avg_gre": 322 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 87, "employed_within_3_months": 89, "average_salary": 82000 }
+    }
+  },
+  {
+    "_id": "uni_can_004",
+    "slug": "university-of-waterloo",
+    "name": "University of Waterloo",
+    "logo": "https://www.google.com/s2/favicons?domain=uwaterloo.ca&sz=128",
+    "location": { "city": "Waterloo", "state": "Ontario", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Computer Science & Engineering",
+        "description": "Waterloo is globally famous for co-op programs and top-tier computer science and engineering education.",
+        "stats": { "acceptance_rate": 53, "tuition_fee": 60000, "living_expense": 18000, "avg_salary": 90000, "avg_sat": 1450, "avg_gpa": 3.9, "avg_gre": 325 },
+        "admitted_profiles": { "toefl_min": 94, "ielts_min": 7.0, "toefl_avg": 105 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 92, "employed_within_3_months": 94, "average_salary": 95000 }
+    }
+  },
+  {
+    "_id": "uni_can_005",
+    "slug": "university-of-alberta",
+    "name": "University of Alberta",
+    "logo": "https://www.google.com/s2/favicons?domain=ualberta.ca&sz=128",
+    "location": { "city": "Edmonton", "state": "Alberta", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Engineering & Energy",
+        "description": "UAlberta is known for engineering, energy, and environmental research with strong industry ties.",
+        "stats": { "acceptance_rate": 58, "tuition_fee": 45000, "living_expense": 18000, "avg_salary": 78000, "avg_sat": 1380, "avg_gpa": 3.7, "avg_gre": 318 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 98 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 86, "employed_within_3_months": 88, "average_salary": 80000 }
+    }
+  },
+  {
+    "_id": "uni_can_006",
+    "slug": "university-of-montreal",
+    "name": "Université de Montréal",
+    "logo": "https://www.google.com/s2/favicons?domain=umontreal.ca&sz=128",
+    "location": { "city": "Montreal", "state": "Quebec", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Health & AI",
+        "description": "Université de Montréal is strong in AI, healthcare, and French-language education with global research impact.",
+        "stats": { "acceptance_rate": 60, "tuition_fee": 30000, "living_expense": 18000, "avg_salary": 75000, "avg_sat": 1350, "avg_gpa": 3.75, "avg_gre": 315 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 6.5, "toefl_avg": 100 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 78000 }
+    }
+  },
+  {
+    "_id": "uni_can_007",
+    "slug": "mcmaster-university",
+    "name": "McMaster University",
+    "logo": "https://www.google.com/s2/favicons?domain=mcmaster.ca&sz=128",
+    "location": { "city": "Hamilton", "state": "Ontario", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Medicine & Engineering",
+        "description": "McMaster is known for problem-based learning and top medical and engineering programs.",
+        "stats": { "acceptance_rate": 58, "tuition_fee": 50000, "living_expense": 18000, "avg_salary": 78000, "avg_sat": 1400, "avg_gpa": 3.8, "avg_gre": 320 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 102 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 87, "employed_within_3_months": 89, "average_salary": 80000 }
+    }
+  },
+  {
+    "_id": "uni_can_008",
+    "slug": "university-of-ottawa",
+    "name": "University of Ottawa",
+    "logo": "https://www.google.com/s2/favicons?domain=uottawa.ca&sz=128",
+    "location": { "city": "Ottawa", "state": "Ontario", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Law & Public Policy",
+        "description": "Located in Canada’s capital, uOttawa excels in law, public policy, and bilingual education.",
+        "stats": { "acceptance_rate": 63, "tuition_fee": 45000, "living_expense": 18000, "avg_salary": 75000, "avg_sat": 1380, "avg_gpa": 3.7, "avg_gre": 315 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 96 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 77000 }
+    }
+  },
+  {
+    "_id": "uni_can_009",
+    "slug": "university-of-calgary",
+    "name": "University of Calgary",
+    "logo": "https://www.google.com/s2/favicons?domain=ucalgary.ca&sz=128",
+    "location": { "city": "Calgary", "state": "Alberta", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Energy & Business",
+        "description": "UCalgary is known for energy research, business programs, and strong ties with the oil and gas industry.",
+        "stats": { "acceptance_rate": 65, "tuition_fee": 40000, "living_expense": 18000, "avg_salary": 75000, "avg_sat": 1360, "avg_gpa": 3.65, "avg_gre": 312 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 86, "employed_within_3_months": 89, "average_salary": 78000 }
+    }
+  },
+  {
+    "_id": "uni_can_010",
+    "slug": "western-university",
+    "name": "Western University",
+    "logo": "https://www.google.com/s2/favicons?domain=uwo.ca&sz=128",
+    "location": { "city": "London", "state": "Ontario", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "Western is known for Ivey Business School and strong programs in finance and management.",
+        "stats": { "acceptance_rate": 58, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 85000, "avg_sat": 1420, "avg_gpa": 3.75, "avg_gre": 320 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 7.0, "toefl_avg": 100 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 87000 }
+    }
+  },
+  {
+    "_id": "uni_can_011",
+    "slug": "queens-university",
+    "name": "Queen’s University",
+    "logo": "https://www.google.com/s2/favicons?domain=queensu.ca&sz=128",
+    "location": { "city": "Kingston", "state": "Ontario", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Business & Engineering",
+        "description": "Queen’s is known for strong business programs and leadership-focused education.",
+        "stats": { "acceptance_rate": 42, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 85000, "avg_sat": 1400, "avg_gpa": 3.8, "avg_gre": 320 },
+        "admitted_profiles": { "toefl_min": 94, "ielts_min": 7.0, "toefl_avg": 102 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 89, "employed_within_3_months": 91, "average_salary": 88000 }
+    }
+  },
+  {
+    "_id": "uni_can_012",
+    "slug": "simon-fraser-university",
+    "name": "Simon Fraser University",
+    "logo": "https://www.google.com/s2/favicons?domain=sfu.ca&sz=128",
+    "location": { "city": "Burnaby", "state": "British Columbia", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Business & Computing",
+        "description": "SFU is known for innovation, co-op programs, and strong computing and business education.",
+        "stats": { "acceptance_rate": 65, "tuition_fee": 40000, "living_expense": 18000, "avg_salary": 75000, "avg_sat": 1350, "avg_gpa": 3.6, "avg_gre": 310 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 77000 }
+    }
+  },
+  {
+    "_id": "uni_can_013",
+    "slug": "dalhousie-university",
+    "name": "Dalhousie University",
+    "logo": "https://www.google.com/s2/favicons?domain=dal.ca&sz=128",
+    "location": { "city": "Halifax", "state": "Nova Scotia", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Medicine & Marine",
+        "description": "Dalhousie is known for marine research, healthcare, and strong Atlantic Canada presence.",
+        "stats": { "acceptance_rate": 70, "tuition_fee": 35000, "living_expense": 17000, "avg_salary": 70000, "avg_sat": 1320, "avg_gpa": 3.55, "avg_gre": 308 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 84, "employed_within_3_months": 87, "average_salary": 72000 }
+    }
+  },
+  {
+    "_id": "uni_can_014",
+    "slug": "university-of-saskatchewan",
+    "name": "University of Saskatchewan",
+    "logo": "https://www.google.com/s2/favicons?domain=usask.ca&sz=128",
+    "location": { "city": "Saskatoon", "state": "Saskatchewan", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Agriculture & Science",
+        "description": "U of S is known for agriculture, science, and research in sustainability and food security.",
+        "stats": { "acceptance_rate": 72, "tuition_fee": 30000, "living_expense": 17000, "avg_salary": 68000, "avg_sat": 1300, "avg_gpa": 3.5, "avg_gre": 305 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.5, "toefl_avg": 90 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 83, "employed_within_3_months": 86, "average_salary": 70000 }
+    }
+  },
+  {
+    "_id": "uni_can_015",
+    "slug": "york-university",
+    "name": "York University",
+    "logo": "https://www.google.com/s2/favicons?domain=yorku.ca&sz=128",
+    "location": { "city": "Toronto", "state": "Ontario", "country": "Canada" },
+    "branches": [
+      {
+        "name": "Business & Law",
+        "description": "York is known for Schulich Business School and Osgoode Law School with strong global recognition.",
+        "stats": { "acceptance_rate": 62, "tuition_fee": 40000, "living_expense": 20000, "avg_salary": 75000, "avg_sat": 1340, "avg_gpa": 3.6, "avg_gre": 312 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 78000 }
+    }
+  }
+]

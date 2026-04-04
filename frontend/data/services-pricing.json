@@ -5,16 +5,13 @@
     "type": "fixed",
     "pricing": {
       "INR": { "actual": "13,967.00", "discounted": "11,173.21", "save": "2,793.79", "off": "20% off" },
-      "USD": { "actual": "170.00", "discounted": "136.00", "save": "34.00", "off": "20% off" }
-    }
-  },
-  "toefl": {
-    "title": "TOEFL Consulting Session via Zoom",
-    "duration": "60 Minutes",
-    "type": "fixed",
-    "pricing": {
-      "INR": { "actual": "11,612.00", "discounted": "9,289.47", "save": "2,322.53", "off": "20% off" },
-      "USD": { "actual": "140.00", "discounted": "112.00", "save": "28.00", "off": "20% off" }
+      "USD": { "actual": "170.00", "discounted": "136.00", "save": "34.00", "off": "20% off" },
+      "EUR": { "actual": "160.00", "discounted": "125.12", "save": "34.88", "off": "20% off" },
+      "GBP": { "actual": "132.60", "discounted": "106.08", "save": "26.52", "off": "20% off" },
+      "CAD": { "actual": "229.50", "discounted": "183.60", "save": "45.90", "off": "20% off" },
+      "AUD": { "actual": "255.00", "discounted": "204.00", "save": "51.00", "off": "20% off" },
+      "AED": { "actual": "623.90", "discounted": "499.12", "save": "124.78", "off": "20% off" },
+      "SGD": { "actual": "227.80", "discounted": "182.24", "save": "45.56", "off": "20% off" }
     }
   },
   "scholarship": {
@@ -23,16 +20,296 @@
     "type": "fixed",
     "pricing": {
       "INR": { "actual": "58,059.00", "discounted": "46,447.37", "save": "11,611.63", "off": "20% off" },
-      "USD": { "actual": "700.00", "discounted": "560.00", "save": "140.00", "off": "20% off" }
+      "USD": { "actual": "700.00", "discounted": "560.00", "save": "140.00", "off": "20% off" },
+      "EUR": { "actual": "660.00", "discounted": "515.20", "save": "144.80", "off": "20% off" },
+      "GBP": { "actual": "546.00", "discounted": "436.80", "save": "109.20", "off": "20% off" },
+      "CAD": { "actual": "945.00", "discounted": "756.00", "save": "189.00", "off": "20% off" },
+      "AUD": { "actual": "1,050.00", "discounted": "840.00", "save": "210.00", "off": "20% off" },
+      "AED": { "actual": "2,569.00", "discounted": "2,055.20", "save": "513.80", "off": "20% off" },
+      "SGD": { "actual": "938.00", "discounted": "750.40", "save": "187.60", "off": "20% off" }
     }
   },
   "visa_mock_interview": {
-    "title": "Visa Mock Interview",
-    "duration": "60 Minutes",
-    "type": "variable",
+    "title": "US Visa Mock Interview",
+    "duration": "1 hour (average session)",
+    "type": "scaling",
+    "selectionTitle": "Sessions",
+    "options": ["1", "2", "3", "4", "5"],
     "pricing": {
-      "INR": { "pricePerSession": 2499, "symbol": "₹" },
-      "USD": { "pricePerSession": 35, "symbol": "$" }
+      "INR": { "actual": "3,123.75", "discounted": "2,499", "save": "624.75", "off": "20% off", "scaleFactor": 1.0 },
+      "USD": { "actual": "43.75", "discounted": "35", "save": "8.75", "off": "20% off", "scaleFactor": 1.0 },
+      "EUR": { "actual": "40", "discounted": "32", "save": "8", "off": "20% off", "scaleFactor": 1.0 },
+      "GBP": { "actual": "33.75", "discounted": "27", "save": "6.75", "off": "20% off", "scaleFactor": 1.0 },
+      "CAD": { "actual": "58.75", "discounted": "47", "save": "11.75", "off": "20% off", "scaleFactor": 1.0 },
+      "AUD": { "actual": "65", "discounted": "52", "save": "13", "off": "20% off", "scaleFactor": 1.0 },
+      "AED": { "actual": "160", "discounted": "128", "save": "32", "off": "20% off", "scaleFactor": 1.0 },
+      "SGD": { "actual": "58.75", "discounted": "47", "save": "11.75", "off": "20% off", "scaleFactor": 1.0 }
+    }
+  },
+  "research-papers": {
+    "title": "Research Paper Drafting & Publishing Help",
+    "duration": "3-4 Weeks",
+    "type": "scaling",
+    "selectionTitle": "Co-authors",
+    "suffix": "/author",
+    "options": ["0", "1", "2"],
+    "pricing": {
+      "INR": { "actual": "87,089.00", "discounted": "69,671.05", "save": "17,417.95", "off": "20% off", "scaleFactor": 0.8 },
+      "USD": { "actual": "1,045.00", "discounted": "836.00", "save": "209.00", "off": "20% off", "scaleFactor": 0.8 },
+      "EUR": { "actual": "985.00", "discounted": "769.12", "save": "215.88", "off": "20% off", "scaleFactor": 0.8 },
+      "GBP": { "actual": "815.10", "discounted": "652.08", "save": "163.02", "off": "20% off", "scaleFactor": 0.8 },
+      "CAD": { "actual": "1,410.75", "discounted": "1,128.60", "save": "282.15", "off": "20% off", "scaleFactor": 0.8 },
+      "AUD": { "actual": "1,567.50", "discounted": "1,254.00", "save": "313.50", "off": "20% off", "scaleFactor": 0.8 },
+      "AED": { "actual": "3,835.15", "discounted": "3,068.12", "save": "767.03", "off": "20% off", "scaleFactor": 0.8 },
+      "SGD": { "actual": "1,400.30", "discounted": "1,120.24", "save": "280.06", "off": "20% off", "scaleFactor": 0.8 }
+    }
+  },
+  "counselling": {
+    "title": "Initial Counseling Session",
+    "duration": "1 hour (average)",
+    "experts": ["Expert Counselor", "Yash Mittra"],
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "14,573", "discounted": "11,658", "save": "2,915", "off": "20% off" },
+      "USD": { "actual": "175", "discounted": "139", "save": "36", "off": "20% off" },
+      "GBP": { "actual": "140", "discounted": "112", "save": "28", "off": "20% off" },
+      "EUR": { "actual": "165", "discounted": "132", "save": "33", "off": "20% off" },
+      "CAD": { "actual": "240", "discounted": "192", "save": "48", "off": "20% off" },
+      "AUD": { "actual": "265", "discounted": "212", "save": "53", "off": "20% off" },
+      "AED": { "actual": "640", "discounted": "512", "save": "128", "off": "20% off" },
+      "SGD": { "actual": "230", "discounted": "185", "save": "45", "off": "20% off" }
+    }
+  },
+  "visa-application-help": {
+    "title": "Visa Application Help",
+    "duration": "1-2 months",
+    "type": "complex",
+    "highlight": "Visa Guarantee Included",
+    "selections": [
+      { "id": "dependents", "title": "Dependents", "options": ["0", "1", "2", "3", "4"], "factor": 0.3, "offset": 0 },
+      { "id": "mocks", "title": "Mocks", "options": ["1", "2", "3", "4", "5"], "factor": 0.15, "offset": 1 }
+    ],
+    "pricing": {
+      "INR": { "actual": "69,716", "discounted": "55,772.95", "save": "13,943.05", "off": "20% off" },
+      "USD": { "actual": "836", "discounted": "669", "save": "167", "off": "20% off" },
+      "EUR": { "actual": "795", "discounted": "636", "save": "159", "off": "20% off" },
+      "GBP": { "actual": "c", "discounted": "528", "save": "132", "off": "20% off" },
+      "CAD": { "actual": "1,128", "discounted": "902", "save": "226", "off": "20% off" },
+      "AUD": { "actual": "1,254", "discounted": "1,003", "save": "251", "off": "20% off" },
+      "AED": { "actual": "3,068", "discounted": "2,454", "save": "614", "off": "20% off" },
+      "SGD": { "actual": "1,120", "discounted": "896", "save": "224", "off": "20% off" }
+    }
+  },
+  "application-help": {
+    "title": "Complete Application Help",
+    "duration": "2-3 weeks (Minimum)",
+    "type": "complex",
+    "highlight": "Admissions Guarantee Included",
+    "selections": [
+      { "id": "unis", "title": "No. of Universities", "options": ["8", "10", "12"], "factor": 0.15, "offset": 8 }
+    ],
+    "checkboxes": [
+      { "id": "bschool", "label": "Are you applying to B-schools?", "type": "surcharge", "value": 0.1 },
+      { "id": "visa", "label": "Do you want to avail Visa Application Help Service as well?", "type": "addon", "pricing": { "INR": 52693, "USD": 630, "EUR": 590, "GBP": 490, "CAD": 850, "AUD": 950, "AED": 2300, "SGD": 850 } }
+    ],
+    "pricing": {
+      "INR": { "actual": "2,23,972", "discounted": "1,79,177.65", "save": "44,794.35", "off": "20% off" },
+      "USD": { "actual": "2,700", "discounted": "2,160", "save": "540", "off": "20% off" },
+      "EUR": { "actual": "2,550", "discounted": "2,040", "save": "510", "off": "20% off" },
+      "GBP": { "actual": "2,100", "discounted": "1,680", "save": "420", "off": "20% off" },
+      "CAD": { "actual": "3,650", "discounted": "2,920", "save": "730", "off": "20% off" },
+      "AUD": { "actual": "4,100", "discounted": "3,280", "save": "820", "off": "20% off" },
+      "AED": { "actual": "9,900", "discounted": "7,920", "save": "1,980", "off": "20% off" },
+      "SGD": { "actual": "3,600", "discounted": "2,880", "save": "720", "off": "20% off" }
+    }
+  },
+  "shortlisting": {
+    "title": "Profile Evaluation & University Shortlisting",
+    "duration": "7-9 days",
+    "type": "complex",
+    "checkboxes": [
+      { "id": "lightning", "label": "Skip the queue - Delivered within 3 days for a 25% surcharge", "type": "surcharge", "value": 0.25, "overrideDuration": "3 days" }
+    ],
+    "pricing": {
+      "INR": { "actual": "20,255", "discounted": "16,203.77", "save": "4,051.23", "off": "20% off" },
+      "USD": { "actual": "245", "discounted": "196", "save": "49", "off": "20% off" },
+      "EUR": { "actual": "230", "discounted": "184", "save": "46", "off": "20% off" },
+      "GBP": { "actual": "190", "discounted": "152", "save": "38", "off": "20% off" },
+      "CAD": { "actual": "330", "discounted": "264", "save": "66", "off": "20% off" },
+      "AUD": { "actual": "370", "discounted": "296", "save": "74", "off": "20% off" },
+      "AED": { "actual": "900", "discounted": "720", "save": "180", "off": "20% off" },
+      "SGD": { "actual": "330", "discounted": "264", "save": "66", "off": "20% off" }
+    }
+  },
+  "sop": {
+    "title": "Statement of Purpose / Essay Writing",
+    "duration": "2-2.5 weeks",
+    "type": "complex",
+    "selections": [
+      { "id": "custom", "title": "Customizations", "options": ["Draft (0 Customization)", "Draft (3 Customization)", "Draft (5 Customization)", "Draft (7 Customization)", "Draft (10 Customization)", "Draft (12 Customization)"], "factor": 0.1, "offset": 0 }
+    ],
+    "checkboxes": [
+      { "id": "lightning", "label": "Skip the queue - Delivered within 3-5 days for a 25% surcharge", "type": "surcharge", "value": 0.25, "overrideDuration": "3-5 days" }
+    ],
+    "pricing": {
+      "INR": { "actual": "36,875", "discounted": "29,500", "save": "7,375", "off": "20% off" },
+      "USD": { "actual": "445", "discounted": "356", "save": "89", "off": "20% off" },
+      "EUR": { "actual": "420", "discounted": "336", "save": "84", "off": "20% off" },
+      "GBP": { "actual": "350", "discounted": "280", "save": "70", "off": "20% off" },
+      "CAD": { "actual": "600", "discounted": "480", "save": "120", "off": "20% off" },
+      "AUD": { "actual": "670", "discounted": "536", "save": "134", "off": "20% off" },
+      "AED": { "actual": "1,635", "discounted": "1,308", "save": "327", "off": "20% off" },
+      "SGD": { "actual": "600", "discounted": "480", "save": "120", "off": "20% off" }
+    }
+  },
+  "lor-drafting": {
+    "title": "Letter of Recommendation Drafting",
+    "duration": "2-2.5 weeks",
+    "type": "complex",
+    "selections": [
+      { "id": "lors", "title": "Number of LORs", "options": ["1", "2", "3", "4", "5"], "factor": 1.0, "offset": 1 }
+    ],
+    "checkboxes": [
+      { "id": "lightning", "label": "Skip the queue - Delivered within 3-5 days for a 25% surcharge", "type": "surcharge", "value": 0.25, "overrideDuration": "3-5 days" }
+    ],
+    "pricing": {
+      "INR": { "actual": "25,465", "discounted": "20,371.62", "save": "5,093.38", "off": "20% off" },
+      "USD": { "actual": "310", "discounted": "248", "save": "62", "off": "20% off" },
+      "EUR": { "actual": "290", "discounted": "232", "save": "58", "off": "20% off" },
+      "GBP": { "actual": "240", "discounted": "192", "save": "48", "off": "20% off" },
+      "CAD": { "actual": "415", "discounted": "332", "save": "83", "off": "20% off" },
+      "AUD": { "actual": "465", "discounted": "372", "save": "93", "off": "20% off" },
+      "AED": { "actual": "1,130", "discounted": "904", "save": "226", "off": "20% off" },
+      "SGD": { "actual": "415", "discounted": "332", "save": "83", "off": "20% off" }
+    }
+  },
+  "history-draft": {
+    "title": "Personal History Statement Drafting",
+    "duration": "2 weeks",
+    "type": "complex",
+    "checkboxes": [
+      { "id": "lightning", "label": "Skip the queue - Delivered within 3-5 days for a 25% surcharge", "type": "surcharge", "value": 0.25, "overrideDuration": "3-5 days" }
+    ],
+    "pricing": {
+      "INR": { "actual": "25,465", "discounted": "20,371.62", "save": "5,093.38", "off": "20% off" },
+      "USD": { "actual": "310", "discounted": "248", "save": "62", "off": "20% off" },
+      "EUR": { "actual": "290", "discounted": "232", "save": "58", "off": "20% off" },
+      "GBP": { "actual": "240", "discounted": "192", "save": "48", "off": "20% off" },
+      "CAD": { "actual": "415", "discounted": "332", "save": "83", "off": "20% off" },
+      "AUD": { "actual": "465", "discounted": "372", "save": "93", "off": "20% off" },
+      "AED": { "actual": "1,130", "discounted": "904", "save": "226", "off": "20% off" },
+      "SGD": { "actual": "415", "discounted": "332", "save": "83", "off": "20% off" }
+    }
+  },
+  "resume-drafting": {
+    "title": "Premium Resume Drafting",
+    "duration": "1-1.5 weeks",
+    "type": "complex",
+    "checkboxes": [
+      { "id": "lightning", "label": "Skip the queue - Delivered within 3 days for a 25% surcharge", "type": "surcharge", "value": 0.25, "overrideDuration": "3 days" }
+    ],
+    "pricing": {
+      "INR": { "actual": "20,273", "discounted": "16,218.4", "save": "4,054.6", "off": "20% off" },
+      "USD": { "actual": "250", "discounted": "200", "save": "50", "off": "20% off" },
+      "EUR": { "actual": "235", "discounted": "188", "save": "47", "off": "20% off" },
+      "GBP": { "actual": "200", "discounted": "160", "save": "40", "off": "20% off" },
+      "CAD": { "actual": "335", "discounted": "268", "save": "67", "off": "20% off" },
+      "AUD": { "actual": "375", "discounted": "300", "save": "75", "off": "20% off" },
+      "AED": { "actual": "915", "discounted": "732", "save": "183", "off": "20% off" },
+      "SGD": { "actual": "335", "discounted": "268", "save": "67", "off": "20% off" }
+    }
+  },
+  "gre-prep": {
+    "title": "GRE Preparation Plan Building",
+    "duration": "60 Minutes",
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "11,469", "discounted": "9,175.2", "save": "2,293.8", "off": "20% off" },
+      "USD": { "actual": "140", "discounted": "112", "save": "28", "off": "20% off" },
+      "EUR": { "actual": "132", "discounted": "105.6", "save": "26.4", "off": "20% off" },
+      "GBP": { "actual": "110", "discounted": "88", "save": "22", "off": "20% off" },
+      "CAD": { "actual": "190", "discounted": "152", "save": "38", "off": "20% off" },
+      "AUD": { "actual": "215", "discounted": "172", "save": "43", "off": "20% off" },
+      "AED": { "actual": "520", "discounted": "416", "save": "104", "off": "20% off" },
+      "SGD": { "actual": "190", "discounted": "152", "save": "38", "off": "20% off" }
+    }
+  },
+  "university-finalization": {
+    "title": "University Finalization Help",
+    "duration": "3-5 days",
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "11,469", "discounted": "9,175.2", "save": "2,293.8", "off": "20% off" },
+      "USD": { "actual": "140", "discounted": "112", "save": "28", "off": "20% off" },
+      "EUR": { "actual": "132", "discounted": "105.6", "save": "26.4", "off": "20% off" },
+      "GBP": { "actual": "110", "discounted": "88", "save": "22", "off": "20% off" },
+      "CAD": { "actual": "190", "discounted": "152", "save": "38", "off": "20% off" },
+      "AUD": { "actual": "215", "discounted": "172", "save": "43", "off": "20% off" },
+      "AED": { "actual": "520", "discounted": "416", "save": "104", "off": "20% off" },
+      "SGD": { "actual": "190", "discounted": "152", "save": "38", "off": "20% off" }
+    }
+  },
+  "plagiarism-check": {
+    "title": "Plagiarism Check Report",
+    "duration": "1-2 days",
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "3,474", "discounted": "2,779.2", "save": "694.8", "off": "20% off" },
+      "USD": { "actual": "42", "discounted": "33.6", "save": "8.4", "off": "20% off" },
+      "EUR": { "actual": "40", "discounted": "32", "save": "8", "off": "20% off" },
+      "GBP": { "actual": "33", "discounted": "26.4", "save": "6.6", "off": "20% off" },
+      "CAD": { "actual": "57", "discounted": "45.6", "save": "11.4", "off": "20% off" },
+      "AUD": { "actual": "63", "discounted": "50.4", "save": "12.6", "off": "20% off" },
+      "AED": { "actual": "155", "discounted": "124", "save": "31", "off": "20% off" },
+      "SGD": { "actual": "57", "discounted": "45.6", "save": "11.4", "off": "20% off" }
+    }
+  },
+  "toefl": {
+    "title": "TOEFL Consulting Session",
+    "duration": "60 Minutes",
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "11,584", "discounted": "9,267.59", "save": "2,316.41", "off": "20% off" },
+      "USD": { "actual": "140", "discounted": "112", "save": "28", "off": "20% off" },
+      "EUR": { "actual": "132", "discounted": "105.6", "save": "26.4", "off": "20% off" },
+      "GBP": { "actual": "110", "discounted": "88", "save": "22", "off": "20% off" },
+      "CAD": { "actual": "190", "discounted": "152", "save": "38", "off": "20% off" },
+      "AUD": { "actual": "215", "discounted": "172", "save": "43", "off": "20% off" },
+      "AED": { "actual": "520", "discounted": "416", "save": "104", "off": "20% off" },
+      "SGD": { "actual": "190", "discounted": "152", "save": "38", "off": "20% off" }
+    }
+  },
+  "cover-letter": {
+    "title": "Cover Letter Drafting",
+    "duration": "1.5-2 weeks",
+    "type": "complex",
+    "checkboxes": [
+      { "id": "lightning", "label": "Skip the queue - Delivered within 3-5 days for a 25% surcharge", "type": "surcharge", "value": 0.25, "overrideDuration": "3-5 days" }
+    ],
+    "pricing": {
+      "INR": { "actual": "25,486", "discounted": "20,388.8", "save": "5,097.2", "off": "20% off" },
+      "USD": { "actual": "310", "discounted": "248", "save": "62", "off": "20% off" },
+      "EUR": { "actual": "295", "discounted": "236", "save": "59", "off": "20% off" },
+      "GBP": { "actual": "250", "discounted": "200", "save": "50", "off": "20% off" },
+      "CAD": { "actual": "420", "discounted": "336", "save": "84", "off": "20% off" },
+      "AUD": { "actual": "470", "discounted": "376", "save": "94", "off": "20% off" },
+      "AED": { "actual": "1,145", "discounted": "916", "save": "229", "off": "20% off" },
+      "SGD": { "actual": "420", "discounted": "336", "save": "84", "off": "20% off" }
+    }
+  },
+  "profile-building": {
+    "title": "Profile Building Guidance",
+    "duration": "2 Sessions on Zoom",
+    "type": "fixed",
+    "pricing": {
+      "INR": { "actual": "32,437", "discounted": "25,949.6", "save": "6,487.4", "off": "20% off" },
+      "USD": { "actual": "400", "discounted": "320", "save": "80", "off": "20% off" },
+      "EUR": { "actual": "375", "discounted": "300", "save": "75", "off": "20% off" },
+      "GBP": { "actual": "320", "discounted": "256", "save": "64", "off": "20% off" },
+      "CAD": { "actual": "540", "discounted": "432", "save": "108", "off": "20% off" },
+      "AUD": { "actual": "600", "discounted": "480", "save": "120", "off": "20% off" },
+      "AED": { "actual": "1,460", "discounted": "1,168", "save": "292", "off": "20% off" },
+      "SGD": { "actual": "540", "discounted": "432", "save": "108", "off": "20% off" }
     }
   }
 }

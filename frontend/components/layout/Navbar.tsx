@@ -27,6 +27,7 @@ import {
 import { useEffect } from "react";
 import { getUser, removeToken, clearAuth } from "@/app/lib/token";
 import Image from "next/image";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -279,6 +280,8 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<DropdownKey>(null);
   const [user, setUserState] = useState<any>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -293,6 +296,28 @@ export default function Navbar() {
 
     refreshUser();
     window.addEventListener('user-updated', refreshUser);
+
+    const fetchCartCount = async () => {
+      const token = localStorage.getItem("auth_token");
+      if (!token) {
+        setCartCount(0);
+        return;
+      }
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/get-cart`, {
+          headers: { "Authorization": `Bearer ${token}` }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setCartCount(data.cart?.length || 0);
+        }
+      } catch (error) {
+        console.error("Failed to fetch cart count:", error);
+      }
+    };
+
+    fetchCartCount();
+    window.addEventListener('cart-updated', fetchCartCount);
 
     const storedUser = getUser();
     if (storedUser && (storedUser._id || storedUser.id)) {
@@ -321,7 +346,10 @@ export default function Navbar() {
       fetchFullProfile();
     }
 
-    return () => window.removeEventListener('user-updated', refreshUser);
+    return () => {
+      window.removeEventListener('user-updated', refreshUser);
+      window.removeEventListener('cart-updated', fetchCartCount);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -419,18 +447,25 @@ export default function Navbar() {
                     className="flex items-center gap-2 focus:outline-none transition-transform active:scale-95"
                   >
                     <div className="w-10 h-10 rounded-full bg-white/10 border border-white/20 overflow-hidden flex items-center justify-center hover:border-[#d4af37]/50 transition-colors">
-                      {user.profileImage ? (
+                      {user.profileImage || user.image ? (
                         <img
-                          src={user.profileImage.startsWith('http') ? user.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                          src={(user.profileImage || user.image).startsWith('http') ? (user.profileImage || user.image) : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage || user.image}`}
                           alt="Profile"
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const initials = (user.name || 'U').split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2);
+                            const parent = target.parentElement;
+                            if (parent) {
+                              parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-xs uppercase">${initials}</div>`;
+                            }
+                          }}
                         />
                       ) : (
-                        <img
-                          src={`https://ui-avatars.com/api/?name=${user.name || 'User'}&background=FFD700&color=000&bold=true&rounded=true`}
-                          alt="Profile Placeholder"
-                          className="w-full h-full p-0.5"
-                        />
+                        <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-xs uppercase">
+                          {(user.name || 'U').split(' ').map((n: any) => n[0]).join('').toUpperCase().substring(0, 2)}
+                        </div>
                       )}
                     </div>
                     <ChevronRight size={14} className={`text-gray-400 transition-transform duration-200 ${profileDropdownOpen ? 'rotate-90' : ''}`} />
@@ -448,22 +483,29 @@ export default function Navbar() {
                       {/* Background Glow */}
                       <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/5 to-transparent pointer-events-none" />
 
-                      <div className="flex flex-col items-center gap-3 relative z-10">
+                      <div className="flex flex-col items-center gap-4 relative z-10">
                         <div className="relative group/avatar">
-                          <div className="w-16 h-16 rounded-[1rem] bg-white/5 border border-[#d4af37]/20 overflow-hidden flex items-center justify-center p-1 transition-transform duration-500 group-hover/avatar:rotate-2">
-                            <div className="w-full h-full rounded-[0.8rem] overflow-hidden bg-[#1a1a1a] flex items-center justify-center relative">
-                              {user.profileImage ? (
+                          <div className="w-16 h-16 rounded-[1.2rem] bg-white/5 border border-[#d4af37]/20 p-1 flex items-center justify-center transition-transform group-hover:rotate-2">
+                            <div className="w-full h-full rounded-[1rem] overflow-hidden bg-[#1a1a1a] flex items-center justify-center relative">
+                              {user.profileImage || user.image ? (
                                 <img
-                                  src={user.profileImage.startsWith('http') ? user.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage}`}
+                                  src={(user.profileImage || user.image).startsWith('http') ? (user.profileImage || user.image) : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${user.profileImage || user.image}`}
                                   alt="Profile"
                                   className="w-full h-full object-cover"
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.style.display = 'none';
+                                    const initials = (user.name || 'U').split(' ').map((n: string) => n[0]).join('').toUpperCase().substring(0, 2);
+                                    const parent = target.parentElement;
+                                    if (parent) {
+                                      parent.innerHTML = `<div class="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-lg uppercase">${initials}</div>`;
+                                    }
+                                  }}
                                 />
                               ) : (
-                                <img
-                                  src={`https://ui-avatars.com/api/?name=${user.name || 'User'}&background=FFD700&color=000&bold=true&rounded=true`}
-                                  alt="Profile Avatar"
-                                  className="w-full h-full p-1"
-                                />
+                                <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black font-black text-lg uppercase">
+                                  {(user.name || 'U').split(' ').map((n: any) => n[0]).join('').toUpperCase().substring(0, 2)}
+                                </div>
                               )}
                             </div>
                           </div>
@@ -480,7 +522,7 @@ export default function Navbar() {
 
                         <div className="w-full pt-2 space-y-2">
                           <Link
-                            href={user?.role === 'consultant' || user?.role === 'admin' ? '/consultant-dashboard' : '/User/dashboard'}
+                            href={user.role === 'admin' ? '/admin-dashboard' : user.role === 'consultant' ? '/consultant-dashboard' : '/User/dashboard'}
                             className="flex items-center justify-center gap-2 w-full bg-[#d4af37] text-black py-2.5 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-yellow-300 transition-all hover:scale-[1.02] active:scale-95 shadow-[0_10px_20px_rgba(234,179,8,0.2)]"
                           >
                             <LayoutDashboard size={12} />
@@ -501,20 +543,33 @@ export default function Navbar() {
 
                 {/* Small Cart Icon */}
                 <div className="relative group/cart cursor-pointer hover:scale-110 transition-transform px-2">
-                  <ShoppingCart size={20} className="text-white hover:text-[#d4af37] transition-colors" />
-                  <span className="absolute -top-1.5 -right-0 bg-red-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                    0
-                  </span>
+                  <Link href="/User/cart">
+                    <ShoppingCart size={20} className="text-white hover:text-[#d4af37] transition-colors" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-1.5 -right-0 bg-red-600 text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
                 </div>
               </div>
             )}
 
-            <Link
-              href="/contact"
-              className="bg-[#d4af37] text-black px-4 py-1.5 rounded-lg font-semibold text-sm hover:bg-yellow-300 transition-colors"
+            <button
+              onClick={() => setShowCounsellingModal(true)}
+              className="relative px-6 py-3 rounded-md text-[#e6c47a] font-semibold overflow-hidden group border border-[#e6c47a]/40 bg-[#0f1524] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_20px_rgba(230,196,122,0.4)]"
             >
-              Book Counseling Session
-            </Link>
+              {/* Glow Overlay */}
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[#e6c47a]/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 blur-sm"></span>
+
+              {/* Shine Animation */}
+              <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
+
+              {/* Text */}
+              <span className="relative z-10 tracking-wide">
+                Book Counselling Session
+              </span>
+            </button>
           </div>
 
           <button
@@ -706,6 +761,12 @@ export default function Navbar() {
           <div className="mt-2 text-sm text-gray-500">+91 89876 54321</div>
         </div>
       )}
+
+      {/* ── Book Counselling Modal ──────────────────────────────────────── */}
+      <BookCounsellingModal
+        isOpen={showCounsellingModal}
+        onClose={() => setShowCounsellingModal(false)}
+      />
     </>
   );
 }

@@ -65,13 +65,12 @@ function StepDot({ step, current, label }: { step: number; current: number; labe
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 ${
-          done
+        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 ${done
             ? "bg-[#d4af37] border-[#d4af37] text-black"
             : active
-            ? "bg-transparent border-[#d4af37] text-[#d4af37]"
-            : "bg-transparent border-white/20 text-white/30"
-        }`}
+              ? "bg-transparent border-[#d4af37] text-[#d4af37]"
+              : "bg-transparent border-white/20 text-white/30"
+          }`}
       >
         {done ? "✓" : step}
       </div>
@@ -228,7 +227,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     }
   };
 
-  const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   const slideVariants = {
     enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
@@ -363,7 +362,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
 
                           {/* Day headers */}
                           <div className="grid grid-cols-7 mb-2">
-                            {["Su","Mo","Tu","We","Th","Fr","Sa"].map((d) => (
+                            {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) => (
                               <div key={d} className="text-center text-[10px] font-semibold text-white/30 uppercase tracking-wider py-1">
                                 {d}
                               </div>
@@ -450,10 +449,10 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                                   ${isSelected
                                     ? "bg-[#d4af37] border-[#d4af37] text-black shadow-lg shadow-[#d4af37]/20 scale-[1.03]"
                                     : slot.available
-                                    ? "bg-[#141414] border-white/10 text-white hover:border-[#d4af37]/40 hover:bg-[#d4af37]/5 cursor-pointer"
-                                    : slot.booked
-                                    ? "bg-red-950/30 border-red-900/30 text-red-400/50 cursor-not-allowed"
-                                    : "bg-white/[0.02] border-white/5 text-white/20 cursor-not-allowed"
+                                      ? "bg-[#141414] border-white/10 text-white hover:border-[#d4af37]/40 hover:bg-[#d4af37]/5 cursor-pointer"
+                                      : slot.booked
+                                        ? "bg-red-950/30 border-red-900/30 text-red-400/50 cursor-not-allowed"
+                                        : "bg-white/[0.02] border-white/5 text-white/20 cursor-not-allowed"
                                   }
                                 `}
                               >
@@ -572,7 +571,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                         <div>
                           <h3 className="text-2xl font-black text-white">Session Booked!</h3>
                           <p className="text-white/45 text-sm mt-1 max-w-xs">
-                            A confirmation email has been sent to <span className="text-white">{booking.userEmail}</span>
+                            A confirmation email has been sent to <span className="text-white">{userEmail}</span>
                           </p>
                         </div>
                       </div>
