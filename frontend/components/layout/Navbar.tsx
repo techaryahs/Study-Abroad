@@ -480,14 +480,9 @@ export default function Navbar() {
           {/* Logo Section - Left 1/4 */}
           <div className="w-1/4 flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-yellow-600 flex items-center justify-center p-[1px] group-hover:scale-105 transition-transform">
-                <div className="h-full w-full bg-black rounded-[11px] flex items-center justify-center">
-                  <span className="text-[12px] font-black text-[#d4af37] tracking-tighter">GCC</span>
-                </div>
-              </div>
               <div className="flex flex-col">
-                <span className="text-white font-black text-[12px] uppercase tracking-[0.25em] leading-none">Global Counselling</span>
-                <span className="text-[#d4af37] text-[8px] font-bold uppercase tracking-[0.3em] mt-1 opacity-60">Success Starts Here</span>
+                <span className="text-white font-black text-[13px] uppercase tracking-[0.2em] leading-none">Global Counselling Centre</span>
+                <span className="text-[#d4af37] text-[8px] font-bold uppercase tracking-[0.2em] mt-1 opacity-60">Success Starts Here</span>
               </div>
             </Link>
           </div>
@@ -639,22 +634,16 @@ export default function Navbar() {
                         </div>
                       </div>
 
-                        <div className="w-full pt-2 space-y-2">
-                          <Link
-                            href={user.role === 'admin' ? '/admin-dashboard' : user.role === 'consultant' ? '/consultant-dashboard' : '/User/dashboard'}
-                            className="flex items-center justify-center gap-2 w-full bg-[#d4af37] text-black py-2.5 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-yellow-300 transition-all hover:scale-[1.02] active:scale-95 shadow-[0_10px_20px_rgba(234,179,8,0.2)]"
-                          >
-                            <LayoutDashboard size={12} />
-                            Dashboard
-                          </Link>
+                      <h4 className="text-white font-bold text-sm truncate uppercase tracking-tight">{user.name}</h4>
+                      <span className="inline-block px-2 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[8px] font-black uppercase rounded-full mt-1 border border-[#d4af37]/20">{user.role || 'Student'}</span>
 
-                          <button
-                            onClick={handleLogout}
-                            className="flex items-center justify-center gap-2 w-full py-1.5 text-white/50 hover:text-white font-bold text-[10px] uppercase tracking-[0.2em] transition-colors"
-                          >
-                            Logout
-                          </button>
-                        </div>
+                      <div className="mt-6 pt-5 border-t border-white/5 space-y-1.5 text-left">
+                        <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[10px] font-black text-white hover:bg-white/5 hover:text-[#d4af37] transition-all uppercase tracking-[0.2em] group/link">
+                          <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}
+                        </Link>
+                        <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-[10px] font-black text-red-500 hover:bg-red-500/10 transition-all uppercase tracking-[0.2em] group/out">
+                          <LogOut size={14} className="opacity-40 group-hover/out:opacity-100 transition-opacity" /> Logout
+                        </button>
                       </div>
                     </div>
                   )}
@@ -766,67 +755,93 @@ export default function Navbar() {
 
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-black/50 backdrop-blur-xl">
             <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[#d4af37] to-yellow-600 flex items-center justify-center p-[1px]">
-                <div className="h-full w-full bg-black rounded-[7px] flex items-center justify-center">
-                  <span className="text-[10px] font-black text-[#d4af37]">GCC</span>
-                </div>
-              </div>
-              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counselling</span>
+              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counselling Centre</span>
             </Link>
-          ))}
-
-          {user && (
-            <Link
-              href="/User/dashboard"
+            <button
               onClick={() => setMenuOpen(false)}
-              className="flex items-center gap-2 text-[#d4af37] hover:text-yellow-300 font-bold transition-colors"
+              className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-[#d4af37] transition-all"
             >
-              <LayoutDashboard size={18} />
-              Dashboard
-            </Link>
-          )}
+              <X size={20} />
+            </button>
+          </div>
 
-          <Link
-            href="/contact"
-            onClick={() => setMenuOpen(false)}
-            className="mt-2 bg-[#d4af37] text-black px-6 py-2.5 rounded-lg font-semibold hover:bg-yellow-300 transition-colors"
-          >
-            Book Session
-          </Link>
+          <div className="flex-1 overflow-y-auto px-6 py-8 no-scrollbar">
+            {/* Primary Navigation Map */}
+            <nav className="space-y-1 mb-6">
+              {navItems.map((item) => (
+                <div key={item.path}>
+                  {item.badge === "Coming Soon" ? (
+                    <div className="flex items-center justify-between px-5 py-4 rounded-2xl bg-white/[0.02] border border-white/5 text-white/30 text-[9px] font-black uppercase tracking-[0.2em]">
+                      {item.name}
+                      <span className="text-[7px] bg-white/5 px-2 py-0.5 rounded-full border border-white/10">Soon</span>
+                    </div>
+                  ) : (
+                    <Link
+                      href={item.path}
+                      onClick={() => setMenuOpen(false)}
+                      className={`flex items-center justify-between px-5 py-4 rounded-2xl transition-all border ${pathname === item.path ? "bg-[#d4af37]/10 border-[#d4af37]/30 text-[#d4af37]" : "bg-white/[0.03] border-white/5 text-white/70 hover:bg-white/5 hover:text-[#d4af37]"}`}
+                    >
+                      <span className="text-[9px] font-black uppercase tracking-[0.2em]">{item.name}</span>
+                      <ChevronRight size={14} className="opacity-20" />
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </nav>
 
             {user && (
-              <div className="mb-10 p-5 rounded-3xl bg-white/[0.03] border border-white/10 flex items-center gap-4 shadow-2xl relative overflow-hidden group/mprofile">
+              <div className="mb-8 p-5 rounded-3xl bg-white/[0.03] border border-white/20 shadow-2xl relative overflow-hidden group">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#d4af37]/5 to-transparent pointer-events-none" />
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] shadow-lg flex-shrink-0">
-                  <div className="w-full h-full rounded-[14px] bg-black overflow-hidden flex items-center justify-center">
-                    {getProfileImage(user.profileImage || user.image) ? (
-                      <img
-                        src={getProfileImage(user.profileImage || user.image) || ''}
-                        className="w-full h-full object-cover"
-                        alt="User"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-sm font-black uppercase">{getInitials(user.name)}</div>
-                    )}
+                
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1px] shadow-lg flex-shrink-0">
+                    <div className="w-full h-full rounded-[15px] bg-black overflow-hidden flex items-center justify-center">
+                      {getProfileImage(user.profileImage || user.image) ? (
+                        <img src={getProfileImage(user.profileImage || user.image) || ""} className="w-full h-full object-cover" alt="User" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-[10px] font-black uppercase">{getInitials(user.name)}</div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="min-w-0">
+                    <h3 className="text-white font-black text-[11px] tracking-tight truncate uppercase">{user.name}</h3>
+                    <span className="inline-block px-1.5 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[7px] font-black uppercase tracking-widest rounded-md border border-[#d4af37]/20 mt-0.5">{user.role || "Member"}</span>
                   </div>
                 </div>
-                <div className="relative z-10 min-w-0">
-                  <h3 className="text-white font-black text-sm tracking-tight truncate pr-4">{user.name}</h3>
-                  <p className="text-[#d4af37] text-[8px] font-black uppercase tracking-[0.2em] mt-1 opacity-70">{user.role || 'Member'}</p>
+
+                <div className="space-y-2">
+                  <Link
+                    href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"}
+                    onClick={() => setMenuOpen(false)}
+                    className="flex items-center gap-3 w-full h-12 px-4 rounded-xl bg-white/5 text-white/70 hover:bg-white/10 hover:text-[#d4af37] transition-all border border-white/5"
+                  >
+                    <LayoutDashboard size={14} className="opacity-40" />
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em]">{user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}</span>
+                  </Link>
+                  <button
+                    onClick={() => { handleLogout(); setMenuOpen(false); }}
+                    className="flex items-center gap-3 w-full h-12 px-4 rounded-xl bg-red-500/5 text-red-500 hover:bg-red-500/10 transition-all border border-red-500/10"
+                  >
+                    <LogOut size={14} className="opacity-40" />
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em]">Logout Session</span>
+                  </button>
                 </div>
               </div>
             )}
 
-            {/* Mobile Auth Actions */}
-            {!user ? (
-              <div className="mt-10 space-y-3">
-                <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest">Sign In</Link>
+            <button
+              onClick={() => { setShowCounsellingModal(true); setMenuOpen(false); }}
+              className="w-full flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all mb-8 shadow-[0_10px_40px_rgba(212,175,55,0.15)]"
+            >
+              <Star size={14} />
+              Book Counselling
+            </button>
+
+
+            {!user && (
+              <div className="mt-auto space-y-3 pt-10">
+                <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest mt-10">Sign In</Link>
                 <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest">Register</Link>
-              </div>
-            ) : (
-              <div className="mt-10 space-y-3">
-                <Link href="/User/dashboard" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest">Dashboard</Link>
-                <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="flex items-center justify-center w-full h-14 rounded-2xl bg-red-600/10 border border-red-600/20 text-red-500 text-[10px] font-black uppercase tracking-widest">Logout</button>
               </div>
             )}
           </div>
