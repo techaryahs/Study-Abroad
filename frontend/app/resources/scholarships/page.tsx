@@ -1,100 +1,38 @@
 "use client";
 
-import React, { useState } from "react";
-import { Search, Filter, Bookmark, Calendar, DollarSign, ArrowRight, GraduationCap, Atom, Beaker, BookOpen } from "lucide-react";
-
-
-interface Scholarship {
-  id: string;
-  title: string;
-  sponsor: string;
-  deadline: string;
-  amount: string;
-  category: string;
-}
-
-const SCHOLARSHIPS: Scholarship[] = [
-  {
-    id: "1",
-    title: "SEG Foundation Scholarship",
-    sponsor: "Society of Exploration Geophysicists Education Foundation",
-    deadline: "Mar 01, 2026",
-    amount: "$500 - $3,000 USD",
-    category: "Geophysics",
-  },
-  {
-    id: "2",
-    title: "Hope for Healing",
-    sponsor: "FHE Health",
-    deadline: "Jan 15, 2026",
-    amount: "$5,000",
-    category: "Medical",
-  },
-  {
-    id: "3",
-    title: "Business Studies Scholarship Program",
-    sponsor: "Valuewalk",
-    deadline: "May 01, 2026",
-    amount: "$2,000",
-    category: "Business",
-  },
-  {
-    id: "4",
-    title: "International Scholarship for Excellence",
-    sponsor: "Monash University",
-    deadline: "Variable",
-    amount: "Variable",
-    category: "General",
-  },
-  {
-    id: "5",
-    title: "KTH Joint Programme Scholarship",
-    sponsor: "KTH Royal Institute of Technology",
-    deadline: "Jan 15, 2026",
-    amount: "Approx. €15,000",
-    category: "Engineering",
-  },
-  {
-    id: "6",
-    title: "KTH India Scholarship",
-    sponsor: "KTH Royal Institute of Technology",
-    deadline: "Jan 15, 2026",
-    amount: "Approx. €30,000",
-    category: "Engineering",
-  },
-  {
-    id: "7",
-    title: "WUIC Excellence Tuition Fee Waiver",
-    sponsor: "Walailak University International College",
-    deadline: "Apr 24, 2026",
-    amount: "US $35,000",
-    category: "Undergraduate",
-  },
-];
+import React, { useState, useMemo } from "react";
+import Link from "next/link";
+import { Search, Filter, Bookmark, ArrowRight, GraduationCap, Atom, Beaker, BookOpen } from "lucide-react";
+import scholarshipData from "@/data/scolarship.json";
 
 const ScholarshipsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
 
-  const filteredScholarships = SCHOLARSHIPS.filter((s) => {
-    const matchesSearch = s.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          s.sponsor.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === "All Categories" || s.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const scholarships = scholarshipData.scholarships;
 
-  const categories = ["All Categories", ...Array.from(new Set(SCHOLARSHIPS.map(s => s.category)))];
+  const filteredScholarships = useMemo(() => {
+    return scholarships.filter((s) => {
+      const matchesSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                            s.sponsor.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory === "All Categories" || s.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchQuery, selectedCategory, scholarships]);
+
+  const categories = useMemo(() => {
+    return ["All Categories", ...Array.from(new Set(scholarships.map(s => s.category)))];
+  }, [scholarships]);
 
   return (
     <div className="min-h-screen bg-[#05070a] text-white">  
       
       {/* Hero Header */}
       <section className="relative pt-20 pb-4 overflow-hidden bg-gradient-to-b from-[#c2a878]/10 to-transparent">
-         {/* Background Illustrations (Simulated) */}
+         {/* Background Illustrations */}
          <div className="absolute top-10 left-10 w-32 h-32 opacity-10 border-2 border-[#c2a878] rounded-full rotate-45" />
          <div className="absolute bottom-10 right-10 w-48 h-48 opacity-10 border-2 border-[#c2a878] rounded-[3rem] -rotate-12" />
          
-         {/* Academic Floating Elements (Stickers/Emojis) */}
          <div className="absolute top-1/2 left-[10%] -translate-y-1/2 opacity-20 animate-pulse hidden lg:block">
             <Atom size={120} className="text-[#c2a878]/30 rotate-12" />
          </div>
@@ -114,7 +52,6 @@ const ScholarshipsPage = () => {
                <div className="absolute -bottom-6 -left-12 text-4xl opacity-50 grayscale hover:grayscale-0 transition-all cursor-default hidden md:block">🔬</div>
             </div>
             
-            {/* Search Bar Container */}
             <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-4 bg-[#0a0a0a] p-2 rounded-[2.5rem] border border-white/10 shadow-2xl">
                <div className="flex-1 w-full relative flex items-center px-6">
                   <Search size={20} className="text-gray-600 mr-4" />
@@ -147,7 +84,6 @@ const ScholarshipsPage = () => {
       {/* Main Content */}
       <main className="max-w-6xl mx-auto px-6 pt-0 pb-24">
          
-         {/* Tabs / Filters Summary */}
          <div className="flex items-center gap-12 mb-12 border-b border-white/5 pb-6">
             <button className="relative group flex items-center gap-2">
                <span className="text-[#c2a878] font-black text-[10px] uppercase tracking-[0.2em]">{`Scholarship Search (${filteredScholarships.length})`}</span>
@@ -159,20 +95,21 @@ const ScholarshipsPage = () => {
             </button>
          </div>
 
-         {/* Scholarship List */}
          <div className="bg-white/[0.01] border border-white/5 rounded-[2.5rem] overflow-hidden">
             {filteredScholarships.length > 0 ? (
               filteredScholarships.map((s, idx) => (
-                <div key={s.id} className={`group px-8 md:px-12 py-8 transition-all duration-300 hover:bg-white/[0.02] ${idx !== filteredScholarships.length - 1 ? 'border-b border-white/5' : ''}`}>
+                <Link 
+                  href={`/resources/scholarships/${s.slug}`}
+                  key={s.id} 
+                  className={`block group px-8 md:px-12 py-8 transition-all duration-300 hover:bg-white/[0.02] ${idx !== filteredScholarships.length - 1 ? 'border-b border-white/5' : ''}`}
+                >
                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                       
-                      {/* Title & Info */}
                       <div className="flex-1 min-w-0">
-                         <h3 className="text-xl font-black text-white tracking-tight group-hover:text-[#c2a878] transition-colors mb-1 truncate">{s.title}</h3>
+                         <h3 className="text-xl font-black text-white tracking-tight group-hover:text-[#c2a878] transition-colors mb-1 truncate">{s.name}</h3>
                          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-600">Sponsor: <span className="text-gray-400 font-medium">{s.sponsor}</span></p>
                       </div>
 
-                      {/* Metrics & Actions */}
                       <div className="flex items-center gap-8 md:gap-16 flex-shrink-0">
                          <div className="flex flex-col items-end gap-1">
                             <span className="text-[9px] font-black uppercase tracking-widest text-[#c2a878]/40">Deadline</span>
@@ -183,37 +120,24 @@ const ScholarshipsPage = () => {
                             <span className="text-xs font-bold text-gray-200 whitespace-nowrap">{s.amount}</span>
                          </div>
                          <div className="flex items-center gap-2">
-                            <button className="p-2.5 text-gray-700 hover:text-[#c2a878] transition-colors">
+                            <button className="p-2.5 text-gray-700 hover:text-[#c2a878] transition-colors" onClick={(e) => e.preventDefault()}>
                                <Bookmark size={18} />
                             </button>
-                            <button className="p-2.5 text-gray-800 hover:text-white transition-colors">
-                               <ArrowRight size={18} />
-                            </button>
+                            <ArrowRight size={18} className="text-gray-800 group-hover:text-white transition-colors" />
                          </div>
                       </div>
 
                    </div>
-                </div>
+                </Link>
               ))
             ) : (
               <div className="py-32 text-center">
                  <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
                     <GraduationCap size={40} className="text-gray-700" />
                  </div>
-                 <h2 className="text-xl font-bold text-gray-400 tracking-tight">No scholarships found matching your nodes.</h2>
-                 <p className="text-[10px] uppercase font-black tracking-widest text-gray-700 mt-2">Try adjusting your spectral filters</p>
+                 <h2 className="text-xl font-bold text-gray-400 tracking-tight">No scholarships found.</h2>
               </div>
             )}
-         </div>
-
-         {/* Floating Newsletter / CTA */}
-         <div className="mt-24 p-12 bg-gradient-to-r from-[#c2a878]/20 to-transparent border border-[#c2a878]/20 rounded-[4rem] text-center">
-            <h4 className="text-3xl font-black uppercase italic font-serif mb-4 italic">Never Missing a Chance</h4>
-            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#c2a878] mb-8">Subscribe to receive targeted scholarship alerts directly to your neural feed.</p>
-            <div className="max-w-md mx-auto flex gap-3 p-2 bg-black/40 rounded-full border border-white/5">
-                <input type="email" placeholder="YOUR EMAIL ADDRESS" className="flex-1 bg-transparent px-6 text-[10px] font-black uppercase outline-none" />
-                <button className="px-8 py-3 bg-[#c2a878] text-black rounded-full font-black text-[9px] uppercase tracking-widest">Connect</button>
-            </div>
          </div>
       </main>
     </div>

@@ -50,12 +50,12 @@ export default function ShortlistingPage() {
   };
 
   const logos = [
-    { name: "UPenn", src: "https://upload.wikimedia.org/wikipedia/commons/9/92/UPenn_shield_with_banner.svg" },
-    { name: "Columbia", src: "https://upload.wikimedia.org/wikipedia/en/3/36/Columbia_University_shield.svg" },
-    { name: "Harvard", src: "https://upload.wikimedia.org/wikipedia/en/2/29/Harvard_shield_w_motto.svg" },
-    { name: "Stanford", src: "https://upload.wikimedia.org/wikipedia/en/b/b7/Stanford_University_seal_2003.svg" },
-    { name: "Yale", src: "https://upload.wikimedia.org/wikipedia/en/2/22/Yale_University_Shield.svg" },
-    { name: "MIT", src: "https://upload.wikimedia.org/wikipedia/en/4/44/MIT_Seal.svg" }
+    { name: "UPenn", src: "https://www.google.com/s2/favicons?domain=upenn.edu&sz=128" },
+    { name: "Columbia", src: "https://www.google.com/s2/favicons?domain=columbia.edu&sz=128" },
+    { name: "Harvard", src: "https://www.google.com/s2/favicons?domain=harvard.edu&sz=128" },
+    { name: "Stanford", src: "https://www.google.com/s2/favicons?domain=stanford.edu&sz=128" },
+    { name: "Yale", src: "https://www.google.com/s2/favicons?domain=yale.edu&sz=128" },
+    { name: "MIT", src: "https://www.google.com/s2/favicons?domain=mit.edu&sz=128" }
   ];
 
   return (
@@ -94,7 +94,7 @@ export default function ShortlistingPage() {
 
             <div className="space-y-4 pt-2">
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gold-500/40 italic">Global Tier Exposure:</p>
-              <div className="flex flex-wrap gap-8 items-center opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
+              <div className="flex flex-wrap gap-8 items-center">
                 {logos.map((logo, i) => (
                   <Image key={i} src={logo.src} alt={logo.name} width={28} height={28} className="object-contain" />
                 ))}

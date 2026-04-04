@@ -9,6 +9,9 @@ import germanyData from "@/data/Germany.json";
 import usaData from "@/data/USA.json";
 import ukData from "@/data/UK.json";
 import ausData from "@/data/AUS.json";
+import canadaData from "@/data/Canada.json";
+import dubaiData from "@/data/Dubai.json";
+import irelandData from "@/data/Ireland.json";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -37,6 +40,10 @@ const COUNTRY_META: Record<string, { flag: string; color: string; label: string;
   "australia":      { flag: "🇦🇺", color: "#fbbf24", label: "Australia",     hero: "Innovation & Excellence" },
   "united kingdom": { flag: "🇬🇧", color: "#8b5cf6", label: "United Kingdom", hero: "Legacy of Excellence" },
   "uk":             { flag: "🇬🇧", color: "#8b5cf6", label: "United Kingdom", hero: "Legacy of Excellence" },
+  "canada":         { flag: "🇨🇦", color: "#ef4444", label: "Canada",         hero: "Quality of Life & Education" },
+  "dubai":          { flag: "🇦🇪", color: "#10b981", label: "Dubai",          hero: "Innovation & Business Hub" },
+  "uae":            { flag: "🇦🇪", color: "#10b981", label: "Dubai",          hero: "Innovation & Business Hub" },
+  "ireland":        { flag: "🇮🇪", color: "#16a34a", label: "Ireland",        hero: "Emerald Isle of Excellence" },
 };
 
 const FILTER_RANGES = {
@@ -180,6 +187,15 @@ export default function CountryPage() {
   } else if (countryLower === "australia") {
     dataCountry = "Australia";
     rawUniversities = ausData;
+  } else if (countryLower === "canada") {
+    dataCountry = "Canada";
+    rawUniversities = canadaData;
+  } else if (countryLower === "dubai" || countryLower === "uae") {
+    dataCountry = "Dubai";
+    rawUniversities = dubaiData;
+  } else if (countryLower === "ireland") {
+    dataCountry = "Ireland";
+    rawUniversities = irelandData;
   }
 
   // ── Normalize ──

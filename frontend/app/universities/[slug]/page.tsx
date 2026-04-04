@@ -6,8 +6,11 @@ import usaData from "@/data/USA.json";
 import ausData from "@/data/AUS.json";
 import germanyData from "@/data/Germany.json";
 import ukData from "@/data/UK.json";
+import canadaData from "@/data/Canada.json";
+import dubaiData from "@/data/Dubai.json";
 import singaporeData from "@/data/singapore.json";
 import newZealandData from "@/data/NewZealand Universities.json";
+import irelandData from "@/data/Ireland.json";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -124,7 +127,10 @@ export default function UniversityPage() {
         ...germanyData,
         ...usaData,
         ...ukData,
-        ...ausData
+        ...ausData,
+        ...canadaData,
+        ...dubaiData,
+        ...irelandData
     ];
 
     const data: any = combinedData.find((uni: any) => {

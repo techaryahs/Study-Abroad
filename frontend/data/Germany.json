@@ -9,7 +9,8 @@
       {
         "name": "Engineering",
         "description": "TUM is one of Europe’s top technical universities, known for innovation, research excellence, and strong industry ties.",
-        "stats": { "avg_gpa": 3.6, "avg_gre": 323, "acceptance_rate": 8, "tuition_fee": 19492, "living_expense": 11644, "avg_salary": 108354 }
+        "stats": { "avg_gpa": 3.6, "avg_gre": 323, "acceptance_rate": 8, "tuition_fee": 19492, "living_expense": 11644, "avg_salary": 108354 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 98 }
       }
     ],
     "common_sections": {
@@ -26,7 +27,8 @@
       {
         "name": "Business",
         "description": "LMU Munich is one of Europe’s most prestigious universities, offering top-tier programs in business and economics.",
-        "stats": { "avg_gpa": 3.6, "avg_gre": 322, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 85000 }
+        "stats": { "avg_gpa": 3.6, "avg_gre": 322, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 12000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 100 }
       }
     ],
     "common_sections": {
@@ -43,7 +45,8 @@
       {
         "name": "Medicine",
         "description": "Heidelberg is Germany’s oldest university and a global leader in medical and life sciences research.",
-        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 1500, "living_expense": 11000, "avg_salary": 85000 }
+        "stats": { "avg_gpa": 3.9, "acceptance_rate": 4, "tuition_fee": 1500, "living_expense": 11000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 105 }
       }
     ],
     "common_sections": {
@@ -60,7 +63,8 @@
       {
         "name": "International Studies",
         "description": "Freie Universität Berlin is known for its strong focus on international relations and political science.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 80000 }
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
       }
     ],
     "common_sections": {
@@ -77,7 +81,8 @@
       {
         "name": "Engineering",
         "description": "KIT is one of Germany’s top engineering universities, known for innovation and applied research.",
-        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 90000 }
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 90000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
       }
     ],
     "common_sections": {
@@ -94,7 +99,8 @@
       {
         "name": "Engineering",
         "description": "RWTH Aachen is one of Europe’s leading engineering institutions with strong industry partnerships.",
-        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 92000 }
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 10, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 92000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 95 }
       }
     ],
     "common_sections": {
@@ -111,7 +117,8 @@
       {
         "name": "Economics",
         "description": "Humboldt University is one of Germany’s most prestigious institutions with strong emphasis on research.",
-        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 }
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
       }
     ],
     "common_sections": {
@@ -128,7 +135,8 @@
       {
         "name": "Engineering",
         "description": "TU Berlin is a leading technical university known for engineering, innovation, and research excellence.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 88000 }
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 88000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
     "common_sections": {
@@ -145,7 +153,8 @@
       {
         "name": "Business",
         "description": "University of Hamburg offers strong programs in business and economics with emphasis on research.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 80000 }
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 10500, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 82, "ielts_min": 6.0, "toefl_avg": 90 }
       }
     ],
     "common_sections": {
@@ -162,7 +171,8 @@
       {
         "name": "Sustainability Studies",
         "description": "University of Freiburg is known for sustainability, environmental sciences, and interdisciplinary research.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 80000 }
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 14, "tuition_fee": 1500, "living_expense": 10500, "avg_salary": 80000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 94 }
       }
     ],
     "common_sections": {
@@ -179,7 +189,8 @@
       {
         "name": "Economics",
         "description": "University of Bonn is globally recognized for economics and research excellence.",
-        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 }
+        "stats": { "avg_gpa": 3.6, "acceptance_rate": 12, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 82000 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
       }
     ],
     "common_sections": {
@@ -196,7 +207,8 @@
       {
         "name": "AI & Data Science",
         "description": "Tübingen is globally recognized for artificial intelligence and research excellence.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 1500, "living_expense": 11000, "avg_salary": 78000 }
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 16, "tuition_fee": 1500, "living_expense": 11000, "avg_salary": 78000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
     "common_sections": {
@@ -213,7 +225,8 @@
       {
         "name": "Engineering",
         "description": "TU Dresden is a leading engineering university known for strong research and innovation.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 85000 }
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 15, "tuition_fee": 0, "living_expense": 9500, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.5, "toefl_avg": 90 }
       }
     ],
     "common_sections": {
@@ -230,7 +243,8 @@
       {
         "name": "Engineering",
         "description": "FAU Erlangen-Nürnberg is a top German university for engineering and innovation.",
-        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 85000 }
+        "stats": { "avg_gpa": 3.5, "acceptance_rate": 18, "tuition_fee": 0, "living_expense": 10000, "avg_salary": 85000 },
+        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
       }
     ],
     "common_sections": {
