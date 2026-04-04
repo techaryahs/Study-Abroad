@@ -40,7 +40,12 @@
         color: #ffffff;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         font-family: var(--font-serif);
         font-weight: 900;
         letter-spacing: -0.02em;
@@ -50,6 +55,7 @@
 }
 
 @layer components {
+
     /* LUXURY BUTTON - SOLID GOLD */
     .btn-gold {
         position: relative;
@@ -74,12 +80,10 @@
         left: -100%;
         width: 50%;
         height: 100%;
-        background: linear-gradient(
-            to right,
-            transparent,
-            rgba(255, 255, 255, 0.4),
-            transparent
-        );
+        background: linear-gradient(to right,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent);
         transform: skewX(-25deg);
         transition: all 0.8s ease;
     }
@@ -194,6 +198,23 @@
 }
 
 @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-30px); }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-30px);
+    }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }

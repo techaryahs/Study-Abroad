@@ -275,7 +275,12 @@ export default function DashboardPage() {
                           </div>
                        ) : null}
                        <img 
-                          src={userData?.profile?.profileImage ? (userData.profile.profileImage.startsWith('http') ? userData.profile.profileImage : `${BACKEND_URL}${userData.profile.profileImage}`) : `https://ui-avatars.com/api/?name=${userData?.name || 'User'}&background=c2a878&color=000&bold=true`} 
+                          src={userData?.profile?.profileImage ? (
+                             userData.profile.profileImage.startsWith('http') ? userData.profile.profileImage : 
+                             userData.profile.profileImage.startsWith('data:image') ? userData.profile.profileImage :
+                             userData.profile.profileImage.startsWith('//') ? `https:${userData.profile.profileImage}` :
+                             `${BACKEND_URL}${userData.profile.profileImage.startsWith('/') ? '' : '/'}${userData.profile.profileImage.replace(/\\/g, '/')}`
+                          ) : `https://ui-avatars.com/api/?name=${userData?.name || 'User'}&background=c2a878&color=000&bold=true`} 
                           className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
                           alt="Profile"
                        />
