@@ -220,19 +220,26 @@ exports.login = async (req, res) => {
     if (user && (await user.matchPassword(password))) {
       const profile = user.profile || {};
 
+      const userData = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: role,
+        isVerified: profile.isVerified || user.isVerified || false,
+        mobile: user.mobile,
+        profileImage: profile.profileImage || user.image || null,
+        isPremium: profile.isPremium || user.isPremium || false
+      };
+
+      // Add videoCallEnabled for consultants
+      if (role === 'consultant') {
+        userData.videoCallEnabled = user.videoCallEnabled || false;
+      }
+
       res.json({
         message: "Login successful",
         token: generateToken(user._id, role),
-        user: {
-          _id: user._id,
-          name: user.name,
-          email: user.email,
-          role: role,
-          isVerified: profile.isVerified || user.isVerified || false,
-          mobile: user.mobile,
-          profileImage: profile.profileImage || user.image || null,
-          isPremium: profile.isPremium || user.isPremium || false
-        }
+        user: userData
       });
     } else {
       res.status(401).json({ error: "Invalid email or password" });
@@ -482,3 +489,5 @@ exports.resetPassword = async (req, res) => {
   otpStore.delete(emailLower);
   res.json({ message: "Password reset" });
 };
+
+

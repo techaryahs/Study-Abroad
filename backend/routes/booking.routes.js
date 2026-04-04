@@ -17,12 +17,13 @@ router.get("/consultant/:consultantId", bookingCtrl.getConsultantBookings);
 
 router.put("/:id/accept", bookingCtrl.acceptBooking);
 router.put("/:id/reject", bookingCtrl.rejectBooking);
+router.put("/:id/complete", bookingCtrl.completeBooking);
 router.delete("/:id", bookingCtrl.deleteBooking);
 router.post("/seed", bookingCtrl.seedConsultants);
 
 // ── Counselling Session routes ─────────────────────────────────────────────
-// router.post("/book-session", bookingCtrl.bookCounsellingSession);
-// router.get("/available-slots", bookingCtrl.getAvailableSlots);
-// router.get("/session/:sessionId", bookingCtrl.getCounsellingSession);
+router.post("/book-session", bookingCtrl.bookCounsellingSession);
+router.get("/available-slots", bookingCtrl.getAvailableSlots);
+router.get("/session/:sessionId", bookingCtrl.getCounsellingSession);
 
 module.exports = router;

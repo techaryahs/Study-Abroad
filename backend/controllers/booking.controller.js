@@ -47,12 +47,14 @@ exports.bookConsultant = async (req, res) => {
     }
 
     // Fetch consultant info if missing (Stronger Fetch)
+    const consultant = await Consultant.findById(consultantId);
+    if (!consultant) {
+      return res.status(404).json({ message: 'Consultant not found' });
+    }
+
     if (!consultantEmail || !consultantName) {
-      const consultant = await Consultant.findById(consultantId);
-      if (consultant) {
-        consultantEmail = consultantEmail || consultant.email;
-        consultantName = consultantName || consultant.name;
-      }
+      consultantEmail = consultantEmail || consultant.email;
+      consultantName = consultantName || consultant.name;
     }
     
 
@@ -226,10 +228,23 @@ exports.getConsultantBookings = async (req, res) => {
     };
 
     const bookings = await Booking.find(bookingsQuery)
+      .populate('consultantId', 'videoCallEnabled name email')
       .sort({ date: 1, time: 1 });
 
+    // Enrich bookings with consultant video access info
+    const enrichedBookings = bookings.map(booking => {
+      const bookingObj = booking.toObject();
+      // Add videoCallEnabled from populated consultant
+      if (booking.consultantId && typeof booking.consultantId === 'object') {
+        bookingObj.consultantVideoEnabled = booking.consultantId.videoCallEnabled || false;
+      } else {
+        bookingObj.consultantVideoEnabled = false;
+      }
+      return bookingObj;
+    });
+
     console.log(`📊 [Dashboard] Found ${bookings.length} bookings using query:`, JSON.stringify(bookingsQuery));
-    res.json(bookings);
+    res.json(enrichedBookings);
   } catch (err) {
     console.error("❌ [Dashboard] Error:", err.message);
     res.status(500).json({ message: "Error fetching bookings" });
@@ -442,12 +457,14 @@ exports.bookCounsellingSession = async (req, res) => {
     let finalConsultantId = consultantId;
     let finalConsultantName = "Academic Counsellor";
     let finalConsultantEmail = "counselling@careergenai.com";
+    let consultantVideoEnabled = false;
 
     if (consultantId && consultantId !== "auto") {
       const c = await Consultant.findById(consultantId);
       if (c) {
         finalConsultantName = c.name;
         finalConsultantEmail = c.email;
+        consultantVideoEnabled = c.videoCallEnabled || false;
       }
     }
 
@@ -498,7 +515,8 @@ exports.bookCounsellingSession = async (req, res) => {
         time,
         endTime,
         consultantName: finalConsultantName,
-        userEmail
+        userEmail,
+        consultantVideoEnabled
       }
     });
 
@@ -514,9 +532,21 @@ exports.bookCounsellingSession = async (req, res) => {
 exports.getCounsellingSession = async (req, res) => {
   try {
     const { sessionId } = req.params;
-    const session = await Booking.findOne({ sessionId });
+    const session = await Booking.findOne({ sessionId })
+      .populate('consultantId', 'videoCallEnabled name email');
+    
     if (!session) return res.status(404).json({ message: "Session not found" });
-    res.json(session);
+    
+    const sessionObj = session.toObject();
+    
+    // Add videoCallEnabled from populated consultant
+    if (session.consultantId && typeof session.consultantId === 'object') {
+      sessionObj.consultantVideoEnabled = session.consultantId.videoCallEnabled || false;
+    } else {
+      sessionObj.consultantVideoEnabled = false;
+    }
+    
+    res.json(sessionObj);
   } catch (err) {
     res.status(500).json({ message: "Error fetching session details" });
   }
@@ -535,10 +565,23 @@ exports.getBookingsByConsultantEmail = async (req, res) => {
     }
 
     const bookings = await Booking.find({ consultantEmail: email })
+      .populate('consultantId', 'videoCallEnabled name email')
       .sort({ date: 1, time: 1 });
 
+    // Enrich bookings with consultant video access info
+    const enrichedBookings = bookings.map(booking => {
+      const bookingObj = booking.toObject();
+      // Add videoCallEnabled from populated consultant
+      if (booking.consultantId && typeof booking.consultantId === 'object') {
+        bookingObj.consultantVideoEnabled = booking.consultantId.videoCallEnabled || false;
+      } else {
+        bookingObj.consultantVideoEnabled = false;
+      }
+      return bookingObj;
+    });
+
     console.log(`📋 [ByEmail] Found ${bookings.length} bookings for consultant: ${email}`);
-    res.json(bookings);
+    res.json(enrichedBookings);
   } catch (err) {
     console.error('❌ getBookingsByConsultantEmail error:', err.message);
     res.status(500).json({ message: 'Server error' });
