@@ -1,0 +1,1922 @@
+[
+  {
+    "_id": "uni_nz_001",
+    "slug": "university-of-auckland",
+    "name": "University of Auckland",
+    "logo": "https://www.google.com/s2/favicons?domain=auckland.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "University of Auckland offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 33894,
+          "living_expense": 15000,
+          "avg_salary": 75000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at University of Auckland prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 33894,
+          "living_expense": 15000,
+          "avg_salary": 75000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at University of Auckland provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 33894,
+          "living_expense": 15000,
+          "avg_salary": 75000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_002",
+    "slug": "university-of-otago",
+    "name": "University of Otago",
+    "logo": "https://www.google.com/s2/favicons?domain=otago.ac.nz&sz=128",
+    "location": {
+      "city": "Dunedin",
+      "state": "Otago",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Medicine",
+        "description": "University of Otago offers a world-class medicine curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 69,
+          "tuition_fee": 35182,
+          "living_expense": 15000,
+          "avg_salary": 74900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at University of Otago prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 69,
+          "tuition_fee": 35182,
+          "living_expense": 15000,
+          "avg_salary": 74900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Arts",
+        "description": "University of Otago offers a world-class arts curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 69,
+          "tuition_fee": 35182,
+          "living_expense": 15000,
+          "avg_salary": 74900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_003",
+    "slug": "university-of-canterbury",
+    "name": "University of Canterbury",
+    "logo": "https://www.google.com/s2/favicons?domain=canterbury.ac.nz&sz=128",
+    "location": {
+      "city": "Christchurch",
+      "state": "Canterbury",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at University of Canterbury provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 68,
+          "tuition_fee": 26729,
+          "living_expense": 15000,
+          "avg_salary": 74800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "IT & Design",
+        "description": "University of Canterbury offers a world-class it & design curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 68,
+          "tuition_fee": 26729,
+          "living_expense": 15000,
+          "avg_salary": 74800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Law",
+        "description": "University of Canterbury offers a world-class law curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 68,
+          "tuition_fee": 26729,
+          "living_expense": 15000,
+          "avg_salary": 74800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_004",
+    "slug": "victoria-university-of-wellington",
+    "name": "Victoria University of Wellington",
+    "logo": "https://www.google.com/s2/favicons?domain=wgtn.ac.nz&sz=128",
+    "location": {
+      "city": "Wellington",
+      "state": "Wellington",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Victoria University of Wellington offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 67,
+          "tuition_fee": 29400,
+          "living_expense": 15000,
+          "avg_salary": 74700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Victoria University of Wellington prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 67,
+          "tuition_fee": 29400,
+          "living_expense": 15000,
+          "avg_salary": 74700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Communication",
+        "description": "Victoria University of Wellington offers a world-class communication curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 67,
+          "tuition_fee": 29400,
+          "living_expense": 15000,
+          "avg_salary": 74700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_005",
+    "slug": "massey-university",
+    "name": "Massey University",
+    "logo": "https://www.google.com/s2/favicons?domain=massey.ac.nz&sz=128",
+    "location": {
+      "city": "Palmerston North",
+      "state": "Manawatu-Wanganui",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Agriculture",
+        "description": "Massey University offers a world-class agriculture curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 66,
+          "tuition_fee": 31320,
+          "living_expense": 15000,
+          "avg_salary": 74600,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Massey University prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 66,
+          "tuition_fee": 31320,
+          "living_expense": 15000,
+          "avg_salary": 74600,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at Massey University provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 66,
+          "tuition_fee": 31320,
+          "living_expense": 15000,
+          "avg_salary": 74600,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_006",
+    "slug": "auckland-university-of-technology",
+    "name": "Auckland University of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=aut.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Design",
+        "description": "Auckland University of Technology offers a world-class design curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 31000,
+          "living_expense": 15000,
+          "avg_salary": 74500,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "IT",
+        "description": "Auckland University of Technology offers a world-class it curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 31000,
+          "living_expense": 15000,
+          "avg_salary": 74500,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Auckland University of Technology prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 31000,
+          "living_expense": 15000,
+          "avg_salary": 74500,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_007",
+    "slug": "university-of-waikato",
+    "name": "University of Waikato",
+    "logo": "https://www.google.com/s2/favicons?domain=waikato.ac.nz&sz=128",
+    "location": {
+      "city": "Hamilton",
+      "state": "Waikato",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "University of Waikato offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 27210,
+          "living_expense": 15000,
+          "avg_salary": 74400,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Education",
+        "description": "University of Waikato offers a world-class education curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 27210,
+          "living_expense": 15000,
+          "avg_salary": 74400,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Health",
+        "description": "University of Waikato offers a world-class health curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 27210,
+          "living_expense": 15000,
+          "avg_salary": 74400,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_008",
+    "slug": "manukau-institute-of-technology",
+    "name": "Manukau Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=manukau-institute-of-technology.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Manukau Institute of Technology offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 63,
+          "tuition_fee": 29700,
+          "living_expense": 15000,
+          "avg_salary": 74300,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Manukau Institute of Technology prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 63,
+          "tuition_fee": 29700,
+          "living_expense": 15000,
+          "avg_salary": 74300,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at Manukau Institute of Technology provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 63,
+          "tuition_fee": 29700,
+          "living_expense": 15000,
+          "avg_salary": 74300,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_009",
+    "slug": "ara-institute-of-canterbury",
+    "name": "Ara Institute of Canterbury",
+    "logo": "https://www.google.com/s2/favicons?domain=canterbury.ac.nz&sz=128",
+    "location": {
+      "city": "Christchurch",
+      "state": "Canterbury",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Medicine",
+        "description": "Ara Institute of Canterbury offers a world-class medicine curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 62,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 74200,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Ara Institute of Canterbury prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 62,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 74200,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Arts",
+        "description": "Ara Institute of Canterbury offers a world-class arts curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 62,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 74200,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_010",
+    "slug": "unitec-institute-of-technology",
+    "name": "Unitec Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=unitec-institute-of-technology.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at Unitec Institute of Technology provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 61,
+          "tuition_fee": 32867,
+          "living_expense": 15000,
+          "avg_salary": 74100,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "IT & Design",
+        "description": "Unitec Institute of Technology offers a world-class it & design curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 61,
+          "tuition_fee": 32867,
+          "living_expense": 15000,
+          "avg_salary": 74100,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Unitec Institute of Technology offers a world-class law curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 61,
+          "tuition_fee": 32867,
+          "living_expense": 15000,
+          "avg_salary": 74100,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_011",
+    "slug": "southern-institute-of-technology",
+    "name": "Southern Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=southern-institute-of-technology.ac.nz&sz=128",
+    "location": {
+      "city": "Invercargill",
+      "state": "Southland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Southern Institute of Technology offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 27500,
+          "living_expense": 15000,
+          "avg_salary": 74000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Southern Institute of Technology prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 27500,
+          "living_expense": 15000,
+          "avg_salary": 74000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Communication",
+        "description": "Southern Institute of Technology offers a world-class communication curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 27500,
+          "living_expense": 15000,
+          "avg_salary": 74000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_012",
+    "slug": "the-university-of-auckland",
+    "name": "The University of Auckland",
+    "logo": "https://www.google.com/s2/favicons?domain=auckland.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Agriculture",
+        "description": "The University of Auckland offers a world-class agriculture curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 59,
+          "tuition_fee": 29800,
+          "living_expense": 15000,
+          "avg_salary": 73900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at The University of Auckland prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 59,
+          "tuition_fee": 29800,
+          "living_expense": 15000,
+          "avg_salary": 73900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at The University of Auckland provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 59,
+          "tuition_fee": 29800,
+          "living_expense": 15000,
+          "avg_salary": 73900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_013",
+    "slug": "auckland-institute-of-studies",
+    "name": "Auckland Institute of Studies",
+    "logo": "https://www.google.com/s2/favicons?domain=auckland.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Design",
+        "description": "Auckland Institute of Studies offers a world-class design curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 58,
+          "tuition_fee": 23250,
+          "living_expense": 15000,
+          "avg_salary": 73800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "IT",
+        "description": "Auckland Institute of Studies offers a world-class it curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 58,
+          "tuition_fee": 23250,
+          "living_expense": 15000,
+          "avg_salary": 73800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Auckland Institute of Studies prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 58,
+          "tuition_fee": 23250,
+          "living_expense": 15000,
+          "avg_salary": 73800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_014",
+    "slug": "nelson-marlborough-institute-of-technology",
+    "name": "Nelson Marlborough Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=nelson-marlborough-institute-of-technology.ac.nz&sz=128",
+    "location": {
+      "city": "Nelson",
+      "state": "Nelson",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Nelson Marlborough Institute of Technology offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 57,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 73700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Education",
+        "description": "Nelson Marlborough Institute of Technology offers a world-class education curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 57,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 73700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Health",
+        "description": "Nelson Marlborough Institute of Technology offers a world-class health curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 57,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 73700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_015",
+    "slug": "otago-polytechnic",
+    "name": "Otago Polytechnic",
+    "logo": "https://www.google.com/s2/favicons?domain=otago.ac.nz&sz=128",
+    "location": {
+      "city": "Dunedin",
+      "state": "Otago",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Otago Polytechnic offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 56,
+          "tuition_fee": 32500,
+          "living_expense": 15000,
+          "avg_salary": 73600,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Otago Polytechnic prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 56,
+          "tuition_fee": 32500,
+          "living_expense": 15000,
+          "avg_salary": 73600,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at Otago Polytechnic provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 56,
+          "tuition_fee": 32500,
+          "living_expense": 15000,
+          "avg_salary": 73600,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_016",
+    "slug": "wellington-institute-of-technology",
+    "name": "Wellington Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=wellington-institute-of-technology.ac.nz&sz=128",
+    "location": {
+      "city": "Wellington",
+      "state": "Wellington",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Medicine",
+        "description": "Wellington Institute of Technology offers a world-class medicine curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 55,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 73500,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Wellington Institute of Technology prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 55,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 73500,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Arts",
+        "description": "Wellington Institute of Technology offers a world-class arts curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 55,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 73500,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_017",
+    "slug": "whitecliffe-college-of-arts--design",
+    "name": "Whitecliffe College of Arts & Design",
+    "logo": "https://www.google.com/s2/favicons?domain=whitecliffe-college-of-arts--design.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at Whitecliffe College of Arts & Design provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 54,
+          "tuition_fee": 27300,
+          "living_expense": 15000,
+          "avg_salary": 73400,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "IT & Design",
+        "description": "Whitecliffe College of Arts & Design offers a world-class it & design curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 54,
+          "tuition_fee": 27300,
+          "living_expense": 15000,
+          "avg_salary": 73400,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Whitecliffe College of Arts & Design offers a world-class law curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 54,
+          "tuition_fee": 27300,
+          "living_expense": 15000,
+          "avg_salary": 73400,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_018",
+    "slug": "eastern-institute-of-technology,-auckland",
+    "name": "Eastern Institute of Technology, Auckland",
+    "logo": "https://www.google.com/s2/favicons?domain=auckland.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Eastern Institute of Technology, Auckland offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 53,
+          "tuition_fee": 22375,
+          "living_expense": 15000,
+          "avg_salary": 73300,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Eastern Institute of Technology, Auckland prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 53,
+          "tuition_fee": 22375,
+          "living_expense": 15000,
+          "avg_salary": 73300,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Communication",
+        "description": "Eastern Institute of Technology, Auckland offers a world-class communication curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 53,
+          "tuition_fee": 22375,
+          "living_expense": 15000,
+          "avg_salary": 73300,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_019",
+    "slug": "media-design-school",
+    "name": "Media Design School",
+    "logo": "https://www.google.com/s2/favicons?domain=media-design-school.ac.nz&sz=128",
+    "location": {
+      "city": "Auckland",
+      "state": "Auckland",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Agriculture",
+        "description": "Media Design School offers a world-class agriculture curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 52,
+          "tuition_fee": 28400,
+          "living_expense": 15000,
+          "avg_salary": 73200,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Media Design School prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 52,
+          "tuition_fee": 28400,
+          "living_expense": 15000,
+          "avg_salary": 73200,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at Media Design School provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 52,
+          "tuition_fee": 28400,
+          "living_expense": 15000,
+          "avg_salary": 73200,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_020",
+    "slug": "university-in-lincoln,-new-zealand",
+    "name": "University in Lincoln, New Zealand",
+    "logo": "https://www.google.com/s2/favicons?domain=lincoln.ac.nz&sz=128",
+    "location": {
+      "city": "Lincoln",
+      "state": "Canterbury",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Design",
+        "description": "University in Lincoln, New Zealand offers a world-class design curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 90.3,
+          "tuition_fee": 48000,
+          "living_expense": 15000,
+          "avg_salary": 73100,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "IT",
+        "description": "University in Lincoln, New Zealand offers a world-class it curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 90.3,
+          "tuition_fee": 48000,
+          "living_expense": 15000,
+          "avg_salary": 73100,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at University in Lincoln, New Zealand prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 90.3,
+          "tuition_fee": 48000,
+          "living_expense": 15000,
+          "avg_salary": 73100,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_021",
+    "slug": "whitireia-community-polytech",
+    "name": "Whitireia Community Polytech",
+    "logo": "https://www.google.com/s2/favicons?domain=whitireia-community-polytech.ac.nz&sz=128",
+    "location": {
+      "city": "Porirua",
+      "state": "Wellington",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Whitireia Community Polytech offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 50,
+          "tuition_fee": 22000,
+          "living_expense": 15000,
+          "avg_salary": 73000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Education",
+        "description": "Whitireia Community Polytech offers a world-class education curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 50,
+          "tuition_fee": 22000,
+          "living_expense": 15000,
+          "avg_salary": 73000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Health",
+        "description": "Whitireia Community Polytech offers a world-class health curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 50,
+          "tuition_fee": 22000,
+          "living_expense": 15000,
+          "avg_salary": 73000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_022",
+    "slug": "toi-ohomai-institute-of-technology",
+    "name": "Toi Ohomai Institute of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=toi-ohomai-institute-of-technology.ac.nz&sz=128",
+    "location": {
+      "city": "Rotorua",
+      "state": "Bay of Plenty",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Toi Ohomai Institute of Technology offers a world-class engineering curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 49,
+          "tuition_fee": 24375,
+          "living_expense": 15000,
+          "avg_salary": 72900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Toi Ohomai Institute of Technology prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 49,
+          "tuition_fee": 24375,
+          "living_expense": 15000,
+          "avg_salary": 72900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at Toi Ohomai Institute of Technology provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 49,
+          "tuition_fee": 24375,
+          "living_expense": 15000,
+          "avg_salary": 72900,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_023",
+    "slug": "whitireia-new-zealand",
+    "name": "Whitireia New Zealand",
+    "logo": "https://www.google.com/s2/favicons?domain=whitireia-new-zealand.ac.nz&sz=128",
+    "location": {
+      "city": "Porirua",
+      "state": "Wellington",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Medicine",
+        "description": "Whitireia New Zealand offers a world-class medicine curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 85,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 72800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The business program at Whitireia New Zealand prepares future leaders with a global perspective and practical skills. With a curriculum spanning finance, marketing, and entrepreneurship, graduates are highly sought after by top employers worldwide.",
+        "stats": {
+          "acceptance_rate": 85,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 72800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Arts",
+        "description": "Whitireia New Zealand offers a world-class arts curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 85,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 72800,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  },
+  {
+    "_id": "uni_nz_024",
+    "slug": "western-institute-of-technology-witt",
+    "name": "Western Institute of Technology (WITT)",
+    "logo": "https://www.google.com/s2/favicons?domain=western-institute-of-technology-witt.ac.nz&sz=128",
+    "location": {
+      "city": "New Plymouth",
+      "state": "Taranaki",
+      "country": "New Zealand"
+    },
+    "branches": [
+      {
+        "name": "Science",
+        "description": "Renowned for research excellence, the Science faculty at Western Institute of Technology (WITT) provides students with opportunities to work alongside leading experts on global challenges. From environmental science to biotechnology, the programs are designed for impact.",
+        "stats": {
+          "acceptance_rate": 47,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 72700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "IT & Design",
+        "description": "Western Institute of Technology (WITT) offers a world-class it & design curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 47,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 72700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Western Institute of Technology (WITT) offers a world-class law curriculum with a focus on innovation and sustainable development. Students benefit from state-of-the-art labs and strong industry connections in New Zealand's growing sector.",
+        "stats": {
+          "acceptance_rate": 47,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 72700,
+          "avg_sat": 1350,
+          "avg_gpa": 3.5,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 72000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A prestigious institution with a stunning campus and excellent academic support."
+        }
+      ]
+    }
+  }
+]

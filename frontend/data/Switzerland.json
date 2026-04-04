@@ -1,0 +1,563 @@
+[
+  {
+    "_id": "uni_swi_001",
+    "slug": "eth-zurich",
+    "name": "ETH Zurich (Swiss Federal Institute of Technology)",
+    "logo": "https://www.google.com/s2/favicons?domain=ethz.ch&sz=128",
+    "location": {
+      "city": "Zurich",
+      "state": "Zurich",
+      "country": "Switzerland"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "ETH Zurich is consistently ranked among the top 10 universities in the world. Its engineering department is a global leader in AI, robotics, and electrical engineering, fostering innovation that drives the Swiss tech economy.",
+        "stats": {
+          "avg_gpa": 3.9,
+          "avg_gre": 328,
+          "acceptance_rate": 25,
+          "tuition_fee": 4400,
+          "living_expense": 24000,
+          "avg_salary": 110000
+        },
+        "student_demographics": {
+          "male": 68,
+          "female": 32,
+          "international_students": 45,
+          "total_enrollment": 21000
+        },
+        "admitted_profiles": {
+          "avg_gpa": 3.9,
+          "avg_gre": 328,
+          "toefl_min": 100,
+          "toefl_avg": 112,
+          "ielts_min": 7.5
+        }
+      },
+      {
+        "name": "Science",
+        "description": "The Faculty of Science at ETH Zurich has produced 21 Nobel Laureates, including Albert Einstein. It offers unparalleled resources for research in physics, chemistry, and biology.",
+        "stats": {
+          "avg_gpa": 3.85,
+          "avg_gre": 325,
+          "acceptance_rate": 20,
+          "tuition_fee": 4400,
+          "living_expense": 24000,
+          "avg_salary": 95000
+        },
+        "student_demographics": {
+          "male": 60,
+          "female": 40,
+          "international_students": 38,
+          "total_enrollment": 15000
+        },
+        "admitted_profiles": {
+          "avg_gpa": 3.85,
+          "avg_gre": 325,
+          "toefl_min": 100,
+          "toefl_avg": 110,
+          "ielts_min": 7.5
+        }
+      },
+      {
+        "name": "Architecture",
+        "description": "The Department of Architecture (D-ARCH) at ETH Zurich is one of the most prestigious in the world, combining artistic creativity with technical engineering excellence.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "acceptance_rate": 15,
+          "tuition_fee": 4400,
+          "living_expense": 24000,
+          "avg_salary": 85000
+        },
+        "student_demographics": {
+          "male": 45,
+          "female": 55,
+          "international_students": 35,
+          "total_enrollment": 2500
+        }
+      },
+      {
+        "name": "Math",
+        "description": "The Mathematics department at ETH Zurich is a world-class center for pure and applied math, frequently producing Fields Medalists.",
+        "stats": {
+          "avg_gpa": 3.9,
+          "avg_gre": 330,
+          "acceptance_rate": 12,
+          "tuition_fee": 4400,
+          "living_expense": 24000,
+          "avg_salary": 115000
+        },
+        "student_demographics": {
+          "male": 75,
+          "female": 25,
+          "international_students": 50,
+          "total_enrollment": 1800
+        }
+      },
+      {
+        "name": "Humanities",
+        "description": "D-GESS at ETH Zurich bridges the gap between technology and society, exploring the political, social, and psychological impacts of innovation.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "acceptance_rate": 35,
+          "tuition_fee": 4400,
+          "living_expense": 24000,
+          "avg_salary": 75000
+        },
+        "student_demographics": {
+          "male": 40,
+          "female": 60,
+          "international_students": 30,
+          "total_enrollment": 1200
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 92,
+        "employed_within_3_months": 95,
+        "average_salary": 105000
+      },
+      "financial_awards": {
+        "officer": {
+          "name": "ETH Financial Aid Office",
+          "phone": "+41-44-632-1111"
+        }
+      }
+    }
+  },
+  {
+    "_id": "uni_swi_002",
+    "slug": "epfl-lausanne",
+    "name": "EPFL (École Polytechnique Fédérale de Lausanne)",
+    "logo": "https://www.google.com/s2/favicons?domain=epfl.ch&sz=128",
+    "location": {
+      "city": "Lausanne",
+      "state": "Vaud",
+      "country": "Switzerland"
+    },
+    "branches": [
+      {
+        "name": "IT & Design",
+        "description": "EPFL is a world-class center for computer science and digital architecture. Situated on the shores of Lake Geneva, it attracts top talent for research in cybersecurity, human-computer interaction, and data science.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "avg_gre": 322,
+          "acceptance_rate": 28,
+          "tuition_fee": 4400,
+          "living_expense": 22000,
+          "avg_salary": 100000
+        },
+        "student_demographics": {
+          "male": 72,
+          "female": 28,
+          "international_students": 55,
+          "total_enrollment": 12000
+        },
+        "admitted_profiles": {
+          "avg_gpa": 3.8,
+          "avg_gre": 322,
+          "toefl_min": 95,
+          "toefl_avg": 108,
+          "ielts_min": 7.0
+        }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "EPFL's School of Life Sciences is at the intersection of biology and engineering, leading breakthroughs in neuro-engineering and cancer research.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "avg_gre": 315,
+          "acceptance_rate": 22,
+          "tuition_fee": 4400,
+          "living_expense": 22000,
+          "avg_salary": 95000
+        },
+        "student_demographics": {
+          "male": 42,
+          "female": 58,
+          "international_students": 50,
+          "total_enrollment": 1800
+        }
+      },
+      {
+        "name": "Engineering",
+        "description": "EPFL Mechanical Engineering is a leader in sustainable energy, aerospace, and advanced manufacturing technologies.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "avg_gre": 320,
+          "acceptance_rate": 25,
+          "tuition_fee": 4400,
+          "living_expense": 22000,
+          "avg_salary": 98000
+        }
+      },
+      {
+        "name": "Microengineering",
+        "description": "Known as the birth-place of the Swiss watch industry influence, EPFL's Microengineering program focuses on miniaturized systems and robotics.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "avg_gre": 322,
+          "acceptance_rate": 20,
+          "tuition_fee": 4400,
+          "living_expense": 22000,
+          "avg_salary": 105000
+        }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "The College of Humanities (CDH) at EPFL explores the societal and human dimensions of science and technology.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 30,
+          "tuition_fee": 4400,
+          "living_expense": 22000,
+          "avg_salary": 80000
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 90,
+        "employed_within_3_months": 93,
+        "average_salary": 98000
+      }
+    }
+  },
+  {
+    "_id": "uni_swi_003",
+    "slug": "university-of-st-gallen",
+    "name": "University of St. Gallen (HSG)",
+    "logo": "https://www.google.com/s2/favicons?domain=unisg.ch&sz=128",
+    "location": {
+      "city": "St. Gallen",
+      "state": "St. Gallen",
+      "country": "Switzerland"
+    },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "The University of St. Gallen is the premier business school in the German-speaking world. Its Strategy and International Management (SIM) program has been ranked #1 globally for over a decade.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "avg_gmat": 680,
+          "acceptance_rate": 18,
+          "tuition_fee": 9000,
+          "living_expense": 21000,
+          "avg_salary": 120000
+        },
+        "student_demographics": {
+          "male": 65,
+          "female": 35,
+          "international_students": 40,
+          "total_enrollment": 9000
+        },
+        "admitted_profiles": {
+          "avg_gpa": 3.7,
+          "avg_gmat": 680,
+          "toefl_min": 100,
+          "toefl_avg": 110,
+          "ielts_min": 7.5
+        }
+      },
+      {
+        "name": "Law",
+        "description": "The Law School at HSG focuses on business law and international commerce, perfectly complementing its world-class business programs.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 25,
+          "tuition_fee": 10000,
+          "living_expense": 21000,
+          "avg_salary": 95000
+        },
+        "student_demographics": {
+          "male": 50,
+          "female": 50,
+          "international_students": 25,
+          "total_enrollment": 1200
+        }
+      },
+      {
+        "name": "Economics",
+        "description": "HSG Economics provides quantitative and policy-oriented training, preparing leaders for central banks and international financial institutions.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "avg_gre": 325,
+          "acceptance_rate": 22,
+          "tuition_fee": 9000,
+          "living_expense": 21000,
+          "avg_salary": 100000
+        }
+      },
+      {
+        "name": "International Affairs",
+        "description": "The School of Management, Economics, Law, Social Sciences and International Affairs (MIA) is a flagship program for global governance.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 25,
+          "tuition_fee": 11000,
+          "living_expense": 21000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Computer Science",
+        "description": "HSG Computer Science combines deep technical skills with an entrepreneurial mindset, unique in the Swiss educational landscape.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "avg_gre": 322,
+          "acceptance_rate": 20,
+          "tuition_fee": 9000,
+          "living_expense": 21000,
+          "avg_salary": 105000
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 95,
+        "employed_within_3_months": 98,
+        "average_salary": 115000
+      }
+    }
+  },
+  {
+    "_id": "uni_swi_004",
+    "slug": "university-of-zurich",
+    "name": "University of Zurich",
+    "logo": "https://www.google.com/s2/favicons?domain=uzh.ch&sz=128",
+    "location": {
+      "city": "Zurich",
+      "state": "Zurich",
+      "country": "Switzerland"
+    },
+    "branches": [
+      {
+        "name": "Medicine",
+        "description": "The UZH Medical Faculty is the largest in Switzerland, offering cutting-edge clinical training in partnership with the University Hospital Zurich.",
+        "stats": {
+          "avg_gpa": 3.9,
+          "acceptance_rate": 10,
+          "tuition_fee": 1600,
+          "living_expense": 24000,
+          "avg_salary": 130000
+        },
+        "student_demographics": {
+          "male": 45,
+          "female": 55,
+          "international_students": 15,
+          "total_enrollment": 4000
+        },
+        "admitted_profiles": {
+          "avg_gpa": 3.9,
+          "toefl_min": 100
+        }
+      },
+      {
+        "name": "Law",
+        "description": "UZH Law is highly regarded for corporate law and international arbitration, benefiting from its proximity to Switzerland's financial hub.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 22,
+          "tuition_fee": 1600,
+          "living_expense": 24000,
+          "avg_salary": 90000
+        },
+        "student_demographics": {
+          "male": 48,
+          "female": 52,
+          "international_students": 20,
+          "total_enrollment": 3500
+        }
+      },
+      {
+        "name": "Arts",
+        "description": "The Faculty of Arts and Social Sciences at UZH is the largest of its kind in Switzerland, offering diverse programs in psychology, philosophy, and history.",
+        "stats": {
+          "avg_gpa": 3.4,
+          "acceptance_rate": 35,
+          "tuition_fee": 1600,
+          "living_expense": 24000,
+          "avg_salary": 65000
+        },
+        "student_demographics": {
+          "male": 35,
+          "female": 65,
+          "international_students": 25,
+          "total_enrollment": 11000
+        }
+      },
+      {
+        "name": "Business",
+        "description": "The Faculty of Business, Economics and Informatics at UZH is a hub for high-finance research and digital innovation.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 28,
+          "tuition_fee": 1600,
+          "living_expense": 24000,
+          "avg_salary": 95000
+        }
+      },
+      {
+        "name": "Science",
+        "description": "The UZH Faculty of Science covers the entire spectrum of natural sciences, with strong focus on neurobiology and sustainability.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 25,
+          "tuition_fee": 1600,
+          "living_expense": 24000,
+          "avg_salary": 85000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_swi_006",
+    "slug": "university-of-geneva",
+    "name": "University of Geneva",
+    "logo": "https://www.google.com/s2/favicons?domain=unige.ch&sz=128",
+    "location": {
+      "city": "Geneva",
+      "state": "Geneva",
+      "country": "Switzerland"
+    },
+    "branches": [
+      {
+        "name": "International Relations",
+        "description": "Geneva is the global center of diplomacy. The University of Geneva's Global Studies Institute offers unparalleled access to UN organizations and international NGOs.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "acceptance_rate": 22,
+          "tuition_fee": 1000,
+          "living_expense": 26000,
+          "avg_salary": 80000
+        },
+        "student_demographics": {
+          "male": 40,
+          "female": 60,
+          "international_students": 60,
+          "total_enrollment": 2500
+        }
+      },
+      {
+        "name": "Science",
+        "description": "With strong ties to CERN, the UNIGE Science faculty is a leader in physics, global health, and genetics.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 30,
+          "tuition_fee": 1000,
+          "living_expense": 26000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Medicine",
+        "description": "UNIGE Medicine is famous for its research in neurosciences and genetics, integrated with world-class hospital system.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "acceptance_rate": 12,
+          "tuition_fee": 1000,
+          "living_expense": 26000,
+          "avg_salary": 120000
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Geneva Law School is a leader in international commercial law and arbitration.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 25,
+          "tuition_fee": 1000,
+          "living_expense": 26000,
+          "avg_salary": 90000
+        }
+      },
+      {
+        "name": "Psychology",
+        "description": "The Faculty of Psychology and Educational Sciences (FPSE) is a leader in cognitive psychology and learning sciences.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 32,
+          "tuition_fee": 1000,
+          "living_expense": 26000,
+          "avg_salary": 75000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_swi_005",
+    "slug": "ehl-hospitality-business-school",
+    "name": "EHL Hospitality Business School",
+    "logo": "https://www.google.com/s2/favicons?domain=ehl.edu&sz=128",
+    "location": {
+      "city": "Lausanne",
+      "state": "Vaud",
+      "country": "Switzerland"
+    },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "EHL is the world's most prestigious hospitality management school. Its Bachelor in International Hospitality Management combines rigorous business theory with practical excellence.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 30,
+          "tuition_fee": 45000,
+          "living_expense": 22000,
+          "avg_salary": 85000
+        },
+        "student_demographics": {
+          "male": 40,
+          "female": 60,
+          "international_students": 85,
+          "total_enrollment": 3400
+        }
+      },
+      {
+        "name": "Hospitality Management",
+        "description": "The Master in Global Hospitality Business at EHL is a unique program spanning three continents.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 20,
+          "tuition_fee": 55000,
+          "living_expense": 22000,
+          "avg_salary": 110000
+        }
+      },
+      {
+        "name": "Design",
+        "description": "EHL's Culinary Arts and Operations branch focuses on the intersection of culinary excellence and high-end management.",
+        "stats": {
+          "avg_gpa": 3.4,
+          "acceptance_rate": 40,
+          "tuition_fee": 38000,
+          "living_expense": 22000,
+          "avg_salary": 75000
+        }
+      },
+      {
+        "name": "Finance",
+        "description": "EHL's Master in Global Hospitality Business offers a specialized track in Real Estate and Finance for the hospitality sector.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 15,
+          "tuition_fee": 60000,
+          "living_expense": 22000,
+          "avg_salary": 125000
+        }
+      },
+      {
+        "name": "Operations",
+        "description": "EHL's Operations and Strategy branch focuses on the luxury and service-industry supply chain and sustainability logic.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 35,
+          "tuition_fee": 38000,
+          "living_expense": 22000,
+          "avg_salary": 90000
+        }
+      }
+    ]
+  }
+]

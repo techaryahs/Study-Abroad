@@ -1,0 +1,365 @@
+[
+  {
+    "_id": "uni_fr_001",
+    "slug": "universite-psl",
+    "name": "Université PSL (Paris Sciences & Lettres)",
+    "logo": "https://www.google.com/s2/favicons?domain=psl.eu&sz=128",
+    "location": {
+      "city": "Paris",
+      "state": "Île-de-France",
+      "country": "France"
+    },
+    "branches": [
+      {
+        "name": "Sciences",
+        "description": "PSL Sciences, including the legendary École Normale Supérieure (ENS), is a world leader in theoretical physics, mathematics, and molecular biology.",
+        "stats": {
+          "avg_gpa": 3.9,
+          "avg_gre": 328,
+          "acceptance_rate": 10,
+          "tuition_fee": 3770,
+          "living_expense": 20000,
+          "avg_salary": 75000
+        },
+        "student_demographics": {
+          "male": 60,
+          "female": 40,
+          "international_students": 30,
+          "total_enrollment": 17000
+        },
+        "admitted_profiles": {
+          "avg_gpa": 3.9,
+          "avg_gre": 328,
+          "toefl_min": 100,
+          "ielts_min": 7.5
+        }
+      },
+      {
+        "name": "Engineering",
+        "description": "Mines Paris-PSL is one of France's top 'Grandes Écoles' of engineering, focusing on energy, materials, and industrial management.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "acceptance_rate": 5,
+          "tuition_fee": 15000,
+          "living_expense": 20000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Arts",
+        "description": "Integrating Fine Arts and Design schools, PSL offers a unique research-based artistic education in the heart of Paris.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 15,
+          "tuition_fee": 3770,
+          "living_expense": 20000,
+          "avg_salary": 55000
+        }
+      },
+      {
+        "name": "Humanities",
+        "description": "PSL Humanities research is world-class, spanning history, philosophy, and classical studies.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "acceptance_rate": 12,
+          "tuition_fee": 3770,
+          "living_expense": 20000,
+          "avg_salary": 58000
+        }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Focusing on multidisciplinary social research and economics at the Dauphine-PSL campus.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 20,
+          "tuition_fee": 5000,
+          "living_expense": 20000,
+          "avg_salary": 62000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_fr_002",
+    "slug": "sorbonne-university",
+    "name": "Sorbonne University",
+    "logo": "https://www.google.com/s2/favicons?domain=sorbonne-universite.fr&sz=128",
+    "location": {
+      "city": "Paris",
+      "state": "Île-de-France",
+      "country": "France"
+    },
+    "branches": [
+      {
+        "name": "Arts & Humanities",
+        "description": "The Sorbonne is iconic for its letters and humanities departments, historical centers of French intellectual life.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 30,
+          "tuition_fee": 2770,
+          "living_expense": 20000,
+          "avg_salary": 52000
+        }
+      },
+      {
+        "name": "Science",
+        "description": "The Faculty of Science and Engineering at Sorbonne is a leader in marine biology, robotics, and climate science.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 25,
+          "tuition_fee": 3770,
+          "living_expense": 20000,
+          "avg_salary": 65000
+        }
+      },
+      {
+        "name": "Medicine",
+        "description": "Sorbonne Medicine is one of the most prestigious in Europe, with strong clinical integration across Paris hospitals.",
+        "stats": {
+          "avg_gpa": 3.9,
+          "acceptance_rate": 8,
+          "tuition_fee": 3770,
+          "living_expense": 20000,
+          "avg_salary": 110000
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Partnering with Panthéon-Assas, Sorbonne offers premier legal studies with a focus on European and public law.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 20,
+          "tuition_fee": 3770,
+          "living_expense": 20000,
+          "avg_salary": 72000
+        }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Dynamic programs in sociology, geography, and information sciences through the CELSA institute.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 35,
+          "tuition_fee": 3770,
+          "living_expense": 20000,
+          "avg_salary": 58000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_fr_003",
+    "slug": "hec-paris",
+    "name": "HEC Paris",
+    "logo": "https://www.google.com/s2/favicons?domain=hec.edu&sz=128",
+    "location": {
+      "city": "Jouy-en-Josas",
+      "state": "Île-de-France",
+      "country": "France"
+    },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "HEC Paris is the legendary leader of French business education, consistently ranked as the top business school in Europe.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "avg_gmat": 710,
+          "acceptance_rate": 18,
+          "tuition_fee": 35000,
+          "living_expense": 18000,
+          "avg_salary": 145000
+        },
+        "admitted_profiles": {
+          "avg_gmat": 710,
+          "toefl_min": 105,
+          "ielts_min": 7.5
+        }
+      },
+      {
+        "name": "Finance",
+        "description": "The Master in International Finance at HEC is world-renowned for its placement in top investment banks.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "avg_gmat": 730,
+          "acceptance_rate": 10,
+          "tuition_fee": 38000,
+          "living_expense": 18000,
+          "avg_salary": 160000
+        }
+      },
+      {
+        "name": "Management",
+        "description": "The Grand École MiM program is a highly selective track for future global leaders.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "acceptance_rate": 12,
+          "tuition_fee": 25000,
+          "living_expense": 18000,
+          "avg_salary": 95000
+        }
+      },
+      {
+        "name": "Entrepreneurship",
+        "description": "HEC's startup incubator at Station F is the largest in the world, fostering deep ties with the tech ecosystem.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 25,
+          "tuition_fee": 30000,
+          "living_expense": 18000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Marketing",
+        "description": "Specialized programs in creative and digital marketing strategy.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 30,
+          "tuition_fee": 28000,
+          "living_expense": 18000,
+          "avg_salary": 78000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_fr_004",
+    "slug": "ecole-polytechnique",
+    "name": "École Polytechnique (l'X)",
+    "logo": "https://www.google.com/s2/favicons?domain=polytechnique.edu&sz=128",
+    "location": {
+      "city": "Palaiseau",
+      "state": "Île-de-France",
+      "country": "France"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "L'X is the most prestigious engineering school in France, known for its rigorous mathematics and leadership training under military status.",
+        "stats": {
+          "avg_gpa": 3.9,
+          "avg_gre": 330,
+          "acceptance_rate": 8,
+          "tuition_fee": 15000,
+          "living_expense": 15000,
+          "avg_salary": 90000
+        }
+      },
+      {
+        "name": "Mathematics",
+        "description": "The center of the 'French School' of mathematics, home to multiple Fields Medalists.",
+        "stats": {
+          "avg_gpa": 3.95,
+          "avg_gre": 335,
+          "acceptance_rate": 5,
+          "tuition_fee": 15000,
+          "living_expense": 15000,
+          "avg_salary": 100000
+        }
+      },
+      {
+        "name": "Physics",
+        "description": "World-class research in plasma physics, optics, and high-energy particles.",
+        "stats": {
+          "avg_gpa": 3.85,
+          "acceptance_rate": 10,
+          "tuition_fee": 15000,
+          "living_expense": 15000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Economics",
+        "description": "Focusing on quantitative economics and data science for policy.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "acceptance_rate": 15,
+          "tuition_fee": 15000,
+          "living_expense": 15000,
+          "avg_salary": 88000
+        }
+      },
+      {
+        "name": "Multi-Disciplinary Science",
+        "description": "The innovative Bachelor of Science program, taught entirely in English for international students.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "avg_sat": 1500,
+          "acceptance_rate": 12,
+          "tuition_fee": 18000,
+          "living_expense": 15000,
+          "avg_salary": 75000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_fr_005",
+    "slug": "sciences-po",
+    "name": "Sciences Po",
+    "logo": "https://www.google.com/s2/favicons?domain=sciencespo.fr&sz=128",
+    "location": {
+      "city": "Paris",
+      "state": "Île-de-France",
+      "country": "France"
+    },
+    "branches": [
+      {
+        "name": "International Relations",
+        "description": "The Paris School of International Affairs (PSIA) is a world-class center for global policy and diplomacy.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 15,
+          "tuition_fee": 14000,
+          "living_expense": 20000,
+          "avg_salary": 75000
+        }
+      },
+      {
+        "name": "Political Science",
+        "description": "Sciences Po's historical core, training countless world leaders and social thinkers.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "acceptance_rate": 10,
+          "tuition_fee": 14000,
+          "living_expense": 20000,
+          "avg_salary": 68000
+        }
+      },
+      {
+        "name": "Law",
+        "description": "The Law School at Sciences Po focuses on the economic and geopolitical dimensions of law.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "acceptance_rate": 18,
+          "tuition_fee": 14000,
+          "living_expense": 20000,
+          "avg_salary": 80000
+        }
+      },
+      {
+        "name": "Economics",
+        "description": "A research-focused economics department specializing in political economy and inequality.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 22,
+          "tuition_fee": 14000,
+          "living_expense": 20000,
+          "avg_salary": 72000
+        }
+      },
+      {
+        "name": "Sociology",
+        "description": "Leading research in urbanism, labor, and sociology of education.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 25,
+          "tuition_fee": 14000,
+          "living_expense": 20000,
+          "avg_salary": 55000
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,369 @@
+[
+  {
+    "_id": "uni_nl_001",
+    "slug": "university-of-amsterdam",
+    "name": "University of Amsterdam (UvA)",
+    "logo": "https://www.google.com/s2/favicons?domain=uva.nl&sz=128",
+    "location": {
+      "city": "Amsterdam",
+      "state": "North Holland",
+      "country": "Netherlands"
+    },
+    "branches": [
+      {
+        "name": "Economics",
+        "description": "UvA Economics and Business is globally recognized, offering a diverse environment and strong ties to Amsterdam's financial sector.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "avg_gre": 320,
+          "acceptance_rate": 35,
+          "tuition_fee": 15000,
+          "living_expense": 18000,
+          "avg_salary": 65000
+        },
+        "student_demographics": {
+          "male": 55,
+          "female": 45,
+          "international_students": 45,
+          "total_enrollment": 8000
+        },
+        "admitted_profiles": {
+          "avg_gpa": 3.7,
+          "avg_gre": 320,
+          "toefl_min": 100,
+          "ielts_min": 7.0
+        }
+      },
+      {
+        "name": "Law",
+        "description": "The Amsterdam Law School is a leader in international Law and European legal research.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 40,
+          "tuition_fee": 16000,
+          "living_expense": 18000,
+          "avg_salary": 70000
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Research in physics and astronomy at UvA is world-class, often conducted at the Science Park Amsterdam.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "avg_gre": 325,
+          "acceptance_rate": 25,
+          "tuition_fee": 18000,
+          "living_expense": 18000,
+          "avg_salary": 68000
+        }
+      },
+      {
+        "name": "Psychology",
+        "description": "One of the highest-ranked psychology departments in Europe, focusing on cognitive and clinical research.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "acceptance_rate": 20,
+          "tuition_fee": 14000,
+          "living_expense": 18000,
+          "avg_salary": 55000
+        }
+      },
+      {
+        "name": "Humanities",
+        "description": "UvA Humanities offers a rich cultural and linguistic study environment in the heart of Amsterdam.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 45,
+          "tuition_fee": 12000,
+          "living_expense": 18000,
+          "avg_salary": 50000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_nl_002",
+    "slug": "delft-university-of-technology",
+    "name": "Delft University of Technology (TU Delft)",
+    "logo": "https://www.google.com/s2/favicons?domain=tudelft.nl&sz=128",
+    "location": {
+      "city": "Delft",
+      "state": "South Holland",
+      "country": "Netherlands"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "TU Delft is a global leader in Aerospace and Civil Engineering, known for its rigorous technical education and invention-led research.",
+        "stats": {
+          "avg_gpa": 3.85,
+          "avg_gre": 328,
+          "acceptance_rate": 22,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 75000
+        },
+        "student_demographics": {
+          "male": 75,
+          "female": 25,
+          "international_students": 40,
+          "total_enrollment": 25000
+        }
+      },
+      {
+        "name": "Architecture",
+        "description": "The Faculty of Architecture at TU Delft (BK) is one of the world's most prestigious centers for spatial design and urbanism.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "acceptance_rate": 15,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 65000
+        }
+      },
+      {
+        "name": "IT",
+        "description": "Computer Science at Delft focuses on cybersecurity, AI, and distributed systems within a technical engineering context.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "avg_gre": 325,
+          "acceptance_rate": 20,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 80000
+        }
+      },
+      {
+        "name": "Science",
+        "description": "Applied Sciences at Delft include ground-breaking research in quantum nanoscience and biotechnology.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "avg_gre": 322,
+          "acceptance_rate": 28,
+          "tuition_fee": 18000,
+          "living_expense": 15000,
+          "avg_salary": 70000
+        }
+      },
+      {
+        "name": "Design",
+        "description": "Industrial Design Engineering (IDE) at Delft combines ergonomics, technology, and business to create world-class products.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 30,
+          "tuition_fee": 18000,
+          "living_expense": 15000,
+          "avg_salary": 62000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_nl_003",
+    "slug": "erasmus-university-rotterdam",
+    "name": "Erasmus University Rotterdam",
+    "logo": "https://www.google.com/s2/favicons?domain=eur.nl&sz=128",
+    "location": {
+      "city": "Rotterdam",
+      "state": "South Holland",
+      "country": "Netherlands"
+    },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "Rotterdam School of Management (RSM) is a top-tier European business school with a heavy focus on triple-bottom-line sustainability.",
+        "stats": {
+          "avg_gpa": 3.65,
+          "avg_gmat": 670,
+          "acceptance_rate": 32,
+          "tuition_fee": 22000,
+          "living_expense": 16000,
+          "avg_salary": 85000
+        }
+      },
+      {
+        "name": "Economics",
+        "description": "The Erasmus School of Economics is the birthplace of econometrics and a powerhouse for quantitative research.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "avg_gre": 325,
+          "acceptance_rate": 30,
+          "tuition_fee": 18000,
+          "living_expense": 16000,
+          "avg_salary": 78000
+        }
+      },
+      {
+        "name": "Medicine",
+        "description": "Erasmus MC is the largest and most authoritative university medical center in the Netherlands.",
+        "stats": {
+          "avg_gpa": 3.9,
+          "acceptance_rate": 10,
+          "tuition_fee": 25000,
+          "living_expense": 16000,
+          "avg_salary": 110000
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Erasmus School of Law focuses on commercial law and the legal aspects of international trade, reflecting its Rotterdam location.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 38,
+          "tuition_fee": 14000,
+          "living_expense": 16000,
+          "avg_salary": 68000
+        }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Research-led education in psychology, sociology, and public administration.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 40,
+          "tuition_fee": 12000,
+          "living_expense": 16000,
+          "avg_salary": 55000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_nl_004",
+    "slug": "leiden-university",
+    "name": "Leiden University",
+    "logo": "https://www.google.com/s2/favicons?domain=universiteitleiden.nl&sz=128",
+    "location": {
+      "city": "Leiden",
+      "state": "South Holland",
+      "country": "Netherlands"
+    },
+    "branches": [
+      {
+        "name": "Law",
+        "description": "Leiden Law School is the oldest in the Netherlands and a global center for international law and human rights.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "acceptance_rate": 28,
+          "tuition_fee": 18000,
+          "living_expense": 14000,
+          "avg_salary": 75000
+        }
+      },
+      {
+        "name": "Arts & Humanities",
+        "description": "Unmatched collections and research in Asian studies, linguistics, and history.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 40,
+          "tuition_fee": 12000,
+          "living_expense": 14000,
+          "avg_salary": 52000
+        }
+      },
+      {
+        "name": "Science",
+        "description": "The Leiden Observatory and Physics institute are world-renowned, with a strong focus on photonics and chemical biology.",
+        "stats": {
+          "avg_gpa": 3.75,
+          "avg_gre": 320,
+          "acceptance_rate": 35,
+          "tuition_fee": 18000,
+          "living_expense": 14000,
+          "avg_salary": 65000
+        }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Focusing on political science and cultural anthropology with a global perspective.",
+        "stats": {
+          "avg_gpa": 3.55,
+          "acceptance_rate": 42,
+          "tuition_fee": 12000,
+          "living_expense": 14000,
+          "avg_salary": 58000
+        }
+      },
+      {
+        "name": "Medicine",
+        "description": "The Leiden University Medical Center (LUMC) is a pioneer in regenerative medicine and immunology.",
+        "stats": {
+          "avg_gpa": 3.85,
+          "acceptance_rate": 12,
+          "tuition_fee": 24000,
+          "living_expense": 14000,
+          "avg_salary": 105000
+        }
+      }
+    ]
+  },
+  {
+    "_id": "uni_nl_005",
+    "slug": "utrecht-university",
+    "name": "Utrecht University",
+    "logo": "https://www.google.com/s2/favicons?domain=uu.nl&sz=128",
+    "location": {
+      "city": "Utrecht",
+      "state": "Utrecht",
+      "country": "Netherlands"
+    },
+    "branches": [
+      {
+        "name": "Science",
+        "description": "Utrecht Science faculty is a leader in geosciences, climate research, and pharmacology.",
+        "stats": {
+          "avg_gpa": 3.7,
+          "avg_gre": 320,
+          "acceptance_rate": 35,
+          "tuition_fee": 18000,
+          "living_expense": 17000,
+          "avg_salary": 65000
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Specializing in administrative law, human rights, and the legal aspects of social justice.",
+        "stats": {
+          "avg_gpa": 3.6,
+          "acceptance_rate": 40,
+          "tuition_fee": 16000,
+          "living_expense": 17000,
+          "avg_salary": 72000
+        }
+      },
+      {
+        "name": "Humanities",
+        "description": "Ranked among the top for literature, religious studies, and media culture.",
+        "stats": {
+          "avg_gpa": 3.5,
+          "acceptance_rate": 45,
+          "tuition_fee": 12000,
+          "living_expense": 17000,
+          "avg_salary": 52000
+        }
+      },
+      {
+        "name": "Social Sciences",
+        "description": "Comprehensive programs in youth studies and behavioral education.",
+        "stats": {
+          "avg_gpa": 3.55,
+          "acceptance_rate": 38,
+          "tuition_fee": 14000,
+          "living_expense": 17000,
+          "avg_salary": 58000
+        }
+      },
+      {
+        "name": "Life Sciences",
+        "description": "Veterinary Medicine and Life Sciences at Utrecht are unique in the Netherlands and highly respected globally.",
+        "stats": {
+          "avg_gpa": 3.8,
+          "acceptance_rate": 15,
+          "tuition_fee": 22000,
+          "living_expense": 17000,
+          "avg_salary": 85000
+        }
+      }
+    ]
+  }
+]
