@@ -1,6 +1,7 @@
 "use client";
 import FAQSection from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 export default function UniversityFinalizationPage() {
   return (
@@ -23,37 +24,7 @@ export default function UniversityFinalizationPage() {
               as per your circumstances.
             </p>
 
-            <h4 className="mt-6 mb-2 text-[#333] font-medium">Includes:</h4>
-
-            <div className="flex gap-12 mt-3">
-
-              {/* Audio Call */}
-              <div className="text-center">
-                <div className="w-[50px] h-[50px] bg-[#2d3748] flex items-center justify-center rounded-full">
-                  <img src="/assets/call_icon.svg" className="w-[22px]" />
-                </div>
-                <p className="text-[13px] text-[#333] mt-1">Audio call</p>
-              </div>
-
-              {/* WhatsApp */}
-              <div className="text-center">
-                <div className="w-[50px] h-[50px] bg-[#2d3748] flex items-center justify-center rounded-full">
-                  <img src="/assets/whats_app_icon.png" className="w-[22px]" />
-                </div>
-                <p className="text-[13px] text-[#333] mt-1">Text Support</p>
-              </div>
-
-            </div>
-
-            <div className="mt-8 flex items-center gap-5">
-              <button className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition">
-                Discuss Your Case
-              </button>
-
-              <p className="text-[#666] text-sm">
-                Have questions about this service? Let's chat.
-              </p>
-            </div>
+            <DiscussionSection serviceId="university-finalization" />
 
           </div>
 
@@ -162,34 +133,11 @@ export default function UniversityFinalizationPage() {
           <AddToCart serviceId="university-finalization" />
         </div>
 
-        {/* CHAT CARD */}
-        <div className="bg-white rounded-[20px] shadow-md p-5 flex gap-4 items-center w-full max-w-[350px]">
-
-          <img
-            src="/assets/man_holding_phone.png"
-            className="w-[90px]"
-          />
-
-          <div className="flex-1">
-
-            <div className="flex items-center gap-2 mb-2">
-              <img src="/assets/chat-icon3.svg" className="w-[24px]" />
-              <h4 className="font-semibold text-gray-800">
-                Discuss Your Case
-              </h4>
-            </div>
-
-            <p className="text-sm text-gray-600 mb-3">
-              Chat with a team member to see how we can help.
-            </p>
-
-            <button className="border rounded-lg px-4 py-2 text-sm hover:bg-gray-100 text-black semibold">
-              Message now →
-            </button>
-
+        {/* <div className="w-full max-w-[350px]">
+          <div className="bg-white rounded-[20px] p-6 shadow-md border border-gray-100/50">
+            <DiscussionSection serviceId="university-finalization" />
           </div>
-
-        </div>
+        </div> */}
 
       </div>
 

@@ -1,6 +1,7 @@
 
 import ServiceFAQ from "@/components/ServiceFAQ";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 export default function Page() {
   return (
@@ -20,34 +21,7 @@ export default function Page() {
             reports for your drafts. Can be used on SOPs, LORs, research papers, and even assignments.
           </p>
 
-          <h4 className="mt-6 text-[16px] font-medium text-gray-700">
-            Includes:
-          </h4>
-
-          {/* FEATURES */}
-          <div className="flex gap-10 mt-4">
-
-            <div className="text-center">
-              <div className="w-[50px] h-[50px] bg-[#2d3748] rounded-full flex items-center justify-center">
-                <img src="/assets/whats_app_icon.png" className="w-[22px]" />
-              </div>
-              <p className="text-sm text-gray-700 mt-2">Text Support</p>
-            </div>
-
-          </div>
-
-          {/* CTA */}
-          <div className="flex items-center gap-6 mt-8">
-
-            <button className="border-2 border-yellow-400 px-6 py-3 rounded-md text-black font-medium hover:bg-yellow-400 transition">
-              Discuss Your Case
-            </button>
-
-            <p className="text-gray-600 text-sm">
-              Have questions about this service? Let's chat.
-            </p>
-
-          </div>
+          <DiscussionSection serviceId="plagiarism-check" />
 
         </div>
 
@@ -137,30 +111,11 @@ export default function Page() {
           <AddToCart serviceId="plagiarism-check" />
         </div>
 
-        {/* CHAT CARD */}
-        <div className="flex items-center gap-4 bg-[#f9f9f9] p-4 rounded-[20px] w-full max-w-[350px]">
-
-          <img
-            src="/assets/man_holding_phone.png"
-            className="w-[90px]"
-          />
-
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <img src="/assets/chat-icon3.svg" className="w-[22px]" />
-              <h4 className="text-black font-medium">Discuss Your Case</h4>
-            </div>
-
-            <p className="text-sm text-gray-600 mb-2">
-              Chat with a team member to see how we can help.
-            </p>
-
-            <button className="border px-4 py-2 rounded-md text-sm hover:bg-yellow-400 transition">
-              Message now →
-            </button>
+        {/* <div className="w-full max-w-[350px]">
+          <div className="bg-white rounded-[20px] p-6 shadow-md border border-gray-100/50">
+            <DiscussionSection serviceId="plagiarism-check" />
           </div>
-
-        </div>
+        </div> */}
 
         
 

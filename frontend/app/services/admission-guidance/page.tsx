@@ -6,6 +6,7 @@ export default function AdmissionGuidancePage() {
   return (
     <ServiceLayout 
       title="Admission Guidance"
+      serviceId="admission-guidance"
       description="Personalized advice from experts to help you apply for the best universities based on your profile and career goals."
       details={[
         "Profile evaluation and gap analysis",

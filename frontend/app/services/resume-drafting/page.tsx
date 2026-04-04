@@ -3,9 +3,9 @@ import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 export default function ResumeDraftingPage() {
-  const [showOptions, setShowOptions] = useState(false);
 
   return (
     <div className="w-full bg-white text-gray-800">
@@ -22,79 +22,7 @@ export default function ResumeDraftingPage() {
               Learn the secret to a perfect resume that will truly set you apart from any other applicant that you compete with. Our expert drafts are optimized for international standards.
             </p>
 
-            {/* FEATURES */}
-            <div className="flex gap-10 mb-8">
-              <div className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-gray-900 text-white flex items-center justify-center text-xl shadow-lg ring-4 ring-gray-50">
-                  📞
-                </div>
-                <span className="text-xs mt-3 font-bold text-gray-500 uppercase tracking-widest">Audio call</span>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <div className="bg-green-600 text-white p-3 rounded-full flex items-center justify-center shadow-lg ring-4 ring-green-50">
-                  <FaWhatsapp size={24} />
-                </div>
-                <span className="text-xs mt-3 font-bold text-gray-500 uppercase tracking-widest">Text Support</span>
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="flex flex-wrap items-center gap-6">
-              <button
-                onClick={() => setShowOptions(true)}
-                className="bg-yellow-500 text-black px-8 py-4 rounded-xl hover:bg-black hover:text-white transition-all duration-300 font-black uppercase tracking-widest shadow-xl shadow-yellow-500/20"
-              >
-                Discuss Your Case
-              </button>
-
-              <div className="text-sm font-medium text-gray-400 italic">
-                Questions? <span className="text-yellow-600 not-italic font-bold">Chat with us.</span>
-              </div>
-
-              {showOptions && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md px-4">
-                  <div className="bg-white rounded-3xl w-full max-w-md p-8 relative shadow-2xl animate-in fade-in zoom-in duration-300 border border-gray-100">
-                    <button
-                      onClick={() => setShowOptions(false)}
-                      className="absolute top-5 right-6 text-gray-400 hover:text-black text-2xl transition"
-                    >
-                      ×
-                    </button>
-                    <h2 className="text-2xl font-black text-center mb-8 text-black uppercase tracking-tighter">
-                      Connect With Us
-                    </h2>
-                    <div className="space-y-4">
-                      <div
-                        onClick={() => window.open("https://wa.me/918987654321", "_blank")}
-                        className="flex items-center gap-5 border-2 border-green-50 rounded-2xl p-5 hover:border-green-500 hover:bg-green-50 transition cursor-pointer group"
-                      >
-                        <div className="bg-green-100 p-3 rounded-full group-hover:bg-green-500 group-hover:text-white transition">
-                           <FaWhatsapp size={24} />
-                        </div>
-                        <div>
-                          <p className="font-black text-green-700 tracking-tight">WhatsApp</p>
-                          <p className="text-xs text-gray-400 font-bold uppercase mt-1">Instant Strategy</p>
-                        </div>
-                      </div>
-                      
-                      <div
-                        onClick={() => window.open("https://mail.google.com/mail/?view=cm&fs=1&to=harshalisanap0902@gmail.com", "_blank")}
-                        className="flex items-center gap-5 border-2 border-gray-50 rounded-2xl p-5 hover:border-black hover:bg-gray-50 transition cursor-pointer group"
-                      >
-                        <div className="bg-gray-100 p-3 rounded-full group-hover:bg-black group-hover:text-white transition text-xl">
-                           📧
-                        </div>
-                        <div>
-                          <p className="font-black text-gray-900 tracking-tight">Email Support</p>
-                          <p className="text-xs text-gray-400 font-bold uppercase mt-1">Detailed Queries</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            <DiscussionSection serviceId="resume-drafting" />
           </div>
 
           {/* RIGHT VIDEO */}
@@ -171,42 +99,9 @@ export default function ResumeDraftingPage() {
             <div className="w-full sticky top-8">
               <AddToCart serviceId="resume-drafting" />
               
-              <div className="mt-8 bg-black rounded-3xl p-8 flex flex-col gap-6 shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                
-                <div className="flex items-center gap-6 relative">
-                  <div className="relative">
-                    <Image
-                      src="/man_holding_phone.png"
-                      alt="Chat Support"
-                      width={80}
-                      height={80}
-                      className="rounded-2xl object-cover border-2 border-yellow-500/50"
-                    />
-                    <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 border-4 border-black rounded-full"></div>
-                  </div>
-                  
-                  <div className="flex-1">
-                    <h4 className="text-lg font-black text-white mb-1 tracking-tighter">
-                      Discuss Your Case
-                    </h4>
-                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-tight">
-                      Expert Consultation
-                    </p>
-                  </div>
-                </div>
-
-                <p className="text-sm text-gray-400 leading-relaxed font-medium">
-                  Have specific requirements for your industry? Chat with our team to customize your package.
-                </p>
-                
-                <button
-                  onClick={() => window.open("https://wa.me/+918987654321", "_blank")}
-                  className="w-full bg-white text-black py-4 rounded-xl font-black uppercase tracking-widest text-xs hover:bg-yellow-500 transition duration-300"
-                >
-                  Message now →
-                </button>
-              </div>
+              {/* <div className="mt-8 bg-black rounded-3xl p-8 shadow-2xl relative overflow-hidden border border-white/5">
+                <DiscussionSection serviceId="resume-drafting" />
+              </div> */}
             </div>
           </div>
         </div>

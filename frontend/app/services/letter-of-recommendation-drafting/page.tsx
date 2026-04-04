@@ -1,11 +1,12 @@
 "use client";
 import Image from "next/image";
 import { FaWhatsapp } from "react-icons/fa";
+import Link from "next/link";
 import { useState } from "react";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 export default function LORDraftingPage() {
-  const [showOptions, setShowOptions] = useState(false);
   return (
     <div className="w-full bg-white text-gray-800">
       {/* HERO SECTION */}
@@ -21,75 +22,7 @@ export default function LORDraftingPage() {
               Little known is the art of writing exactly what the admissions committee wants to see in an applicant. This can be more impacting than your SOP if done right.
             </p>
 
-            {/* FEATURES */}
-            <div className="flex gap-10 mb-6">
-              <div className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center">
-                  📞
-                </div>
-                <span className="text-sm mt-2">Audio call</span>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <div className="bg-green-600 text-white p-3 rounded-full flex items-center justify-center">
-                  <FaWhatsapp size={20} />
-                </div>
-                <span className="text-sm mt-2">Text Support</span>
-              </div>
-            </div>
-
-            {/* CTA */}
-            <div className="flex items-center gap-6">
-              <button
-                onClick={() => setShowOptions(true)}
-                className="border border-yellow-500 px-6 py-3 rounded-lg hover:bg-yellow-500 hover:text-white transition font-medium"
-              >
-                Discuss Your Case
-              </button>
-
-              <p className="text-sm text-gray-500">
-                Have questions about this service? Let's chat.
-              </p>
-
-              {showOptions && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                  <div className="bg-white rounded-xl w-[90%] max-w-md p-6 relative shadow-lg">
-                    <button
-                      onClick={() => setShowOptions(false)}
-                      className="absolute top-3 right-4 text-gray-600 text-xl"
-                    >
-                      ×
-                    </button>
-                    <h2 className="text-lg font-semibold text-center mb-6 text-black">
-                      Choose a Preferred Communication Method to Continue
-                    </h2>
-                    <div className="space-y-4">
-                      <div
-                        onClick={() => window.open("https://wa.me/918987654321", "_blank")}
-                        className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-                      >
-                        <p className="font-medium text-green-600">WhatsApp</p>
-                        <p className="text-sm text-gray-500">Chat on WhatsApp</p>
-                      </div>
-                      <div
-                        onClick={() => window.open("https://t.me/", "_blank")}
-                        className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-                      >
-                        <p className="font-medium">Telegram</p>
-                        <p className="text-sm text-gray-500">Continue on Telegram</p>
-                      </div>
-                      <div
-                        onClick={() => window.open("https://mail.google.com/mail/?view=cm&fs=1&to=harshalisanap0902@gmail.com", "_blank")}
-                        className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-                      >
-                        <p className="font-medium">Email</p>
-                        <p className="text-sm text-gray-500">Continue on Email</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            <DiscussionSection serviceId="letter-of-recommendation-drafting" />
           </div>
 
           {/* RIGHT IMAGE */}
@@ -140,7 +73,7 @@ export default function LORDraftingPage() {
               <AddToCart serviceId="lor-drafting" />
             </div>
 
-            <div className="border rounded-xl p-5 flex items-center gap-4 bg-gray-50/50">
+            {/* <div className="border rounded-xl p-5 flex items-center gap-4 bg-gray-50/50">
               <Image
                 src="/man_holding_phone.png"
                 alt="chat"
@@ -157,10 +90,10 @@ export default function LORDraftingPage() {
                   onClick={() => window.open("https://wa.me/+918987654321", "_blank")}
                   className="mt-2 text-yellow-600 text-xs font-bold hover:underline"
                 >
-                  Message now →
+                 <Link href="/contact" >Message now →</Link>
                 </button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

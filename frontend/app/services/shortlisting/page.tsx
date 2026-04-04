@@ -5,13 +5,14 @@ import AddToCart from "@/components/shared/AddToCart";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
-import { 
-  Phone, 
-  MessageSquare, 
-  CheckCircle2, 
-  ChevronDown, 
-  Info, 
-  GraduationCap, 
+import DiscussionSection from "@/components/shared/DiscussionSection";
+import {
+  Phone,
+  MessageSquare,
+  CheckCircle2,
+  ChevronDown,
+  Info,
+  GraduationCap,
   Search,
   Plus,
   Minus,
@@ -28,23 +29,23 @@ export default function ShortlistingPage() {
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1, 
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 } 
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 }
     }
   };
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { 
-        type: "spring", 
-        stiffness: 110, 
-        damping: 18, 
-        duration: 0.6 
-      } 
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 110,
+        damping: 18,
+        duration: 0.6
+      }
     }
   };
 
@@ -59,7 +60,7 @@ export default function ShortlistingPage() {
 
   return (
     <main className="min-h-screen bg-dark-950 text-white font-base selection:bg-gold-500/20 relative overflow-hidden">
-      
+
       {/* ── BACKGROUND AMBIENT GLOWS ── */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/5 blur-[150px] rounded-full" />
@@ -69,7 +70,7 @@ export default function ShortlistingPage() {
       {/* ── HERO SECTION ── */}
       <section className="relative pt-12 pb-20 px-8 md:px-20 z-10">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
             variants={containerVariants}
@@ -84,7 +85,7 @@ export default function ShortlistingPage() {
                 <span className="gradient-text-gold block mt-1">SHORTLISTING protocol</span>
               </h1>
             </motion.div>
-            
+
             <motion.div variants={itemVariants} className="max-w-xl">
               <p className="text-base md:text-lg text-white/40 leading-relaxed font-medium italic border-l-2 border-gold-500/20 pl-6 lowercase">
                 Our Ivy League graduates architect your global educational trajectory, creating a <span className="text-white font-black">Zero-Beta Portfolio</span> of and high-yield admissions nodes.
@@ -95,22 +96,22 @@ export default function ShortlistingPage() {
               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gold-500/40 italic">Global Tier Exposure:</p>
               <div className="flex flex-wrap gap-8 items-center opacity-40 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-1000">
                 {logos.map((logo, i) => (
-                   <Image key={i} src={logo.src} alt={logo.name} width={28} height={28} className="object-contain" />
+                  <Image key={i} src={logo.src} alt={logo.name} width={28} height={28} className="object-contain" />
                 ))}
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 pt-4 items-center">
-              <Link href="/contact?service=shortlisting" className="btn-gold px-8 py-3 text-[10px] tracking-widest w-full sm:w-auto text-center !rounded-xl">
-                Discuss Your Case
-              </Link>
-              <Link href="/checkout?service=shortlisting" className="text-white/40 text-[10px] font-black uppercase tracking-widest hover:text-gold-500 transition-colors border-b border-transparent hover:border-gold-500/20 pb-1">
+
+
+            <DiscussionSection serviceId="shortlisting" />
+            <div className="pt-2 pl-2">
+              <Link href="/checkout?service=shortlisting" className="text-white/40 text-[10px] font-black uppercase tracking-[0.3em] hover:text-gold-500 transition-colors border-b border-transparent hover:border-gold-500/20 pb-1 italic">
                 Start Settlement Node
               </Link>
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}

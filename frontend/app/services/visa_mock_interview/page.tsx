@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import FAQSection, { defaultFaqs } from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 const visaFaqs = [...defaultFaqs];
 visaFaqs.splice(5, 0, {
@@ -90,35 +91,7 @@ export default function VisaMockInterviewPage() {
                                 Ace the interview with proven tricks and techniques.
                             </p>
 
-                            <div className="space-y-4 mb-8 pt-2">
-                                <h3 className="text-[15px] font-medium text-white/90">Includes:</h3>
-                                <div className="flex gap-8">
-                                    <div className="flex flex-col items-center gap-2">
-                                        <div className="w-12 h-12 rounded-full bg-[#1e2a4f] flex items-center justify-center text-indigo-300 shadow-lg border border-white/5">
-                                            <Video size={20} fill="currentColor" className="text-indigo-200" />
-                                        </div>
-                                        <span className="text-xs text-white/70">Video call</span>
-                                    </div>
-                                    <div className="flex flex-col items-center gap-2">
-                                        <div className="w-12 h-12 rounded-full bg-[#1c3f2d] flex items-center justify-center text-green-400 shadow-lg border border-white/5">
-                                            <MessageSquare size={20} fill="currentColor" className="text-green-300" />
-                                        </div>
-                                        <span className="text-xs text-white/70">Text Support</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-wrap items-center gap-4">
-                            <Link 
-                                href="/contact" 
-                                className="inline-block border border-gold-500 text-gold-500 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-gold-500 hover:text-black hover:shadow-lg hover:shadow-gold-500/20 text-center"
-                            >
-                                Discuss Your Case
-                            </Link>
-                                <div className="text-xs text-white/50 max-w-[130px] leading-tight">
-                                    Have questions about this service? Let's chat.
-                                </div>
-                            </div>
+                            <DiscussionSection serviceId="visa_mock_interview" />
                         </motion.div>
 
                         <motion.div 

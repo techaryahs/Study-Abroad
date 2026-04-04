@@ -3,6 +3,7 @@
 import React, { useState, ReactNode } from "react";
 import Link from "next/link";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 
 // ─── Components ──────────────────────────────────────────────────────────────
@@ -160,27 +161,7 @@ export default function ResearchPaperPage() {
               <span className="text-[#ffffff]">Extremely crucial</span> for MS/PhD and O-1/EB-1 visa applicants.
             </p>
 
-            <div className="flex gap-10 mb-10">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">📹</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Video call</span>
-              </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">🎧</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Audio call</span>
-              </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center text-2xl text-green-400">💬</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Text Support</span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-6">
-              <button className="bg-[#c6a96b] text-[#000000] font-black py-4 px-10 rounded-xl hover:bg-[#d4af37] hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#c6a96b]/20 uppercase tracking-widest text-xs">
-                Discuss Your Case
-              </button>
-              <p className="text-sm text-[#a1a1a1] italic">Have questions about this service? Let's chat.</p>
-            </div>
+            <DiscussionSection serviceId="research-papers" />
           </div>
 
           {/* Hero illustration */}

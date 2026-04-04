@@ -3,6 +3,7 @@
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 interface ServiceLayoutProps {
   title: string;
@@ -74,9 +75,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
             </p>
 
             <div className="pt-6">
-              <Link href="/contact" className="btn-gold !px-10 !py-4 text-[10px] font-black uppercase tracking-[0.3em]">
-                Secure Mentorship
-              </Link>
+              <DiscussionSection serviceId={serviceId || "generic"} />
             </div>
           </motion.div>
 
