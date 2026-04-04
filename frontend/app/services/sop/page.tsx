@@ -5,6 +5,7 @@ import AddToCart from "@/components/shared/AddToCart";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 import { 
   Phone, 
   MessageSquare, 
@@ -83,29 +84,11 @@ export default function SOPPage() {
               </p>
             </motion.div>
 
-            <div className="space-y-4 pt-2">
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gold-500/40 italic">Global Tier Features:</p>
-              <div className="flex flex-wrap gap-8">
-                {[
-                  { icon: <PenTool size={18} />, label: "Unique Draft" },
-                  { icon: <Zap size={18} />, label: "Unlimited Revisions" },
-                  { icon: <Briefcase size={18} />, label: "Resume Polishing" }
-                ].map((item, i) => (
-                  <div key={i} className="flex flex-col items-center gap-2 group">
-                     <div className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:border-gold-500/50 transition-all text-gold-500 shadow-sm">
-                        {item.icon}
-                     </div>
-                     <p className="text-[8px] font-black uppercase tracking-widest text-white/30 group-hover:text-gold-500 transition-colors uppercase">{item.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 pt-4 items-center">
-              <Link href="/contact?service=sop" className="btn-gold px-8 py-3 text-[10px] tracking-widest w-full sm:w-auto text-center !rounded-xl">
-                Discuss Your Case
-              </Link>
-              <Link href="/checkout?service=sop" className="text-white/40 text-[10px] font-black uppercase tracking-widest hover:text-gold-500 transition-colors border-b border-transparent hover:border-gold-500/20 pb-1">
+
+            <DiscussionSection serviceId="sop" />
+            <div className="pt-2 pl-2">
+              <Link href="/checkout?service=sop" className="text-white/40 text-[10px] font-black uppercase tracking-[0.3em] hover:text-gold-500 transition-colors border-b border-transparent hover:border-gold-500/20 pb-1 italic">
                 Start Settlement Node
               </Link>
             </div>

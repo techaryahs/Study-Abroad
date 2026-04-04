@@ -2,6 +2,7 @@
 
 import React, { useState, ReactNode } from "react";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 // ─── Components ──────────────────────────────────────────────────────────────
 
@@ -135,27 +136,7 @@ export default function VisaApplicationPage() {
               <span className="text-[#ffffff]">Applicable for USA, Canada, UK, Germany, and more.</span>
             </p>
 
-            <div className="flex gap-10 mb-10">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">📹</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Video call</span>
-              </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">🎧</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Audio call</span>
-              </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center text-2xl text-green-400">💬</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Text Support</span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-6">
-              <button className="bg-[#c6a96b] text-[#000000] font-black py-4 px-10 rounded-xl hover:bg-[#d4af37] hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#c6a96b]/20 uppercase tracking-widest text-xs">
-                Discuss Your Case
-              </button>
-              <p className="text-sm text-[#a1a1a1] italic">Have questions about this service? Let's chat.</p>
-            </div>
+            <DiscussionSection serviceId="visa-application-help" />
           </div>
 
           {/* Hero illustration */}
@@ -323,19 +304,9 @@ export default function VisaApplicationPage() {
           <div className="sticky top-28">
             <AddToCart serviceId="visa-application-help" />
 
-            {/* Discuss Card */}
-            <div className="mt-8 bg-[#0a0a0a] border border-[#c6a96b]/20 shadow-2xl rounded-[2rem] p-8 space-y-6">
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 rounded-full bg-[#c6a96b]/10 border border-[#c6a96b]/20 overflow-hidden flex items-center justify-center text-lg shrink-0">👤</div>
-                <div>
-                  <p className="text-xs font-black text-[#c6a96b] uppercase tracking-widest mb-1">Discuss Your Case</p>
-                  <p className="text-xs text-[#a1a1a1] leading-relaxed">Chat with a team member to see how we can help.</p>
-                  <button className="mt-4 w-full text-[10px] font-black uppercase tracking-widest text-[#ffffff] border border-white/10 px-4 py-3 rounded-xl hover:bg-white/5 transition-all">
-                    Message now →
-                  </button>
-                </div>
-              </div>
-            </div>
+            {/* <div className="mt-8 bg-[#0a0a0a] border border-[#c6a96b]/20 shadow-2xl rounded-[2rem] p-8">
+              <DiscussionSection serviceId="visa-application-help" />
+            </div> */}
           </div>
         </div>
       </section>

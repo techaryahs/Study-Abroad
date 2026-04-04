@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 // ─── Components ──────────────────────────────────────────────────────────────
 
@@ -75,25 +76,7 @@ export default function ApplicationHelpPage() {
               Top universities. <span className="text-white">No BS.</span>
             </p>
 
-            <div className="flex gap-10">
-              {["📹 Video", "📞 Audio", "💬 Text"].map((item) => (
-                <div key={item} className="flex flex-col items-center gap-3">
-                  <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-lg hover:border-[#c6a96b]/40 transition-colors">
-                    {item.split(" ")[0]}
-                  </div>
-                  <span className="text-[9px] uppercase font-bold text-[#a1a1a1] tracking-[0.2em]">{item.split(" ").slice(1).join(" ")} Support</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-6 pt-4">
-              <button className="bg-[#c6a96b] text-[#1a1a1a] font-bold text-xs uppercase tracking-widest py-5 px-12 rounded-lg hover:brightness-110 transition-all shadow-2xl shadow-black">
-                Discuss Your Case
-              </button>
-              <span className="text-[10px] text-[#a1a1a1] italic uppercase tracking-widest leading-loose border-l border-white/10 pl-6">
-                Direct Expert<br/>Access
-              </span>
-            </div>
+            <DiscussionSection serviceId="application-help" />
           </div>
 
           {/* Hero Video Section */}
@@ -176,8 +159,11 @@ export default function ApplicationHelpPage() {
 
         {/* ── SIDEBAR ──────────────────────────────────────────────────────── */}
         <div className="lg:col-span-1">
-          <div className="sticky top-28">
+          <div className="sticky top-28 space-y-8">
             <AddToCart serviceId="application-help" />
+            <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-6 shadow-2xl">
+              <DiscussionSection serviceId="application-help" />
+            </div>
           </div>
         </div>
       </section>

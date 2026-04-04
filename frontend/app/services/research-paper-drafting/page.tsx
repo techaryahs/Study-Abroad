@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 const benefits = [
   { icon: "🎓", text: "Admits from top-tier universities worldwide" },
@@ -267,16 +268,7 @@ export default function ResearchPaperServicePage() {
                 Essential for MS/PhD applicants and O-1/EB-1 visa seekers aiming for elite outcomes.
               </p>
 
-              <div className={`flex flex-wrap gap-3 ${mounted ? "afu d3" : "opacity-0"}`} style={{ marginBottom: 28 }}>
-                {["📹 Video Call", "📞 Audio Call", "💬 Text Support"].map((f, i) => (
-                  <span key={i} style={{ fontSize: 12, color: "#78716c", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 999, padding: "7px 16px" }}>{f}</span>
-                ))}
-              </div>
-
-              <div className={`flex items-center gap-4 ${mounted ? "afu d4" : "opacity-0"}`}>
-                <button className="btn-gold aglow">Discuss Your Case →</button>
-                <span style={{ fontSize: 12, color: "#57534e" }}>Free consultation</span>
-              </div>
+              <DiscussionSection serviceId="research-paper-drafting" />
             </div>
 
             {/* Orbital graphic */}
@@ -450,12 +442,9 @@ export default function ResearchPaperServicePage() {
             </div>
 
             {/* Chat card */}
-            <div style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(202,138,4,0.14)", borderRadius: 20, padding: "24px", textAlign: "center" }}>
-              <span style={{ fontSize: 30, display: "block", marginBottom: 12 }}>💬</span>
-              <h4 className="fd" style={{ fontSize: 18, fontWeight: 600, marginBottom: 4 }}>Have Questions?</h4>
-              <p style={{ fontSize: 12, color: "#57534e", marginBottom: 18 }}>Our advisors are available 24/7</p>
-              <button className="btn-outline">Message Now</button>
-            </div>
+            {/* <div style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(202,138,4,0.14)", borderRadius: 20, padding: "24px" }}>
+              <DiscussionSection serviceId="research-paper-drafting" />
+            </div> */}
 
             {/* Group card */}
             <div style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(202,138,4,0.14)", borderRadius: 20, padding: "24px" }}>

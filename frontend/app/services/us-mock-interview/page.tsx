@@ -7,8 +7,8 @@ import { FaWhatsapp } from "react-icons/fa";
 import { FaUserTie } from "react-icons/fa";
 import { FaFileAlt } from "react-icons/fa";
 import { FaIdBadge } from "react-icons/fa";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 export default function UsMockInterviewPage() {
-  const [showOptions, setShowOptions] = useState(false);
 
   return (
     <div className="w-full bg-white text-gray-800">
@@ -29,41 +29,7 @@ export default function UsMockInterviewPage() {
               techniques.
             </p>
 
-            <p className="font-semibold mb-4">Includes:</p>
-
-            {/* ICONS */}
-            <div className="flex gap-10 mb-6">
-              <div className="flex flex-col items-center">
-               <Image
-          src="/googlemeet.png"
-          alt="Google Meet"
-          width={40}
-          height={40}
-/>
-                <span className="text-sm mt-2">Video call</span>
-             </div>
-            
-                        <div className="flex flex-col items-center">
-                  <div className="bg-green-600 text-white p-3 rounded-full flex items-center justify-center">
-                <FaWhatsapp size={20} />
-              </div>
-              <span className="text-sm mt-2">Text Support</span>
-            </div>
-                      </div>
-
-            {/* CTA */}
-            <div className="flex items-center gap-6">
-              <button
-                onClick={() => setShowOptions(true)}
-                className="border border-yellow-500 px-6 py-3 rounded-lg hover:bg-yellow-500 hover:text-white transition"
-              >
-                Discuss Your Case
-              </button>
-
-              <p className="text-sm text-gray-500">
-                Have questions about this service? Let's chat.
-              </p>
-            </div>
+            <DiscussionSection serviceId="us-mock-interview" />
           </div>
 
           {/* RIGHT IMAGE */}
@@ -81,69 +47,6 @@ export default function UsMockInterviewPage() {
 
       {/* ================= MODAL ================= */}
      
-               {showOptions && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-
-    {/* Modal Box */}
-    <div className="bg-white rounded-xl w-[90%] max-w-md p-6 relative shadow-lg">
-
-      {/* Close Button */}
-       <button
-              onClick={() => setShowOptions(false)}
-              className="absolute top-3 right-4 text-gray-600 text-xl"
-            >
-              ×
-            </button>
-        
-        {/* Heading */}
-            <h2 className="text-lg font-semibold text-center mb-6 text-black">
-              Choose a Preferred Communication Method to Continue
-            </h2>
-
-      
-
-      {/* Options */}
-      <div className="space-y-4">
-
-        {/* WhatsApp */}
-        <div
-          onClick={() => window.open("https://wa.me/918987654321", "_blank")}
-          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-        >
-          <p className="font-medium text-green-600">WhatsApp</p>
-          <p className="text-sm text-gray-500">Chat on WhatsApp</p>
-        </div>
-
-        {/* Telegram */}
-        <div
-          onClick={() => window.open("https://t.me/", "_blank")}
-          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-        >
-          <p className="font-medium">Telegram</p>
-          <p className="text-sm text-gray-500">Continue on Telegram</p>
-        </div>
-
-        {/* Email */}
-    <div
-  onClick={() =>
-    window.open(
-      "https://mail.google.com/mail/?view=cm&fs=1&to=harshalisanap0902@gmail.com",
-      "_blank"
-    )
-  }
-  className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
->
-  <p className="font-medium">Email</p>
-  <p className="text-sm text-gray-500">
-    Continue on Email
-  </p>
-</div>
-
-      </div>
-
-    </div>
-  </div>
-)}
 
       {/* ================= ABOUT ================= */}
     <section className="py-16 px-6 md:px-16">
@@ -277,38 +180,9 @@ export default function UsMockInterviewPage() {
   Buy Now
 </button>
           </div>
-          <div className="mt-8 bg-gray-50 rounded-xl p-4 flex items-center gap-4">
-  
-  {/* Left Content */}
-  <div className="flex-1">
-    <h4 className="text-md font-semibold text-black">
-      Discuss Your Case
-    </h4>
-
-    <p className="text-sm text-gray-600 mt-1">
-      Chat with a team member to see how we can help.
-    </p>
-
-   <button
-  onClick={() => {
-    window.open("https://wa.me/+918987654321", "_blank");
-  }}
-  className="mt-3 text-yellow-600 font-medium hover:underline"
->
-  Message now →
-</button>
-  </div>
-    {/* Right Image */}
-    <div className="w-20 h-20 flex-shrink-0">
-      <Image
-        src="/man_holding_phone.png" // 👈 add your image in public folder
-        alt="Chat Support"
-        width={80}
-        height={80}
-        className="rounded-lg object-cover"
-      />
-    </div>
-      </div>
+          {/* <div className="mt-8 bg-gray-50 rounded-xl p-6 border border-gray-100">
+            <DiscussionSection serviceId="us-mock-interview" />
+          </div> */}
 
     </div>
 

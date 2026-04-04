@@ -3,6 +3,7 @@
 import React, { useState, ReactNode } from "react";
 import Link from "next/link";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 // ─── Components ──────────────────────────────────────────────────────────────
 
@@ -60,23 +61,7 @@ export default function CounsellingPage() {
               working overseas. <span className="text-[#ffffff]">Charges fully adjustable</span> in service pricing.
             </p>
 
-            <div className="flex gap-10 mb-10">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">📹</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Video call</span>
-              </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center text-2xl text-green-400">💬</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Text Support</span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-6">
-              <button className="bg-[#c6a96b] text-[#000000] font-black py-4 px-10 rounded-xl hover:bg-[#d4af37] hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#c6a96b]/20 uppercase tracking-widest text-xs">
-                Discuss Your Case
-              </button>
-              <p className="text-sm text-[#a1a1a1] italic">Have questions? Let's chat.</p>
-            </div>
+            <DiscussionSection serviceId="counselling" />
           </div>
 
           <div className="w-[85%] h-[280px] md:h-[380px] mx-auto rounded-3xl overflow-hidden border border-[#c6a96b]/20 shadow-2xl">
@@ -154,8 +139,11 @@ export default function CounsellingPage() {
 
         {/* Sidebar */}
         <div className="lg:col-span-1 pb-20">
-          <div className="sticky top-28">
+          <div className="sticky top-28 space-y-8">
             <AddToCart serviceId="counselling" />
+            <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-6 shadow-2xl">
+              <DiscussionSection serviceId="counselling" />
+            </div>
           </div>
         </div>
       </section>

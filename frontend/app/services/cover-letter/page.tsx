@@ -2,6 +2,7 @@
 
 import FAQSection from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 export default function Page() {
 
@@ -22,21 +23,7 @@ export default function Page() {
             Infuse our professional writing to stand out in today’s competitive job market.
           </p>
 
-          {/* FEATURES */}
-          <div className="flex gap-10 mb-8">
-            <div className="text-center">
-              <div className="text-2xl">📞</div>
-              <p className="text-sm text-white/60">Audio call</p>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl">💬</div>
-              <p className="text-sm text-white/60">Text Support</p>
-            </div>
-          </div>
-
-          <button className="bg-[#c6a96b] text-black px-8 py-3 rounded-lg font-bold">
-            Discuss Your Case
-          </button>
+          <DiscussionSection serviceId="cover-letter" />
         </div>
 
         {/* RIGHT */}
@@ -105,9 +92,12 @@ export default function Page() {
         </div>
 
                <div className="lg:col-span-1 pb-20">
-                 <div className="sticky top-28">
-                   <AddToCart serviceId="cover-letter" />
-                 </div>
+                  <div className="sticky top-28 space-y-8">
+                    <AddToCart serviceId="cover-letter" />
+                    <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-6 shadow-2xl">
+                      <DiscussionSection serviceId="cover-letter" />
+                    </div>
+                  </div>
                </div>
       </section>
 

@@ -2,6 +2,8 @@
 
 import FAQSection from "./FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
+import Link from "next/link";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 export default function GrePrepPage() {
   return (
@@ -24,35 +26,7 @@ export default function GrePrepPage() {
               (Day-by-day schedule)
             </p>
 
-            <h4 className="mt-6 mb-2 text-[#333] font-medium">Includes:</h4>
-
-            <div className="flex gap-12 mt-3">
-
-              <div className="text-center">
-                <div className="w-[50px] h-[50px] bg-[#2d3748] flex items-center justify-center rounded-full">
-                  <img src="/assets/meet_icon.png" className="w-[22px]" />
-                </div>
-                <p className="text-[13px] text-[#333] mt-1">Video call</p>
-              </div>
-
-              <div className="text-center">
-                <div className="w-[50px] h-[50px] bg-[#2d3748] flex items-center justify-center rounded-full">
-                  <img src="/assets/whats_app_icon.png" className="w-[22px]" />
-                </div>
-                <p className="text-[13px] text-[#333] mt-1">Text Support</p>
-              </div>
-
-            </div>
-
-            <div className="mt-8 flex items-center gap-5">
-              <button className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition">
-                Discuss Your Case
-              </button>
-
-              <p className="text-[#666] text-sm">
-                Have questions about this service? Let's chat.
-              </p>
-            </div>
+            <DiscussionSection serviceId="gre-prep" />
 
           </div>
 
@@ -136,7 +110,7 @@ export default function GrePrepPage() {
                 <AddToCart serviceId="gre-prep" />
               </div>
 
-              {/* CHAT CARD */}
+              CHAT CARD
               <div className="bg-white rounded-[20px] p-4 flex gap-4 items-center w-full max-w-[350px] shadow">
 
                 <img src="/assets/man_holding_phone.png" className="w-[100px]" />
@@ -152,10 +126,9 @@ export default function GrePrepPage() {
                   </p>
 
                   <button className="mt-2 border px-3 py-1 rounded hover:bg-yellow-400 transition">
-                    Message now →
+                   <Link href="/contact">Message now →</Link>
                   </button>
                 </div>
-
               </div>
 
             </div>

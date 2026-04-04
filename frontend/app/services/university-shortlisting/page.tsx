@@ -6,6 +6,7 @@ export default function UniversityShortlistingPage() {
   return (
     <ServiceLayout 
       title="University Shortlisting"
+      serviceId="university-shortlisting"
       description="Our data-driven process shortlists universities that maximize your chances of acceptance and offer the best programs."
       details={[
         "Data-backed success probability",

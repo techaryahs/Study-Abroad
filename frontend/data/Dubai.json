@@ -4,17 +4,64 @@
     "slug": "university-of-birmingham-dubai",
     "name": "University of Birmingham Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=birmingham.ac.uk&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
         "name": "Engineering",
-        "description": "University of Birmingham Dubai offers globally recognized UK degrees with strong focus on engineering, business, and data science. Its modern campus and research-driven approach ensure high employability and global exposure.",
-        "stats": { "acceptance_rate": 65, "tuition_fee": 35000, "living_expense": 15000, "avg_salary": 70000, "avg_sat": 1380, "avg_gpa": 3.7, "avg_gre": 315 },
-        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 95 }
+        "description": "Globally recognized UK‑style engineering degrees with strong focus on mechanical, electrical, and civil engineering.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 35000,
+          "living_expense": 15000,
+          "avg_salary": 72000
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 96
+        }
+      },
+      {
+        "name": "Business",
+        "description": "Business, accounting, and economics programs aligned with UK standards and Dubai’s corporate ecosystem.",
+        "stats": {
+          "acceptance_rate": 68,
+          "tuition_fee": 34000,
+          "living_expense": 15000,
+          "avg_salary": 68000
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 95
+        }
+      },
+      {
+        "name": "Data Science & AI",
+        "description": "Data‑driven programs with AI, machine learning, and analytics focus.",
+        "stats": {
+          "acceptance_rate": 62,
+          "tuition_fee": 36000,
+          "living_expense": 15000,
+          "avg_salary": 75000
+        },
+        "admitted_profiles": {
+          "toefl_min": 90,
+          "ielts_min": 7.0,
+          "toefl_avg": 100
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 88, "employed_within_3_months": 90, "average_salary": 75000 }
+      "employment_figures": {
+        "employed": 88,
+        "employed_within_3_months": 90,
+        "average_salary": 75000
+      }
     }
   },
   {
@@ -22,17 +69,64 @@
     "slug": "middlesex-university-dubai",
     "name": "Middlesex University Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=mdx.ac.ae&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
-        "name": "Business & IT",
-        "description": "Middlesex Dubai is one of the largest international branch campuses offering diverse programs in business, law, and IT. It emphasizes practical learning and strong industry connections in Dubai’s business ecosystem.",
-        "stats": { "acceptance_rate": 75, "tuition_fee": 30000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1320, "avg_gpa": 3.5, "avg_gre": 308 },
-        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
+        "name": "Business",
+        "description": "Under‑ and post‑graduate business, finance, marketing, and management programs.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 30000,
+          "living_expense": 15000,
+          "avg_salary": 66000
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.0,
+          "toefl_avg": 90
+        }
+      },
+      {
+        "name": "Information Technology",
+        "description": "IT and computing programs with cybersecurity, cloud, and software‑development focus.",
+        "stats": {
+          "acceptance_rate": 72,
+          "tuition_fee": 31000,
+          "living_expense": 15000,
+          "avg_salary": 68000
+        },
+        "admitted_profiles": {
+          "toefl_min": 82,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Law programs with UAE‑and‑international‑focused curricula.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 32000,
+          "living_expense": 15000,
+          "avg_salary": 67000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 94
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 68000 }
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 68000
+      }
     }
   },
   {
@@ -40,17 +134,64 @@
     "slug": "heriot-watt-university-dubai",
     "name": "Heriot-Watt University Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=hw.ac.uk&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
-        "name": "Engineering & Business",
-        "description": "Heriot-Watt Dubai is known for engineering, construction, and business programs with strong UK academic standards. Its graduates are highly valued in engineering and finance sectors.",
-        "stats": { "acceptance_rate": 70, "tuition_fee": 32000, "living_expense": 15000, "avg_salary": 68000, "avg_sat": 1350, "avg_gpa": 3.6, "avg_gre": 312 },
-        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+        "name": "Engineering",
+        "description": "Engineering programs in mechanical, petroleum, and construction engineering.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 32000,
+          "living_expense": 15000,
+          "avg_salary": 70000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 94
+        }
+      },
+      {
+        "name": "Business",
+        "description": "Business and management degrees with strong links to UAE‑Gulf industries.",
+        "stats": {
+          "acceptance_rate": 68,
+          "tuition_fee": 33000,
+          "living_expense": 15000,
+          "avg_salary": 68000
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 95
+        }
+      },
+      {
+        "name": "Construction & Project Management",
+        "description": "Specialized programs in construction, quantity surveying, and project management.",
+        "stats": {
+          "acceptance_rate": 72,
+          "tuition_fee": 34000,
+          "living_expense": 15000,
+          "avg_salary": 72000
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 96
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 89, "average_salary": 70000 }
+      "employment_figures": {
+        "employed": 87,
+        "employed_within_3_months": 89,
+        "average_salary": 70000
+      }
     }
   },
   {
@@ -58,17 +199,64 @@
     "slug": "university-of-wollongong-in-dubai",
     "name": "University of Wollongong in Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=uowdubai.ac.ae&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
-        "name": "Business & IT",
-        "description": "UOWD is one of the oldest international universities in Dubai offering Australian degrees. It is known for business, IT, and media programs with strong career outcomes.",
-        "stats": { "acceptance_rate": 75, "tuition_fee": 32000, "living_expense": 15000, "avg_salary": 70000, "avg_sat": 1340, "avg_gpa": 3.55, "avg_gre": 310 },
-        "admitted_profiles": { "toefl_min": 82, "ielts_min": 6.5, "toefl_avg": 94 }
+        "name": "Business",
+        "description": "Australian‑style business degrees with strong focus on management and finance.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 32000,
+          "living_expense": 15000,
+          "avg_salary": 68000
+        },
+        "admitted_profiles": {
+          "toefl_min": 82,
+          "ielts_min": 6.5,
+          "toefl_avg": 94
+        }
+      },
+      {
+        "name": "IT & Computing",
+        "description": "IT, cybersecurity, and data‑oriented programs with strong internships.",
+        "stats": {
+          "acceptance_rate": 73,
+          "tuition_fee": 33000,
+          "living_expense": 15000,
+          "avg_salary": 72000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 96
+        }
+      },
+      {
+        "name": "Media & Communication",
+        "description": "Media, digital communication, and public‑relations‑oriented programs.",
+        "stats": {
+          "acceptance_rate": 76,
+          "tuition_fee": 31000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 82,
+          "ielts_min": 6.5,
+          "toefl_avg": 90
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 86, "employed_within_3_months": 89, "average_salary": 72000 }
+      "employment_figures": {
+        "employed": 86,
+        "employed_within_3_months": 89,
+        "average_salary": 72000
+      }
     }
   },
   {
@@ -76,17 +264,49 @@
     "slug": "manchester-university-dubai",
     "name": "University of Manchester Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=manchester.ac.uk&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
         "name": "Business (MBA)",
-        "description": "Manchester Dubai offers one of the world’s top-ranked part-time MBA programs with strong global alumni network and leadership focus.",
-        "stats": { "acceptance_rate": 60, "tuition_fee": 45000, "living_expense": 15000, "avg_salary": 90000, "avg_sat": 1400, "avg_gpa": 3.8, "avg_gre": 322 },
-        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 108 }
+        "description": "World‑ranked part‑time MBA and leadership programs.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 45000,
+          "living_expense": 15000,
+          "avg_salary": 95000
+        },
+        "admitted_profiles": {
+          "toefl_min": 100,
+          "ielts_min": 7.0,
+          "toefl_avg": 108
+        }
+      },
+      {
+        "name": "Business & Management",
+        "description": "Undergraduate and postgraduate management, finance, and analytics programs.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 43000,
+          "living_expense": 15000,
+          "avg_salary": 85000
+        },
+        "admitted_profiles": {
+          "toefl_min": 95,
+          "ielts_min": 6.5,
+          "toefl_avg": 102
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 90, "employed_within_3_months": 92, "average_salary": 95000 }
+      "employment_figures": {
+        "employed": 90,
+        "employed_within_3_months": 92,
+        "average_salary": 95000
+      }
     }
   },
   {
@@ -94,17 +314,64 @@
     "slug": "british-university-in-dubai",
     "name": "The British University in Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=buid.ac.ae&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
-        "name": "Engineering & Education",
-        "description": "BUID offers postgraduate-focused education with strong research in engineering, education, and sustainability aligned with UK standards.",
-        "stats": { "acceptance_rate": 70, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1300, "avg_gpa": 3.5, "avg_gre": 305 },
-        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
+        "name": "Engineering",
+        "description": "Civil, mechanical, and electrical engineering with UK‑aligned curricula.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 28000,
+          "living_expense": 15000,
+          "avg_salary": 65000
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.0,
+          "toefl_avg": 90
+        }
+      },
+      {
+        "name": "Education",
+        "description": "Teacher education and education leadership programs.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 27000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.0,
+          "toefl_avg": 88
+        }
+      },
+      {
+        "name": "Sustainability",
+        "description": "Sustainability, environmental, and energy‑oriented research‑focused programs.",
+        "stats": {
+          "acceptance_rate": 72,
+          "tuition_fee": 28000,
+          "living_expense": 15000,
+          "avg_salary": 60000
+        },
+        "admitted_profiles": {
+          "toefl_min": 82,
+          "ielts_min": 6.5,
+          "toefl_avg": 90
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 84, "employed_within_3_months": 87, "average_salary": 67000 }
+      "employment_figures": {
+        "employed": 84,
+        "employed_within_3_months": 87,
+        "average_salary": 67000
+      }
     }
   },
   {
@@ -112,17 +379,64 @@
     "slug": "american-university-in-dubai",
     "name": "American University in Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=aud.edu&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
-        "name": "Business & Media",
-        "description": "AUD offers American-style education with strengths in business, architecture, and media studies. It has strong industry connections across the UAE.",
-        "stats": { "acceptance_rate": 75, "tuition_fee": 30000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1320, "avg_gpa": 3.6, "avg_gre": 310 },
-        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+        "name": "Business",
+        "description": "American‑style business and management programs with strong industry links.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 30000,
+          "living_expense": 15000,
+          "avg_salary": 66000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Architecture",
+        "description": "Architecture and design‑oriented programs with strong project‑based learning.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 32000,
+          "living_expense": 15000,
+          "avg_salary": 68000
+        },
+        "admitted_profiles": {
+          "toefl_min": 90,
+          "ielts_min": 7.0,
+          "toefl_avg": 98
+        }
+      },
+      {
+        "name": "Media",
+        "description": "Media, communication, and creative‑production programs.",
+        "stats": {
+          "acceptance_rate": 78,
+          "tuition_fee": 30000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 68000 }
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 68000
+      }
     }
   },
   {
@@ -130,17 +444,64 @@
     "slug": "american-university-in-the-emirates",
     "name": "American University in the Emirates",
     "logo": "https://www.google.com/s2/favicons?domain=aue.ae&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
-        "name": "Business & Law",
-        "description": "AUE provides American curriculum with focus on business, law, and media programs, preparing students for regional careers.",
-        "stats": { "acceptance_rate": 80, "tuition_fee": 25000, "living_expense": 15000, "avg_salary": 60000, "avg_sat": 1280, "avg_gpa": 3.4, "avg_gre": 300 },
-        "admitted_profiles": { "toefl_min": 79, "ielts_min": 6.0, "toefl_avg": 88 }
+        "name": "Business",
+        "description": "Business administration, accounting, finance, and management programs with American‑style curriculum.",
+        "stats": {
+          "acceptance_rate": 80,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 60000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.0,
+          "toefl_avg": 88
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Law programs with focus on UAE and international legal frameworks.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 26000,
+          "living_expense": 15000,
+          "avg_salary": 62000
+        },
+        "admitted_profiles": {
+          "toefl_min": 82,
+          "ielts_min": 6.5,
+          "toefl_avg": 90
+        }
+      },
+      {
+        "name": "Media",
+        "description": "Media and communication‑oriented programs with strong industry projects.",
+        "stats": {
+          "acceptance_rate": 83,
+          "tuition_fee": 24000,
+          "living_expense": 15000,
+          "avg_salary": 56000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.0,
+          "toefl_avg": 86
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 82, "employed_within_3_months": 85, "average_salary": 62000 }
+      "employment_figures": {
+        "employed": 82,
+        "employed_within_3_months": 85,
+        "average_salary": 62000
+      }
     }
   },
   {
@@ -148,17 +509,64 @@
     "slug": "manipal-academy-of-higher-education-dubai",
     "name": "Manipal Academy of Higher Education Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=manipal.edu&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
-        "name": "Engineering & IT",
-        "description": "Manipal Dubai offers Indian-origin education with strong programs in engineering, IT, and business. It is popular among international students.",
-        "stats": { "acceptance_rate": 85, "tuition_fee": 20000, "living_expense": 15000, "avg_salary": 55000, "avg_sat": 1250, "avg_gpa": 3.3, "avg_gre": 298 },
-        "admitted_profiles": { "toefl_min": 75, "ielts_min": 6.0, "toefl_avg": 85 }
+        "name": "Engineering",
+        "description": "Civil, mechanical, computer, and electrical engineering with Indian‑and‑global focus.",
+        "stats": {
+          "acceptance_rate": 85,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 55000
+        },
+        "admitted_profiles": {
+          "toefl_min": 75,
+          "ielts_min": 6.0,
+          "toefl_avg": 85
+        }
+      },
+      {
+        "name": "Information Technology",
+        "description": "Computer science, IT, cybersecurity, and data‑oriented programs.",
+        "stats": {
+          "acceptance_rate": 82,
+          "tuition_fee": 21000,
+          "living_expense": 15000,
+          "avg_salary": 60000
+        },
+        "admitted_profiles": {
+          "toefl_min": 78,
+          "ielts_min": 6.0,
+          "toefl_avg": 88
+        }
+      },
+      {
+        "name": "Business",
+        "description": "Business, management, and finance programs popular among South‑Asian and international students.",
+        "stats": {
+          "acceptance_rate": 84,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 54000
+        },
+        "admitted_profiles": {
+          "toefl_min": 75,
+          "ielts_min": 6.0,
+          "toefl_avg": 84
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 80, "employed_within_3_months": 83, "average_salary": 58000 }
+      "employment_figures": {
+        "employed": 80,
+        "employed_within_3_months": 83,
+        "average_salary": 58000
+      }
     }
   },
   {
@@ -166,17 +574,64 @@
     "slug": "amity-university-dubai",
     "name": "Amity University Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=amityuniversity.ae&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
-        "name": "Business & Engineering",
-        "description": "Amity Dubai offers a wide range of programs with focus on industry readiness, internships, and global exposure.",
-        "stats": { "acceptance_rate": 85, "tuition_fee": 22000, "living_expense": 15000, "avg_salary": 55000, "avg_sat": 1260, "avg_gpa": 3.4, "avg_gre": 300 },
-        "admitted_profiles": { "toefl_min": 79, "ielts_min": 6.0, "toefl_avg": 86 }
+        "name": "Business",
+        "description": "Business, marketing, finance, and HR programs with strong industry‑readiness focus.",
+        "stats": {
+          "acceptance_rate": 85,
+          "tuition_fee": 22000,
+          "living_expense": 15000,
+          "avg_salary": 56000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.0,
+          "toefl_avg": 86
+        }
+      },
+      {
+        "name": "Engineering",
+        "description": "Civil, mechanical, computer, and electrical engineering with project‑based learning.",
+        "stats": {
+          "acceptance_rate": 83,
+          "tuition_fee": 23000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.0,
+          "toefl_avg": 87
+        }
+      },
+      {
+        "name": "IT & Computer Science",
+        "description": "Computer science, IT, and AI‑oriented programs with strong lab exposure.",
+        "stats": {
+          "acceptance_rate": 82,
+          "tuition_fee": 24000,
+          "living_expense": 15000,
+          "avg_salary": 62000
+        },
+        "admitted_profiles": {
+          "toefl_min": 82,
+          "ielts_min": 6.5,
+          "toefl_avg": 90
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 80, "employed_within_3_months": 85, "average_salary": 57000 }
+      "employment_figures": {
+        "employed": 80,
+        "employed_within_3_months": 85,
+        "average_salary": 57000
+      }
     }
   },
   {
@@ -184,17 +639,64 @@
     "slug": "university-of-dubai",
     "name": "University of Dubai",
     "logo": "https://www.google.com/s2/favicons?domain=ud.ac.ae&sz=128",
-    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "location": {
+      "city": "Dubai",
+      "state": "Dubai",
+      "country": "UAE"
+    },
     "branches": [
       {
         "name": "Business",
-        "description": "University of Dubai is known for business, law, and IT programs with strong accreditation and industry partnerships.",
-        "stats": { "acceptance_rate": 75, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1320, "avg_gpa": 3.6, "avg_gre": 310 },
-        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+        "description": "Accredited business, management, finance, and logistics programs.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 28000,
+          "living_expense": 15000,
+          "avg_salary": 66000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Law",
+        "description": "Law programs with UAE‑and‑international focus.",
+        "stats": {
+          "acceptance_rate": 72,
+          "tuition_fee": 29000,
+          "living_expense": 15000,
+          "avg_salary": 65000
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 94
+        }
+      },
+      {
+        "name": "Information Technology",
+        "description": "IT and computing programs with strong industry partnerships.",
+        "stats": {
+          "acceptance_rate": 74,
+          "tuition_fee": 29000,
+          "living_expense": 15000,
+          "avg_salary": 68000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 93
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 85, "employed_within_3_months": 88, "average_salary": 68000 }
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 68000
+      }
     }
   },
   {
@@ -205,14 +707,57 @@
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
     "branches": [
       {
-        "name": "Business & Communication",
-        "description": "Zayed University is a leading public university in the UAE offering strong programs in business, communication, and social sciences.",
-        "stats": { "acceptance_rate": 70, "tuition_fee": 25000, "living_expense": 15000, "avg_salary": 65000, "avg_sat": 1350, "avg_gpa": 3.7, "avg_gre": 315 },
-        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
+        "name": "Business",
+        "description": "Business administration, economics, and management programs with strong UAE‑and‑GCC focus.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 25000,
+          "living_expense": 15000,
+          "avg_salary": 66000
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 96
+        }
+      },
+      {
+        "name": "Communication & Media",
+        "description": "Communication, media, and digital‑content programs with strong industry‑practice focus.",
+        "stats": {
+          "acceptance_rate": 72,
+          "tuition_fee": 24000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 94
+        }
+      },
+      {
+        "name": "Social Sciences & Humanities",
+        "description": "Psychology, political science, sociology, and humanities programs.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 23000,
+          "living_expense": 15000,
+          "avg_salary": 54000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 87, "employed_within_3_months": 90, "average_salary": 70000 }
+      "employment_figures": {
+        "employed": 87,
+        "employed_within_3_months": 90,
+        "average_salary": 70000
+      }
     }
   },
   {
@@ -223,14 +768,57 @@
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
     "branches": [
       {
-        "name": "Business & Psychology",
-        "description": "Murdoch Dubai offers Australian degrees with focus on business, psychology, and IT with flexible learning options.",
-        "stats": { "acceptance_rate": 80, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 60000, "avg_sat": 1300, "avg_gpa": 3.45, "avg_gre": 305 },
-        "admitted_profiles": { "toefl_min": 80, "ielts_min": 6.0, "toefl_avg": 90 }
+        "name": "Business",
+        "description": "Business and management degrees with Australian‑style flexibility and industry links.",
+        "stats": {
+          "acceptance_rate": 80,
+          "tuition_fee": 28000,
+          "living_expense": 15000,
+          "avg_salary": 62000
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.0,
+          "toefl_avg": 90
+        }
+      },
+      {
+        "name": "Psychology",
+        "description": "Psychology and behavioral‑science programs with strong counseling and research focus.",
+        "stats": {
+          "acceptance_rate": 78,
+          "tuition_fee": 29000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 82,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Information Technology",
+        "description": "IT, cybersecurity, and data‑oriented programs with strong internships.",
+        "stats": {
+          "acceptance_rate": 76,
+          "tuition_fee": 30000,
+          "living_expense": 15000,
+          "avg_salary": 65000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 95
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 83, "employed_within_3_months": 86, "average_salary": 62000 }
+      "employment_figures": {
+        "employed": 83,
+        "employed_within_3_months": 86,
+        "average_salary": 62000
+      }
     }
   },
   {
@@ -241,14 +829,57 @@
     "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
     "branches": [
       {
-        "name": "Business & Architecture",
-        "description": "CUD offers Canadian-style education with pathways to study in Canada and strong programs in business and architecture.",
-        "stats": { "acceptance_rate": 80, "tuition_fee": 28000, "living_expense": 15000, "avg_salary": 60000, "avg_sat": 1320, "avg_gpa": 3.6, "avg_gre": 310 },
-        "admitted_profiles": { "toefl_min": 85, "ielts_min": 6.5, "toefl_avg": 92 }
+        "name": "Business",
+        "description": "Business and management programs with Canadian curriculum and global exposure.",
+        "stats": {
+          "acceptance_rate": 80,
+          "tuition_fee": 28000,
+          "living_expense": 15000,
+          "avg_salary": 62000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Architecture",
+        "description": "Architecture and built‑environment programs with strong design and project‑based focus.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 30000,
+          "living_expense": 15000,
+          "avg_salary": 64000
+        },
+        "admitted_profiles": {
+          "toefl_min": 90,
+          "ielts_min": 7.0,
+          "toefl_avg": 98
+        }
+      },
+      {
+        "name": "Engineering",
+        "description": "Engineering programs aligned with Canadian standards and global industries.",
+        "stats": {
+          "acceptance_rate": 78,
+          "tuition_fee": 29000,
+          "living_expense": 15000,
+          "avg_salary": 66000
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 96
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 84, "employed_within_3_months": 87, "average_salary": 62000 }
+      "employment_figures": {
+        "employed": 84,
+        "employed_within_3_months": 87,
+        "average_salary": 62000
+      }
     }
   },
   {
@@ -260,13 +891,761 @@
     "branches": [
       {
         "name": "Business",
-        "description": "Synergy University Dubai focuses on business, digital economy, and entrepreneurship programs with international exposure.",
-        "stats": { "acceptance_rate": 85, "tuition_fee": 20000, "living_expense": 15000, "avg_salary": 55000, "avg_sat": 1240, "avg_gpa": 3.3, "avg_gre": 295 },
-        "admitted_profiles": { "toefl_min": 75, "ielts_min": 6.0, "toefl_avg": 85 }
+        "description": "Business, management, and entrepreneurship programs with strong digital‑economy focus.",
+        "stats": {
+          "acceptance_rate": 85,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 56000
+        },
+        "admitted_profiles": {
+          "toefl_min": 75,
+          "ielts_min": 6.0,
+          "toefl_avg": 85
+        }
+      },
+      {
+        "name": "Digital Economy & IT",
+        "description": "Digital‑economy, IT, and analytics‑oriented programs with strong practical projects.",
+        "stats": {
+          "acceptance_rate": 83,
+          "tuition_fee": 21000,
+          "living_expense": 15000,
+          "avg_salary": 60000
+        },
+        "admitted_profiles": {
+          "toefl_min": 78,
+          "ielts_min": 6.0,
+          "toefl_avg": 87
+        }
+      },
+      {
+        "name": "Tourism & Hospitality",
+        "description": "Tourism, hospitality, and event‑management programs with strong industry links.",
+        "stats": {
+          "acceptance_rate": 86,
+          "tuition_fee": 20000,
+          "living_expense": 15000,
+          "avg_salary": 54000
+        },
+        "admitted_profiles": {
+          "toefl_min": 75,
+          "ielts_min": 6.0,
+          "toefl_avg": 84
+        }
       }
     ],
     "common_sections": {
-      "employment_figures": { "employed": 80, "employed_within_3_months": 83, "average_salary": 58000 }
+      "employment_figures": {
+        "employed": 80,
+        "employed_within_3_months": 83,
+        "average_salary": 58000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_016",
+    "slug": "bits-pilani-dubai",
+    "name": "BITS Pilani, Dubai Campus",
+    "logo": "https://www.google.com/s2/favicons?domain=bits-dubai.ac.ae&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "Comprehensive engineering programs in Mechanical, Chemical, and Civil Engineering with strong research focus.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 45000,
+          "living_expense": 15000,
+          "avg_salary": 65000
+        },
+        "admitted_profiles": {
+          "toefl_min": 61,
+          "ielts_min": 6.0,
+          "toefl_avg": 85
+        }
+      },
+      {
+        "name": "Computer Science",
+        "description": "Highly competitive CS programs with focus on software systems and business analytics.",
+        "stats": {
+          "acceptance_rate": 50,
+          "tuition_fee": 48000,
+          "living_expense": 15000,
+          "avg_salary": 75000
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 95
+        }
+      },
+      {
+        "name": "Biotechnology",
+        "description": "Advanced biotechnology research and study programs with modern lab facilities.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 42000,
+          "living_expense": 15000,
+          "avg_salary": 60000
+        },
+        "admitted_profiles": {
+          "toefl_min": 61,
+          "ielts_min": 6.0,
+          "toefl_avg": 80
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 68000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_017",
+    "slug": "curtin-university-dubai",
+    "name": "Curtin University Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=curtindubai.ac.ae&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "Australian-style business degrees with specializations in Finance, Accounting, and Marketing.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 75000,
+          "living_expense": 15000,
+          "avg_salary": 65000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Information Technology",
+        "description": "Specialized IT programs in Cybersecurity and Data Science with global pathways.",
+        "stats": {
+          "acceptance_rate": 68,
+          "tuition_fee": 78000,
+          "living_expense": 15000,
+          "avg_salary": 70000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 94
+        }
+      },
+      {
+        "name": "Media & Arts",
+        "description": "Creative programs focusing on Digital Design and Corporate Screen Production.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 70000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 90
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 84,
+        "employed_within_3_months": 87,
+        "average_salary": 65000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_018",
+    "slug": "rit-dubai",
+    "name": "Rochester Institute of Technology (RIT) Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=rit.edu&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "US-accredited engineering degrees in Mechanical, Electrical, and Microelectronics.",
+        "stats": {
+          "acceptance_rate": 50,
+          "tuition_fee": 68000,
+          "living_expense": 15000,
+          "avg_salary": 80000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 96
+        }
+      },
+      {
+        "name": "Computing & IT",
+        "description": "Focus on Cybersecurity, Computing Security, and Software Engineering.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 72000,
+          "living_expense": 15000,
+          "avg_salary": 85000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 98
+        }
+      },
+      {
+        "name": "Business",
+        "description": "American business curriculum with strengths in Marketing, Finance, and Management.",
+        "stats": {
+          "acceptance_rate": 55,
+          "tuition_fee": 65000,
+          "living_expense": 15000,
+          "avg_salary": 72000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 94
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 88,
+        "employed_within_3_months": 92,
+        "average_salary": 82000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_019",
+    "slug": "hult-dubai",
+    "name": "Hult International Business School Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=hult.edu&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Business (MBA)",
+        "description": "Global One-Year MBA program with focus on international business and rotation options.",
+        "stats": {
+          "acceptance_rate": 35,
+          "tuition_fee": 305500,
+          "living_expense": 15000,
+          "avg_salary": 110000
+        },
+        "admitted_profiles": {
+          "toefl_min": 90,
+          "ielts_min": 6.5,
+          "toefl_avg": 105
+        }
+      },
+      {
+        "name": "Masters in Business",
+        "description": "Masters in International Business and Finance for early-career professionals.",
+        "stats": {
+          "acceptance_rate": 40,
+          "tuition_fee": 250000,
+          "living_expense": 15000,
+          "avg_salary": 95000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 100
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 92,
+        "employed_within_3_months": 95,
+        "average_salary": 115000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_020",
+    "slug": "sp-jain-dubai",
+    "name": "SP Jain School of Global Management Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=spjain.org&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Global MBA",
+        "description": "Multi-city Global MBA program with rotations in Dubai, Singapore, and Sydney.",
+        "stats": {
+          "acceptance_rate": 40,
+          "tuition_fee": 140000,
+          "living_expense": 15000,
+          "avg_salary": 95000
+        },
+        "admitted_profiles": {
+          "toefl_min": 70,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Undergraduate Business",
+        "description": "Bachelor of Business Administration (BBA) with global multi-city experience.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 110000,
+          "living_expense": 15000,
+          "avg_salary": 85000
+        },
+        "admitted_profiles": {
+          "toefl_min": 70,
+          "ielts_min": 6.5,
+          "toefl_avg": 90
+        }
+      },
+      {
+        "name": "Masters in Global Business",
+        "description": "Master of Global Business (MGB) for graduates looking to specialize in international trade.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 125000,
+          "living_expense": 15000,
+          "avg_salary": 88000
+        },
+        "admitted_profiles": {
+          "toefl_min": 70,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 90,
+        "employed_within_3_months": 93,
+        "average_salary": 92000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_021",
+    "slug": "emirates-aviation-university",
+    "name": "Emirates Aviation University",
+    "logo": "https://www.google.com/s2/favicons?domain=eau.ac.ae&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Aviation Management",
+        "description": "Specialized business degrees focusing on aviation, logistics, and air transport management.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 60000,
+          "living_expense": 15000,
+          "avg_salary": 85000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.0,
+          "toefl_avg": 90
+        }
+      },
+      {
+        "name": "Aerospace Engineering",
+        "description": "High-tech engineering programs focused on aircraft design, maintenance, and aerospace systems.",
+        "stats": {
+          "acceptance_rate": 55,
+          "tuition_fee": 75000,
+          "living_expense": 15000,
+          "avg_salary": 95000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.0,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 90,
+        "employed_within_3_months": 93,
+        "average_salary": 90000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_022",
+    "slug": "dmu-dubai",
+    "name": "De Montfort University (DMU) Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=dmu.ac.uk&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Business & Law",
+        "description": "UK-aligned degrees in Management, Marketing, and Law with a focus on global industry connections.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 62000,
+          "living_expense": 15000,
+          "avg_salary": 68000
+        },
+        "admitted_profiles": {
+          "toefl_min": 72,
+          "ielts_min": 6.0,
+          "toefl_avg": 85
+        }
+      },
+      {
+        "name": "Design & Media",
+        "description": "Creative programs in Fashion Communication, Interior Design, and Media Production.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 65000,
+          "living_expense": 15000,
+          "avg_salary": 60000
+        },
+        "admitted_profiles": {
+          "toefl_min": 72,
+          "ielts_min": 6.0,
+          "toefl_avg": 88
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 88,
+        "average_salary": 70000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_023",
+    "slug": "modul-university-dubai",
+    "name": "MODUL University Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=modul.ac.ae&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Tourism & Hospitality",
+        "description": "Austrian-heritage programs in international tourism, hotel management, and event planning.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 55000,
+          "living_expense": 15000,
+          "avg_salary": 60000
+        },
+        "admitted_profiles": {
+          "toefl_min": 76,
+          "ielts_min": 6.0,
+          "toefl_avg": 88
+        }
+      },
+      {
+        "name": "Business & Management",
+        "description": "Integrated business programs with focus on entrepreneurship and marketing.",
+        "stats": {
+          "acceptance_rate": 80,
+          "tuition_fee": 54000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 76,
+          "ielts_min": 6.0,
+          "toefl_avg": 85
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 82,
+        "employed_within_3_months": 85,
+        "average_salary": 62000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_024",
+    "slug": "imt-dubai",
+    "name": "Institute of Management Technology (IMT) Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=imt.ac.ae&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Business (MBA)",
+        "description": "AACSB-accredited MBA programs with a focus on global logistics and digital business.",
+        "stats": {
+          "acceptance_rate": 50,
+          "tuition_fee": 75000,
+          "living_expense": 15000,
+          "avg_salary": 85000
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      },
+      {
+        "name": "Undergraduate Business",
+        "description": "Bachelor of Science in Business Administration with industry-focused internships.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 45000,
+          "living_expense": 15000,
+          "avg_salary": 65000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.0,
+          "toefl_avg": 88
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 88,
+        "employed_within_3_months": 91,
+        "average_salary": 78000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_025",
+    "slug": "mbru-dubai",
+    "name": "Mohammed Bin Rashid University (MBRU)",
+    "logo": "https://www.google.com/s2/favicons?domain=mbru.ac.ae&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Medicine (MBBS)",
+        "description": "World-class medical education with clinical training at Dubai Healthcare City.",
+        "stats": {
+          "acceptance_rate": 20,
+          "tuition_fee": 160000,
+          "living_expense": 15000,
+          "avg_salary": 150000
+        },
+        "admitted_profiles": {
+          "toefl_min": 90,
+          "ielts_min": 7.0,
+          "toefl_avg": 105
+        }
+      },
+      {
+        "name": "Nursing & Midwifery",
+        "description": "Advanced nursing and midwifery programs integrated with health systems.",
+        "stats": {
+          "acceptance_rate": 45,
+          "tuition_fee": 85000,
+          "living_expense": 15000,
+          "avg_salary": 75000
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 95
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 95,
+        "employed_within_3_months": 98,
+        "average_salary": 140000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_026",
+    "slug": "hbmsu-dubai",
+    "name": "Hamdan Bin Mohammed Smart University (HBMSU)",
+    "logo": "https://www.google.com/s2/favicons?domain=hbmsu.ac.ae&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Business & Quality Management",
+        "description": "First smart university in UAE focusing on innovation, quality, and business excellence.",
+        "stats": {
+          "acceptance_rate": 80,
+          "tuition_fee": 35000,
+          "living_expense": 15000,
+          "avg_salary": 65000
+        },
+        "admitted_profiles": {
+          "toefl_min": 70,
+          "ielts_min": 6.0,
+          "toefl_avg": 80
+        }
+      },
+      {
+        "name": "Health & Environment",
+        "description": "Online and blended learning programs in health management and environmental science.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 38000,
+          "living_expense": 15000,
+          "avg_salary": 68000
+        },
+        "admitted_profiles": {
+          "toefl_min": 70,
+          "ielts_min": 6.0,
+          "toefl_avg": 82
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 80,
+        "employed_within_3_months": 85,
+        "average_salary": 72000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_027",
+    "slug": "adu-dubai",
+    "name": "Abu Dhabi University - Dubai Campus",
+    "logo": "https://www.google.com/s2/favicons?domain=adu.ac.ae&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Business",
+        "description": "EQUIS and AACSB accredited business programs focused on regional enterprise.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 55000,
+          "living_expense": 15000,
+          "avg_salary": 72000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.0,
+          "toefl_avg": 90
+        }
+      },
+      {
+        "name": "Engineering",
+        "description": "Diverse engineering tracks with strong accreditation and industry partnerships.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 64000,
+          "living_expense": 15000,
+          "avg_salary": 80000
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.0,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 87,
+        "employed_within_3_months": 90,
+        "average_salary": 75000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_028",
+    "slug": "dubai-medical-college",
+    "name": "Dubai Medical College",
+    "logo": "https://www.google.com/s2/favicons?domain=dmcg.edu&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Medicine (MBBS)",
+        "description": "Dedicated medical college for women with intensive clinical training and community health focus.",
+        "stats": {
+          "acceptance_rate": 25,
+          "tuition_fee": 120000,
+          "living_expense": 15000,
+          "avg_salary": 130000
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 98
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 94,
+        "employed_within_3_months": 97,
+        "average_salary": 125000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_029",
+    "slug": "sae-dubai",
+    "name": "SAE Institute Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=sae.edu&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Creative Media",
+        "description": "Specialized degrees in Animation, Film, Audio Production, and Games Development.",
+        "stats": {
+          "acceptance_rate": 80,
+          "tuition_fee": 65000,
+          "living_expense": 15000,
+          "avg_salary": 55000
+        },
+        "admitted_profiles": {
+          "toefl_min": 70,
+          "ielts_min": 6.0,
+          "toefl_avg": 82
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 78,
+        "employed_within_3_months": 82,
+        "average_salary": 60000
+      }
+    }
+  },
+  {
+    "_id": "uni_dubai_030",
+    "slug": "esmod-dubai",
+    "name": "ESMOD Dubai",
+    "logo": "https://www.google.com/s2/favicons?domain=esmod-dubai.com&sz=128",
+    "location": { "city": "Dubai", "state": "Dubai", "country": "UAE" },
+    "branches": [
+      {
+        "name": "Fashion Design",
+        "description": "French fashion education specializing in design, pattern making, and luxury marketing.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 70000,
+          "living_expense": 15000,
+          "avg_salary": 58000
+        },
+        "admitted_profiles": {
+          "toefl_min": 65,
+          "ielts_min": 5.5,
+          "toefl_avg": 78
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 80,
+        "employed_within_3_months": 85,
+        "average_salary": 64000
+      }
     }
   }
 ]
