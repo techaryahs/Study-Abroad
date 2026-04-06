@@ -479,7 +479,9 @@ export default function Navbar() {
     return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
   };
 
-  const getProfileImage = (path: string | undefined | null) => {
+  const getProfileImage = (user: any) => {
+    if (!user) return null;
+    const path = user.profile?.profileImage || user.profileImage || user.image;
     if (!path) return null;
     if (path.startsWith('http')) return path;
     if (path.startsWith('data:image')) return path;
@@ -637,8 +639,8 @@ export default function Navbar() {
                       className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] transition-transform group-hover/profile:scale-110 shadow-xl"
                     >
                       <div className="w-full h-full rounded-[11px] bg-black overflow-hidden flex items-center justify-center">
-                        {getProfileImage(user.profileImage || user.image) ? (
-                          <img src={getProfileImage(user.profileImage || user.image) || ''} className="w-full h-full object-cover" alt="Profile" />
+                        {getProfileImage(user) ? (
+                          <img src={getProfileImage(user) || ''} className="w-full h-full object-cover" alt="Profile" />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xs font-black uppercase">{getInitials(user.name)}</div>
                         )}
@@ -655,8 +657,8 @@ export default function Navbar() {
                         <div className="flex justify-center mb-4">
                           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] shadow-2xl shadow-[#d4af37]/10">
                             <div className="w-full h-full rounded-[15px] bg-black overflow-hidden flex items-center justify-center">
-                              {getProfileImage(user.profileImage || user.image) ? (
-                                <img src={getProfileImage(user.profileImage || user.image) || ''} className="w-full h-full object-cover" alt="Profile Large" />
+                              {getProfileImage(user) ? (
+                                <img src={getProfileImage(user) || ''} className="w-full h-full object-cover" alt="Profile Large" />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xl font-black uppercase">{getInitials(user.name)}</div>
                               )}
@@ -943,8 +945,8 @@ export default function Navbar() {
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] shadow-lg flex-shrink-0">
                     <div className="w-full h-full rounded-[14px] bg-black overflow-hidden flex items-center justify-center">
-                      {getProfileImage(user.profileImage || user.image) ? (
-                        <img src={getProfileImage(user.profileImage || user.image) || ""} className="w-full h-full object-cover" alt="User" />
+                      {getProfileImage(user) ? (
+                        <img src={getProfileImage(user) || ""} className="w-full h-full object-cover" alt="User" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xs font-black uppercase">{getInitials(user.name)}</div>
                       )}

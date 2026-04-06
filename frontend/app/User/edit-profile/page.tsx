@@ -326,9 +326,15 @@ export default function EditProfilePage() {
                       >
                         {profileImage ? (
                           <img 
-                            src={profileImage.startsWith('http') ? profileImage : `${BACKEND_URL}${profileImage}`} 
+                            src={profileImage.startsWith('http') || profileImage.startsWith('data:image') ? profileImage : `${BACKEND_URL}${profileImage.startsWith('/') ? '' : '/'}${profileImage}`} 
                             className="w-full h-full object-cover" 
                             alt="Avatar"
+                          />
+                        ) : userData?.image || userData?.profileImage ? (
+                          <img 
+                            src={userData.image || userData.profileImage} 
+                            className="w-full h-full object-cover" 
+                            alt="Avatar Fallback"
                           />
                         ) : (
                           <img 
