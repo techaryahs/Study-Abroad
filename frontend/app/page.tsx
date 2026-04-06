@@ -6,11 +6,14 @@ import Link from "next/link";
 import Flag from "react-world-flags";
 import { motion, Variants } from "framer-motion";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay } from "swiper/modules";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+  const [emblaRef] = useEmblaCarousel({ loop: true, duration: 30 }, [
+    Autoplay({ delay: 3000, stopOnInteraction: false }),
+  ]);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -65,7 +68,7 @@ export default function Home() {
     { code: "AU", name: "AUS", stat: "50%", sub: "Fee Waiver" },
   ];
 
-  const images = ["/sirbgggg.png", "/sirbgg.png", "/sirbggg.png"];
+  const images = ["/sir2.jpeg", "/sirbgggg.png", "/sirbgg.png", "/sirbggg.png", "/sir2.jpeg"];
 
   return (
     <main className="relative min-h-screen bg-[#05070F] text-white overflow-hidden pt-16">
@@ -81,6 +84,8 @@ export default function Home() {
             src="/universityy.png"
             alt="University Background"
             fill
+            sizes="100vw"
+            quality={60}
             className="object-cover object-center"
             priority
           />
@@ -209,29 +214,24 @@ export default function Home() {
           {/* IMAGE */}
           <div className="relative w-full max-w-[450px] h-[550px] rounded-2xl overflow-hidden border border-[#d4af37]/30 shadow-2xl">
 
-            <Swiper
-              modules={[Pagination, Autoplay]}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-              loop={true}
-              speed={800}
-              className="w-full h-full"
-            >
-              {images.map((src, i) => (
-                <SwiperSlide key={i} className="h-full">
-                  <div className="w-full h-full">
+            <div className="overflow-hidden w-full h-[400px] sm:h-[450px] md:h-[550px]" ref={emblaRef}>
+              <div className="flex h-full">
+                {images.map((src, i) => (
+                  <div key={i} className="flex-[0_0_100%] min-w-0 relative h-full">
                     <Image
                       src={src}
                       alt={`Dr Alam ${i}`}
-                      width={450}
-                      height={550}
-                      className="object-cover w-full h-full"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 450px"
+                      quality={60}
+                      className="object-cover"
                       priority={i === 0}
+                      loading={i === 0 ? "eager" : "lazy"}
                     />
                   </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* DREAMS */}
