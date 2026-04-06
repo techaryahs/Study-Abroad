@@ -207,31 +207,58 @@ function DropdownPanel({
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
           >
-            <Link
-              href={item.href}
-              className="group flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors duration-150"
-            >
-              <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-white group-hover:text-[#d4af37] transition-colors duration-150 leading-snug">
-                    {item.title}
-                  </span>
-                  {item.badge === "NEW" && (
-                    <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide flex-shrink-0">
-                      NEW
+            {item.subItems ? (
+              <div
+                className="group flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors duration-150 cursor-default"
+              >
+                <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-white group-hover:text-[#d4af37] transition-colors duration-150 leading-snug">
+                      {item.title}
                     </span>
-                  )}
+                    {item.badge === "NEW" && (
+                      <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide flex-shrink-0">
+                        NEW
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
-                <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">
-                  {item.description}
-                </p>
+                <ChevronRight
+                  size={14}
+                  className="mt-1 flex-shrink-0 text-gray-600 group-hover:text-[#d4af37] group-hover:translate-x-0.5 transition-all duration-150"
+                />
               </div>
-              <ChevronRight
-                size={14}
-                className="mt-1 flex-shrink-0 text-gray-600 group-hover:text-[#d4af37] group-hover:translate-x-0.5 transition-all duration-150"
-              />
-            </Link>
+            ) : (
+              <Link
+                href={item.href}
+                className="group flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors duration-150"
+              >
+                <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-white group-hover:text-[#d4af37] transition-colors duration-150 leading-snug">
+                      {item.title}
+                    </span>
+                    {item.badge === "NEW" && (
+                      <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide flex-shrink-0">
+                        NEW
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+                <ChevronRight
+                  size={14}
+                  className="mt-1 flex-shrink-0 text-gray-600 group-hover:text-[#d4af37] group-hover:translate-x-0.5 transition-all duration-150"
+                />
+              </Link>
+            )}
 
             {/* Sub-menu if items present */}
             {item.subItems && hoveredIndex === index && (
