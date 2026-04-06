@@ -33,7 +33,7 @@ const CoreNodes = [
 export default function DiscussionSection({ serviceId }: DiscussionSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const predefinedMessage = `I am interested in the ${serviceId.replace(/-/g, " ")} service. Specifically, I would like to discuss...`;
+  const predefinedMessage = `I am interested in your Study Abroad services.`;
   const encodedMessage = encodeURIComponent(predefinedMessage);
   const contactEmail = process.env.NEXT_PUBLIC_EMAIL || "[EMAIL_ADDRESS]";
   const contactPhone = process.env.NEXT_PUBLIC_WTSP_PHONE || "";
