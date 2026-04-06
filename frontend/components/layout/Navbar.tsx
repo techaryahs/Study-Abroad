@@ -19,6 +19,7 @@ import {
   Wand2,
   PenTool,
   ChevronRight,
+  ChevronDown,
   User as UserIcon,
   LogOut,
   LayoutDashboard,
@@ -285,6 +286,7 @@ export default function Navbar() {
   const [user, setUserState] = useState<any>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+  const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchError, setSearchError] = useState(false);
@@ -473,23 +475,23 @@ export default function Navbar() {
         .search-glow:focus-within { box-shadow: 0 0 20px rgba(212,175,55,0.1); }
       `}</style>
 
-      <header className="sticky top-0 z-50 w-full bg-black">
+      <header className="sticky top-0 z-50 w-full bg-black border-b border-white/5">
 
         {/* ── ROW 1: PRIMARY PILLARS & ACTIONS ── */}
-        <div className="flex items-center justify-between px-6 md:px-16 h-16 border-b border-white/5 relative z-20 bg-black">
-          {/* Logo Section - Left 1/4 */}
-          <div className="w-1/4 flex items-center">
+        <div className="flex items-center justify-between px-4 sm:px-8 lg:px-16 h-16 relative z-20 bg-black">
+          {/* Logo Section */}
+          <div className="flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
               <div className="flex flex-col">
-                <span className="text-white font-black text-[13px] uppercase tracking-[0.2em] leading-none">Global Counselling Centre</span>
-                <span className="text-[#d4af37] text-[8px] font-bold uppercase tracking-[0.2em] mt-1 opacity-60">Success Starts Here</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.2em] leading-none">Global Counselling Centre</span>
+                <span className="text-[#d4af37] text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] mt-1 opacity-60">Success Starts Here</span>
               </div>
             </Link>
           </div>
 
-          {/* Primary Navigation - Center Area */}
-          <div className="flex-1 flex justify-center h-full">
-            <nav className="hidden lg:flex items-center h-full gap-8">
+          {/* Primary Navigation - Center Area (Desktop Only) */}
+          <div className="hidden xl:flex flex-1 justify-center h-full">
+            <nav className="flex items-center h-full gap-6 xl:gap-8">
               {/* Universities Dropdown */}
               <div
                 className="relative h-full flex items-center"
@@ -570,90 +572,92 @@ export default function Navbar() {
             </nav>
           </div>
 
-          {/* Action Set - Right 1/4 */}
-          <div className="w-1/4 flex items-center justify-end gap-6">
-            {!user ? (
-              <div className="flex items-center gap-6">
-                <Link href="/auth/login" className="text-[10px] font-black uppercase tracking-widest text-white hover:text-[#d4af37] transition-all">Sign In</Link>
-                <Link
-                  href="/auth/RegisterStudent"
-                  className="h-9 px-6 rounded-lg bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 flex items-center justify-center"
-                >
-                  Register
-                </Link>
-              </div>
-            ) : (
-              <div className="flex items-center gap-5">
-                <Link href="/checkout" className="relative group/checkout p-2">
-                  <ShoppingCart size={14} className="text-white opacity-40 group-hover/checkout:opacity-100 group-hover/checkout:text-[#d4af37] transition-all" />
-                  {cartCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[7px] font-black rounded-full flex items-center justify-center shadow-lg border border-black group-hover/checkout:bg-[#d4af37] transition-all">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-
-                <button
-                  className="px-5 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all active:scale-95"
-                  onClick={() => setShowCounsellingModal(true)}
-                >
-                  Book Session
-                </button>
-
-                {/* Profile Avatar */}
-                <div className="relative group/profile">
-                  <button
-                    onMouseEnter={() => setProfileDropdownOpen(true)}
-                    className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] transition-transform group-hover/profile:scale-110 shadow-xl"
+          {/* Action Set - Right */}
+          <div className="flex items-center justify-end gap-3 sm:gap-6">
+            <div className="hidden md:flex items-center gap-4 sm:gap-6">
+              {!user ? (
+                <>
+                  <Link href="/auth/login" className="text-[10px] font-black uppercase tracking-widest text-white hover:text-[#d4af37] transition-all">Sign In</Link>
+                  <Link
+                    href="/auth/RegisterStudent"
+                    className="flex h-9 px-6 rounded-lg bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
                   >
-                    <div className="w-full h-full rounded-[11px] bg-black overflow-hidden flex items-center justify-center">
-                      {getProfileImage(user.profileImage || user.image) ? (
-                        <img src={getProfileImage(user.profileImage || user.image) || ''} className="w-full h-full object-cover" alt="Profile" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xs font-black uppercase">{getInitials(user.name)}</div>
-                      )}
-                    </div>
+                    Register
+                  </Link>
+                </>
+              ) : (
+                <div className="flex items-center gap-3 sm:gap-5">
+                  <Link href="/checkout" className="relative group/checkout p-2">
+                    <ShoppingCart size={14} className="text-white opacity-40 group-hover/checkout:opacity-100 group-hover/checkout:text-[#d4af37] transition-all" />
+                    {cartCount > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[7px] font-black rounded-full flex items-center justify-center shadow-lg border border-black group-hover/checkout:bg-[#d4af37] transition-all">
+                        {cartCount}
+                      </span>
+                    )}
+                  </Link>
+
+                  <button
+                    className="hidden lg:flex px-4 sm:px-5 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all active:scale-95"
+                    onClick={() => setShowCounsellingModal(true)}
+                  >
+                    Book Session
                   </button>
 
-                  {profileDropdownOpen && (
-                    <div
-                      onMouseLeave={() => setProfileDropdownOpen(false)}
-                      className="absolute right-0 mt-4 w-60 bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] p-5 z-50 text-center"
-                      style={{ animation: "dropIn 0.2s ease-out both" }}
+                  {/* Profile Avatar */}
+                  <div className="relative group/profile">
+                    <button
+                      onMouseEnter={() => setProfileDropdownOpen(true)}
+                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] transition-transform group-hover/profile:scale-110 shadow-xl"
                     >
-                      {/* Card Top: Large Avatar */}
-                      <div className="flex justify-center mb-4">
-                        <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] shadow-2xl shadow-[#d4af37]/10">
-                          <div className="w-full h-full rounded-[15px] bg-black overflow-hidden flex items-center justify-center">
-                            {getProfileImage(user.profileImage || user.image) ? (
-                              <img src={getProfileImage(user.profileImage || user.image) || ''} className="w-full h-full object-cover" alt="Profile Large" />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xl font-black uppercase">{getInitials(user.name)}</div>
-                            )}
+                      <div className="w-full h-full rounded-[11px] bg-black overflow-hidden flex items-center justify-center">
+                        {getProfileImage(user.profileImage || user.image) ? (
+                          <img src={getProfileImage(user.profileImage || user.image) || ''} className="w-full h-full object-cover" alt="Profile" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xs font-black uppercase">{getInitials(user.name)}</div>
+                        )}
+                      </div>
+                    </button>
+
+                    {profileDropdownOpen && (
+                      <div
+                        onMouseLeave={() => setProfileDropdownOpen(false)}
+                        className="absolute right-0 mt-4 w-60 bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] p-5 z-50 text-center"
+                        style={{ animation: "dropIn 0.2s ease-out both" }}
+                      >
+                        {/* Card Top: Large Avatar */}
+                        <div className="flex justify-center mb-4">
+                          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] shadow-2xl shadow-[#d4af37]/10">
+                            <div className="w-full h-full rounded-[15px] bg-black overflow-hidden flex items-center justify-center">
+                              {getProfileImage(user.profileImage || user.image) ? (
+                                <img src={getProfileImage(user.profileImage || user.image) || ''} className="w-full h-full object-cover" alt="Profile Large" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xl font-black uppercase">{getInitials(user.name)}</div>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <h4 className="text-white font-bold text-sm truncate uppercase tracking-tight">{user.name}</h4>
-                      <span className="inline-block px-2 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[8px] font-black uppercase rounded-full mt-1 border border-[#d4af37]/20">{user.role || 'Student'}</span>
+                        <h4 className="text-white font-bold text-sm truncate uppercase tracking-tight">{user.name}</h4>
+                        <span className="inline-block px-2 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[8px] font-black uppercase rounded-full mt-1 border border-[#d4af37]/20">{user.role || 'Student'}</span>
 
-                      <div className="mt-6 pt-5 border-t border-white/5 space-y-1.5 text-left">
-                        <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[10px] font-black text-white hover:bg-white/5 hover:text-[#d4af37] transition-all uppercase tracking-[0.2em] group/link">
-                          <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}
-                        </Link>
-                        <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-[10px] font-black text-red-500 hover:bg-red-500/10 transition-all uppercase tracking-[0.2em] group/out">
-                          <LogOut size={14} className="opacity-40 group-hover/out:opacity-100 transition-opacity" /> Logout
-                        </button>
+                        <div className="mt-6 pt-5 border-t border-white/5 space-y-1.5 text-left">
+                          <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[10px] font-black text-white hover:bg-white/5 hover:text-[#d4af37] transition-all uppercase tracking-[0.2em] group/link">
+                            <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}
+                          </Link>
+                          <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-[10px] font-black text-red-500 hover:bg-red-500/10 transition-all uppercase tracking-[0.2em] group/out">
+                            <LogOut size={14} className="opacity-40 group-hover/out:opacity-100 transition-opacity" /> Logout
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Mobile Menu Toggle */}
             <button
-              className="lg:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white transition-all active:scale-95 ml-4"
+              className="xl:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white transition-all active:scale-95 ml-2"
               onClick={() => setMenuOpen(true)}
             >
               <Menu size={20} />
@@ -662,7 +666,7 @@ export default function Navbar() {
         </div>
 
         {/* ── ROW 2: SEARCH & SECONDARY NAVIGATION ── */}
-        <div className="hidden md:flex items-center justify-center px-6 md:px-16 h-12 border-b border-white/5 bg-black relative z-10 gap-10">
+        <div className="hidden lg:flex items-center justify-center px-6 md:px-16 h-12 bg-black relative z-10 gap-6 xl:gap-10">
           {/* Modern Condensed Search Bar & Items - Unified Group */}
           <div className="flex items-center h-full shrink-0">
             <form
@@ -738,7 +742,7 @@ export default function Navbar() {
             <div className="relative group/app flex items-center h-full gap-1.5 px-2 cursor-help">
               <Smartphone size={12} className="text-white/40 group-hover/app:text-[#d4af37] transition-all" />
               <span className="text-[8px] font-black text-white/40 group-hover/app:text-[#d4af37] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
-              <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#0a0a0a] border border-white/20 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover/app:opacity-100 group-hover/app:visible transition-all duration-300 transform scale-90 group-hover/app:scale-100 -translate-y-1 group-hover/app:translate-y-0 pointer-events-none z-[60]">
+              <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#0a0a0a] border border-white/20 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover/app:opacity-100 group-hover/app:visible transition-all duration-300 transform scale-90 group-hover/app:scale-100 -translate-y-1 group-hover:translate-y-0 pointer-events-none z-[60]">
                 <span className="text-[7px] text-[#d4af37] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#0a0a0a]" />
               </div>
@@ -750,10 +754,12 @@ export default function Navbar() {
       {/* ── MOBILE FULL SCREEN MENU ── */}
       {menuOpen && (
         <div className="fixed inset-0 z-[100] bg-black overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-300">
+          {/* Animated Background decorative elements */}
           <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-[#d4af37]/10 rounded-full blur-[120px] pointer-events-none" />
           <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] bg-[#d4af37]/5 rounded-full blur-[100px] pointer-events-none" />
 
-          <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-black/50 backdrop-blur-xl">
+          {/* Mobile Menu Header */}
+          <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-black/50 backdrop-blur-xl shrink-0">
             <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
               <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counselling Centre</span>
             </Link>
@@ -765,88 +771,194 @@ export default function Navbar() {
             </button>
           </div>
 
+          {/* Mobile Menu Content (Scrollable) */}
           <div className="flex-1 overflow-y-auto px-6 py-8 no-scrollbar">
-            {/* Primary Navigation Map */}
-            <nav className="space-y-1 mb-6">
-              {navItems.map((item) => (
-                <div key={item.path}>
-                  {item.badge === "Coming Soon" ? (
-                    <div className="flex items-center justify-between px-5 py-4 rounded-2xl bg-white/[0.02] border border-white/5 text-white/30 text-[9px] font-black uppercase tracking-[0.2em]">
-                      {item.name}
-                      <span className="text-[7px] bg-white/5 px-2 py-0.5 rounded-full border border-white/10">Soon</span>
-                    </div>
-                  ) : (
-                    <Link
-                      href={item.path}
-                      onClick={() => setMenuOpen(false)}
-                      className={`flex items-center justify-between px-5 py-4 rounded-2xl transition-all border ${pathname === item.path ? "bg-[#d4af37]/10 border-[#d4af37]/30 text-[#d4af37]" : "bg-white/[0.03] border-white/5 text-white/70 hover:bg-white/5 hover:text-[#d4af37]"}`}
-                    >
-                      <span className="text-[9px] font-black uppercase tracking-[0.2em]">{item.name}</span>
-                      <ChevronRight size={14} className="opacity-20" />
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </nav>
+            {/* Mobile Search Bar */}
+            <div className="mb-8">
+              <form
+                onSubmit={handleSearch}
+                className={`relative group w-full ${searchError ? "animate-shake" : ""}`}
+              >
+                <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40">
+                  <Search size={16} />
+                </button>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleInputChange}
+                  placeholder="Search countries..."
+                  className="w-full h-12 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 text-sm text-white outline-none focus:border-[#d4af37]/50 transition-all font-medium"
+                />
+                {suggestions.length > 0 && (
+                  <div className="absolute top-full mt-2 w-full bg-[#0a0a0a] border border-white/20 rounded-xl shadow-2xl z-[110] overflow-hidden">
+                    {suggestions.map((country) => (
+                      <button
+                        key={country.name}
+                        onClick={() => {
+                          router.push(country.href);
+                          setSearchQuery("");
+                          setSuggestions([]);
+                          setMenuOpen(false);
+                        }}
+                        className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 text-left border-b border-white/5 last:border-0"
+                      >
+                        <span className="text-sm font-bold text-white/70">{country.name}</span>
+                        <Globe size={14} className="text-[#d4af37]" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </form>
+            </div>
 
+            {/* Quick Actions (Mobile Only) */}
+            <div className="grid grid-cols-2 gap-4 mb-8">
+              <button
+                onClick={() => { setShowCounsellingModal(true); setMenuOpen(false); }}
+                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl"
+              >
+                <Star size={14} />
+                Expert Help
+              </button>
+              
+              <Link
+                href="/checkout"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 active:scale-95 transition-all relative"
+              >
+                <ShoppingCart size={14} className="text-[#d4af37]" />
+                Cart
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-lg border-2 border-black">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="mb-8">
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#d4af37]/60 mb-4 ml-2">Navigation</p>
+              <nav className="space-y-2">
+                {navItems.map((item) => {
+                  const isExpanded = expandedItem === item.name;
+                  const hasDropdown = !!item.dropdown;
+                  const subItems = hasDropdown ? (item.dropdown === 'universities' ? universityItems : item.dropdown === 'resources' ? resourcesItems : aiServicesItems) : [];
+                  
+                  return (
+                    <div key={item.name} className="flex flex-col">
+                      {item.badge === "Coming Soon" ? (
+                        <div className="flex items-center justify-between px-5 py-4 rounded-2xl bg-white/[0.02] border border-white/5 text-white/20 text-[10px] font-black uppercase tracking-widest">
+                          {item.name}
+                          <span className="text-[7px] border border-white/10 px-2 py-0.5 rounded-full">Soon</span>
+                        </div>
+                      ) : (
+                        <div className={`flex flex-col rounded-2xl transition-all border ${pathname === item.path || isExpanded ? "bg-[#d4af37]/10 border-[#d4af37]/30" : "bg-white/[0.03] border-white/5"} overflow-hidden`}>
+                          <div className="flex items-center justify-between px-5 py-4">
+                            <Link
+                              href={item.path}
+                              onClick={() => setMenuOpen(false)}
+                              className={`text-[10px] font-black uppercase tracking-widest flex-1 ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
+                            >
+                              {item.name}
+                            </Link>
+
+                            {hasDropdown && (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setExpandedItem(isExpanded ? null : item.name);
+                                }}
+                                className={`p-2 -mr-2 rounded-lg transition-all ${isExpanded ? "bg-[#d4af37] text-black" : "text-white/20 hover:text-[#d4af37]"}`}
+                              >
+                                {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                              </button>
+                            )}
+                            
+                            {!hasDropdown && (
+                              <ChevronRight size={14} className="opacity-10 text-white/20" />
+                            )}
+                          </div>
+
+                          {/* Mobile Sub-items */}
+                          {hasDropdown && isExpanded && (
+                            <div className="px-4 pb-4 space-y-1 animate-in slide-in-from-top-2 duration-300">
+                              <div className="h-[1px] bg-white/5 mb-3 mx-2" />
+                              {subItems.map((sub) => (
+                                <Link
+                                  key={sub.title}
+                                  href={sub.href}
+                                  onClick={() => setMenuOpen(false)}
+                                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 group border border-transparent hover:border-white/5 transition-all"
+                                >
+                                  <div className="mt-0.5 text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">
+                                    {sub.icon}
+                                  </div>
+                                  <div className="min-w-0">
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
+                                    <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* User Profile Section */}
             {user && (
-              <div className="mb-8 p-5 rounded-3xl bg-white/[0.03] border border-white/20 shadow-2xl relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#d4af37]/5 to-transparent pointer-events-none" />
-                
+              <div className="mb-8 p-6 rounded-3xl bg-white/[0.03] border border-white/10 shadow-2xl relative overflow-hidden">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1px] shadow-lg flex-shrink-0">
-                    <div className="w-full h-full rounded-[15px] bg-black overflow-hidden flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] shadow-lg flex-shrink-0">
+                    <div className="w-full h-full rounded-[14px] bg-black overflow-hidden flex items-center justify-center">
                       {getProfileImage(user.profileImage || user.image) ? (
                         <img src={getProfileImage(user.profileImage || user.image) || ""} className="w-full h-full object-cover" alt="User" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-[10px] font-black uppercase">{getInitials(user.name)}</div>
+                        <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xs font-black uppercase">{getInitials(user.name)}</div>
                       )}
                     </div>
                   </div>
                   <div className="min-w-0">
-                    <h3 className="text-white font-black text-[11px] tracking-tight truncate uppercase">{user.name}</h3>
-                    <span className="inline-block px-1.5 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[7px] font-black uppercase tracking-widest rounded-md border border-[#d4af37]/20 mt-0.5">{user.role || "Member"}</span>
+                    <h3 className="text-white font-black text-sm tracking-tight truncate uppercase leading-tight">{user.name}</h3>
+                    <span className="inline-block px-2 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[8px] font-black uppercase tracking-widest rounded-md border border-[#d4af37]/20 mt-1">{user.role || "Global Member"}</span>
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Link
                     href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"}
                     onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-3 w-full h-12 px-4 rounded-xl bg-white/5 text-white/70 hover:bg-white/10 hover:text-[#d4af37] transition-all border border-white/5"
+                    className="flex items-center gap-3 w-full h-12 px-5 rounded-xl bg-white/5 text-white/80 hover:bg-white/10 transition-all border border-white/10 group"
                   >
-                    <LayoutDashboard size={14} className="opacity-40" />
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em]">{user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}</span>
+                    <LayoutDashboard size={16} className="opacity-40 group-hover:opacity-100 transition-opacity" />
+                    <span className="text-[10px] font-black uppercase tracking-widest leading-none">Personal Portal</span>
                   </Link>
                   <button
                     onClick={() => { handleLogout(); setMenuOpen(false); }}
-                    className="flex items-center gap-3 w-full h-12 px-4 rounded-xl bg-red-500/5 text-red-500 hover:bg-red-500/10 transition-all border border-red-500/10"
+                    className="flex items-center gap-3 w-full h-12 px-5 rounded-xl bg-red-500/5 text-red-500 hover:bg-red-500/10 transition-all border border-red-500/10 group"
                   >
-                    <LogOut size={14} className="opacity-40" />
-                    <span className="text-[9px] font-black uppercase tracking-[0.2em]">Logout Session</span>
+                    <LogOut size={16} className="opacity-40 group-hover:opacity-100 transition-opacity" />
+                    <span className="text-[10px] font-black uppercase tracking-widest leading-none">Logout</span>
                   </button>
                 </div>
               </div>
             )}
 
-            <button
-              onClick={() => { setShowCounsellingModal(true); setMenuOpen(false); }}
-              className="w-full flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all mb-8 shadow-[0_10px_40px_rgba(212,175,55,0.15)]"
-            >
-              <Star size={14} />
-              Book Counselling
-            </button>
-
-
             {!user && (
-              <div className="mt-auto space-y-3 pt-10">
-                <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest mt-10">Sign In</Link>
-                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest">Register</Link>
+              <div className="grid grid-cols-2 gap-4 mt-auto pt-10">
+                <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest transition-colors hover:bg-white/10">Sign In</Link>
+                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
               </div>
             )}
           </div>
 
-          <div className="p-8 border-t border-white/5 bg-black/80 flex items-center justify-center text-white/10">
+          {/* Mobile Menu Footer */}
+          <div className="p-8 border-t border-white/5 bg-black/80 flex items-center justify-center text-white/10 shrink-0">
             <span className="text-[8px] font-black uppercase tracking-[0.4em]">GCC Success Portal © 2026</span>
           </div>
         </div>
