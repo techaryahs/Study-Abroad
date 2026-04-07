@@ -8,6 +8,9 @@ import { motion, Variants } from "framer-motion";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 export default function Home() {
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
@@ -71,72 +74,75 @@ export default function Home() {
   const images = ["/sir2.jpeg", "/sirbgggg.png", "/sirbgg.png", "/sirbggg.png", "/sir2.jpeg"];
 
   return (
-    <main className="relative min-h-screen bg-[#3E2723] text-gold-200 overflow-hidden pt-16">
+    <main className="relative min-h-screen bg-[#E7DECB] text-[#5D4037] overflow-hidden pt-6 font-base selection:bg-[#B3985E]/10">
 
-      {/* 🌌 BACKGROUND */}
+      {/* 🏙️ BACKGROUND */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Sky / Universe dark overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,#4E342E_0%,#0A0505_70%)] z-0"></div>
+        {/* Elegant Horizontal Split: Mocha Brown -> Mid Brown -> Light Beige */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#4E342E] via-[#7A5A50] to-[#E7DECB] z-0"></div>
+
+        {/* Global base to handle transparency if needed */}
+        <div className="absolute inset-0 bg-[#E7DECB]/10 z-0"></div>
 
         {/* University Background Image Layer */}
-        <div className="absolute inset-0 z-10 mix-blend-luminosity opacity-40">
+        <div className="absolute inset-0 z-10 mix-blend-multiply opacity-40">
           <Image
             src="/universityy.png"
             alt="University Background"
             fill
             sizes="100vw"
             quality={60}
-            className="object-cover object-center"
+            className="object-cover object-center grayscale"
             priority
           />
         </div>
 
-        {/* Gradient overlays to darken the bottom and left edges of the University Image */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0A0505] via-transparent to-transparent z-10 w-full h-full"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0A0505] via-transparent to-transparent z-10 w-full h-full"></div>
+        {/* Gradient overlays to soften the edges */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#E7DECB] via-transparent to-transparent z-10 w-full h-full opacity-60"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#2D1B19]/30 via-transparent to-transparent z-10 w-full h-full"></div>
 
         {/* Gold Glow behind the person */}
-        <div className="absolute right-[-10%] top-[20%] w-[700px] h-[700px] bg-gold-500/10 blur-[150px] rounded-full z-10"></div>
+        <div className="absolute right-[-10%] top-[20%] w-[700px] h-[700px] bg-[#B3985E]/5 blur-[150px] rounded-full z-10"></div>
 
-        {/* Curved Golden Divider (simulated with radial element) */}
-        <div className="absolute top-[48%] left-[-10%] w-[120%] h-[300px] bg-transparent border-t border-gold-500/20 rounded-[50%] shadow-[0_-10px_30px_rgba(194,168,120,0.15)] z-20"></div>
+        {/* Curved Golden Divider */}
+        <div className="absolute top-[48%] left-[-10%] w-[120%] h-[300px] bg-transparent border-t border-[#B3985E]/10 rounded-[50%] shadow-[0_-10px_30px_rgba(179,152,94,0.05)] z-20"></div>
       </div>
 
       {/* CONTENT */}
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-16 flex flex-col xl:flex-row gap-10 pt-10">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-16 flex flex-col xl:flex-row gap-10 pt-4 pb-4">
 
         {/* LEFT */}
         <div className="xl:w-3/5 space-y-12">
 
           {/* HERO TEXT */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
-            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[3.8rem] leading-[1.1] font-black tracking-tighter">
+            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[3.8rem] leading-[1.1] font-black tracking-tighter text-[#F1E9DB]">
               Education Leader - Led Path to <br />
-              <span className="gradient-text-gold">
+              <span className="gradient-text-gold drop-shadow-[0_2px_15px_rgba(45,27,25,0.4)]">
                 Ivy League &
               </span>
               <br />
-              <span className="gradient-text-gold">
+              <span className="gradient-text-gold drop-shadow-[0_2px_15px_rgba(45,27,25,0.4)]">
                 Top Global Universities
               </span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-gold-200/60 text-sm leading-relaxed max-w-xl">
+            <motion.p variants={itemVariants} className="text-[#F1E9DB]/70 text-xs sm:text-sm leading-relaxed max-w-xl italic font-medium">
               Personalized higher study guidance for USA, UK, Germany,
               Australia, Ireland, and Dubai — powered by AI-driven support.
             </motion.p>
 
-            <motion.div variants={itemVariants} className="flex gap-4">
+            <motion.div variants={itemVariants} className="flex gap-4 pt-1">
               <button
                 onClick={() => setShowCounsellingModal(true)}
-                className="bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 text-[#3E2723] px-6 py-3 rounded-xl font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(194,168,120,0.25)] hover:scale-105 active:scale-95 transition-all"
+                className="bg-[#2D1B19] text-[#B3985E] px-6 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest shadow-2xl hover:bg-[#B3985E] hover:text-[#2D1B19] active:scale-95 transition-all border border-[#B3985E]/20"
               >
                 Book Free Evaluation
               </button>
 
               <button
                 onClick={() => setShowCounsellingModal(true)}
-                className="border border-gold-500/30 px-6 py-3 rounded-xl text-gold-500 font-bold uppercase tracking-widest hover:bg-gold-500/10 transition-all backdrop-blur-sm"
+                className="bg-[#2D1B19] text-[#B3985E] px-6 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest shadow-2xl hover:bg-[#B3985E] hover:text-[#2D1B19] active:scale-95 transition-all border border-[#B3985E]/20"
               >
                 Talk to an Expert
               </button>
@@ -144,54 +150,54 @@ export default function Home() {
           </motion.div>
 
           <div className="pt-4">
-            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-gold-500">Why Students Trust Us</h3>
+            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#B3985E]">Why Students Trust Us</h3>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {servicesRow.map((s, i) => (
                 <Link key={i} href={s.link}>
-                  <div className="bg-gradient-to-br from-[#4E342E]/80 to-[#2D1B19]/50 p-5 rounded-2xl text-center shadow-xl border border-white/5 hover:border-gold-500/30 hover:-translate-y-1 transition-all duration-300">
-                    <div className="w-12 h-12 mx-auto mb-3 bg-gold-500/10 text-gold-500 flex items-center justify-center rounded-xl border border-gold-500/20">
+                  <div className="bg-[#2D1B19] p-5 rounded-2xl text-center shadow-xl border border-[#B3985E]/10 hover:border-[#B3985E]/40 hover:-translate-y-1 transition-all duration-300">
+                    <div className="w-12 h-12 mx-auto mb-3 bg-[#B3985E]/10 text-[#B3985E] flex items-center justify-center rounded-xl border border-[#B3985E]/20">
                       {s.icon}
                     </div>
-                    <p className="text-gold-100 text-[13px] font-semibold leading-tight">{s.title}</p>
+                    <p className="text-[#E7DECB]/80 text-[13px] font-semibold leading-tight">{s.title}</p>
                   </div>
                 </Link>
               ))}
             </div>
           </div>
 
-          <div className="pt-8">
-            <h3 className="text-sm uppercase tracking-[0.2em] mb-4 font-black text-gold-500">Top Destinations</h3>
+          <div className="pt-8 text-center sm:text-left">
+            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#B3985E]">Top Destinations</h3>
 
             <div className="flex justify-between max-w-[600px] relative">
-              <div className="absolute top-5 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold-500/50 to-transparent"></div>
+              <div className="absolute top-5 left-0 right-0 h-[1px] bg-[#B3985E]/20"></div>
 
               {flagsRow.map((f, i) => (
-                <div key={i} className="flex flex-col items-center z-10">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gold-500/50 shadow-[0_0_15px_rgba(194,168,120,0.3)]">
+                <div key={i} className="flex flex-col items-center z-10 w-full">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#B3985E] shadow-xl">
                     <Flag code={f.code} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-[10px] uppercase font-black tracking-widest mt-2 text-gold-200/60">{f.name}</span>
+                  <span className="text-[10px] uppercase font-black tracking-widest mt-2 text-[#3E2723]/40">{f.name}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* STATS */}
-          <div className="flex gap-10 pt-6">
+          <div className="flex flex-wrap gap-8 sm:gap-10 pt-6">
             {statsRow.map((stat, i) => (
               <div key={i}>
-                <h2 className="text-gold-500 text-3xl font-black tracking-tighter">{stat.value}</h2>
-                <p className="text-[10px] text-gold-200/40 font-black uppercase tracking-[0.2em] mt-1">{stat.label}</p>
+                <h2 className="text-[#3E2723] text-3xl font-black tracking-tighter">{stat.value}</h2>
+                <p className="text-[10px] text-[#5D4037]/40 font-black uppercase tracking-[0.2em] mt-1">{stat.label}</p>
               </div>
             ))}
           </div>
 
           {/* BUTTONS */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 pt-4">
             <button
               onClick={() => setShowCounsellingModal(true)}
-              className="bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 text-[#3E2723] px-8 py-3 rounded-xl font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl"
+              className="bg-[#2D1B19] text-[#B3985E] px-8 py-3.5 rounded-xl font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl border border-[#B3985E]/10"
             >
               Book Now
             </button>
@@ -199,7 +205,7 @@ export default function Home() {
             <a
               href="https://wa.me/918987654321"
               target="_blank"
-              className="border border-gold-500/30 px-8 py-3 rounded-xl text-gold-500 font-bold uppercase tracking-widest hover:bg-gold-500/10 transition-all backdrop-blur-sm"
+              className="border-2 border-[#2D1B19] px-8 py-3.5 rounded-xl text-[#2D1B19] font-black uppercase tracking-widest hover:bg-[#2D1B19] hover:text-[#B3985E] transition-all"
             >
               Whatsapp Us
             </a>
@@ -210,10 +216,10 @@ export default function Home() {
         <div className="xl:w-2/5 flex flex-col items-center relative z-20 pb-16">
 
           {/* IMAGE */}
-          <div className="relative w-full max-w-[450px] h-[550px] rounded-[3rem] overflow-hidden border border-gold-500/20 shadow-[0_40px_100px_rgba(0,0,0,0.6)] group">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0A0505] via-transparent to-transparent z-10" />
+          <div className="relative w-full max-w-[340px] h-[420px] rounded-[3rem] overflow-hidden border border-[#B3985E]/20 ">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2D1B19] via-transparent to-transparent z-10" />
 
-            <div className="overflow-hidden w-full h-[400px] sm:h-[450px] md:h-[550px]" ref={emblaRef}>
+            <div className="overflow-hidden w-full h-[380px] sm:h-[400px] md:h-[420px]" ref={emblaRef}>
               <div className="flex h-full">
                 {images.map((src, i) => (
                   <div key={i} className="flex-[0_0_100%] min-w-0 relative h-full">
@@ -223,7 +229,7 @@ export default function Home() {
                       fill
                       sizes="(max-width: 768px) 100vw, 450px"
                       quality={60}
-                      className="object-cover"
+                      className="object-cover object-top"
                       priority={i === 0}
                       loading={i === 0 ? "eager" : "lazy"}
                     />
@@ -234,15 +240,15 @@ export default function Home() {
           </div>
 
           {/* DREAMS */}
-          <div className="mt-6 bg-gradient-to-br from-[#4E342E] to-[#2D1B19] p-6 rounded-3xl grid grid-cols-4 gap-4 shadow-2xl border border-gold-500/10 w-full max-w-[450px]">
+          <div className="mt-6 bg-[#2D1B19] p-6 rounded-3xl grid grid-cols-4 gap-4 shadow-2xl border border-[#B3985E]/10 w-full max-w-[450px]">
             {dreams.map((d, i) => (
               <div key={i} className="text-center">
-                <div className="w-8 h-5 mx-auto mb-2 rounded-sm overflow-hidden border border-white/10">
+                <div className="w-8 h-5 mx-auto mb-2 rounded-sm overflow-hidden border border-[#B3985E]/20">
                   <Flag code={d.code} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-tighter text-gold-500">{d.name}</p>
-                <p className="text-sm font-black text-gold-100">{d.stat}</p>
-                <p className="text-[8px] text-ivory/30 font-bold uppercase tracking-widest">{d.sub}</p>
+                <p className="text-[10px] font-black uppercase tracking-tighter text-[#B3985E]">{d.name}</p>
+                <p className="text-sm font-black text-[#E7DECB]">{d.stat}</p>
+                <p className="text-[8px] text-[#E7DECB]/40 font-bold uppercase tracking-widest">{d.sub}</p>
               </div>
             ))}
           </div>
