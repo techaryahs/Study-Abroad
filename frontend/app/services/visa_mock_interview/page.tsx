@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import FAQSection, { defaultFaqs } from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 const visaFaqs = [...defaultFaqs];
 visaFaqs.splice(5, 0, {
@@ -59,7 +60,7 @@ export default function VisaMockInterviewPage() {
                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold-500/5 blur-[100px] rounded-full pointer-events-none -mr-32 -mt-32" />
 
                     <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-start relative z-10 w-full">
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: false, margin: '-50px' }}
@@ -76,8 +77,8 @@ export default function VisaMockInterviewPage() {
                                 <span className="gradient-text-gold">Interview</span>
                             </h1>
                             <div className="pb-2">
-                                <Link 
-                                    href="/services" 
+                                <Link
+                                    href="/services"
                                     className="inline-flex items-center gap-2 text-white/40 hover:text-gold-500 transition-colors group relative z-20"
                                 >
                                     <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
@@ -90,38 +91,10 @@ export default function VisaMockInterviewPage() {
                                 Ace the interview with proven tricks and techniques.
                             </p>
 
-                            <div className="space-y-4 mb-8 pt-2">
-                                <h3 className="text-[15px] font-medium text-white/90">Includes:</h3>
-                                <div className="flex gap-8">
-                                    <div className="flex flex-col items-center gap-2">
-                                        <div className="w-12 h-12 rounded-full bg-[#1e2a4f] flex items-center justify-center text-indigo-300 shadow-lg border border-white/5">
-                                            <Video size={20} fill="currentColor" className="text-indigo-200" />
-                                        </div>
-                                        <span className="text-xs text-white/70">Video call</span>
-                                    </div>
-                                    <div className="flex flex-col items-center gap-2">
-                                        <div className="w-12 h-12 rounded-full bg-[#1c3f2d] flex items-center justify-center text-green-400 shadow-lg border border-white/5">
-                                            <MessageSquare size={20} fill="currentColor" className="text-green-300" />
-                                        </div>
-                                        <span className="text-xs text-white/70">Text Support</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex flex-wrap items-center gap-4">
-                            <Link 
-                                href="/contact" 
-                                className="inline-block border border-gold-500 text-gold-500 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-gold-500 hover:text-black hover:shadow-lg hover:shadow-gold-500/20 text-center"
-                            >
-                                Discuss Your Case
-                            </Link>
-                                <div className="text-xs text-white/50 max-w-[130px] leading-tight">
-                                    Have questions about this service? Let's chat.
-                                </div>
-                            </div>
+                            <DiscussionSection serviceId="visa_mock_interview" />
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: false, margin: '-50px' }}
@@ -155,7 +128,7 @@ export default function VisaMockInterviewPage() {
                 {/* ── ABOUT & BOOKING ── */}
                 <section className="py-16 px-6 md:px-16 bg-dark-900/20">
                     <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-10">
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: false, margin: "-50px" }}
@@ -204,7 +177,7 @@ export default function VisaMockInterviewPage() {
                             </div>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: false, margin: "-50px" }}
@@ -225,7 +198,7 @@ export default function VisaMockInterviewPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-dark-950 via-dark-950/40 to-transparent" />
 
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: false, margin: "-50px" }}

@@ -6,6 +6,7 @@ export default function ScholarshipAssistancePage() {
   return (
     <ServiceLayout 
       title="Scholarship Assistance"
+      serviceId="scholarship-assistance"
       description="Guidance in identifying and applying for scholarships, grants, and bursaries to reduce the financial burden of education."
       details={[
         "Global scholarship database access",

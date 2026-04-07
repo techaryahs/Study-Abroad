@@ -40,6 +40,7 @@ const UserSchema = new mongoose.Schema(
 
       // OTP & VERIFICATION
       isVerified: { type: Boolean, default: false },
+      isPublic: { type: Boolean, default: false },
 
       // COSMETIC PROFILE DATA
       profileImage: { type: String, default: null },
@@ -80,9 +81,13 @@ const UserSchema = new mongoose.Schema(
       projects: { type: [mongoose.Schema.Types.Mixed], default: [] },
       volunteering: { type: [mongoose.Schema.Types.Mixed], default: [] },
       targetUniversities: { type: [mongoose.Schema.Types.Mixed], default: [] },
-    }
+    },
+    cart: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
   },
-  { timestamps: true }
+  { timestamps: true, autoCreate: false, autoIndex: false }
 );
 
 // Pre-save hook to hash password

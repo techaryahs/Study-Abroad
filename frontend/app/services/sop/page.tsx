@@ -1,9 +1,11 @@
 'use client';
 
 import { useState } from "react";
+import AddToCart from "@/components/shared/AddToCart";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 import { 
   Phone, 
   MessageSquare, 
@@ -24,12 +26,7 @@ import {
 } from "lucide-react";
 
 export default function SOPPage() {
-  const [currency, setCurrency] = useState("INR");
-  const [skipQueue, setSkipQueue] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const basePrice = 39900.00;
-  const discountedPrice = 29500.00;
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -87,32 +84,9 @@ export default function SOPPage() {
               </p>
             </motion.div>
 
-            <div className="space-y-4 pt-2">
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gold-500/40 italic">Global Tier Features:</p>
-              <div className="flex flex-wrap gap-8">
-                {[
-                  { icon: <PenTool size={18} />, label: "Unique Draft" },
-                  { icon: <Zap size={18} />, label: "Unlimited Revisions" },
-                  { icon: <Briefcase size={18} />, label: "Resume Polishing" }
-                ].map((item, i) => (
-                  <div key={i} className="flex flex-col items-center gap-2 group">
-                     <div className="w-10 h-10 rounded-full bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:border-gold-500/50 transition-all text-gold-500 shadow-sm">
-                        {item.icon}
-                     </div>
-                     <p className="text-[8px] font-black uppercase tracking-widest text-white/30 group-hover:text-gold-500 transition-colors uppercase">{item.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 pt-4 items-center">
-              <Link href="/contact?service=sop" className="btn-gold px-8 py-3 text-[10px] tracking-widest w-full sm:w-auto text-center !rounded-xl">
-                Discuss Your Case
-              </Link>
-              <Link href="/checkout?service=sop" className="text-white/40 text-[10px] font-black uppercase tracking-widest hover:text-gold-500 transition-colors border-b border-transparent hover:border-gold-500/20 pb-1">
-                Start Settlement Node
-              </Link>
-            </div>
+
+            <DiscussionSection serviceId="sop" /> 
           </motion.div>
 
           <motion.div 
@@ -165,31 +139,9 @@ export default function SOPPage() {
          </div>
       </section>
 
-      {/* ── SETTLEMENT NODE ── */}
-      <section className="py-24 px-8 md:px-20 z-10 relative">
-         <div className="max-w-4xl mx-auto">
-            <motion.div 
-               whileHover={{ y: -5 }}
-               className="glass-card p-8 flex flex-col md:flex-row gap-12 overflow-hidden bg-white/[0.01] border border-white/10 hover:border-gold-500/20 items-center"
-            >
-               <div className="md:w-1/2 space-y-6">
-                  <h3 className="text-xl font-black uppercase tracking-[0.4em] gradient-text-gold italic">START NOW</h3>
-                  <div className="space-y-4 border-l-2 border-gold-500/20 pl-6">
-                     <p className="text-sm font-black italic uppercase">Master Manuscript Settlement Node</p>
-                     <p className="text-2xl font-black gradient-text-gold">IDR 29,500,000</p>
-                  </div>
-               </div>
-               <div className="md:w-1/2 grid grid-cols-1 gap-4">
-                  <Link href="/contact?service=sop" className="btn-gold px-8 py-4 text-[10px] tracking-widest text-center !rounded-xl">
-                     Initiate Case Review
-                  </Link>
-                  <Link href="/checkout?service=sop" className="btn-outline-gold px-8 py-4 text-[10px] tracking-widest text-center !rounded-xl">
-                     Secure Settlement
-                  </Link>
-               </div>
-            </motion.div>
-         </div>
-      </section>
+        <div className="max-w-md mx-auto py-12 relative z-10">
+            <AddToCart serviceId="sop" />
+        </div>
 
       {/* ── FAQ (COMPACT) ── */}
       <section className="py-24 px-8 md:px-20 bg-dark-900 overflow-hidden relative z-10 border-y border-white/5">

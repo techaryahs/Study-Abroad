@@ -6,6 +6,7 @@ export default function VisaGuidancePage() {
   return (
     <ServiceLayout 
       title="Visa Guidance"
+      serviceId="visa-guidance"
       accentClass="accent-glow-blue"
       description="Complete support for the visa application process, document checklist, and interview preparation for successful outcomes."
       details={[

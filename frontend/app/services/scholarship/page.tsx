@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -63,35 +64,7 @@ export default function ScholarshipHelpPage() {
                             Hoping to get an admit, or already have one? Over 60% of our applicants get a scholarship/fellowship before they step into their university. Now, you can get one too.
                         </p>
                         
-                        <div className="space-y-4 mb-8">
-                            <h3 className="text-[15px] font-medium text-white/90">Includes:</h3>
-                            <div className="flex gap-8">
-                                <div className="flex flex-col items-center gap-2">
-                                    <div className="w-12 h-12 rounded-full bg-[#1e2a4f] flex items-center justify-center text-indigo-300 shadow-lg border border-white/5">
-                                        <Phone size={20} fill="currentColor" className="text-indigo-200" />
-                                    </div>
-                                    <span className="text-xs text-white/70">Audio call</span>
-                                </div>
-                                <div className="flex flex-col items-center gap-2">
-                                    <div className="w-12 h-12 rounded-full bg-[#1c3f2d] flex items-center justify-center text-green-400 shadow-lg border border-white/5">
-                                        <MessageSquare size={20} fill="currentColor" className="text-green-300" />
-                                    </div>
-                                    <span className="text-xs text-white/70">Text Support</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-4">
-                            <Link 
-                                href="/contact" 
-                                className="inline-block border border-gold-500 text-gold-500 px-6 py-3 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-gold-500 hover:text-black hover:shadow-lg hover:shadow-gold-500/20 text-center"
-                            >
-                                Discuss Your Case
-                            </Link>
-                            <div className="text-xs text-white/50 max-w-[130px] leading-tight">
-                                Have questions about this service? Let's chat.
-                            </div>
-                        </div>
+                        <DiscussionSection serviceId="scholarship" />
                     </motion.div>
 
                     <motion.div 
@@ -183,15 +156,9 @@ export default function ScholarshipHelpPage() {
                     >
                             <AddToCart serviceId="scholarship" />
 
-                        <Link href="/contact" className="mt-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.08] shadow-md flex items-center gap-4 hover:bg-white/[0.04] transition-colors cursor-pointer block">
-                            <div className="w-10 h-10 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0">
-                                <MessageSquare size={20} fill="currentColor" />
-                            </div>
-                            <div>
-                                <h4 className="font-bold text-white/90 text-sm">Discuss Your Case</h4>
-                                <p className="text-xs text-white/50 font-normal mt-0.5">Have questions about this service? Let's chat.</p>
-                            </div>
-                        </Link>
+                        {/* <div className="mt-4 p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] shadow-md">
+                            <DiscussionSection serviceId="scholarship" />
+                        </div> */}
                     </motion.div>
 
                 </div>

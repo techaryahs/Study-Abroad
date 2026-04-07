@@ -45,7 +45,8 @@ export default function RegisterParent() {
   const sendEmailOtp = async () => {
     if (!formData.email) return toast.error("Please enter email first");
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/send-otp-signup`, { 
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_API_URL !== 'undefined') ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:5001';
+      const res = await axios.post(`${BACKEND_URL}/api/auth/send-otp-signup`, { 
         email: formData.email 
       });
       toast.success(res.data.message);
@@ -59,7 +60,8 @@ export default function RegisterParent() {
   const verifyOtp = async () => {
     setIsVerifying(true);
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-otp-signup`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_API_URL !== 'undefined') ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:5001';
+      const res = await axios.post(`${BACKEND_URL}/api/auth/verify-otp-signup`, {
         email: formData.email,
         otp: verifyModal.otp
       });
@@ -78,7 +80,8 @@ export default function RegisterParent() {
     if (!studentSearch) return;
     setIsSearching(true);
     try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/search-student?email=${studentSearch}`);
+        const BACKEND_URL = (process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_API_URL !== 'undefined') ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:5001';
+        const res = await axios.get(`${BACKEND_URL}/api/auth/search-student?email=${studentSearch}`);
         setFoundStudent(res.data.student);
         setFormData(p => ({ ...p, studentId: res.data.student._id }));
     } catch (err: any) {
@@ -94,7 +97,8 @@ export default function RegisterParent() {
     if (!formData.studentId) return toast.error("Please link a student first");
     setIsSubmitting(true);
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register-parent`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_API_URL && process.env.NEXT_PUBLIC_API_URL !== 'undefined') ? process.env.NEXT_PUBLIC_API_URL : 'http://localhost:5001';
+      const res = await axios.post(`${BACKEND_URL}/api/auth/register-parent`, {
         parentName: formData.name,
         email: formData.email,
         password: formData.password,

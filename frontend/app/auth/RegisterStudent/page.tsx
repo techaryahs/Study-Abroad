@@ -235,7 +235,8 @@ const Register = () => {
   const handleSendOtp = async () => {
     setVerifyModal(prev => ({ ...prev, mode: 'loading' }));
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/send-otp-signup`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+      const response = await fetch(`${BACKEND_URL}/api/auth/send-otp-signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: verifyModal.value }),
@@ -253,7 +254,8 @@ const Register = () => {
   const handleVerifyOtp = async () => {
     setVerifyModal(prev => ({ ...prev, mode: 'loading' }));
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/verify-otp-signup`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+      const response = await fetch(`${BACKEND_URL}/api/auth/verify-otp-signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: verifyModal.value, otp: otpValue }),
@@ -296,7 +298,8 @@ const Register = () => {
           }
         }
       };
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+      const response = await fetch(`${BACKEND_URL}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

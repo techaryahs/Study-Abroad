@@ -2,6 +2,8 @@
 
 import { useState, FormEvent } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -19,7 +21,7 @@ interface Service {
 
 const services: Service[] = [
   { slug: "counselling", title: "Counselling Session", description: "Google Meet session with our counsellors. Get transparency on your case for study/work overseas. Charges fully adjustable in services' pricing.", icon: "🎯", badge: "fire" },
-  { slug: "research-paper", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
+  { slug: "research-papers", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
   { slug: "visa-application-help", title: "Visa Application Help", description: "Ace the visa application through our help in the paperwork, financial planning, and visa interview mock rounds. Applicable for USA, Canada, UK, Germany, and more.", icon: "🛂", badge: null },
   { slug: "eb1", title: "Apply For An EB-1 Visa", description: "The EB-1 visa is a talent-based immigrant visa in the US for individuals with extraordinary ability in their field.", icon: "🌟", badge: "fire" },
   { slug: "application-help", title: "Complete Application Help", description: "Get your application into the top 10% of the applications the committee evaluates for admission.", icon: "📋", badge: "popular" },
@@ -68,15 +70,21 @@ function SearchIcon({ className }: { className?: string }) {
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
-function ServiceCard({ service, index }: { service: Service; index: number }) {
-  return (
-    <Link
-      href={`/services/${service.slug}`}
-      className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-white/[0.08] bg-[#0f0f0f] hover:border-[#d4af37]/30 hover:-translate-y-1 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)] transition-all duration-200 overflow-hidden"
-      style={{ animationDelay: `${index * 35}ms` }}
-    >
+function ServiceCard({
+  service,
+  index,
+  onCounsellingClick,
+}: {
+  service: Service;
+  index: number;
+  onCounsellingClick: () => void;
+}) {
+  const isCounselling = service.slug === "counselling";
+
+  const inner = (
+    <>
       {/* top accent */}
-      <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-yellow-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+      <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-gold-300 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 
       {/* badges */}
       {service.badge === "fire" && (
@@ -90,29 +98,70 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
         </span>
       )}
 
-      <div className="w-10 h-10 rounded-xl bg-[#d4af37]/10 flex items-center justify-center text-lg flex-shrink-0">
+      <div className="w-10 h-10 rounded-xl bg-gold-500/10 flex items-center justify-center text-lg flex-shrink-0">
         {service.icon}
       </div>
 
-      <h3 className="font-bold text-[15px] leading-snug text-white group-hover:text-[#d4af37] transition-colors duration-200">
+      <h3 className="font-bold text-[15px] leading-snug text-gold-100 group-hover:text-gold-500 transition-colors duration-200">
         {service.title}
       </h3>
 
-      <p className="text-white/50 text-[13px] leading-relaxed flex-1">
+      <p className="text-gold-200/60 text-[13px] leading-relaxed flex-1">
         {service.description}
       </p>
 
-      <span className="self-end text-[#d4af37] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
-        →
-      </span>
-    </Link>
+      {isCounselling ? (
+        <span className="self-end text-xs font-bold text-gold-500 bg-gold-500/10 border border-gold-500/20 px-3 py-1 rounded-full transition-all duration-200 shadow-sm shadow-gold-500/10">
+          Book Now →
+        </span>
+      ) : (
+        <span className="self-end text-gold-500 text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+          →
+        </span>
+      )}
+    </>
+  );
+
+  if (isCounselling) {
+    return (
+      <motion.button
+        id="book-counselling-btn"
+        onClick={onCounsellingClick}
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.05, duration: 0.5 }}
+        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-gold-500/20 bg-gradient-to-br from-[#4E342E] to-[#2D1B19] hover:border-gold-500/50 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden text-left w-full"
+      >
+        {inner}
+      </motion.button>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.05, duration: 0.5 }}
+    >
+      <Link
+        href={`/services/${service.slug}`}
+        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-gold-500/10 bg-gradient-to-br from-[#4E342E] to-[#2D1B19] hover:border-gold-500/40 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden block"
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-gold-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {inner}
+      </Link>
+    </motion.div>
   );
 }
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 export default function ServicesPage() {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState("");
+  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+  const contactPhone = process.env.NEXT_PUBLIC_WTSP_PHONE || "919619901999";
   const [form, setForm] = useState({ name: "", email: "", mobile: "", service: "" });
   const [submitted, setSubmitted] = useState<boolean>(false);
 
@@ -132,7 +181,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#000000] text-white overflow-x-hidden">
+    <main className="min-h-screen bg-gradient-to-b from-[#3E2723] via-[#4E342E] to-[#2D1B19] text-gold-200 overflow-x-hidden">
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
       <section className="relative px-4 sm:px-8 md:px-14 lg:px-20 pt-14 pb-12 border-b border-white/[0.08] overflow-hidden">
@@ -146,36 +195,48 @@ export default function ServicesPage() {
         </div>
 
         {/* heading */}
-        <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-black leading-[1.04] tracking-tight mb-8 max-w-3xl">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-4xl sm:text-5xl lg:text-[64px] font-black leading-[1.04] tracking-tight mb-8 max-w-3xl gradient-text-gold uppercase"
+        >
           SERVICES
-        </h1>
+        </motion.h1>
 
         {/* body */}
-        <div className="max-w-3xl space-y-3.5">
-          <p className="text-white/55 text-sm sm:text-[15px] leading-relaxed">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 1 }}
+          className="max-w-3xl space-y-3.5"
+        >
+          <p className="text-gold-200/60 text-sm sm:text-[15px] leading-relaxed">
             Having worked with students from over{" "}
-            <strong className="text-white font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
-            <strong className="text-white font-semibold">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
+            <strong className="text-gold-100 font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
+            <strong className="text-gold-100 font-semibold">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
           </p>
-          <p className="text-white/55 text-sm sm:text-[15px] leading-relaxed">
+          <p className="text-gold-200/60 text-sm sm:text-[15px] leading-relaxed">
             We support applications to most countries including but not limited to{" "}
-            <strong className="text-white font-semibold">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
+            <strong className="text-gold-100 font-semibold">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
           </p>
-          <p className="text-[#d4af37] text-sm font-medium pt-1">
+          <p className="text-gold-500 text-sm font-medium pt-1">
             ✦ To see the charges, you can click on the service, select the currency and other relevant options (if any). Crypto payments now accepted!
           </p>
-        </div>
+        </motion.div>
 
         {/* chat strip */}
-        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#0f0f0f] border border-white/[0.08] rounded-xl px-5 py-3.5">
-          <span className="text-white/45 text-sm">To reach our sales team</span>
-          <Link
-            href="#"
-            className="inline-flex items-center gap-2 bg-[#d4af37] text-black font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-yellow-500 active:scale-95 transition-all"
+        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#4E342E]/30 border border-gold-500/[0.08] rounded-xl px-5 py-3.5 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
+          <span className="text-gold-200/40 text-sm">To reach our sales team</span>
+          <a
+            href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in the your services service. Specifically, I would like to discuss...`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-gold-500 text-[#3E2723] font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-gold-400 active:scale-95 transition-all text-center"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -188,9 +249,9 @@ export default function ServicesPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for a service…"
-            className="w-full bg-[#0f0f0f] border border-white/[0.08] rounded-xl px-4 py-3 pr-11 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#d4af37]/40 transition-colors"
+            className="w-full bg-[#4E342E]/40 border border-gold-500/10 rounded-2xl px-5 py-3.5 pr-11 text-sm text-gold-100 placeholder-gold-200/30 focus:outline-none focus:border-gold-500/40 transition-all backdrop-blur-sm shadow-inner"
           />
-          <button className="absolute right-3 top-1/2 -translate-y-1/2 text-[#d4af37]" aria-label="Search">
+          <button className="absolute right-4 top-1/2 -translate-y-1/2 text-gold-500 hover:scale-110 transition-transform" aria-label="Search">
             <SearchIcon className="w-5 h-5" />
           </button>
         </div>
@@ -201,9 +262,16 @@ export default function ServicesPage() {
 
         {filtered.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((service, i) => (
-              <ServiceCard key={service.slug} service={service} index={i} />
-            ))}
+            <AnimatePresence>
+              {filtered.map((service, i) => (
+                <ServiceCard
+                  key={service.slug}
+                  service={service}
+                  index={i}
+                  onCounsellingClick={() => setShowCounsellingModal(true)}
+                />
+              ))}
+            </AnimatePresence>
           </div>
         ) : (
           <div className="py-24 text-center text-white/30 text-sm">
@@ -214,19 +282,21 @@ export default function ServicesPage() {
 
       {/* ── CTA BANNER ───────────────────────────────────────────────────────── */}
       <div className="px-4 sm:px-8 md:px-14 lg:px-20 py-4">
-        <div className="relative overflow-hidden rounded-2xl border border-[#d4af37]/20 bg-gradient-to-br from-[#1a1500] to-[#111] px-6 py-12 sm:px-14 flex flex-col items-center text-center gap-5">
-          <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-48 rounded-full bg-[radial-gradient(ellipse,rgba(245,197,24,0.13),transparent_70%)]" />
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight">Questions? Start a chat with us.</h2>
-          <p className="text-white/45 text-sm sm:text-base max-w-sm">
+        <div className="relative overflow-hidden rounded-2xl border border-gold-500/20 bg-gradient-to-br from-[#4E342E] to-[#2D1B19] px-6 py-12 sm:px-14 flex flex-col items-center text-center gap-5">
+          <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-48 rounded-full bg-[radial-gradient(ellipse,rgba(194,168,120,0.15),transparent_70%)]" />
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-gold-500">Questions? Start a chat with us.</h2>
+          <p className="text-gold-200/40 text-sm sm:text-base max-w-sm">
             We&apos;re here to help you navigate your study, work, or immigration journey.
           </p>
-          <Link
-            href="#"
-            className="inline-flex items-center gap-2 bg-[#d4af37] text-black font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:bg-yellow-500 active:scale-95 transition-all"
+          <a
+            href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in the your services service. Specifically, I would like to discuss...`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 text-[#3E2723] font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:shadow-[0_10px_30px_rgba(194,168,120,0.3)] active:scale-95 transition-all text-center"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
-          </Link>
+          </a>
         </div>
       </div>
 
@@ -324,6 +394,12 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Book Counselling Modal ──────────────────────────────────────── */}
+      <BookCounsellingModal
+        isOpen={showCounsellingModal}
+        onClose={() => setShowCounsellingModal(false)}
+      />
     </main>
   );
 }

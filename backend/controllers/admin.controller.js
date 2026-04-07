@@ -154,3 +154,45 @@ exports.registerConsultant = async (req, res) => {
     res.status(500).json({ error: 'Server error while registering consultant' });
   }
 };
+
+/* =========================
+   TOGGLE CONSULTANT VIDEO CALL ACCESS
+========================= */
+exports.toggleConsultantVideoCall = async (req, res) => {
+  try {
+    const { consultantId } = req.params;
+    
+    const consultant = await Consultant.findById(consultantId);
+    if (!consultant) {
+      return res.status(404).json({ error: 'Consultant not found' });
+    }
+
+    consultant.videoCallEnabled = !consultant.videoCallEnabled;
+    await consultant.save();
+
+    res.json({ 
+      message: `Video call access ${consultant.videoCallEnabled ? 'enabled' : 'disabled'} for ${consultant.name}`,
+      videoCallEnabled: consultant.videoCallEnabled,
+      consultantName: consultant.name
+    });
+  } catch (err) {
+    console.error('❌ Toggle video call error:', err.message);
+    res.status(500).json({ error: 'Server error toggling video call access' });
+  }
+};
+
+/* =========================
+   GET ALL CONSULTANTS (FOR ADMIN MANAGEMENT)
+========================= */
+exports.getAllConsultantsForAdmin = async (req, res) => {
+  try {
+    const consultants = await Consultant.find({})
+      .select('name email role expertise videoCallEnabled isPremium')
+      .sort({ name: 1 });
+    
+    res.json({ consultants });
+  } catch (err) {
+    console.error('❌ Get consultants error:', err.message);
+    res.status(500).json({ error: 'Server error fetching consultants' });
+  }
+};

@@ -34,6 +34,6 @@ const progressReportSchema = new mongoose.Schema({
     }, { _id: false }),
     default: {}
   }
-}, { timestamps: true });
+}, { timestamps: true, autoCreate: false, autoIndex: false });
 
 module.exports = mongoose.model("ProgressReport", progressReportSchema);

@@ -1,5 +1,7 @@
 "use client";
-import FAQSection from "@/components/FAQSection";
+import FAQSection from "@/components/shared/FAQSection";
+import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 export default function UniversityFinalizationPage() {
   return (
@@ -22,37 +24,7 @@ export default function UniversityFinalizationPage() {
               as per your circumstances.
             </p>
 
-            <h4 className="mt-6 mb-2 text-[#333] font-medium">Includes:</h4>
-
-            <div className="flex gap-12 mt-3">
-
-              {/* Audio Call */}
-              <div className="text-center">
-                <div className="w-[50px] h-[50px] bg-[#2d3748] flex items-center justify-center rounded-full">
-                  <img src="/assets/call_icon.svg" className="w-[22px]" />
-                </div>
-                <p className="text-[13px] text-[#333] mt-1">Audio call</p>
-              </div>
-
-              {/* WhatsApp */}
-              <div className="text-center">
-                <div className="w-[50px] h-[50px] bg-[#2d3748] flex items-center justify-center rounded-full">
-                  <img src="/assets/whats_app_icon.png" className="w-[22px]" />
-                </div>
-                <p className="text-[13px] text-[#333] mt-1">Text Support</p>
-              </div>
-
-            </div>
-
-            <div className="mt-8 flex items-center gap-5">
-              <button className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500 transition">
-                Discuss Your Case
-              </button>
-
-              <p className="text-[#666] text-sm">
-                Have questions about this service? Let's chat.
-              </p>
-            </div>
+            <DiscussionSection serviceId="university-finalization" />
 
           </div>
 
@@ -157,103 +129,15 @@ export default function UniversityFinalizationPage() {
       <div className="w-[40%] flex flex-col items-end gap-6">
 
         {/* PRICE CARD */}
-        <div className="bg-white rounded-[20px] shadow-lg p-6 w-full max-w-[350px]">
-
-          <h3 className="text-center text-lg font-semibold mb-5 text-black">
-            Start Now
-          </h3>
-
-          <div className="space-y-3 text-sm">
-          
-
-          <div className="flex justify-between">
-  <span className="font-medium text-gray-700">Services:</span>
-  <span className="text-gray-800 text-right">University Finalization Help</span>
-</div>
-
-         
-             <div className="flex justify-between">
-  <span className="font-medium text-gray-700">Duration:</span>
-  <span className="text-gray-800 text-right">3-5 days</span>
-</div>
-
-            <div className="flex justify-between items-center">
-              <span className="font-medium text-gray-700">Currency:</span>
-              <select className="border border-gray-300 rounded-md px-4 py-2 text-gray-800 bg-white w-[150px] focus:outline-none focus:ring-2 focus:ring-blue-400">
-  <option>INR</option>
-  <option>USD</option>
-  <option>AED</option>
-</select>
-<svg
-    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    viewBox="0 0 24 24"
-  >
-    <path d="M19 9l-7 7-7-7" />
-  </svg>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium text-gray-700">Actual Amount:</span>
-              <span className="line-through text-gray-500">
-                INR 11,545.00
-              </span>
-            </div>
-
-            <div className="flex justify-between">
-              <span className="font-medium text-gray-700">Amount:</span>
-              <span className="text-red-600 font-bold">
-                INR 9,236.38
-              </span>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <span className="font-medium text-gray-700">You save:</span>
-              <span className="flex items-center gap-2 text-gray-800">
-                INR 2,308.62
-                <span className="bg-orange-500 text-white px-2 py-1 rounded text-xs">
-                  20% off
-                </span>
-              </span>
-            </div>
-
-          </div>
-
-          <button className="w-full mt-5 bg-green-500 text-white py-3 rounded-full text-[13px] font-medium hover:bg-green-600">
-            Log In To Pay
-          </button>
+        <div className="w-full max-w-[350px]">
+          <AddToCart serviceId="university-finalization" />
         </div>
 
-        {/* CHAT CARD */}
-        <div className="bg-white rounded-[20px] shadow-md p-5 flex gap-4 items-center w-full max-w-[350px]">
-
-          <img
-            src="/assets/man_holding_phone.png"
-            className="w-[90px]"
-          />
-
-          <div className="flex-1">
-
-            <div className="flex items-center gap-2 mb-2">
-              <img src="/assets/chat-icon3.svg" className="w-[24px]" />
-              <h4 className="font-semibold text-gray-800">
-                Discuss Your Case
-              </h4>
-            </div>
-
-            <p className="text-sm text-gray-600 mb-3">
-              Chat with a team member to see how we can help.
-            </p>
-
-            <button className="border rounded-lg px-4 py-2 text-sm hover:bg-gray-100 text-black semibold">
-              Message now →
-            </button>
-
+        {/* <div className="w-full max-w-[350px]">
+          <div className="bg-white rounded-[20px] p-6 shadow-md border border-gray-100/50">
+            <DiscussionSection serviceId="university-finalization" />
           </div>
-
-        </div>
+        </div> */}
 
       </div>
 
@@ -295,7 +179,7 @@ export default function UniversityFinalizationPage() {
 
         <div className="rounded-xl overflow-hidden shadow-lg">
 
-       <iframe width="560" height="315" src="https://www.youtube.com/embed/DUZf0oSEJ0w?si=Vhi5AwXjvdVOikuR" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+       <iframe width="560" height="315" src="https://www.youtube.com/embed/DUZf0oSEJ0w?si=Vhi5AwXjvdVOikuR" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
 
         </div>
 

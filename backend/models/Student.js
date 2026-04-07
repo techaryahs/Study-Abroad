@@ -35,11 +35,11 @@ const StudentSchema = new mongoose.Schema(
       parents: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
       isVerified: { type: Boolean, default: false },
       isPremium: { type: Boolean, default: false },
+      isPublic: { type: Boolean, default: false },
       
       profileImage: { type: String, default: null },
       resumeUrl: { type: String, default: null },
       bio: { type: String, default: "" },
-      location: { type: String, default: "" },
       portfolio: { type: String, default: "" },
       linkedin: { type: String, default: "" },
       source: { type: String, default: "" },
@@ -80,7 +80,11 @@ const StudentSchema = new mongoose.Schema(
       targetUniversities: [{
         uniName: String, degree: String, major: String, term: String, year: String
       }],
-    }
+    },
+    cart: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
   },
   { timestamps: true, autoCreate: false, autoIndex: false }
 );

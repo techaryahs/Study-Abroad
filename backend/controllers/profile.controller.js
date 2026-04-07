@@ -1,4 +1,5 @@
 const Student = require("../models/Student");
+const fs = require("fs");
 
 exports.getProfile = async (req, res) => {
   try {
@@ -29,15 +30,25 @@ exports.updateProfile = async (req, res) => {
     if (!userId) return res.status(401).json({ message: "Authentication required" });
 
     const { name, mobile, email, gender, dob, country, profile } = req.body;
-    let imagePath = null;
-    if (req.file) {
-      imagePath = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-    }
-
+    
     let user = await Student.findById(userId);
     if (!user) return res.status(404).json({ message: "Student not found" });
 
     if (!user.profile) user.profile = {};
+
+    // Handle image upload - Convert to Base64 and store in MongoDB
+    if (req.file) {
+      try {
+        const fileData = fs.readFileSync(req.file.path);
+        const base64Image = `data:${req.file.mimetype};base64,${fileData.toString('base64')}`;
+        user.profile.profileImage = base64Image;
+        
+        // Delete the temporary local file
+        fs.unlinkSync(req.file.path);
+      } catch (uploadError) {
+        console.error("Error processing image for MongoDB storage:", uploadError);
+      }
+    }
 
     if (name) user.name = name;
     if (mobile) user.mobile = mobile;
@@ -47,18 +58,16 @@ exports.updateProfile = async (req, res) => {
     if (country) user.country = country;
 
     if (req.body.bio) user.profile.bio = req.body.bio;
-    if (req.body.location) user.profile.location = req.body.location;
     if (req.body.portfolio) user.profile.portfolio = req.body.portfolio;
     if (req.body.linkedin) user.profile.linkedin = req.body.linkedin;
-
+    if (req.body.isPublic !== undefined) user.profile.isPublic = req.body.isPublic;
+    
     if (profile) {
       Object.keys(profile).forEach(key => {
         user.profile[key] = profile[key];
       });
       user.markModified('profile');
     }
-
-    if (imagePath) user.profile.profileImage = imagePath;
 
     await user.save();
     res.json({ message: "Profile updated successfully", user });

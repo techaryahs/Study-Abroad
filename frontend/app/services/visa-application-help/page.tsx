@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState, ReactNode } from "react";
+import AddToCart from "@/components/shared/AddToCart";
+import DiscussionSection from "@/components/shared/DiscussionSection";
 
 // ─── Components ──────────────────────────────────────────────────────────────
 
@@ -96,28 +98,7 @@ const countryContent: Record<
 // ─── Main Page ───────────────────────────────────────────────────────────────
 
 export default function VisaApplicationPage() {
-  const [currency, setCurrency] = useState("INR");
-  const [dependents, setDependents] = useState(0);
-  const [mocks, setMocks] = useState(1);
   const [activeCountry, setActiveCountry] = useState<Country>("USA");
-
-  const baseINR = 55772.95;
-  const originalINR = 69716.0;
-  const baseUSD = 669;
-  const originalUSD = 836;
-
-  const dependentMultiplier = 1 + dependents * 0.3;
-  const mockMultiplier = 1 + (mocks - 1) * 0.15;
-
-  const currentAmount =
-    currency === "INR"
-      ? `₹${(baseINR * dependentMultiplier * mockMultiplier).toLocaleString("en-IN", { maximumFractionDigits: 2 })}`
-      : `$${(baseUSD * dependentMultiplier * mockMultiplier).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
-
-  const originalAmount =
-    currency === "INR"
-      ? `INR ${originalINR.toLocaleString("en-IN", { minimumFractionDigits: 2 })}`
-      : `USD ${originalUSD.toLocaleString("en-US")}.00`;
 
   const countries: Country[] = ["USA", "Canada", "UK"];
   const countryFlags: Record<Country, string> = { USA: "🇺🇸", Canada: "🇨🇦", UK: "🇬🇧" };
@@ -155,27 +136,7 @@ export default function VisaApplicationPage() {
               <span className="text-[#ffffff]">Applicable for USA, Canada, UK, Germany, and more.</span>
             </p>
 
-            <div className="flex gap-10 mb-10">
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">📹</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Video call</span>
-              </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-white/5 border border-[#c6a96b]/20 rounded-2xl flex items-center justify-center text-2xl">🎧</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Audio call</span>
-              </div>
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-14 h-14 bg-green-500/10 border border-green-500/20 rounded-2xl flex items-center justify-center text-2xl text-green-400">💬</div>
-                <span className="text-[10px] uppercase tracking-widest font-bold text-[#a1a1a1]">Text Support</span>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-6">
-              <button className="bg-[#c6a96b] text-[#000000] font-black py-4 px-10 rounded-xl hover:bg-[#d4af37] hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-[#c6a96b]/20 uppercase tracking-widest text-xs">
-                Discuss Your Case
-              </button>
-              <p className="text-sm text-[#a1a1a1] italic">Have questions about this service? Let's chat.</p>
-            </div>
+            <DiscussionSection serviceId="visa-application-help" />
           </div>
 
           {/* Hero illustration */}
@@ -227,11 +188,10 @@ export default function VisaApplicationPage() {
                 <button
                   key={c}
                   onClick={() => setActiveCountry(c)}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${
-                    activeCountry === c
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${activeCountry === c
                       ? "bg-[#ffffff] text-[#000000] shadow-lg"
                       : "text-[#a1a1a1] hover:text-[#ffffff] hover:bg-white/5"
-                  }`}
+                    }`}
                 >
                   <span className="text-lg">{countryFlags[c]}</span>
                   {c}
@@ -340,94 +300,13 @@ export default function VisaApplicationPage() {
         </div>
 
         {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
-        <div className="lg:col-span-1">
-          <div className="sticky top-12 bg-[#0a0a0a] border border-[#c6a96b]/20 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] rounded-[32px] p-8 space-y-8">
-            <div className="text-center">
-              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#c6a96b]">Start Now</h3>
-              <div className="w-10 h-[1px] bg-[#c6a96b]/30 mx-auto mt-4" />
-            </div>
+        <div className="lg:col-span-1 pb-20">
+          <div className="sticky top-28">
+            <AddToCart serviceId="visa-application-help" />
 
-            <div className="space-y-5">
-              <div className="flex justify-between items-center text-xs uppercase tracking-widest font-bold">
-                <span className="text-[#a1a1a1]">Services</span>
-                <span className="text-[#ffffff] text-right text-[11px]">Visa Application Help</span>
-              </div>
-              <div className="flex justify-between items-center text-xs uppercase tracking-widest font-bold">
-                <span className="text-[#a1a1a1]">Duration</span>
-                <span className="text-[#ffffff]">1–2 months</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Currency</span>
-                <select
-                  value={currency}
-                  onChange={(e) => setCurrency(e.target.value)}
-                  className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
-                >
-                  <option value="INR">INR</option>
-                  <option value="USD">USD</option>
-                </select>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Dependents</span>
-                <select
-                  value={dependents}
-                  onChange={(e) => setDependents(Number(e.target.value))}
-                  className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
-                >
-                  {[0, 1, 2, 3, 4].map((n) => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-[#a1a1a1] text-[10px] font-bold uppercase tracking-widest">Mocks</span>
-                <select
-                  value={mocks}
-                  onChange={(e) => setMocks(Number(e.target.value))}
-                  className="bg-[#000000] text-[#c6a96b] border border-[#c6a96b]/20 rounded-lg px-3 py-1.5 text-[10px] font-black outline-none focus:border-[#c6a96b] cursor-pointer"
-                >
-                  {[1, 2, 3, 4, 5].map((n) => (
-                    <option key={n} value={n}>{n}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            {/* Visa Guarantee badge */}
-            <div className="bg-gradient-to-r from-[#c6a96b]/20 to-[#d4af37]/20 border border-[#c6a96b]/40 rounded-xl p-4 text-center">
-              <p className="text-xs font-black text-[#d4af37] uppercase tracking-widest">✦ Visa Guarantee Included</p>
-            </div>
-
-            <div className="pt-2 border-t border-white/5">
-              <p className="text-[#a1a1a1] text-sm line-through mb-1 opacity-50 tracking-tighter">{originalAmount}</p>
-              <div className="flex items-baseline gap-4">
-                <p className="text-3xl font-black text-[#ffffff] tracking-tighter">{currentAmount}</p>
-              </div>
-              <div className="flex items-center gap-3 mt-2">
-                <span className="text-[#a1a1a1] text-xs">You save:</span>
-                <span className="bg-[#c6a96b] text-[#000000] text-[10px] font-black px-2 py-0.5 rounded-md">20% off</span>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <button className="w-full py-5 bg-[#c6a96b] text-[#000000] font-black rounded-xl shadow-xl shadow-[#c6a96b]/10 hover:bg-[#d4af37] transition-all text-xs uppercase tracking-widest">
-                Log In To Pay
-              </button>
-            </div>
-
-            {/* Discuss Card */}
-            <div className="border-t border-white/5 pt-6">
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 rounded-full bg-[#c6a96b]/10 border border-[#c6a96b]/20 overflow-hidden flex items-center justify-center text-lg shrink-0">👤</div>
-                <div>
-                  <p className="text-xs font-black text-[#c6a96b] uppercase tracking-widest mb-1">Discuss Your Case</p>
-                  <p className="text-xs text-[#a1a1a1] leading-relaxed">Chat with a team member to see how we can help.</p>
-                  <button className="mt-3 text-xs font-bold text-[#ffffff] border border-white/10 px-4 py-2 rounded-lg hover:bg-white/5 transition-all">
-                    Message now →
-                  </button>
-                </div>
-              </div>
-            </div>
+            {/* <div className="mt-8 bg-[#0a0a0a] border border-[#c6a96b]/20 shadow-2xl rounded-[2rem] p-8">
+              <DiscussionSection serviceId="visa-application-help" />
+            </div> */}
           </div>
         </div>
       </section>
