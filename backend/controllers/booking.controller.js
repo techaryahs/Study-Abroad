@@ -405,48 +405,106 @@ exports.deleteBooking = async (req, res) => {
 ============================================================================== */
 
 /**
- * 📅 Get Available Slots for a specific Date
- * returns 9:00 AM to 6:00 PM (1-hour slots)
+ * 📅 Get Available Slots for a specific Date (Weekly Schedule Based)
+ * Uses WeeklySchedule model to generate slots automatically
+ */
+/**
+ * GET AVAILABLE SLOTS FOR DATE (User-facing)
+ * GET /api/bookings/available-slots?date=2025-04-15
+ * Generates individual bookable slots based on weekly schedule time ranges
  */
 exports.getAvailableSlots = async (req, res) => {
   try {
-    const { date, consultantId } = req.query;
+    const { date } = req.query;
     if (!date) return res.status(400).json({ message: "Date is required" });
 
-    // Defined working hours: 9:00 to 18:00
-    const allSlots = [];
-    for (let h = 9; h < 18; h++) {
-      const timeStr = `${String(h).padStart(2, "0")}:00`;
-      const endTimeStr = `${String(h + 1).padStart(2, "0")}:00`;
-      allSlots.push({ time: timeStr, endTime: endTimeStr });
+    const WeeklySchedule = require("../models/WeeklySchedule");
+
+    // Get day of week from date
+    const dateObj = new Date(date + "T12:00:00");
+    const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    const dayOfWeek = dayNames[dateObj.getDay()];
+
+    // Get active schedule
+    const schedule = await WeeklySchedule.findOne({ isActive: true });
+    if (!schedule) {
+      return res.json({ 
+        slots: [],
+        message: "No schedule configured. Admin needs to set up weekly schedule." 
+      });
     }
 
-    // Find already booked sessions for this date
-    // Note: for "auto-assign" (consultantId="auto"), we don't filter by consultant here yet, 
-    // but in a real system we'd check if ANY consultant is free.
-    const query = { date, status: { $nin: ["rejected", "cancelled"] } };
-    if (consultantId && consultantId !== "auto") {
-      query.consultantId = consultantId;
+    // Find day schedule
+    const daySchedule = schedule.schedule.find(d => d.dayOfWeek === dayOfWeek);
+    if (!daySchedule || !daySchedule.isEnabled) {
+      return res.json({ 
+        slots: [],
+        message: `No slots available on ${dayOfWeek}s` 
+      });
     }
-    const bookedSessions = await Booking.find(query);
-    const bookedTimes = bookedSessions.map(b => b.time);
 
-    // Current time check for "past" slots
+    // Check current time for past slots
     const now = new Date();
     const todayStr = now.toISOString().split("T")[0];
+    const currentTime = now.toTimeString().substring(0, 5);
 
-    const slots = allSlots.map(slot => {
-      const isBooked = bookedTimes.includes(slot.time);
-      const isPast = (date === todayStr && slot.time <= now.toTimeString().substring(0, 5));
-      return {
-        ...slot,
-        booked: isBooked,
-        past: isPast,
-        available: !isBooked && !isPast
-      };
-    });
+    // Helper: Convert HH:mm to minutes since midnight
+    const timeToMinutes = (time) => {
+      const [h, m] = time.split(':').map(Number);
+      return h * 60 + m;
+    };
 
-    res.json({ slots });
+    // Helper: Convert minutes since midnight to HH:mm
+    const minutesToTime = (mins) => {
+      const h = Math.floor(mins / 60);
+      const m = mins % 60;
+      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+    };
+
+    // Generate individual bookable slots from time ranges
+    const allSlots = [];
+    
+    for (const timeRange of daySchedule.timeSlots) {
+      if (!timeRange.isActive) continue;
+
+      const startMins = timeToMinutes(timeRange.startTime);
+      const endMins = timeToMinutes(timeRange.endTime);
+      const duration = timeRange.duration || 60;
+
+      // Generate slots within this time range
+      for (let slotStart = startMins; slotStart + duration <= endMins; slotStart += duration) {
+        const slotEnd = slotStart + duration;
+        const slotStartTime = minutesToTime(slotStart);
+        const slotEndTime = minutesToTime(slotEnd);
+
+        // Check if slot is already booked
+        const existingBooking = await Booking.findOne({
+          date,
+          time: slotStartTime,
+          bookingType: "counselling",
+          status: "booked"
+        });
+
+        const isPast = date === todayStr && slotStartTime <= currentTime;
+        const isBooked = !!existingBooking;
+        const isAvailable = !isPast && !isBooked;
+
+        allSlots.push({
+          time: slotStartTime,
+          endTime: slotEndTime,
+          duration: duration,
+          available: isAvailable,
+          booked: isBooked,
+          past: isPast
+        });
+      }
+    }
+
+    // Sort by time
+    allSlots.sort((a, b) => a.time.localeCompare(b.time));
+
+    console.log(`✅ Generated ${allSlots.length} slots for ${dayOfWeek} ${date}`);
+    res.json({ slots: allSlots });
   } catch (err) {
     console.error("❌ getAvailableSlots Error:", err);
     res.status(500).json({ message: "Error fetching slots" });
@@ -454,36 +512,30 @@ exports.getAvailableSlots = async (req, res) => {
 };
 
 /**
- * 🚀 Book a private Counselling Session
+ * 🚀 Book a private Counselling Session (Admin-Only Simplified)
  */
 exports.bookCounsellingSession = async (req, res) => {
   try {
-    const { date, time, userEmail, userName, consultantId } = req.body;
+    const { date, time, userEmail, userName } = req.body;
 
     if (!date || !time || !userEmail) {
       return res.status(400).json({ message: "Missing required booking details (date, time, email)" });
     }
 
-    // Check if slot already taken
-    const existing = await Booking.findOne({ date, time, status: "booked" });
+    // Check if slot already taken (counselling sessions only)
+    const existing = await Booking.findOne({ 
+      date, 
+      time, 
+      bookingType: "counselling",
+      status: "booked" 
+    });
     if (existing) {
       return res.status(400).json({ message: "This slot has already been booked. Please pick another one." });
     }
 
-    // Auto-assign or use provided consultant
-    let finalConsultantId = consultantId;
-    let finalConsultantName = "Academic Counsellor";
-    let finalConsultantEmail = "counselling@careergenai.com";
-    let consultantVideoEnabled = false;
-
-    if (consultantId && consultantId !== "auto") {
-      const c = await Consultant.findById(consultantId);
-      if (c) {
-        finalConsultantName = c.name;
-        finalConsultantEmail = c.email;
-        consultantVideoEnabled = c.videoCallEnabled || false;
-      }
-    }
+    // Hardcode admin as session counsellor
+    const finalConsultantName = "Admin";
+    const finalConsultantEmail = process.env.ADMIN_EMAIL || "admin@careergenai.com";
 
     // Generate session & meeting identifiers
     const sessionId = randomUUID();
@@ -493,7 +545,7 @@ exports.bookCounsellingSession = async (req, res) => {
 
     const newBooking = new Booking({
       bookingType: "counselling",
-      consultantId: finalConsultantId || null,
+      consultantId: null, // No specific consultant assigned
       consultantName: finalConsultantName,
       consultantEmail: finalConsultantEmail,
       date,
@@ -515,12 +567,26 @@ exports.bookCounsellingSession = async (req, res) => {
             "✅ Counselling Session Confirmed",
             "",
             `<p>Hi ${userName || "Student"},</p>
-             <p>Your counselling session is confirmed for <b>${date}</b> at <b>${time}</b>.</p>
+             <p>Your counselling session with Admin is confirmed for <b>${date}</b> at <b>${time}</b>.</p>
              <p>Meeting ID: <b>${meetingId}</b></p>
              <p>Session ID: <b>${sessionId}</b></p>`
         );
     } catch (e) {
         console.warn("Email notify failed during session booking", e.message);
+    }
+
+    // Optional: Notify admin
+    try {
+        await sendEmail(
+            finalConsultantEmail,
+            "🔔 New Counselling Session Booked",
+            "",
+            `<p>New counselling session booked by <b>${userName || userEmail}</b>.</p>
+             <p>Date: <b>${date}</b> at <b>${time}</b></p>
+             <p>Meeting ID: <b>${meetingId}</b></p>`
+        );
+    } catch (e) {
+        console.warn("Admin notification failed", e.message);
     }
 
     res.status(201).json({
@@ -532,8 +598,7 @@ exports.bookCounsellingSession = async (req, res) => {
         time,
         endTime,
         consultantName: finalConsultantName,
-        userEmail,
-        consultantVideoEnabled
+        userEmail
       }
     });
 
@@ -622,6 +687,37 @@ exports.completeBooking = async (req, res) => {
     res.json(booking);
   } catch (err) {
     console.error('❌ completeBooking error:', err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/* =========================
+   GET ALL BOOKINGS (Admin)
+   GET /api/bookings?bookingType=counselling&status=booked
+   Fetch all bookings with optional filters for admin dashboard
+ ========================= */
+exports.getAllBookings = async (req, res) => {
+  try {
+    const { bookingType, status } = req.query;
+    const query = {};
+    
+    if (bookingType) {
+      query.bookingType = bookingType;
+    }
+    
+    if (status) {
+      // Support comma-separated statuses: ?status=booked,completed
+      const statuses = status.split(',');
+      query.status = { $in: statuses };
+    }
+
+    const bookings = await Booking.find(query)
+      .sort({ date: -1, time: -1 });
+
+    console.log(`📋 [Admin] Found ${bookings.length} bookings with filters:`, query);
+    res.json({ bookings });
+  } catch (err) {
+    console.error('❌ getAllBookings error:', err.message);
     res.status(500).json({ message: 'Server error' });
   }
 };

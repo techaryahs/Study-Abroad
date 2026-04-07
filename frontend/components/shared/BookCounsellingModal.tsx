@@ -95,9 +95,8 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
   const [calMonth, setCalMonth] = useState(today.getMonth());
   const [selectedDate, setSelectedDate] = useState<string>("");
 
-  // Counsellors
-  const [counsellors, setCounsellors] = useState<Counsellor[]>([]);
-  const [selectedCounsellor, setSelectedCounsellor] = useState<string>("auto");
+  // Admin-only: No consultant selection needed
+  const selectedCounsellor = "admin"; // Hardcoded to admin
 
   // Time slots
   const [slots, setSlots] = useState<Slot[]>([]);
@@ -122,24 +121,14 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     }
   }, []);
 
-  // Fetch counsellors once
-  useEffect(() => {
-    if (!isOpen) return;
-    fetch(`${API_BASE}/api/bookings/consultants`)
-      .then((r) => r.json())
-      .then((d) => setCounsellors(d.consultants || []))
-      .catch(() => setCounsellors([]));
-  }, [isOpen]);
-
-  // Fetch available slots when date/counsellor changes
-  const fetchSlots = useCallback(async (date: string, counsellorId: string) => {
+  // Fetch available slots when date changes (admin-only, no consultant filter)
+  const fetchSlots = useCallback(async (date: string) => {
     if (!date) return;
     setSlotsLoading(true);
     setSelectedSlot(null);
     setError("");
     try {
       const params = new URLSearchParams({ date });
-      if (counsellorId !== "auto") params.append("counsellorId", counsellorId);
       const res = await fetch(`${API_BASE}/api/bookings/available-slots?${params}`);
       const data = await res.json();
       setSlots(data.slots || []);
@@ -153,9 +142,9 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
 
   useEffect(() => {
     if (step === 2 && selectedDate) {
-      fetchSlots(selectedDate, selectedCounsellor);
+      fetchSlots(selectedDate);
     }
-  }, [step, selectedDate, selectedCounsellor, fetchSlots]);
+  }, [step, selectedDate, fetchSlots]);
 
   // Reset when closed
   useEffect(() => {
@@ -201,13 +190,13 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     setBookingLoading(true);
     setError("");
     try {
-      const body: Record<string, string> = {
+      const body = {
         date: selectedDate,
         time: selectedSlot.time,
         userEmail,
         userName,
       };
-      if (selectedCounsellor !== "auto") body.consultantId = selectedCounsellor;
+      // Admin-only: No consultantId sent
 
       const res = await fetch(`${API_BASE}/api/bookings/book-session`, {
         method: "POST",
@@ -288,7 +277,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                 </button>
               </div>
 
-              {/* Step indicator */}
+              {/* Step indicator - Simplified to 3 steps */}
               {step < 4 && (
                 <div className="flex items-center gap-2 px-6 pb-4 flex-shrink-0">
                   <StepDot step={1} current={step} label="Date" />
@@ -298,6 +287,15 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                   <StepDot step={3} current={step} label="Confirm" />
                 </div>
               )}
+              
+              {/* Admin Badge - Always visible */}
+              {step < 4 && (
+                <div className="px-6 pb-2 flex-shrink-0">
+                  <div className="inline-flex items-center gap-2 bg-[#d4af37]/10 border border-[#d4af37]/25 rounded-full px-3 py-1.5">
+                    <span className="text-[#d4af37] text-xs font-bold">👤 Counselling with Admin</span>
+                  </div>
+                </div>
+              )}
 
               {/* Divider */}
               <div className="h-px bg-white/[0.06] flex-shrink-0" />
@@ -305,7 +303,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
               {/* Body */}
               <div className="flex-1 overflow-y-auto">
                 <AnimatePresence mode="wait" custom={dir}>
-                  {/* ── STEP 1: Date & counsellor ───────────────────────────── */}
+                  {/* ── STEP 1: Date Selection Only ─────────────────────────── */}
                   {step === 1 && (
                     <motion.div
                       key="step1"
@@ -317,25 +315,6 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                       transition={{ duration: 0.25, ease: "easeInOut" }}
                       className="p-6 space-y-5"
                     >
-                      {/* Counsellor Selector */}
-                      <div>
-                        <label className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-2 block">
-                          Counsellor (optional)
-                        </label>
-                        <select
-                          value={selectedCounsellor}
-                          onChange={(e) => setSelectedCounsellor(e.target.value)}
-                          className="w-full bg-[#141414] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#d4af37]/40 transition-colors appearance-none cursor-pointer"
-                        >
-                          <option value="auto">🤖 Auto-assign best counsellor</option>
-                          {counsellors.map((c) => (
-                            <option key={c._id} value={c._id}>
-                              {c.name} — {c.expertise}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
                       {/* Calendar */}
                       <div>
                         <label className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3 block">
@@ -507,14 +486,9 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                             <div className="text-white/50 text-sm">
                               {selectedSlot?.time} – {selectedSlot?.endTime} &nbsp;·&nbsp; 60 minutes
                             </div>
-                            {selectedCounsellor !== "auto" && counsellors.find((c) => c._id === selectedCounsellor) && (
-                              <div className="text-[#d4af37] text-sm mt-1">
-                                with {counsellors.find((c) => c._id === selectedCounsellor)?.name}
-                              </div>
-                            )}
-                            {selectedCounsellor === "auto" && (
-                              <div className="text-white/40 text-xs mt-1">Counsellor auto-assigned</div>
-                            )}
+                            <div className="text-[#d4af37] text-sm mt-1">
+                              with Admin
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -593,37 +567,24 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                       </div>
 
                       {/* Join meeting CTA */}
-                      {booking.consultantVideoEnabled ? (
-                        <button
-                          id="join-meeting-btn"
-                          onClick={() => {
-                            onClose();
-                            router.push(`/meeting/${booking.sessionId}`);
-                          }}
-                          className="w-full group relative overflow-hidden bg-[#d4af37] text-black font-black text-sm py-4 rounded-2xl hover:bg-yellow-400 transition-all duration-200 active:scale-[0.98] shadow-lg shadow-[#d4af37]/20"
-                        >
-                          <span className="relative z-10 flex items-center justify-center gap-2">
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.868V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
-                            </svg>
-                            Join Meeting Room
-                          </span>
-                        </button>
-                      ) : (
-                        <div className="w-full bg-white/[0.02] border border-white/[0.05] text-white/40 font-bold text-sm py-4 rounded-2xl text-center">
-                          <span className="flex items-center justify-center gap-2">
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Video calls not available for this session
-                          </span>
-                        </div>
-                      )}
+                      <button
+                        id="join-meeting-btn"
+                        onClick={() => {
+                          onClose();
+                          router.push(`/meeting/${booking.sessionId}`);
+                        }}
+                        className="w-full group relative overflow-hidden bg-[#d4af37] text-black font-black text-sm py-4 rounded-2xl hover:bg-yellow-400 transition-all duration-200 active:scale-[0.98] shadow-lg shadow-[#d4af37]/20"
+                      >
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.868V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+                          </svg>
+                          Join Meeting Room
+                        </span>
+                      </button>
 
                       <p className="text-center text-white/25 text-xs">
-                        {booking.consultantVideoEnabled 
-                          ? "You can also join later from your dashboard at the scheduled time."
-                          : "This is a booking-only session. The consultant will contact you via email."}
+                        You can also join later from your dashboard at the scheduled time.
                       </p>
                     </motion.div>
                   )}
