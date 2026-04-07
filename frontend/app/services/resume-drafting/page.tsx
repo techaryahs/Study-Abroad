@@ -1,415 +1,181 @@
 "use client";
 import Image from "next/image";
-import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
 import AddToCart from "@/components/shared/AddToCart";
 import DiscussionSection from "@/components/shared/DiscussionSection";
+import { FaArrowLeft, FaStar } from "react-icons/fa";
 
 export default function ResumeDraftingPage() {
-<<<<<<< HEAD
-  const [showOptions, setShowOptions] = useState(false);
-=======
->>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
-
   return (
-    <div className="w-full bg-black text-white">
-      
+    <div className="w-full bg-[#0a0a0a] text-white font-sans">
+
       {/* HERO SECTION */}
-<<<<<<< HEAD
-      <section className="bg-black py-16 px-6 md:px-16">
-=======
-      <section className="bg-[#fcfcfc] py-16 px-6 md:px-16 border-b">
->>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+      <section className="relative min-h-[85vh] flex items-center px-6 md:px-20 py-20 overflow-hidden border-b border-white/10">
+
+        {/* Subtle radial glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full bg-[#c9a84c]/10 blur-[140px]" />
+          <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-[#c9a84c]/8 blur-[120px]" />
+        </div>
+
+        <div className="relative max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-16 items-center">
+
           {/* LEFT CONTENT */}
-          <div>
-<<<<<<< HEAD
-            <h1 className="text-4xl md:text-5xl font-bold text-white">
-              RESUME DRAFTING
-            </h1>
+          <div className="space-y-8">
+            {/* Premium badge */}
+            <div className="inline-flex items-center gap-2 border border-[#c9a84c]/50 rounded-full px-4 py-1.5 bg-[#c9a84c]/10">
+              <span className="w-2 h-2 rounded-full bg-[#c9a84c] animate-pulse" />
+              <span className="text-[#c9a84c] text-xs font-semibold uppercase tracking-[0.2em]">
+                Premium Service
+              </span>
+            </div>
 
-            <p className="text-lg mb-6 text-gray-300">
+            {/* Back link */}
+            <a
+              href="/services"
+              className="flex items-center gap-2 text-white/40 hover:text-white/70 transition-colors text-sm tracking-widest uppercase w-fit"
+            >
+              <FaArrowLeft size={10} />
+              Back to Services
+            </a>
+
+            {/* Heading */}
+            <div>
+              <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tight text-white uppercase">
+                Resume
+              </h1>
+              <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tight text-[#c9a84c] uppercase">
+                Drafting
+              </h1>
+            </div>
+
+            <p className="text-white/60 text-lg leading-relaxed italic max-w-lg">
               Learn the secret to a perfect resume that will truly set you apart
-              from any other applicant that you compete with.
+              from any other applicant. Our expert drafts are optimized for
+              international standards.
             </p>
 
-            {/* FEATURES */}
-            <div className="flex gap-10 mb-6">
-              <div className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center">
-                  📞
-                </div>
-                <span className="text-sm mt-2 text-gray-400">Audio call</span>
-              </div>
-
-              <div className="flex flex-col items-center">
-                <div className="bg-green-600 text-white p-3 rounded-full flex items-center justify-center">
-                  <FaWhatsapp size={20} />
-                </div>
-                <span className="text-sm mt-2 text-gray-400">Text Support</span>
-              </div>
+            {/* Rating row */}
+            <div className="flex items-center gap-2 text-sm text-white/50">
+              <FaStar className="text-[#c9a84c]" size={14} />
+              <span className="text-white font-semibold">4.9/5</span>
+              <span>Rating · Trusted by 2,400+ students</span>
             </div>
 
-
-
-
-            {/* CTA */}
-            <div className="flex items-center gap-6">
-              <button
-                onClick={() => setShowOptions(!showOptions)}
-                className="border border-yellow-500 px-6 py-3 rounded-lg text-white hover:bg-yellow-500 hover:text-black transition"
-              >
-                Discuss Your Case
-              </button>
-
-              <p className="text-sm text-gray-400">
-                Have questions about this service? Let's chat.
+            {/* Includes core nodes label */}
+            <div className="pt-2">
+              <p className="text-white/30 text-xs tracking-[0.25em] uppercase mb-3">
+                Includes Core Nodes:
               </p>
-
-              {showOptions && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-
-                  <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-xl w-[90%] max-w-md p-6 relative shadow-lg text-white">
-
-                    <button
-                      onClick={() => setShowOptions(false)}
-                      className="absolute top-3 right-4 text-gray-300 text-xl"
-                    >
-                      ×
-                    </button>
-
-                    <h2 className="text-lg font-semibold text-center mb-6">
-                      Choose a Preferred Communication Method
-                    </h2>
-
-                    <div className="space-y-4">
-
-                      <div
-                        onClick={() => window.open("https://wa.me/918987654321", "_blank")}
-                        className="border border-white/20 rounded-lg p-4 hover:bg-white/10 cursor-pointer"
-                      >
-                        <p className="font-medium text-green-400">WhatsApp</p>
-                        <p className="text-sm text-gray-400">Chat on WhatsApp</p>
-                      </div>
-
-                      <div
-                        onClick={() => window.open("https://t.me/", "_blank")}
-                        className="border border-white/20 rounded-lg p-4 hover:bg-white/10 cursor-pointer"
-                      >
-                        <p className="font-medium text-white">Telegram</p>
-                        <p className="text-sm text-gray-400">Continue on Telegram</p>
-                      </div>
-
-                      <div
-                        onClick={() =>
-                          window.open(
-                            "https://mail.google.com/mail/?view=cm&fs=1&to=admissions@dralam.com",
-                            "_blank"
-                          )
-                        }
-                        className="border border-white/20 rounded-lg p-4 hover:bg-white/10 cursor-pointer"
-                      >
-                        <p className="font-medium text-white">Email</p>
-                        <p className="text-sm text-gray-400">Continue on Email</p>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
-              )}
+              <div className="flex flex-wrap gap-2">
+                {["Strategy Call", "Draft + Revisions", "ATS Optimization", "Final Review"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 border border-white/15 rounded-full text-white/60 text-xs tracking-wide"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-=======
-            <h1 className="text-4xl md:text-5xl font-black text-black mb-6 uppercase tracking-tight">
-              Resume Drafting
-            </h1>
-
-            <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-              Learn the secret to a perfect resume that will truly set you apart from any other applicant that you compete with. Our expert drafts are optimized for international standards.
-            </p>
 
             <DiscussionSection serviceId="resume-drafting" />
->>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
           </div>
 
-          {/* RIGHT VIDEO */}
-          <div className="flex justify-center">
-<<<<<<< HEAD
-              <Image
-               src="/resumee.jpg"   
-               alt="LOR Preview"
-               width={500}
-               height={500}
-               className="rounded-xl w-full max-w-md shadow border border-white/10"
-             />
-=======
-            <div className="relative group">
-              <div className="absolute -inset-4 bg-yellow-500/10 rounded-[3rem] blur-2xl group-hover:bg-yellow-500/20 transition duration-500"></div>
-              <video
-                className="rounded-[2rem] w-full max-w-md shadow-2xl relative border-8 border-white"
-                controls
-                autoPlay
-                loop
-                muted
-              >
-                <source src="/ResumeDrafting.mp4" type="video/mp4" />
-              </video>
+          {/* RIGHT — VIDEO */}
+          <div className="flex justify-center items-center">
+            <div className="relative w-full max-w-md">
+              {/* Glowing border frame */}
+              <div className="absolute -inset-1 rounded-[2.5rem] bg-gradient-to-br from-[#c9a84c]/40 to-transparent blur-sm" />
+              <div className="relative rounded-[2.5rem] overflow-hidden border border-[#c9a84c]/30 shadow-2xl bg-[#111]">
+                   <Image
+                 src="/resumee.jpg"
+                 alt="resume History"
+                 width={800}
+                 height={500}
+               />
+               
+              </div>
+
+              {/* Rating badge overlay */}
+              <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-black/80 border border-[#c9a84c]/50 rounded-full px-3 py-1.5 backdrop-blur-sm">
+                <FaStar className="text-[#c9a84c]" size={12} />
+                <span className="text-white text-xs font-bold">4.9/5 Rating</span>
+              </div>
             </div>
->>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
           </div>
         </div>
       </section>
 
       {/* ABOUT + SIDEBAR */}
-      <section className="max-w-7xl mx-auto px-6 md:px-16 py-20">
+      <section className="max-w-7xl mx-auto px-6 md:px-20 py-24">
         <div className="grid md:grid-cols-3 gap-16">
-          {/* LEFT CONTENT */}
-<<<<<<< HEAD
-          <div className="md:col-span-2">
-            <h2 className="text-2xl font-semibold mb-4 border-b border-white/20 pb-2 text-white">
-              About Service
-            </h2>
 
-            <div className="space-y-5 text-gray-300 leading-relaxed mt-6">
-              <p>
-                It is extremely critical to have an eye-catching one-page resume
-                unless you have an industry experience of over 5 years. When an
-                employer looks at my resume, he is usually amazed by the
-                conciseness, organization, and pertinence of the content.
-              </p>
+          {/* LEFT — CONTENT */}
+          <div className="md:col-span-2 space-y-16">
 
-              <p className="space-y-5 text-gray-300 leading-relaxed mt-6">
-                While the Statement of Purpose covers the most career-shaping
-                experiences, the resume provides insights into your professional
-                experience as a subject-matter expert.
-              </p>
-
-              <p className="space-y-5 text-gray-300 leading-relaxed mt-6">
-                A well-crafted draft can boost your chances of bagging admits and
-                scholarships by over 18%.
-              </p>
-
-              <p>
-                An average employer looks at a resume for less than 10 seconds.
-                With a stellar resume, an employer is bound to give your
-                application more attention than your competitors.
-              </p>
-            </div>
-
-            {/* SAMPLE OUTPUT */}
-         <div className="mt-10">
-  <h3 className="font-semibold mb-4 text-white">
-    Sample Output:
-  </h3>
-
-              <div className="border border-white/10 rounded-xl overflow-hidden shadow-lg bg-white/5 backdrop-blur-sm">
-
-                <Image
-      src="/sample-resume.avif"
-      alt="Sample resume"
-      width={800}
-      height={600}
-      className="w-full hover:scale-105 transition duration-500"
-    />
-=======
-          <div className="md:col-span-2 space-y-12">
+            {/* Service Overview */}
             <div>
-              <h2 className="text-3xl font-black text-black mb-6 relative inline-block">
-                Service Overview
-                <span className="absolute -bottom-2 left-0 w-full h-1.5 bg-yellow-400 rounded-full"></span>
-              </h2>
-              
-              <div className="space-y-6 text-gray-600 leading-relaxed text-lg font-medium">
+              <div className="mb-8">
+                <h2 className="text-3xl font-black text-white uppercase tracking-tight inline-block relative">
+                  Service Overview
+                  <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-[#c9a84c]" />
+                </h2>
+              </div>
+
+              <div className="space-y-6 text-white/60 leading-relaxed text-lg">
                 <p>
-                  It is extremely critical to have an eye-catching one-page resume unless you have an industry experience of over 5 years. When an employer looks at my resume, he is usually amazed by the conciseness, organization, and pertinence of the content.
+                  It is extremely critical to have an eye-catching one-page resume unless you have an industry
+                  experience of over 5 years. When an employer looks at a stellar resume, they are usually
+                  amazed by its conciseness, organization, and pertinence of content.
+                </p>
+                <p>
+                  While the Statement of Purpose covers the most career-shaping experiences, the resume
+                  provides insights into your professional experience as a subject-matter expert.
                 </p>
 
-                <p>
-                  While the Statement of Purpose covers the most career-shaping experiences, the resume provides insights into your professional experience as a subject-matter expert.
-                </p>
-
-                <div className="bg-black text-white p-8 rounded-3xl shadow-2xl border-l-8 border-yellow-500">
-                   <p className="text-xl font-bold italic leading-snug">
+                {/* Pull quote */}
+                <div className="border-l-4 border-[#c9a84c] bg-white/[0.03] rounded-r-2xl px-8 py-6 my-8">
+                  <p className="text-xl font-bold italic text-white leading-snug">
                     "A well-crafted draft can boost your chances of bagging admits and scholarships by over 18%."
                   </p>
                 </div>
 
                 <p>
-                  An average employer looks at a resume for less than 10 seconds. With a stellar resume, an employer is bound to give your application more attention than your competitors.
+                  An average employer looks at a resume for less than 10 seconds. With a stellar resume,
+                  an employer is bound to give your application more attention than your competitors.
                 </p>
               </div>
             </div>
 
-            {/* SAMPLE OUTPUT */}
-            <div className="pt-8">
-              <h3 className="text-xl font-black text-black mb-6 uppercase tracking-widest flex items-center gap-3">
-                <span className="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-sm">✓</span>
-                Sample Output
-              </h3>
+            {/* Sample Output */}
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-7 h-7 rounded-full bg-[#c9a84c] flex items-center justify-center text-black font-black text-xs">
+                  ✓
+                </div>
+                <h3 className="text-sm font-black text-white uppercase tracking-[0.2em]">
+                  Sample Output
+                </h3>
+              </div>
 
-              <div className="border-4 border-gray-50 rounded-[2rem] overflow-hidden shadow-2xl group cursor-zoom-in">
+              <div className="rounded-3xl overflow-hidden border border-white/10 group cursor-zoom-in relative">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition duration-500 z-10" />
                 <Image
                   src="/sample-resume.avif"
                   alt="Sample resume"
                   width={800}
                   height={1000}
-                  className="w-full transition duration-500 group-hover:scale-105"
+                  className="w-full transition duration-700 group-hover:scale-[1.02]"
                 />
->>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
               </div>
             </div>
           </div>
 
-          {/* RIGHT SIDEBAR */}
-<<<<<<< HEAD
-          <div className="space-y-6">
-            {/* CARD */}
-             <div className="bg-black/40 backdrop-blur-xl border border-white/20 rounded-xl p-6">
-          <h3 className="text-lg font-semibold mb-4 text-white text-center">
-              Start Now
-            </h3>
-              
-             <div className="space-y-3 text-sm text-gray-300">
-              <div className="flex justify-between">
-                <span className="font-semibold text-gray-400">Services:</span>
-                <span className="text-white">Resume Help</span>
-              </div>
-
-                <div className="flex justify-between">
-                  <span className="font-semibold text-gray-400">Duration:</span>
-                  <span className="text-white">1-1.5 weeks</span>
-                </div>
-<div className="flex justify-between items-center">
-  <span className="font-semibold text-gray-400">Currency:</span>
-
-  <select
-    className="text-gray"
-    defaultValue="INR"
-  >
-    <option value="INR">India (₹ INR)</option>
-  <option value="USD">United States ($ USD)</option>
-  <option value="GBP">United Kingdom (£ GBP)</option>
-  <option value="EUR">Germany (€ EUR)</option>
-  <option value="EUR">France (€ EUR)</option>
-  <option value="CAD">Canada ($ CAD)</option>
-  <option value="AUD">Australia ($ AUD)</option>
-  <option value="SGD">Singapore ($ SGD)</option>
-  <option value="AED">UAE (د.إ AED)</option>
-  <option value="JPY">Japan (¥ JPY)</option>
-  <option value="CNY">China (¥ CNY)</option>
-  <option value="NZD">New Zealand ($ NZD)</option>
-  <option value="ZAR">South Africa (R ZAR)</option>
-  <option value="CHF">Switzerland (CHF)</option>
-  <option value="SEK">Sweden (kr SEK)</option>
-  <option value="NOK">Norway (kr NOK)</option>
-  <option value="DKK">Denmark (kr DKK)</option>
-  </select>
-</div>
-              
-{/* LIGHTNING SPEED */}
-<div className="flex items-start gap-2 mt-2">
-  <input
-    type="checkbox"
-    id="lightning"
-    className="mt-1 accent-yellow-500"
-  />
-
-  <label htmlFor="lightning" className="text-sm text-gray-300">
-    <span className="font-semibold text-white">Lightning Speed:</span>
-    <br />
-    Skip the queue - Delivered within 3-5 days for a 25% surcharge
-  </label>
-</div>
-
-
-
-
- <div className="flex justify-between">
-  <span className="font-semibold text-gray-300">Actual Amount:</span>
-  <span className="text-gray-500 line-through">
-    INR 20,321.00
-  </span>
-</div>
-  {/* AMOUNT */}
-  
- <div className="flex justify-between">
-  <span className="font-semibold text-gray-300">Amount:</span>
-  <span className="text-lg font-bold text-yellow-400">
-    INR 16,256.25
-  </span>
-</div>
-{/* Savings */}
-<div className="flex justify-between">
-  <span className="font-semibold text-gray-300">You save:</span>
-  <span className="text-green-400">
-    INR 4,064.42
-  </span>
-</div>
-
-   
-  
-{/* Discount */}
-<div className="text-green-400 text-right">
-  20% off
-</div>
-  </div>
-  </div>
-
-          {/* Buttons */}
-          <div className="mt-6 flex gap-3">
-            <button
-  onClick={() => {
-    const item = {
-      name: "Personal History Statement",
-      price: 20607.25,
-    };
-
-    localStorage.setItem("cartItem", JSON.stringify(item));
-    alert("Added to cart ✅");
-  }}
-  className="flex-1 border border-yellow-500 py-2 rounded-lg hover:bg-yellow-100"
->
-  Add to Cart
-</button>
-
-<button
-  onClick={() => {
-    window.location.href = "/checkout";
-  }}
-  className="flex-1 bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600"
->
-  Buy Now
-</button>
-            </div>
-
-            {/* CHAT BOX */}
-            <div className="border rounded-xl p-4 flex items-center gap-4">
-              <Image
-                src="/man_holding_phone.png"
-                alt="chat"
-                width={60}
-                height={60}
-                className="rounded-full"
-              />
-
-              <div>
-                <p className="font-medium">Discuss Your Case</p>
-                <p className="text-sm text-gray-500">
-                  Chat with a team member to see how we can help.
-                </p>
-                 <button
-  onClick={() => {
-    window.open("https://wa.me/+918987654321", "_blank");
-  }}
-  className="mt-3 text-yellow-600 font-medium hover:underline">
-  Message now →
-</button>
-              </div>
-=======
-          <div className="space-y-8">
-            <div className="w-full sticky top-8">
+          {/* RIGHT — STICKY SIDEBAR */}
+          <div>
+            <div className="sticky top-8">
               <AddToCart serviceId="resume-drafting" />
-      
->>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
             </div>
           </div>
         </div>

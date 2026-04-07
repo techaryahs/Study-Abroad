@@ -64,7 +64,6 @@ export default function MeetingPage() {
   const [setupDone, setSetupDone] = useState(false);
   const [autoEndCountdown, setAutoEndCountdown] = useState<number | null>(null); // seconds remaining
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const videoAccessChecked = useRef(false);
 
   // ── Fetch session ─────────────────────────────────────────────────────
   useEffect(() => {
@@ -94,25 +93,10 @@ export default function MeetingPage() {
 
     setMyName(user.name || user.email || "You");
 
-    // Role-based host identification: consultant role + email matches booking
-    const byRole = user.role === "consultant";
-    const byEmail =
-      session.consultantEmail &&
-      user.email?.toLowerCase() === session.consultantEmail.toLowerCase();
-    setIsHost(byRole || !!byEmail);
-
-    // Check if consultant has video access enabled (only once)
-    if (!videoAccessChecked.current && (session as any).consultantVideoEnabled === false) {
-      videoAccessChecked.current = true;
-      setSessionError("Video calls are not available for this consultant. This is a booking-only session.");
-      setTimeout(() => {
-        if (user.role === "consultant") {
-          router.push("/consultant-dashboard");
-        } else {
-          router.push("/");
-        }
-      }, 3000);
-    }
+    // Admin-only host identification: Admin role or consultantName === "Admin"
+    const isAdminRole = user.role === "admin";
+    const isAdminSession = session.consultantName === "Admin";
+    setIsHost(isAdminRole && isAdminSession);
   }, [session]);
 
   // ── Acquire camera/mic ────────────────────────────────────────────────
@@ -295,39 +279,6 @@ export default function MeetingPage() {
             className="px-6 py-3 bg-[#d4af37] text-black font-bold rounded-xl hover:bg-yellow-400 transition-all text-sm uppercase tracking-wider"
           >
             Back to Services
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  // ─── Check video access before allowing entry ─────────────────────────────
-  if (session && (session as any).consultantVideoEnabled === false && !loading) {
-    return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
-        <div className="max-w-md text-center space-y-5">
-          <div className="w-16 h-16 mx-auto rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-3xl">
-            📵
-          </div>
-          <h1 className="text-2xl font-black text-white uppercase tracking-tight">
-            Video Calls Not Available
-          </h1>
-          <p className="text-white/35 text-sm leading-relaxed">
-            This consultant does not have video call access enabled. This is a booking-only session. 
-            The consultant will contact you via email.
-          </p>
-          <button
-            onClick={() => {
-              const user = getUser();
-              if (user?.role === "consultant") {
-                router.push("/consultant-dashboard");
-              } else {
-                router.push("/services");
-              }
-            }}
-            className="px-6 py-3 bg-[#d4af37] text-black font-bold rounded-xl hover:bg-yellow-400 transition-all text-sm uppercase tracking-wider"
-          >
-            Go Back
           </button>
         </div>
       </div>
