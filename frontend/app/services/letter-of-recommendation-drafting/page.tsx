@@ -7,49 +7,49 @@ import { useState } from "react";
 export default function ResumeDraftingPage() {
     const [showOptions, setShowOptions] = useState(false);
   return (
-    <div className="w-full bg-white text-gray-800">
+     <div className="w-full bg-black text-white">
       {/* HERO SECTION */}
-      <section className="bg-[#f7f4ef] py-16 px-6 md:px-16">
+      <section className="bg-black py-16 px-6 md:px-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           
           {/* LEFT */}
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-black">
+            <h1 className="text-4xl md:text-5xl font-bold text-white">
               LETTER OF RECOMMENDATION DRAFTING
             </h1>
 
-            <p className="text-lg mb-6">
+            <p className="text-lg mb-6 text-gray-300">
              Little known is the art of writing exactly what the admissions committee wants to see in an applicant. This can be more impacting than your SOP if done right.
             </p>
 
             {/* FEATURES */}
             <div className="flex gap-10 mb-6">
               <div className="flex flex-col items-center">
-                <div className="w-12 h-12 rounded-full bg-gray-800 text-white flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center">
                   📞
                 </div>
-                <span className="text-sm mt-2">Audio call</span>
+                <span className="text-sm mt-2 text-gray-400">Audio call</span>
               </div>
 
                <div className="flex flex-col items-center">
                     <div className="bg-green-600 text-white p-3 rounded-full flex items-center justify-center">
                   <FaWhatsapp size={20} />
                 </div>
-                <span className="text-sm mt-2">Text Support</span>
+                <span className="text-sm mt-2 text-gray-400">Text Support</span>
               </div>
             </div>
 
             {/* CTA */}
             <div className="flex items-center gap-6">
-            <button
-  onClick={() => setShowOptions(true)}
-  className="border border-yellow-500 px-6 py-3 rounded-lg hover:bg-yellow-500 hover:text-white transition"
->
-  Discuss Your Case
-</button>
+           <button
+                onClick={() => setShowOptions(true)}
+                className="border border-yellow-500 px-6 py-3 rounded-lg text-white hover:bg-yellow-500 hover:text-black transition"
+              >
+                Discuss Your Case
+              </button>
   
 
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400">
                 Have questions about this service? Let's chat.
               </p>
 
@@ -99,7 +99,7 @@ export default function ResumeDraftingPage() {
     <div
   onClick={() =>
     window.open(
-      "https://mail.google.com/mail/?view=cm&fs=1&to=harshalisanap0902@gmail.com",
+      "https://mail.google.com/mail/?view=cm&fs=1&to=admissions@dralam.com",
       "_blank"
     )
   }
@@ -124,29 +124,28 @@ export default function ResumeDraftingPage() {
 
           {/* RIGHT IMAGE */}
           <div className="flex justify-center">
-            <video
-    src="/LOR.mp4"
-    autoPlay
-    muted
-    loop
-    controls
-    className="rounded-xl w-full max-w-md shadow"
+            <Image
+    src="/lor img.jpg"   
+    alt="LOR Preview"
+    width={500}
+    height={500}
+    className="rounded-xl w-full max-w-md shadow border border-white/10"
   />
           </div>
         </div>
       </section>
 
       {/* ABOUT + SIDEBAR */}
-      <section className="py-16 px-6 md:px-16">
+     <section className="py-16 px-6 md:px-16">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
           
           {/* LEFT CONTENT */}
-          <div className="md:col-span-2">
-            <h2 className="text-2xl font-semibold mb-4 border-b-2 border-yellow-500 inline-block text-black">
-  About Service
-</h2>
+        <div className="md:col-span-2">
+            <h2 className="text-2xl font-semibold mb-4 border-b border-white/20 pb-2">
+              About Service
+            </h2>
 
-            <div className="space-y-5 text-gray-600 leading-relaxed mt-6">
+            <div className="space-y-5 text-gray-300 leading-relaxed mt-6">
               <p>
                Letters of Recommendation (LORs) are the documents that undeniably hold the most importance in your application. However, it is not that simple. These can either be the least influential documents or the only documents you need to secure that admit. If done right, they are the most important tool in your arsenal. Yes, even more critical than your SOP. Now, the reason that these are undermined is that most LORs I see are crafted to fall in the former category: the least influential documents in your application, which means you have wasted the only chance you had at winning the committee's support.
 
@@ -159,39 +158,41 @@ This service will also include recommendations on who you should take your lette
 
              
 
-              <p className="font-semibold text-gray-800">
+              <p className="font-semibold text-white">
                 Looking to really stand out? We have the secrets to creating STRONG LORs that cater to the international recommender standards. Book your drafts now!
               </p>
 
              
             </div>
 
-            {/* SAMPLE OUTPUT */}
+           
            
           </div>
 
           {/* RIGHT SIDEBAR */}
           <div className="space-y-6">
             {/* CARD */}
-            <div className="border rounded-xl p-6 shadow-sm">
-           <h3 className="text-lg font-semibold mb-4 text-black text-center">
-          Start Now
+                     <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+
+            <h3 className="text-lg font-semibold mb-4 text-white text-center">
+              Start Now
             </h3>
+
               
-              <div className="space-y-3 text-sm">
+              <div className="space-y-3 text-sm text-gray-300">
                 <div className="flex justify-between">
                   
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="font-semibold text-black">Duration:</span>
-                  <span>1-1.5 weeks</span>
+                  <span className="text-gray-400">Duration:</span>
+                  <span className="text-white">1-1.5 weeks</span>
                 </div>
 <div className="flex justify-between items-center">
-  <span className="font-semibold text-black">Currency:</span>
+  <span className="text-gray-400">Currency:</span>
 
   <select
-    className="border rounded px-2 py-1 text-sm"
+    className="bg-black border border-white/20 rounded px-2 py-1 text-sm text-white"
     defaultValue="INR"
   >
     <option value="INR">India (₹ INR)</option>
@@ -222,7 +223,7 @@ This service will also include recommendations on who you should take your lette
   </label>
 
   {/* Dropdown */}
-  <select className="w-56 border border-black-300 rounded-md px-3 py-2 text-sm text-gray-600 ">
+  <select className="bg-black border border-white/20 rounded px-2 py-1 text-sm text-white">
     <option value="">Number of LORs</option>
     <option value="1">1 LOR</option>
     <option value="2">2 LORs</option>
@@ -233,25 +234,22 @@ This service will also include recommendations on who you should take your lette
 
 </div>          
 {/* LIGHTNING SPEED */}
-<div className="flex items-start gap-2 mt-2">
-  <input
-    type="checkbox"
-    id="lightning"
-    className="mt-1"
-  />
-
-  <label htmlFor="lightning" className="text-sm">
-    <span className="font-semibold text-black">Lightning Speed:</span>
-    <br />
-    Skip the queue - Delivered within 3-5 days for a 25% surcharge
-  </label>
-</div>
+  <div className="flex items-start gap-2 mt-4">
+              <input type="checkbox" className="accent-yellow-500 mt-1" />
+              <label className="text-sm text-gray-300">
+                <span className="font-semibold text-white">Lightning Speed:</span><br/>
+                Delivered within 3-5 days for 25% surcharge
+              </label>
+            </div>
 
 
 {/* AMOUNT */}
-<div className="mt-4">
-  <p className="font-semibold text-black">Amount:</p>
-</div>
+ <div className="mt-6 border-t border-white/10 pt-4 space-y-2">
+              <div className="flex justify-between">
+                <span className="text-gray-400">Amount:</span>
+                
+              </div>
+            </div>
 
 <div>
      {/* Buttons */}
@@ -259,7 +257,7 @@ This service will also include recommendations on who you should take your lette
             <button
   onClick={() => {
     const item = {
-      name: "Personal History Statement",
+      name: "Lor Statement",
       price: 20607.25,
     };
 

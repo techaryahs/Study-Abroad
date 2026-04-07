@@ -127,7 +127,7 @@ export default function UsMockInterviewPage() {
     <div
   onClick={() =>
     window.open(
-      "https://mail.google.com/mail/?view=cm&fs=1&to=harshalisanap0902@gmail.com",
+      "https://mail.google.com/mail/?view=cm&fs=1&to=admissions@dralam.com",
       "_blank"
     )
   }
