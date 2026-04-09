@@ -43,35 +43,35 @@ export default function ConfirmationModal({
 
             {/* Modal Body */}
             <div 
-                className="relative w-full max-w-[320px] bg-[#FFFFFF] border border-[#D4A848]/20 rounded-[2rem] p-6 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 ease-out"
+                className="relative w-full max-w-[400px] bg-[#FFFFFF] border border-[#D4A848]/20 rounded-[2.5rem] p-8 sm:p-10 shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 ease-out"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Background Glow */}
-                <div className="absolute top-0 right-0 w-24 h-24 bg-[#D4A848]/5 rounded-full blur-[40px] -mr-12 -mt-12 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4A848]/5 rounded-full blur-[60px] -mr-16 -mt-16 pointer-events-none" />
                 
                 <div className="relative z-10 flex flex-col items-center text-center">
-                    {/* Warning Icon - Smaller */}
-                    <div className="w-12 h-12 rounded-xl bg-[#F8F6F1] border border-[#D4A848]/20 flex items-center justify-center mb-4">
-                        <AlertTriangle className="text-[#D4A848] w-6 h-6" />
+                    {/* Warning Icon */}
+                    <div className="w-16 h-16 rounded-2xl bg-[#F8F6F1] border border-[#D4A848]/20 flex items-center justify-center mb-6 shadow-inner">
+                        <AlertTriangle className="text-[#D4A848] w-8 h-8" />
                     </div>
 
-                    <h2 className="text-xl font-black tracking-tight text-[#362B25] mb-2">{title}</h2>
-                    <p className="text-[#675F5B] text-[10px] font-bold uppercase tracking-widest leading-relaxed mb-8 max-w-[240px]">
+                    <h2 className="text-2xl font-black tracking-tight text-[#362B25] mb-3 uppercase italic font-serif">Confirm Action</h2>
+                    <p className="text-[#675F5B] text-xs font-bold uppercase tracking-widest leading-relaxed mb-10 max-w-[280px] opacity-70">
                         {message}
                     </p>
 
-                    <div className="w-full space-y-2">
+                    <div className="w-full space-y-3">
                         <button
                             onClick={onConfirm}
                             disabled={loading}
-                            className="w-full bg-[#D4A848] hover:bg-[#c6a96b] text-white py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2"
+                            className="w-full bg-[#D4A848] hover:bg-[#362B25] text-white py-4 rounded-xl text-xs font-black uppercase tracking-[0.2em] transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shadow-xl shadow-[#D4A848]/10"
                         >
-                            {loading ? <Loader2 size={12} className="animate-spin text-white" /> : confirmText}
+                            {loading ? <Loader2 size={16} className="animate-spin" /> : confirmText}
                         </button>
                         
                         <button
                             onClick={onClose}
-                            className="w-full py-2 text-[#675F5B] hover:text-[#362B25] text-[9px] font-black uppercase tracking-[0.2em] transition-colors"
+                            className="w-full py-3 text-[#675F5B] hover:text-[#D4A848] text-[10px] font-black uppercase tracking-[0.3em] transition-colors"
                         >
                             {cancelText}
                         </button>

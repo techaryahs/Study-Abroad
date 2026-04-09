@@ -64,22 +64,24 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
   };
 
   return (
-    <div className="space-y-10 pt-4">
+    <div className="space-y-6 md:space-y-10 pt-4">
       {/* Core Nodes Header */}
-      <div className="space-y-4">
-        <p className="text-[10px] font-black uppercase tracking-[0.4em] text-[#D4A848] italic">
+      <div className="space-y-3 md:space-y-4">
+        <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#D4A848] italic">
           Includes Core Nodes:
         </p>
-        <div className="flex flex-wrap gap-10">
+        <div className="flex flex-wrap gap-6 md:gap-10">
           {CoreNodes.map((item, i) => (
-            <div key={i} className="flex flex-col items-center gap-3 group">
+            <div key={i} className="flex flex-col items-center gap-2 md:gap-3 group">
               <div
-                className="w-12 h-12 rounded-full bg-[#D4A848]/5 border border-[#D4A848]/20 flex items-center justify-center group-hover:border-[#D4A848]/50 transition-all shadow-sm"
+                className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#D4A848]/5 border border-[#D4A848]/20 flex items-center justify-center group-hover:border-[#D4A848]/50 transition-all shadow-sm"
                 style={{ color: item.color }}
               >
-                {item.icon}
+                <div className="scale-90 md:scale-100">
+                  {item.icon}
+                </div>
               </div>
-              <p className="text-[9px] font-black uppercase tracking-widest text-[#D4A848]/40 group-hover:text-[#D4A848] transition-colors uppercase">
+              <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-[#D4A848]/40 group-hover:text-[#D4A848] transition-colors">
                 {item.label}
               </p>
             </div>
@@ -88,10 +90,10 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
       </div>
 
       {/* Primary Actions */}
-      <div className="flex flex-col sm:flex-row gap-6 pt-2 items-center">
+      <div className="flex flex-col sm:flex-row gap-4 md:gap-6 pt-1 md:pt-2 items-center">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-[#D4A848] text-[#40332D] shadow-xl hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(212,168,72,0.4)] transition-all px-10 py-4 text-[11px] font-black tracking-[0.2em] w-full sm:w-auto text-center !rounded-[1.5rem] uppercase"
+          className="bg-[#D4A848] text-[#40332D] shadow-xl hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(212,168,72,0.4)] transition-all px-6 py-3 md:px-10 md:py-4 text-[10px] md:text-[11px] font-black tracking-[0.15em] md:tracking-[0.2em] w-full sm:w-auto text-center !rounded-xl md:!rounded-[1.5rem] uppercase"
         >
           Discuss Your Case
         </button>

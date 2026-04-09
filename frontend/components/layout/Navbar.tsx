@@ -507,8 +507,8 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
               <div className="flex flex-col">
-                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.2em] leading-none">Global Counselling Centre</span>
-                <span className="text-[#B3985E] text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] mt-1 opacity-60">GLOBAL ADMISSIONS</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counsellor Centre</span>
+                <span className="text-[#B3985E] text-[7px] sm:text-[8px] font-black uppercase tracking-[0.4em] mt-2 opacity-70">GLOBAL ADMISSIONS</span>
               </div>
             </Link>
           </div>
@@ -634,10 +634,10 @@ export default function Navbar() {
                       className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#B3985E] to-[#8E7B5B] p-[1.5px] transition-transform group-hover/profile:scale-110 shadow-xl"
                     >
                       <div className="w-full h-full rounded-[11px] bg-[#2D1F1D] overflow-hidden flex items-center justify-center">
-                        <img 
-                          src={getProfileImage(user)} 
-                          className="w-full h-full object-cover rounded-[11px]" 
-                          alt="Profile" 
+                        <img
+                          src={getProfileImage(user)}
+                          className="w-full h-full object-cover rounded-[11px]"
+                          alt="Profile"
                         />
                       </div>
                     </button>
@@ -784,7 +784,7 @@ export default function Navbar() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
             <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counselling Centre</span>
+              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counsellor Centre</span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}
@@ -845,7 +845,7 @@ export default function Navbar() {
               </button>
 
               <Link
-                href="/checkout"
+                href="/User/cart"
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 active:scale-95 transition-all relative"
               >

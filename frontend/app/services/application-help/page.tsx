@@ -56,33 +56,45 @@ export default function ApplicationHelpPage() {
     <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] selection:bg-[#D4A848]/30">
 
       {/* ── HERO SECTION ───────────────────────────────────────────────────── */}
-      <section className="relative px-6 py-24 md:px-20 border-b border-[#D4A848]/10 overflow-hidden">
+      <section className="relative px-6 py-12 md:py-24 md:px-20 border-b border-[#D4A848]/10 overflow-hidden">
         {/* Subtle Luxury Ambient Glow */}
         <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-[#D4A848]/10 rounded-full blur-[140px] -z-10" />
 
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-8">
-            <div className="inline-block border border-[#D4A848]/30 px-4 py-1 rounded-full bg-[#FFFFFF]">
-              <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#D4A848]">Global Admissions • Premium Mentorship</span>
+        <div className="max-w-screen-2xl mx-auto flex flex-col lg:flex-row items-center gap-8 md:gap-16">
+          <div className="flex-1 space-y-6 md:space-y-8">
+            <div className="flex flex-row lg:flex-col items-center lg:items-start gap-4">
+              {/* Mobile Hero Visual */}
+              <div className="lg:hidden w-16 h-16 rounded-2xl overflow-hidden border border-[#D4A848]/20 bg-[#FFFFFF] shadow-lg shrink-0">
+                <video
+                  src="/application1.mp4"
+                  autoPlay muted loop playsInline
+                  className="w-full h-full object-cover opacity-90"
+                />
+              </div>
+
+              <div className="space-y-1 md:space-y-3">
+                <div className="inline-block border border-[#D4A848]/30 px-3 md:px-4 py-0.5 md:py-1 rounded-full bg-[#FFFFFF]">
+                  <span className="text-[8px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-[#D4A848]">Admissions • Premium Mentorship</span>
+                </div>
+                <h1 className="text-2xl sm:text-3xl md:text-7xl font-bold tracking-tighter leading-[1.1] break-words">
+                  <span className="text-[#362B25] block">COMPLETE</span>
+                  <span className="text-[#D4A848] italic font-serif">APPLICATION HELP</span>
+                </h1>
+              </div>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1]">
-              <span className="text-[#362B25] block">COMPLETE</span>
-              <span className="text-[#D4A848] italic font-serif">APPLICATION  HELP</span>
-            </h1>
-
-            <p className="text-xl text-[#675F5B] italic leading-relaxed max-w-xl font-light">
+            <p className="text-base md:text-xl text-[#675F5B] italic leading-relaxed max-w-xl font-light">
               The only service in the market with an admissions and visa guarantee.
-              Top universities. <span className="text-[#362B25] font-black">No BS.</span>
+              Top universities. <span className="text-[#362B25] font-black underline decoration-[#D4A848]/30">No BS.</span>
             </p>
 
             <DiscussionSection serviceId="application-help" />
           </div>
 
-          {/* Hero Video Section */}
-          <div className="hidden lg:block relative group">
+          {/* Hero Video Section (Desktop) */}
+          <div className="hidden lg:block relative group flex-1">
             <div className="absolute -inset-4 bg-[#D4A848]/10 rounded-full blur-3xl group-hover:bg-[#D4A848]/20 transition-all" />
-            <div className="relative w-full aspect-[4/3] overflow-hidden rounded-2xl border border-[#D4A848]/20 bg-[#FFFFFF] shadow-2xl">
+            <div className="relative w-full aspect-[16/10] overflow-hidden rounded-2xl border border-[#D4A848]/20 bg-[#FFFFFF] shadow-2xl">
               <video
                 src="/application1.mp4"
                 autoPlay muted loop playsInline
@@ -94,7 +106,7 @@ export default function ApplicationHelpPage() {
       </section>
 
       {/* ── CONTENT GRID ───────────────────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-3 gap-20">
+      <section className="max-w-screen-2xl mx-auto px-6 py-24 grid lg:grid-cols-3 gap-20">
 
         <div className="lg:col-span-2 space-y-24">
 

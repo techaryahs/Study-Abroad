@@ -4,14 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-    Video,
-    MessageSquare,
-    Star,
-    ShieldCheck,
-    Zap,
-    Users,
-    Phone,
-    ArrowLeft
+  Video,
+  MessageSquare,
+  Star,
+  ShieldCheck,
+  Zap,
+  Users,
+  Phone,
+  ArrowLeft
 } from "lucide-react";
 import FAQSection, { defaultFaqs } from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
@@ -19,33 +19,33 @@ import DiscussionSection from "@/components/shared/DiscussionSection";
 
 const visaFaqs = [...defaultFaqs];
 visaFaqs.splice(5, 0, {
-    question: "Is recording the mock interview video call session allowed?",
-    answer: "You may not record the interview session done with our executives. This is done for the protection of the service offering from any misuse. The solutions we have developed over the years to train the applicants for the interview are proprietary and we prefer to impart the expertise only to the applicant who has opted into this service with us."
+  question: "Is recording the mock interview video call session allowed?",
+  answer: "You may not record the interview session done with our executives. This is done for the protection of the service offering from any misuse. The solutions we have developed over the years to train the applicants for the interview are proprietary and we prefer to impart the expertise only to the applicant who has opted into this service with us."
 });
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const features = [
-    {
-        title: "Case-Specific Training",
-        description: "Get unique answers to commonly asked questions based on your case.",
-        icon: <Users className="w-4 h-4" />,
-    },
-    {
-        title: "Video Call Session",
-        description: "One-on-one call with visa experts through Google Meet. Emulate the real visa interview.",
-        icon: <Video className="w-4 h-4" />,
-    },
-    {
-        title: "Multiple Rounds of Testing",
-        description: "Our visa experts conduct multiple rounds of tailored interviews to ensure your success.",
-        icon: <Zap className="w-4 h-4" />,
-    },
-    {
-        title: "Post Training Support",
-        description: "Contact us on WhatsApp, and our visa experts will readily assist you even after your mock interview.",
-        icon: <MessageSquare className="w-4 h-4" />,
-    },
+  {
+    title: "Case-Specific Training",
+    description: "Get unique answers to commonly asked questions based on your case.",
+    icon: <Users className="w-4 h-4" />,
+  },
+  {
+    title: "Video Call Session",
+    description: "One-on-one call with visa experts through Google Meet. Emulate the real visa interview.",
+    icon: <Video className="w-4 h-4" />,
+  },
+  {
+    title: "Multiple Rounds of Testing",
+    description: "Our visa experts conduct multiple rounds of tailored interviews to ensure your success.",
+    icon: <Zap className="w-4 h-4" />,
+  },
+  {
+    title: "Post Training Support",
+    description: "Contact us on WhatsApp, and our visa experts will readily assist you even after your mock interview.",
+    icon: <MessageSquare className="w-4 h-4" />,
+  },
 ];
 
 // ─── Components ──────────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ export default function VisaMockInterviewPage() {
                 <span className="text-[#D4A848] text-[10px] font-black uppercase tracking-[0.2em]">Premium Service</span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight uppercase text-[#362B25]">
+              <h1 className="text-3xl md:text-5xl font-black leading-[1.1] tracking-tight uppercase text-[#362B25] break-words">
                 US Visa Mock <br />
                 <span className="text-[#D4A848]">Interview</span>
               </h1>

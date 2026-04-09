@@ -142,7 +142,7 @@ const ConsultantDashboard = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-2 h-10 bg-[#c2a878] rounded-full" />
-                 <h1 className="text-4xl md:text-5xl font-black uppercase italic font-serif tracking-tighter">Consultant Portal</h1>
+                 <h1 className="text-4xl md:text-5xl font-black uppercase italic font-serif tracking-tighter">Counsellor Portal</h1>
               </div>
               <p className="text-[11px] font-black text-gray-500 uppercase tracking-[0.4em] leading-relaxed">
                 Authenticated Node: <span className="text-[#c2a878]">{user?.name || "Premium Member"}</span> • Global Advisory Access

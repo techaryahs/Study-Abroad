@@ -114,7 +114,7 @@ export default function ResumeDraftingPage() {
                                 Professional Identity Forge
                             </span>
                         </div>
-                        <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
+                        <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
                             Bespoke <br /> <span className="gold-shimmer">Resume Drafting</span>
                         </h1>
                         <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">

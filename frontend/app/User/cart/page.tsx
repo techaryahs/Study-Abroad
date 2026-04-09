@@ -136,18 +136,11 @@ export default function CartPage() {
     );
 
     return (
-        <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] pt-28 pb-20 selection:bg-[#D4A848]/30 relative overflow-hidden">
+        <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] pt-12 md:pt-16 pb-20 selection:bg-[#D4A848]/30 relative overflow-hidden">
             {/* Background Accent */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4A848]/5 rounded-full blur-[120px] -z-10" />
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="mb-8 text-center">
-                    <h1 className="text-4xl md:text-5xl font-black text-[#362B25] uppercase tracking-tighter mb-4">
-                        My <span className="text-[#D4A848] italic font-serif">Cart</span>
-                    </h1>
-                    <div className="w-20 h-1.5 bg-[#D4A848] mx-auto rounded-full" />
-                </div>
-
+            <div className="max-w-screen-2xl xl:max-w-[1700px] mx-auto px-6 relative z-10">
                 {cart.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-20 bg-white border border-[#D4A848]/20 rounded-3xl shadow-sm">
                         <ShoppingBag size={48} className="text-[#D4A848]/40 mb-6" />
@@ -160,127 +153,136 @@ export default function CartPage() {
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid lg:grid-cols-12 gap-12 items-start">
-                        {/* Cart Items */}
-                        <div className="lg:col-span-8 space-y-4">
-                            <div className="flex justify-between items-center mb-4 px-2">
-                                <span className="text-xs font-black text-[#675F5B] uppercase tracking-widest">
-                                    {cart.length} Service{cart.length > 1 ? 's' : ''} Selected
-                                </span>
-                                <button
-                                    onClick={() => setShowClearConfirm(true)}
-                                    className="text-[10px] font-black text-[#675F5B] hover:text-red-500 uppercase tracking-widest flex items-center gap-2 transition-colors"
-                                >
-                                    <Trash2 size={12} /> Clear Cart
-                                </button>
+                    <>
+                        <div className="mb-8 md:mb-12">
+                            <div className="flex items-center gap-4 mb-3">
+                                <div className="w-8 md:w-12 h-[1px] bg-[#D4A848]" />
+                                <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[#D4A848]">Marketplace</span>
                             </div>
+                            <h1 className="text-3xl md:text-7xl font-black text-[#362B25] tracking-tighter uppercase leading-[0.9] break-words">Your <span className="text-[#D4A848]">Cart</span></h1>
+                        </div>
 
-                            {cart.map((item) => (
-                                <div
-                                    key={item.itemId}
-                                    className="bg-[#FFFFFF] border border-[#D4A848]/20 rounded-2xl p-4 md:p-5 shadow-sm hover:border-[#D4A848]/50 transition-all group relative"
-                                >
-                                    <div className="flex flex-col md:flex-row gap-6">
-                                        <div className="w-16 h-16 bg-[#F8F6F1] border border-[#D4A848]/20 rounded-xl flex items-center justify-center text-3xl flex-shrink-0 group-hover:scale-110 transition-transform">
-                                            {item.serviceId.includes('visa') ? '🛂' : item.serviceId.includes('research') ? '📄' : '🎓'}
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex flex-col md:flex-row justify-between items-start gap-4">
-                                                <div>
-                                                    <h3 className="text-lg font-black text-[#362B25] mb-2 uppercase tracking-tight leading-tight">{item.title}</h3>
-                                                    <div className="flex flex-wrap gap-3">
-                                                        <span className="bg-[#F8F6F1] text-[#D4A848] text-[10px] font-black px-3 py-1 rounded-lg border border-[#D4A848]/20 uppercase">
-                                                            {item.duration}
-                                                        </span>
-                                                        {item.sessions && (
-                                                            <span className="bg-[#362B25]/5 text-[#362B25] text-[10px] font-black px-3 py-1 rounded-lg border border-[#362B25]/10 uppercase">
-                                                                {item.sessions} Sessions
-                                                            </span>
-                                                        )}
-                                                        {item.selections && Object.entries(item.selections).map(([key, val]) => (
-                                                            <span key={key} className="bg-[#362B25]/5 text-[#675F5B] text-[10px] font-bold px-3 py-1 rounded-lg border border-[#362B25]/10 uppercase flex items-center gap-1.5 hover:bg-[#D4A848]/5 transition-colors">
-                                                                <span className="opacity-50 font-black">{key.replace(/([A-Z])/g, ' $1')}:</span>
-                                                                <span className="text-[#362B25] font-black">{String(val)}</span>
-                                                            </span>
-                                                        ))}
+                        <div className="grid md:grid-cols-12 gap-8 md:gap-10">
+                            {/* Cart Items List */}
+                            <div className="md:col-span-7 lg:col-span-8 xl:col-span-9 flex flex-col gap-6">
+                                <div className="flex justify-between items-center mb-2 px-2">
+                                    <h2 className="text-[10px] font-black text-[#362B25] uppercase tracking-widest">{cart.length} Items Selected</h2>
+                                    <button
+                                        onClick={() => setShowClearConfirm(true)}
+                                        className="text-[10px] font-black text-[#675F5B] hover:text-red-500 uppercase tracking-widest flex items-center gap-2 transition-colors"
+                                    >
+                                        <Trash2 size={12} /> <span className="hidden sm:inline">Clear Cart</span>
+                                    </button>
+                                </div>
+
+                                <div className="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
+                                    {cart.map((item) => (
+                                        <div
+                                            key={item.itemId}
+                                            className="bg-[#FFFFFF] border border-[#D4A848]/20 rounded-xl md:rounded-2xl p-2 sm:p-4 shadow-sm hover:border-[#D4A848]/50 transition-all group relative flex flex-row gap-2 sm:gap-4 items-start"
+                                        >
+                                            <div className="w-6 h-6 sm:w-12 sm:h-12 bg-[#F8F6F1] border border-[#D4A848]/20 rounded-lg flex items-center justify-center text-xs sm:text-2xl shrink-0 group-hover:scale-105 transition-transform mt-0.5 sm:mt-0">
+                                                {item.serviceId.includes('visa') ? '🛂' : item.serviceId.includes('research') ? '📄' : '🎓'}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex flex-col gap-1.5">
+                                                    <div className="flex justify-between items-start gap-1">
+                                                        <h3 className="text-[9px] sm:text-lg font-black text-[#362B25] tracking-tight leading-tight break-words lowercase first-letter:uppercase flex-1">{item.title}</h3>
+                                                        <button
+                                                            onClick={() => removeFromCart(item.itemId)}
+                                                            className="text-red-500/20 hover:text-red-500 p-0.5 transition-colors shrink-0"
+                                                        >
+                                                            <Trash2 size={10} className="sm:w-3.5 sm:h-3.5" />
+                                                        </button>
                                                     </div>
-                                                </div>
-                                                <div className="text-right flex-shrink-0 flex flex-col items-end pt-1">
-                                                    <div className="flex items-center gap-2 whitespace-nowrap">
-                                                        <p className="text-base font-black text-[#362B25]">{currency} {formatPrice(item.price)}</p>
-                                                        <p className="text-[#675F5B] text-[9px] line-through">{currency} {formatPrice(item.actualPrice || (item.price / 0.8))}</p>
+
+                                                    <div className="flex flex-col gap-2">
+                                                        <div className="flex flex-col">
+                                                            <p className="text-[9px] sm:text-base font-black text-[#362B25] whitespace-nowrap">{currency} {formatPrice(item.price)}</p>
+                                                            <p className="text-[#675F5B] text-[7px] sm:text-[9px] line-through opacity-50 whitespace-nowrap">{currency} {formatPrice(item.actualPrice || (item.price / 0.8))}</p>
+                                                        </div>
+
+                                                        <div className="flex flex-wrap gap-1 mt-1">
+                                                            <span className="bg-[#F8F6F1] text-[#D4A848] text-[6px] sm:text-[8px] font-black px-1.5 py-0.5 rounded border border-[#D4A848]/20 uppercase tracking-tighter">
+                                                                {item.duration}
+                                                            </span>
+                                                            {item.sessions && (
+                                                                <span className="bg-[#362B25]/5 text-[#362B25] text-[6px] sm:text-[8px] font-black px-1.5 py-0.5 rounded border border-[#362B25]/10 uppercase tracking-tighter">
+                                                                    {item.sessions} Sessions
+                                                                </span>
+                                                            )}
+                                                            {item.selections && Object.entries(item.selections).map(([key, val]) => (
+                                                                <span key={key} className="bg-[#362B25]/5 text-[#362B25] text-[6px] sm:text-[8px] font-black px-1.5 py-0.5 rounded border border-[#362B25]/10 uppercase tracking-tighter">
+                                                                    <span className="opacity-50">{key.replace(/([A-Z])/g, ' $1')}:</span> {String(val)}
+                                                                </span>
+                                                            ))}
+                                                        </div>
                                                     </div>
-                                                    <button
-                                                        onClick={() => removeFromCart(item.itemId)}
-                                                        className="mt-1 text-[#675F5B]/30 hover:text-red-500 transition-colors p-1"
-                                                    >
-                                                        <Trash2 size={14} />
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Order Summary */}
-                        <div className="lg:col-span-4 sticky top-32">
-                            <div className="bg-[#FFFFFF] border border-[#D4A848]/20 rounded-3xl p-8 shadow-lg relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4A848]/5 rounded-full blur-3xl" />
-                                <h3 className="text-xl font-black text-[#362B25] mb-8 pb-4 border-b border-[#D4A848]/10 text-center">Order Summary</h3>
-
-                                <div className="space-y-4 mb-8">
-                                    <div className="flex justify-between items-center text-sm font-bold">
-                                        <span className="text-[#675F5B]">Actual Amount:</span>
-                                        <span className="text-[#362B25]">{currency} {formatPrice(actualSubtotal)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-sm font-bold">
-                                        <span className="text-[#675F5B]">Total Discount:</span>
-                                        <span className="text-red-600">- {currency} {formatPrice(totalDiscount)}</span>
-                                    </div>
-                                </div>
-
-                                <div className="bg-[#F8F6F1] rounded-2xl p-6 mb-8 text-center border border-[#D4A848]/10">
-                                    <p className="text-xs font-bold text-[#675F5B] uppercase tracking-widest mb-2">You pay:</p>
-                                    <p className="text-3xl font-black text-[#362B25] tracking-tighter">
-                                        {currency} {formatPrice(finalTotal)}
-                                    </p>
-                                </div>
-
-                                <button
-                                    onClick={() => setShowCheckoutModal(true)}
-                                    className="w-full bg-[#D4A848] text-[#FFFFFF] py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-md hover:bg-[#c2983d] hover:-translate-y-0.5"
-                                >
-                                    Checkout
-                                </button>
-
-                                <div className="mt-8 flex flex-col items-center gap-4 text-center">
-                                    <div className="flex items-center gap-2 text-[10px] font-black text-[#675F5B]/50 uppercase tracking-widest">
-                                        <Lock size={12} className="text-[#D4A848]/40" /> Secure Encryption
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
 
-                            {/* Promotional Suggestion */}
-                            <div className="mt-6 bg-[#FFFFFF] border border-[#D4A848]/20 rounded-2xl p-6 shadow-sm">
-                                <p className="text-[10px] font-black text-[#D4A848] uppercase tracking-widest mb-2">You may also like</p>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 bg-[#F8F6F1] rounded-lg border border-[#D4A848]/20 flex items-center justify-center text-lg">💡</div>
-                                    <div>
-                                        <p className="text-[10px] font-bold text-[#362B25] leading-tight">Complete Application Help</p>
-                                        <p className="text-[9px] text-[#675F5B]">Add to your roadmap for 10% off</p>
+                            <div className="md:col-span-5 lg:col-span-4 xl:col-span-3 sticky top-32">
+                                <div className="bg-[#FFFFFF] border border-[#D4A848]/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-lg relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4A848]/5 rounded-full blur-3xl" />
+                                    <h3 className="text-base sm:text-xl font-black text-[#362B25] mb-4 sm:mb-8 pb-3 border-b border-[#D4A848]/10 text-center uppercase tracking-widest">Order Summary</h3>
+
+                                    <div className="space-y-1.5 sm:space-y-4 mb-4 sm:mb-8">
+                                        <div className="flex justify-between items-center text-[10px] sm:text-sm font-bold uppercase tracking-wider">
+                                            <span className="text-[#675F5B]">Actual Amount:</span>
+                                            <span className="text-[#362B25] whitespace-nowrap">{currency} {formatPrice(actualSubtotal)}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-[10px] sm:text-sm font-bold uppercase tracking-wider">
+                                            <span className="text-[#675F5B]">Total Discount:</span>
+                                            <span className="text-red-600 whitespace-nowrap">- {currency} {formatPrice(totalDiscount)}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-[#F8F6F1] rounded-xl sm:rounded-2xl p-3 sm:p-6 mb-4 sm:mb-8 text-center border border-[#D4A848]/10">
+                                        <p className="text-[9px] sm:text-xs font-bold text-[#675F5B] uppercase tracking-widest mb-1">You pay:</p>
+                                        <p className="text-xl sm:text-3xl font-black text-[#362B25] tracking-tighter whitespace-nowrap">
+                                            {currency} {formatPrice(finalTotal)}
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        onClick={() => setShowCheckoutModal(true)}
+                                        className="w-full bg-[#D4A848] text-[#FFFFFF] py-3 sm:py-4 rounded-lg sm:rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] transition-all shadow-md hover:bg-[#c2983d] hover:shadow-lg"
+                                    >
+                                        Checkout Now
+                                    </button>
+
+                                    <div className="mt-4 sm:mt-8 flex flex-col items-center gap-4 text-center">
+                                        <div className="flex items-center gap-2 text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest">
+                                            <Lock size={10} className="text-[#D4A848]/40" /> Secure Encryption
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Promotional Suggestion */}
+                                <div className="mt-6 bg-[#FFFFFF] border border-[#D4A848]/20 rounded-2xl p-6 shadow-sm">
+                                    <p className="text-[10px] font-black text-[#D4A848] uppercase tracking-widest mb-2">You may also like</p>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 bg-[#F8F6F1] rounded-lg border border-[#D4A848]/20 flex items-center justify-center text-lg">💡</div>
+                                        <div>
+                                            <p className="text-[10px] font-bold text-[#362B25] leading-tight">Complete Application Help</p>
+                                            <p className="text-[9px] text-[#675F5B]">Add to your roadmap for 10% off</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </>
                 )}
             </div>
 
             <CheckoutModal
                 isOpen={showCheckoutModal}
                 onClose={() => setShowCheckoutModal(false)}
+                items={cart}
                 subtotal={actualSubtotal}
                 discount={totalDiscount}
                 total={finalTotal}

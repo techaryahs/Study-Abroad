@@ -79,9 +79,9 @@ export default function ShortlistingPage() {
             className="lg:w-1/2 space-y-8"
           >
             <motion.div variants={itemVariants} className="space-y-3">
-              <h1 className="text-4xl md:text-5xl font-black leading-[1.1] uppercase tracking-tight text-[#362B25]">
+              <h1 className="text-3xl md:text-5xl font-black leading-[1.1] uppercase tracking-tight text-[#362B25] break-words">
                 PROFILE EVALUATION & <br />
-               <span className="text-[#D4A848]" > UNIVERSITY SHORTLISTING</span>
+                <span className="text-[#D4A848]" > UNIVERSITY SHORTLISTING</span>
               </h1>
             </motion.div>
 
@@ -122,7 +122,7 @@ export default function ShortlistingPage() {
       {/* ── ABOUT SERVICE & WIDGET ── */}
       <section className="py-24 px-8 md:px-20 bg-[#F8F6F1] border-y border-[#D4A848]/10 relative z-10">
         <div className="max-w-7xl mx-auto space-y-12">
-          
+
           <div className="space-y-3">
             <h2 className="text-3xl md:text-4xl font-semibold text-[#362B25]">About Service</h2>
             <div className="w-16 h-[2px] bg-[#D4A848]" />
@@ -132,32 +132,32 @@ export default function ShortlistingPage() {
             {/* Main Info Column */}
             <div className="lg:w-2/3 space-y-8">
               {[
-                { 
-                  t: "Personalized Curation", 
-                  icon: <Target size={24} className="text-[#D4A848]" />, 
+                {
+                  t: "Personalized Curation",
+                  icon: <Target size={24} className="text-[#D4A848]" />,
                   d: [
                     "We factor in your exact constraints—from geographical preferences and budget limitations to standardized testing waivers.",
                     "We craft a highly customized university portfolio that precisely mirrors your academic ambitions and personal criteria."
                   ]
                 },
-                { 
-                  t: "Funding-Optimized Mapping", 
-                  icon: <Award size={24} className="text-[#D4A848]" />, 
+                {
+                  t: "Funding-Optimized Mapping",
+                  icon: <Award size={24} className="text-[#D4A848]" />,
                   d: [
                     "We analyze extensive historical data from recent admission cycles to identify institutions where candidates with your exact profile successfully secured grants and scholarships."
                   ]
                 },
-                { 
-                  t: "Outcome & Career Forecasting", 
-                  icon: <Briefcase size={24} className="text-[#D4A848]" />, 
+                {
+                  t: "Outcome & Career Forecasting",
+                  icon: <Briefcase size={24} className="text-[#D4A848]" />,
                   d: [
                     "By examining thousands of historical admission outcomes, we construct high-probability models determining where you are most likely to be accepted.",
                     "We heavily weigh post-graduation ROI, targeting universities known for robust alumni networks and premier job placement rates."
                   ]
                 },
-                { 
-                  t: "Independent & Objective Guidance", 
-                  icon: <Scale size={24} className="text-[#D4A848]" />, 
+                {
+                  t: "Independent & Objective Guidance",
+                  icon: <Scale size={24} className="text-[#D4A848]" />,
                   d: [
                     "Low-ranking tier-3 institutions drastically increase the risk of visa denials, employment struggles, and severe financial setbacks for families.",
                     "We operate entirely independently. Our advisors will never steer you toward low-tier, commission-based partner universities.",

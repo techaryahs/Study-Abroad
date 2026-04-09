@@ -14,14 +14,6 @@ interface Slot {
   past: boolean;
 }
 
-interface Counsellor {
-  _id: string;
-  name: string;
-  role: string;
-  image: string;
-  expertise: string;
-}
-
 interface BookingResult {
   sessionId: string;
   meetingId: string;
@@ -66,16 +58,16 @@ function StepDot({ step, current, label }: { step: number; current: number; labe
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all duration-300 ${done
-            ? "bg-[#d4af37] border-[#d4af37] text-black"
+        className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-[10px] md:text-xs font-bold border-2 transition-all duration-300 ${done
+            ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D]"
             : active
-              ? "bg-transparent border-[#d4af37] text-[#d4af37]"
+              ? "bg-transparent border-[#D4A848] text-[#D4A848]"
               : "bg-transparent border-white/20 text-white/30"
           }`}
       >
         {done ? "✓" : step}
       </div>
-      <span className={`text-[10px] font-semibold uppercase tracking-wider ${active ? "text-[#d4af37]" : done ? "text-white/60" : "text-white/25"}`}>
+      <span className={`text-[8px] md:text-[9px] font-semibold uppercase tracking-wider ${active ? "text-[#D4A848]" : done ? "text-white/60" : "text-white/25"}`}>
         {label}
       </span>
     </div>
@@ -86,33 +78,20 @@ function StepDot({ step, current, label }: { step: number; current: number; labe
 export default function BookCounsellingModal({ isOpen, onClose }: Props) {
   const router = useRouter();
 
-  // Step: 1 = date+counsellor, 2 = time slot, 3 = confirm + user info, 4 = success
   const [step, setStep] = useState(1);
-
-  // Calendar state
   const today = new Date();
   const [calYear, setCalYear] = useState(today.getFullYear());
   const [calMonth, setCalMonth] = useState(today.getMonth());
   const [selectedDate, setSelectedDate] = useState<string>("");
-
-  // Admin-only: No consultant selection needed
-  const selectedCounsellor = "admin"; // Hardcoded to admin
-
-  // Time slots
   const [slots, setSlots] = useState<Slot[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
-
-  // User details form
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
-
-  // Booking
   const [booking, setBooking] = useState<BookingResult | null>(null);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Pre-fill from local auth
   useEffect(() => {
     const user = getUser();
     if (user) {
@@ -121,7 +100,6 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     }
   }, []);
 
-  // Fetch available slots when date changes (admin-only, no consultant filter)
   const fetchSlots = useCallback(async (date: string) => {
     if (!date) return;
     setSlotsLoading(true);
@@ -146,7 +124,6 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     }
   }, [step, selectedDate, fetchSlots]);
 
-  // Reset when closed
   useEffect(() => {
     if (!isOpen) {
       setTimeout(() => {
@@ -159,7 +136,6 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     }
   }, [isOpen]);
 
-  // ── Calendar helpers ────────────────────────────────────────────────
   const cells = buildCalendarGrid(calYear, calMonth);
   const todayStr = today.toISOString().split("T")[0];
 
@@ -181,7 +157,6 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     setSelectedDate(`${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`);
   };
 
-  // ── Book session ────────────────────────────────────────────────────
   const confirmBooking = async () => {
     if (!selectedSlot || !selectedDate || !userEmail) {
       setError("Please fill in your name and email.");
@@ -190,14 +165,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     setBookingLoading(true);
     setError("");
     try {
-      const body = {
-        date: selectedDate,
-        time: selectedSlot.time,
-        userEmail,
-        userName,
-      };
-      // Admin-only: No consultantId sent
-
+      const body = { date: selectedDate, time: selectedSlot.time, userEmail, userName };
       const res = await fetch(`${API_BASE}/api/bookings/book-session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -205,175 +173,123 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.message || "Booking failed. Please try again.");
+        setError(data.message || "Booking failed.");
         return;
       }
       setBooking(data.booking);
       setStep(4);
     } catch {
-      setError("Network error. Please check your connection.");
+      setError("Network error.");
     } finally {
       setBookingLoading(false);
     }
   };
 
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
   const slideVariants = {
-    enter: (dir: number) => ({ x: dir > 0 ? 60 : -60, opacity: 0 }),
+    enter: (dir: number) => ({ x: dir > 0 ? 50 : -50, opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
+    exit: (dir: number) => ({ x: dir > 0 ? -50 : 50, opacity: 0 }),
   };
 
   const [dir, setDir] = useState(1);
   const goNext = (nextStep: number) => { setDir(1); setStep(nextStep); };
   const goBack = (prevStep: number) => { setDir(-1); setStep(prevStep); };
 
-  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             key="backdrop"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
             onClick={onClose}
-            className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm"
           />
 
-          {/* Modal */}
           <motion.div
             key="modal"
-            initial={{ opacity: 0, scale: 0.95, y: 24 }}
+            initial={{ opacity: 0, scale: 0.97, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 24 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, scale: 0.97, y: 15 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
           >
-            <div className="pointer-events-auto w-full max-w-xl bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+            <div className="pointer-events-auto w-full max-w-[340px] md:max-w-[400px] bg-[#2D1F1D] border border-[#D4A848]/20 rounded-xl md:rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] md:max-h-[82vh]">
 
               {/* Header */}
-              <div className="relative flex items-center justify-between px-6 pt-6 pb-4 flex-shrink-0">
+              <div className="relative flex items-center justify-between px-4 md:px-5 pt-4 md:pt-5 pb-3 flex-shrink-0">
                 <div>
-                  <div className="inline-flex items-center gap-2 bg-[#d4af37]/10 border border-[#d4af37]/25 rounded-full px-3 py-1 mb-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#d4af37] animate-pulse" />
-                    <span className="text-[#d4af37] text-[10px] font-bold tracking-widest uppercase">Book Session</span>
+                  <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-2.5 py-0.5 mb-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4A848] animate-pulse" />
+                    <span className="text-[#D4A848] text-[8px] md:text-[9px] font-bold tracking-widest uppercase">Book Session</span>
                   </div>
-                  <h2 className="text-xl font-black text-white leading-tight">Counselling Session</h2>
-                  <p className="text-white/40 text-xs mt-0.5">1-hour private session with your counsellor</p>
+                  <h2 className="text-base md:text-lg font-black text-white leading-tight">Counselling Session</h2>
+                  <p className="text-white/40 text-[9px] md:text-[10px] mt-0.5">1-hour private session</p>
                 </div>
-                <button
-                  onClick={onClose}
-                  className="w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all"
-                  aria-label="Close"
-                >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5}>
-                    <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
+                <button onClick={onClose} className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all">
+                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={3}><path d="M18 6L6 18M6 6l12 12"/></svg>
                 </button>
               </div>
 
-              {/* Step indicator - Simplified to 3 steps */}
+              {/* Steps */}
               {step < 4 && (
-                <div className="flex items-center gap-2 px-6 pb-4 flex-shrink-0">
+                <div className="flex items-center gap-2 px-4 md:px-5 pb-3 flex-shrink-0">
                   <StepDot step={1} current={step} label="Date" />
-                  <div className={`flex-1 h-px transition-colors duration-300 ${step > 1 ? "bg-[#d4af37]/40" : "bg-white/10"}`} />
+                  <div className={`flex-1 h-px ${step > 1 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
                   <StepDot step={2} current={step} label="Time" />
-                  <div className={`flex-1 h-px transition-colors duration-300 ${step > 2 ? "bg-[#d4af37]/40" : "bg-white/10"}`} />
+                  <div className={`flex-1 h-px ${step > 2 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
                   <StepDot step={3} current={step} label="Confirm" />
                 </div>
               )}
-              
-              {/* Admin Badge - Always visible */}
+
+              {/* Admin Badge */}
               {step < 4 && (
-                <div className="px-6 pb-2 flex-shrink-0">
-                  <div className="inline-flex items-center gap-2 bg-[#d4af37]/10 border border-[#d4af37]/25 rounded-full px-3 py-1.5">
-                    <span className="text-[#d4af37] text-xs font-bold">👤 Counselling with Admin</span>
+                <div className="px-4 md:px-5 pb-2 flex-shrink-0">
+                  <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-2.5 py-1">
+                    <span className="text-[#D4A848] text-[8px] md:text-[9px] font-bold uppercase tracking-tight">👤 Counselling with Admin</span>
                   </div>
                 </div>
               )}
 
-              {/* Divider */}
-              <div className="h-px bg-white/[0.06] flex-shrink-0" />
+              <div className="h-px bg-white/5 flex-shrink-0" />
 
-              {/* Body */}
-              <div className="flex-1 overflow-y-auto">
+              {/* Content Area */}
+              <div className="flex-1 overflow-y-auto min-h-0 bg-black/10">
                 <AnimatePresence mode="wait" custom={dir}>
-                  {/* ── STEP 1: Date Selection Only ─────────────────────────── */}
                   {step === 1 && (
-                    <motion.div
-                      key="step1"
-                      custom={dir}
-                      variants={slideVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                      className="p-6 space-y-5"
-                    >
-                      {/* Calendar */}
-                      <div>
-                        <label className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-3 block">
-                          Select Date
-                        </label>
-                        <div className="bg-[#111] border border-white/[0.07] rounded-2xl p-4">
-                          {/* Month nav */}
-                          <div className="flex items-center justify-between mb-4">
-                            <button
-                              onClick={prevMonth}
-                              className="w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-all"
-                            >
-                              ‹
-                            </button>
-                            <span className="text-sm font-bold text-white">
-                              {monthNames[calMonth]} {calYear}
-                            </span>
-                            <button
-                              onClick={nextMonth}
-                              className="w-8 h-8 rounded-lg flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-all"
-                            >
-                              ›
-                            </button>
+                    <motion.div key="s1" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-4 space-y-4">
+                      <div className="space-y-3">
+                        <label className="text-[9px] md:text-[10px] font-bold text-white/50 uppercase tracking-widest block">Select Date</label>
+                        <div className="bg-[#362B25]/40 border border-[#D4A848]/10 rounded-xl p-3">
+                          <div className="flex items-center justify-between mb-3">
+                            <button onClick={prevMonth} className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white">‹</button>
+                            <span className="text-sm font-black text-white">{monthNames[calMonth]} {calYear}</span>
+                            <button onClick={nextMonth} className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white">›</button>
                           </div>
-
-                          {/* Day headers */}
                           <div className="grid grid-cols-7 mb-2">
-                            {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d) => (
-                              <div key={d} className="text-center text-[10px] font-semibold text-white/30 uppercase tracking-wider py-1">
-                                {d}
-                              </div>
+                            {["Su","Mo","Tu","We","Th","Fr","Sa"].map(d => (
+                              <div key={d} className="text-center text-[9px] font-bold text-white/20 uppercase py-1">{d}</div>
                             ))}
                           </div>
-
-                          {/* Day cells */}
                           <div className="grid grid-cols-7 gap-0.5">
                             {cells.map((day, i) => {
-                              const dateStr = day
-                                ? `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
-                                : "";
+                              const dateStr = day ? `${calYear}-${String(calMonth + 1).padStart(2,"0")}-${String(day).padStart(2,"0")}` : "";
                               const disabled = isCellDisabled(day);
                               const isSelected = dateStr === selectedDate;
                               const isToday = dateStr === todayStr;
                               return (
-                                <button
-                                  key={i}
-                                  onClick={() => selectDay(day)}
-                                  disabled={disabled}
-                                  className={`
-                                    relative h-9 w-full rounded-lg text-sm font-medium transition-all duration-150
+                                <button key={i} onClick={() => selectDay(day)} disabled={disabled}
+                                  className={`h-8 w-full rounded-lg text-xs font-bold transition-all
                                     ${!day ? "invisible" : ""}
-                                    ${disabled ? "text-white/20 cursor-not-allowed" : "hover:bg-[#d4af37]/10 cursor-pointer"}
-                                    ${isSelected ? "!bg-[#d4af37] !text-black font-bold shadow-lg shadow-[#d4af37]/20" : ""}
-                                    ${isToday && !isSelected ? "text-[#d4af37] ring-1 ring-[#d4af37]/40 ring-inset" : ""}
-                                    ${!disabled && !isSelected ? "text-white" : ""}
+                                    ${disabled ? "text-white/10 cursor-not-allowed" : "hover:bg-[#D4A848]/10 text-white"}
+                                    ${isSelected ? "!bg-[#D4A848] !text-[#2D1F1D] shadow-lg shadow-[#D4A848]/10" : ""}
+                                    ${isToday && !isSelected ? "text-[#D4A848] ring-1 ring-[#D4A848]/30" : ""}
                                   `}
-                                >
-                                  {day}
-                                </button>
+                                >{day}</button>
                               );
                             })}
                           </div>
@@ -382,267 +298,92 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                     </motion.div>
                   )}
 
-                  {/* ── STEP 2: Time Slots ──────────────────────────────────── */}
                   {step === 2 && (
-                    <motion.div
-                      key="step2"
-                      custom={dir}
-                      variants={slideVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                      className="p-6 space-y-4"
-                    >
-                      <div className="flex items-center gap-3 bg-[#141414] border border-white/[0.07] rounded-xl px-4 py-3">
-                        <span className="text-[#d4af37] text-lg">📅</span>
+                    <motion.div key="s2" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-4 space-y-4">
+                      <div className="flex items-center gap-3 bg-[#362B25]/60 border border-[#D4A848]/10 rounded-xl px-3 py-2.5">
+                        <span className="text-lg">📅</span>
                         <div>
-                          <div className="text-white font-semibold text-sm">{formatDate(selectedDate)}</div>
-                          <div className="text-white/40 text-xs">Select a 1-hour slot below</div>
+                          <div className="text-white font-bold text-xs">{formatDate(selectedDate)}</div>
+                          <div className="text-white/40 text-[9px]">Select a preferred slot below</div>
                         </div>
                       </div>
-
-                      {error && (
-                        <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">
-                          {error}
-                        </div>
-                      )}
-
+                      {error && <div className="text-red-400 text-[10px] px-2">{error}</div>}
                       {slotsLoading ? (
-                        <div className="grid grid-cols-3 gap-2">
-                          {Array.from({ length: 9 }).map((_, i) => (
-                            <div key={i} className="h-16 rounded-xl bg-white/5 animate-pulse" />
-                          ))}
-                        </div>
+                        <div className="grid grid-cols-3 gap-2">{Array.from({length:9}).map((_,i)=><div key={i} className="h-12 bg-white/5 rounded-lg animate-pulse" />)}</div>
                       ) : (
                         <div className="grid grid-cols-3 gap-2">
                           {slots.map((slot) => {
                             const isSelected = selectedSlot?.time === slot.time;
                             return (
-                              <button
-                                key={slot.time}
-                                disabled={!slot.available}
-                                onClick={() => setSelectedSlot(slot)}
-                                className={`
-                                  relative flex flex-col items-center justify-center h-16 rounded-xl text-sm font-semibold
-                                  border transition-all duration-200
-                                  ${isSelected
-                                    ? "bg-[#d4af37] border-[#d4af37] text-black shadow-lg shadow-[#d4af37]/20 scale-[1.03]"
-                                    : slot.available
-                                      ? "bg-[#141414] border-white/10 text-white hover:border-[#d4af37]/40 hover:bg-[#d4af37]/5 cursor-pointer"
-                                      : slot.booked
-                                        ? "bg-red-950/30 border-red-900/30 text-red-400/50 cursor-not-allowed"
-                                        : "bg-white/[0.02] border-white/5 text-white/20 cursor-not-allowed"
+                              <button key={slot.time} disabled={!slot.available} onClick={() => setSelectedSlot(slot)}
+                                className={`h-12 rounded-lg text-[11px] font-bold border flex flex-col items-center justify-center transition-all
+                                  ${isSelected 
+                                    ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D]" 
+                                    : slot.available ? "bg-[#362B25]/40 border-white/5 text-white/70 hover:border-[#D4A848]/30" : "opacity-20 cursor-not-allowed"
                                   }
                                 `}
                               >
-                                <span className="font-bold">{slot.time}</span>
-                                <span className={`text-[10px] ${isSelected ? "text-black/60" : "text-white/40"}`}>
-                                  {slot.available ? `–  ${slot.endTime}` : slot.booked ? "Booked" : "Past"}
-                                </span>
+                                <span>{slot.time}</span>
+                                <span className={`text-[8px] ${isSelected ? "text-[#2D1F1D]/60" : "text-white/30"}`}>{slot.available ? slot.endTime : "NA"}</span>
                               </button>
                             );
                           })}
                         </div>
                       )}
-
-                      {/* Legend */}
-                      <div className="flex items-center gap-4 pt-1">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-3 h-3 rounded-sm bg-[#d4af37]" />
-                          <span className="text-white/40 text-[10px]">Selected</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-3 h-3 rounded-sm bg-[#141414] border border-white/20" />
-                          <span className="text-white/40 text-[10px]">Available</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-3 h-3 rounded-sm bg-red-950/30 border border-red-900/30" />
-                          <span className="text-white/40 text-[10px]">Booked</span>
-                        </div>
-                      </div>
                     </motion.div>
                   )}
 
-                  {/* ── STEP 3: User Info + Confirm ─────────────────────────── */}
                   {step === 3 && (
-                    <motion.div
-                      key="step3"
-                      custom={dir}
-                      variants={slideVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                      className="p-6 space-y-5"
-                    >
-                      {/* Summary card */}
-                      <div className="bg-[#111] border border-white/[0.07] rounded-2xl p-4 space-y-3">
-                        <h3 className="text-xs font-bold uppercase tracking-widest text-white/40">Booking Summary</h3>
-                        <div className="flex items-start gap-3">
-                          <span className="text-2xl mt-0.5">📅</span>
-                          <div>
-                            <div className="text-white font-semibold">{formatDate(selectedDate)}</div>
-                            <div className="text-white/50 text-sm">
-                              {selectedSlot?.time} – {selectedSlot?.endTime} &nbsp;·&nbsp; 60 minutes
-                            </div>
-                            <div className="text-[#d4af37] text-sm mt-1">
-                              with Admin
-                            </div>
-                          </div>
-                        </div>
+                    <motion.div key="s3" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-4 space-y-4">
+                      <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-xl p-3.5 space-y-2">
+                        <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Summary</div>
+                        <div className="text-white text-xs font-bold leading-none">{formatDate(selectedDate)}</div>
+                        <div className="text-[#D4A848] text-[10px] font-bold uppercase">{selectedSlot?.time} – {selectedSlot?.endTime}</div>
                       </div>
-
-                      {/* User info */}
-                      <div className="space-y-3">
-                        <label className="text-xs font-semibold text-white/50 uppercase tracking-wider block">Your Details</label>
-                        <input
-                          type="text"
-                          placeholder="Full Name"
-                          value={userName}
-                          onChange={(e) => setUserName(e.target.value)}
-                          className="w-full bg-[#141414] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#d4af37]/40 transition-colors"
-                        />
-                        <input
-                          type="email"
-                          placeholder="Email Address *"
-                          value={userEmail}
-                          onChange={(e) => setUserEmail(e.target.value)}
-                          required
-                          className="w-full bg-[#141414] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#d4af37]/40 transition-colors"
-                        />
+                      <div className="space-y-2">
+                        <input type="text" placeholder="Full Name" value={userName} onChange={e=>setUserName(e.target.value)}
+                          className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none" />
+                        <input type="email" placeholder="Email Address *" value={userEmail} onChange={e=>setUserEmail(e.target.value)} required
+                          className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none" />
                       </div>
-
-                      {error && (
-                        <div className="bg-red-500/10 border border-red-500/30 rounded-xl px-4 py-3 text-red-400 text-sm">
-                          {error}
-                        </div>
-                      )}
                     </motion.div>
                   )}
 
-                  {/* ── STEP 4: Success ─────────────────────────────────────── */}
                   {step === 4 && booking && (
-                    <motion.div
-                      key="step4"
-                      custom={dir}
-                      variants={slideVariants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{ duration: 0.25, ease: "easeInOut" }}
-                      className="p-6 space-y-5"
-                    >
-                      {/* Success icon */}
-                      <div className="flex flex-col items-center text-center gap-3 py-4">
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: "spring", stiffness: 260, damping: 18, delay: 0.1 }}
-                          className="w-20 h-20 rounded-full bg-[#d4af37]/10 border-2 border-[#d4af37]/30 flex items-center justify-center text-4xl"
-                        >
-                          🎉
-                        </motion.div>
-                        <div>
-                          <h3 className="text-2xl font-black text-white">Session Booked!</h3>
-                          <p className="text-white/45 text-sm mt-1 max-w-xs">
-                            A confirmation email has been sent to <span className="text-white">{userEmail}</span>
-                          </p>
-                        </div>
+                    <motion.div key="s4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 space-y-5 text-center">
+                      <div className="w-14 h-14 bg-[#D4A848]/10 border border-[#D4A848]/30 rounded-full flex items-center justify-center mx-auto text-2xl">🎉</div>
+                      <div>
+                        <h3 className="text-lg font-black text-white leading-tight">Confirmed!</h3>
+                        <p className="text-white/40 text-[10px] mt-1">Sent to {userEmail}</p>
                       </div>
-
-                      {/* Session details */}
-                      <div className="bg-[#111] border border-white/[0.07] rounded-2xl p-4 space-y-3">
+                      <div className="bg-black/20 border border-white/5 rounded-xl p-3 space-y-2 text-left">
                         <Row label="Date" value={formatDate(booking.date)} />
-                        <Row label="Time" value={`${booking.time} – ${booking.endTime}`} />
-                        <Row label="Counsellor" value={booking.consultantName} />
-                        <div className="pt-1 border-t border-white/[0.06]">
-                          <div className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Meeting ID</div>
-                          <code className="text-[#d4af37] font-mono font-bold text-sm tracking-widest">{booking.meetingId}</code>
-                        </div>
-                        <div>
-                          <div className="text-[10px] text-white/30 uppercase tracking-wider mb-1">Session ID</div>
-                          <code className="text-white/50 font-mono text-[11px] break-all">{booking.sessionId}</code>
+                        <Row label="Time" value={booking.time} />
+                        <div className="pt-2 border-t border-white/5">
+                           <div className="text-[8px] text-white/30 uppercase mb-0.5">Meeting ID</div>
+                           <code className="text-[#D4A848] text-xs font-bold font-mono">{booking.meetingId}</code>
                         </div>
                       </div>
-
-                      {/* Join meeting CTA */}
-                      <button
-                        id="join-meeting-btn"
-                        onClick={() => {
-                          onClose();
-                          router.push(`/meeting/${booking.sessionId}`);
-                        }}
-                        className="w-full group relative overflow-hidden bg-[#d4af37] text-black font-black text-sm py-4 rounded-2xl hover:bg-yellow-400 transition-all duration-200 active:scale-[0.98] shadow-lg shadow-[#d4af37]/20"
-                      >
-                        <span className="relative z-10 flex items-center justify-center gap-2">
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.868V15.13a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
-                          </svg>
-                          Join Meeting Room
-                        </span>
-                      </button>
-
-                      <p className="text-center text-white/25 text-xs">
-                        You can also join later from your dashboard at the scheduled time.
-                      </p>
+                      <button onClick={() => { onClose(); router.push(`/meeting/${booking.sessionId}`); }}
+                        className="w-full bg-[#D4A848] text-[#2D1F1D] font-black py-3 rounded-lg text-xs uppercase tracking-widest shadow-xl shadow-[#D4A848]/10">Join Room</button>
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
 
-              {/* Footer actions */}
+              {/* Footer */}
               {step < 4 && (
-                <div className="flex-shrink-0 border-t border-white/[0.06] px-6 py-4 flex items-center gap-3">
+                <div className="p-3 md:p-4 border-t border-white/5 flex gap-2">
                   {step > 1 && (
-                    <button
-                      onClick={() => goBack(step - 1)}
-                      className="flex-1 py-3 rounded-xl border border-white/10 text-white/60 text-sm font-semibold hover:border-white/20 hover:text-white transition-all"
-                    >
-                      ← Back
-                    </button>
+                    <button onClick={() => goBack(step - 1)} className="flex-1 py-2.5 rounded-lg border border-white/10 text-white/50 text-[10px] font-bold uppercase transition-all">Back</button>
                   )}
-
-                  {step === 1 && (
-                    <button
-                      onClick={() => { if (selectedDate) goNext(2); }}
-                      disabled={!selectedDate}
-                      id="step1-next-btn"
-                      className="flex-1 py-3 rounded-xl bg-[#d4af37] text-black text-sm font-black hover:bg-yellow-400 transition-all active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      Next — Choose Time →
-                    </button>
-                  )}
-                  {step === 2 && (
-                    <button
-                      onClick={() => { if (selectedSlot) goNext(3); }}
-                      disabled={!selectedSlot}
-                      id="step2-next-btn"
-                      className="flex-1 py-3 rounded-xl bg-[#d4af37] text-black text-sm font-black hover:bg-yellow-400 transition-all active:scale-[0.98] disabled:opacity-30 disabled:cursor-not-allowed"
-                    >
-                      Next — Your Details →
-                    </button>
-                  )}
-                  {step === 3 && (
-                    <button
-                      onClick={confirmBooking}
-                      disabled={bookingLoading || !userEmail}
-                      id="confirm-booking-btn"
-                      className="flex-1 py-3 rounded-xl bg-[#d4af37] text-black text-sm font-black hover:bg-yellow-400 transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                      {bookingLoading ? (
-                        <>
-                          <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth={4} />
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                          </svg>
-                          Booking…
-                        </>
-                      ) : (
-                        "✓ Confirm Booking"
-                      )}
-                    </button>
-                  )}
+                  <button 
+                    onClick={() => { if(step===1 && selectedDate) goNext(2); else if(step===2 && selectedSlot) goNext(3); else if(step===3) confirmBooking(); }}
+                    disabled={ (step===1 && !selectedDate) || (step===2 && !selectedSlot) || (step===3 && bookingLoading)}
+                    className="flex-1 py-2.5 rounded-lg bg-[#D4A848] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
+                  >
+                    {bookingLoading ? "..." : step === 3 ? "Confirm" : "Continue"}
+                  </button>
                 </div>
               )}
             </div>
@@ -653,12 +394,11 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
   );
 }
 
-// ─── Small helper component ───────────────────────────────────────────────────
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between">
-      <span className="text-white/40 text-xs">{label}</span>
-      <span className="text-white text-sm font-semibold">{value}</span>
+    <div className="flex justify-between items-center">
+      <span className="text-white/30 text-[10px] font-bold uppercase">{label}</span>
+      <span className="text-white text-[11px] font-bold">{value}</span>
     </div>
   );
 }

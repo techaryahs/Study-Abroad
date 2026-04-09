@@ -74,7 +74,7 @@ export default function PersonalHistoryStatementPage() {
                             >
                                 <ArrowLeft size={14} /> Back to Services
                             </Link>
-                            <h1 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21] uppercase">
+                            <h1 className="fd text-3xl md:text-5xl font-bold leading-tight text-[#3C2A21] uppercase break-words">
                                 Personal History <br /> <span className="gold-shimmer">Statement</span>
                             </h1>
                         </div>

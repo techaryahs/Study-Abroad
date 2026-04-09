@@ -117,7 +117,7 @@ export default function Home() {
           {/* HERO TEXT */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
             <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[3.8rem] leading-[1.1] font-black tracking-tighter text-[#362B25]">
-              Education Leader - Led Path to <br />
+              Education Leader<br/> Led Path to <br />
               <span className="text-[#D4A848]">
                 Ivy League &
               </span>
@@ -136,17 +136,55 @@ export default function Home() {
 
               <button
                 onClick={() => setShowCounsellingModal(true)}
-                className="bg-[#D4A848] text-[#40332D] px-6 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest shadow-xl hover:-translate-y-1 hover:shadow-2xl active:scale-95 transition-all"
+                className="bg-[#D4A848] text-[#40332D] px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-sm font-black uppercase tracking-wider md:tracking-widest shadow-xl hover:-translate-y-1 transition-all active:scale-95 flex-1 md:flex-none text-center"
               >
                 Talk to an Expert
               </button>
-                         <button onClick={() => window.open('https://wa.me/918987654321', '_blank')}
-              className="border-[1.5px] border-[#40332D] px-6 py-2.5 rounded-[0.8rem] text-[#40332D] text-xs sm:text-[13px] font-black uppercase tracking-widest hover:bg-[#D4A848] hover:text-[#40332D] transition-all"
-            >
-              Whatsapp Us
-            </button>
+              <button onClick={() => window.open('https://wa.me/918987654321', '_blank')}
+                className="border-[1.5px] border-[#40332D] px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[#40332D] text-[10px] md:text-[13px] font-black uppercase tracking-wider md:tracking-widest hover:bg-[#D4A848] hover:text-[#40332D] transition-all flex-1 md:flex-none text-center"
+              >
+                Whatsapp Us
+              </button>
             </motion.div>
           </motion.div>
+
+          {/* MOBILE HERO IMAGE - Only visible on small screens between Hero Text and Trust Us */}
+          <div className="xl:hidden flex flex-col items-center">
+            <div className="relative w-full max-w-[340px] aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-[#D4A848]/40 shadow-[0_20px_60px_-15px_rgba(212,168,72,0.4)]">
+              <div className="absolute inset-0 bg-gradient-to-t from-[#40332D] via-transparent to-transparent z-10 pointer-events-none" />
+              <div className="overflow-hidden w-full h-full" ref={emblaRef}>
+                <div className="flex h-full">
+                  {images.map((src, i) => (
+                    <div key={i} className="flex-[0_0_100%] min-w-0 relative h-full">
+                      <Image
+                        src={src}
+                        alt={`Dr Alam ${i}`}
+                        fill
+                        sizes="100vw"
+                        quality={80}
+                        className="object-cover object-top"
+                        priority={i === 0}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* MOBILE DREAMS - Compact flags below image on mobile */}
+            <div className="mt-4 bg-[#40332D] p-4 rounded-2xl grid grid-cols-4 gap-2 shadow-lg border border-[#D4A848]/20 w-full max-w-[340px]">
+              {dreams.map((d, i) => (
+                <div key={i} className="text-center">
+                  <div className="w-6 h-4 mx-auto mb-1 rounded-[2px] overflow-hidden border border-[#D4A848]/20">
+                    <Flag code={d.code} className="w-full h-full object-cover" />
+                  </div>
+                  <p className="text-[8px] font-black uppercase text-[#D4A848]">{d.name}</p>
+                  <p className="text-[11px] font-black text-[#F8F6F1]">{d.stat}</p>
+                  <p className="text-[7px] text-[#F8F6F1]/50 font-bold uppercase tracking-widest">{d.sub}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
           <div className="pt-4">
             <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#D4A848]">Why Students Trust Us</h3>
@@ -168,15 +206,15 @@ export default function Home() {
           <div className="pt-8 text-center sm:text-left">
             <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#D4A848]">Top Destinations</h3>
 
-            <div className="flex justify-between max-w-[600px] relative">
-              <div className="absolute top-5 left-0 right-0 h-[1px] bg-[#D4A848]/20"></div>
+            <div className="flex justify-between md:justify-start md:gap-8 lg:gap-12 xl:gap-16 max-w-full lg:max-w-5xl relative overflow-x-auto pb-4 no-scrollbar">
+              <div className="absolute top-4 sm:top-5 left-0 right-0 h-[1px] bg-[#D4A848]/20 hidden sm:block"></div>
 
               {flagsRow.map((f, i) => (
-                <div key={i} className="flex flex-col items-center z-10 w-full mb-4">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#D4A848] shadow-xl">
+                <div key={i} className="flex flex-col items-center z-10 shrink-0 mb-4 px-1 sm:px-0">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-[#D4A848] shadow-lg sm:shadow-xl">
                     <Flag code={f.code} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-[10px] uppercase font-black tracking-widest mt-2 text-[#362B25]/40">{f.name}</span>
+                  <span className="text-[7px] sm:text-[10px] uppercase font-black tracking-[0.1em] sm:tracking-widest mt-2 text-[#362B25]/60 sm:text-[#362B25]/40 text-center">{f.name}</span>
                 </div>
               ))}
             </div>
@@ -185,14 +223,14 @@ export default function Home() {
 
         </div>
 
-        {/* RIGHT */}
-        <div className="xl:w-2/5 flex flex-col items-center relative z-20 pb-16">
+        {/* RIGHT - Only visible on Laptop/Desktop */}
+        <div className="hidden xl:flex xl:w-2/5 flex-col items-center relative z-20 pb-16">
 
           {/* IMAGE */}
           <div className="relative w-full max-w-[340px] h-[420px] rounded-[3rem] overflow-hidden border border-[#D4A848]/40 shadow-[0_20px_60px_-15px_rgba(212,168,72,0.4)] transition-all hover:shadow-[0_25px_65px_-10px_rgba(212,168,72,0.5)]">
             <div className="absolute inset-0 bg-gradient-to-t from-[#40332D] via-transparent to-transparent z-10 pointer-events-none" />
 
-            <div className="overflow-hidden w-full h-[380px] sm:h-[400px] md:h-[420px]" ref={emblaRef}>
+            <div className="overflow-hidden w-full h-[420px]" ref={emblaRef}>
               <div className="flex h-full">
                 {images.map((src, i) => (
                   <div key={i} className="flex-[0_0_100%] min-w-0 relative h-full">
@@ -200,11 +238,10 @@ export default function Home() {
                       src={src}
                       alt={`Dr Alam ${i}`}
                       fill
-                      sizes="(max-width: 768px) 100vw, 450px"
+                      sizes="450px"
                       quality={60}
                       className="object-cover object-top"
                       priority={i === 0}
-                      loading={i === 0 ? "eager" : "lazy"}
                     />
                   </div>
                 ))}
@@ -226,8 +263,8 @@ export default function Home() {
             ))}
           </div>
 
-          {/* STATS ROW (Moved to Right Side) */}
-          <div className="mt-8 w-full max-w-[450px] grid grid-cols-2 gap-y-8 gap-x-4 pl-2">
+          {/* STATS ROW */}
+          <div className="mt-8 w-full max-w-[450px] grid grid-cols-2 gap-y-8 gap-x-4 pl-2 text-center sm:text-left">
             {statsRow.map((stat, i) => (
               <div key={i} className="text-left">
                 <h2 className="text-[#362B25] text-[2.5rem] leading-none font-black tracking-tighter drop-shadow-sm">{stat.value}</h2>

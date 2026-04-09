@@ -88,25 +88,25 @@ function ServiceCard({
 
       {/* badges */}
       {service.badge === "fire" && (
-        <span className="absolute top-0 right-0 text-[10px] font-black tracking-wider uppercase bg-[#D4A848] text-[#40332D] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[8px] sm:text-[10px] font-black tracking-wider uppercase bg-[#D4A848] text-[#40332D] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-tr-2xl rounded-bl-xl">
           🔥 On Fire
         </span>
       )}
       {service.badge === "popular" && (
-        <span className="absolute top-0 right-0 text-[10px] font-black tracking-wider uppercase bg-[#C0A045] text-[#40332D] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[8px] sm:text-[10px] font-black tracking-wider uppercase bg-[#C0A045] text-[#40332D] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-tr-2xl rounded-bl-xl">
           Popular
         </span>
       )}
 
-      <div className="w-10 h-10 rounded-xl bg-[#D4A848]/10 flex items-center justify-center text-lg flex-shrink-0">
+      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#D4A848]/10 flex items-center justify-center text-base sm:text-lg flex-shrink-0">
         {service.icon}
       </div>
 
-      <h3 className="font-bold text-[15px] leading-snug text-[#D4A848] group-hover:text-white transition-colors duration-200">
+      <h3 className="font-bold text-[12px] sm:text-[15px] leading-tight text-[#D4A848] group-hover:text-white transition-colors duration-200">
         {service.title}
       </h3>
 
-      <p className="text-[#FDFBF7]/60 text-[13px] leading-relaxed flex-1">
+      <p className="text-[#FDFBF7]/60 text-[10px] sm:text-[13px] leading-relaxed flex-1">
         {service.description}
       </p>
 
@@ -131,7 +131,7 @@ function ServiceCard({
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: index * 0.05, duration: 0.5 }}
-        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-[#D4A848]/20 bg-[#40332D] hover:border-[#D4A848]/50 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden text-left w-full"
+        className="group relative flex flex-col gap-3 p-3.5 sm:p-5 rounded-2xl border border-[#D4A848]/20 bg-[#40332D] hover:border-[#D4A848]/50 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden text-left w-full"
       >
         {inner}
       </motion.button>
@@ -147,7 +147,7 @@ function ServiceCard({
     >
       <Link
         href={`/services/${service.slug}`}
-        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-[#D4A848]/10 bg-[#40332D] hover:border-[#D4A848]/40 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden block"
+        className="group relative flex flex-col gap-3 p-3.5 sm:p-5 rounded-2xl border border-[#D4A848]/10 bg-[#40332D] hover:border-[#D4A848]/40 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden block h-full"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-gold-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         {inner}
@@ -199,7 +199,7 @@ export default function ServicesPage() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl sm:text-5xl lg:text-[64px] font-black leading-[1.04] tracking-tight mb-8 max-w-3xl text-[#362B25] uppercase"
+          className="text-3xl sm:text-5xl lg:text-[64px] font-black leading-[1.04] tracking-tight mb-8 max-w-3xl text-[#362B25] uppercase"
         >
           SERVICES
         </motion.h1>
@@ -256,107 +256,100 @@ export default function ServicesPage() {
           </button>
         </div>
 
-        <p className="text-[#362B25]/50 text-xs mb-7 tracking-wide">
-          {filtered.length} service{filtered.length !== 1 ? "s" : ""} found
-        </p>
-
-        {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <AnimatePresence>
-              {filtered.map((service, i) => (
-                <ServiceCard
-                  key={service.slug}
-                  service={service}
-                  index={i}
-                  onCounsellingClick={() => setShowCounsellingModal(true)}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
-        ) : (
-          <div className="py-24 text-center text-[#362B25]/50 text-sm">
-            No services found for &ldquo;{query}&rdquo;
-          </div>
-        )}
+        <div className="max-w-screen-2xl mx-auto">
+          {filtered.length > 0 ? (
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4">
+              <AnimatePresence>
+                {filtered.map((service, i) => (
+                  <ServiceCard
+                    key={service.slug}
+                    service={service}
+                    index={i}
+                    onCounsellingClick={() => setShowCounsellingModal(true)}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <div className="py-24 text-center text-[#362B25]/50 text-sm">
+              No services found for &ldquo;{query}&rdquo;
+            </div>
+          )}
+        </div>
       </section>
 
-      {/* ── CTA BANNER ───────────────────────────────────────────────────────── */}
-      <div className="px-4 sm:px-8 md:px-14 lg:px-20 py-4 bg-[#FFFFFF]">
-        <div className="relative overflow-hidden rounded-2xl border border-[#D4A848]/20 bg-[#40332D] px-6 py-12 shadow-2xl sm:px-14 flex flex-col items-center text-center gap-5">
-          <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-48 rounded-full bg-[#D4A848]/10 blur-[50px]" />
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#D4A848]">Questions? Start a chat with us.</h2>
-          <p className="text-gold-200/40 text-sm sm:text-base max-w-sm">
-            We&apos;re here to help you navigate your study, work, or immigration journey.
-          </p>
-          <a
-            href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in the your services service. Specifically, I would like to discuss...`)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#D4A848] text-[#362B25] font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:shadow-[0_10px_30px_rgba(194,168,120,0.3)] active:scale-95 transition-all text-center"
-          >
-            <ChatIcon className="w-4 h-4" />
-            Chat Now →
-          </a>
-        </div>
-      </div>
-
-      {/* ── SERVICE REQUEST ───────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-16 bg-[#F8F6F1] border-t border-[#D4A848]/10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-
-          {/* Left */}
-          <div>
-            <div className="inline-flex items-center gap-2 mb-4 bg-[#D4A848]/[0.08] border border-[#D4A848]/20 rounded-full px-3 py-1">
-              <span className="text-[#D4A848] text-xs font-semibold tracking-widest uppercase">Custom Request</span>
+      {/* ── HORIZONTAL CHAT BANNER ────────────────────────────────────────────────── */}
+      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-8 bg-white border-b border-[#D4A848]/10">
+        <div className="relative overflow-hidden rounded-[2rem] bg-[#40332D] p-6 sm:p-10 shadow-2xl border border-[#D4A848]/20 flex flex-col md:flex-row items-center justify-between gap-8 group transition-all hover:border-[#D4A848]/40">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,168,72,0.1),transparent_50%)]" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+            <div className="w-16 h-16 rounded-2xl bg-[#D4A848]/10 flex items-center justify-center text-3xl shadow-inner border border-[#D4A848]/10 animate-float">
+              💬
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4 text-[#362B25]">Service Request</h2>
-            <p className="text-[#675F5B]/70 text-sm sm:text-[15px] leading-relaxed mb-8">
-              Tell us what you need. If it&apos;s not listed, we&apos;ll do our best to create a solution just for you. Use the form for custom services.
-            </p>
-            {/* Illustration */}
-            <div className="bg-[#40332D] border border-[#D4A848]/10 shadow-2xl rounded-2xl p-6 flex flex-col gap-3">
-              <div className="flex gap-3">
-                <div className="h-8 flex-1 rounded-lg bg-white/5 border border-white/10" />
-                <div className="h-8 flex-1 rounded-lg bg-white/5 border border-white/10" />
-              </div>
-              <div className="h-8 rounded-lg bg-white/5 border border-white/10" />
-              <div className="h-8 rounded-lg bg-white/5 border border-white/10" />
-              <div className="h-16 rounded-lg bg-white/5 border border-white/10" />
-              <div className="h-10 rounded-lg bg-[#D4A848] flex items-center justify-center text-[#40332D] text-xs font-black tracking-widest">
-                SUBMIT →
-              </div>
+            <div className="space-y-1">
+              <h2 className="text-xl sm:text-2xl font-black text-[#D4A848] uppercase tracking-normal">Questions? Start a chat with us.</h2>
+              <p className="text-[#FDFBF7]/50 text-xs sm:text-sm font-medium">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
             </div>
           </div>
 
-          {/* Right — form */}
-          <div className="bg-[#40332D] border border-[#D4A848]/20 shadow-2xl rounded-2xl p-6 sm:p-8">
+          <div className="relative z-10 shrink-0">
+            <a
+              href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in your services. I would like to discuss...`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 bg-[#D4A848] text-[#40332D] font-black text-xs sm:text-sm px-8 py-4 rounded-xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#D4A848]/10 uppercase tracking-widest"
+            >
+              <ChatIcon className="w-5 h-5" />
+              Chat on Whatsapp
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SPACIOUS SERVICE REQUEST FORM ─────────────────────────────────────────── */}
+      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-10 bg-[#F8F6F1] relative overflow-hidden">
+        {/* decorative background element */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#D4A848]/5 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="max-w-3xl mx-auto relative z-10">
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 mb-2 bg-[#D4A848]/10 px-4 py-1 rounded-full border border-[#D4A848]/20">
+              <span className="text-[#D4A848] text-[8px] font-black uppercase tracking-[0.3em]">Custom Solutions</span>
+            </div>
+            <h2 className="text-2xl sm:text-4xl font-black text-[#362B25] tracking-tight uppercase leading-none mb-3">Request a <span className="text-[#D4A848]">Service</span></h2>
+            <p className="text-[#675F5B]/60 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
+              If our standard offerings don&apos;t fit, tell us what you&apos;re looking for and we&apos;ll craft a unique plan.
+            </p>
+          </div>
+
+          <div className="bg-white border border-[#D4A848]/20 rounded-[1.5rem] p-6 sm:p-8 shadow-xl">
             {submitted ? (
-              <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
-                <div className="w-16 h-16 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-3xl">✅</div>
-                <h3 className="text-xl font-black">Request Submitted!</h3>
-                <p className="text-[#FDFBF7]/60 text-sm max-w-xs">Thanks! Our team will get back to you shortly with the best solution.</p>
+              <div className="py-8 flex flex-col items-center text-center gap-4">
+                <div className="w-16 h-16 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-3xl border border-[#D4A848]/20">✨</div>
+                <div className="space-y-1">
+                  <h3 className="text-xl font-black text-[#362B25] uppercase tracking-tight">Request Received</h3>
+                  <p className="text-[#675F5B]/70 text-xs font-bold uppercase tracking-widest opacity-60">We&apos;ll reach out within 24 hours.</p>
+                </div>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-2 text-[#D4A848] text-sm underline underline-offset-2 hover:text-white"
+                  className="mt-2 text-[#D4A848] font-black text-[10px] uppercase tracking-widest border-b border-[#D4A848] pb-0.5 hover:text-[#362B25] hover:border-[#362B25] transition-all"
                 >
-                  Submit another request
+                  Submit Another request
                 </button>
               </div>
             ) : (
-              <>
-                <h3 className="text-xl sm:text-2xl font-black mb-1 text-[#D4A848]">How can we help you?</h3>
-                <p className="text-[#FDFBF7]/60 text-xs sm:text-sm mb-6 leading-relaxed">
-                  Tell us what you need. If it&apos;s not listed, we&apos;ll do our best to create a solution just for you.
-                </p>
-
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
-                    { label: "Name", name: "name", type: "text", placeholder: "Full Name" },
-                    { label: "Email ID", name: "email", type: "email", placeholder: "Email" },
-                    { label: "Mobile", name: "mobile", type: "tel", placeholder: "Mobile with country code" },
+                    { label: "Full Name", name: "name", type: "text", placeholder: "e.g. John Doe", colSpan: "sm:col-span-2" },
+                    { label: "Email Address", name: "email", type: "email", placeholder: "john@example.com", colSpan: "sm:col-span-1" },
+                    { label: "Phone / Mobile", name: "mobile", type: "tel", placeholder: "+1 (555) 000-0000", colSpan: "sm:col-span-1" },
                   ].map((field) => (
-                    <div key={field.name} className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-[#D4A848]/70 tracking-wide">{field.label}</label>
+                    <div key={field.name} className={`space-y-1 ${field.colSpan}`}>
+                      <label className="text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
+                        {field.label}
+                      </label>
                       <input
                         type={field.type}
                         name={field.name}
@@ -364,32 +357,35 @@ export default function ServicesPage() {
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         required={field.name !== "mobile"}
-                        className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4A848]/40 transition-colors"
+                        className="w-full bg-[#F8F6F1]/50 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#362B25] placeholder-[#362B25]/20 focus:outline-none focus:border-[#D4A848]/30 focus:bg-white transition-all"
                       />
                     </div>
                   ))}
+                </div>
 
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-[#D4A848]/70 tracking-wide">Service Required</label>
-                    <textarea
-                      name="service"
-                      value={form.service}
-                      onChange={handleChange}
-                      placeholder="What do you need help with? Please be as descriptive as possible and provide time or any other constraints that you may have."
-                      required
-                      rows={4}
-                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4A848]/40 transition-colors resize-none"
-                    />
-                  </div>
+                <div className="space-y-1">
+                  <label className="text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
+                    What can we do for you?
+                  </label>
+                  <textarea
+                    name="service"
+                    value={form.service}
+                    onChange={handleChange}
+                    placeholder="Briefly describe your requirements..."
+                    required
+                    rows={3}
+                    className="w-full bg-[#F8F6F1]/50 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#362B25] placeholder-[#362B25]/20 focus:outline-none focus:border-[#D4A848]/30 focus:bg-white transition-all resize-none"
+                  />
+                </div>
 
-                  <button
-                    type="submit"
-                    className="mt-1 w-full bg-[#D4A848] text-[#40332D] font-black text-sm sm:text-base py-3.5 rounded-xl hover:bg-white text-[#40332D] shadow-xl active:scale-[0.98] transition-all"
-                  >
-                    Submit
-                  </button>
-                </form>
-              </>
+                <button
+                  type="submit"
+                  className="w-full bg-[#362B25] text-white font-black text-xs py-3.5 rounded-xl hover:bg-[#D4A848] hover:text-[#362B25] shadow-lg transition-all uppercase tracking-[0.2em] relative overflow-hidden group"
+                >
+                  <span className="relative z-10">Send Request →</span>
+                  <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform" />
+                </button>
+              </form>
             )}
           </div>
         </div>

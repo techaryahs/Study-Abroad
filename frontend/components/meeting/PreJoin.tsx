@@ -37,9 +37,8 @@ function InfoRow({
         <span>{label}</span>
       </div>
       <span
-        className={`text-sm font-semibold truncate max-w-[160px] ${
-          mono ? "font-mono text-[#d4af37] tracking-wider text-xs" : "text-white"
-        }`}
+        className={`text-sm font-semibold truncate max-w-[160px] ${mono ? "font-mono text-[#d4af37] tracking-wider text-xs" : "text-white"
+          }`}
       >
         {value}
       </span>
@@ -79,7 +78,7 @@ export default function PreJoin({
               {isHost ? "Host Entry" : "Meeting Room"}
             </span>
             <span className="text-white/20 text-[9px] uppercase tracking-wider">
-              Global Counselling Center
+              Global Counsellor Center
             </span>
           </div>
         </div>

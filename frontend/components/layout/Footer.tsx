@@ -18,7 +18,7 @@ export default function Footer() {
             </div>
             <div className="flex flex-col">
               <span className="font-serif font-bold text-xl text-white leading-tight">
-                Global Counselling Center
+                Global Counsellor Center
               </span>
               <span className="text-[10px] text-[#B3985E] uppercase tracking-[0.3em] font-black">
                 Global Admissions
@@ -26,7 +26,7 @@ export default function Footer() {
             </div>
           </Link>
           <p className="text-white/30 text-sm leading-relaxed font-normal">
-            Your trusted principal-led partner for studying abroad. We guide students 
+            Your trusted principal-led partner for studying abroad. We guide students
             to Ivy League and top global universities with personalized, academic-first mentorship.
           </p>
         </div>
@@ -67,15 +67,15 @@ export default function Footer() {
           <div className="space-y-6 text-white/50 text-sm font-medium">
             <p className="flex items-start gap-4">
               <span className="text-[#B3985E] text-xs">📍</span>
-              Excellence Tower, Mumbai, India
+              Gauri Complex, 601, Sector 11, CBD Belapur, Navi Mumbai, Maharashtra 400614
             </p>
             <p className="flex items-center gap-4">
               <span className="text-[#B3985E] text-xs">📞</span>
-              +91 89876 54321
+              +91 96199 01999
             </p>
             <p className="flex items-center gap-4">
               <span className="text-[#B3985E] text-xs">✉</span>
-              admissions@dralam.com
+              tech.aryahs@gmail.com
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function Footer() {
       {/* BOTTOM */}
       <div className="border-t border-[#B3985E]/20 text-center py-12 px-8 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4">
         <div className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-black">
-          © {new Date().getFullYear()} Global Counselling Center Global.
+          © {new Date().getFullYear()} Global Counsellor Center Global.
         </div>
         <div className="flex gap-8 text-[10px] uppercase tracking-[0.3em] font-black text-white/20">
           <Link href="/privacy" className="hover:text-[#B3985E] transition-colors">Privacy Policy</Link>

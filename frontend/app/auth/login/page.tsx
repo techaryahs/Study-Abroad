@@ -169,7 +169,7 @@ const Login: React.FC = () => {
           <div className="mt-6 flex flex-col gap-2 items-center text-[8px] font-black text-gray-700 uppercase tracking-[2px]">
             <button onClick={() => router.push("/auth/RegisterStudent")} className="hover:text-gold-500 transition-colors">Student Registration</button>
             <div className="flex gap-4">
-              <button onClick={() => router.push("/auth/RegisterConsultant")} className="hover:text-gold-500 transition-colors border-r border-white/5 pr-4">Global Elite Consultant</button>
+              <button onClick={() => router.push("/auth/RegisterConsultant")} className="hover:text-gold-500 transition-colors border-r border-white/5 pr-4">Global Elite Counsellor</button>
               <button onClick={() => router.push("/auth/RegisterParent")} className="hover:text-gold-500 transition-colors">Parental Access</button>
             </div>
           </div>

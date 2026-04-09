@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { 
-    ArrowLeft, 
+import {
+    ArrowLeft,
     CheckCircle2,
     Zap,
     Scale,
@@ -36,7 +36,7 @@ export default function UniversityFinalizationPage() {
 
     return (
         <main className="min-h-screen pb-16" style={{ background: "#FDFBF7", color: "#3C2A21", fontFamily: "'DM Sans', sans-serif" }}>
-            
+
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
                 .fd { font-family: 'Cormorant Garamond', serif; }
@@ -98,91 +98,91 @@ export default function UniversityFinalizationPage() {
 
             {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
             <section className="relative pt-10 pb-24 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
-               <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                  <motion.div 
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8 }}
-                    className="space-y-8 pt-6"
-                  >
-                    <div className="flex flex-col gap-4">
-                        <Link 
-                            href="/services" 
-                            className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
-                        >
-                            <ArrowLeft size={14} /> Back to Services
-                        </Link>
-                        <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
-                           Post-Admission Strategy
-                        </span>
-                    </div>
-                    <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
-                       The Ultimate <br/> <span className="gold-shimmer">Decisive Choice</span>
-                    </h1>
-                    <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
-                       "Leverage deep-tier data analytics and years of expertise to finalize the one university that perfectly aligns with your career trajectory."
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center gap-6">
-                        <button 
-                            onClick={() => setShowBookingModal(true)}
-                            className="btn-gold shadow-2xl group w-full sm:w-auto justify-center"
-                        >
-                            Finalize My Choice <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                        </button>
-                    </div>
-                  </motion.div>
-
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, delay: 0.2 }}
-                    className="relative"
-                  >
-                     <div className="glass-panel p-2 overflow-hidden shadow-2xl">
-                        <div className="bg-[#FFFFFF] rounded-[28px] overflow-hidden border border-[#F1EDEA]">
-                           <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
-                              <div className="flex items-center gap-3">
-                                 <Compass className="text-[#C5A059]" size={20} />
-                                 <span className="text-[10px] text-[#3C2A21] font-bold tracking-widest uppercase">Decision Vault</span>
-                              </div>
-                              <div className="w-2 h-2 rounded-full bg-[#C5A059] animate-pulse" />
-                           </div>
-                           <div className="p-10 space-y-8 bg-[#FDFBF7]">
-                                <div className="space-y-4">
-                                    <div className="p-6 bg-[#3C2A21] rounded-2xl shadow-xl">
-                                        <p className="text-white font-serif italic text-sm leading-relaxed">
-                                            "Securing multiple admits is a triumph; choosing the wrong one is a tragedy. We audit every metric so you don't have to guess."
-                                        </p>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="p-4 bg-white border border-[#C5A059]/10 rounded-xl space-y-1">
-                                            <p className="text-[10px] text-[#C5A059] font-bold uppercase tracking-widest">Admits Needed</p>
-                                            <p className="text-[#3C2A21] font-bold text-lg">2 to 6+</p>
-                                        </div>
-                                        <div className="p-4 bg-white border border-[#C5A059]/10 rounded-xl space-y-1">
-                                            <p className="text-[10px] text-[#C5A059] font-bold uppercase tracking-widest">Audit Depth</p>
-                                            <p className="text-[#3C2A21] font-bold text-lg">9+ Metrics</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="space-y-4">
-                                    {[
-                                        "Detailed ROI Projection",
-                                        "Lifestyle Intelligence",
-                                        "Job-Market Alignment",
-                                        "Strategic One-Pick Finalization"
-                                    ].map((item) => (
-                                        <div key={item} className="flex items-center gap-3 text-[#3C2A21] font-medium text-sm">
-                                            <CheckCircle2 size={16} className="text-[#C5A059]" />
-                                            {item}
-                                        </div>
-                                    ))}
-                                </div>
-                           </div>
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="space-y-8 pt-6"
+                    >
+                        <div className="flex flex-col gap-4">
+                            <Link
+                                href="/services"
+                                className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
+                            >
+                                <ArrowLeft size={14} /> Back to Services
+                            </Link>
+                            <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
+                                Post-Admission Strategy
+                            </span>
                         </div>
-                     </div>
-                  </motion.div>
-               </div>
+                        <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
+                            The Ultimate <br /> <span className="gold-shimmer">Decisive Choice</span>
+                        </h1>
+                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                            "Leverage deep-tier data analytics and years of expertise to finalize the one university that perfectly aligns with your career trajectory."
+                        </p>
+                        <div className="flex flex-col sm:flex-row items-center gap-6">
+                            <button
+                                onClick={() => setShowBookingModal(true)}
+                                className="btn-gold shadow-2xl group w-full sm:w-auto justify-center"
+                            >
+                                Finalize My Choice <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                            </button>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                        className="relative"
+                    >
+                        <div className="glass-panel p-2 overflow-hidden shadow-2xl">
+                            <div className="bg-[#FFFFFF] rounded-[28px] overflow-hidden border border-[#F1EDEA]">
+                                <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
+                                    <div className="flex items-center gap-3">
+                                        <Compass className="text-[#C5A059]" size={20} />
+                                        <span className="text-[10px] text-[#3C2A21] font-bold tracking-widest uppercase">Decision Vault</span>
+                                    </div>
+                                    <div className="w-2 h-2 rounded-full bg-[#C5A059] animate-pulse" />
+                                </div>
+                                <div className="p-10 space-y-8 bg-[#FDFBF7]">
+                                    <div className="space-y-4">
+                                        <div className="p-6 bg-[#3C2A21] rounded-2xl shadow-xl">
+                                            <p className="text-white font-serif italic text-sm leading-relaxed">
+                                                "Securing multiple admits is a triumph; choosing the wrong one is a tragedy. We audit every metric so you don't have to guess."
+                                            </p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="p-4 bg-white border border-[#C5A059]/10 rounded-xl space-y-1">
+                                                <p className="text-[10px] text-[#C5A059] font-bold uppercase tracking-widest">Admits Needed</p>
+                                                <p className="text-[#3C2A21] font-bold text-lg">2 to 6+</p>
+                                            </div>
+                                            <div className="p-4 bg-white border border-[#C5A059]/10 rounded-xl space-y-1">
+                                                <p className="text-[10px] text-[#C5A059] font-bold uppercase tracking-widest">Audit Depth</p>
+                                                <p className="text-[#3C2A21] font-bold text-lg">9+ Metrics</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="space-y-4">
+                                        {[
+                                            "Detailed ROI Projection",
+                                            "Lifestyle Intelligence",
+                                            "Job-Market Alignment",
+                                            "Strategic One-Pick Finalization"
+                                        ].map((item) => (
+                                            <div key={item} className="flex items-center gap-3 text-[#3C2A21] font-medium text-sm">
+                                                <CheckCircle2 size={16} className="text-[#C5A059]" />
+                                                {item}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
             </section>
 
             {/* ── ABOUT SECTION ──────────────────────────────────────────────────── */}
@@ -191,7 +191,7 @@ export default function UniversityFinalizationPage() {
                     <div className="space-y-10">
                         <div className="space-y-4">
                             <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">The Importance of Choice</span>
-                            <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Navigating the <br/> <span className="gold-shimmer">Admissions Crossroad</span></h2>
+                            <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Navigating the <br /> <span className="gold-shimmer">Admissions Crossroad</span></h2>
                         </div>
                         <div className="space-y-6 text-[#6B5E51] font-medium leading-relaxed">
                             <p>
@@ -236,19 +236,19 @@ export default function UniversityFinalizationPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {finalizationFactors.map((feat, i) => (
-                           <motion.div 
-                             key={i} 
-                             initial={{ opacity: 0, y: 20 }}
-                             whileInView={{ opacity: 1, y: 0 }}
-                             transition={{ delay: i * 0.1 }}
-                             className="feature-pill p-10 space-y-6"
-                           >
-                              <div className="w-14 h-14 rounded-2xl bg-[#FDFBF7] flex items-center justify-center text-[#C5A059] border border-[#C5A059]/10">
-                                 {feat.icon}
-                              </div>
-                              <h3 className="fd text-2xl font-bold text-[#3C2A21]">{feat.title}</h3>
-                              <p className="text-[#6B5E51] text-sm leading-relaxed font-medium">{feat.desc}</p>
-                           </motion.div>
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                className="feature-pill p-10 space-y-6"
+                            >
+                                <div className="w-14 h-14 rounded-2xl bg-[#FDFBF7] flex items-center justify-center text-[#C5A059] border border-[#C5A059]/10">
+                                    {feat.icon}
+                                </div>
+                                <h3 className="fd text-2xl font-bold text-[#3C2A21]">{feat.title}</h3>
+                                <p className="text-[#6B5E51] text-sm leading-relaxed font-medium">{feat.desc}</p>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
@@ -257,7 +257,7 @@ export default function UniversityFinalizationPage() {
             {/* ── REDESIGNED CALL TO ACTION ──────────────────────────────────────── */}
             <section className="py-24 px-6 bg-white relative overflow-hidden">
                 <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(#C5A059 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     className="max-w-5xl mx-auto glass-panel p-16 flex flex-col items-center text-center space-y-10 relative z-10"
@@ -272,7 +272,7 @@ export default function UniversityFinalizationPage() {
                         </p>
                     </div>
 
-                    <button 
+                    <button
                         onClick={() => setShowBookingModal(true)}
                         className="btn-gold shadow-2xl group w-full sm:w-auto"
                     >
@@ -283,9 +283,9 @@ export default function UniversityFinalizationPage() {
 
             <FAQSection />
 
-            <BookCounsellingModal 
-                isOpen={showBookingModal} 
-                onClose={() => setShowBookingModal(false)} 
+            <BookCounsellingModal
+                isOpen={showBookingModal}
+                onClose={() => setShowBookingModal(false)}
             />
 
         </main>

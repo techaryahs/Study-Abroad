@@ -21,7 +21,7 @@ export default function IvyLeagueSecretsPage() {
                 Applying to Harvard, Yale, or Princeton isn't a checklist; it's an art. The Ivy League schools don't just want the smartest students—they have thousands of those. They want the most "impactful" class.
               </p>
               <p className="text-white/50 leading-relaxed font-medium pt-4 italic">
-                At Global Counselling Center Global, we have worked with academics who have sat on these boards. Here is the 'Black Box' strategy we use to decode the admissions process for our elite students.
+                At Global Counsellor Center Global, we have worked with academics who have sat on these boards. Here is the 'Black Box' strategy we use to decode the admissions process for our elite students.
               </p>
             </div>
           </section>
@@ -70,7 +70,7 @@ export default function IvyLeagueSecretsPage() {
           </section>
 
           <section className="bg-dark-900 p-12 md:p-16 rounded-3xl border border-gold-500/10 text-center space-y-8 relative z-10 shadow-4xl transform-gpu hover:shadow-gold-500/5 transition-all">
-            <h3 className="text-2xl font-black uppercase tracking-widest italic gradient-text-gold">The Global Counselling Center Promise</h3>
+            <h3 className="text-2xl font-black uppercase tracking-widest italic gradient-text-gold">The Global Counsellor Center Promise</h3>
             <p className="text-white/30 text-lg max-w-2xl mx-auto leading-relaxed italic border-t border-white/5 pt-8">
               "We don't guarantee admission; we guarantee the most powerful version of yourself. When that version knocks, the Ivy League usually opens the door."
             </p>

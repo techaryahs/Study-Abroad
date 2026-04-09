@@ -251,12 +251,12 @@ export default function ResearchPaperServicePage() {
             <span className="tag">Our Services</span>
           </div>
 
-          <div className="grid gap-16 items-center" style={{ gridTemplateColumns: "1fr 1fr" }}>
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
 
             {/* Copy */}
             <div>
-              <h1 className={`fd ${mounted ? "afu d1" : "opacity-0"}`}
-                style={{ fontSize: "clamp(48px,6vw,76px)", fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.02em", marginBottom: 24 }}>
+              <h1 className={`fd ${mounted ? "afu d1" : "opacity-0"} text-3xl lg:text-[76px] break-words`}
+                style={{ fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.02em", marginBottom: 24 }}>
                 Research<br />
                 Paper <span className="gold-shimmer">Drafting</span><br />
                 &amp; Publishing

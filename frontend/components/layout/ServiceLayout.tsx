@@ -87,7 +87,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
         initial="hidden"
         animate="visible"
         variants={containerVariants}
-        className="max-w-7xl mx-auto px-8 md:px-20 pt-12 pb-16 md:pt-16 md:pb-24 relative z-10"
+        className="max-w-screen-2xl mx-auto px-8 md:px-20 pt-12 pb-16 md:pt-16 md:pb-24 relative z-10"
       >
         <Link href="/services" className="inline-flex items-center gap-4 text-[#C5A059] font-black uppercase tracking-[0.4em] text-[10px] hover:gap-6 transition-all duration-500 mb-12 group">
           <svg className="w-4 h-4 transition-transform group-hover:-translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,21 +96,23 @@ export default function ServiceLayout({ title, description, details, icon, accen
           Back to expertise
         </Link>
 
-        <div className="grid lg:grid-cols-3 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start mt-4 sm:mt-8">
           {/* Header & Description */}
           <motion.div variants={itemVariants} className="space-y-6 lg:sticky lg:top-32">
-            <div className="w-16 h-16 rounded-2xl bg-[#C5A059] flex items-center justify-center text-white shadow-2xl shadow-[#C5A059]/20 transform-gpu animate-float">
-              <div className="scale-125">
-                {icon}
+            <div className="flex flex-row lg:flex-col items-center lg:items-start gap-4 lg:gap-8">
+              <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-[#C5A059] flex items-center justify-center text-white shadow-2xl shadow-[#C5A059]/20 shrink-0 transform-gpu animate-float">
+                <div className="scale-100 lg:scale-125">
+                  {icon}
+                </div>
               </div>
-            </div>
-            
-            <div className="space-y-3">
-              <span className="text-[#C5A059] uppercase tracking-[0.5em] font-black text-[9px]">Strategic Expertise</span>
-              <h1 className="fd text-4xl md:text-5xl font-black tracking-tight leading-none uppercase text-[#3C2A21]">
-                {title.split(' ').slice(0, -1).join(' ')} <br />
-                <span className="gold-shimmer italic lowercase">{title.split(' ').slice(-1)}</span>
-              </h1>
+              
+              <div className="space-y-1 lg:space-y-3">
+                <span className="text-[#C5A059] uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black text-[8px] sm:text-[9px]">Strategic Expertise</span>
+                <h1 className="fd text-[22px] sm:text-3xl md:text-5xl font-black tracking-tight leading-tight uppercase text-[#3C2A21] break-words">
+                  {title.split(' ').slice(0, -1).join(' ')} <br className="hidden sm:block" />
+                  <span className="gold-shimmer italic lowercase">{title.split(' ').slice(-1)}</span>
+                </h1>
+              </div>
             </div>
 
             <p className="text-[#6B5E51] text-sm md:text-base font-normal leading-relaxed italic border-l border-[#C5A059]/20 pl-6 py-2">

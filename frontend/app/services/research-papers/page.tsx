@@ -37,15 +37,17 @@ function Accordion({ title, children }: AccordionProps) {
 
 function StatBar({ label, value }: { label: string; value: number }) {
   return (
-    <div className="flex items-center gap-4">
-      <span className="text-xs text-[#675F5B] font-semibold w-28 shrink-0">{label}</span>
-      <div className="flex-1 bg-[#D4A848]/10 rounded-full h-6 overflow-hidden relative border border-[#D4A848]/20">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-[#D4A848]/80 to-[#D4A848]"
-          style={{ width: `${value}%` }}
-        />
+    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+      <span className="text-xs text-[#675F5B] font-semibold w-full sm:w-28 shrink-0">{label}</span>
+      <div className="flex items-center gap-4 flex-1">
+        <div className="flex-1 bg-[#D4A848]/10 rounded-full h-6 overflow-hidden relative border border-[#D4A848]/20">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-[#D4A848]/80 to-[#D4A848]"
+            style={{ width: `${value}%` }}
+          />
+        </div>
+        <span className="text-sm font-black text-[#362B25] w-12 text-right">{value}%</span>
       </div>
-      <span className="text-sm font-black text-[#362B25] w-12 text-right">{value}%</span>
     </div>
   );
 }
@@ -144,49 +146,52 @@ export default function ResearchPaperPage() {
     <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] selection:bg-[#D4A848]/30">
 
       {/* ── HERO SECTION ───────────────────────────────────────────────────── */}
-      <section className="relative px-6 py-16 md:px-20 overflow-hidden border-b border-[#D4A848]/10">
+      <section className="relative px-6 py-12 md:px-20 overflow-hidden border-b border-[#D4A848]/10">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4A848]/10 rounded-full blur-[120px] -z-10" />
 
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-5xl  md:text-7xl font-black mb-6 tracking-tighter uppercase leading-[0.9]">
-              <span className="text-[#362B25]">Research Paper Drafting &amp;</span><span className="text-[#D4A848]"> Publishing Help</span>
-            </h1>
-            <p className="text-lg text-[#675F5B] mb-10 max-w-xl leading-relaxed font-medium">
-              Publishing credible research papers with your name on them can help boost your profile!{" "}
-              <span className="text-[#D4A848] font-black">Extremely crucial</span> for MS/PhD and O-1/EB-1 visa applicants.
-            </p>
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="flex flex-row lg:flex-row items-center gap-4 lg:gap-12 mb-8">
+            <div className="flex-1">
+              <h1 className="text-2xl md:text-7xl font-black mb-4 tracking-tighter uppercase leading-[0.9] break-words">
+                <span className="text-[#362B25]">Research Paper Drafting &amp;</span><br className="sm:hidden" /><span className="text-[#D4A848]"> Publishing</span>
+              </h1>
+              <p className="hidden sm:block text-lg text-[#675F5B] mb-10 max-w-xl leading-relaxed font-medium">
+                Publishing credible research papers with your name on them can help boost your profile!{" "}
+                <span className="text-[#D4A848] font-black">Extremely crucial</span> for MS/PhD and O-1/EB-1 visa applicants.
+              </p>
+            </div>
 
-            <DiscussionSection serviceId="research-papers" />
-          </div>
-
-          {/* Hero illustration */}
-          <div className="w-[85%] mx-auto flex items-center justify-center">
-            <div className="relative w-full h-[340px] md:h-[420px]">
-              {/* Blob background */}
-              <div className="absolute inset-0 bg-[#D4A848]/15 rounded-[60%_40%_50%_50%/50%_60%_40%_50%] blur-2xl" />
-              <div className="absolute inset-6 flex flex-col items-center justify-center gap-4">
-                {/* Paper mockup */}
-                <div className="bg-[#FFFFFF] border border-[#D4A848]/30 rounded-xl p-6 w-64 shadow-[0_10px_40px_rgba(212,168,72,0.15)] relative">
-                  <div className="text-[10px] text-[#D4A848] uppercase tracking-widest mb-3 font-bold">Research Publication</div>
-                  <div className="space-y-2">
-                    {[100, 90, 95, 80, 70, 85, 60].map((w, i) => (
-                      <div key={i} className={`h-1.5 rounded-full bg-[#362B25]/10`} style={{ width: `${w}%` }} />
+            {/* Hero illustration */}
+            <div className="w-24 h-24 sm:w-[40%] flex-shrink-0 relative">
+              <div className="relative w-full h-full flex items-center justify-center">
+                {/* Blob background */}
+                <div className="absolute inset-0 bg-[#D4A848]/15 rounded-[60%_40%_50%_50%/50%_60%_40%_50%] blur-xl group-hover:blur-2xl transition-all" />
+                <div className="relative flex flex-col items-center justify-center gap-1 sm:gap-4 scale-[0.4] sm:scale-100">
+                  {/* Paper mockup */}
+                  <div className="bg-[#FFFFFF] border border-[#D4A848]/30 rounded-xl p-6 w-64 shadow-[0_10px_40px_rgba(212,168,72,0.15)] relative">
+                    <div className="text-[10px] text-[#D4A848] uppercase tracking-widest mb-3 font-bold">Research Publication</div>
+                    <div className="space-y-2">
+                      {[100, 90, 95, 80, 70, 85, 60].map((w, i) => (
+                        <div key={i} className={`h-1.5 rounded-full bg-[#362B25]/10`} style={{ width: `${w}%` }} />
+                      ))}
+                    </div>
+                  </div>
+                  {/* Publisher logos */}
+                  <div className="flex gap-2 sm:gap-4 items-center">
+                    {["IEEE", "Springer"].map((pub) => (
+                      <span key={pub} className="text-[10px] font-black text-[#D4A848] border border-[#D4A848]/30 bg-[#FFFFFF] px-3 py-1.5 rounded-lg shadow-sm">{pub}</span>
                     ))}
                   </div>
-                  <div className="mt-4 flex gap-2 items-center">
-                    <div className="w-6 h-6 rounded-full bg-[#D4A848]/20 border border-[#D4A848]/40 flex items-center justify-center text-[8px] font-bold text-[#D4A848]">YM</div>
-                    <div className="text-[9px] font-bold text-[#675F5B]">Published in IEEE · Springer</div>
-                  </div>
-                </div>
-                {/* Publisher logos */}
-                <div className="flex gap-4 items-center">
-                  {["IEEE", "Springer", "Elsevier"].map((pub) => (
-                    <span key={pub} className="text-[10px] font-black text-[#D4A848] border border-[#D4A848]/30 bg-[#FFFFFF] px-3 py-1.5 rounded-lg shadow-sm">{pub}</span>
-                  ))}
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="space-y-8">
+            <p className="sm:hidden text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
+              Publish credible papers to boost profile for <span className="text-[#D4A848] font-black">MS/PhD &amp; EB-1</span>.
+            </p>
+            <DiscussionSection serviceId="research-papers" />
           </div>
         </div>
       </section>
@@ -247,9 +252,9 @@ export default function ResearchPaperPage() {
 
               <div className="space-y-6">
                 {harvardAdmits.map((uni) => (
-                  <div key={uni.label} className="flex items-center gap-4">
-                    <div className="text-xs font-bold text-[#675F5B] w-36 shrink-0 text-right">{uni.label}</div>
-                    <div className="flex-1 space-y-1.5">
+                  <div key={uni.label} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                    <div className="text-xs font-bold text-[#675F5B] w-full sm:w-36 shrink-0 sm:text-right">{uni.label}</div>
+                    <div className="flex-1 space-y-1.5 min-w-0">
                       <div className="flex items-center gap-2">
                         <div className="flex-1 bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-full h-5 overflow-hidden">
                           <div className="h-full bg-[#D4A848] rounded-full" style={{ width: `${(uni.withPaper / 55) * 100}%` }} />
