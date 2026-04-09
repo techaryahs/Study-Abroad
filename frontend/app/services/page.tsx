@@ -84,38 +84,38 @@ function ServiceCard({
   const inner = (
     <>
       {/* top accent */}
-      <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-gold-300 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+      <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#D4A848] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 
       {/* badges */}
       {service.badge === "fire" && (
-        <span className="absolute top-0 right-0 text-[10px] font-black tracking-wider uppercase bg-orange-600 text-white px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[10px] font-black tracking-wider uppercase bg-[#D4A848] text-[#40332D] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
           🔥 On Fire
         </span>
       )}
       {service.badge === "popular" && (
-        <span className="absolute top-0 right-0 text-[10px] font-black tracking-wider uppercase bg-green-600 text-white px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[10px] font-black tracking-wider uppercase bg-[#C0A045] text-[#40332D] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
           Popular
         </span>
       )}
 
-      <div className="w-10 h-10 rounded-xl bg-gold-500/10 flex items-center justify-center text-lg flex-shrink-0">
+      <div className="w-10 h-10 rounded-xl bg-[#D4A848]/10 flex items-center justify-center text-lg flex-shrink-0">
         {service.icon}
       </div>
 
-      <h3 className="font-bold text-[15px] leading-snug text-gold-100 group-hover:text-gold-500 transition-colors duration-200">
+      <h3 className="font-bold text-[15px] leading-snug text-[#D4A848] group-hover:text-white transition-colors duration-200">
         {service.title}
       </h3>
 
-      <p className="text-gold-200/60 text-[13px] leading-relaxed flex-1">
+      <p className="text-[#FDFBF7]/60 text-[13px] leading-relaxed flex-1">
         {service.description}
       </p>
 
       {isCounselling ? (
-        <span className="self-end text-xs font-bold text-gold-500 bg-gold-500/10 border border-gold-500/20 px-3 py-1 rounded-full transition-all duration-200 shadow-sm shadow-gold-500/10">
+        <span className="self-end text-xs font-bold text-[#D4A848] bg-[#D4A848]/10 border border-[#D4A848]/20 px-3 py-1 rounded-full transition-all duration-200 shadow-sm shadow-[#D4A848]/10">
           Book Now →
         </span>
       ) : (
-        <span className="self-end text-gold-500 text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+        <span className="self-end text-[#D4A848] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
           →
         </span>
       )}
@@ -131,7 +131,7 @@ function ServiceCard({
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: index * 0.05, duration: 0.5 }}
-        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-gold-500/20 bg-gradient-to-br from-[#4E342E] to-[#2D1B19] hover:border-gold-500/50 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden text-left w-full"
+        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-[#D4A848]/20 bg-[#40332D] hover:border-[#D4A848]/50 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden text-left w-full"
       >
         {inner}
       </motion.button>
@@ -147,7 +147,7 @@ function ServiceCard({
     >
       <Link
         href={`/services/${service.slug}`}
-        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-gold-500/10 bg-gradient-to-br from-[#4E342E] to-[#2D1B19] hover:border-gold-500/40 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden block"
+        className="group relative flex flex-col gap-3 p-5 rounded-2xl border border-[#D4A848]/10 bg-[#40332D] hover:border-[#D4A848]/40 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden block"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-gold-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         {inner}
@@ -181,17 +181,17 @@ export default function ServicesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#3E2723] via-[#4E342E] to-[#2D1B19] text-gold-200 overflow-x-hidden">
+    <main className="min-h-screen bg-[#FFFFFF] text-[#675F5B] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section className="relative px-4 sm:px-8 md:px-14 lg:px-20 pt-14 pb-12 border-b border-white/[0.08] overflow-hidden">
+      <section className="relative px-4 sm:px-8 md:px-14 lg:px-20 pt-14 pb-12 border-b border-white/10 overflow-hidden">
         {/* radial glow */}
         <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[420px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,197,24,0.12)_0%,transparent_70%)]" />
 
         {/* badge */}
-        <div className="inline-flex items-center gap-2 mb-6 bg-[#d4af37]/[0.08] border border-[#d4af37]/25 rounded-full px-4 py-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#d4af37] animate-pulse" />
-          <span className="text-[#d4af37] text-xs font-semibold tracking-widest uppercase">Our Services</span>
+        <div className="inline-flex items-center gap-2 mb-6 bg-[#D4A848]/[0.08] border border-[#D4A848]/25 rounded-full px-4 py-1.5">
+          <span className="w-2 h-2 rounded-full bg-[#D4A848] animate-pulse" />
+          <span className="text-[#D4A848] text-xs font-semibold tracking-widest uppercase">Our Services</span>
         </div>
 
         {/* heading */}
@@ -199,7 +199,7 @@ export default function ServicesPage() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl sm:text-5xl lg:text-[64px] font-black leading-[1.04] tracking-tight mb-8 max-w-3xl gradient-text-gold uppercase"
+          className="text-4xl sm:text-5xl lg:text-[64px] font-black leading-[1.04] tracking-tight mb-8 max-w-3xl text-[#362B25] uppercase"
         >
           SERVICES
         </motion.h1>
@@ -211,28 +211,28 @@ export default function ServicesPage() {
           transition={{ delay: 0.4, duration: 1 }}
           className="max-w-3xl space-y-3.5"
         >
-          <p className="text-gold-200/60 text-sm sm:text-[15px] leading-relaxed">
+          <p className="text-[#675F5B]/70 text-sm sm:text-[15px] leading-relaxed">
             Having worked with students from over{" "}
-            <strong className="text-gold-100 font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
-            <strong className="text-gold-100 font-semibold">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
+            <strong className="text-[#362B25] font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
+            <strong className="text-[#362B25] font-semibold">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
           </p>
-          <p className="text-gold-200/60 text-sm sm:text-[15px] leading-relaxed">
+          <p className="text-[#675F5B]/70 text-sm sm:text-[15px] leading-relaxed">
             We support applications to most countries including but not limited to{" "}
-            <strong className="text-gold-100 font-semibold">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
+            <strong className="text-[#362B25] font-semibold">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
           </p>
-          <p className="text-gold-500 text-sm font-medium pt-1">
+          <p className="text-[#D4A848] text-sm font-medium pt-1">
             ✦ To see the charges, you can click on the service, select the currency and other relevant options (if any). Crypto payments now accepted!
           </p>
         </motion.div>
 
         {/* chat strip */}
-        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#4E342E]/30 border border-gold-500/[0.08] rounded-xl px-5 py-3.5 shadow-[0_15px_40px_rgba(0,0,0,0.5)]">
-          <span className="text-gold-200/40 text-sm">To reach our sales team</span>
+        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-xl px-5 py-3.5 shadow-sm">
+          <span className="text-[#675F5B]/80 font-medium text-sm">To reach our sales team</span>
           <a
             href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in the your services service. Specifically, I would like to discuss...`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-gold-500 text-[#3E2723] font-bold text-sm px-5 py-2.5 rounded-lg hover:bg-gold-400 active:scale-95 transition-all text-center"
+            className="inline-flex items-center gap-2 bg-[#D4A848] text-[#40332D] font-black text-sm px-5 py-2.5 rounded-lg hover:bg-white active:scale-95 transition-all text-center border border-[#D4A848]/20 shadow-md"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
@@ -241,7 +241,7 @@ export default function ServicesPage() {
       </section>
 
       {/* ── SEARCH + GRID ────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-10">
+      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-10 bg-[#F8F6F1] border-y border-[#D4A848]/10 relative z-10">
         {/* Search */}
         <div className="relative max-w-md mb-6">
           <input
@@ -249,14 +249,14 @@ export default function ServicesPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for a service…"
-            className="w-full bg-[#4E342E]/40 border border-gold-500/10 rounded-2xl px-5 py-3.5 pr-11 text-sm text-gold-100 placeholder-gold-200/30 focus:outline-none focus:border-gold-500/40 transition-all backdrop-blur-sm shadow-inner"
+            className="w-full bg-white border border-[#D4A848]/20 rounded-2xl px-5 py-3.5 pr-11 text-sm text-[#362B25] font-medium placeholder-[#675F5B]/50 focus:outline-none focus:border-[#D4A848] focus:ring-1 focus:ring-[#D4A848]/50 transition-all shadow-md"
           />
-          <button className="absolute right-4 top-1/2 -translate-y-1/2 text-gold-500 hover:scale-110 transition-transform" aria-label="Search">
+          <button className="absolute right-4 top-1/2 -translate-y-1/2 text-[#D4A848] hover:scale-110 transition-transform" aria-label="Search">
             <SearchIcon className="w-5 h-5" />
           </button>
         </div>
 
-        <p className="text-white/25 text-xs mb-7 tracking-wide">
+        <p className="text-[#362B25]/50 text-xs mb-7 tracking-wide">
           {filtered.length} service{filtered.length !== 1 ? "s" : ""} found
         </p>
 
@@ -274,17 +274,17 @@ export default function ServicesPage() {
             </AnimatePresence>
           </div>
         ) : (
-          <div className="py-24 text-center text-white/30 text-sm">
+          <div className="py-24 text-center text-[#362B25]/50 text-sm">
             No services found for &ldquo;{query}&rdquo;
           </div>
         )}
       </section>
 
       {/* ── CTA BANNER ───────────────────────────────────────────────────────── */}
-      <div className="px-4 sm:px-8 md:px-14 lg:px-20 py-4">
-        <div className="relative overflow-hidden rounded-2xl border border-gold-500/20 bg-gradient-to-br from-[#4E342E] to-[#2D1B19] px-6 py-12 sm:px-14 flex flex-col items-center text-center gap-5">
-          <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-48 rounded-full bg-[radial-gradient(ellipse,rgba(194,168,120,0.15),transparent_70%)]" />
-          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-gold-500">Questions? Start a chat with us.</h2>
+      <div className="px-4 sm:px-8 md:px-14 lg:px-20 py-4 bg-[#FFFFFF]">
+        <div className="relative overflow-hidden rounded-2xl border border-[#D4A848]/20 bg-[#40332D] px-6 py-12 shadow-2xl sm:px-14 flex flex-col items-center text-center gap-5">
+          <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-96 h-48 rounded-full bg-[#D4A848]/10 blur-[50px]" />
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-[#D4A848]">Questions? Start a chat with us.</h2>
           <p className="text-gold-200/40 text-sm sm:text-base max-w-sm">
             We&apos;re here to help you navigate your study, work, or immigration journey.
           </p>
@@ -292,7 +292,7 @@ export default function ServicesPage() {
             href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in the your services service. Specifically, I would like to discuss...`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-600 text-[#3E2723] font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:shadow-[0_10px_30px_rgba(194,168,120,0.3)] active:scale-95 transition-all text-center"
+            className="inline-flex items-center gap-2 bg-[#D4A848] text-[#362B25] font-bold text-sm sm:text-base px-7 py-3 rounded-xl hover:shadow-[0_10px_30px_rgba(194,168,120,0.3)] active:scale-95 transition-all text-center"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
@@ -301,51 +301,51 @@ export default function ServicesPage() {
       </div>
 
       {/* ── SERVICE REQUEST ───────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-16">
+      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-16 bg-[#F8F6F1] border-t border-[#D4A848]/10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
           {/* Left */}
           <div>
-            <div className="inline-flex items-center gap-2 mb-4 bg-[#d4af37]/[0.08] border border-[#d4af37]/20 rounded-full px-3 py-1">
-              <span className="text-[#d4af37] text-xs font-semibold tracking-widest uppercase">Custom Request</span>
+            <div className="inline-flex items-center gap-2 mb-4 bg-[#D4A848]/[0.08] border border-[#D4A848]/20 rounded-full px-3 py-1">
+              <span className="text-[#D4A848] text-xs font-semibold tracking-widest uppercase">Custom Request</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">Service Request</h2>
-            <p className="text-white/45 text-sm sm:text-[15px] leading-relaxed mb-8">
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4 text-[#362B25]">Service Request</h2>
+            <p className="text-[#675F5B]/70 text-sm sm:text-[15px] leading-relaxed mb-8">
               Tell us what you need. If it&apos;s not listed, we&apos;ll do our best to create a solution just for you. Use the form for custom services.
             </p>
             {/* Illustration */}
-            <div className="bg-[#0f0f0f] border border-white/[0.08] rounded-2xl p-6 flex flex-col gap-3">
+            <div className="bg-[#40332D] border border-[#D4A848]/10 shadow-2xl rounded-2xl p-6 flex flex-col gap-3">
               <div className="flex gap-3">
-                <div className="h-8 flex-1 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
-                <div className="h-8 flex-1 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
+                <div className="h-8 flex-1 rounded-lg bg-white/5 border border-white/10" />
+                <div className="h-8 flex-1 rounded-lg bg-white/5 border border-white/10" />
               </div>
-              <div className="h-8 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
-              <div className="h-8 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
-              <div className="h-16 rounded-lg bg-[#1e1e1e] border border-white/[0.06]" />
-              <div className="h-10 rounded-lg bg-[#d4af37] flex items-center justify-center text-black text-xs font-black tracking-widest">
+              <div className="h-8 rounded-lg bg-white/5 border border-white/10" />
+              <div className="h-8 rounded-lg bg-white/5 border border-white/10" />
+              <div className="h-16 rounded-lg bg-white/5 border border-white/10" />
+              <div className="h-10 rounded-lg bg-[#D4A848] flex items-center justify-center text-[#40332D] text-xs font-black tracking-widest">
                 SUBMIT →
               </div>
             </div>
           </div>
 
           {/* Right — form */}
-          <div className="bg-[#0f0f0f] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+          <div className="bg-[#40332D] border border-[#D4A848]/20 shadow-2xl rounded-2xl p-6 sm:p-8">
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-12 gap-4 text-center">
-                <div className="w-16 h-16 rounded-full bg-[#d4af37]/10 flex items-center justify-center text-3xl">✅</div>
+                <div className="w-16 h-16 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-3xl">✅</div>
                 <h3 className="text-xl font-black">Request Submitted!</h3>
-                <p className="text-white/45 text-sm max-w-xs">Thanks! Our team will get back to you shortly with the best solution.</p>
+                <p className="text-[#FDFBF7]/60 text-sm max-w-xs">Thanks! Our team will get back to you shortly with the best solution.</p>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-2 text-[#d4af37] text-sm underline underline-offset-2 hover:text-yellow-300"
+                  className="mt-2 text-[#D4A848] text-sm underline underline-offset-2 hover:text-white"
                 >
                   Submit another request
                 </button>
               </div>
             ) : (
               <>
-                <h3 className="text-xl sm:text-2xl font-black mb-1">How can we help you?</h3>
-                <p className="text-white/35 text-xs sm:text-sm mb-6 leading-relaxed">
+                <h3 className="text-xl sm:text-2xl font-black mb-1 text-[#D4A848]">How can we help you?</h3>
+                <p className="text-[#FDFBF7]/60 text-xs sm:text-sm mb-6 leading-relaxed">
                   Tell us what you need. If it&apos;s not listed, we&apos;ll do our best to create a solution just for you.
                 </p>
 
@@ -356,7 +356,7 @@ export default function ServicesPage() {
                     { label: "Mobile", name: "mobile", type: "tel", placeholder: "Mobile with country code" },
                   ].map((field) => (
                     <div key={field.name} className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-white/55 tracking-wide">{field.label}</label>
+                      <label className="text-xs font-semibold text-[#D4A848]/70 tracking-wide">{field.label}</label>
                       <input
                         type={field.type}
                         name={field.name}
@@ -364,13 +364,13 @@ export default function ServicesPage() {
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         required={field.name !== "mobile"}
-                        className="bg-[#1a1a1a] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#d4af37]/40 transition-colors"
+                        className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4A848]/40 transition-colors"
                       />
                     </div>
                   ))}
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-white/55 tracking-wide">Service Required</label>
+                    <label className="text-xs font-semibold text-[#D4A848]/70 tracking-wide">Service Required</label>
                     <textarea
                       name="service"
                       value={form.service}
@@ -378,13 +378,13 @@ export default function ServicesPage() {
                       placeholder="What do you need help with? Please be as descriptive as possible and provide time or any other constraints that you may have."
                       required
                       rows={4}
-                      className="bg-[#1a1a1a] border border-white/[0.08] rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none focus:border-[#d4af37]/40 transition-colors resize-none"
+                      className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#D4A848]/40 transition-colors resize-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="mt-1 w-full bg-[#d4af37] text-black font-black text-sm sm:text-base py-3.5 rounded-xl hover:bg-yellow-500 active:scale-[0.98] transition-all"
+                    className="mt-1 w-full bg-[#D4A848] text-[#40332D] font-black text-sm sm:text-base py-3.5 rounded-xl hover:bg-white text-[#40332D] shadow-xl active:scale-[0.98] transition-all"
                   >
                     Submit
                   </button>
