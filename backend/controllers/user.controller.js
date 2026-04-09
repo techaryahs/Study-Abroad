@@ -150,14 +150,15 @@ exports.addToCart = async (req, res) => {
 
     // 1. PRICE CLEANING
     const numericPrice = parseFloat(cartData.price.toString().replace(/,/g, ""));
+    const numericActualPrice = cartData.actualPrice ? parseFloat(cartData.actualPrice.toString().replace(/,/g, "")) : numericPrice / 0.8;
 
     // 2. CREATE ITEM SNAPSHOT
-    // We only save what the frontend passes, plus core IDs and timestamp.
     const newItem = {
       itemId: Date.now().toString(36) + Math.random().toString(36).substring(2),
       serviceId,
-      ...cartData, // Saves title, price, currency, duration, selections, activeCheckboxes
-      price: numericPrice, // Override with clean numeric value
+      ...cartData,
+      price: numericPrice,
+      actualPrice: numericActualPrice,
       addedAt: new Date()
     };
 

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import DiscussionSection from "@/components/shared/DiscussionSection";
+import FAQSection from "@/components/shared/FAQSection";
 import {
   Phone,
   MessageSquare,
@@ -21,11 +22,12 @@ import {
   Star,
   Globe,
   Zap,
-  Briefcase
+  Briefcase,
+  Target,
+  Scale
 } from "lucide-react";
 
 export default function ShortlistingPage() {
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -59,12 +61,12 @@ export default function ShortlistingPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-dark-950 text-white font-base selection:bg-gold-500/20 relative overflow-hidden">
+    <main className="min-h-screen bg-[#FFFFFF] text-[#675F5B] font-base selection:bg-[#D4A848]/20 relative overflow-hidden">
 
       {/* ── BACKGROUND AMBIENT GLOWS ── */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-500/5 blur-[150px] rounded-full" />
-        <div className="absolute bottom-1/2 left-0 w-[300px] h-[300px] bg-gold-500/5 blur-[150px] rounded-full" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4A848]/5 blur-[150px] rounded-full" />
+        <div className="absolute bottom-1/2 left-0 w-[300px] h-[300px] bg-[#D4A848]/5 blur-[150px] rounded-full" />
       </div>
 
       {/* ── HERO SECTION ── */}
@@ -77,38 +79,22 @@ export default function ShortlistingPage() {
             className="lg:w-1/2 space-y-8"
           >
             <motion.div variants={itemVariants} className="space-y-3">
-              <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[9px] bg-gold-500/5 px-4 py-1.5 rounded-full border border-gold-500/10 inline-block">
-                Architectural Curation Node
-              </span>
-              <h1 className="text-3xl md:text-5xl font-black leading-[1.1] uppercase italic tracking-tight">
-                UNIVERSITY <br />
-                <span className="gradient-text-gold block mt-1">SHORTLISTING protocol</span>
+              <h1 className="text-4xl md:text-5xl font-black leading-[1.1] uppercase tracking-tight text-[#362B25]">
+                PROFILE EVALUATION & <br />
+               <span className="text-[#D4A848]" > UNIVERSITY SHORTLISTING</span>
               </h1>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="max-w-xl">
-              <p className="text-base md:text-lg text-white/40 leading-relaxed font-medium italic border-l-2 border-gold-500/20 pl-6 lowercase">
-                Our Ivy League graduates architect your global educational trajectory, creating a <span className="text-white font-black">Zero-Beta Portfolio</span> of and high-yield admissions nodes.
+            <motion.div variants={itemVariants} className="space-y-4 max-w-xl text-[#675F5B]/80 leading-relaxed font-medium">
+              <p>
+                More than <span className="font-bold text-[#362B25]">75%</span> of applicants blindly apply to universities <span className="font-bold text-[#362B25]">without</span> analyzing historical profile data.
+              </p>
+              <p>
+                Our admission experts architect data-backed, tailored university portfolios optimized for elite acceptances, maximum funding, and seamless visa approvals.
               </p>
             </motion.div>
 
-            <div className="space-y-4 pt-2">
-              <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gold-500/40 italic">Global Tier Exposure:</p>
-              <div className="flex flex-wrap gap-8 items-center">
-                {logos.map((logo, i) => (
-                  <Image key={i} src={logo.src} alt={logo.name} width={28} height={28} className="object-contain" />
-                ))}
-              </div>
-            </div>
-
-
-
             <DiscussionSection serviceId="shortlisting" />
-            <div className="pt-2 pl-2">
-              <Link href="/checkout?service=shortlisting" className="text-white/40 text-[10px] font-black uppercase tracking-[0.3em] hover:text-gold-500 transition-colors border-b border-transparent hover:border-gold-500/20 pb-1 italic">
-                Start Settlement Node
-              </Link>
-            </div>
           </motion.div>
 
           <motion.div
@@ -118,117 +104,111 @@ export default function ShortlistingPage() {
             className="lg:w-1/2 relative"
           >
             <div className="relative aspect-[4/3] w-full group">
-              <div className="absolute inset-0 bg-gold-500/5 blur-[100px] rounded-full pointer-events-none" />
-              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-white/10 group-hover:border-gold-500/30 transition-all duration-1000 shadow-2xl">
+              <div className="absolute inset-0 bg-[#D4A848]/20 blur-[100px] rounded-full pointer-events-none" />
+              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-[#D4A848]/10 group-hover:border-[#D4A848]/30 transition-all duration-1000 shadow-2xl">
                 <Image
                   src="/shortlisting-hero.png"
                   alt="Shortlisting realistic campus"
                   fill
-                  className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-2000"
+                  className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-2000"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-950/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#D4A848]/10 to-transparent" />
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ── SERVICE MATRIX (SMALL CARDS) ── */}
-      <section className="py-24 px-8 md:px-20 bg-dark-900 border-y border-white/5 relative z-10">
-        <div className="max-w-7xl mx-auto space-y-16">
-          <div className="text-center space-y-4">
-            <h2 className="text-2xl md:text-3xl font-black uppercase italic gradient-text-gold">Intelligence Architecture</h2>
-            <p className="text-white/20 text-[10px] uppercase tracking-[0.4em] max-w-2xl mx-auto font-black italic uppercase">Boutique Selection Nodes for Global Ambition</p>
+      {/* ── ABOUT SERVICE & WIDGET ── */}
+      <section className="py-24 px-8 md:px-20 bg-[#F8F6F1] border-y border-[#D4A848]/10 relative z-10">
+        <div className="max-w-7xl mx-auto space-y-12">
+          
+          <div className="space-y-3">
+            <h2 className="text-3xl md:text-4xl font-semibold text-[#362B25]">About Service</h2>
+            <div className="w-16 h-[2px] bg-[#D4A848]" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
-            {[
-              { t: "Deep Candidacy Scan", icon: <Search size={22} />, d: "A 360-degree audit of your profile's latent and manifest strengths." },
-              { t: "Risk-Adjusted Portfolio", icon: <Briefcase size={22} />, d: "Strategic selection balancing reach and safety nodes for 100% security." },
-              { t: "Success Probability Node", icon: <Star size={22} />, d: "Algorithmic validation of admission vectors based on historical elite data." }
-            ].map((card, i) => (
-              <motion.div key={i} whileHover={{ y: -5 }} className="glass-card p-8 space-y-6 flex flex-col items-center text-center border border-white/5 hover:border-gold-500/20 group transition-all duration-700">
-                <div className="w-12 h-12 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover:bg-gold-500 group-hover:text-black transition-all">
-                  {card.icon}
-                </div>
-                <div className="space-y-2">
-                  <h4 className="text-[14px] font-black uppercase italic tracking-widest">{card.t}</h4>
-                  <p className="text-white/20 text-[11px] font-medium leading-relaxed italic">{card.d}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="max-w-md mx-auto py-12 relative z-10">
-        <AddToCart serviceId="shortlisting" />
-      </div>
-
-      {/* ── FAQ (COMPACT) ── */}
-      <section className="py-24 px-8 md:px-20 bg-dark-900 overflow-hidden relative z-10 border-y border-white/5">
-        <div className="max-w-4xl mx-auto space-y-12">
-          <div className="text-center space-y-2">
-            <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[8px] italic uppercase">Intellectual Query Node</span>
-            <h2 className="text-2xl md:text-3xl font-black uppercase italic gradient-text-gold">Frequently Asked</h2>
-          </div>
-
-          <div className="grid grid-cols-1 gap-3">
-            {[
-              {
-                q: "How do you select universities?",
-                a: "We audit your candidacy across academic, extracurricular, and research nodes to match with elite institutional requirements globally."
-              },
-              {
-                q: "Is an Ivy League admission guaranteed?",
-                a: "While we specialize in high-conquest nodes, we architect a risk-adjusted portfolio to ensure multi-node admission success."
-              },
-              {
-                q: "Can I customize the geography node?",
-                a: "Yes. Our protocol covers USA, UK, Europe, Australia, and Canada-tier institutional nodes."
-              }
-            ].map((faq, i) => (
-              <div key={i} className="glass-card !p-0 border border-white/5 overflow-hidden group hover:border-gold-500/20 transition-all duration-700">
-                <button
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className="w-full px-6 py-4 flex items-center justify-between gap-6 text-left"
-                >
-                  <span className="text-[12px] font-black uppercase tracking-widest italic text-white/50 group-hover:text-white transition-colors">{faq.q}</span>
-                  <div className="w-5 h-5 rounded-full border border-white/5 flex items-center justify-center text-gold-500 flex-shrink-0">
-                    {openFaq === i ? <Minus size={8} /> : <Plus size={8} />}
+          <div className="flex flex-col lg:flex-row gap-12 items-start">
+            {/* Main Info Column */}
+            <div className="lg:w-2/3 space-y-8">
+              {[
+                { 
+                  t: "Personalized Curation", 
+                  icon: <Target size={24} className="text-[#D4A848]" />, 
+                  d: [
+                    "We factor in your exact constraints—from geographical preferences and budget limitations to standardized testing waivers.",
+                    "We craft a highly customized university portfolio that precisely mirrors your academic ambitions and personal criteria."
+                  ]
+                },
+                { 
+                  t: "Funding-Optimized Mapping", 
+                  icon: <Award size={24} className="text-[#D4A848]" />, 
+                  d: [
+                    "We analyze extensive historical data from recent admission cycles to identify institutions where candidates with your exact profile successfully secured grants and scholarships."
+                  ]
+                },
+                { 
+                  t: "Outcome & Career Forecasting", 
+                  icon: <Briefcase size={24} className="text-[#D4A848]" />, 
+                  d: [
+                    "By examining thousands of historical admission outcomes, we construct high-probability models determining where you are most likely to be accepted.",
+                    "We heavily weigh post-graduation ROI, targeting universities known for robust alumni networks and premier job placement rates."
+                  ]
+                },
+                { 
+                  t: "Independent & Objective Guidance", 
+                  icon: <Scale size={24} className="text-[#D4A848]" />, 
+                  d: [
+                    "Low-ranking tier-3 institutions drastically increase the risk of visa denials, employment struggles, and severe financial setbacks for families.",
+                    "We operate entirely independently. Our advisors will never steer you toward low-tier, commission-based partner universities.",
+                    "We ensure you target the most prestigious universities within your reach to guarantee a world-class education and secure visa success."
+                  ]
+                }
+              ].map((section, i) => (
+                <div key={i} className="flex gap-4 items-start group">
+                  <div className="hidden sm:flex flex-shrink-0 w-12 h-12 rounded-2xl bg-white border border-[#D4A848]/20 items-center justify-center shadow-sm group-hover:-translate-y-1 transition-all">
+                    {section.icon}
                   </div>
-                </button>
-                <motion.div
-                  initial={false}
-                  animate={{ height: openFaq === i ? "auto" : 0, opacity: openFaq === i ? 1 : 0 }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-6 pb-4 pt-1">
-                    <p className="text-white/20 text-[11px] leading-relaxed italic border-l border-gold-500/10 pl-6 lowercase">{faq.a}</p>
+                  <div className="space-y-1.5">
+                    <h3 className="text-[17px] font-bold text-[#362B25] flex items-center gap-2">
+                      <span className="sm:hidden w-8 h-8 flex items-center justify-center">{section.icon}</span>
+                      {section.t}
+                    </h3>
+                    <ul className="list-disc list-outside ml-4 space-y-1.5 text-[#675F5B] leading-relaxed text-[13px]">
+                      {section.d.map((point, j) => (
+                        <li key={j}>{point}</li>
+                      ))}
+                    </ul>
                   </div>
-                </motion.div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                </div>
+              ))}
+            </div>
 
-      {/* ── FINAL CTA ── */}
-      <section className="py-32 px-8 md:px-20 text-center bg-dark-950 relative overflow-hidden z-20">
-        <div className="max-w-4xl mx-auto space-y-8 relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black italic uppercase gradient-text-gold">
-            ARCHITECT YOUR <br />Global FUTURE.
-          </h2>
-          <p className="text-white/20 text-sm max-w-2xl mx-auto italic font-normal pt-4 uppercase tracking-tighter">
-            Partner with elite Ivy League graduates to secure your placement in the world's finest institutions.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
-            <Link href="/contact?service=shortlisting" className="px-10 py-4 btn-gold text-[11px] w-full sm:w-auto text-center tracking-widest uppercase">
-              Book Talent Scan
-            </Link>
+            {/* Right Widget Column */}
+            <div className="lg:w-1/3 w-full sticky top-24">
+              <AddToCart serviceId="shortlisting" />
+            </div>
           </div>
+
+          <div className="pt-16 space-y-10 border-t border-[#D4A848]/10 max-w-5xl">
+            <h3 className="text-2xl font-bold text-[#362B25]">Our Signature Consultation Protocol</h3>
+            <ul className="space-y-8 text-[15px] text-[#675F5B] leading-relaxed list-disc list-outside ml-6">
+              <li><span className="font-bold text-[#362B25]">Deep Profile Audit:</span> We begin by meticulously evaluating your academic history, test scores, and extracurriculars to uncover your maximum potential.</li>
+              <li><span className="font-bold text-[#362B25]">Aligning Your Vision:</span> You define the parameters. Share your ideal number of universities alongside any strict geographical, financial, or ranking requirements.</li>
+              <li><span className="font-bold text-[#362B25]">Strategic Portfolio Construction:</span> Merging your parameters with our historical data analytics, we architect a tailored matrix of 'Reach', 'Target', and 'Safety' institutions designed for comprehensive security.</li>
+              <li><span className="font-bold text-[#362B25]">Expert Review & Refinement:</span> Once your preliminary portfolio is built, you will collaborate 1-on-1 with your advisor to fine-tune and finalize every target destination.</li>
+            </ul>
+            <div className="pt-4">
+              <p className="text-[15px] text-[#675F5B] bg-[#FFFFFF] p-6 rounded-2xl border border-[#D4A848]/20 shadow-sm relative overflow-hidden">
+                <span className="absolute top-0 left-0 w-2 h-full bg-[#D4A848]" />
+                <span className="font-bold text-[#362B25]">Zero-Commission Guarantee:</span> We maintain a strict zero-commission policy with universities. Your shortlist is purely driven by objective data and merit, completely protecting you from biased tier-3 institutional placements.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
+      <FAQSection />
     </main>
   );
 }

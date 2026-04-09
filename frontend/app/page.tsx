@@ -74,15 +74,15 @@ export default function Home() {
   const images = ["/sir2.jpeg", "/sirbgggg.png", "/sirbgg.png", "/sirbggg.png", "/sir2.jpeg"];
 
   return (
-    <main className="relative min-h-screen bg-[#E7DECB] text-[#5D4037] overflow-hidden pt-6 font-base selection:bg-[#B3985E]/10">
+    <main className="relative min-h-screen bg-[#F8F6F1] text-[#675F5B] overflow-hidden pt-6 font-base selection:bg-[#D4A848]/10">
 
       {/* 🏙️ BACKGROUND */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Elegant Horizontal Split: Mocha Brown -> Mid Brown -> Light Beige */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#4E342E] via-[#7A5A50] to-[#E7DECB] z-0"></div>
+        {/* Elegant Horizontal Split matching Boutique theme */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F8F6F1] via-[#FDFBF7] to-[#F8F6F1] z-0"></div>
 
         {/* Global base to handle transparency if needed */}
-        <div className="absolute inset-0 bg-[#E7DECB]/10 z-0"></div>
+        <div className="absolute inset-0 bg-[#F8F6F1]/50 z-0"></div>
 
         {/* University Background Image Layer */}
         <div className="absolute inset-0 z-10 mix-blend-multiply opacity-40">
@@ -98,14 +98,14 @@ export default function Home() {
         </div>
 
         {/* Gradient overlays to soften the edges */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#E7DECB] via-transparent to-transparent z-10 w-full h-full opacity-60"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#2D1B19]/30 via-transparent to-transparent z-10 w-full h-full"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#F8F6F1] via-transparent to-transparent z-10 w-full h-full opacity-90"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#F8F6F1]/80 via-transparent to-transparent z-10 w-full h-full"></div>
 
         {/* Gold Glow behind the person */}
-        <div className="absolute right-[-10%] top-[20%] w-[700px] h-[700px] bg-[#B3985E]/5 blur-[150px] rounded-full z-10"></div>
+        <div className="absolute right-[-10%] top-[20%] w-[700px] h-[700px] bg-[#D4A848]/5 blur-[150px] rounded-full z-10"></div>
 
         {/* Curved Golden Divider */}
-        <div className="absolute top-[48%] left-[-10%] w-[120%] h-[300px] bg-transparent border-t border-[#B3985E]/10 rounded-[50%] shadow-[0_-10px_30px_rgba(179,152,94,0.05)] z-20"></div>
+        <div className="absolute top-[48%] left-[-10%] w-[120%] h-[300px] bg-transparent border-t border-[#D4A848]/10 rounded-[50%] shadow-[0_-10px_30px_rgba(179,152,94,0.05)] z-20"></div>
       </div>
 
       {/* CONTENT */}
@@ -116,50 +116,49 @@ export default function Home() {
 
           {/* HERO TEXT */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
-            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[3.8rem] leading-[1.1] font-black tracking-tighter text-[#F1E9DB]">
+            <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[3.8rem] leading-[1.1] font-black tracking-tighter text-[#362B25]">
               Education Leader - Led Path to <br />
-              <span className="gradient-text-gold drop-shadow-[0_2px_15px_rgba(45,27,25,0.4)]">
+              <span className="text-[#D4A848]">
                 Ivy League &
               </span>
               <br />
-              <span className="gradient-text-gold drop-shadow-[0_2px_15px_rgba(45,27,25,0.4)]">
+              <span className="text-[#D4A848]">
                 Top Global Universities
               </span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-[#F1E9DB]/70 text-xs sm:text-sm leading-relaxed max-w-xl italic font-medium">
+            <motion.p variants={itemVariants} className="text-[#675F5B] text-xs sm:text-sm leading-relaxed max-w-xl italic font-medium">
               Personalized higher study guidance for USA, UK, Germany,
               Australia, Ireland, and Dubai — powered by AI-driven support.
             </motion.p>
 
             <motion.div variants={itemVariants} className="flex gap-4 pt-1">
-              <button
-                onClick={() => setShowCounsellingModal(true)}
-                className="bg-[#2D1B19] text-[#B3985E] px-6 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest shadow-2xl hover:bg-[#B3985E] hover:text-[#2D1B19] active:scale-95 transition-all border border-[#B3985E]/20"
-              >
-                Book Free Evaluation
-              </button>
 
               <button
                 onClick={() => setShowCounsellingModal(true)}
-                className="bg-[#2D1B19] text-[#B3985E] px-6 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest shadow-2xl hover:bg-[#B3985E] hover:text-[#2D1B19] active:scale-95 transition-all border border-[#B3985E]/20"
+                className="bg-[#D4A848] text-[#40332D] px-6 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest shadow-xl hover:-translate-y-1 hover:shadow-2xl active:scale-95 transition-all"
               >
                 Talk to an Expert
               </button>
+                         <button onClick={() => window.open('https://wa.me/918987654321', '_blank')}
+              className="border-[1.5px] border-[#40332D] px-6 py-2.5 rounded-[0.8rem] text-[#40332D] text-xs sm:text-[13px] font-black uppercase tracking-widest hover:bg-[#D4A848] hover:text-[#40332D] transition-all"
+            >
+              Whatsapp Us
+            </button>
             </motion.div>
           </motion.div>
 
           <div className="pt-4">
-            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#B3985E]">Why Students Trust Us</h3>
+            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#D4A848]">Why Students Trust Us</h3>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {servicesRow.map((s, i) => (
                 <Link key={i} href={s.link}>
-                  <div className="bg-[#2D1B19] p-5 rounded-2xl text-center shadow-xl border border-[#B3985E]/10 hover:border-[#B3985E]/40 hover:-translate-y-1 transition-all duration-300">
-                    <div className="w-12 h-12 mx-auto mb-3 bg-[#B3985E]/10 text-[#B3985E] flex items-center justify-center rounded-xl border border-[#B3985E]/20">
+                  <div className="bg-[#40332D] p-5 rounded-2xl text-center shadow-[0_10px_30px_rgba(212,168,72,0.08)] border border-[#D4A848]/20 hover:border-[#D4A848]/60 hover:shadow-[0_10px_40px_rgba(212,168,72,0.15)] hover:-translate-y-1 transition-all duration-300">
+                    <div className="w-12 h-12 mx-auto mb-3 bg-[#D4A848]/10 text-[#D4A848] flex items-center justify-center rounded-xl border border-[#D4A848]/20">
                       {s.icon}
                     </div>
-                    <p className="text-[#E7DECB]/80 text-[13px] font-semibold leading-tight">{s.title}</p>
+                    <p className="text-[#F8F6F1] text-[13px] font-semibold leading-tight">{s.title}</p>
                   </div>
                 </Link>
               ))}
@@ -167,57 +166,31 @@ export default function Home() {
           </div>
 
           <div className="pt-8 text-center sm:text-left">
-            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#B3985E]">Top Destinations</h3>
+            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#D4A848]">Top Destinations</h3>
 
             <div className="flex justify-between max-w-[600px] relative">
-              <div className="absolute top-5 left-0 right-0 h-[1px] bg-[#B3985E]/20"></div>
+              <div className="absolute top-5 left-0 right-0 h-[1px] bg-[#D4A848]/20"></div>
 
               {flagsRow.map((f, i) => (
-                <div key={i} className="flex flex-col items-center z-10 w-full">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#B3985E] shadow-xl">
+                <div key={i} className="flex flex-col items-center z-10 w-full mb-4">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#D4A848] shadow-xl">
                     <Flag code={f.code} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-[10px] uppercase font-black tracking-widest mt-2 text-[#3E2723]/40">{f.name}</span>
+                  <span className="text-[10px] uppercase font-black tracking-widest mt-2 text-[#362B25]/40">{f.name}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* STATS */}
-          <div className="flex flex-wrap gap-8 sm:gap-10 pt-6">
-            {statsRow.map((stat, i) => (
-              <div key={i}>
-                <h2 className="text-[#3E2723] text-3xl font-black tracking-tighter">{stat.value}</h2>
-                <p className="text-[10px] text-[#5D4037]/40 font-black uppercase tracking-[0.2em] mt-1">{stat.label}</p>
-              </div>
-            ))}
-          </div>
 
-          {/* BUTTONS */}
-          <div className="flex gap-4 pt-4">
-            <button
-              onClick={() => setShowCounsellingModal(true)}
-              className="bg-[#2D1B19] text-[#B3985E] px-8 py-3.5 rounded-xl font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl border border-[#B3985E]/10"
-            >
-              Book Now
-            </button>
-
-            <a
-              href="https://wa.me/918987654321"
-              target="_blank"
-              className="border-2 border-[#2D1B19] px-8 py-3.5 rounded-xl text-[#2D1B19] font-black uppercase tracking-widest hover:bg-[#2D1B19] hover:text-[#B3985E] transition-all"
-            >
-              Whatsapp Us
-            </a>
-          </div>
         </div>
 
         {/* RIGHT */}
         <div className="xl:w-2/5 flex flex-col items-center relative z-20 pb-16">
 
           {/* IMAGE */}
-          <div className="relative w-full max-w-[340px] h-[420px] rounded-[3rem] overflow-hidden border border-[#B3985E]/20 ">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2D1B19] via-transparent to-transparent z-10" />
+          <div className="relative w-full max-w-[340px] h-[420px] rounded-[3rem] overflow-hidden border border-[#D4A848]/40 shadow-[0_20px_60px_-15px_rgba(212,168,72,0.4)] transition-all hover:shadow-[0_25px_65px_-10px_rgba(212,168,72,0.5)]">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#40332D] via-transparent to-transparent z-10 pointer-events-none" />
 
             <div className="overflow-hidden w-full h-[380px] sm:h-[400px] md:h-[420px]" ref={emblaRef}>
               <div className="flex h-full">
@@ -240,15 +213,25 @@ export default function Home() {
           </div>
 
           {/* DREAMS */}
-          <div className="mt-6 bg-[#2D1B19] p-6 rounded-3xl grid grid-cols-4 gap-4 shadow-2xl border border-[#B3985E]/10 w-full max-w-[450px]">
+          <div className="mt-6 bg-[#40332D] p-6 rounded-3xl grid grid-cols-4 gap-4 shadow-[0_10px_40px_rgba(212,168,72,0.12)] border border-[#D4A848]/20 w-full max-w-[450px]">
             {dreams.map((d, i) => (
               <div key={i} className="text-center">
-                <div className="w-8 h-5 mx-auto mb-2 rounded-sm overflow-hidden border border-[#B3985E]/20">
+                <div className="w-8 h-5 mx-auto mb-2 rounded-sm overflow-hidden border border-[#D4A848]/20">
                   <Flag code={d.code} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-tighter text-[#B3985E]">{d.name}</p>
-                <p className="text-sm font-black text-[#E7DECB]">{d.stat}</p>
-                <p className="text-[8px] text-[#E7DECB]/40 font-bold uppercase tracking-widest">{d.sub}</p>
+                <p className="text-[10px] font-black uppercase tracking-tighter text-[#D4A848]">{d.name}</p>
+                <p className="text-sm font-black text-[#F8F6F1]">{d.stat}</p>
+                <p className="text-[8px] text-[#F8F6F1]/60 font-bold uppercase tracking-widest">{d.sub}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* STATS ROW (Moved to Right Side) */}
+          <div className="mt-8 w-full max-w-[450px] grid grid-cols-2 gap-y-8 gap-x-4 pl-2">
+            {statsRow.map((stat, i) => (
+              <div key={i} className="text-left">
+                <h2 className="text-[#362B25] text-[2.5rem] leading-none font-black tracking-tighter drop-shadow-sm">{stat.value}</h2>
+                <p className="text-[10px] text-[#675F5B]/60 font-black uppercase tracking-[0.25em] mt-2">{stat.label}</p>
               </div>
             ))}
           </div>
