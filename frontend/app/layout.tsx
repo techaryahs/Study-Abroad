@@ -1,7 +1,7 @@
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import PageTransition from "@/components/animations/PageTransition";
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,11 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased">
+      <body className="bg-[#FAFAFA] text-[#675F5B] antialiased">
         <Navbar />
-        <PageTransition>
+        <main className="pt-[104px]">
           {children}
-        </PageTransition>
+        </main>
         <Footer />
       </body>
     </html>
