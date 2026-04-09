@@ -74,37 +74,41 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
       {/* Backdrop */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="absolute inset-0 bg-black/60"
+        className="absolute inset-0 bg-[#2D2926]/40 backdrop-blur-sm"
       />
 
       {/* Modal Content */}
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        initial={{ opacity: 0, scale: 0.95, y: 30 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative w-full max-w-lg bg-white text-black rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+        exit={{ opacity: 0, scale: 0.95, y: 30 }}
+        className="relative w-full max-w-lg bg-white rounded-[32px] overflow-hidden shadow-3xl flex flex-col max-h-[90vh] border border-[rgba(197,160,89,0.15)]"
+        style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
         {/* Close Button */}
-        <button onClick={onClose} className="absolute top-4 right-4 text-black/40 hover:text-black z-10">
+        <button onClick={onClose} className="absolute top-6 right-6 text-[#A8A29E] hover:text-[#C5A059] z-10 bg-[#F8F5F0] p-1.5 rounded-full transition-all">
           <X className="w-5 h-5" />
         </button>
 
-        <div className="p-8 flex flex-col gap-6 overflow-y-auto">
+        <div className="p-10 flex flex-col gap-8 overflow-y-auto">
           {/* Title */}
-          <h2 className="text-center font-black text-lg tracking-widest text-[#444] uppercase">Create a Group</h2>
+          <div className="text-center space-y-2">
+            <h2 className="fd text-3xl font-bold text-[#2D2926]">Initiate Cluster</h2>
+            <p className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-[0.2em]">Deployment Protocol</p>
+          </div>
 
           {/* Stepper */}
           <div className="flex items-center justify-center gap-2">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${step >= 1 ? 'bg-[#c2a878] text-white' : 'bg-gray-100 text-gray-400'}`}>1</div>
-            <div className={`w-16 h-px ${step >= 2 ? 'bg-[#c2a878]' : 'bg-gray-200'}`} />
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${step >= 2 ? 'bg-[#c2a878] text-white' : 'bg-gray-100 text-gray-400'}`}>2</div>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${step >= 1 ? 'bg-[#C5A059] text-white shadow-lg' : 'bg-[#F8F5F0] text-[#A8A29E]'}`}>1</div>
+            <div className={`w-12 h-[1px] ${step >= 2 ? 'bg-[#C5A059]' : 'bg-[#F1EDEA]'}`} />
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${step >= 2 ? 'bg-[#C5A059] text-white shadow-lg' : 'bg-[#F8F5F0] text-[#A8A29E]'}`}>2</div>
           </div>
 
           <AnimatePresence mode="wait">
@@ -114,76 +118,88 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="flex flex-col gap-5"
+                className="flex flex-col gap-6"
               >
                 {/* Info Box */}
-                <div className="bg-gray-50 rounded-xl p-5 border border-gray-100">
-                  <ul className="text-[11px] text-gray-500 space-y-3 list-disc pl-4 leading-relaxed font-medium">
-                    <li>You are paying your share of the overall cost, which will be equally shared among the Group members.</li>
-                    <li>If the Group&apos;s membership remains incomplete, you can leave it and the amount you paid will be transferred to your Wallet, from where you can make other purchases.</li>
-                    <li>Do check out our complete list of services geared to facilitate your travel abroad plans!</li>
+                <div className="bg-[#F8F5F0] rounded-2xl p-6 border border-[rgba(197,160,89,0.1)]">
+                  <ul className="text-[11px] text-[#6B5E51] space-y-4 list-none font-medium leading-relaxed">
+                    <li className="flex gap-3">
+                      <span className="text-[#C5A059] font-bold">•</span>
+                      <span>Capital expenditures are distributed equally across all active cluster members.</span>
+                    </li>
+                    <li className="flex gap-3">
+                      <span className="text-[#C5A059] font-bold">•</span>
+                      <span>Should a cluster fail to saturate, assets are immediately recoverable to your digital vault.</span>
+                    </li>
                   </ul>
                 </div>
 
                 {/* Field Search */}
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    placeholder="Select Your Interested Area of Research"
-                    value={field}
-                    onChange={(e) => {
-                        setField(e.target.value);
-                        setIsSearching(true);
-                    }}
-                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-xs focus:outline-none focus:border-[#c2a878] transition-colors"
-                  />
-                  {isSearching && field && (
-                    <div className="absolute top-full left-0 right-0 bg-white border border-gray-100 rounded-b-lg shadow-xl z-20 max-h-48 overflow-y-auto">
-                      {fields.filter(f => f.toLowerCase().includes(field.toLowerCase())).map((f, i) => (
-                        <button 
-                          key={i} 
-                          onClick={() => { setField(f); setIsSearching(false); }}
-                          className="w-full text-left px-4 py-2 text-[11px] hover:bg-gray-50 border-b border-gray-50 last:border-0"
-                        >
-                          • {f}
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Academic Discipline</label>
+                  <div className="relative">
+                    <input 
+                      type="text" 
+                      placeholder="Identify specific research domain..."
+                      value={field}
+                      onChange={(e) => {
+                          setField(e.target.value);
+                          setIsSearching(true);
+                      }}
+                      className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-4 text-xs font-medium focus:outline-none focus:border-[#C5A059] transition-all"
+                    />
+                    {isSearching && field && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#F1EDEA] rounded-xl shadow-2xl z-20 max-h-48 overflow-y-auto p-1.5">
+                        {fields.filter(f => f.toLowerCase().includes(field.toLowerCase())).map((f, i) => (
+                          <button 
+                            key={i} 
+                            onClick={() => { setField(f); setIsSearching(false); }}
+                            className="w-full text-left px-4 py-3 text-[11px] font-bold text-[#6B5E51] hover:bg-[#F8F5F0] hover:text-[#C5A059] rounded-lg transition-all mb-0.5"
+                          >
+                            {f}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Description */}
-                <textarea 
-                  placeholder="Description"
-                  rows={4}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="w-full border border-gray-200 rounded-lg px-4 py-3 text-xs focus:outline-none focus:border-[#c2a878] transition-colors resize-none"
-                />
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Narrative Abstract</label>
+                  <textarea 
+                    placeholder="Briefly synthesize your research objectives..."
+                    rows={4}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-4 text-xs font-medium focus:outline-none focus:border-[#C5A059] transition-all resize-none"
+                  />
+                </div>
                 
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">Number of Co-authors (Max 5)</label>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Collaborative Personnel</label>
                   <select 
                     value={coAuthors}
                     onChange={(e) => setCoAuthors(Number(e.target.value))}
-                    className="w-full border border-gray-200 rounded-lg px-4 py-3 text-[11px] font-medium text-gray-600 focus:outline-none focus:border-[#c2a878] transition-all cursor-pointer"
+                    className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-4 text-xs font-bold text-[#2D2926] focus:outline-none focus:border-[#C5A059] transition-all cursor-pointer appearance-none"
                   >
                     {[1, 2, 3, 4, 5].map((num) => (
-                      <option key={num} value={num}>{num} {num === 1 ? 'co-author' : 'co-authors'}</option>
+                      <option key={num} value={num}>{num} {num === 1 ? 'Research Associate' : 'Research Associates'}</option>
                     ))}
                   </select>
                 </div>
 
                 {/* Price Display */}
-                <div className="bg-gray-50/50 rounded-xl p-5 border border-dashed border-gray-200 flex items-center justify-between">
-                  <p className="text-[11px] text-gray-500 font-medium">
-                    Both you and your {coAuthors} co-authors will <br /> pay <span className="text-green-600 font-bold tracking-tight">INR {(34741.33 / (coAuthors + 1)).toFixed(2)}</span>
+                <div className="bg-[#2D2926] rounded-[24px] p-8 mt-4 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 10% 20%, #C5A059 1px, transparent 1px)", backgroundSize: '20px 20px' }}></div>
+                  <p className="text-[11px] text-[#A8A29E] font-medium leading-relaxed relative z-10">
+                    Sustained membership valuation: <br /> <span className="text-[#C5A059] font-bold text-sm tracking-tight">INR {(34741.33 / (coAuthors + 1)).toFixed(2)} / Person</span>
                   </p>
                   <button 
                     onClick={() => setStep(2)}
-                    className="bg-[#c2a878] hover:bg-[#d4af37] text-black font-black text-[11px] px-6 py-3 rounded-lg flex items-center gap-2 transition-all shadow-lg active:scale-95 uppercase"
+                    className="bg-[#C5A059] hover:bg-white hover:text-[#2D2926] text-white font-bold text-[10px] px-8 py-4 rounded-xl flex items-center gap-2 transition-all uppercase tracking-widest z-10"
                   >
-                    Let&apos;s go <ArrowRight className="w-3.5 h-3.5" />
+                    Proceed <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </motion.div>
@@ -193,74 +209,62 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="flex flex-col gap-6"
+                className="flex flex-col gap-8"
               >
                 {/* Price Summary */}
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[13px] font-black text-gray-800">Amount:</span>
-                    <div className="flex items-center gap-3">
-                         <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 rounded px-2 py-1">
-                            <span className="text-[10px] font-bold text-gray-400">INR</span>
-                            <ChevronRight className="w-3 h-3 text-gray-400 rotate-90" />
-                         </div>
-                         <span className="text-xl font-black text-green-600 tracking-tight">INR 34,741.33</span>
+                <div className="bg-[#F8F5F0] p-8 rounded-[32px] border border-[rgba(197,160,89,0.1)]">
+                  <div className="space-y-6">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-[#A8A29E] uppercase tracking-widest">Gross Allocation</span>
+                      <span className="text-2xl font-bold text-[#2D2926] tracking-tighter">INR 34,741.33</span>
                     </div>
-                  </div>
 
-                  <div className="flex items-center justify-between border-t border-dashed border-gray-100 pt-3">
-                    <span className="text-[11px] font-bold text-gray-300 line-through">INR 43,426.66</span>
-                    <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">You Save:</span>
-                        <span className="bg-red-500 text-white text-[9px] font-black px-2 py-0.5 rounded uppercase">20% OFF</span>
-                        <span className="text-[13px] font-black text-green-600">INR 8,685.33</span>
+                    <div className="h-[1px] bg-[#F1EDEA]" />
+
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <span className="text-[9px] font-bold text-red-500/60 uppercase line-through mb-1">INR 43,426.66</span>
+                        <span className="bg-red-500 text-white text-[8px] font-bold px-2 py-0.5 rounded tracking-tighter w-fit">SCHOLARSHIP DISCOUNT (-20%)</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[10px] font-bold text-[#A8A29E] uppercase block mb-1">Net Savings</span>
+                        <span className="text-lg font-bold text-emerald-600">INR 8,685.33</span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Wallet Card */}
-                <div className="bg-gray-50/80 rounded-2xl p-5 border border-gray-100 flex items-center justify-between shadow-sm">
+                <div className="bg-[#2D2926] rounded-2xl p-6 flex items-center justify-between shadow-xl">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-[#c2a878]/10 flex items-center justify-center border border-[#c2a878]/20">
-                        <Wallet className="w-4 h-4 text-[#c2a878]" />
+                    <div className="w-10 h-10 rounded-full bg-[rgba(197,160,89,0.1)] flex items-center justify-center border border-[rgba(197,160,89,0.2)]">
+                        <Wallet className="w-4 h-4 text-[#C5A059]" />
                     </div>
                     <div className="flex flex-col">
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Your Balance</p>
-                        <p className="text-base font-black text-gray-900 tracking-tight">INR 14,500.00</p>
+                        <p className="text-[9px] font-bold text-[#A8A29E] uppercase tracking-[0.2em]">Institutional Balance</p>
+                        <p className="text-base font-bold text-white tracking-tight">INR 14,500.00</p>
                     </div>
                   </div>
-                  <button className="text-[10px] font-black text-[#c2a878] hover:text-[#d4af37] uppercase tracking-tighter border-b border-[#c2a878]/30 hover:border-[#d4af37]">Add Funds</button>
+                  <button className="text-[10px] font-bold text-[#C5A059] hover:text-white uppercase tracking-widest bg-white/5 px-4 py-2 rounded-lg transition-all">Sustain Vault</button>
                 </div>
-
-                <p className="text-[10px] text-center text-gray-300 font-bold uppercase tracking-widest">Do you want to use your wallet amount?</p>
 
                 {/* Payment Options */}
-                <div className="grid grid-cols-2 gap-3">
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 border border-gray-100 rounded-xl hover:border-[#c2a878]/30 hover:bg-gray-50/50 transition-all group">
-                        <div className="w-16 h-6 bg-gray-100 rounded flex items-center justify-center">
-                            <span className="text-[8px] font-black text-blue-600 italic tracking-tighter">Razorpay</span>
-                        </div>
-                    </button>
-                    <button className="flex flex-col items-center justify-center gap-2 p-4 border border-gray-100 rounded-xl hover:border-[#c2a878]/30 hover:bg-gray-50/50 transition-all group">
-                        <div className="w-16 h-6 bg-gray-100 rounded flex items-center justify-center">
-                            <span className="text-[8px] font-black text-yellow-600 tracking-tighter">Amazon Pay</span>
-                        </div>
-                    </button>
+                <div className="space-y-4">
+                  <p className="text-[10px] text-center text-[#A8A29E] font-bold uppercase tracking-[0.2em]">Transaction Gateway selection</p>
+                  <div className="grid grid-cols-2 gap-4">
+                      <button className="flex flex-col items-center justify-center p-5 border border-[#F1EDEA] rounded-2xl hover:border-[#C5A059] hover:bg-[#F8F5F0] transition-all group shadow-sm bg-white">
+                         <span className="text-[10px] font-bold text-[#6B5E51] opacity-60">RAZORPAY</span>
+                      </button>
+                      <button className="flex flex-col items-center justify-center p-5 border border-[#F1EDEA] rounded-2xl hover:border-[#C5A059] hover:bg-[#F8F5F0] transition-all group shadow-sm bg-white">
+                         <span className="text-[10px] font-bold text-[#6B5E51] opacity-60">AMAZON PAY</span>
+                      </button>
+                  </div>
                 </div>
 
-                <div className="flex flex-col gap-1.5 opacity-60">
-                    <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold">
-                        <Info className="w-3 h-3" /> Stripe will apply 5% processing fee
-                    </div>
-                    <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold">
-                        <Info className="w-3 h-3" /> RazorPay will apply 5% processing fee
-                    </div>
-                </div>
-
-                <div className="flex gap-3 mt-2">
-                    <button onClick={() => setStep(1)} className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold text-xs py-3 rounded-lg transition-all">Back</button>
-                    <button onClick={handleSubmit} disabled={isSubmitting} className="flex-[2] bg-[#c2a878] hover:bg-[#d4af37] text-black font-black text-[11px] py-3 rounded-lg shadow-xl uppercase transition-all flex items-center justify-center gap-2 disabled:opacity-50">
-                        {isSubmitting ? "Creating..." : "Create Group & Pay"} <ArrowRight className="w-4 h-4" />
+                <div className="flex gap-4 pt-4">
+                    <button onClick={() => setStep(1)} className="flex-1 bg-[#F8F5F0] text-[#6B5E51] font-bold text-[10px] py-4 rounded-xl uppercase tracking-widest transition-all">Return</button>
+                    <button onClick={handleSubmit} disabled={isSubmitting} className="flex-[2] bg-[#2D2926] hover:bg-[#C5A059] text-white font-bold text-[10px] py-4 rounded-xl shadow-2xl uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 disabled:opacity-50">
+                        {isSubmitting ? "Processing..." : "Deploy Cluster"} <ArrowRight className="w-4 h-4" />
                     </button>
                 </div>
               </motion.div>
@@ -268,9 +272,9 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
           </AnimatePresence>
 
           {/* Progress dots */}
-          <div className="flex justify-center gap-1.5 pt-2">
-            <div className={`w-1.5 h-1.5 rounded-full transition-colors ${step === 1 ? "bg-[#c2a878]" : "bg-gray-200"}`} />
-            <div className={`w-1.5 h-1.5 rounded-full transition-colors ${step === 2 ? "bg-[#c2a878]" : "bg-gray-200"}`} />
+          <div className="flex justify-center gap-2 pb-2">
+            <div className={`w-2 h-2 rounded-full transition-all ${step === 1 ? "bg-[#C5A059] w-4" : "bg-[#F1EDEA]"}`} />
+            <div className={`w-2 h-2 rounded-full transition-all ${step === 2 ? "bg-[#C5A059] w-4" : "bg-[#F1EDEA]"}`} />
           </div>
         </div>
       </motion.div>

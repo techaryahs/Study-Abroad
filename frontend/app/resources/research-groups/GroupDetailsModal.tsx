@@ -23,86 +23,108 @@ export default function GroupDetailsModal({ isOpen, onClose, group, onJoinClick 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/60"
+            className="absolute inset-0 bg-[#2D2926]/40 backdrop-blur-sm"
           />
           
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden"
+            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+            className="relative w-full max-w-lg bg-white rounded-[32px] shadow-3xl overflow-hidden border border-[rgba(197,160,89,0.1)]"
+            style={{ fontFamily: "'DM Sans', sans-serif" }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-              <h2 className="text-xs font-black text-gray-400 uppercase tracking-widest text-center flex-1">Group Details</h2>
+            <div className="flex items-center justify-between px-8 py-6 border-b border-[#F1EDEA]">
+              <h2 className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-[0.3em] flex-1">Cluster Specifications</h2>
               <button 
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-[#A8A29E] hover:text-[#C5A059] transition-all bg-[#F8F5F0] p-1.5 rounded-full"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-6 flex flex-col gap-6 max-h-[80vh] overflow-y-auto">
+            <div className="p-8 md:p-10 flex flex-col gap-8 max-h-[85vh] overflow-y-auto">
                 {/* Group Main Info */}
-                <div className="flex gap-4">
-                    <div className="w-12 h-12 rounded-full bg-[#c2a878] flex items-center justify-center text-black font-black text-lg shrink-0 scale-95">
+                <div className="flex flex-col md:flex-row gap-6">
+                    <div className="w-16 h-16 rounded-full bg-[#2D2926] flex items-center justify-center text-[#C5A059] font-bold text-xl shrink-0 border shadow-inner">
                         {group.initials}
                     </div>
-                    <div className="flex flex-col gap-2">
-                        <h3 className="text-lg font-black text-gray-800 leading-tight">
-                            {group.author}&apos;s Research Group - {group.title}
+                    <div className="flex flex-col gap-3">
+                        <h3 className="fd text-2xl md:text-3xl font-bold text-[#2D2926] leading-tight">
+                            Investigator {group.author} / {group.title}
                         </h3>
-                        <p className="text-[13px] text-gray-500 leading-relaxed font-medium">
-                            {group.description}
+                        <p className="text-sm text-[#6B5E51] leading-relaxed font-medium opacity-80 italic">
+                           "{group.description}"
                         </p>
                     </div>
                 </div>
 
+                {/* Performance Indicators */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-[#F8F5F0] p-4 rounded-2xl border border-[rgba(197,160,89,0.1)]">
+                    <span className="text-[9px] font-bold text-[#A8A29E] uppercase tracking-widest block mb-2">Saturation</span>
+                    <span className="text-lg font-bold text-[#2D2926]">{group.spots} Members</span>
+                  </div>
+                  <div className="bg-[#F8F5F0] p-4 rounded-2xl border border-[rgba(197,160,89,0.1)]">
+                    <span className="text-[9px] font-bold text-[#A8A29E] uppercase tracking-widest block mb-2">Initiated</span>
+                    <span className="text-lg font-bold text-[#2D2926]">{group.date}</span>
+                  </div>
+                </div>
+
                 {/* Members Section */}
-                <div className="flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                            <Users className="w-5 h-5 text-[#c2a878]" />
-                            <h4 className="text-sm font-black text-gray-800 uppercase tracking-tight">Available Members</h4>
-                        </div>
-                        <div className="flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
-                            <Users className="w-3.5 h-3.5 text-gray-400" />
-                            <span className="text-[11px] font-black text-gray-600">1/6</span>
-                        </div>
+                <div className="flex flex-col gap-5">
+                    <div className="flex items-center gap-3 border-b border-[#F1EDEA] pb-3">
+                        <Users className="w-5 h-5 text-[#C5A059]" />
+                        <h4 className="text-[11px] font-bold text-[#2D2926] uppercase tracking-widest">Scientific Personnel</h4>
                     </div>
 
-                    <div className="flex flex-col border border-gray-100 rounded-xl overflow-hidden">
-                        {/* Existing Member */}
-                        <div className="flex items-center justify-between px-5 py-4 bg-white hover:bg-gray-50/50 transition-all border-b border-gray-100">
-                            <div className="flex items-center gap-3">
-                                <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center shadow-inner" />
-                                <span className="text-sm font-bold text-gray-700">{group.author}</span>
+                    <div className="flex flex-col border border-[rgba(197,160,89,0.1)] rounded-2xl overflow-hidden bg-[#FDFBF7]/50 shadow-inner">
+                        {/* Principal Investigator */}
+                        <div className="flex items-center justify-between px-6 py-5 bg-white border-b border-[#F1EDEA]">
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-full bg-[rgba(197,160,89,0.1)] flex items-center justify-center text-[#C5A059] font-bold text-xs">PI</div>
+                                <div className="flex flex-col">
+                                  <span className="text-sm font-bold text-[#2D2926]">{group.author}</span>
+                                  <span className="text-[9px] font-bold text-[#A8A29E] uppercase">Lead Author</span>
+                                </div>
                             </div>
-                            <button className="text-blue-400 hover:text-blue-500 transition-colors">
+                            <button className="text-[#C5A059] hover:scale-110 transition-all">
                                 <MessageSquare className="w-5 h-5" />
                             </button>
                         </div>
 
-                        {/* Empty Spots (5 to make it 6 total) */}
+                        {/* Vacant Positions */}
                         {[...Array(5)].map((_, i) => (
-                            <div key={i} className="flex items-center justify-between px-5 py-4 bg-white hover:bg-gray-50/50 transition-all border-b border-gray-50 last:border-0">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-9 h-9 rounded-full bg-gray-50 shadow-inner" />
-                                    <span className="text-sm font-bold text-gray-400 font-medium">Join Group</span>
+                            <div key={i} className="flex items-center justify-between px-6 py-4 bg-transparent border-b border-[#F1EDEA]/50 last:border-0 opacity-70">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-9 h-9 rounded-full bg-white border border-dashed border-[#A8A29E]/30" />
+                                    <span className="text-xs font-bold text-[#A8A29E]">Available Slot</span>
                                 </div>
                                 <button 
                                     onClick={() => {
                                         onClose();
                                         onJoinClick();
                                     }}
-                                    className="text-blue-400 hover:text-blue-600 transition-colors p-1"
+                                    className="text-[#C5A059] hover:scale-110 transition-all p-1"
                                 >
-                                    <Plus className="w-6 h-6 stroke-[3px]" />
+                                    <Plus className="w-6 h-6 stroke-[2px]" />
                                 </button>
                             </div>
                         ))}
                     </div>
+                </div>
+
+                <div className="pt-4">
+                  <button 
+                      onClick={() => {
+                          onClose();
+                          onJoinClick();
+                      }}
+                      className="w-full bg-[#2D2926] hover:bg-[#C5A059] text-white font-bold py-5 rounded-2xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-xl active:scale-[0.98]"
+                  >
+                      Apply for Cluster Membership
+                  </button>
                 </div>
             </div>
           </motion.div>

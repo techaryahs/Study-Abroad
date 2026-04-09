@@ -23,39 +23,53 @@ export default function ByCountryPage() {
   }));
 
   return (
-    <div className="bg-[#f5f6f7] min-h-screen px-6 md:px-16 py-10">
+    <div className="min-h-screen px-6 md:px-16 py-16" style={{ background: "#FDFBF7", fontFamily: "'DM Sans', sans-serif" }}>
 
-      {/* TITLE */}
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">
-        Top Universities in Singapore
-      </h1>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap');
+        .fd { font-family: 'Cormorant Garamond', serif; }
+        .card-shell {
+          background: #FFFFFF;
+          border: 1px solid rgba(197,160,89, 0.15);
+          border-radius: 24px;
+          padding: 30px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+      `}</style>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto">
+        {/* TITLE */}
+        <h1 className="fd text-5xl font-bold text-[#2D2926] mb-12">
+          Premier Institutions in <span style={{ color: "#C5A059" }}>Singapore</span>
+        </h1>
 
-        {/* FILTER PANEL */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-5 h-fit">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="font-semibold">Filters</h2>
-            <span className="text-xs text-gray-400 cursor-pointer">
-              Clear All
-            </span>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+
+          {/* PARAMETERS PANEL */}
+          <div className="card-shell lg:sticky lg:top-10">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="font-bold text-[#2D2926] tracking-tight uppercase text-sm">Parameters</h2>
+              <span className="text-xs text-[#6B5E51] cursor-pointer hover:text-[#C5A059] font-bold">
+                Reset All
+              </span>
+            </div>
+
+            <div className="space-y-6 text-sm text-[#6B5E51] font-medium">
+              <div className="border-b border-[#F1EDEA] pb-4 flex justify-between">Admission Selectivity <span>▾</span></div>
+              <div className="border-b border-[#F1EDEA] pb-4 flex justify-between">Institutional Investment <span>▾</span></div>
+              <div className="border-b border-[#F1EDEA] pb-4 flex justify-between">Geographic Distribution <span>▾</span></div>
+              <div className="pt-2 flex justify-between">Advanced Metrics <span>▾</span></div>
+            </div>
           </div>
 
-          <div className="space-y-4 text-sm text-gray-700">
-            <div className="border-b pb-3">Acceptance Rate</div>
-            <div className="border-b pb-3">Tuition Fee</div>
-            <div className="border-b pb-3">Living Expense</div>
-            <div>Countries</div>
+          {/* INSTITUTIONAL LIST */}
+          <div className="lg:col-span-3 space-y-8">
+            {universities.map((uni: any) => (
+              <UniversityCard key={uni.id} uni={uni} />
+            ))}
           </div>
-        </div>
-
-        {/* UNIVERSITY LIST */}
-        <div className="md:col-span-3 space-y-6">
-          {universities.map((uni: any) => (
-            <UniversityCard key={uni.id} uni={uni} />
-          ))}
         </div>
       </div>
     </div>
   );
-}
+}
