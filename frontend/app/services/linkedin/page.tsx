@@ -17,6 +17,7 @@ import {
 import FAQSection from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
 import DiscussionSection from "@/components/shared/DiscussionSection";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 const profileFeatures = [
     { title: "Visual Identity", desc: "Premium profile picture selection and bespoke background cover architecting." },
@@ -28,6 +29,7 @@ const profileFeatures = [
 ];
 
 export default function LinkedinProfilePage() {
+    const [showBookingModal, setShowBookingModal] = useState(false);
     const [openFaq, setOpenFaq] = useState<number | null>(0);
 
     return (
@@ -93,13 +95,13 @@ export default function LinkedinProfilePage() {
             `}</style>
 
             {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
-            <section className="relative pt-32 pb-24 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
-               <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <section className="relative pt-10 pb-24 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
+               <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
                   <motion.div 
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="space-y-8"
+                    className="space-y-8 pt-6"
                   >
                     <div className="flex flex-col gap-4">
                         <Link 
@@ -119,7 +121,12 @@ export default function LinkedinProfilePage() {
                        "Transition your digital persona from a static resume to a high-influence professional ecosystem designed for Tier-1 opportunities."
                     </p>
                     <div className="flex items-center gap-6">
-                        <DiscussionSection serviceId="linkedin" />
+                        <button 
+                            onClick={() => setShowBookingModal(true)}
+                            className="btn-gold shadow-2xl group"
+                        >
+                            Enter Professional Portal <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </button>
                     </div>
                   </motion.div>
 
@@ -257,11 +264,19 @@ export default function LinkedinProfilePage() {
                         <p className="text-[#6B5E51] text-lg font-medium italic">Discover how we can architect a strategy for your specific career arc.</p>
                     </div>
 
-                    <Link href="/contact" className="btn-gold shadow-2xl group">
+                    <button 
+                        onClick={() => setShowBookingModal(true)}
+                        className="btn-gold shadow-2xl group"
+                    >
                         Enter Professional Portal <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </Link>
+                    </button>
                 </motion.div>
             </section>
+
+            <BookCounsellingModal 
+                isOpen={showBookingModal} 
+                onClose={() => setShowBookingModal(false)} 
+            />
 
         </main>
     );
