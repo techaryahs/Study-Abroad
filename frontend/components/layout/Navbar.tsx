@@ -48,25 +48,27 @@ interface DropdownItem {
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
+const countries = [
+  { name: "USA", href: "/universities/by-country/usa" },
+  { name: "Canada", href: "/universities/by-country/canada" },
+  { name: "United Kingdom", href: "/universities/by-country/united-kingdom" },
+  { name: "Germany", href: "/universities/by-country/germany" },
+  { name: "Australia", href: "/universities/by-country/australia" },
+  { name: "Singapore", href: "/universities/by-country/singapore" },
+  { name: "Ireland", href: "/universities/by-country/ireland" },
+  { name: "Netherlands", href: "/universities/by-country/netherlands" },
+  { name: "France", href: "/universities/by-country/france" },
+  { name: "Switzerland", href: "/universities/by-country/switzerland" },
+  { name: "New Zealand", href: "/universities/by-country/new-zealand" },
+];
+
 const universityItems: DropdownItem[] = [
   {
     icon: <Globe size={18} />,
     title: "Top Universities By Country",
     description: "Find statistics like acceptance rates, expenses, deadlines, and test scores.",
     href: "/universities/by-country",
-    subItems: [
-      { name: "USA", href: "/universities/by-country/usa" },
-      { name: "Canada", href: "/universities/by-country/canada" },
-      { name: "United Kingdom", href: "/universities/by-country/united-kingdom" },
-      { name: "Germany", href: "/universities/by-country/germany" },
-      { name: "Australia", href: "/universities/by-country/australia" },
-      { name: "Singapore", href: "/universities/by-country/singapore" },
-      { name: "Ireland", href: "/universities/by-country/ireland" },
-      { name: "Netherlands", href: "/universities/by-country/netherlands" },
-      { name: "France", href: "/universities/by-country/france" },
-      { name: "Switzerland", href: "/universities/by-country/switzerland" },
-      { name: "New Zealand", href: "/universities/by-country/new-zealand" },
-    ]
+    subItems: countries
   },
   {
     icon: <BarChart2 size={18} />,
@@ -199,7 +201,7 @@ function DropdownPanel({
       </div>
 
       {/* Items */}
-      <ul className="py-1 max-h-[380px] overflow-y-auto no-scrollbar">
+      <ul className="py-1">
         {items.map((item, index) => (
           <li
             key={item.href}
@@ -314,6 +316,7 @@ export default function Navbar() {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [expandedSubItem, setExpandedSubItem] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchError, setSearchError] = useState(false);
@@ -330,21 +333,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const countries = [
-    { name: "USA", href: "/universities/by-country/usa" },
-    { name: "Canada", href: "/universities/by-country/canada" },
-    { name: "United Kingdom", href: "/universities/by-country/united-kingdom" },
-    { name: "Germany", href: "/universities/by-country/germany" },
-    { name: "Australia", href: "/universities/by-country/australia" },
-    { name: "Singapore", href: "/universities/by-country/singapore" },
-    { name: "Ireland", href: "/universities/by-country/ireland" },
-    { name: "Netherlands", href: "/universities/by-country/netherlands" },
-    { name: "France", href: "/universities/by-country/france" },
-    { name: "Switzerland", href: "/universities/by-country/switzerland" },
-    { name: "New Zealand", href: "/universities/by-country/new-zealand" },
-  ];
-
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const q = searchQuery.toLowerCase().trim();
@@ -890,13 +878,22 @@ export default function Navbar() {
                       ) : (
                         <div className={`flex flex-col rounded-2xl transition-all border ${pathname === item.path || isExpanded ? "bg-[#d4af37]/10 border-[#d4af37]/30" : "bg-white/[0.03] border-white/5"} overflow-hidden`}>
                           <div className="flex items-center justify-between px-5 py-4">
-                            <Link
-                              href={item.path}
-                              onClick={() => setMenuOpen(false)}
-                              className={`text-[10px] font-black uppercase tracking-widest flex-1 ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
-                            >
-                              {item.name}
-                            </Link>
+                            {hasDropdown ? (
+                              <button
+                                onClick={() => setExpandedItem(isExpanded ? null : item.name)}
+                                className={`text-[10px] font-black uppercase tracking-widest flex-1 text-left ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
+                              >
+                                {item.name}
+                              </button>
+                            ) : (
+                              <Link
+                                href={item.path}
+                                onClick={() => setMenuOpen(false)}
+                                className={`text-[10px] font-black uppercase tracking-widest flex-1 ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
+                              >
+                                {item.name}
+                              </Link>
+                            )}
 
                             {hasDropdown && (
                               <button
@@ -919,22 +916,67 @@ export default function Navbar() {
                           {hasDropdown && isExpanded && (
                             <div className="px-4 pb-4 space-y-1 animate-in slide-in-from-top-2 duration-300">
                               <div className="h-[1px] bg-white/5 mb-3 mx-2" />
-                              {subItems.map((sub) => (
-                                <Link
-                                  key={sub.title}
-                                  href={sub.href}
-                                  onClick={() => setMenuOpen(false)}
-                                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 group border border-transparent hover:border-white/5 transition-all"
-                                >
-                                  <div className="mt-0.5 text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">
-                                    {sub.icon}
+                              {subItems.map((sub) => {
+                                const isSubExpanded = expandedSubItem === sub.title;
+                                const hasSubItems = sub.subItems && sub.subItems.length > 0;
+
+                                return (
+                                  <div key={sub.title} className="flex flex-col">
+                                    {hasSubItems ? (
+                                      <div className="flex flex-col w-full">
+                                        <div
+                                          onClick={() => setExpandedSubItem(isSubExpanded ? null : sub.title)}
+                                          className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 cursor-pointer group border border-transparent hover:border-white/5 transition-all"
+                                        >
+                                          <div className="flex items-start gap-3">
+                                            <div className="mt-0.5 text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">
+                                              {sub.icon}
+                                            </div>
+                                            <div className="min-w-0">
+                                              <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
+                                              <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
+                                            </div>
+                                          </div>
+                                          <div className={`transition-transform duration-200 ${isSubExpanded ? "rotate-90" : ""}`}>
+                                            <ChevronRight size={12} className="text-[#B3985E]" />
+                                          </div>
+                                        </div>
+                                        {isSubExpanded && (
+                                          <div className="pl-12 py-2 grid grid-cols-2 gap-x-4 gap-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
+                                            {sub.subItems?.map((country) => (
+                                              <Link
+                                                key={country.name}
+                                                href={country.href}
+                                                onClick={() => {
+                                                  setMenuOpen(false);
+                                                }}
+                                                className="text-[9px] font-bold text-white/50 hover:text-[#B3985E] uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
+                                              >
+                                                <div className="w-1 h-1 rounded-full bg-[#B3985E]/30 shrink-0" />
+                                                {country.name}
+                                              </Link>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <Link
+                                        href={sub.href}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 group border border-transparent hover:border-white/5 transition-all"
+                                      >
+                                        <div className="mt-0.5 text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">
+                                          {sub.icon}
+                                        </div>
+                                        <div className="min-w-0">
+                                          <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
+                                          <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
+                                        </div>
+                                      </Link>
+                                    )}
                                   </div>
-                                  <div className="min-w-0">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
-                                    <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
-                                  </div>
-                                </Link>
-                              ))}
+                                );
+                              })}
                             </div>
                           )}
                         </div>
