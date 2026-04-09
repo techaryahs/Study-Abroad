@@ -108,8 +108,12 @@ exports.addProfileItem = async (req, res) => {
       profile: user.profile
     });
   } catch (err) {
-    console.error("Profile add error:", err);
-    res.status(500).json({ message: "Server error adding profile section" });
+    console.error("❌ Profile add error:", err);
+    res.status(500).json({ 
+      message: "Server error adding profile section",
+      error: err.message,
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
   }
 };
 

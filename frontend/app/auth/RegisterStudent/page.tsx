@@ -110,18 +110,36 @@ const Register = () => {
   const years = Array.from({ length: 7 }, (_, i) => (2024 + i).toString());
   
   const customSelectStyles = {
-    control: (b: any) => ({ ...b, minHeight: '34px', borderRadius: '10px', backgroundColor: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', fontSize: '11px' }),
-    singleValue: (b: any) => ({ ...b, color: 'white' }),
-    menu: (b: any) => ({ ...b, backgroundColor: '#090909', border: '1px solid rgba(255,255,255,0.1)', fontSize: '11px', zIndex: 50 }),
+    control: (b: any) => ({ 
+      ...b, 
+      minHeight: '40px', 
+      borderRadius: '10px', 
+      backgroundColor: '#FDFBF7', 
+      border: '1px solid #F1EDEA', 
+      fontSize: '11px',
+      fontWeight: '700',
+      boxShadow: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)',
+      '&:hover': { border: '1px solid #C5A059' }
+    }),
+    singleValue: (b: any) => ({ ...b, color: '#3C2A21' }),
+    menu: (b: any) => ({ 
+      ...b, 
+      backgroundColor: 'white', 
+      border: '1px solid #F1EDEA', 
+      fontSize: '11px', 
+      zIndex: 50,
+      borderRadius: '10px',
+      boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
+    }),
     option: (base: any, state: any) => ({
       ...base,
-      backgroundColor: state.isSelected ? '#c9a84c' : state.isFocused ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
-      color: state.isSelected ? 'black' : 'white',
+      backgroundColor: state.isSelected ? '#C5A059' : state.isFocused ? '#FDFBF7' : 'transparent',
+      color: state.isSelected ? 'white' : '#3C2A21',
       cursor: 'pointer',
-      ":active": { backgroundColor: '#c9a84c' }
+      fontWeight: '600'
     }),
-    input: (base: any) => ({ ...base, color: 'white' }),
-    placeholder: (base: any) => ({ ...base, color: 'rgba(255,255,255,0.3)' })
+    input: (base: any) => ({ ...base, color: '#3C2A21' }),
+    placeholder: (base: any) => ({ ...base, color: '#6B5E51', opacity: '0.4' })
   };
 
   const validateStep1 = () => {
@@ -132,11 +150,6 @@ const Register = () => {
 
     if (!formData.dob) {
       newErrors.dob = "Required";
-    } else {
-      const selectedDate = new Date(formData.dob);
-      if (selectedDate > maxDob) {
-        newErrors.dob = "Must be at least 10 years old";
-      }
     }
 
     if (!formData.gender) newErrors.gender = "Required";
@@ -151,7 +164,7 @@ const Register = () => {
     if (!acceptedPolicy) newErrors.policy = "Required";
 
     if (!isEmailVerified || !isMobileVerified) {
-      newErrors.verification = "Please verify both contacts";
+      newErrors.verification = "Verify both contacts";
     }
 
     setErrors(newErrors);
@@ -306,7 +319,7 @@ const Register = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Registration failed");
-      alert("✅ Account Architected Successfully!");
+      alert("✅ Account Synchronized!");
       router.push("/auth/login");
     } catch (err: any) {
       alert(err.message);
@@ -316,123 +329,123 @@ const Register = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center p-2 selection:bg-gold-500 selection:text-black font-sans relative overflow-hidden bg-[#090909]">
+    <div className="min-h-screen flex items-center justify-center p-4 selection:bg-[#C5A059] selection:text-white font-sans relative overflow-hidden bg-[#FDFBF7]">
       <AnimatePresence>
         {verifyModal.show && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-[320px] bg-[#0f1115] rounded-[24px] shadow-2xl p-6 text-center border border-[#d4af37]/20">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-[320px] bg-white rounded-[24px] shadow-2xl p-6 text-center border border-[#C5A059]/15">
               {verifyModal.mode !== 'loading' && (
-                <button onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute top-4 right-4 text-gray-500 hover:text-white"><X className="w-4 h-4" /></button>
+                <button onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute top-4 right-4 text-[#6B5E51]/40 hover:text-[#C5A059]"><X className="w-4 h-4" /></button>
               )}
               <div className="mb-4 flex justify-center">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${verifyModal.mode === 'success' ? 'bg-green-500/10 border-green-500 text-green-500' : 'bg-gold-500/10 border-gold-500 text-gold-500'}`}>
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${verifyModal.mode === 'success' ? 'bg-green-500/10 border-green-500 text-green-500' : 'bg-[#C5A059]/10 border-[#C5A059] text-[#C5A059]'}`}>
                   <ShieldCheck className={`w-6 h-6 ${verifyModal.mode === 'loading' ? 'animate-pulse' : ''}`} />
                 </div>
               </div>
               {verifyModal.mode === 'confirm' && (
                 <div className="animate-in fade-in">
-                  <h3 className="text-lg font-black text-white mb-1">Confirm Identity</h3>
-                  <p className="text-gray-500 text-[9px] mb-4 uppercase tracking-widest">Verify ownership for: <span className="text-white block mt-1">{verifyModal.value}</span></p>
-                  <button onClick={() => verifyModal.type === 'email' ? handleSendOtp() : (setVerifyModal(p => ({ ...p, show: false })), setIsMobileVerified(true))} className="w-full py-3 bg-gold-500 text-black font-black rounded-lg text-[10px] uppercase tracking-widest hover:bg-gold-400">Send Code</button>
+                  <h3 className="text-lg font-black text-[#3C2A21] mb-1 uppercase tracking-tight italic">Verify Account</h3>
+                  <p className="text-[#6B5E51]/40 text-[9px] mb-6 uppercase tracking-widest leading-relaxed">Identity verification required for: <span className="text-[#3C2A21] block mt-1 lowercase font-bold">{verifyModal.value}</span></p>
+                  <button onClick={() => verifyModal.type === 'email' ? handleSendOtp() : (setVerifyModal(p => ({ ...p, show: false })), setIsMobileVerified(true))} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-[#3C2A21] shadow-xl shadow-[#C5A059]/20 transition-all">Enable Protocol</button>
                 </div>
               )}
               {verifyModal.mode === 'otp' && (
                 <div className="animate-in fade-in">
-                  <h3 className="text-lg font-black text-white mb-4 tracking-tighter">Enter Code</h3>
-                  <input type="text" maxLength={6} value={otpValue} onChange={(e) => setOtpValue(e.target.value)} className="w-full text-center text-xl font-black tracking-[0.5em] py-3 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg mb-4 text-gold-500 outline-none focus:border-gold-500" placeholder="000000" />
-                  <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6} className="w-full py-3 bg-gold-500 text-black font-black rounded-lg disabled:opacity-50 text-[10px] uppercase tracking-widest">Verify Protocol</button>
+                  <h3 className="text-lg font-black text-[#3C2A21] mb-4 tracking-tighter uppercase italic">Secure Code</h3>
+                  <input type="text" maxLength={6} value={otpValue} onChange={(e) => setOtpValue(e.target.value)} className="w-full text-center text-xl font-bold tracking-[0.5em] py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl mb-4 text-[#C5A059] outline-none focus:border-[#C5A059] shadow-inner" placeholder="000000" />
+                  <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl disabled:opacity-50 text-[10px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/20 transition-all">Authorize Node</button>
                 </div>
               )}
-              {verifyModal.mode === 'success' && <h3 className="text-xl font-black text-white">Verified!</h3>}
-              {verifyModal.mode === 'loading' && <div className="py-6"><div className="w-8 h-8 border-2 border-gold-500/20 border-t-gold-500 rounded-full animate-spin mx-auto" /></div>}
+              {verifyModal.mode === 'success' && <h3 className="text-xl font-black text-[#3C2A21] uppercase tracking-tighter italic">Protocol Active</h3>}
+              {verifyModal.mode === 'loading' && <div className="py-6"><div className="w-8 h-8 border-2 border-[#C5A059]/20 border-t-[#C5A059] rounded-full animate-spin mx-auto" /></div>}
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      <div className="bg-[#0f1115]/90 backdrop-blur-3xl border border-[#d4af37]/20 rounded-[24px] shadow-2xl w-full max-w-5xl flex h-[90vh] lg:h-auto max-h-[700px] overflow-hidden relative z-10">
-        {/* Left Branding - Slimmer */}
-        <div className="hidden lg:flex lg:w-[35%] bg-[#050505] p-8 flex-col justify-between text-white relative border-r border-white/5">
+      <div className="bg-white border border-[#C5A059]/15 rounded-[2rem] md:rounded-[2.5rem] shadow-3xl w-full max-w-5xl flex flex-col lg:flex-row h-auto lg:h-[580px] max-h-[90vh] overflow-hidden relative z-10 mx-auto">
+        {/* Left Branding */}
+        <div className="hidden lg:flex lg:w-[32%] bg-[#3C2A21] p-10 flex-col justify-between text-white relative">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
           <div>
-            <div className="flex items-center gap-2 mb-8">
-              <div className="w-8 h-8 bg-gold-500 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(234,179,8,0.2)]">
-                <Sparkles className="w-4 h-4 text-black" />
+            <div className="flex items-center gap-3 mb-10">
+              <div className="w-10 h-10 bg-[#C5A059] rounded-xl flex items-center justify-center shadow-xl">
+                <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-lg font-black tracking-tighter uppercase">StudyAbroad</span>
+              <span className="text-xl font-black tracking-tighter uppercase italic">StudyAbroad</span>
             </div>
-            <h1 className="text-3xl font-black leading-tight uppercase mb-4 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
-              Architect <br /> <span className="text-gold-500">Global</span> <br /> Careers.
+            <h1 className="text-4xl font-black leading-tight uppercase mb-6 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
+              Architect <br /> <span className="text-[#C5A059]">Global</span> <br /> Careers.
             </h1>
-            <p className="text-gray-500 text-xs leading-relaxed italic border-l-2 border-gold-500/20 pl-3">
-              Elite academic mentorship for the Ivy League and beyond.
+            <p className="text-white/40 text-[10px] leading-relaxed uppercase tracking-[0.2em] italic border-l-2 border-[#C5A059]/30 pl-4">
+              Elite academic mentorship for the Ivy League and beyond. Start your journey here.
             </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <div className="flex -space-x-2">
-              {[1, 2, 3].map(i => <div key={i} className="w-6 h-6 rounded-full bg-gray-800 border-2 border-black" />)}
+              {[1, 2, 3].map(i => <div key={i} className="w-6 h-6 rounded-full bg-white/10 border-2 border-[#3C2A21] flex items-center justify-center text-[7px] font-bold">U{i}</div>)}
             </div>
-            <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">+2k Aspirants</p>
+            <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em]">+2k Aspirants</p>
           </div>
         </div>
 
-        {/* Right Form - Compacted */}
-        <div className="w-full lg:w-[65%] p-5 flex flex-col justify-center overflow-y-auto custom-scrollbar">
-          <div className="max-w-[500px] mx-auto w-full">
-            <div className="mb-4 flex items-end justify-between border-b border-white/5 pb-2">
+        {/* Right Form */}
+        <div className="w-full lg:w-[68%] p-5 md:p-7 flex flex-col justify-center overflow-y-auto lg:overflow-visible no-scrollbar">
+          <div className="max-w-[550px] mx-auto w-full">
+            <div className="mb-4 flex items-end justify-between border-b border-[#F1EDEA] pb-2">
               <div>
-                <h2 className="text-lg font-black text-white uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Create Account</h2>
-                <p className="text-gray-500 text-[8px] font-black uppercase tracking-[2px]">Step {step} of {formData.lookUpFor.includes("Admissions") ? 3 : 2}</p>
+                <h2 className="text-2xl font-black text-[#3C2A21] uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Initialize Registry</h2>
+                <p className="text-[#C5A059] text-[9px] font-black uppercase tracking-[0.3em] mt-1">Phase {step} of {formData.lookUpFor.includes("Admissions") ? 3 : 2}</p>
               </div>
-              <div className="flex gap-1 h-1">
+              <div className="flex gap-1.5 h-1">
                 {[1, 2, (formData.lookUpFor.includes("Admissions") ? 3 : null)].filter(Boolean).map(i => (
-                  <div key={i} className={`w-6 rounded-full ${step >= (i as number) ? 'bg-gold-500' : 'bg-white/10'}`} />
+                  <div key={i} className={`w-8 rounded-full transition-all duration-700 ${step >= (i as number) ? 'bg-[#C5A059]' : 'bg-[#F1EDEA]'}`} />
                 ))}
               </div>
             </div>
 
             <AnimatePresence mode="wait">
               {step === 1 && (
-                <motion.div key="step1" initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -5 }} className="space-y-2">
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="col-span-2 md:col-span-1">
-                      <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block ml-1">Full Name</label>
+                <motion.div key="step1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="col-span-2 md:col-span-1 space-y-1">
+                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Identity Name</label>
                       <div className="relative group">
-                        <User className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-gray-500 group-focus-within:text-gold-500" />
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" maxLength={50} className="w-full pl-8 pr-3 py-1.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[11px] text-white focus:border-gold-500 outline-none" />
+                        <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#6B5E51]/30 group-focus-within:text-[#C5A059]" />
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="e.g. John Doe" maxLength={50} className="w-full pl-10 pr-4 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner" />
                       </div>
                     </div>
-                    <div className="col-span-2 md:col-span-1">
-                      <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block ml-1">Email</label>
+                    <div className="col-span-2 md:col-span-1 space-y-1">
+                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Sync Email</label>
                       <div className="relative">
-                        <Mail className={`absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 ${isEmailVerified ? 'text-green-500' : 'text-gray-500'}`} />
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className={`w-full pl-8 pr-14 py-1.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[11px] text-white outline-none ${isEmailVerified ? 'border-green-500/50' : 'focus:border-gold-500'}`} />
+                        <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 ${isEmailVerified ? 'text-green-500' : 'text-[#6B5E51]/30'}`} />
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="name@university.com" className={`w-full pl-10 pr-16 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner ${isEmailVerified ? 'border-green-500/50' : 'focus:border-[#C5A059]'}`} />
                         {formData.email && !isEmailVerified && (
-                          <button onClick={() => setVerifyModal({ show: true, type: 'email', value: formData.email, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-gold-500 text-black px-2 rounded-md font-black text-[8px] uppercase">Verify</button>
+                          <button onClick={() => setVerifyModal({ show: true, type: 'email', value: formData.email, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-[#3C2A21] text-white px-2 rounded-lg font-black text-[8px] uppercase shadow-lg hover:bg-[#C5A059] transition-all">Verify</button>
                         )}
-                        {isEmailVerified && <ShieldCheck className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-green-500" />}
+                        {isEmailVerified && <ShieldCheck className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />}
                       </div>
                     </div>
 
-                    <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-2">
-                       <div>
-                        <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">DOB</label>
-                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2 py-1.5 bg-white/[0.03] border rounded-lg text-[10px] text-white focus:border-gold-500 outline-none [color-scheme:dark] ${errors.dob ? 'border-red-500' : 'border-[#d4af37]/20'}`} />
-                        {errors.dob && <p className="text-red-500 text-[8px] font-bold mt-1 uppercase tracking-tighter">{errors.dob}</p>}
+                    <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-3">
+                       <div className="space-y-1">
+                        <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">DOB</label>
+                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2.5 py-2 bg-[#FDFBF7] border rounded-xl text-[10px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.dob ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
                        </div>
-                       <div>
-                        <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Gender</label>
-                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2 py-1.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[10px] text-white focus:border-gold-500 outline-none appearance-none">
-                          <option value="" className="bg-black">Select</option>
-                          <option value="Male" className="bg-black">Male</option>
-                          <option value="Female" className="bg-black">Female</option>
+                       <div className="space-y-1">
+                        <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Gender</label>
+                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2.5 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[10px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
+                          <option value="">Select</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
                         </select>
                        </div>
                     </div>
 
-                    <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-2">
-                       <div>
-                        <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Country</label>
+                    <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-3">
+                       <div className="space-y-1">
+                        <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Country</label>
                         <Select
                           instanceId="country-select"
                           options={Country.getAllCountries().map((c: any) => ({ value: c.isoCode, label: c.name }))}
@@ -440,8 +453,8 @@ const Register = () => {
                           styles={customSelectStyles}
                         />
                        </div>
-                       <div>
-                        <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">State</label>
+                       <div className="space-y-1">
+                        <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">State</label>
                         <Select
                           instanceId="state-select"
                           options={formData.country ? State.getStatesOfCountry(formData.country.value).map((s: any) => ({ value: s.isoCode, label: s.name })) : []}
@@ -451,133 +464,125 @@ const Register = () => {
                        </div>
                     </div>
 
-                    <div className="col-span-2 md:col-span-1">
-                      <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Mobile</label>
-                      <div className="flex gap-1.5">
-                        <div className="w-12 py-1.5 bg-white/5 border border-[#d4af37]/20 rounded-lg text-white font-black text-[10px] text-center">{formData.mobilePrefix}</div>
+                    <div className="col-span-2 md:col-span-1 space-y-1">
+                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Mobile Access</label>
+                      <div className="flex gap-2">
+                        <div className="w-14 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[#3C2A21] font-black text-[10px] text-center shadow-inner">{formData.mobilePrefix}</div>
                         <div className="relative flex-1">
-                          <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={15} className={`w-full px-3 py-1.5 pr-14 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[11px] text-white outline-none ${isMobileVerified ? 'border-green-500' : 'focus:border-gold-500'}`} />
+                          <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={15} className={`w-full px-3 py-2 pr-16 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner ${isMobileVerified ? 'border-green-500' : 'focus:border-[#C5A059]'}`} />
                           {formData.mobile && !isMobileVerified && (
-                            <button onClick={() => setVerifyModal({ show: true, type: 'mobile', value: `${formData.mobilePrefix} ${formData.mobile}`, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-gold-500 text-black px-2 rounded-md font-black text-[8px] uppercase">Verify</button>
+                            <button onClick={() => setVerifyModal({ show: true, type: 'mobile', value: `${formData.mobilePrefix} ${formData.mobile}`, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-[#3C2A21] text-white px-2 rounded-lg font-black text-[8px] uppercase shadow-lg hover:bg-[#C5A059] transition-all">Verify</button>
                           )}
                         </div>
                       </div>
                     </div>
-                    <div className="col-span-2 md:col-span-1">
-                      <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Source</label>
-                      <select name="source" value={formData.source} onChange={handleChange} className="w-full px-3 py-1.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg text-[11px] text-white focus:border-gold-500 outline-none appearance-none">
-                        <option value="" className="bg-black">Select Source</option>
-                        <option value="Google" className="bg-black">Google</option>
-                        <option value="Instagram" className="bg-black">Instagram</option>
-                        <option value="LinkedIn" className="bg-black">LinkedIn</option>
+                    <div className="col-span-2 md:col-span-1 space-y-1">
+                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Inquiry Source</label>
+                      <select name="source" value={formData.source} onChange={handleChange} className="w-full px-4 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
+                        <option value="">Select Source</option>
+                        <option value="Google">Google search</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="LinkedIn">LinkedIn</option>
                       </select>
                     </div>
 
-                    <div className="col-span-2 md:col-span-1">
-                      <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Password</label>
+                    <div className="col-span-2 md:col-span-1 space-y-1">
+                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Define Passcode</label>
                       <div className="relative">
-                        <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} minLength={6} maxLength={32} className={`w-full px-3 pr-8 py-1.5 bg-white/[0.03] border rounded-lg text-[11px] text-white focus:border-gold-500 outline-none ${errors.password ? 'border-red-500' : 'border-[#d4af37]/20'}`} />
-                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-600"><Eye className="w-3 h-3" /></button>
+                        <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} minLength={6} maxLength={32} className={`w-full px-4 pr-10 py-2 bg-[#FDFBF7] border rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.password ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
+                        <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B5E51]/30"><Eye className="w-3.5 h-3.5" /></button>
                       </div>
-                      {errors.password && <p className="text-red-500 text-[8px] font-bold mt-0.5 uppercase tracking-tighter">{errors.password}</p>}
                     </div>
-                    <div className="col-span-2 md:col-span-1">
-                      <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Confirm</label>
-                      <div className="relative">
-                        <input type={showPassword ? "text" : "password"} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className={`w-full px-3 pr-8 py-1.5 bg-white/[0.03] border rounded-lg text-[11px] text-white focus:border-gold-500 outline-none ${errors.confirmPassword ? 'border-red-500' : 'border-[#d4af37]/20'}`} />
-                      </div>
-                      {errors.confirmPassword && <p className="text-red-500 text-[8px] font-bold mt-0.5 uppercase tracking-tighter">Passwords don't match</p>}
+                    <div className="col-span-2 md:col-span-1 space-y-1">
+                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Confirm Sync</label>
+                      <input type={showPassword ? "text" : "password"} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className={`w-full px-4 py-2 bg-[#FDFBF7] border rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.confirmPassword ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 pt-1">
-                    <input type="checkbox" checked={acceptedPolicy} onChange={(e) => setAcceptedPolicy(e.target.checked)} className="w-3.5 h-3.5 rounded bg-white/5 accent-gold-500" />
-                    <p className="text-[8px] font-bold text-gray-500 uppercase tracking-widest">Accept Privacy Policy & Terms</p>
+                  <div className="flex items-center gap-2.5 pt-1">
+                    <input type="checkbox" checked={acceptedPolicy} onChange={(e) => setAcceptedPolicy(e.target.checked)} className="w-3.5 h-3.5 rounded bg-[#FDFBF7] accent-[#C5A059] border-[#F1EDEA]" />
+                    <p className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest">Authorize Policy & Platform Protocols</p>
                   </div>
 
                   <button 
-                    onClick={() => {
-                      if (validateStep1()) {
-                        setStep(2);
-                      }
-                    }} 
-                    className="w-full py-2.5 bg-gold-500 hover:bg-gold-400 text-black font-black rounded-lg shadow-lg transition-all flex items-center justify-center gap-2 text-[10px] uppercase tracking-widest"
+                    onClick={() => { if (validateStep1()) setStep(2); }} 
+                    className="w-full py-3 bg-[#C5A059] hover:bg-[#3C2A21] text-white font-black rounded-xl shadow-xl shadow-[#C5A059]/10 transition-all flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.2em] mt-1 active:scale-95"
                   >
-                    Proceed to Goals <ChevronRight className="w-3 h-3" />
+                    Proceed to Goals <ChevronRight className="w-4 h-4" />
                   </button>
-                  {errors.verification && <p className="text-rose-500 text-[8px] text-center font-black uppercase tracking-tighter">{errors.verification}</p>}
+                  {errors.verification && <p className="text-rose-500 text-[8px] text-center font-black uppercase tracking-widest mt-2 italic">{errors.verification}</p>}
                 </motion.div>
               )}
 
               {step === 2 && (
-                <motion.div key="step2" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-4">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                     {["Admissions", "Scholarships", "Visa", "Research", "Jobs"].map(item => (
-                      <button key={item} onClick={() => toggleLookUp(item)} className={`py-3 px-2 rounded-xl border text-center transition-all ${formData.lookUpFor.includes(item) ? 'bg-gold-500 border-gold-500 text-black' : 'bg-white/[0.03] border-white/5 text-white'}`}>
+                      <button key={item} onClick={() => toggleLookUp(item)} className={`py-3 px-2 rounded-2xl border text-center transition-all shadow-sm ${formData.lookUpFor.includes(item) ? 'bg-[#C5A059] border-[#C5A059] text-white shadow-[#C5A059]/30' : 'bg-[#FDFBF7] border-[#F1EDEA] text-[#6B5E51]/40 hover:border-[#C5A059]/20'}`}>
                         <span className="font-black uppercase tracking-widest text-[9px]">{item}</span>
                       </button>
                     ))}
                   </div>
 
                   {formData.lookUpFor.includes("Admissions") ? (
-                    <div className="space-y-2 pt-2 border-t border-white/5">
-                      <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest text-center">Degree of Choice</p>
+                    <div className="space-y-3 pt-4 border-t border-[#F1EDEA]">
+                      <p className="text-[9px] font-black text-[#6B5E51]/40 uppercase tracking-widest text-center">Objective Degree</p>
                       <div className="grid grid-cols-3 gap-2">
                         {["Bachelor's", "Master's", "Ph.D."].map(deg => (
-                          <button key={deg} onClick={() => setFormData(p => ({ ...p, degree: deg }))} className={`py-3 rounded-xl border transition-all ${formData.degree.includes(deg) ? 'border-gold-500 bg-gold-500/10 text-white' : 'border-white/5 bg-white/[0.02] text-gray-500'}`}>
-                            <div className="font-black text-[9px] uppercase">{deg}</div>
+                          <button key={deg} onClick={() => setFormData(p => ({ ...p, degree: deg }))} className={`py-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-widest ${formData.degree.includes(deg) ? 'border-[#C5A059] bg-[#C5A059]/5 text-[#C5A059]' : 'border-[#F1EDEA] bg-[#FDFBF7] text-[#6B5E51]/40'}`}>
+                            {deg}
                           </button>
                         ))}
                       </div>
                     </div>
                   ) : (
                     formData.lookUpFor.length > 0 && (
-                      <label className="flex items-center gap-3 p-3 rounded-xl border border-gold-500/20 bg-gold-500/5 cursor-pointer">
-                        <input type="checkbox" name="loanInterest" checked={formData.loanInterest} onChange={(e) => setFormData(p => ({ ...p, loanInterest: e.target.checked }))} className="w-4 h-4 accent-gold-500" />
+                      <label className="flex items-center gap-4 p-4 rounded-2xl border border-[#C5A059]/20 bg-[#C5A059]/5 cursor-pointer shadow-inner">
+                        <input type="checkbox" name="loanInterest" checked={formData.loanInterest} onChange={(e) => setFormData(p => ({ ...p, loanInterest: e.target.checked }))} className="w-4 h-4 accent-[#C5A059]" />
                         <div>
-                          <div className="font-black text-white text-[10px] uppercase">Educational Loan Interest?</div>
-                          <p className="text-[8px] text-gray-500 font-bold uppercase tracking-tighter">Get exclusive partner rates.</p>
+                          <div className="font-black text-[#3C2A21] text-[10px] uppercase tracking-tight">Financing Interest?</div>
+                          <p className="text-[8px] text-[#6B5E51]/60 font-bold uppercase tracking-widest">Access elite partner loan rates.</p>
                         </div>
                       </label>
                     )
                   )}
 
-                  <div className="pt-4 flex gap-2">
-                    <button onClick={prevStep} className="flex-1 py-3 bg-white/5 text-white font-black rounded-lg text-[9px] uppercase">Back</button>
-                    <button onClick={nextStep} className="flex-[2] py-3 bg-gold-500 text-black font-black rounded-lg text-[9px] uppercase shadow-lg">Next</button>
+                  <div className="pt-4 flex gap-4">
+                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-2xl text-[9px] uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
+                    <button onClick={nextStep} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[9px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all active:scale-95">Sync Timeline</button>
                   </div>
                 </motion.div>
               )}
 
               {step === 3 && (
-                <motion.div key="step3" initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-3">
-                  <div>
-                    <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Target University</label>
+                <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
+                  <div className="space-y-1">
+                    <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Target University Node</label>
                     <Select
                       instanceId="target-univ-select"
-                      options={universities} onChange={(s: any) => setFormData(p => ({ ...p, targetUniv: s }))} value={formData.targetUniv} placeholder="Search..."
+                      options={universities} onChange={(s: any) => setFormData(p => ({ ...p, targetUniv: s }))} value={formData.targetUniv} placeholder="Search Node..."
                       styles={customSelectStyles}
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Term</label>
-                      <select name="targetTerm" value={formData.targetTerm} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.03] border border-white/5 rounded-lg text-[11px] text-white outline-none">
-                        <option value="" className="bg-black">Select Term</option>
-                        {terms.map(t => <option key={t} value={t} className="bg-black">{t}</option>)}
+                    <div className="space-y-1">
+                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Terminal Term</label>
+                      <select name="targetTerm" value={formData.targetTerm} onChange={handleChange} className="w-full px-3 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner">
+                        <option value="">Select Term</option>
+                        {terms.map(t => <option key={t} value={t}>{t}</option>)}
                       </select>
                     </div>
-                    <div>
-                      <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Year</label>
-                      <select name="targetYear" value={formData.targetYear} onChange={handleChange} className="w-full px-3 py-2 bg-white/[0.03] border border-white/5 rounded-lg text-[11px] text-white outline-none">
-                        {years.map(y => <option key={y} value={y} className="bg-black">{y}</option>)}
+                    <div className="space-y-1">
+                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Academic Year</label>
+                      <select name="targetYear" value={formData.targetYear} onChange={handleChange} className="w-full px-3 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner">
+                        {years.map(y => <option key={y} value={y}>{y}</option>)}
                       </select>
                     </div>
                   </div>
 
-                  <div>
-                    <label className="text-[8px] font-black text-gray-500 uppercase tracking-widest mb-1 block">Target Major</label>
+                  <div className="space-y-1">
+                    <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Target Specialization</label>
                     <Select
                       instanceId="target-major-select"
                       options={majors} onChange={(s: any) => setFormData(p => ({ ...p, targetMajor: s }))} value={formData.targetMajor} placeholder="Search Major..."
@@ -585,27 +590,21 @@ const Register = () => {
                     />
                   </div>
 
-                  <div className="pt-4 flex gap-2">
-                    <button onClick={prevStep} className="flex-1 py-3 bg-white/5 text-white font-black rounded-lg text-[9px] uppercase">Back</button>
-                    <button onClick={handleRegister} disabled={isSubmitting} className="flex-[2] py-3 bg-gold-500 text-black font-black rounded-lg text-[9px] uppercase shadow-lg disabled:opacity-50">
-                      {isSubmitting ? "Processing..." : "Finalize Registration"}
+                  <div className="pt-8 flex gap-4">
+                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-2xl text-[9px] uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
+                    <button onClick={handleRegister} disabled={isSubmitting} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[9px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all disabled:opacity-50 active:scale-95">
+                      {isSubmitting ? "Finalizing..." : "Finalize Registry"}
                     </button>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <div className="mt-6 text-center border-t border-white/5 pt-3">
-              <button onClick={() => router.push("/auth/login")} className="text-[9px] font-black uppercase tracking-[2px] text-gray-600 hover:text-gold-500 transition-colors">Already a Member? Log In</button>
+            <div className="mt-8 text-center border-t border-[#F1EDEA] pt-4">
+              <button onClick={() => router.push("/auth/login")} className="text-[9px] font-black uppercase tracking-[0.3em] text-[#6B5E51]/40 hover:text-[#C5A059] transition-all italic">Already a Synchronized Member? Log In</button>
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Background Decor */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-gold-500/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full" />
       </div>
     </div>
   );
