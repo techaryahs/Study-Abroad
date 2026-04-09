@@ -44,6 +44,9 @@ app.use("/api", require("./routes/chat.routes"));
 // 📅 Booking & Consultants
 app.use("/api/bookings", require("./routes/booking.routes"));
 
+// 📅 Weekly Schedule (Admin-managed recurring availability)
+app.use("/api/weekly-schedule", require("./routes/weeklySchedule.routes"));
+
 // 🧑‍💼 Consultant Profile Management
 app.use("/api/consultant", require("./routes/consultantProfile.routes"));
 

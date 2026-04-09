@@ -26,4 +26,7 @@ router.post("/book-session", bookingCtrl.bookCounsellingSession);
 router.get("/available-slots", bookingCtrl.getAvailableSlots);
 router.get("/session/:sessionId", bookingCtrl.getCounsellingSession);
 
+// ── Admin: Get all bookings (with optional filters) ────────────────────────
+router.get("/", bookingCtrl.getAllBookings);
+
 module.exports = router;
