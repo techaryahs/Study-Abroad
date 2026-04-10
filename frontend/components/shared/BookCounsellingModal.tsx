@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { getUser } from "@/app/lib/token";
+import CheckoutModal from "@/app/User/cart/checkoutmodal";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Slot {
@@ -91,6 +92,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
   const [booking, setBooking] = useState<BookingResult | null>(null);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   useEffect(() => {
     const user = getUser();
@@ -346,6 +348,13 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                         <input type="email" placeholder="Email Address *" value={userEmail} onChange={e=>setUserEmail(e.target.value)} required
                           className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none" />
                       </div>
+                      <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-xl p-3.5 space-y-1">
+                         <div className="flex justify-between items-center text-[10px] font-bold text-white/50 uppercase">
+                            <span>Session Charge</span>
+                            <span className="text-white">₹599</span>
+                         </div>
+                         <div className="text-[9px] text-[#D4A848]/60 font-medium">Charges are fully adjustable in any service you opt for later.</div>
+                      </div>
                     </motion.div>
                   )}
 
@@ -377,17 +386,35 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                   {step > 1 && (
                     <button onClick={() => goBack(step - 1)} className="flex-1 py-2.5 rounded-lg border border-white/10 text-white/50 text-[10px] font-bold uppercase transition-all">Back</button>
                   )}
-                  <button 
-                    onClick={() => { if(step===1 && selectedDate) goNext(2); else if(step===2 && selectedSlot) goNext(3); else if(step===3) confirmBooking(); }}
+                   <button 
+                    onClick={() => { 
+                       if(step===1 && selectedDate) goNext(2); 
+                       else if(step===2 && selectedSlot) goNext(3); 
+                       else if(step===3) {
+                          if(!userName || !userEmail) { setError("Fill details first"); return; }
+                          setIsCheckoutOpen(true);
+                       }
+                    }}
                     disabled={ (step===1 && !selectedDate) || (step===2 && !selectedSlot) || (step===3 && bookingLoading)}
                     className="flex-1 py-2.5 rounded-lg bg-[#D4A848] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
                   >
-                    {bookingLoading ? "..." : step === 3 ? "Confirm" : "Continue"}
+                    {bookingLoading ? "..." : step === 3 ? "Confirm & Pay" : "Continue"}
                   </button>
                 </div>
               )}
             </div>
           </motion.div>
+          
+          <CheckoutModal 
+             isOpen={isCheckoutOpen}
+             onClose={() => setIsCheckoutOpen(false)}
+             onSuccess={confirmBooking}
+             items={[{ name: "Counselling Session", price: 999 }]}
+             subtotal={999}
+             discount={400}
+             total={599}
+             currency="INR"
+          />
         </>
       )}
     </AnimatePresence>

@@ -4,6 +4,7 @@ import pricingData from "@/data/services-pricing.json";
 import { ShieldCheck, Star, ChevronDown, Check, LogIn } from "lucide-react";
 import { getUser, getToken } from "@/app/lib/token";
 import Link from "next/link";
+import CheckoutModal from "@/app/User/cart/checkoutmodal";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
 
@@ -16,6 +17,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(false);
     const [isInCart, setIsInCart] = useState(false);
+    const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
     // Multi-selection state
     const [selections, setSelections] = useState<Record<string, string>>({});
@@ -394,6 +396,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                             ) : (
                                 <>
                                     <button
+                                        onClick={() => setIsCheckoutOpen(true)}
                                         className="bg-[#D4A848] text-[#40332D] py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg transition-all hover:-translate-y-1 active:scale-95 text-center leading-none"
                                     >
                                         Buy Now
@@ -425,6 +428,16 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                     <ShieldCheck size={10} className="text-[#FFFFFF]/40" /> Secure Checkout
                 </p>
             </div>
+            
+            <CheckoutModal 
+                isOpen={isCheckoutOpen}
+                onClose={() => setIsCheckoutOpen(false)}
+                items={[{ name: data.title, price: parsePrice(displayActual) }]}
+                subtotal={parsePrice(displayActual)}
+                discount={parsePrice(displaySave)}
+                total={parsePrice(displayDiscounted)}
+                currency={currency}
+            />
         </div>
     );
 }

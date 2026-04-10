@@ -15,10 +15,12 @@ import {
   TrendingUp,
   CreditCard
 } from "lucide-react";
+import CheckoutModal from "@/app/User/cart/checkoutmodal";
 
 export default function USVisaMockInterview() {
     const [openFaq, setOpenFaq] = useState<number | null>(0);
-    const [currency, setCurrency] = useState("USD");
+    const [currency, setCurrency] = useState("INR");
+    const [checkoutPlan, setCheckoutPlan] = useState<{ actual: number; discounted: number; title: string } | null>(null);
 
     const faqs = [
         {
@@ -42,23 +44,23 @@ export default function USVisaMockInterview() {
     const plans = [
         {
             rounds: "1 Round",
-            price: "9.00",
-            original: "10.00",
+            price: 499,
+            original: 999,
             features: ["1 Mock Interview Round", "Realtime Feedback", "Confidence Score"],
             highlight: false,
         },
         {
             rounds: "5 Rounds",
-            price: "29.00",
-            original: "50.00",
+            price: 1999,
+            original: 4999,
             features: ["5 Mock Interview Rounds", "270% Success Boost", "Progress Tracking"],
             highlight: true,
             label: "RECOMMENDED",
         },
         {
             rounds: "10 Rounds",
-            price: "59.00",
-            original: "100.00",
+            price: 3499,
+            original: 9999,
             features: ["10 Mock Interview Rounds", "Priority AI Engine", "Full Performance Audit"],
             highlight: false,
         },
@@ -282,9 +284,9 @@ export default function USVisaMockInterview() {
                            <div className="space-y-4">
                               <h3 className="fd text-3xl font-bold">{plan.rounds}</h3>
                               <div className="flex items-baseline gap-2">
-                                 <span className={plan.highlight ? 'text-white/40 text-sm line-through' : 'text-[#6B5E51] text-sm line-through'}>{currency} {plan.original}</span>
+                                 <span className={plan.highlight ? 'text-white/40 text-sm line-through' : 'text-[#6B5E51] text-sm line-through'}>{currency} {plan.original.toLocaleString('en-IN')}</span>
                                  <span className={plan.highlight ? 'text-[#C5A059] text-5xl font-bold' : 'text-[#2D2926] text-5xl font-bold'}>
-                                    {currency} {plan.price}
+                                    {currency} {plan.price.toLocaleString('en-IN')}
                                  </span>
                               </div>
                            </div>
@@ -296,9 +298,12 @@ export default function USVisaMockInterview() {
                                  </div>
                               ))}
                            </div>
-                           <button className={`w-full py-5 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all ${plan.highlight ? 'bg-[#C5A059] text-[#2D2926] hover:bg-white' : 'bg-[#2D2926] text-white hover:bg-[#C5A059]'}`}>
-                              Initialize Protocol
-                           </button>
+                            <button 
+                                onClick={() => setCheckoutPlan({ actual: plan.original, discounted: plan.price, title: `${plan.rounds} Mock Interview` })}
+                                className={`w-full py-5 rounded-2xl font-bold text-xs uppercase tracking-widest transition-all ${plan.highlight ? 'bg-[#C5A059] text-[#2D2926] hover:bg-white' : 'bg-[#2D2926] text-white hover:bg-[#C5A059]'}`}
+                            >
+                               Initialize Protocol
+                            </button>
                         </div>
                      ))}
                   </div>
@@ -344,6 +349,17 @@ export default function USVisaMockInterview() {
 
 
 
+
+            
+            <CheckoutModal 
+                isOpen={checkoutPlan !== null}
+                onClose={() => setCheckoutPlan(null)}
+                items={checkoutPlan ? [{ name: checkoutPlan.title, price: checkoutPlan.actual }] : []}
+                subtotal={checkoutPlan?.actual || 0}
+                discount={(checkoutPlan?.actual || 0) - (checkoutPlan?.discounted || 0)}
+                total={checkoutPlan?.discounted || 0}
+                currency="INR"
+            />
         </main>
     );
 }
