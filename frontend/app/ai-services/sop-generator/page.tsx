@@ -14,7 +14,7 @@ export default function AISOPGeneratorPage() {
         <div className="min-h-screen bg-[#FDFBF7] font-sans">
             <Navbar />
             
-            <main className="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+            <main className="pt-24 pb-24 px-6 max-w-7xl mx-auto">
                 {/* Hero Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
                     
