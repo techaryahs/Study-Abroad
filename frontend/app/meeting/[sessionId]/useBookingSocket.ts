@@ -5,12 +5,12 @@ import { io, Socket } from "socket.io-client";
 
 const SOCKET_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL &&
-  process.env.NEXT_PUBLIC_BACKEND_URL !== "undefined"
+    process.env.NEXT_PUBLIC_BACKEND_URL !== "undefined"
     ? process.env.NEXT_PUBLIC_BACKEND_URL
-    : process.env.NEXT_PUBLIC_API_URL &&
-      process.env.NEXT_PUBLIC_API_URL !== "undefined"
-    ? process.env.NEXT_PUBLIC_API_URL
-    : "http://localhost:5001";
+    : process.env.NEXT_PUBLIC_BACKEND_URL &&
+      process.env.NEXT_PUBLIC_BACKEND_URL !== "undefined"
+      ? process.env.NEXT_PUBLIC_BACKEND_URL
+      : "http://localhost:5001";
 
 export interface Participant {
   participantId: string;
