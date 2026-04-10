@@ -78,7 +78,7 @@ export default function PreJoin({
               {isHost ? "Host Entry" : "Meeting Room"}
             </span>
             <span className="text-white/20 text-[9px] uppercase tracking-wider">
-              Global Counsellor Center
+              Global Counselling Center
             </span>
           </div>
         </div>

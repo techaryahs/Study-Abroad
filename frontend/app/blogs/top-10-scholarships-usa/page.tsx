@@ -20,7 +20,7 @@ export default function ScholarshipsUSAPage() {
                 Studying in the USA is a high-return investment, but the ticket price can be daunting. Billion of dollars in dedicated funding are reserved for international students who can articulate an 'Impact Story'.
               </p>
               <p className="text-white/50 leading-relaxed font-medium pt-4 italic">
-                At Global Counsellor Center Global, we help you build a profile that makes you the most desirable candidate. Here is our curated list of the top scholarships.
+                At Global Counselling Center Global, we help you build a profile that makes you the most desirable candidate. Here is our curated list of the top scholarships.
               </p>
             </div>
           </section>
@@ -61,7 +61,7 @@ export default function ScholarshipsUSAPage() {
 
           {/* Pro Tips Section */}
           <section className="space-y-8 pt-12 border-t border-white/5">
-            <h2 className="text-2xl font-black uppercase tracking-tight italic gradient-text-gold">The Global Counsellor Center Winning Strategy</h2>
+            <h2 className="text-2xl font-black uppercase tracking-tight italic gradient-text-gold">The Global Counselling Center Winning Strategy</h2>
             <div className="grid md:grid-cols-2 gap-8">
               <div className="p-8 bg-white/[0.01] rounded-3xl border border-white/5 space-y-4 hover:border-gold-500/20 transition-colors">
                 <h4 className="text-lg font-black uppercase tracking-widest text-gold-500">The Impact Story</h4>

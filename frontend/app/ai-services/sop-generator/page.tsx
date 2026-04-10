@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Star, Play } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
 import CheckoutModal from '@/app/User/cart/checkoutmodal';
 
 export default function AISOPGeneratorPage() {
@@ -643,7 +642,7 @@ export default function AISOPGeneratorPage() {
                 </div>
 
             </main>
-            <Footer />
+            
             
             {/* Checkout Modal overlay */}
             <CheckoutModal 

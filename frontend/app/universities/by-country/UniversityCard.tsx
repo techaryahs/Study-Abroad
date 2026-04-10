@@ -198,7 +198,26 @@ export default function UniversityCard({ uni }: any) {
         .divider {
           height: 1px;
           background: linear-gradient(90deg, rgba(197,160,89,.2), transparent);
-          margin: 24px 0;
+          margin: 16px 0;
+        }
+
+        @media (max-width: 640px) {
+          .uni-card { border-radius: 16px; }
+          .card-inner { padding: 16px !important; }
+          .logo-wrap { width: 50px; height: 50px; border-radius: 12px; }
+          .logo-wrap img { width: 35px !important; height: 35px !important; }
+          .name-link { font-size: 18px !important; }
+          .location-text { font-size: 11px !important; margin: 4px 0 10px; }
+          .rank-badge { top: 12px; right: 12px; padding: 4px 8px; font-size: 10px; border-radius: 6px; }
+          .info-col { padding-right: 40px !important; }
+          .pill-badge { font-size: 9px !important; padding: 3px 8px !important; }
+          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 6px !important; margin-bottom: 16px !important; }
+          .stat-cell { padding: 8px 10px !important; border-radius: 10px !important; }
+          .stat-cell p:first-child { font-size: 8px !important; margin-bottom: 2px !important; }
+          .stat-cell p:last-child { font-size: 14px !important; }
+          .cta-row { flex-wrap: wrap; gap: 8px !important; }
+          .btn-primary, .btn-secondary { padding: 8px 16px !important; font-size: 11px !important; flex: 1; text-align: center; }
+          .req-link { font-size: 11px !important; margin-left: 0 !important; width: 100%; justify-content: center; margin-top: 4px; }
         }
       `}</style>
 
@@ -210,7 +229,7 @@ export default function UniversityCard({ uni }: any) {
         {/* Rank badge */}
         <div className="rank-badge">#{uni.ranking || "—"}</div>
 
-        <div style={{ padding: "32px" }}>
+        <div className="card-inner" style={{ padding: "32px" }}>
 
           {/* Top row: logo + info */}
           <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
@@ -228,7 +247,7 @@ export default function UniversityCard({ uni }: any) {
             </div>
 
             {/* Name + location */}
-            <div style={{ flex: 1, minWidth: 0, paddingRight: 80 }}>
+            <div className="info-col" style={{ flex: 1, minWidth: 0, paddingRight: 80 }}>
               <Link href={`/universities/${uni.slug}`}>
                 <span className="name-link">
                   {uni.name}
@@ -239,18 +258,18 @@ export default function UniversityCard({ uni }: any) {
               </p>
 
               {/* Quick pill badges */}
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {uni.acceptance && (
-                  <span style={{
+                  <span className="pill-badge" style={{
                     fontSize: 11, padding: "4px 12px", borderRadius: 999,
                     background: "rgba(22,163,74,.08)", color: "#16a34a",
                     border: "1px solid rgba(22,163,74,.15)", fontWeight: 700
                   }}>
-                    ✓ {uni.acceptance} Accept Rate
+                    ✓ {uni.acceptance}
                   </span>
                 )}
                 {uni.tuition && (
-                  <span style={{
+                  <span className="pill-badge" style={{
                     fontSize: 11, padding: "4px 12px", borderRadius: 999,
                     background: "rgba(197,160,89,.08)", color: "#C5A059",
                     border: "1px solid rgba(197,160,89,.15)", fontWeight: 700
@@ -259,12 +278,12 @@ export default function UniversityCard({ uni }: any) {
                   </span>
                 )}
                 {uni.salary && (
-                  <span style={{
+                  <span className="pill-badge" style={{
                     fontSize: 11, padding: "4px 12px", borderRadius: 999,
                     background: "rgba(45,41,38,.05)", color: "#2D2926",
                     border: "1px solid rgba(45,41,38,.1)", fontWeight: 700
                   }}>
-                    💼 {uni.salary} avg salary
+                    💼 {uni.salary}
                   </span>
                 )}
               </div>
@@ -274,7 +293,7 @@ export default function UniversityCard({ uni }: any) {
           <div className="divider" />
 
           {/* Stats grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 24 }}>
+          <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12, marginBottom: 24 }}>
             <StatCell label="Average Salary" value={uni.salary} icon="💼" />
             <StatCell label="Tuition Fees" value={uni.tuition} icon="💵" />
             <StatCell label="Avg SAT Score" value={uni.sat ? String(uni.sat) : null} icon="📝" />
@@ -296,15 +315,18 @@ export default function UniversityCard({ uni }: any) {
           </div>
 
           {/* CTA row */}
-          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+          <div className="cta-row" style={{ display: "flex", gap: 12, alignItems: "center" }}>
             <Link href={`/universities/${uni.slug}`}>
-              <button className="btn-primary">View Full Profile</button>
+              <button className="btn-primary">View Details</button>
             </Link>
-            <button className="btn-secondary">Check My Chances →</button>
+            <Link href="/universities/RateMyChances">
+              <button className="btn-secondary">Check My Chances →</button>
+            </Link>
 
             {/* Spacer + view link */}
             <Link
               href={`/universities/${uni.slug}`}
+              className="req-link"
               style={{
                 marginLeft: "auto", fontSize: 13, color: "#6B5E51",
                 textDecoration: "none", display: "flex", alignItems: "center", gap: 6,

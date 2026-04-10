@@ -15,7 +15,7 @@ interface BlogLayoutProps {
   author?: string;
 }
 
-export default function BlogLayout({ title, category, date, readTime, content, image, accentClass = "accent-glow-gold", author = "Global Counsellor Center" }: BlogLayoutProps) {
+export default function BlogLayout({ title, category, date, readTime, content, image, accentClass = "accent-glow-gold", author = "Global Counselling Center" }: BlogLayoutProps) {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },

@@ -13,7 +13,10 @@ const VerifyOtpContent = () => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "your email";
+  const email = searchParams.get("email");
+  const mobile = searchParams.get("mobile");
+  const type = mobile ? 'mobile' : 'email';
+  const displayValue = mobile || email || "your contact";
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,10 +28,15 @@ const VerifyOtpContent = () => {
   const verifyOtp = async (enteredOtp: string) => {
     setIsVerifying(true);
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/auth/verify-otp`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+      
+      const endpoint = type === 'email' ? 'verify-otp-signup' : 'verify-otp-mobile';
+      const payload = type === 'email' ? { email, otp: enteredOtp } : { mobile, otp: enteredOtp };
+
+      const response = await fetch(`${BACKEND_URL}/api/auth/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, otp: enteredOtp }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -49,10 +57,15 @@ const VerifyOtpContent = () => {
     if (timer > 0) return;
     setIsResending(true);
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/auth/resend-otp`, {
+      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+      
+      const endpoint = type === 'email' ? 'send-otp-signup' : 'send-otp-mobile';
+      const payload = type === 'email' ? { email } : { mobile };
+
+      const response = await fetch(`${BACKEND_URL}/api/auth/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) throw new Error("Failed to resend OTP");
@@ -114,7 +127,7 @@ const VerifyOtpContent = () => {
           <h2 className="text-3xl font-black text-white mb-3 uppercase italic tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>Verify Identity</h2>
           <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest leading-relaxed px-4">
             We've sent a 6-digit verification code to <br />
-            <span className="font-black text-gold-500">{email}</span>
+            <span className="font-black text-gold-500">{displayValue}</span>
           </p>
         </div>
 

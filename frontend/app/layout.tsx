@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Global Counsellor Center Admissions | Elite Study Abroad Mentorship",
+  title: "Global Counselling Center Admissions | Elite Study Abroad Mentorship",
   description: "Personalized admissions guidance for global success. Secure your path to Ivy League and prestigious international universities.",
 };
 

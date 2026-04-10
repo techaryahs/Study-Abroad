@@ -92,7 +92,7 @@ export default function AboutPage() {
                 <span className="gradient-text-gold italic block mt-2">Global Careers</span>
               </h1>
               <p className="text-lg md:text-xl text-white/50 max-w-xl leading-relaxed font-normal italic !opacity-100 !visible">
-                At Global Counsellor Center Admissions, we believe education is a transformative leap. We turn raw potential into global prestige.
+                At Global Counselling Center Admissions, we believe education is a transformative leap. We turn raw potential into global prestige.
               </p>
             </div>
 

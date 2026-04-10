@@ -7,9 +7,11 @@ const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
 const { getEmailSearchRegex } = require("../utils/emailUtils");
 const { findUserByEmail } = require("../utils/userHelper");
+const { sendSMSOTP } = require("../utils/otpsms");
 
 
 const otpStore = new Map();
+const otpStoreMobile = new Map();
 // Normalization now handled via regex in lookups, we keep the original for display.
 
 /* =========================
@@ -19,10 +21,15 @@ exports.register = async (req, res) => {
   try {
     const { name, email, mobile, password, dob, gender, country, state, profile: profileInput } = req.body;
     const emailLower = email.toLowerCase().trim();
-    // 🔍 1. Check if Email is Verified in otpStore
+    // 🔍 1. Check if Email and Mobile are Verified
     const storedData = otpStore.get(emailLower);
     if (!storedData || !storedData.verified) {
       return res.status(400).json({ error: "Email not verified. Please verify your email before registering." });
+    }
+
+    const storedMobileData = otpStoreMobile.get(mobile);
+    if (!storedMobileData || !storedMobileData.verified) {
+      return res.status(400).json({ error: "Mobile number not verified. Please verify your number before registering." });
     }
 
     // 🎯 Prepare target universities from goal
@@ -68,6 +75,7 @@ exports.register = async (req, res) => {
 
     // 🔢 3️⃣ Cleanup otpStore
     otpStore.delete(emailLower);
+    otpStoreMobile.delete(mobile);
 
     console.log(`✅ Student Registered Successfully: ${emailLower}`);
 
@@ -160,6 +168,66 @@ exports.verifyOtpSignup = async (req, res) => {
   } catch (err) {
     console.error("❌ verifyOtpSignup Error:", err);
     res.status(500).json({ error: "Verification failed" });
+  }
+};
+
+/* =========================
+   SEND OTP FOR MOBILE SIGNUP
+========================= */
+exports.sendOtpMobile = async (req, res) => {
+  try {
+    const { mobile } = req.body;
+    if (!mobile) return res.status(400).json({ error: "Mobile number is required" });
+
+    // 1️⃣ Generate OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 10 * 60 * 1000;
+    otpStoreMobile.set(mobile, { otp, expiresAt, verified: false });
+
+    console.log(`📌 Mobile OTP for Signup (${mobile}): ${otp}`);
+
+    // 2️⃣ Send SMS
+    const smsResult = await sendSMSOTP(mobile, otp);
+    if (!smsResult.success) {
+        return res.status(500).json({ error: smsResult.message });
+    }
+
+    res.json({ message: "Verification code sent to your mobile successfully" });
+  } catch (err) {
+    console.error("❌ sendOtpMobile Error:", err);
+    res.status(500).json({ error: "Failed to send mobile verification code" });
+  }
+};
+
+/* =========================
+   VERIFY OTP FOR MOBILE
+========================= */
+exports.verifyOtpMobile = async (req, res) => {
+  try {
+    const { mobile, otp } = req.body;
+    const storedData = otpStoreMobile.get(mobile);
+
+    if (!storedData) {
+      return res.status(400).json({ error: "Verification record not found. Please try again." });
+    }
+
+    if (storedData.otp.toString() !== otp.toString()) {
+      return res.status(400).json({ error: "Invalid mobile verification code" });
+    }
+
+    if (Date.now() > storedData.expiresAt) {
+      otpStoreMobile.delete(mobile);
+      return res.status(400).json({ error: "Mobile verification code has expired" });
+    }
+
+    // ✅ Mark as verified
+    storedData.verified = true;
+    otpStoreMobile.set(mobile, storedData);
+
+    res.json({ message: "Mobile number verified successfully", verified: true });
+  } catch (err) {
+    console.error("❌ verifyOtpMobile Error:", err);
+    res.status(500).json({ error: "Mobile verification failed" });
   }
 };
 

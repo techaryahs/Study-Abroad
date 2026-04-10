@@ -27,6 +27,8 @@ import {
   X,
   Smartphone,
   Menu,
+  Plus,
+  Minus
 } from "lucide-react";
 import { useEffect } from "react";
 import { getUser, removeToken, clearAuth } from "@/app/lib/token";
@@ -44,6 +46,7 @@ interface DropdownItem {
   href: string;
   badge?: "NEW" | null;
   subItems?: { name: string; href: string }[];
+  subAccordion?: { name: string; items: { name: string; href: string }[] }[];
 }
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -87,7 +90,35 @@ const universityItems: DropdownItem[] = [
     icon: <BookOpen size={18} />,
     title: "Popular Programs",
     description: "Explore the most sought-after academic programs worldwide.",
-    href: "/universities/popular-programs",
+    href: "/universities/byprogram",
+    subAccordion: [
+      {
+        name: "Engineering",
+        items: [
+          { name: "Computer Engineering", href: "/universities/byprogram?program=Computer Engineering" },
+          { name: "Mechanical Engineering", href: "/universities/byprogram?program=Mechanical Engineering" },
+          { name: "Electrical Engineering", href: "/universities/byprogram?program=Electrical Engineering" },
+          { name: "Civil Engineering", href: "/universities/byprogram?program=Civil Engineering" },
+          { name: "Industrial Engineering", href: "/universities/byprogram?program=Industrial Engineering" }
+        ]
+      },
+      {
+        name: "Business",
+        items: [
+          { name: "MBA", href: "/universities/byprogram?program=MBA" },
+          { name: "Finance", href: "/universities/byprogram?program=Finance" },
+          { name: "Marketing", href: "/universities/byprogram?program=Marketing" }
+        ]
+      },
+      {
+        name: "Science",
+        items: [
+          { name: "Data Science", href: "/universities/byprogram?program=Data Science" },
+          { name: "Biology", href: "/universities/byprogram?program=Biology" },
+          { name: "Psychology", href: "/universities/byprogram?program=Psychology" }
+        ]
+      }
+    ]
   },
   {
     icon: <DollarSign size={18} />,
@@ -97,9 +128,109 @@ const universityItems: DropdownItem[] = [
   },
   {
     icon: <MapPin size={18} />,
-    title: "Top Universities by State/Province",
-    description: "Filter top schools by region across the US and Canada.",
-    href: "/universities/by-state",
+    title: "Top Universities by State",
+    description: "Filter top schools by region (California, Texas, Ontario, etc).",
+    href: "/universities/bystate",
+    subAccordion: [
+      {
+        name: "USA",
+        items: [
+          { name: "California", href: "/universities/bystate?state=California" },
+          { name: "Massachusetts", href: "/universities/bystate?state=Massachusetts" },
+          { name: "New York", href: "/universities/bystate?state=New York" },
+          { name: "Texas", href: "/universities/bystate?state=Texas" },
+          { name: "Illinois", href: "/universities/bystate?state=Illinois" },
+          { name: "Pennsylvania", href: "/universities/bystate?state=Pennsylvania" }
+        ]
+      },
+      {
+        name: "Canada",
+        items: [
+          { name: "Ontario", href: "/universities/bystate?state=Ontario" },
+          { name: "British Columbia", href: "/universities/bystate?state=British Columbia" },
+          { name: "Quebec", href: "/universities/bystate?state=Quebec" }
+        ]
+      },
+      {
+        name: "United Kingdom",
+        items: [
+          { name: "England", href: "/universities/bystate?state=England" },
+          { name: "Scotland", href: "/universities/bystate?state=Scotland" },
+          { name: "Wales", href: "/universities/bystate?state=Wales" }
+        ]
+      },
+      {
+        name: "Germany",
+        items: [
+          { name: "Bavaria", href: "/universities/bystate?state=Bavaria" },
+          { name: "Baden-Württemberg", href: "/universities/bystate?state=Baden-Württemberg" },
+          { name: "Berlin", href: "/universities/bystate?state=Berlin" },
+          { name: "Hesse", href: "/universities/bystate?state=Hesse" }
+        ]
+      },
+      {
+        name: "Australia",
+        items: [
+          { name: "New South Wales", href: "/universities/bystate?state=New South Wales" },
+          { name: "Victoria", href: "/universities/bystate?state=Victoria" },
+          { name: "Queensland", href: "/universities/bystate?state=Queensland" }
+        ]
+      },
+      {
+        name: "Singapore",
+        items: [
+          { name: "Singapore", href: "/universities/bystate?state=Singapore" }
+        ]
+      },
+      {
+        name: "Ireland",
+        items: [
+          { name: "Dublin", href: "/universities/bystate?state=Dublin" },
+          { name: "Cork", href: "/universities/bystate?state=Cork" },
+          { name: "Galway", href: "/universities/bystate?state=Galway" },
+          { name: "Limerick", href: "/universities/bystate?state=Limerick" }
+        ]
+      },
+      {
+        name: "Netherlands",
+        items: [
+          { name: "North Holland", href: "/universities/bystate?state=North Holland" },
+          { name: "South Holland", href: "/universities/bystate?state=South Holland" },
+          { name: "Utrecht", href: "/universities/bystate?state=Utrecht" },
+          { name: "Gelderland", href: "/universities/bystate?state=Gelderland" }
+        ]
+      },
+      {
+        name: "France",
+        items: [
+          { name: "Île-de-France", href: "/universities/bystate?state=Île-de-France" },
+          { name: "Auvergne-Rhône-Alpes", href: "/universities/bystate?state=Auvergne-Rhône-Alpes" },
+          { name: "Occitanie", href: "/universities/bystate?state=Occitanie" },
+          { name: "Nouvelle-Aquitaine", href: "/universities/bystate?state=Nouvelle-Aquitaine" }
+        ]
+      },
+      {
+        name: "Switzerland",
+        items: [
+          { name: "Basel-Stadt", href: "/universities/bystate?state=Basel-Stadt" },
+          { name: "Bern", href: "/universities/bystate?state=Bern" },
+          { name: "Fribourg", href: "/universities/bystate?state=Fribourg" },
+          { name: "Geneve", href: "/universities/bystate?state=Geneve" },
+          { name: "Neuchatel", href: "/universities/bystate?state=Neuchatel" },
+          { name: "Vaud", href: "/universities/bystate?state=Vaud" },
+          { name: "Zurich", href: "/universities/bystate?state=Zurich" }
+        ]
+      },
+      {
+        name: "New Zealand",
+        items: [
+          { name: "Auckland", href: "/universities/bystate?state=Auckland" },
+          { name: "Wellington", href: "/universities/bystate?state=Wellington" },
+          { name: "Canterbury", href: "/universities/bystate?state=Canterbury" },
+          { name: "Otago", href: "/universities/bystate?state=Otago" }
+        ]
+      }
+    ]
   },
 ];
 
@@ -158,6 +289,70 @@ const aiServicesItems: DropdownItem[] = [
   },
 ];
 
+// ─── Sub-Accordion logic ───────────────────────────────────────────────────
+function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; items: { name: string; href: string }[] }[] }) {
+  const [openCountry, setOpenCountry] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [openUpwards, setOpenUpwards] = useState(false);
+
+  useEffect(() => {
+    // Determine if rendering the dropdown downwards pushes it off-screen
+    if (menuRef.current) {
+      const rect = menuRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      if (rect.bottom > viewportHeight - 50) {
+        setOpenUpwards(true);
+      }
+    }
+  }, []);
+
+  return (
+    <div
+      ref={menuRef}
+      className={`absolute left-[calc(100%+8px)] pl-2 z-[60] flex flex-col transition-all duration-300 ${openUpwards ? "bottom-0" : "top-0"} ${openCountry ? "-translate-y-4" : ""}`}
+      style={{ animation: "dropIn 0.15s ease-out both" }}
+    >
+      <div className="bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 flex flex-col overflow-hidden">
+        <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-[#B3985E] truncate">
+            {accordionItems[0]?.items[0]?.href.includes('program') ? 'Academic Categories' : 'Regions & States'}
+          </p>
+        </div>
+        <ul className="py-1 max-h-[400px] overflow-y-auto no-scrollbar overflow-x-hidden">
+          {accordionItems.map((group) => (
+            <li key={group.name} className="border-b border-white/5 last:border-0">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenCountry(openCountry === group.name ? null : group.name);
+                }}
+                className={`w-full flex items-center justify-between px-4 py-3 text-[11px] font-semibold transition-all duration-200 ${openCountry === group.name ? 'text-[#B3985E] bg-white/5' : 'text-gray-300 hover:text-[#B3985E] hover:bg-white/5'}`}
+              >
+                <span className="truncate pr-2">{group.name}</span>
+                {openCountry === group.name ? <Minus size={10} strokeWidth={3} /> : <Plus size={10} strokeWidth={3} />}
+              </button>
+              {openCountry === group.name && (
+                <ul className="bg-black/40 py-1 transition-all duration-300 shadow-inner">
+                  {group.items.map(subItem => (
+                    <li key={subItem.name}>
+                      <Link
+                        href={subItem.href}
+                        className="block px-6 py-2.5 text-[10px] font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all border-l-2 border-transparent hover:border-[#B3985E]"
+                      >
+                        {subItem.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
 // ─── Reusable Dropdown Panel (defined inside same file) ───────────────────────
 
 function DropdownPanel({
@@ -181,14 +376,26 @@ function DropdownPanel({
 }) {
   const posClass = align === "center" ? "left-1/2 -translate-x-1/2" : "left-0";
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [openUpwards, setOpenUpwards] = useState(false);
+
+  useEffect(() => {
+    if (panelRef.current) {
+        const rect = panelRef.current.getBoundingClientRect();
+        if (rect.bottom > window.innerHeight - 20) {
+            setOpenUpwards(true);
+        }
+    }
+  }, []);
 
   return (
     <div
-      className={`absolute top-full mt-1 ${posClass} rounded-xl shadow-2xl z-50`}
+      ref={panelRef}
+      className={`absolute ${openUpwards ? 'bottom-full mb-1' : 'top-full mt-1'} ${posClass} rounded-xl shadow-2xl z-50`}
       style={{
         background: "#2D1F1D",
         width,
-        animation: "dropIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) both",
+        animation: openUpwards ? "dropInUp 0.18s cubic-bezier(0.16, 1, 0.3, 1) both" : "dropIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) both",
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -209,7 +416,8 @@ function DropdownPanel({
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
           >
-            {item.subItems ? (
+           {/* Sub-menu trigger (Items with children) */}
+            {(item.subItems || item.subAccordion) ? (
               <div
                 className="group flex items-start gap-3 px-4 py-2 hover:bg-white/5 transition-colors duration-150 cursor-default"
               >
@@ -262,18 +470,18 @@ function DropdownPanel({
               </Link>
             )}
 
-            {/* Sub-menu if items present */}
+            {/* COUNTRY LIST SUB-MENU */}
             {item.subItems && hoveredIndex === index && (
               <div
-                className="absolute left-full top-0 ml-1 bg-[#2D1F1D] rounded-xl shadow-2xl border border-white/10 w-48 z-50 flex flex-col"
+                className="absolute left-[calc(100%+8px)] top-0 pl-2 bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 z-50 flex flex-col"
                 style={{ animation: "dropIn 0.15s ease-out both" }}
               >
                 <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-yellow-400">
-                    Countries
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-[#B3985E]">
+                    Global Reach
                   </p>
                 </div>
-                <ul className="py-1 max-h-[220px] overflow-y-auto no-scrollbar">
+                <ul className="py-1 max-h-[220px] overflow-y-auto custom-nav-scroll">
                   {item.subItems.map((sub) => (
                     <li key={sub.name}>
                       <Link
@@ -286,6 +494,16 @@ function DropdownPanel({
                   ))}
                 </ul>
               </div>
+            )}
+
+            {/* ACCORDION SUB-MENU (for Programs, States) */}
+            {item.subAccordion && hoveredIndex === index && (
+                <AccordionSubMenu accordionItems={item.subAccordion} />
+            )}
+
+            {/* Sub-accordion if nested regions/states present */}
+            {item.subAccordion && hoveredIndex === index && (
+              <AccordionSubMenu accordionItems={item.subAccordion} />
             )}
           </li>
         ))}
@@ -515,7 +733,7 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
               <div className="flex flex-col">
-                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counsellor Centre</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counselling Centre</span>
                 <span className="text-[#B3985E] text-[7px] sm:text-[8px] font-black uppercase tracking-[0.4em] mt-2 opacity-70">GLOBAL ADMISSIONS</span>
               </div>
             </Link>
@@ -788,7 +1006,7 @@ export default function Navbar() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
             <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counsellor Centre</span>
+              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counselling Centre</span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}

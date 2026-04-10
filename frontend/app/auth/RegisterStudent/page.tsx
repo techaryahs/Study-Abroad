@@ -245,17 +245,23 @@ const Register = () => {
     if (errors.state) setErrors(prev => { const n = { ...prev }; delete n.state; return n; });
   };
 
-  const handleSendOtp = async () => {
-    setVerifyModal(prev => ({ ...prev, mode: 'loading' }));
+  const handleSendOtp = async (type: 'email' | 'mobile' = verifyModal.type) => {
+    setVerifyModal(prev => ({ ...prev, mode: 'loading', type }));
     try {
       const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
-      const response = await fetch(`${BACKEND_URL}/api/auth/send-otp-signup`, {
+      
+      const endpoint = type === 'email' ? 'send-otp-signup' : 'send-otp-mobile';
+      const payload = type === 'email' ? { email: verifyModal.value } : { mobile: verifyModal.value };
+
+      const response = await fetch(`${BACKEND_URL}/api/auth/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: verifyModal.value }),
+        body: JSON.stringify(payload),
       });
+      
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Failed to send OTP");
+      
       setVerifyModal(prev => ({ ...prev, mode: 'otp' }));
       setOtpValue("");
     } catch (err: any) {
@@ -268,15 +274,24 @@ const Register = () => {
     setVerifyModal(prev => ({ ...prev, mode: 'loading' }));
     try {
       const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
-      const response = await fetch(`${BACKEND_URL}/api/auth/verify-otp-signup`, {
+      
+      const endpoint = verifyModal.type === 'email' ? 'verify-otp-signup' : 'verify-otp-mobile';
+      const payload = verifyModal.type === 'email' 
+        ? { email: verifyModal.value, otp: otpValue } 
+        : { mobile: verifyModal.value, otp: otpValue };
+
+      const response = await fetch(`${BACKEND_URL}/api/auth/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: verifyModal.value, otp: otpValue }),
+        body: JSON.stringify(payload),
       });
+      
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Invalid OTP");
+      
       if (verifyModal.type === 'email') setIsEmailVerified(true);
       else setIsMobileVerified(true);
+      
       setVerifyModal(prev => ({ ...prev, mode: 'success' }));
       setTimeout(() => setVerifyModal(prev => ({ ...prev, show: false })), 1500);
     } catch (err: any) {
@@ -347,17 +362,17 @@ const Register = () => {
                 <div className="animate-in fade-in">
                   <h3 className="text-lg font-black text-[#3C2A21] mb-1 uppercase tracking-tight italic">Verify Account</h3>
                   <p className="text-[#6B5E51]/40 text-[9px] mb-6 uppercase tracking-widest leading-relaxed">Identity verification required for: <span className="text-[#3C2A21] block mt-1 lowercase font-bold">{verifyModal.value}</span></p>
-                  <button onClick={() => verifyModal.type === 'email' ? handleSendOtp() : (setVerifyModal(p => ({ ...p, show: false })), setIsMobileVerified(true))} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-[#3C2A21] shadow-xl shadow-[#C5A059]/20 transition-all">Enable Protocol</button>
+                  <button onClick={() => handleSendOtp()} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-[#3C2A21] shadow-xl shadow-[#C5A059]/20 transition-all">Send Verification Code</button>
                 </div>
               )}
               {verifyModal.mode === 'otp' && (
                 <div className="animate-in fade-in">
                   <h3 className="text-lg font-black text-[#3C2A21] mb-4 tracking-tighter uppercase italic">Secure Code</h3>
                   <input type="text" maxLength={6} value={otpValue} onChange={(e) => setOtpValue(e.target.value)} className="w-full text-center text-xl font-bold tracking-[0.5em] py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl mb-4 text-[#C5A059] outline-none focus:border-[#C5A059] shadow-inner" placeholder="000000" />
-                  <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl disabled:opacity-50 text-[10px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/20 transition-all">Authorize Node</button>
+                  <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl disabled:opacity-50 text-[10px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/20 transition-all">Verify Code</button>
                 </div>
               )}
-              {verifyModal.mode === 'success' && <h3 className="text-xl font-black text-[#3C2A21] uppercase tracking-tighter italic">Protocol Active</h3>}
+              {verifyModal.mode === 'success' && <h3 className="text-xl font-black text-[#3C2A21] uppercase tracking-tighter italic">OTP VERIFIED</h3>}
               {verifyModal.mode === 'loading' && <div className="py-6"><div className="w-8 h-8 border-2 border-[#C5A059]/20 border-t-[#C5A059] rounded-full animate-spin mx-auto" /></div>}
             </motion.div>
           </div>
@@ -373,7 +388,7 @@ const Register = () => {
               <div className="w-10 h-10 bg-[#C5A059] rounded-xl flex items-center justify-center shadow-xl">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-black tracking-tighter uppercase italic">StudyAbroad</span>
+              <span className="text-xl font-black tracking-tighter uppercase italic">Global Counselling Centre</span>
             </div>
             <h1 className="text-4xl font-black leading-tight uppercase mb-6 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
               Architect <br /> <span className="text-[#C5A059]">Global</span> <br /> Careers.
@@ -395,8 +410,8 @@ const Register = () => {
           <div className="max-w-[550px] mx-auto w-full">
             <div className="mb-4 flex items-end justify-between border-b border-[#F1EDEA] pb-2">
               <div>
-                <h2 className="text-2xl font-black text-[#3C2A21] uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Initialize Registry</h2>
-                <p className="text-[#C5A059] text-[9px] font-black uppercase tracking-[0.3em] mt-1">Phase {step} of {formData.lookUpFor.includes("Admissions") ? 3 : 2}</p>
+                <h2 className="text-2xl font-black text-[#3C2A21] uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Create Your Account</h2>
+                <p className="text-[#C5A059] text-[9px] font-black uppercase tracking-[0.3em] mt-1">Step {step} of {formData.lookUpFor.includes("Admissions") ? 3 : 2}</p>
               </div>
               <div className="flex gap-1.5 h-1">
                 {[1, 2, (formData.lookUpFor.includes("Admissions") ? 3 : null)].filter(Boolean).map(i => (
@@ -471,8 +486,9 @@ const Register = () => {
                         <div className="relative flex-1">
                           <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={15} className={`w-full px-3 py-2 pr-16 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner ${isMobileVerified ? 'border-green-500' : 'focus:border-[#C5A059]'}`} />
                           {formData.mobile && !isMobileVerified && (
-                            <button onClick={() => setVerifyModal({ show: true, type: 'mobile', value: `${formData.mobilePrefix} ${formData.mobile}`, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-[#3C2A21] text-white px-2 rounded-lg font-black text-[8px] uppercase shadow-lg hover:bg-[#C5A059] transition-all">Verify</button>
+                            <button onClick={() => setVerifyModal({ show: true, type: 'mobile', value: `${formData.mobilePrefix}${formData.mobile}`, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-[#3C2A21] text-white px-2 rounded-lg font-black text-[8px] uppercase shadow-lg hover:bg-[#C5A059] transition-all">Verify</button>
                           )}
+                          {isMobileVerified && <ShieldCheck className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />}
                         </div>
                       </div>
                     </div>
@@ -501,7 +517,7 @@ const Register = () => {
 
                   <div className="flex items-center gap-2.5 pt-1">
                     <input type="checkbox" checked={acceptedPolicy} onChange={(e) => setAcceptedPolicy(e.target.checked)} className="w-3.5 h-3.5 rounded bg-[#FDFBF7] accent-[#C5A059] border-[#F1EDEA]" />
-                    <p className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest">Authorize Policy & Platform Protocols</p>
+                    <p className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest">I accept the data policy and terms of service</p>
                   </div>
 
                   <button 
