@@ -325,6 +325,13 @@ export default function Navbar() {
   const searchRef = useRef<HTMLFormElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Auto-close menu and clear search on navigation
+  useEffect(() => {
+    setMenuOpen(false);
+    setSearchQuery("");
+    setSuggestions([]);
+  }, [pathname]);
+
   // Handle scroll for transparency
   useEffect(() => {
     const handleScroll = () => {
@@ -347,6 +354,7 @@ export default function Navbar() {
       setSearchQuery("");
       setSuggestions([]);
       setSearchError(false);
+      setMenuOpen(false); // Close mobile menu if open
     } else {
       setSearchError(true);
       setTimeout(() => setSearchError(false), 500);
@@ -712,19 +720,15 @@ export default function Navbar() {
                   </div>
                   <div className="py-1 max-h-[200px] overflow-y-auto no-scrollbar">
                     {suggestions.map((country) => (
-                      <button
+                      <div
                         key={country.name}
-                        type="button"
-                        onClick={() => {
-                          router.push(country.href);
-                          setSearchQuery("");
-                          setSuggestions([]);
-                        }}
-                        className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 text-left group/item transition-colors"
+                        onClick={() => router.push(country.href)}
+                        onMouseDown={() => router.push(country.href)}
+                        className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 text-left group/item transition-colors cursor-pointer"
                       >
                         <span className="text-[10px] font-bold text-white/70 group-hover/item:text-[#B3985E] transition-colors">{country.name}</span>
                         <Globe size={10} className="text-white/20 group-hover/item:text-[#B3985E] transition-all" />
-                      </button>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -812,26 +816,23 @@ export default function Navbar() {
                   placeholder="Search countries..."
                   className="w-full h-12 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 text-sm text-white outline-none focus:border-[#B3985E]/50 transition-all font-medium"
                 />
-                {suggestions.length > 0 && (
-                  <div className="absolute top-full mt-2 w-full bg-[#2D1F1D] border border-white/20 rounded-xl shadow-2xl z-[110] overflow-hidden">
-                    {suggestions.map((country) => (
-                      <button
-                        key={country.name}
-                        onClick={() => {
-                          router.push(country.href);
-                          setSearchQuery("");
-                          setSuggestions([]);
-                          setMenuOpen(false);
-                        }}
-                        className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 text-left border-b border-white/5 last:border-0"
-                      >
-                        <span className="text-sm font-bold text-white/70">{country.name}</span>
-                        <Globe size={14} className="text-[#B3985E]" />
-                      </button>
-                    ))}
-                  </div>
-                )}
               </form>
+
+              {suggestions.length > 0 && (
+                <div className="relative mt-2 w-full bg-[#2D1F1D] border border-white/20 rounded-xl shadow-2xl z-[110] overflow-hidden">
+                  {suggestions.map((country) => (
+                    <div
+                      key={country.name}
+                      onClick={() => router.push(country.href)}
+                      onMouseDown={() => router.push(country.href)}
+                      className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 text-left border-b border-white/5 last:border-0 cursor-pointer"
+                    >
+                      <span className="text-sm font-bold text-white/70">{country.name}</span>
+                      <Globe size={14} className="text-[#B3985E]" />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Quick Actions (Mobile Only) */}
