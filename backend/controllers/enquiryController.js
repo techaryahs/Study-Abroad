@@ -1,58 +1,55 @@
 const nodemailer = require('nodemailer');
 
-// Define card names if not already globally available
-const cardNames = {
-  linkedin: 'LinkedIn Profile',
-  naukri: 'Naukri.com Profile',
-  resume: 'Professional Resume',
-  github: 'GitHub Profile',
-  portfolio: 'Portfolio Website',
-  'cover-letter': 'Winning Cover Letter',
-};
 exports.sendEnquiry = async (req, res) => {
-  console.log('📩 Enquiry received:', req.body);
 
-  const { email, message, profileType } = req.body;
+  const { name, email, mobile, message } = req.body;
 
-  if (!email || !message || !profileType) {
-    return res.status(400).json({ error: 'Email, message, and profile type required' });
+  // Validate minimum requirements
+  if (!email || !message) {
+    return res.status(400).json({ error: 'Email and a message/service description are required' });
   }
 
   try {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS,
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    await transporter.verify();
+    const displayName = name || 'Not provided';
+    const displayMobile = mobile || 'Not provided';
+    const displayService = message;
+    const displayType = 'General Service Inquiry';
 
     await transporter.sendMail({
-      from: `"Cards Enquiry" <${process.env.MAIL_USER}>`,
-      to: process.env.RECIPIENT_MAIL,
-      subject: `New ${cardNames[profileType] || profileType} Enquiry`,
+      from: `"Service Request" <${process.env.EMAIL_USER}>`,
+      to: process.env.ADMIN_NOTIFY_TO,
+      subject: `New Service Request from ${displayName}`,
       text: `
-New enquiry received:
+New enquiry received via the Services Page:
 
-👤 Email: ${email}
-📋 Profile: ${cardNames[profileType] || profileType}
-💬 Message: ${message}
+👤 Name: ${displayName}
+📧 Email: ${email}
+📱 Mobile: ${displayMobile}
+📋 Type: ${displayType}
+💬 Message/Request: 
+${displayService}
 
 🕒 ${new Date().toLocaleString()}
       `.trim(),
     });
 
-    res.status(201).json({ ok: true, message: 'Enquiry sent!' });
+    res.status(201).json({ ok: true, message: 'Enquiry sent successfully!' });
 
   } catch (error) {
     console.error('❌ Email failed:', error.message);
     
     if (error.code === 'EAUTH') {
-      res.status(500).json({ error: 'Email authentication failed. Check app password.' });
+      res.status(500).json({ error: 'Email authentication failed. Check backend configuration.' });
     } else {
-      res.status(500).json({ error: 'Failed to send email' });
+      res.status(500).json({ error: 'Failed to send enquiry. Please try again later.' });
     }
   }
 };

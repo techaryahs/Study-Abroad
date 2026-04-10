@@ -162,8 +162,11 @@ export default function ServicesPage() {
   const [query, setQuery] = useState("");
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const contactPhone = process.env.NEXT_PUBLIC_WTSP_PHONE || "919619901999";
-  const [form, setForm] = useState({ name: "", email: "", mobile: "", service: "" });
+  const [form, setForm] = useState({ name: "", email: "", mobile: "", message: "" });
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "failed">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const filtered = services.filter(
     (s) =>
@@ -171,9 +174,43 @@ export default function ServicesPage() {
       s.description.toLowerCase().includes(query.toLowerCase())
   );
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setStatus("loading");
+    setErrorMessage("");
+    
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/enquiry`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setStatus("success");
+        setForm({ name: "", email: "", mobile: "", message: "" });
+      } else {
+        setStatus("failed");
+        const errorData = await response.json();
+        setErrorMessage(errorData.error || "Failed to send request.");
+        setTimeout(() => {
+          setStatus("idle");
+          setErrorMessage("");
+        }, 5000);
+      }
+    } catch (error) {
+      console.error("Enquiry error:", error);
+      setStatus("failed");
+      setErrorMessage("Service currently unavailable. Please try again later.");
+      setTimeout(() => {
+        setStatus("idle");
+        setErrorMessage("");
+      }, 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -279,17 +316,17 @@ export default function ServicesPage() {
       </section>
 
       {/* ── HORIZONTAL CHAT BANNER ────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-8 bg-white border-b border-[#D4A848]/10">
-        <div className="relative overflow-hidden rounded-[2rem] bg-[#40332D] p-6 sm:p-10 shadow-2xl border border-[#D4A848]/20 flex flex-col md:flex-row items-center justify-between gap-8 group transition-all hover:border-[#D4A848]/40">
+      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-6 sm:py-8 bg-white border-b border-[#D4A848]/10">
+        <div className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] bg-[#40332D] p-5 sm:p-10 shadow-2xl border border-[#D4A848]/20 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8 group transition-all hover:border-[#D4A848]/40">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,168,72,0.1),transparent_50%)]" />
           
-          <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-            <div className="w-16 h-16 rounded-2xl bg-[#D4A848]/10 flex items-center justify-center text-3xl shadow-inner border border-[#D4A848]/10 animate-float">
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-4 md:gap-6 text-center md:text-left">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-[#D4A848]/10 flex items-center justify-center text-2xl sm:text-3xl shadow-inner border border-[#D4A848]/10 animate-float">
               💬
             </div>
             <div className="space-y-1">
-              <h2 className="text-xl sm:text-2xl font-black text-[#D4A848] uppercase tracking-normal">Questions? Start a chat with us.</h2>
-              <p className="text-[#FDFBF7]/50 text-xs sm:text-sm font-medium">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
+              <h2 className="text-base sm:text-2xl font-black text-[#D4A848] uppercase tracking-normal">Questions? Start a chat with us.</h2>
+              <p className="text-[#FDFBF7]/50 text-[10px] sm:text-sm font-medium leading-relaxed">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
             </div>
           </div>
 
@@ -298,9 +335,9 @@ export default function ServicesPage() {
               href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in your services. I would like to discuss...`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[#D4A848] text-[#40332D] font-black text-xs sm:text-sm px-8 py-4 rounded-xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#D4A848]/10 uppercase tracking-widest"
+              className="inline-flex items-center gap-3 bg-[#D4A848] text-[#40332D] font-black text-[10px] sm:text-sm px-6 py-3 sm:px-8 sm:py-4 rounded-xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#D4A848]/10 uppercase tracking-widest"
             >
-              <ChatIcon className="w-5 h-5" />
+              <ChatIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               Chat on Whatsapp
             </a>
           </div>
@@ -343,8 +380,8 @@ export default function ServicesPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {[
                     { label: "Full Name", name: "name", type: "text", placeholder: "e.g. John Doe", colSpan: "sm:col-span-2" },
-                    { label: "Email Address", name: "email", type: "email", placeholder: "john@example.com", colSpan: "sm:col-span-1" },
-                    { label: "Phone / Mobile", name: "mobile", type: "tel", placeholder: "+1 (555) 000-0000", colSpan: "sm:col-span-1" },
+                    { label: "Email", name: "email", type: "email", placeholder: "john@example.com", colSpan: "sm:col-span-1" },
+                    { label: "Phone", name: "mobile", type: "tel", placeholder: "+91 90000 00000", colSpan: "sm:col-span-1" },
                   ].map((field) => (
                     <div key={field.name} className={`space-y-1 ${field.colSpan}`}>
                       <label className="text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
@@ -368,8 +405,8 @@ export default function ServicesPage() {
                     What can we do for you?
                   </label>
                   <textarea
-                    name="service"
-                    value={form.service}
+                    name="message"
+                    value={form.message}
                     onChange={handleChange}
                     placeholder="Briefly describe your requirements..."
                     required
@@ -378,11 +415,20 @@ export default function ServicesPage() {
                   />
                 </div>
 
+                {errorMessage && (
+                  <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-widest animate-pulse">
+                    {errorMessage}
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full bg-[#362B25] text-white font-black text-xs py-3.5 rounded-xl hover:bg-[#D4A848] hover:text-[#362B25] shadow-lg transition-all uppercase tracking-[0.2em] relative overflow-hidden group"
+                  disabled={isSubmitting}
+                  className={`w-full ${status === "failed" ? "bg-red-600 shadow-red-500/20" : "bg-[#362B25]"} text-white font-black text-xs py-3.5 rounded-xl hover:bg-[#D4A848] hover:text-[#362B25] shadow-lg transition-all uppercase tracking-[0.2em] relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  <span className="relative z-10">Send Request →</span>
+                  <span className="relative z-10">
+                    {isSubmitting ? "Sending Request..." : status === "failed" ? "Failed! Try Again" : "Send Request →"}
+                  </span>
                   <div className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform" />
                 </button>
               </form>
