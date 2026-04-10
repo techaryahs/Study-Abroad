@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { 
-  Phone, 
-  Mail, 
+import {
+  Phone,
+  Mail,
   MapPin
 } from "lucide-react";
 
@@ -55,7 +55,7 @@ export default function Footer() {
       {/* MAIN FOOTER GRID */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24 relative z-10 transition-all duration-300">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 items-start">
-          
+
           {/* COLUMN 1: BRAND & COMPANY */}
           <div className="space-y-12">
             <div className="space-y-6">
@@ -65,7 +65,7 @@ export default function Footer() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-serif font-bold text-lg text-white leading-tight">
-                    Global Counselling Centre
+                    Global Counsellor Centre
                   </span>
                   <span className="text-[9px] text-[#B3985E] uppercase tracking-[0.3em] font-black">
                     Global Admissions

@@ -309,7 +309,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
   return (
     <div
       ref={menuRef}
-      className={`absolute left-[calc(100%+8px)] pl-2 z-[60] flex flex-col transition-all duration-300 ${openUpwards ? "bottom-0" : "top-0"} ${openCountry ? "-translate-y-4" : ""}`}
+      className={`absolute left-[calc(100%+2px)] pl-1 z-[60] flex flex-col transition-all duration-300 ${openUpwards ? "bottom-0" : "top-0"} ${openCountry ? "-translate-y-4" : ""}`}
       style={{ animation: "dropIn 0.15s ease-out both" }}
     >
       <div className="bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 flex flex-col overflow-hidden">
@@ -376,26 +376,13 @@ function DropdownPanel({
 }) {
   const posClass = align === "center" ? "left-1/2 -translate-x-1/2" : "left-0";
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const panelRef = useRef<HTMLDivElement>(null);
-  const [openUpwards, setOpenUpwards] = useState(false);
-
-  useEffect(() => {
-    if (panelRef.current) {
-        const rect = panelRef.current.getBoundingClientRect();
-        if (rect.bottom > window.innerHeight - 20) {
-            setOpenUpwards(true);
-        }
-    }
-  }, []);
-
   return (
     <div
-      ref={panelRef}
-      className={`absolute ${openUpwards ? 'bottom-full mb-1' : 'top-full mt-1'} ${posClass} rounded-xl shadow-2xl z-50`}
+      className={`absolute top-full mt-1 ${posClass} rounded-xl shadow-2xl z-50`}
       style={{
         background: "#2D1F1D",
         width,
-        animation: openUpwards ? "dropInUp 0.18s cubic-bezier(0.16, 1, 0.3, 1) both" : "dropIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) both",
+        animation: "dropIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) both",
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
@@ -416,7 +403,7 @@ function DropdownPanel({
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
           >
-           {/* Sub-menu trigger (Items with children) */}
+            {/* Sub-menu trigger (Items with children) */}
             {(item.subItems || item.subAccordion) ? (
               <div
                 className="group flex items-start gap-3 px-4 py-2 hover:bg-white/5 transition-colors duration-150 cursor-default"
@@ -473,7 +460,7 @@ function DropdownPanel({
             {/* COUNTRY LIST SUB-MENU */}
             {item.subItems && hoveredIndex === index && (
               <div
-                className="absolute left-[calc(100%+8px)] top-0 pl-2 bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 z-50 flex flex-col"
+                className="absolute left-[calc(100%+2px)] top-0 pl-1 bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 z-50 flex flex-col"
                 style={{ animation: "dropIn 0.15s ease-out both" }}
               >
                 <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
@@ -497,11 +484,6 @@ function DropdownPanel({
             )}
 
             {/* ACCORDION SUB-MENU (for Programs, States) */}
-            {item.subAccordion && hoveredIndex === index && (
-                <AccordionSubMenu accordionItems={item.subAccordion} />
-            )}
-
-            {/* Sub-accordion if nested regions/states present */}
             {item.subAccordion && hoveredIndex === index && (
               <AccordionSubMenu accordionItems={item.subAccordion} />
             )}
@@ -733,7 +715,7 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
               <div className="flex flex-col">
-                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counselling Centre</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counsellor Centre</span>
                 <span className="text-[#B3985E] text-[7px] sm:text-[8px] font-black uppercase tracking-[0.4em] mt-2 opacity-70">GLOBAL ADMISSIONS</span>
               </div>
             </Link>
@@ -1006,7 +988,7 @@ export default function Navbar() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
             <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counselling Centre</span>
+              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counsellor Centre</span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}

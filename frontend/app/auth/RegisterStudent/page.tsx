@@ -108,25 +108,25 @@ const Register = () => {
 
   const terms = ["Spring", "Fall", "Summer"];
   const years = Array.from({ length: 7 }, (_, i) => (2024 + i).toString());
-  
+
   const customSelectStyles = {
-    control: (b: any) => ({ 
-      ...b, 
-      minHeight: '40px', 
-      borderRadius: '10px', 
-      backgroundColor: '#FDFBF7', 
-      border: '1px solid #F1EDEA', 
+    control: (b: any) => ({
+      ...b,
+      minHeight: '40px',
+      borderRadius: '10px',
+      backgroundColor: '#FDFBF7',
+      border: '1px solid #F1EDEA',
       fontSize: '11px',
       fontWeight: '700',
       boxShadow: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)',
       '&:hover': { border: '1px solid #C5A059' }
     }),
     singleValue: (b: any) => ({ ...b, color: '#3C2A21' }),
-    menu: (b: any) => ({ 
-      ...b, 
-      backgroundColor: 'white', 
-      border: '1px solid #F1EDEA', 
-      fontSize: '11px', 
+    menu: (b: any) => ({
+      ...b,
+      backgroundColor: 'white',
+      border: '1px solid #F1EDEA',
+      fontSize: '11px',
       zIndex: 50,
       borderRadius: '10px',
       boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
@@ -196,7 +196,7 @@ const Register = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     if (name === "name" && value.length > 50) return;
-    
+
     // Clear error for this field
     if (errors[name as keyof FormErrors]) {
       setErrors(prev => {
@@ -249,7 +249,7 @@ const Register = () => {
     setVerifyModal(prev => ({ ...prev, mode: 'loading', type }));
     try {
       const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
-      
+
       const endpoint = type === 'email' ? 'send-otp-signup' : 'send-otp-mobile';
       const payload = type === 'email' ? { email: verifyModal.value } : { mobile: verifyModal.value };
 
@@ -258,10 +258,10 @@ const Register = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Failed to send OTP");
-      
+
       setVerifyModal(prev => ({ ...prev, mode: 'otp' }));
       setOtpValue("");
     } catch (err: any) {
@@ -274,10 +274,10 @@ const Register = () => {
     setVerifyModal(prev => ({ ...prev, mode: 'loading' }));
     try {
       const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
-      
+
       const endpoint = verifyModal.type === 'email' ? 'verify-otp-signup' : 'verify-otp-mobile';
-      const payload = verifyModal.type === 'email' 
-        ? { email: verifyModal.value, otp: otpValue } 
+      const payload = verifyModal.type === 'email'
+        ? { email: verifyModal.value, otp: otpValue }
         : { mobile: verifyModal.value, otp: otpValue };
 
       const response = await fetch(`${BACKEND_URL}/api/auth/${endpoint}`, {
@@ -285,13 +285,13 @@ const Register = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-      
+
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Invalid OTP");
-      
+
       if (verifyModal.type === 'email') setIsEmailVerified(true);
       else setIsMobileVerified(true);
-      
+
       setVerifyModal(prev => ({ ...prev, mode: 'success' }));
       setTimeout(() => setVerifyModal(prev => ({ ...prev, show: false })), 1500);
     } catch (err: any) {
@@ -388,7 +388,7 @@ const Register = () => {
               <div className="w-10 h-10 bg-[#C5A059] rounded-xl flex items-center justify-center shadow-xl">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-black tracking-tighter uppercase italic">Global Counselling Centre</span>
+              <span className="text-xl font-black tracking-tighter uppercase italic">Global Counsellor Centre</span>
             </div>
             <h1 className="text-4xl font-black leading-tight uppercase mb-6 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
               Architect <br /> <span className="text-[#C5A059]">Global</span> <br /> Careers.
@@ -444,22 +444,22 @@ const Register = () => {
                     </div>
 
                     <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-3">
-                       <div className="space-y-1">
+                      <div className="space-y-1">
                         <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">DOB</label>
                         <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2.5 py-2 bg-[#FDFBF7] border rounded-xl text-[10px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.dob ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
-                       </div>
-                       <div className="space-y-1">
+                      </div>
+                      <div className="space-y-1">
                         <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Gender</label>
                         <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2.5 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[10px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
                           <option value="">Select</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                         </select>
-                       </div>
+                      </div>
                     </div>
 
                     <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-3">
-                       <div className="space-y-1">
+                      <div className="space-y-1">
                         <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Country</label>
                         <Select
                           instanceId="country-select"
@@ -467,8 +467,8 @@ const Register = () => {
                           onChange={handleCountryChange} value={formData.country} placeholder="..."
                           styles={customSelectStyles}
                         />
-                       </div>
-                       <div className="space-y-1">
+                      </div>
+                      <div className="space-y-1">
                         <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">State</label>
                         <Select
                           instanceId="state-select"
@@ -476,7 +476,7 @@ const Register = () => {
                           onChange={handleStateChange} value={formData.state} placeholder="..." isDisabled={!formData.country}
                           styles={customSelectStyles}
                         />
-                       </div>
+                      </div>
                     </div>
 
                     <div className="col-span-2 md:col-span-1 space-y-1">
@@ -520,8 +520,8 @@ const Register = () => {
                     <p className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest">I accept the data policy and terms of service</p>
                   </div>
 
-                  <button 
-                    onClick={() => { if (validateStep1()) setStep(2); }} 
+                  <button
+                    onClick={() => { if (validateStep1()) setStep(2); }}
                     className="w-full py-3 bg-[#C5A059] hover:bg-[#3C2A21] text-white font-black rounded-xl shadow-xl shadow-[#C5A059]/10 transition-all flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.2em] mt-1 active:scale-95"
                   >
                     Proceed to Goals <ChevronRight className="w-4 h-4" />

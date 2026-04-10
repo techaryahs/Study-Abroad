@@ -53,6 +53,7 @@ app.use("/api/consultant", require("./routes/consultantProfile.routes"));
 app.use("/api/progress", require("./routes/progressRoutes"));
 
 app.use('/api/enquiry', require('./routes/enquiryRoutes'));
+app.use('/api/payment', require('./routes/payment.routes'));
 
 // 🧑‍🎤 Profile
 app.use("/api/user", require("./routes/profile.routes"));

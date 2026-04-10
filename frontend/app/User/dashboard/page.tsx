@@ -70,6 +70,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<{ section: string; data: any } | null>(null);
   const [savingImage, setSavingImage] = useState(false);
+  const [receipts, setReceipts] = useState<any[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const router = useRouter();
@@ -83,6 +84,7 @@ export default function DashboardPage() {
       return;
     }
     fetchProfile();
+    fetchReceipts();
   }, []);
 
   const getUserId = () => {
@@ -110,6 +112,20 @@ export default function DashboardPage() {
       console.error("Error fetching profile:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchReceipts = async () => {
+    const user = getUser();
+    if (!user?.email) return;
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/payment/user/${user.email}`);
+      if (response.ok) {
+        const data = await response.json();
+        setReceipts(data);
+      }
+    } catch (error) {
+      console.error("Error fetching receipts:", error);
     }
   };
 
@@ -372,6 +388,7 @@ export default function DashboardPage() {
               { id: 'undergrad', label: "Bachelor's", hasData: userData?.profile?.underGrad?.length > 0 },
               { id: 'masters', label: "Master's", hasData: userData?.profile?.masters?.length > 0 },
               { id: 'target', label: 'Target', hasData: userData?.profile?.targetUniversities?.length > 0 },
+              { id: 'bookings', label: 'My Bookings', hasData: receipts.length > 0 },
               ...((userData?.profile?.testScores || []).map((score: any) => ({
                 id: `score-${score.testType.toLowerCase()}`,
                 label: score.testType.toUpperCase(),
@@ -473,6 +490,31 @@ export default function DashboardPage() {
               {activeProfileTab === 'scores' && (!userData?.profile?.testScores || userData.profile.testScores.length === 0) && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20 pb-12">
                   <p className="text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-widest">No scores added yet.</p>
+                </motion.div>
+              )}
+              {activeProfileTab === 'bookings' && (
+                <motion.div key="bookings" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
+                  <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Service Purchase History</h2>
+                  {receipts.map((receipt: any) => (
+                    <div key={receipt._id} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 group/card hover:border-[#C5A059]/20 transition-all shadow-sm">
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <p className="text-[9px] font-black text-green-600 uppercase tracking-widest mb-1">Paid • {new Date(receipt.createdAt).toLocaleDateString()}</p>
+                          <h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">Order ID: {receipt.orderId}</h4>
+                        </div>
+                        <p className="text-xl font-black text-red-700 italic">{receipt.currency} {receipt.total.toLocaleString()}</p>
+                      </div>
+                      <div className="space-y-2">
+                        {receipt.items.map((item: any, idx: number) => (
+                          <div key={idx} className="flex items-center gap-3 py-2 border-t border-black/5">
+                            <div className="w-2 h-2 rounded-full bg-[#C5A059]/40" />
+                            <span className="text-[11px] font-bold text-[#3C2A21]">{item.title}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                  {receipts.length === 0 && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No purchase history found.</p>}
                 </motion.div>
               )}
             </AnimatePresence>
