@@ -102,38 +102,37 @@ export default function CartPage() {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${token}` }
             });
+
             if (response.ok) {
                 setCart([]);
                 window.dispatchEvent(new Event('cart-updated'));
                 setShowClearConfirm(false);
             }
         } catch (error) {
-            console.error("Clear error:", error);
+            console.error("Clear cart error:", error);
         } finally {
             setIsClearing(false);
         }
     };
 
-    const finalTotal = cart.reduce((acc, item) => acc + (item.price || 0), 0);
-    const actualSubtotal = cart.reduce((acc, item) => acc + (item.actualPrice || (item.price / 0.8)), 0);
-    const totalDiscount = actualSubtotal - finalTotal;
-    const currency = cart[0]?.currency || "INR";
+    const calculateTotal = () => {
+        return cart.reduce((total, item) => total + item.price, 0);
+    };
 
-    const formatPrice = (price: number | undefined | null) => {
-        if (price === undefined || price === null) return "0.00";
-        return price.toLocaleString(currency === "INR" ? "en-IN" : "en-US", {
+    const formatPrice = (price: number) => {
+        return price.toLocaleString('en-US', {
             maximumFractionDigits: 2,
-            minimumFractionDigits: 2
+            minimumFractionDigits: 2,
         });
     };
 
-    if (loading) return (
-        <div className="min-h-screen bg-[#F8F6F1] flex items-center justify-center">
-            <div className="relative">
-                <div className="w-12 h-12 border-2 border-[#D4A848]/20 border-t-[#D4A848] rounded-full animate-spin" />
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">
+                <Loader2 className="w-12 h-12 text-[#C5A059] animate-spin" />
             </div>
-        </div>
-    );
+        );
+    }
 
     return (
         <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] pt-12 md:pt-16 pb-20 selection:bg-[#D4A848]/30 relative overflow-hidden">
@@ -293,11 +292,19 @@ export default function CartPage() {
                 isOpen={showClearConfirm}
                 onClose={() => setShowClearConfirm(false)}
                 onConfirm={handleConfirmClear}
-                title="Clear Selections"
-                message="Remove all items from your selection?"
-                confirmText={isClearing ? "Clearing..." : "Yes, Clear All"}
+                title="Clear Inventory"
+                message="Are you sure you want to decouple all service nodes from your current session?"
                 loading={isClearing}
             />
-        </main>
+
+            <CheckoutModal
+                isOpen={showCheckoutModal}
+                onClose={() => setShowCheckoutModal(false)}
+                subtotal={calculateTotal()}
+                discount={0}
+                total={calculateTotal()}
+                currency="USD"
+            />
+        </div>
     );
 }
