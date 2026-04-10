@@ -14,6 +14,7 @@ import {
   BookOpen,
   ArrowRight
 } from "lucide-react";
+import CheckoutModal from "@/app/User/cart/checkoutmodal";
 
 export default function AIHumanizerPage() {
     const [input, setInput] = useState("");
@@ -21,7 +22,8 @@ export default function AIHumanizerPage() {
     const [level, setLevel] = useState("Max");
     const [loading, setLoading] = useState(false);
     const [faqOpen, setFaqOpen] = useState<number | null>(0);
-    const [currency, setCurrency] = useState("USD");
+    const [currency, setCurrency] = useState("INR");
+    const [checkoutPlan, setCheckoutPlan] = useState<{ actual: number; discounted: number; title: string } | null>(null);
 
     const handleRewrite = () => {
         if (!input.trim()) return;
@@ -44,15 +46,15 @@ export default function AIHumanizerPage() {
 
     const plans = [
         {
-            name: "Scholar", price: "12.00", original: "20.00",
+            name: "Scholar", price: 999, original: 2000,
             features: ["20,000 words /mo", "Light & Medium levels", "Grammar boost", "Standard support"],
         },
         {
-            name: "Academic", price: "39.20", original: "70.00", highlight: true, badge: "RECOMMENDED",
+            name: "Academic", price: 2999, original: 5000, highlight: true, badge: "RECOMMENDED",
             features: ["100,000 words /mo", "All humanize levels", "Plagiarism bypass", "Priority support"],
         },
         {
-            name: "Researcher", price: "159.20", original: "250.00",
+            name: "Researcher", price: 12999, original: 20000,
             features: ["Unlimited words", "API Access", "Team collaboration", "Dedicated Manager"],
         },
     ];
@@ -318,8 +320,8 @@ export default function AIHumanizerPage() {
                          )}
                          <h3 className="fd text-3xl font-bold mb-4">{plan.name}</h3>
                          <div className="flex items-baseline gap-2 mb-8">
-                            <span className="text-4xl font-bold">${plan.price}</span>
-                            <span className="text-sm text-[#A8A29E] line-through">${plan.original}</span>
+                            <span className="text-4xl font-bold">₹{plan.price.toLocaleString('en-IN')}</span>
+                            <span className="text-sm text-[#A8A29E] line-through">₹{plan.original.toLocaleString('en-IN')}</span>
                          </div>
                          <div className="space-y-4 mb-10 flex-1">
                             {plan.features.map((f, idx) => (
@@ -328,7 +330,10 @@ export default function AIHumanizerPage() {
                               </div>
                             ))}
                          </div>
-                         <button className={`w-full py-4 rounded-xl font-bold text-xs tracking-widest uppercase transition-all shadow-lg ${plan.highlight ? 'bg-[#C5A059] text-white hover:brightness-110' : 'border-2 border-[#F1EDEA] text-[#2D2926] hover:border-[#C5A059]'}`}>
+                         <button 
+                            onClick={() => setCheckoutPlan({ actual: plan.original, discounted: plan.price, title: plan.name })}
+                            className={`w-full py-4 rounded-xl font-bold text-xs tracking-widest uppercase transition-all shadow-lg ${plan.highlight ? 'bg-[#C5A059] text-white hover:brightness-110' : 'border-2 border-[#F1EDEA] text-[#2D2926] hover:border-[#C5A059]'}`}
+                         >
                             Secure License
                          </button>
                       </div>
@@ -392,6 +397,16 @@ export default function AIHumanizerPage() {
                   </div>
                </div>
             </section>
+            
+            <CheckoutModal 
+                isOpen={checkoutPlan !== null}
+                onClose={() => setCheckoutPlan(null)}
+                items={checkoutPlan ? [{ name: checkoutPlan.title, price: checkoutPlan.actual }] : []}
+                subtotal={checkoutPlan?.actual || 0}
+                discount={(checkoutPlan?.actual || 0) - (checkoutPlan?.discounted || 0)}
+                total={checkoutPlan?.discounted || 0}
+                currency="INR"
+            />
         </main>
     );
 }

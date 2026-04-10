@@ -200,9 +200,9 @@ export default function AdminWeeklySchedulePage() {
       });
       setCopyToAllDays(true);
       fetchSchedule();
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error adding time slot:", err);
-      alert("Network error: " + err.message);
+      alert("Network error: " + (err.message || "Unknown error"));
     }
   };
 
@@ -278,7 +278,7 @@ export default function AdminWeeklySchedulePage() {
         const data = await response.json();
         alert(data.message || "Error updating time slot");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error updating time slot:", err);
       alert("Network error");
     }
