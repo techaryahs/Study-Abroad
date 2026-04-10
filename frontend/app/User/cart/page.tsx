@@ -115,16 +115,17 @@ export default function CartPage() {
         }
     };
 
-    const calculateTotal = () => {
-        return cart.reduce((total, item) => total + item.price, 0);
-    };
-
     const formatPrice = (price: number) => {
         return price.toLocaleString('en-US', {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2,
         });
     };
+
+    const finalTotal = cart.reduce((total, item) => total + (item.price || 0), 0);
+    const actualSubtotal = cart.reduce((total, item) => total + (item.actualPrice || (item.price / 0.8)), 0);
+    const totalDiscount = actualSubtotal - finalTotal;
+    const currency = cart.length > 0 ? (cart[0].currency || "USD") : "USD";
 
     if (loading) {
         return (
@@ -296,15 +297,6 @@ export default function CartPage() {
                 message="Are you sure you want to decouple all service nodes from your current session?"
                 loading={isClearing}
             />
-
-            <CheckoutModal
-                isOpen={showCheckoutModal}
-                onClose={() => setShowCheckoutModal(false)}
-                subtotal={calculateTotal()}
-                discount={0}
-                total={calculateTotal()}
-                currency="USD"
-            />
-        </div>
+        </main>
     );
 }
