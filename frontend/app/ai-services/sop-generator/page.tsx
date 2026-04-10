@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Sparkles, Star, Play } from 'lucide-react';
-import Navbar from '@/components/layout/Navbar';
 import CheckoutModal from '@/app/User/cart/checkoutmodal';
 
 export default function AISOPGeneratorPage() {
@@ -11,9 +10,7 @@ export default function AISOPGeneratorPage() {
 
     return (
         <div className="min-h-screen bg-[#FDFBF7] font-sans">
-            <Navbar />
-            
-            <main className="pt-24 pb-24 px-6 max-w-7xl mx-auto">
+            <div className="pb-24 px-6 max-w-7xl mx-auto">
                 {/* Hero Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
                     
@@ -641,7 +638,7 @@ export default function AISOPGeneratorPage() {
                     </div>
                 </div>
 
-            </main>
+            </div>
             
             
             {/* Checkout Modal overlay */}
