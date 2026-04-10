@@ -21,7 +21,7 @@ exports.sendEnquiry = async (req, res) => {
     const displayName = name || 'Not provided';
     const displayMobile = mobile || 'Not provided';
     const displayService = message;
-    const displayType = 'General Service Inquiry';
+
 
     await transporter.sendMail({
       from: `"Service Request" <${process.env.EMAIL_USER}>`,
@@ -33,7 +33,6 @@ New enquiry received via the Services Page:
 👤 Name: ${displayName}
 📧 Email: ${email}
 📱 Mobile: ${displayMobile}
-📋 Type: ${displayType}
 💬 Message/Request: 
 ${displayService}
 
