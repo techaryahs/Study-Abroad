@@ -51,27 +51,37 @@ export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialData }: Props)
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm">
-          <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="bg-dark-900 border border-white/10 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
-            <div className="p-6 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
-                <h2 className="text-xs font-black text-white uppercase tracking-widest">LinkedIn Profile</h2>
-              <button onClick={onClose} className="p-1 hover:bg-white/5 rounded-lg text-gray-500 transition-all"><X size={18} /></button>
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#2D2926]/40 backdrop-blur-sm">
+          <motion.div 
+            initial={{ scale: 0.95, opacity: 0 }} 
+            animate={{ scale: 1, opacity: 1 }} 
+            exit={{ scale: 0.95, opacity: 0 }} 
+            className="bg-white border border-[#F1EDEA] rounded-[32px] w-full max-w-md overflow-hidden shadow-[0_40px_100px_rgba(197,160,89,0.1)]"
+          >
+            <div className="p-6 border-b border-[#F1EDEA] flex justify-between items-center bg-[#FDFBF7]">
+                <h2 className="text-xs font-black text-[#2D2926] uppercase tracking-widest">LinkedIn Profile Protocol</h2>
+              <button onClick={onClose} className="p-2 hover:bg-[#F1EDEA] rounded-full text-[#6B5E51] transition-all"><X size={18} /></button>
             </div>
             
             <form onSubmit={handleSubmit} className="p-8 space-y-6">
               <div className="space-y-3">
-                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest ml-1">Profile URL</p>
-                <input 
-                  type="url" 
-                  value={url}
-                  onChange={(e) => {
-                    setUrl(e.target.value);
-                    if (error) setError(null);
-                  }}
-                  placeholder="https://linkedin.com/in/username"
-                  className={`w-full bg-white/[0.03] border ${error ? 'border-red-500/50' : 'border-white/10'} rounded-xl px-4 py-3 text-sm text-white focus:outline-none ${error ? 'focus:border-red-500' : 'focus:border-gold-500/50'} transition-all`}
-                  required
-                />
+                <p className="text-[10px] font-bold text-[#C5A059] uppercase tracking-widest ml-1">Profile Interface URL</p>
+                <div className="relative">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#C5A059]">
+                    <LinkIcon size={16} />
+                  </div>
+                  <input 
+                    type="url" 
+                    value={url}
+                    onChange={(e) => {
+                      setUrl(e.target.value);
+                      if (error) setError(null);
+                    }}
+                    placeholder="https://linkedin.com/in/username"
+                    className={`w-full bg-[#F8F5F0] border ${error ? 'border-red-500/50' : 'border-[#F1EDEA]'} rounded-2xl pl-12 pr-4 py-4 text-sm text-[#2D2926] font-medium focus:outline-none ${error ? 'focus:border-red-500' : 'focus:border-[#C5A059]'} transition-all placeholder:text-[#6B5E51]/40`}
+                    required
+                  />
+                </div>
                 {error && (
                   <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-[10px] text-red-500 font-bold uppercase tracking-widest ml-1">
                     {error}
@@ -79,8 +89,12 @@ export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialData }: Props)
                 )}
               </div>
 
-              <button disabled={loading} type="submit" className="w-full py-3.5 bg-gold-500 text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg hover:bg-gold-400 transition-all disabled:opacity-50">
-                {loading ? "Saving..." : "Save Platform Node"}
+              <button 
+                disabled={loading} 
+                type="submit" 
+                className="w-full py-5 bg-[#C5A059] text-white rounded-2xl font-bold text-[11px] uppercase tracking-[0.2em] shadow-xl hover:bg-[#2D2926] transition-all disabled:opacity-50"
+              >
+                {loading ? "Synchronizing..." : "Save Platform Node"}
               </button>
             </form>
           </motion.div>

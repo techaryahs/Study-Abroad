@@ -3,181 +3,300 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { 
-    ArrowLeft, 
-    Video, 
-    MessageSquare,
-    Search
+import {
+    ArrowLeft,
+    CheckCircle,
+    Zap,
+    ShieldCheck,
+    Star,
+    ArrowRight,
+    BookOpen,
+    Trophy,
+    Target,
+    Activity
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
 import DiscussionSection from "@/components/shared/DiscussionSection";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 const consultationSteps = [
-    "You take a mock test.",
-    "We do a phone call + screen share session where we evaluate your test and how to best help you.",
-    "In case you prefer building a plan, we build your exact step-by-step prep-plan and explain it to you during the session itself. In case you prefer a coaching session, we coach you on the reading, writing, listening, and speaking sections of the test as per your needs."
+    { title: "Mock Evaluation", desc: "Begin with a comprehensive mock test to establish your baseline protocol." },
+    { title: "Deep-Dive Audit", desc: "A precision call with screen share to evaluate specific linguistic friction points." },
+    { title: "Dynamic Architecture", desc: "Deployment of a bespoke preparation plan or focused coaching sessions." }
+];
+
+const scores = [
+    { label: "Reading", val: "29/30" },
+    { label: "Listening", val: "30/30" },
+    { label: "Speaking", val: "30/30" },
+    { label: "Writing", val: "30/30" }
 ];
 
 export default function ToeflHelpPage() {
+    const [showBookingModal, setShowBookingModal] = useState(false);
+
     return (
-        <main className="min-h-screen bg-dark-950 text-white selection:bg-gold-500/30 font-base overflow-x-hidden">
-            {/* ── HERO SECTION ── */}
-            <section className="relative px-6 md:px-16 pt-12 pb-12 overflow-hidden">
-                <div className="absolute -top-24 -right-24 w-96 h-96 bg-gold-500/10 blur-[120px] rounded-full pointer-events-none" />
+        <main className="min-h-screen pb-32" style={{ background: "#FDFBF7", color: "#3C2A21", fontFamily: "'DM Sans', sans-serif" }}>
+
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+                .fd { font-family: 'Cormorant Garamond', serif; }
                 
-                <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 items-start relative z-10 w-full">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false, margin: "-50px" }}
-                        transition={{ duration: 0.6 }}
-                        className="space-y-6"
+                .gold-shimmer {
+                  background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
+                  background-size: 300% auto;
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  animation: shimmer 4s linear infinite;
+                }
+
+                @keyframes shimmer {
+                  0% { background-position: -200% center; }
+                  100% { background-position: 200% center; }
+                }
+
+                .glass-panel {
+                  background: #FFFFFF;
+                  border: 1px solid rgba(197,160,89, 0.15);
+                  border-radius: 32px;
+                  box-shadow: 0 40px 100px rgba(197,160,89, 0.05);
+                }
+
+                .feature-pill {
+                  background: white;
+                  border: 1px solid rgba(197,160,89, 0.1);
+                  border-radius: 24px;
+                  transition: all 0.4s ease;
+                }
+
+                .feature-pill:hover {
+                  border-color: #C5A059;
+                  transform: translateY(-5px);
+                  box-shadow: 0 20px 40px rgba(197,160,89, 0.08);
+                }
+
+                .btn-gold {
+                   background: #C5A059;
+                   color: white;
+                   padding: 18px 30px;
+                   border-radius: 18px;
+                   font-weight: 700;
+                   text-transform: uppercase;
+                   letter-spacing: 0.1em;
+                   font-size: 11px;
+                   transition: all 0.3s ease;
+                   display: inline-flex;
+                   alignItems: center;
+                   gap: 10px;
+                }
+                .btn-gold:hover {
+                   background: #3C2A21;
+                   transform: translateY(-2px);
+                   box-shadow: 0 10px 20px rgba(197,160,89, 0.2);
+                }
+            `}</style>
+
+            {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
+            <section className="relative pt-10 pb-24 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="space-y-8 pt-6"
                     >
-                        <h1 className="text-4xl md:text-5xl font-black leading-[1.1] tracking-tight uppercase">
-                            TOEFL PREP-PLAN <br />
-                            <span className="gradient-text-gold">BUILDING/COACHING SESSION</span>
-                        </h1>
-                        <div className="pb-2">
-                            <Link 
-                                href="/services" 
-                                className="inline-flex items-center gap-2 text-white/40 hover:text-gold-500 transition-colors group relative z-20"
+                        <div className="flex flex-col gap-4">
+                            <Link
+                                href="/services"
+                                className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
                             >
-                                <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                                <span className="text-xs font-bold uppercase tracking-widest leading-none">Back to Services</span>
+                                <ArrowLeft size={14} /> Back to Services
                             </Link>
+                            <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
+                                Linguistic Excellence Protocol
+                            </span>
                         </div>
-                        
-                        <p className="text-white/80 text-lg leading-relaxed max-w-lg mb-8">
-                            TOEFL scores are your gateway to financial aid and teaching assistantships. Learn how I scored a <strong className="text-white">119/120</strong> and YOU can too.
+                        <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
+                            Bespoke <br /> <span className="gold-shimmer">TOEFL Coaching</span>
+                        </h1>
+                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                            "Gateways to financial aid and assistantships open for those who master the 110+ threshold. Learn from a 119/120 mentor."
                         </p>
-                        
-                        <DiscussionSection serviceId="toefl" />
+                        <div className="flex items-center gap-6">
+                            <button
+                                onClick={() => setShowBookingModal(true)}
+                                className="btn-gold shadow-2xl group"
+                            >
+                                Begin Coaching <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                            </button>
+                        </div>
                     </motion.div>
 
-                    <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: false, margin: "-50px" }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="relative mt-8 lg:mt-0"
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                        className="relative"
                     >
-                        <div className="relative w-full max-w-md ml-auto rounded-3xl overflow-hidden border border-white/5 shadow-2xl bg-dark-900/40 group flex flex-col items-center justify-center p-4">
-                            <img
-                                src="/toefl-hero.png"
-                                alt="TOEFL Prep"
-                                className="w-full h-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-700 relative z-10"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-dark-950 via-dark-950/40 to-transparent pointer-events-none z-20" />
-                            
-                            <div className="relative p-6 mt-auto z-30 w-full">
-                                <div className="bg-dark-950/80 backdrop-blur-xl rounded-2xl border border-white/10 p-5 shadow-2xl mt-4">
-                                    <p className="text-white/90 text-[15px] font-medium font-serif italic leading-relaxed text-center drop-shadow-md">
-                                        "If prepared right, the TOEFL is extremely easy and you will have no trouble in scoring over 110."
-                                    </p>
+                        <div className="glass-panel p-2 overflow-hidden shadow-2xl">
+                            <div className="bg-[#FFFFFF] rounded-[28px] overflow-hidden border border-[#F1EDEA]">
+                                <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
+                                    <div className="flex items-center gap-3">
+                                        <Trophy className="text-[#C5A059]" size={20} />
+                                        <span className="text-[10px] text-[#3C2A21] font-bold tracking-widest uppercase">Benchmark Scorecard</span>
+                                    </div>
+                                    <div className="w-3 h-3 rounded-full bg-[#22c55e] animate-pulse" />
+                                </div>
+                                <div className="p-10 space-y-8 bg-[#FDFBF7]">
+                                    <div className="text-center space-y-2">
+                                        <span className="text-[10px] text-[#C5A059] font-bold tracking-[0.2em] uppercase">Mentor Score</span>
+                                        <div className="fd text-6xl font-bold text-[#3C2A21]">119<span className="text-2xl text-[#C5A059]/40">/120</span></div>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4">
+                                        {scores.map((s) => (
+                                            <div key={s.label} className="bg-white p-4 rounded-2xl border border-[#F1EDEA] flex justify-between items-center">
+                                                <span className="text-[10px] font-bold text-[#3C2A21]/40 uppercase tracking-widest">{s.label}</span>
+                                                <span className="text-[#C5A059] font-black text-xs">{s.val}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="p-6 bg-[#3C2A21] rounded-2xl space-y-2">
+                                        <p className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Strategy Insight</p>
+                                        <p className="text-white font-serif italic text-xs leading-relaxed">
+                                            "We target high-yield weaknesses through surgical mock evaluation, ensuring 110+ result within 15 days of prep."
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#C5A059]/10 blur-3xl rounded-full -z-10" />
                     </motion.div>
                 </div>
             </section>
 
-            {/* ── CONTENT GRID ── */}
-            <section className="py-16 px-6 md:px-16 bg-dark-900/20">
-                <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-10">
-                    
-                    {/* Main Info */}
-                    <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: false, margin: "-50px" }}
-                        transition={{ duration: 0.6 }}
-                        className="lg:col-span-2 space-y-10"
-                    >
-                        <div className="space-y-4">
-                            <h2 className="text-3xl font-medium text-white flex items-center gap-3">
-                                About Service
-                            </h2>
-                            <div className="w-32 h-0.5 bg-gold-500" />
-                        </div>
+            {/* ── CORE CAPABILITIES ──────────────────────────────────────────────── */}
+            <section className="py-32 px-6 bg-white">
+                <div className="max-w-7xl mx-auto space-y-20">
+                    <div className="text-center space-y-4">
+                        <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Methodology</span>
+                        <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Precision <span className="gold-shimmer">Prep-Architecture</span></h2>
+                    </div>
 
-                        <div className="space-y-2">
-                            <h3 className="font-bold text-white text-[15px]">My Scores:</h3>
-                            <ul className="text-[15px] font-bold text-white/80 list-none space-y-1">
-                                <li>Reading: <span className="font-normal text-white/60">29/30</span></li>
-                                <li>Listening: <span className="font-normal text-white/60">30/30</span></li>
-                                <li>Speaking: <span className="font-normal text-white/60">30/30</span></li>
-                                <li>Writing: <span className="font-normal text-white/60">30/30</span></li>
-                            </ul>
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {[
+                            { title: "Rapid Calibration", desc: "Evaluate your status and deploy a custom 2-to-15 day high-intensity roadmap.", icon: <Target size={24} /> },
+                            { title: "Material Intelligence", desc: "Access the most optimal resources tailored to your specific friction points.", icon: <BookOpen size={24} /> },
+                            { title: "Avoid Ramifications", desc: "Ensure entry into top-tier programs without the burden of remedial English courses.", icon: <ShieldCheck size={24} /> }
+                        ].map((feat, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                className="feature-pill p-10 space-y-6"
+                            >
+                                <div className="w-12 h-12 rounded-xl bg-[#F8F5F0] flex items-center justify-center text-[#C5A059]">
+                                    {feat.icon}
+                                </div>
+                                <h3 className="fd text-2xl font-bold text-[#3C2A21]">{feat.title}</h3>
+                                <p className="text-[#6B5E51] text-sm leading-relaxed font-medium">{feat.desc}</p>
+                            </motion.div>
+                        ))}
+                    </div>
 
-                        <div className="grid gap-6">
-                            <p className="text-[15px] text-white/80 leading-relaxed font-normal">
-                                While the TOEFL exam can seem overly simplistic at times, I can assure you it is not. If you have a very limited time, ranging from about 2 days to 15 days for preparation, you can have us work with you personally to build a schedule for you that suits your needs and increases your scores by targeting the areas you need to work on the most. I will personally work with you by evaluating your weaknesses through sample questions and then creating your schedule and recommending the most optimal material in your case. Our team will also help you in garnering the relevant material wherever possible.
-                            </p>
-                            <p className="text-[15px] text-white/80 leading-relaxed font-normal">
-                                A great TOEFL score can not only help you by getting you into some of the top schools but it can also contribute towards your chances in fetching a Teaching Assistantship. In case you fail to get a great score, the ramifications include either being rejected from the university of your choice or being forced into taking other English language tests at the university for which very few resources are available as compared to the TOEFL. Let us improve your score instead and make sure you never face another English language test. If prepared right, the TOEFL is extremely easy and you will have no trouble in scoring over 110.
-                            </p>
-                        </div>
+                    <div className="glass-panel p-10 bg-[#F8F5F0] border-none text-center space-y-6 max-w-4xl mx-auto">
+                        <Activity className="mx-auto text-[#C5A059]" size={32} />
+                        <h3 className="fd text-3xl font-bold italic text-[#3C2A21]">Institutional Grade results</h3>
+                        <p className="text-[#6B5E51] text-lg font-medium leading-relaxed max-w-2xl mx-auto italic">
+                            "A top-tier TOEFL score not only guarantees admission but often serves as the deciding factor for prestigious Teaching Assistantships."
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-                        <div className="space-y-4 pt-2">
-                            <h3 className="text-[15px] font-bold text-white">The consultation is performed as follows:</h3>
-                            <ul className="list-disc space-y-3 pl-6 text-[15px] text-white/80 leading-relaxed">
-                                {consultationSteps.map((step, idx) => (
-                                    <li key={idx}>
-                                        {step}
-                                    </li>
+            {/* ── THE PROCESS ────────────────────────────────────────────────────── */}
+            <section className="py-32 px-6" style={{ background: "linear-gradient(180deg, transparent 0%, rgba(197,160,89, 0.05) 100%)" }}>
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                        <div className="space-y-10">
+                            <div className="space-y-4">
+                                <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">The Workflow</span>
+                                <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Pathway to <br /> <span className="gold-shimmer">110+ Benchmarking</span></h2>
+                            </div>
+
+                            <div className="space-y-8">
+                                {consultationSteps.map((item, i) => (
+                                    <div key={i} className="flex gap-6 group">
+                                        <span className="text-4xl font-bold text-[#C5A059]/20 group-hover:text-[#C5A059] transition-colors">0{i + 1}</span>
+                                        <div className="space-y-2">
+                                            <h4 className="fd text-xl font-bold">{item.title}</h4>
+                                            <p className="text-[#6B5E51] text-sm font-medium">{item.desc}</p>
+                                        </div>
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         </div>
-                    </motion.div>
 
-                    {/* Pricing Sidebar */}
-                    <motion.div 
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: false, margin: "-50px" }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="lg:sticky lg:top-24 h-max"
-                    >
-                            <AddToCart serviceId="toefl" />
-
-                        {/* <div className="mt-4 p-6 rounded-xl bg-white/[0.02] border border-white/[0.08] shadow-md">
-                            <DiscussionSection serviceId="toefl" />
-                        </div> */}
-                    </motion.div>
-
-                </div>
-            </section>
-
-            {/* ── FAQS ── */}
-            <FAQSection />
-
-            {/* ── FOOTER CTA ── */}
-            <section className="px-6 md:px-16 pb-20">
-                <motion.div 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: false, margin: "-50px" }}
-                    transition={{ duration: 0.8 }}
-                    className="max-w-6xl mx-auto bg-gradient-to-r from-dark-900 to-dark-950 border border-gold-500/20 rounded-[3rem] p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden relative"
-                >
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-3xl rounded-full" />
-                    
-                    <div className="flex items-center gap-6 relative z-10">
-                        <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-gold-500/20 bg-dark-800 flex items-center justify-center text-3xl shadow-xl grayscale hover:grayscale-0 transition-all">
-                           👤
-                        </div>
-                        <div>
-                            <h4 className="font-black text-xl mb-1 uppercase tracking-tight">Speak with a Consultant</h4>
-                            <p className="text-white/40 text-xs font-medium italic">Discover how we can tailor our strategies to your specific profile.</p>
+                        <div className="relative pt-10 lg:pt-0">
+                            <div className="glass-panel p-12 bg-[#3C2A21] text-white border-none space-y-10">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 rounded-full bg-[#C5A059] flex items-center justify-center text-[#3C2A21]">
+                                        <Zap size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="fd text-2xl font-bold">Secure Your Bench</h3>
+                                        <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Global Standards Applied</p>
+                                    </div>
+                                </div>
+                                <AddToCart serviceId="toefl" />
+                                <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
+                                    <div className="flex items-center gap-3 text-white/60 text-xs">
+                                        <Star size={14} className="text-[#C5A059]" />
+                                        <span>Bespoke 1-on-1 coaching</span>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-white/60 text-xs">
+                                        <Activity size={14} className="text-[#C5A059]" />
+                                        <span>Mock-Based evaluation</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button className="whitespace-nowrap px-8 py-3.5 bg-white text-black font-black rounded-xl hover:bg-gold-500 transition-all hover:scale-105 active:scale-95 text-[10px] uppercase tracking-[0.2em] relative z-10 shadow-2xl">
-                        <Link href="/contact">Message Now &rarr;</Link>
+                </div>
+            </section>
+
+            <FAQSection />
+
+            {/* ── FINAL CTA ─────────────────────────────────────────────────────── */}
+            <section className="py-20 px-6">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    className="max-w-5xl mx-auto bg-white border border-[#C5A059]/20 rounded-[48px] p-16 flex flex-col items-center text-center space-y-10 shadow-2xl relative overflow-hidden"
+                >
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/5 blur-3xl rounded-full -mr-32 -mt-32" />
+
+                    <div className="space-y-4">
+                        <h4 className="fd text-4xl font-bold text-[#3C2A21]">Ready to Secure Your Score?</h4>
+                        <p className="text-[#6B5E51] text-lg font-medium italic">Discover how we can architect a 110+ strategy for your specific timeline.</p>
+                    </div>
+
+                    <button
+                        onClick={() => setShowBookingModal(true)}
+                        className="btn-gold shadow-2xl group"
+                    >
+                        Begin Coaching Session <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </button>
                 </motion.div>
             </section>
+
+            <BookCounsellingModal
+                isOpen={showBookingModal}
+                onClose={() => setShowBookingModal(false)}
+            />
+
         </main>
     );
 }

@@ -1,133 +1,172 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+    ArrowLeft,
+    ArrowRight,
+    History
+} from "lucide-react";
+import FAQSection from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import Image from "next/image";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 export default function PersonalHistoryStatementPage() {
-  return (
-    <div className="w-full bg-black text-white min-h-screen relative overflow-hidden">
+    const [showBookingModal, setShowBookingModal] = useState(false);
 
-      {/* Background ambient light */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#d4af37]/5 blur-[200px] rounded-full pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#d4af37]/3 blur-[200px] rounded-full pointer-events-none"></div>
+    return (
+        <main className="min-h-screen pb-16 bg-[#FDFBF7] text-[#3C2A21]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
 
-      {/* HERO SECTION */}
-      <section className="py-20 px-6 md:px-16 relative z-10">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+                .fd { font-family: 'Cormorant Garamond', serif; }
+                
+                .gold-shimmer {
+                  background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
+                  background-size: 300% auto;
+                  -webkit-background-clip: text;
+                  -webkit-text-fill-color: transparent;
+                  background-clip: text;
+                  animation: shimmer 4s linear infinite;
+                }
 
-          {/* LEFT */}
-          <div className="space-y-8">
-            <span className="text-[#d4af37] uppercase tracking-[0.4em] font-black text-[10px]">
-              Our Services
-            </span>
+                @keyframes shimmer {
+                  0% { background-position: -200% center; }
+                  100% { background-position: 200% center; }
+                }
 
-            <h1 className="text-4xl md:text-5xl font-black uppercase leading-tight tracking-tight">
-              Personal{" "}
-              <span className="italic text-[#d4af37]">History</span>{" "}
-              Statement
-            </h1>
+                .btn-gold {
+                   background: #C5A059;
+                   color: white;
+                   padding: 18px 30px;
+                   border-radius: 18px;
+                   font-weight: 700;
+                   text-transform: uppercase;
+                   letter-spacing: 0.1em;
+                   font-size: 11px;
+                   transition: all 0.3s ease;
+                   display: inline-flex;
+                   alignItems: center;
+                   gap: 10px;
+                }
+                .btn-gold:hover {
+                   background: #3C2A21;
+                   transform: translateY(-2px);
+                }
+            `}</style>
 
-            <p className="text-white/40 text-lg leading-relaxed font-normal italic">
-              The{" "}
-              <span className="text-white/70 font-black not-italic">Personal History Statement</span>{" "}
-              (also known as a{" "}
-              <span className="text-white/70 font-black not-italic">Diversity Statement</span>)
-              reflects your ability to connect the barriers you have overcome
-              in the past to your current interest in the program.
-            </p>
+            {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
+            <section className="relative pt-10 pb-24 px-6 md:px-16" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
 
-            <DiscussionSection serviceId="personal-history-statement" />
-          </div>
+                    {/* LEFT CONTENT */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="pt-6 space-y-8"
+                    >
+                        <div className="flex flex-col gap-4">
+                            <Link
+                                href="/services"
+                                className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
+                            >
+                                <ArrowLeft size={14} /> Back to Services
+                            </Link>
+                            <h1 className="fd text-3xl md:text-5xl font-bold leading-tight text-[#3C2A21] uppercase break-words">
+                                Personal History <br /> <span className="gold-shimmer">Statement</span>
+                            </h1>
+                        </div>
 
-          {/* RIGHT - Video */}
-          <div className="flex justify-center">
-            <div className="rounded-2xl overflow-hidden border border-[#d4af37]/20 shadow-2xl shadow-[#d4af37]/10 w-full max-w-md">
-            <Image
-  src="/PersonalHistory.jpg"
-  alt="Personal History"
-  width={800}
-  height={500}
-/>
-            </div>
-          </div>
-        </div>
-      </section>
+                        <p className="text-lg text-[#6B5E51] leading-relaxed italic max-w-xl font-medium">
+                            The <span className="font-semibold text-[#3C2A21]">Personal History Statement</span> (also known as a <span className="font-semibold text-[#3C2A21]">Diversity Statement</span>) reflects your ability to connect the barriers you have overcome in the past to your current interest in the program.
+                        </p>
 
-      {/* DIVIDER */}
-      <div className="w-full h-[1px] bg-white/5 max-w-7xl mx-auto px-16"></div>
+                        <div className="pt-4">
+                            <button
+                                onClick={() => setShowBookingModal(true)}
+                                className="btn-gold shadow-2xl group"
+                            >
+                                Begin Narrative Consult <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                            </button>
+                        </div>
 
-      {/* ABOUT + SIDEBAR */}
-      <section className="py-20 px-6 md:px-16 relative z-10">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
+                        <DiscussionSection serviceId="personal-history-statement" />
+                    </motion.div>
 
-          {/* LEFT CONTENT */}
-          <div className="md:col-span-2 space-y-10">
+                    {/* RIGHT VIDEO */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="flex justify-center relative pt-10"
+                    >
+                        <div className="absolute inset-0 bg-[#C5A059]/5 blur-3xl rounded-full -z-10"></div>
+                        <div className="relative p-2 rounded-[2rem] bg-white border border-[#C5A059]/20 shadow-2xl overflow-hidden">
+                            <video
+                                className="rounded-[1.5rem] w-full max-w-md"
+                                controls
+                                autoPlay
+                                loop
+                                muted
+                            >
+                                <source src="/PersonalHistory.mp4" type="video/mp4" />
+                            </video>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
 
-            {/* Section Label */}
-            <div className="space-y-3">
-              <span className="text-[#d4af37] uppercase tracking-[0.4em] font-black text-[10px]">
-                About Service
-              </span>
-              <div className="w-12 h-[2px] bg-[#d4af37]/40"></div>
-            </div>
+            {/* ── ABOUT + SIDEBAR ────────────────────────────────────────────────── */}
+            <section className="max-w-7xl mx-auto px-6 md:px-16 py-20">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-start">
 
-            <div className="space-y-6 text-white/40 leading-relaxed text-base font-normal italic">
-              <p>
-                While a lot of universities are not interested in knowing about
-                your past, a few prestigious institutions like{" "}
-                <span className="text-white/70 font-black not-italic">
-                  The University of California
-                </span>{" "}
-                specifically require a Personal History Statement. Our main aim
-                is to help you stand out by crafting a story that is unique to
-                you and your profile.
-              </p>
+                    {/* LEFT CONTENT */}
+                    <div className="lg:col-span-2 space-y-10">
+                        <div className="space-y-4">
+                            <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">The Diversity Advantage</span>
+                            <h2 className="fd text-3xl font-bold leading-tight text-[#3C2A21]">About This <span className="gold-shimmer">Service</span></h2>
+                        </div>
 
-              <p>
-                It is important to focus on the{" "}
-                <span className="text-white/70 font-black not-italic">
-                  social, economic, familial, financial and cultural barriers
-                </span>{" "}
-                that you faced during your life. We help highlight your ability
-                to overcome challenges and turn them into strengths.
-              </p>
+                        <div className="space-y-6 text-[#6B5E51] leading-relaxed text-lg font-medium">
+                            <p>
+                                While a lot of universities are not interested in knowing about your past, a few prestigious institutions like <span className="font-semibold text-[#3C2A21]">The University of California</span> specifically require a Personal History Statement. Our main aim is to help you stand out by crafting a story that is unique to you and your profile.
+                            </p>
 
-              {/* Highlight Card */}
-              <div className="border border-[#d4af37]/20 rounded-2xl p-8 bg-white/[0.02] not-italic space-y-2">
-                <p className="text-white/60 leading-relaxed">
-                  "This draft, when done right, has proved to be one of the
-                  biggest game-changers, both in fetching admits and securing
-                  significant funding."
-                </p>
-              </div>
-            </div>
+                            <p>
+                                It is important to focus on the <span className="font-semibold text-[#3C2A21] italic">social, economic, familial, financial and cultural barriers</span> that you faced during your life. We help highlight your ability to overcome challenges and turn them into strengths.
+                            </p>
 
-            {/* CTA Section */}
-            <div className="border border-[#d4af37]/30 rounded-2xl p-8 bg-[#d4af37]/5 text-center space-y-4">
-              <p className="font-black text-[#d4af37] uppercase tracking-widest text-sm">
-                The Global Counselling Centre Promise
-              </p>
-              <p className="text-white/40 italic text-sm leading-relaxed">
-                "We craft a Personal History Statement that is uniquely yours —
-                turning your challenges into your greatest strength."
-              </p>
-            </div>
-          </div>
+                            <div className="bg-[#3C2A21] text-white p-8 rounded-3xl shadow-xl border-l-8 border-[#C5A059]">
+                                <p className="font-bold fd text-xl italic leading-snug">
+                                    "This draft, when done right, has proved to be one of the biggest game-changers, both in fetching admits and securing significant funding."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-          {/* RIGHT SIDEBAR */}
-          <div className="space-y-6">
-            <div className="border border-[#d4af37]/20 rounded-2xl p-6 bg-white/[0.02] sticky top-8">
-              <p className="text-[#d4af37] uppercase tracking-[0.3em] font-black text-[10px] mb-4">
-                Get Started
-              </p>
-              <AddToCart serviceId="history-draft" />
-            </div>
-          </div>
+                    {/* RIGHT SIDEBAR */}
+                    <div className="lg:sticky lg:top-32 space-y-8">
+                        <div className="w-full">
+                            <AddToCart serviceId="history-draft" />
+                        </div>
 
-        </div>
-      </section>
+                        <div className="p-8 bg-white border border-[#C5A059]/10 rounded-[32px] shadow-lg space-y-4">
+                            <h4 className="text-xs font-bold text-[#C5A059] uppercase tracking-[0.2em]">Clinical Protocol</h4>
+                            <p className="text-xs text-[#3C2A21]/60 leading-relaxed font-medium">
+                                Our narrative experts audit your diversity markers to ensure every challenge is framed as an institutional value.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    </div>
-  );
+            <FAQSection />
+
+            <BookCounsellingModal
+                isOpen={showBookingModal}
+                onClose={() => setShowBookingModal(false)}
+            />
+
+        </main>
+    );
 }

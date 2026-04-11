@@ -16,16 +16,16 @@ interface AccordionProps {
 function Accordion({ title, children }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border border-[#c6a96b]/20 rounded-xl bg-[#0a0a0a] overflow-hidden">
+    <div className="border border-[#D4A848]/20 rounded-xl bg-[#FFFFFF] shadow-sm overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center p-5 text-left font-bold text-[#ffffff] hover:bg-white/[0.02] transition-colors"
+        className="w-full flex justify-between items-center p-5 text-left font-bold text-[#362B25] hover:bg-[#F8F6F1] transition-colors"
       >
         <span className="text-sm md:text-base tracking-tight">{title}</span>
-        <span className="text-[#d4af37] text-2xl leading-none">{isOpen ? "−" : "+"}</span>
+        <span className="text-[#D4A848] text-2xl leading-none">{isOpen ? "−" : "+"}</span>
       </button>
       {isOpen && children && (
-        <div className="p-5 pt-0 text-sm text-[#e5e5e5]/70 border-t border-white/5 leading-relaxed">
+        <div className="p-5 pt-0 text-sm text-[#675F5B] border-t border-[#D4A848]/10 leading-relaxed">
           {children}
         </div>
       )}
@@ -37,19 +37,17 @@ function Accordion({ title, children }: AccordionProps) {
 
 function StatBar({ label, value }: { label: string; value: number }) {
   return (
-    <div className="flex items-center gap-4">
-      <span className="text-xs text-[#e5e5e5]/70 w-28 shrink-0">{label}</span>
-      <div className="flex-1 bg-white/10 rounded-full h-6 overflow-hidden relative">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-[#c6a96b] to-[#d4af37]"
-          style={{ width: `${value}%` }}
-        />
-        <div
-          className="absolute inset-y-0 rounded-full bg-[#d4af37]/20"
-          style={{ left: `${value}%`, right: 0 }}
-        />
+    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+      <span className="text-xs text-[#675F5B] font-semibold w-full sm:w-28 shrink-0">{label}</span>
+      <div className="flex items-center gap-4 flex-1">
+        <div className="flex-1 bg-[#D4A848]/10 rounded-full h-6 overflow-hidden relative border border-[#D4A848]/20">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-[#D4A848]/80 to-[#D4A848]"
+            style={{ width: `${value}%` }}
+          />
+        </div>
+        <span className="text-sm font-black text-[#362B25] w-12 text-right">{value}%</span>
       </div>
-      <span className="text-sm font-black text-[#ffffff] w-12 text-right">{value}%</span>
     </div>
   );
 }
@@ -145,52 +143,55 @@ export default function ResearchPaperPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#000000] text-[#e5e5e5] selection:bg-[#d4af37]/30">
+    <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] selection:bg-[#D4A848]/30">
 
       {/* ── HERO SECTION ───────────────────────────────────────────────────── */}
-      <section className="relative px-6 py-16 md:px-20 overflow-hidden border-b border-white/5">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#d4af37]/10 rounded-full blur-[120px] -z-10" />
+      <section className="relative px-6 py-12 md:px-20 overflow-hidden border-b border-[#D4A848]/10">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4A848]/10 rounded-full blur-[120px] -z-10" />
 
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase leading-[0.9]">
-              Research Paper Drafting &amp; Publishing Help
-            </h1>
-            <p className="text-lg text-[#e5e5e5]/80 mb-10 max-w-xl leading-relaxed font-medium">
-              Publishing credible research papers with your name on them can help boost your profile!{" "}
-              <span className="text-[#ffffff]">Extremely crucial</span> for MS/PhD and O-1/EB-1 visa applicants.
-            </p>
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="flex flex-row lg:flex-row items-center gap-4 lg:gap-12 mb-8">
+            <div className="flex-1">
+              <h1 className="text-2xl md:text-7xl font-black mb-4 tracking-tighter uppercase leading-[0.9] break-words">
+                <span className="text-[#362B25]">Research Paper Drafting &amp;</span><br className="sm:hidden" /><span className="text-[#D4A848]"> Publishing</span>
+              </h1>
+              <p className="hidden sm:block text-lg text-[#675F5B] mb-10 max-w-xl leading-relaxed font-medium">
+                Publishing credible research papers with your name on them can help boost your profile!{" "}
+                <span className="text-[#D4A848] font-black">Extremely crucial</span> for MS/PhD and O-1/EB-1 visa applicants.
+              </p>
+            </div>
 
-            <DiscussionSection serviceId="research-papers" />
-          </div>
-
-          {/* Hero illustration */}
-          <div className="w-[85%] mx-auto flex items-center justify-center">
-            <div className="relative w-full h-[340px] md:h-[420px]">
-              {/* Blob background */}
-              <div className="absolute inset-0 bg-[#d4af37]/10 rounded-[60%_40%_50%_50%/50%_60%_40%_50%] blur-2xl" />
-              <div className="absolute inset-6 flex flex-col items-center justify-center gap-4">
-                {/* Paper mockup */}
-                <div className="bg-[#0f0f0f] border border-[#c6a96b]/30 rounded-xl p-6 w-64 shadow-2xl relative">
-                  <div className="text-[10px] text-[#c6a96b] uppercase tracking-widest mb-3 font-bold">Research Publication</div>
-                  <div className="space-y-2">
-                    {[100, 90, 95, 80, 70, 85, 60].map((w, i) => (
-                      <div key={i} className={`h-1.5 rounded-full bg-white/10`} style={{ width: `${w}%` }} />
+            {/* Hero illustration */}
+            <div className="w-24 h-24 sm:w-[40%] flex-shrink-0 relative">
+              <div className="relative w-full h-full flex items-center justify-center">
+                {/* Blob background */}
+                <div className="absolute inset-0 bg-[#D4A848]/15 rounded-[60%_40%_50%_50%/50%_60%_40%_50%] blur-xl group-hover:blur-2xl transition-all" />
+                <div className="relative flex flex-col items-center justify-center gap-1 sm:gap-4 scale-[0.4] sm:scale-100">
+                  {/* Paper mockup */}
+                  <div className="bg-[#FFFFFF] border border-[#D4A848]/30 rounded-xl p-6 w-64 shadow-[0_10px_40px_rgba(212,168,72,0.15)] relative">
+                    <div className="text-[10px] text-[#D4A848] uppercase tracking-widest mb-3 font-bold">Research Publication</div>
+                    <div className="space-y-2">
+                      {[100, 90, 95, 80, 70, 85, 60].map((w, i) => (
+                        <div key={i} className={`h-1.5 rounded-full bg-[#362B25]/10`} style={{ width: `${w}%` }} />
+                      ))}
+                    </div>
+                  </div>
+                  {/* Publisher logos */}
+                  <div className="flex gap-2 sm:gap-4 items-center">
+                    {["IEEE", "Springer"].map((pub) => (
+                      <span key={pub} className="text-[10px] font-black text-[#D4A848] border border-[#D4A848]/30 bg-[#FFFFFF] px-3 py-1.5 rounded-lg shadow-sm">{pub}</span>
                     ))}
                   </div>
-                  <div className="mt-4 flex gap-2 items-center">
-                    <div className="w-6 h-6 rounded-full bg-[#c6a96b]/20 border border-[#c6a96b]/40 flex items-center justify-center text-[8px] font-bold text-[#c6a96b]">YM</div>
-                    <div className="text-[9px] text-[#a1a1a1]">Published in IEEE · Springer</div>
-                  </div>
-                </div>
-                {/* Publisher logos */}
-                <div className="flex gap-4 items-center">
-                  {["IEEE", "Springer", "Elsevier"].map((pub) => (
-                    <span key={pub} className="text-[10px] font-black text-[#c6a96b]/60 border border-[#c6a96b]/20 px-3 py-1.5 rounded-lg">{pub}</span>
-                  ))}
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="space-y-8">
+            <p className="sm:hidden text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
+              Publish credible papers to boost profile for <span className="text-[#D4A848] font-black">MS/PhD &amp; EB-1</span>.
+            </p>
+            <DiscussionSection serviceId="research-papers" />
           </div>
         </div>
       </section>
@@ -204,33 +205,33 @@ export default function ResearchPaperPage() {
           {/* About Service */}
           <div>
             <div className="mb-10">
-              <h2 className="text-3xl font-black mb-2 text-[#ffffff]">About Service</h2>
-              <div className="w-20 h-1.5 bg-[#c6a96b] rounded-full" />
+              <h2 className="text-3xl font-black mb-2 text-[#362B25]">About Service</h2>
+              <div className="w-20 h-1.5 bg-[#D4A848] rounded-full" />
             </div>
 
             {/* Advantages grid */}
             <div className="mb-8">
-              <h3 className="text-sm font-bold text-[#c6a96b] uppercase tracking-[0.3em] mb-6">Advantages of research papers</h3>
-              <p className="text-[#a1a1a1] text-sm mb-6">Unlock a world of opportunities.</p>
+              <h3 className="text-sm font-bold text-[#362B25] uppercase tracking-[0.3em] mb-6">Advantages of research papers</h3>
+              <p className="text-[#675F5B] text-sm mb-6">Unlock a world of opportunities.</p>
               <div className="grid sm:grid-cols-2 gap-4">
                 {advantages.map((item, idx) => (
-                  <div key={idx} className="bg-white/5 border border-white/5 p-5 rounded-xl flex gap-4 items-start hover:border-[#c6a96b]/30 transition-all">
+                  <div key={idx} className="bg-[#FFFFFF] border border-[#D4A848]/20 shadow-sm p-5 rounded-xl flex gap-4 items-start hover:border-[#D4A848]/60 transition-all">
                     <span className="text-2xl">{item.icon}</span>
-                    <p className="text-sm text-[#e5e5e5]/80 leading-relaxed">{item.text}</p>
+                    <p className="text-sm text-[#362B25] font-semibold leading-relaxed">{item.text}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* High-Impact banner */}
-            <div className="border border-[#c6a96b]/30 rounded-2xl p-8 bg-[#c6a96b]/5 text-center">
-              <h3 className="text-lg font-black text-[#d4af37] mb-3 uppercase tracking-widest">High-Impact Research Publications</h3>
-              <p className="text-sm text-[#e5e5e5]/70 max-w-lg mx-auto mb-6 leading-relaxed">
+            <div className="border border-[#D4A848]/30 rounded-2xl p-8 bg-[#FFFFFF] shadow-sm text-center">
+              <h3 className="text-lg font-black text-[#362B25] mb-3 uppercase tracking-widest">High-Impact Research Publications</h3>
+              <p className="text-sm text-[#675F5B] max-w-lg mx-auto mb-6 leading-relaxed">
                 The research work under this program is highly valuable and is guaranteed to be published in IEEE, Springer, or Elsevier or Taylor &amp; Francis.
               </p>
               <div className="flex flex-wrap justify-center gap-6 items-center">
                 {["Springer", "IEEE", "Elsevier"].map((pub) => (
-                  <span key={pub} className="text-sm font-black text-[#c6a96b] border border-[#c6a96b]/30 px-5 py-2.5 rounded-xl">{pub}</span>
+                  <span key={pub} className="text-sm font-black text-[#D4A848] border border-[#D4A848]/30 px-5 py-2.5 rounded-xl bg-[#F8F6F1]">{pub}</span>
                 ))}
               </div>
             </div>
@@ -238,33 +239,33 @@ export default function ResearchPaperPage() {
 
           {/* Admissions Impact Chart */}
           <div>
-            <h3 className="text-2xl font-black border-l-4 border-[#c6a96b] pl-6 uppercase tracking-tight text-[#ffffff] mb-3">
+            <h3 className="text-2xl font-black border-l-4 border-[#D4A848] pl-6 uppercase tracking-tight text-[#362B25] mb-3">
               The Impact of Research Papers on Your Application
             </h3>
-            <p className="text-[#a1a1a1] text-sm mb-8 pl-6">
+            <p className="text-[#675F5B] text-sm mb-8 pl-6">
               The graph below shows a clear distinction between applicants who utilized our research paper service and those who didn't.
             </p>
 
-            <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-8">
-              <h4 className="text-center text-sm font-black text-[#ffffff] uppercase tracking-widest mb-1">Impact of Research Papers on Admissions</h4>
-              <div className="w-16 h-[2px] bg-[#c6a96b] mx-auto mb-8 rounded-full" />
+            <div className="bg-[#FFFFFF] border border-[#D4A848]/20 shadow-md rounded-2xl p-8">
+              <h4 className="text-center text-sm font-black text-[#362B25] uppercase tracking-widest mb-1">Impact of Research Papers on Admissions</h4>
+              <div className="w-16 h-[2px] bg-[#D4A848] mx-auto mb-8 rounded-full" />
 
               <div className="space-y-6">
                 {harvardAdmits.map((uni) => (
-                  <div key={uni.label} className="flex items-center gap-4">
-                    <div className="text-xs text-[#a1a1a1] w-36 shrink-0 text-right">{uni.label}</div>
-                    <div className="flex-1 space-y-1.5">
+                  <div key={uni.label} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                    <div className="text-xs font-bold text-[#675F5B] w-full sm:w-36 shrink-0 sm:text-right">{uni.label}</div>
+                    <div className="flex-1 space-y-1.5 min-w-0">
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 bg-[#d4af37]/20 rounded-full h-5 overflow-hidden">
-                          <div className="h-full bg-[#d4af37] rounded-full" style={{ width: `${(uni.withPaper / 55) * 100}%` }} />
+                        <div className="flex-1 bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-full h-5 overflow-hidden">
+                          <div className="h-full bg-[#D4A848] rounded-full" style={{ width: `${(uni.withPaper / 55) * 100}%` }} />
                         </div>
-                        <span className="text-xs font-bold text-[#d4af37] w-20">{uni.withPaper}+ admits</span>
+                        <span className="text-xs font-bold text-[#D4A848] w-20">{uni.withPaper}+ admits</span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <div className="flex-1 bg-white/10 rounded-full h-5 overflow-hidden">
-                          <div className="h-full bg-white/30 rounded-full" style={{ width: `${(uni.without / 55) * 100}%` }} />
+                        <div className="flex-1 bg-[#F8F6F1] border border-[#362B25]/20 rounded-full h-5 overflow-hidden">
+                          <div className="h-full bg-[#40332D]/40 rounded-full" style={{ width: `${(uni.without / 55) * 100}%` }} />
                         </div>
-                        <span className="text-xs font-bold text-[#a1a1a1] w-20">{uni.without}+ admits</span>
+                        <span className="text-xs font-bold text-[#675F5B] w-20">{uni.without}+ admits</span>
                       </div>
                     </div>
                   </div>
@@ -273,30 +274,30 @@ export default function ResearchPaperPage() {
 
               <div className="flex gap-6 mt-8 justify-center">
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-sm bg-[#d4af37]" />
-                  <span className="text-xs text-[#a1a1a1]">Admits with research papers</span>
+                  <div className="w-4 h-4 rounded-sm bg-[#D4A848]" />
+                  <span className="text-xs font-bold text-[#675F5B]">Admits with papers</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-sm bg-white/30" />
-                  <span className="text-xs text-[#a1a1a1]">Admits without research papers</span>
+                  <div className="w-4 h-4 rounded-sm bg-[#40332D]/40" />
+                  <span className="text-xs font-bold text-[#675F5B]">Admits without papers</span>
                 </div>
               </div>
-              <p className="text-center text-[10px] text-[#a1a1a1]/50 mt-4">*Statistics based on data points from 2025–2026</p>
+              <p className="text-center text-[10px] text-[#675F5B]/50 mt-4 font-bold">*Statistics based on data points from 2025–2026</p>
             </div>
           </div>
 
           {/* Pathways */}
           <div>
-            <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-8">
-              <h3 className="text-center text-sm font-black text-[#ffffff] uppercase tracking-widest mb-6">Pathways for working and settling overseas</h3>
-              <div className="w-16 h-[2px] bg-[#c6a96b] mx-auto mb-8 rounded-full" />
+            <div className="bg-[#FFFFFF] border border-[#D4A848]/20 shadow-sm rounded-2xl p-8">
+              <h3 className="text-center text-sm font-black text-[#362B25] uppercase tracking-widest mb-6">Pathways for working and settling overseas</h3>
+              <div className="w-16 h-[2px] bg-[#D4A848] mx-auto mb-8 rounded-full" />
               <div className="space-y-4">
                 {pathways.map((p, idx) => (
-                  <div key={idx} className="flex gap-5 items-start bg-[#c6a96b]/5 border border-[#c6a96b]/10 p-5 rounded-xl hover:border-[#c6a96b]/30 transition-all">
+                  <div key={idx} className="flex gap-5 items-start bg-[#F8F6F1] border border-[#D4A848]/10 p-5 rounded-xl hover:border-[#D4A848]/40 transition-all">
                     <span className="text-3xl shrink-0">{p.flag}</span>
                     <div>
-                      <h4 className="font-bold text-[#ffffff] text-sm mb-1">{p.country}</h4>
-                      <p className="text-xs text-[#a1a1a1] leading-relaxed">{p.desc}</p>
+                      <h4 className="font-bold text-[#362B25] text-sm mb-1">{p.country}</h4>
+                      <p className="text-xs text-[#675F5B] leading-relaxed">{p.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -306,106 +307,106 @@ export default function ResearchPaperPage() {
 
           {/* O-1 Visa Success */}
           <div>
-            <h3 className="text-2xl font-black border-l-4 border-[#c6a96b] pl-6 uppercase tracking-tight text-[#ffffff] mb-3">
+            <h3 className="text-2xl font-black border-l-4 border-[#D4A848] pl-6 uppercase tracking-tight text-[#362B25] mb-3">
               Easier pathway to the green card (through the O-1/EB-1 Visa)
             </h3>
-            <p className="text-[#a1a1a1] text-sm mb-8 pl-6">
+            <p className="text-[#675F5B] text-sm mb-8 pl-6">
               Success rates for O-1/EB-1 visa applications significantly increase when applicants have published research papers, as shown by recent studies.
             </p>
 
             {/* O-1 Visa */}
-            <div className="bg-[#1a2a35] border border-[#c6a96b]/10 rounded-2xl p-8 mb-6">
+            <div className="bg-[#FFFFFF] border border-[#D4A848]/20 shadow-md rounded-2xl p-8 mb-6">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h4 className="font-black text-[#ffffff] text-lg">O-1 Visa Success Rate</h4>
-                  <p className="text-xs text-[#a1a1a1] mt-1">Based on petition outputs of our clients (Jul 2025 to Dec 2025)</p>
+                  <h4 className="font-black text-[#362B25] text-lg">O-1 Visa Success Rate</h4>
+                  <p className="text-xs text-[#675F5B] font-semibold mt-1">Based on petition outputs of our clients (Jul 2025 to Dec 2025)</p>
                 </div>
                 <span className="text-2xl">🇺🇸</span>
               </div>
               <div className="space-y-4">
                 {o1Data.map((d) => <StatBar key={d.label} label={d.label} value={d.value} />)}
               </div>
-              <div className="mt-6 border-t border-white/5 pt-4">
-                <p className="text-center text-xs text-[#d4af37] font-bold">Average 20–30 citations per paper (Total 150 to 250 citations)</p>
+              <div className="mt-6 border-t border-[#D4A848]/10 pt-4">
+                <p className="text-center text-xs text-[#D4A848] font-bold">Average 20–30 citations per paper (Total 150 to 250 citations)</p>
               </div>
             </div>
 
             {/* EB-1 Visa */}
-            <div className="bg-[#1a2a35] border border-[#c6a96b]/10 rounded-2xl p-8 mb-6">
+            <div className="bg-[#FFFFFF] border border-[#D4A848]/20 shadow-md rounded-2xl p-8 mb-6">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h4 className="font-black text-[#ffffff] text-lg">EB-1 Visa Success Rate</h4>
-                  <p className="text-xs text-[#a1a1a1] mt-1">Based on petition outputs of our clients (Jul 2025 to Dec 2025)</p>
+                  <h4 className="font-black text-[#362B25] text-lg">EB-1 Visa Success Rate</h4>
+                  <p className="text-xs text-[#675F5B] font-semibold mt-1">Based on petition outputs of our clients (Jul 2025 to Dec 2025)</p>
                 </div>
                 <span className="text-2xl">🇺🇸</span>
               </div>
               <div className="space-y-4">
                 {eb1Data.map((d) => <StatBar key={d.label} label={d.label} value={d.value} />)}
               </div>
-              <div className="mt-6 border-t border-white/5 pt-4">
-                <p className="text-center text-xs text-[#d4af37] font-bold">Average 20–30 citations per paper (Total 200 to 300 citations)</p>
+              <div className="mt-6 border-t border-[#D4A848]/10 pt-4">
+                <p className="text-center text-xs text-[#D4A848] font-bold">Average 20–30 citations per paper (Total 200 to 300 citations)</p>
               </div>
             </div>
           </div>
 
           {/* Global Talent Visa */}
           <div>
-            <h3 className="text-2xl font-black border-l-4 border-[#c6a96b] pl-6 uppercase tracking-tight text-[#ffffff] mb-3">
+            <h3 className="text-2xl font-black border-l-4 border-[#D4A848] pl-6 uppercase tracking-tight text-[#362B25] mb-3">
               Proven Success with Global Talent Visas
             </h3>
-            <p className="text-[#a1a1a1] text-sm mb-8 pl-6">
+            <p className="text-[#675F5B] text-sm mb-8 pl-6">
               Our expertise ensures high success rates for Global Talent Visas in the UK and Australia, helping applicants achieve their goals with tailored strategies.
             </p>
 
             {/* UK GTV */}
-            <div className="bg-[#1a2a35] border border-[#c6a96b]/10 rounded-2xl p-8 mb-6">
+            <div className="bg-[#FFFFFF] border border-[#D4A848]/20 shadow-md rounded-2xl p-8 mb-6">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h4 className="font-black text-[#ffffff] text-lg">Global Talent Visa Success Rate</h4>
-                  <p className="text-xs text-[#a1a1a1] mt-1">Based on petition outputs of our clients (2025)</p>
+                  <h4 className="font-black text-[#362B25] text-lg">Global Talent Visa Success Rate</h4>
+                  <p className="text-xs text-[#675F5B] font-semibold mt-1">Based on petition outputs of our clients (2025)</p>
                 </div>
                 <span className="text-2xl">🇬🇧</span>
               </div>
               <div className="space-y-4">
                 {gtvData.map((d) => <StatBar key={d.label} label={d.label} value={d.value} />)}
               </div>
-              <div className="mt-6 border-t border-white/5 pt-4">
-                <p className="text-center text-xs text-[#d4af37] font-bold">Average 20–30 citations per paper (Total 150 to 250 citations)</p>
+              <div className="mt-6 border-t border-[#D4A848]/10 pt-4">
+                <p className="text-center text-xs text-[#D4A848] font-bold">Average 20–30 citations per paper (Total 150 to 250 citations)</p>
               </div>
             </div>
 
             {/* Australia NIV */}
-            <div className="bg-[#1a2a35] border border-[#c6a96b]/10 rounded-2xl p-8">
+            <div className="bg-[#FFFFFF] border border-[#D4A848]/20 shadow-md rounded-2xl p-8">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h4 className="font-black text-[#ffffff] text-lg">NIV Australia Success Rates</h4>
-                  <p className="text-xs text-[#a1a1a1] mt-1">Based on petition outputs of our clients (2025)</p>
+                  <h4 className="font-black text-[#362B25] text-lg">NIV Australia Success Rates</h4>
+                  <p className="text-xs text-[#675F5B] font-semibold mt-1">Based on petition outputs of our clients (2025)</p>
                 </div>
                 <span className="text-2xl">🇦🇺</span>
               </div>
               <div className="space-y-4">
                 {nivData.map((d) => <StatBar key={d.label} label={d.label} value={d.value} />)}
               </div>
-              <div className="mt-6 border-t border-white/5 pt-4">
-                <p className="text-center text-xs text-[#d4af37] font-bold">Average 20–30 citations per paper (Total 150 to 250 citations)</p>
+              <div className="mt-6 border-t border-[#D4A848]/10 pt-4">
+                <p className="text-center text-xs text-[#D4A848] font-bold">Average 20–30 citations per paper (Total 150 to 250 citations)</p>
               </div>
             </div>
           </div>
 
           {/* The Help You Need */}
-          <div className="bg-gradient-to-r from-[#0d1a22] to-[#141414] border border-[#c6a96b]/10 rounded-3xl p-10">
-            <h3 className="text-2xl font-black text-center text-[#ffffff] mb-2 uppercase tracking-tight">The Help YOU Need</h3>
-            <div className="w-16 h-[2px] bg-[#c6a96b] mx-auto mb-8 rounded-full" />
+          <div className="bg-[#FFFFFF] shadow-lg border border-[#D4A848]/20 rounded-3xl p-10">
+            <h3 className="text-2xl font-black text-center text-[#362B25] mb-2 uppercase tracking-tight">The Help YOU Need</h3>
+            <div className="w-16 h-[2px] bg-[#D4A848] mx-auto mb-8 rounded-full" />
             <div className="grid md:grid-cols-2 gap-8 items-center">
-              <p className="text-[#a1a1a1] text-base leading-relaxed">
+              <p className="text-[#675F5B] font-medium text-base leading-relaxed">
                 Understand what's in the service after your purchase.
               </p>
-              <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-6 flex items-center gap-4 hover:border-[#c6a96b]/50 transition-all cursor-pointer group">
-                <div className="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center text-2xl">▶️</div>
+              <div className="bg-[#F8F6F1] border border-[#D4A848]/20 rounded-2xl p-6 flex items-center gap-4 hover:border-[#D4A848]/50 shadow-sm transition-all cursor-pointer group">
+                <div className="w-14 h-14 bg-[#362B25]/5 border border-[#362B25]/10 rounded-xl flex items-center justify-center text-2xl">▶️</div>
                 <div>
-                  <p className="text-xs font-black text-[#c6a96b] uppercase tracking-widest mb-1">Watch on YouTube</p>
-                  <p className="text-sm font-bold text-[#ffffff]">How do services work?</p>
-                  <p className="text-xs text-[#a1a1a1]">SAM</p>
+                  <p className="text-xs font-black text-[#D4A848] uppercase tracking-widest mb-1">Watch on YouTube</p>
+                  <p className="text-sm font-bold text-[#362B25]">How do services work?</p>
+                  <p className="text-xs text-[#675F5B] font-semibold">SAM</p>
                 </div>
               </div>
             </div>
@@ -418,35 +419,35 @@ export default function ResearchPaperPage() {
             <AddToCart serviceId="research-papers" />
 
             {/* Research Groups */}
-            <div className="mt-8 bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-[32px] p-8">
-              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#c6a96b] mb-6">Join or Create a Research Group</h3>
+            <div className="mt-8 bg-[#FFFFFF] shadow-lg border border-[#D4A848]/20 rounded-[32px] p-8">
+              <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#362B25] mb-6">Join or Create a Research Group</h3>
               <div className="space-y-4">
                 {researchGroups.map((g, idx) => (
-                  <div key={idx} className="bg-[#141414] border border-white/5 rounded-xl overflow-hidden hover:border-[#c6a96b]/20 transition-all">
-                    <div className="bg-gradient-to-r from-[#0d1a22] to-[#141414] px-4 py-3 flex justify-between items-center">
-                      <span className="text-[10px] text-[#a1a1a1]">Created on: {g.date}</span>
-                      <span className="text-[10px] text-[#c6a96b] font-bold">👥 {g.slots}</span>
+                  <div key={idx} className="bg-[#F8F6F1] border border-[#D4A848]/10 rounded-xl overflow-hidden hover:border-[#D4A848]/30 transition-all shadow-sm">
+                    <div className="bg-[#FFFFFF] px-4 py-3 flex justify-between items-center border-b border-[#D4A848]/5">
+                      <span className="text-[10px] text-[#675F5B] font-bold">Created on: {g.date}</span>
+                      <span className="text-[10px] text-[#D4A848] font-bold">👥 {g.slots}</span>
                     </div>
                     <div className="px-4 py-3">
-                      <h4 className="text-xs font-black text-[#ffffff] mb-2">{g.title}</h4>
+                      <h4 className="text-xs font-black text-[#362B25] mb-2">{g.title}</h4>
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-[8px] font-bold text-[#a1a1a1]">{g.user}</div>
-                        <p className="text-[10px] text-[#a1a1a1]">{g.desc}</p>
+                        <div className="w-6 h-6 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-[8px] font-bold text-[#D4A848]">{g.user}</div>
+                        <p className="text-[10px] text-[#675F5B] font-medium">{g.desc}</p>
                       </div>
                       <div className="flex gap-2 mt-3">
-                        <button className="flex-1 text-[10px] font-bold border border-white/10 py-1.5 rounded-lg text-[#a1a1a1] hover:bg-white/5 transition-all">View Members</button>
-                        <button className="flex-1 text-[10px] font-black bg-[#c6a96b] text-[#000000] py-1.5 rounded-lg hover:bg-[#d4af37] transition-all">Join Group</button>
+                        <button className="flex-1 text-[10px] font-bold border border-[#D4A848]/20 py-1.5 rounded-lg text-[#362B25] hover:bg-[#D4A848]/10 transition-all">View Members</button>
+                        <button className="flex-1 text-[10px] font-black bg-[#D4A848] text-[#FFFFFF] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all">Join Group</button>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
               <div className="mt-6 text-center space-y-2">
-                <p className="text-xs text-[#a1a1a1]">Didn't find what you were looking for?</p>
-                <button className="w-full border border-[#c6a96b]/20 text-[#ffffff] font-bold py-3 rounded-xl text-xs hover:bg-white/5 transition-all">
+                <p className="text-xs text-[#675F5B] font-medium">Didn't find what you were looking for?</p>
+                <button className="w-full border border-[#D4A848]/30 text-[#362B25] font-bold py-3 rounded-xl text-xs hover:bg-[#D4A848]/5 transition-all">
                   + Create Research Group
                 </button>
-                <button className="text-xs text-[#c6a96b] underline hover:text-[#d4af37] transition-colors">View More Groups</button>
+                <button className="text-xs text-[#D4A848] font-bold underline hover:text-[#362B25] transition-colors">View More Groups</button>
               </div>
             </div>
           </div>
@@ -454,10 +455,10 @@ export default function ResearchPaperPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 px-6 md:px-20 border-t border-white/5 bg-[#050505]">
+      <section className="py-24 px-6 md:px-20 border-t border-[#D4A848]/10 bg-[#F8F6F1]">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-black text-center mb-16 tracking-tighter uppercase text-[#ffffff]">
-            Frequently Asked <span className="text-[#c6a96b] italic font-serif">Questions!</span>
+          <h2 className="text-4xl md:text-5xl font-black text-center mb-16 tracking-tighter uppercase text-[#362B25]">
+            Frequently Asked <span className="text-[#D4A848] italic font-serif">Questions!</span>
           </h2>
           <div className="space-y-4">
             {faqs.map((faq, idx) => (

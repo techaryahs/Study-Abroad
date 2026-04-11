@@ -14,16 +14,16 @@ interface AccordionProps {
 function Accordion({ title, children }: AccordionProps) {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div className="border border-[#c6a96b]/20 rounded-xl bg-[#0a0a0a] overflow-hidden">
+    <div className="border border-[#D4A848]/20 rounded-xl bg-[#FFFFFF] shadow-sm overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center p-5 text-left font-bold text-[#ffffff] hover:bg-white/[0.02] transition-colors"
+        className="w-full flex justify-between items-center p-5 text-left font-bold text-[#362B25] hover:bg-[#F8F6F1] transition-colors"
       >
         <span className="text-sm md:text-base tracking-tight">{title}</span>
-        <span className="text-[#d4af37] text-2xl leading-none">{isOpen ? "−" : "+"}</span>
+        <span className="text-[#D4A848] text-2xl leading-none">{isOpen ? "−" : "+"}</span>
       </button>
       {isOpen && children && (
-        <div className="p-5 pt-0 text-sm text-[#e5e5e5]/70 border-t border-white/5 leading-relaxed">
+        <div className="p-5 pt-0 text-sm text-[#675F5B] border-t border-[#D4A848]/10 leading-relaxed">
           {children}
         </div>
       )}
@@ -120,51 +120,53 @@ export default function VisaApplicationPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#000000] text-[#e5e5e5] selection:bg-[#d4af37]/30">
+    <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] selection:bg-[#D4A848]/30">
 
       {/* ── HERO SECTION ───────────────────────────────────────────────────── */}
-      <section className="relative px-6 py-16 md:px-20 overflow-hidden border-b border-white/5">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#d4af37]/10 rounded-full blur-[120px] -z-10" />
+      <section className="relative px-6 py-12 md:px-20 overflow-hidden border-b border-[#D4A848]/10">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4A848]/10 rounded-full blur-[120px] -z-10" />
 
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <div>
-            <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tighter uppercase leading-[0.9]">
-              Visa Application Help
-            </h1>
-            <p className="text-lg text-[#e5e5e5]/80 mb-10 max-w-xl leading-relaxed font-medium">
-              Ace the visa application through our help in the paperwork, financial planning, and visa Interview mock rounds.{" "}
-              <span className="text-[#ffffff]">Applicable for USA, Canada, UK, Germany, and more.</span>
-            </p>
+        <div className="max-w-screen-2xl mx-auto">
+          <div className="flex flex-row lg:flex-row items-center gap-4 lg:gap-12 mb-8">
+            <div className="flex-1">
+              <h1 className="text-2xl md:text-7xl font-black mb-4 tracking-tighter uppercase leading-[0.9] break-words">
+                <span className="text-[#362B25]">Visa Application</span><br className="sm:hidden" /> <span className="text-[#D4A848]">Help</span>
+              </h1>
+              <p className="hidden sm:block text-lg text-[#675F5B] mb-10 max-w-xl leading-relaxed font-medium">
+                Ace the visa application through our help in the paperwork, financial planning, and visa Interview mock rounds.{" "}
+                <span className="text-[#D4A848] font-black">Applicable for USA, Canada, UK, Germany, and more.</span>
+              </p>
+            </div>
 
-            <DiscussionSection serviceId="visa-application-help" />
-          </div>
-
-          {/* Hero illustration */}
-          <div className="w-[85%] mx-auto flex items-center justify-center">
-            <div className="relative w-full h-[320px] md:h-[400px]">
-              <div className="absolute inset-0 bg-[#d4af37]/8 rounded-[60%_40%_50%_50%/50%_60%_40%_50%] blur-2xl" />
-              <div className="absolute inset-6 flex flex-col items-center justify-center gap-6">
-                {/* Expert badge */}
-                <div className="bg-[#0f0f0f] border border-[#c6a96b]/30 rounded-2xl px-8 py-5 shadow-2xl text-center">
-                  <p className="text-[#c6a96b] text-xs font-black uppercase tracking-widest mb-1">Expert Support</p>
-                  <p className="text-[#ffffff] font-black text-base">Get support from Visa experts</p>
-                  <p className="text-[#a1a1a1] text-sm">with decades of experience</p>
-                </div>
-                {/* Country flags */}
-                <div className="flex gap-4">
-                  {(["🇺🇸", "🇨🇦", "🇬🇧", "🇩🇪"] as const).map((flag, i) => (
-                    <div key={i} className="w-12 h-12 bg-[#0f0f0f] border border-[#c6a96b]/20 rounded-xl flex items-center justify-center text-2xl hover:border-[#c6a96b]/50 transition-all">
-                      {flag}
-                    </div>
-                  ))}
-                </div>
-                {/* Success rate badge */}
-                <div className="flex items-center gap-3 bg-[#c6a96b]/5 border border-[#c6a96b]/20 rounded-xl px-6 py-3">
-                  <span className="text-3xl font-black text-[#d4af37]">98.7%</span>
-                  <span className="text-xs text-[#a1a1a1] font-bold uppercase tracking-widest">Success Rate</span>
+            {/* Hero illustration */}
+            <div className="w-24 h-24 sm:w-[40%] flex-shrink-0 relative">
+              <div className="relative w-full h-full flex items-center justify-center">
+                <div className="absolute inset-0 bg-[#D4A848]/15 rounded-[60%_40%_50%_50%/50%_60%_40%_50%] blur-xl" />
+                <div className="relative flex flex-col items-center justify-center gap-1 sm:gap-6 scale-[0.4] sm:scale-100">
+                  {/* Expert badge */}
+                  <div className="bg-[#FFFFFF] border border-[#D4A848]/30 rounded-2xl px-8 py-5 shadow-[0_10px_40px_rgba(212,168,72,0.15)] text-center w-64">
+                    <p className="text-[#D4A848] text-xs font-black uppercase tracking-widest mb-1">Expert Support</p>
+                    <p className="text-[#362B25] font-black text-base">Visa Experts</p>
+                    <p className="text-[#675F5B] text-sm">Decades of Experience</p>
+                  </div>
+                  {/* Country flags */}
+                  <div className="flex gap-4">
+                    {(["🇺🇸", "🇨🇦", "🇬🇧", "🇩🇪"] as const).map((flag, i) => (
+                      <div key={i} className="w-12 h-12 bg-[#FFFFFF] shadow-sm border border-[#D4A848]/20 rounded-xl flex items-center justify-center text-2xl hover:border-[#D4A848]/50 transition-all">
+                        {flag}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="space-y-8">
+            <p className="sm:hidden text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
+              Expert paperwork and <span className="text-[#D4A848] font-black">Interview Mock Rounds</span> for USA, UK, Canada & more.
+            </p>
+            <DiscussionSection serviceId="visa-application-help" />
           </div>
         </div>
       </section>
@@ -178,19 +180,19 @@ export default function VisaApplicationPage() {
           {/* About Service */}
           <div>
             <div className="mb-10">
-              <h2 className="text-3xl font-black mb-2 text-[#ffffff]">About Service</h2>
-              <div className="w-20 h-1.5 bg-[#c6a96b] rounded-full" />
+              <h2 className="text-3xl font-black mb-2 text-[#362B25]">About Service</h2>
+              <div className="w-20 h-1.5 bg-[#D4A848] rounded-full" />
             </div>
 
             {/* Country Tabs */}
-            <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-2 flex gap-2 mb-8">
+            <div className="bg-[#FFFFFF] shadow-sm border border-[#D4A848]/20 rounded-2xl p-2 flex gap-2 mb-8">
               {countries.map((c) => (
                 <button
                   key={c}
                   onClick={() => setActiveCountry(c)}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all ${activeCountry === c
-                      ? "bg-[#ffffff] text-[#000000] shadow-lg"
-                      : "text-[#a1a1a1] hover:text-[#ffffff] hover:bg-white/5"
+                    ? "bg-[#D4A848] text-[#FFFFFF] shadow-md"
+                    : "text-[#675F5B] hover:text-[#362B25] hover:bg-[#F8F6F1]"
                     }`}
                 >
                   <span className="text-lg">{countryFlags[c]}</span>
@@ -201,17 +203,17 @@ export default function VisaApplicationPage() {
 
             {/* Visa Types (USA only) */}
             {content.visaTypes && (
-              <div className="bg-[#0a0a0a] border border-white/5 rounded-2xl p-6 mb-6">
-                <h3 className="text-xs font-black text-[#c6a96b] uppercase tracking-[0.3em] mb-5">
+              <div className="bg-[#FFFFFF] shadow-sm border border-[#D4A848]/20 rounded-2xl p-6 mb-6">
+                <h3 className="text-xs font-black text-[#362B25] uppercase tracking-[0.3em] mb-5">
                   This service is valid for the following visa types:
                 </h3>
                 <div className="space-y-4">
                   {content.visaTypes.map((vt) => (
                     <div key={vt.category} className="flex flex-wrap items-center gap-3">
-                      <span className="text-sm font-bold text-[#e5e5e5]/80 w-40 shrink-0">{vt.category}:</span>
+                      <span className="text-sm font-bold text-[#675F5B] w-40 shrink-0">{vt.category}:</span>
                       <div className="flex flex-wrap gap-2">
                         {vt.tags.map((tag) => (
-                          <span key={tag} className="border border-[#c6a96b]/30 text-[#c6a96b] text-[11px] font-black px-3 py-1 rounded-lg hover:bg-[#c6a96b]/10 transition-all">
+                          <span key={tag} className="border border-[#D4A848]/30 text-[#D4A848] bg-[#F8F6F1] text-[11px] font-black px-3 py-1 rounded-lg hover:bg-[#D4A848]/10 transition-all">
                             {tag}
                           </span>
                         ))}
@@ -224,30 +226,30 @@ export default function VisaApplicationPage() {
 
             {/* Canada/UK intro */}
             {content.intro && (
-              <p className="text-[#e5e5e5]/80 text-base leading-relaxed mb-6">{content.intro}</p>
+              <p className="text-[#675F5B] text-base leading-relaxed mb-6">{content.intro}</p>
             )}
 
             {/* Highlight card */}
-            <div className="relative bg-[#1a2a35] border border-[#c6a96b]/20 rounded-2xl p-8 mb-8">
-              <div className="absolute -top-5 left-8 w-10 h-10 bg-[#0a0a0a] border border-[#c6a96b]/30 rounded-xl flex items-center justify-center text-2xl">
+            <div className="relative bg-[#FFFFFF] shadow-md border border-[#D4A848]/20 rounded-2xl p-8 mb-8">
+              <div className="absolute -top-5 left-8 w-10 h-10 bg-[#F8F6F1] border border-[#D4A848]/30 rounded-xl flex items-center justify-center text-2xl shadow-sm">
                 {content.highlight.icon}
               </div>
               <div className="mt-2">
-                <h3 className="font-black text-[#ffffff] text-base mb-2">{content.highlight.title}</h3>
-                <p className="text-sm text-[#e5e5e5]/70 leading-relaxed">{content.highlight.desc}</p>
+                <h3 className="font-black text-[#362B25] text-base mb-2">{content.highlight.title}</h3>
+                <p className="text-sm text-[#675F5B] leading-relaxed">{content.highlight.desc}</p>
               </div>
             </div>
 
             {/* Feature cards */}
             <div className="grid sm:grid-cols-2 gap-5">
               {content.features.map((f, idx) => (
-                <div key={idx} className="relative bg-[#c6a96b]/5 border border-[#c6a96b]/15 rounded-2xl p-6 hover:border-[#c6a96b]/40 transition-all group">
-                  <div className="absolute -top-4 left-6 w-9 h-9 bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-xl flex items-center justify-center text-lg group-hover:border-[#c6a96b]/50 transition-all">
+                <div key={idx} className="relative bg-[#FFFFFF] border border-[#D4A848]/15 rounded-2xl p-6 hover:border-[#D4A848]/40 shadow-sm transition-all group">
+                  <div className="absolute -top-4 left-6 w-9 h-9 bg-[#F8F6F1] border border-[#D4A848]/20 rounded-xl flex items-center justify-center text-lg shadow-sm group-hover:border-[#D4A848]/50 transition-all">
                     {f.icon}
                   </div>
                   <div className="mt-3">
-                    <h4 className="font-black text-[#ffffff] text-sm mb-2">{f.title}</h4>
-                    <p className="text-xs text-[#a1a1a1] leading-relaxed">{f.desc}</p>
+                    <h4 className="font-black text-[#362B25] text-sm mb-2">{f.title}</h4>
+                    <p className="text-xs text-[#675F5B] leading-relaxed">{f.desc}</p>
                   </div>
                 </div>
               ))}
@@ -255,44 +257,44 @@ export default function VisaApplicationPage() {
           </div>
 
           {/* Success Rate Banner */}
-          <div className="relative rounded-3xl overflow-hidden border border-[#c6a96b]/10">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0d1a22] via-[#1a2a35] to-[#0d1a22]" />
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=60')] bg-cover bg-center opacity-10" />
+          <div className="relative rounded-3xl overflow-hidden border border-[#D4A848]/20 shadow-lg">
+            <div className="absolute inset-0 bg-[#FFFFFF]" />
+            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=60')] bg-cover bg-center opacity-5" />
             <div className="relative px-10 py-12 flex flex-col sm:flex-row items-center justify-between gap-8">
               <div>
-                <h3 className="text-2xl font-black text-[#ffffff] mb-2">Success Rate</h3>
-                <p className="text-sm text-[#a1a1a1] max-w-xs leading-relaxed">
+                <h3 className="text-2xl font-black text-[#362B25] mb-2">Success Rate</h3>
+                <p className="text-sm text-[#675F5B] max-w-xs leading-relaxed">
                   You can rest assured that your application is in safe hands.
                 </p>
               </div>
               <div className="text-center">
-                <span className="text-7xl font-black text-[#d4af37] tracking-tighter">98.7%</span>
+                <span className="text-7xl font-black text-[#D4A848] tracking-tighter">98.7%</span>
               </div>
             </div>
           </div>
 
           {/* Don't let the last step block */}
           <div>
-            <p className="text-[#e5e5e5]/70 text-base leading-relaxed">
+            <p className="text-[#675F5B] text-base leading-relaxed">
               Don't let the last step of the process be a showstopper. Once you enroll, our goal is the same as yours:{" "}
-              <span className="text-[#ffffff] font-semibold">to get you and your family that visa seamlessly and quickly.</span>
+              <span className="text-[#362B25] font-black">to get you and your family that visa seamlessly and quickly.</span>
             </p>
           </div>
 
           {/* The Help You Need */}
-          <div className="bg-gradient-to-r from-[#0d1a22] to-[#141414] border border-[#c6a96b]/10 rounded-3xl p-10">
-            <h3 className="text-2xl font-black text-center text-[#ffffff] mb-2 uppercase tracking-tight">The Help YOU Need</h3>
-            <div className="w-16 h-[2px] bg-[#c6a96b] mx-auto mb-8 rounded-full" />
+          <div className="bg-[#FFFFFF] shadow-lg border border-[#D4A848]/20 rounded-3xl p-10">
+            <h3 className="text-2xl font-black text-center text-[#362B25] mb-2 uppercase tracking-tight">The Help YOU Need</h3>
+            <div className="w-16 h-[2px] bg-[#D4A848] mx-auto mb-8 rounded-full" />
             <div className="grid md:grid-cols-2 gap-8 items-center">
-              <p className="text-[#a1a1a1] text-base leading-relaxed">
+              <p className="text-[#675F5B] font-medium text-base leading-relaxed">
                 Understand what's in the service after your purchase.
               </p>
-              <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-6 flex items-center gap-4 hover:border-[#c6a96b]/50 transition-all cursor-pointer group">
-                <div className="w-14 h-14 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center justify-center text-2xl">▶️</div>
+              <div className="bg-[#F8F6F1] border border-[#D4A848]/20 rounded-2xl p-6 flex items-center gap-4 hover:border-[#D4A848]/50 shadow-sm transition-all cursor-pointer group">
+                <div className="w-14 h-14 bg-[#362B25]/5 border border-[#362B25]/10 rounded-xl flex items-center justify-center text-2xl">▶️</div>
                 <div>
-                  <p className="text-xs font-black text-[#c6a96b] uppercase tracking-widest mb-1">Watch on YouTube</p>
-                  <p className="text-sm font-bold text-[#ffffff]">How do services work?</p>
-                  <p className="text-xs text-[#a1a1a1]">SAM</p>
+                  <p className="text-xs font-black text-[#D4A848] uppercase tracking-widest mb-1">Watch on YouTube</p>
+                  <p className="text-sm font-bold text-[#362B25]">How do services work?</p>
+                  <p className="text-xs text-[#675F5B] font-semibold">SAM</p>
                 </div>
               </div>
             </div>
@@ -303,19 +305,15 @@ export default function VisaApplicationPage() {
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28">
             <AddToCart serviceId="visa-application-help" />
-
-            {/* <div className="mt-8 bg-[#0a0a0a] border border-[#c6a96b]/20 shadow-2xl rounded-[2rem] p-8">
-              <DiscussionSection serviceId="visa-application-help" />
-            </div> */}
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 px-6 md:px-20 border-t border-white/5 bg-[#050505]">
+      <section className="py-24 px-6 md:px-20 border-t border-[#D4A848]/10 bg-[#F8F6F1]">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-black text-center mb-16 tracking-tighter uppercase text-[#ffffff]">
-            Frequently Asked <span className="text-[#c6a96b] italic font-serif">Questions!</span>
+          <h2 className="text-4xl md:text-5xl font-black text-center mb-16 tracking-tighter uppercase text-[#362B25]">
+            Frequently Asked <span className="text-[#D4A848] italic font-serif">Questions!</span>
           </h2>
           <div className="space-y-4">
             {faqs.map((faq, idx) => (

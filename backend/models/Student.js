@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+const WorkExperienceSchema = new mongoose.Schema({
+  role: String,
+  organization: String,
+  type: String,
+  startDate: Date,
+  endDate: Date,
+  isOngoing: { type: Boolean, default: false },
+  country: String,
+  state: String,
+  description: String
+}, { _id: true });
+
 const StudentSchema = new mongoose.Schema(
   {
     name: {
@@ -68,14 +80,15 @@ const StudentSchema = new mongoose.Schema(
       testScores: [{
         testType: String, score: String, sectionScores: mongoose.Schema.Types.Mixed, date: Date
       }],
-      workExperience: [{
-        role: String, organization: String, type: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, country: String, state: String
-      }],
+      workExperience: [WorkExperienceSchema],
       research: [{
         title: String, publisher: String, date: Date, url: String
       }],
       projects: [{
         title: String, category: String, description: String, technologies: [String], startDate: Date, endDate: Date, projectUrl: String
+      }],
+      volunteering: [{
+        organization: String, role: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, cause: String, description: String
       }],
       targetUniversities: [{
         uniName: String, degree: String, major: String, term: String, year: String

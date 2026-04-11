@@ -95,7 +95,7 @@ export default function AdminConsultantsPage() {
           <div className="flex items-center gap-3 mb-4">
             <div className="w-2 h-10 bg-[#c2a878] rounded-full" />
             <h1 className="text-4xl font-black uppercase italic font-serif tracking-tighter">
-              Consultant Management
+              Counsellor Management
             </h1>
           </div>
           <p className="text-[11px] font-black text-gray-500 uppercase tracking-[0.4em]">
@@ -158,7 +158,7 @@ export default function AdminConsultantsPage() {
 
           {consultants.length === 0 && (
             <div className="py-20 text-center">
-              <p className="text-gray-600 text-sm">No consultants found</p>
+              <p className="text-gray-600 text-sm">No Counsellor found</p>
             </div>
           )}
         </div>

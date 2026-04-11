@@ -18,28 +18,27 @@ function AcceptanceBar({ pct }: { pct: number | null }) {
     return () => obs.disconnect();
   }, [pct]);
 
-  if (!pct) return <span style={{ fontWeight: 600, color: "#e7e5e4" }}>—</span>;
+  if (!pct) return <span style={{ fontWeight: 600, color: "#6B5E51" }}>—</span>;
 
-  const color = pct < 15 ? "#ef4444" : pct < 40 ? "#eab308" : "#22c55e";
+  const color = pct < 15 ? "#ef4444" : pct < 40 ? "#C5A059" : "#16a34a";
 
   return (
-    <div ref={ref}>
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-        <span style={{ fontWeight: 600, color: "#e7e5e4", fontSize: 14 }}>{pct}%</span>
+    <div ref={ref} style={{ flex: 1 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+        <span style={{ fontWeight: 700, color: "#2D2926", fontSize: 13 }}>{pct}%</span>
         <span style={{
-          fontSize: 10, padding: "1px 8px", borderRadius: 999,
-          background: pct < 15 ? "rgba(239,68,68,.12)" : pct < 40 ? "rgba(234,179,8,.12)" : "rgba(34,197,94,.12)",
-          color,
+          fontSize: 10, padding: "2px 8px", borderRadius: 999,
+          background: pct < 15 ? "rgba(239,68,68,.1)" : pct < 40 ? "rgba(197,160,89,.1)" : "rgba(22,163,74,.1)",
+          color, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em"
         }}>
-          {pct < 15 ? "Selective" : pct < 40 ? "Moderate" : "Open"}
+          {pct < 15 ? "Highly Selective" : pct < 40 ? "Moderate" : "Accessible"}
         </span>
       </div>
-      <div style={{ height: 4, borderRadius: 999, background: "rgba(255,255,255,.07)", overflow: "hidden" }}>
+      <div style={{ height: 6, borderRadius: 999, background: "#F1EDEA", overflow: "hidden" }}>
         <div style={{
           height: "100%", borderRadius: 999, background: color,
           width: `${width}%`,
-          transition: "width 1.2s cubic-bezier(.16,1,.3,1)",
-          boxShadow: `0 0 8px ${color}66`,
+          transition: "width 1.5s cubic-bezier(.16,1,.3,1)",
         }} />
       </div>
     </div>
@@ -50,16 +49,16 @@ function AcceptanceBar({ pct }: { pct: number | null }) {
 function StatCell({ label, value, icon }: { label: string; value: string | null; icon: string }) {
   return (
     <div style={{
-      padding: "10px 12px", borderRadius: 12,
-      background: "rgba(255,255,255,.03)",
-      border: "1px solid rgba(202,138,4,.10)",
-      transition: "border-color .25s, background .25s",
+      padding: "12px 16px", borderRadius: 16,
+      background: "#FDFBF7",
+      border: "1px solid rgba(197,160,89, 0.15)",
+      transition: "all .25s ease",
     }}
       className="stat-cell">
-      <p style={{ fontSize: 10, color: "#57534e", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4 }}>
+      <p style={{ fontSize: 10, color: "#6B5E51", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 6, fontWeight: 700 }}>
         {icon} {label}
       </p>
-      <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontWeight: 700, color: "#e7e5e4", lineHeight: 1 }}>
+      <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 700, color: "#2D2926", lineHeight: 1 }}>
         {value || "—"}
       </p>
     </div>
@@ -74,158 +73,132 @@ export default function UniversityCard({ uni }: any) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
         @keyframes shimmer {
           0%   { background-position: -200% center; }
           100% { background-position:  200% center; }
         }
-        @keyframes pulseGlow {
-          0%,100% { box-shadow: 0 0 0 0 rgba(234,179,8,.40); }
-          50%      { box-shadow: 0 0 0 8px rgba(234,179,8,0); }
-        }
         @keyframes badgePop {
-          from { transform: scale(0) rotate(-15deg); opacity: 0; }
-          70%  { transform: scale(1.18) rotate(3deg); }
-          to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+          from { transform: scale(0.9) translateY(10px); opacity: 0; }
+          to   { transform: scale(1) translateY(0); opacity: 1; }
         }
 
         .uni-card {
           position: relative;
-          background: rgba(255,255,255,.032);
-          border: 1px solid rgba(202,138,4,.14);
-          border-radius: 20px;
+          background: #FFFFFF;
+          border: 1px solid rgba(197,160,89, 0.15);
+          border-radius: 24px;
           overflow: hidden;
-          transition: transform .35s cubic-bezier(.16,1,.3,1),
-                      border-color .35s ease,
-                      box-shadow .35s ease;
+          transition: all .4s cubic-bezier(.16,1,.3,1);
           font-family: 'DM Sans', sans-serif;
+          box-shadow: 0 4px 30px rgba(0,0,0,0.03);
         }
         .uni-card:hover {
-          transform: translateY(-4px);
-          border-color: rgba(202,138,4,.38);
-          box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(202,138,4,.10);
+          transform: translateY(-6px);
+          border-color: rgba(197,160,89,.4);
+          box-shadow: 0 20px 50px rgba(197,160,89, 0.12);
         }
-
-        /* Gold top accent line */
-        .uni-card::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0; right: 0;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, rgba(202,138,4,.60), transparent);
-          opacity: 0;
-          transition: opacity .35s ease;
-        }
-        .uni-card:hover::before { opacity: 1; }
 
         .uni-card .stat-cell:hover {
-          border-color: rgba(202,138,4,.30) !important;
-          background: rgba(202,138,4,.06) !important;
+          border-color: rgba(197,160,89,.4) !important;
+          background: #FFFFFF !important;
+          transform: scale(1.02);
         }
 
         .name-link {
           font-family: 'Cormorant Garamond', serif;
-          font-size: clamp(18px, 2vw, 22px);
+          font-size: clamp(22px, 2.5vw, 28px);
           font-weight: 700;
-          color: #e7e5e4;
+          color: #2D2926;
           text-decoration: none;
           letter-spacing: -0.01em;
-          line-height: 1.2;
-          transition: color .2s ease;
+          line-height: 1.1;
+          transition: color .3s ease;
           display: block;
         }
-        .name-link:hover { color: #eab308; }
-
-        .name-shimmer {
-          background: linear-gradient(90deg,#e7e5e4,#fde68a,#e7e5e4,#d6d3d1,#e7e5e4);
-          background-size: 300% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: shimmer 4s linear infinite;
-        }
+        .name-link:hover { color: #C5A059; }
 
         .btn-primary {
-          background: linear-gradient(135deg, #ca8a04, #a16207);
-          color: #0a0a0f;
+          background: #C5A059;
+          color: #FFFFFF;
           border: none;
-          border-radius: 10px;
-          padding: 10px 22px;
-          font-size: 13px;
+          border-radius: 12px;
+          padding: 12px 28px;
+          font-size: 14px;
           font-weight: 700;
           cursor: pointer;
           font-family: 'DM Sans', sans-serif;
           letter-spacing: .02em;
-          transition: transform .2s, box-shadow .2s;
-          animation: pulseGlow 2.5s ease-in-out infinite;
+          transition: all .3s ease;
         }
         .btn-primary:hover {
-          transform: scale(1.04) translateY(-1px);
-          box-shadow: 0 8px 24px rgba(202,138,4,.40);
-          animation: none;
+          background: #2D2926;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
 
         .btn-secondary {
           background: transparent;
-          color: #eab308;
-          border: 1px solid rgba(202,138,4,.38);
-          border-radius: 10px;
-          padding: 10px 22px;
-          font-size: 13px;
-          font-weight: 600;
+          color: #2D2926;
+          border: 1px solid rgba(197,160,89,.5);
+          border-radius: 12px;
+          padding: 12px 28px;
+          font-size: 14px;
+          font-weight: 700;
           cursor: pointer;
           font-family: 'DM Sans', sans-serif;
-          transition: background .2s, border-color .2s, transform .2s;
+          transition: all .3s ease;
         }
         .btn-secondary:hover {
-          background: rgba(202,138,4,.10);
-          border-color: rgba(202,138,4,.70);
-          transform: translateY(-1px);
+          background: rgba(197,160,89,.05);
+          border-color: #2D2926;
+          transform: translateY(-2px);
         }
 
         .rank-badge {
           position: absolute;
-          top: 0; right: 0;
-          background: linear-gradient(135deg, #ca8a04, #92400e);
-          color: #fff;
-          font-size: 11px;
+          top: 24px; right: 24px;
+          background: #F8F5F0;
+          color: #C5A059;
+          font-size: 12px;
           font-weight: 800;
           padding: 6px 14px;
-          border-radius: 0 18px 0 14px;
-          letter-spacing: .06em;
-          animation: badgePop .5s cubic-bezier(.34,1.56,.64,1) .1s both;
-          box-shadow: -4px 4px 16px rgba(0,0,0,.3);
+          border-radius: 10px;
+          letter-spacing: .05em;
+          border: 1px solid rgba(197,160,89, 0.2);
+          box-shadow: 0 4px 10px rgba(0,0,0,0.02);
         }
 
         .logo-wrap {
-          width: 80px;
-          height: 80px;
-          border-radius: 16px;
-          background: rgba(255,255,255,.05);
-          border: 1px solid rgba(202,138,4,.18);
+          width: 100px;
+          height: 100px;
+          border-radius: 20px;
+          background: #FDFBF7;
+          border: 1px solid rgba(197,160,89, 0.1);
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           flex-shrink: 0;
-          transition: border-color .3s ease;
+          transition: all .3s ease;
         }
-        .uni-card:hover .logo-wrap { border-color: rgba(202,138,4,.42); }
+        .uni-card:hover .logo-wrap { border-color: rgba(197,160,89, 0.3); transform: scale(1.05); }
 
         .location-text {
-          font-size: 12px;
-          color: #57534e;
-          margin: 6px 0 18px;
+          font-size: 14px;
+          color: #6B5E51;
+          margin: 8px 0 16px;
           display: flex;
           align-items: center;
-          gap: 4px;
+          gap: 6px;
+          font-weight: 500;
         }
 
         .divider {
           height: 1px;
-          background: linear-gradient(90deg, rgba(202,138,4,.18), transparent);
-          margin: 16px 0;
+          background: linear-gradient(90deg, rgba(197,160,89,.2), transparent);
+          margin: 24px 0;
         }
       `}</style>
 
@@ -235,69 +208,61 @@ export default function UniversityCard({ uni }: any) {
         onMouseLeave={() => setHovered(false)}
       >
         {/* Rank badge */}
-        <div className="rank-badge">#{uni.ranking}</div>
+        <div className="rank-badge">#{uni.ranking || "—"}</div>
 
-        {/* Subtle inner glow on hover */}
-        <div style={{
-          position: "absolute", inset: 0, pointerEvents: "none",
-          background: "radial-gradient(ellipse at 80% 10%, rgba(202,138,4,.06) 0%, transparent 60%)",
-          opacity: hovered ? 1 : 0,
-          transition: "opacity .4s ease",
-        }} />
-
-        <div style={{ padding: "24px 24px 20px" }}>
+        <div style={{ padding: "32px" }}>
 
           {/* Top row: logo + info */}
-          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+          <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
 
             {/* Logo */}
             <div className="logo-wrap">
               <Image
                 src={uni.image}
                 alt={uni.name}
-                width={64}
-                height={64}
+                width={80}
+                height={80}
                 className="object-contain"
-                style={{ opacity: 0.92 }}
+                style={{ padding: 10 }}
               />
             </div>
 
             {/* Name + location */}
-            <div style={{ flex: 1, minWidth: 0, paddingRight: 60 }}>
+            <div style={{ flex: 1, minWidth: 0, paddingRight: 80 }}>
               <Link href={`/universities/${uni.slug}`}>
-                <span className={`name-link ${hovered ? "name-shimmer" : ""}`}>
+                <span className="name-link">
                   {uni.name}
                 </span>
               </Link>
               <p className="location-text">
-                📍 {uni.location}{uni.address && ` · ${uni.address}`}
+                <span style={{ fontSize: 16 }}>📍</span> {uni.location}{uni.address && ` · ${uni.address}`}
               </p>
 
               {/* Quick pill badges */}
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                 {uni.acceptance && (
                   <span style={{
-                    fontSize: 11, padding: "3px 10px", borderRadius: 999,
-                    background: "rgba(34,197,94,.10)", color: "#22c55e",
-                    border: "1px solid rgba(34,197,94,.20)",
+                    fontSize: 11, padding: "4px 12px", borderRadius: 999,
+                    background: "rgba(22,163,74,.08)", color: "#16a34a",
+                    border: "1px solid rgba(22,163,74,.15)", fontWeight: 700
                   }}>
                     ✓ {uni.acceptance} Accept Rate
                   </span>
                 )}
                 {uni.tuition && (
                   <span style={{
-                    fontSize: 11, padding: "3px 10px", borderRadius: 999,
-                    background: "rgba(96,165,250,.08)", color: "#60a5fa",
-                    border: "1px solid rgba(96,165,250,.18)",
+                    fontSize: 11, padding: "4px 12px", borderRadius: 999,
+                    background: "rgba(197,160,89,.08)", color: "#C5A059",
+                    border: "1px solid rgba(197,160,89,.15)", fontWeight: 700
                   }}>
                     💵 {uni.tuition}
                   </span>
                 )}
                 {uni.salary && (
                   <span style={{
-                    fontSize: 11, padding: "3px 10px", borderRadius: 999,
-                    background: "rgba(234,179,8,.08)", color: "#eab308",
-                    border: "1px solid rgba(234,179,8,.18)",
+                    fontSize: 11, padding: "4px 12px", borderRadius: 999,
+                    background: "rgba(45,41,38,.05)", color: "#2D2926",
+                    border: "1px solid rgba(45,41,38,.1)", fontWeight: 700
                   }}>
                     💼 {uni.salary} avg salary
                   </span>
@@ -309,7 +274,7 @@ export default function UniversityCard({ uni }: any) {
           <div className="divider" />
 
           {/* Stats grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginBottom: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 12, marginBottom: 24 }}>
             <StatCell label="Average Salary" value={uni.salary} icon="💼" />
             <StatCell label="Tuition Fees" value={uni.tuition} icon="💵" />
             <StatCell label="Avg SAT Score" value={uni.sat ? String(uni.sat) : null} icon="📝" />
@@ -318,11 +283,12 @@ export default function UniversityCard({ uni }: any) {
 
             {/* Acceptance rate with animated bar */}
             <div style={{
-              padding: "10px 12px", borderRadius: 12,
-              background: "rgba(255,255,255,.03)",
-              border: "1px solid rgba(202,138,4,.10)",
+              padding: "12px 16px", borderRadius: 16,
+              background: "#FDFBF7",
+              border: "1px solid rgba(197,160,89, 0.15)",
+              display: "flex", flexDirection: "column"
             }}>
-              <p style={{ fontSize: 10, color: "#57534e", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 6 }}>
+              <p style={{ fontSize: 10, color: "#6B5E51", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 8, fontWeight: 700 }}>
                 📈 Acceptance Rate
               </p>
               <AcceptanceBar pct={acceptanceRaw} />
@@ -330,22 +296,24 @@ export default function UniversityCard({ uni }: any) {
           </div>
 
           {/* CTA row */}
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <button className="btn-primary">⚡ RateMyChances</button>
-            <button className="btn-secondary">Apply Now →</button>
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <Link href={`/universities/${uni.slug}`}>
+              <button className="btn-primary">View Full Profile</button>
+            </Link>
+            <button className="btn-secondary">Check My Chances →</button>
 
             {/* Spacer + view link */}
             <Link
               href={`/universities/${uni.slug}`}
               style={{
-                marginLeft: "auto", fontSize: 12, color: "#57534e",
-                textDecoration: "none", display: "flex", alignItems: "center", gap: 4,
-                transition: "color .2s",
+                marginLeft: "auto", fontSize: 13, color: "#6B5E51",
+                textDecoration: "none", display: "flex", alignItems: "center", gap: 6,
+                transition: "color .2s", fontWeight: 700
               }}
-              onMouseOver={e => (e.currentTarget.style.color = "#eab308")}
-              onMouseOut={e => (e.currentTarget.style.color = "#57534e")}
+              onMouseOver={e => (e.currentTarget.style.color = "#C5A059")}
+              onMouseOut={e => (e.currentTarget.style.color = "#6B5E51")}
             >
-              View Details →
+              Requirements Spec →
             </Link>
           </div>
         </div>

@@ -3,48 +3,131 @@
 import Image from "next/image";
 import { useState } from "react";
 import { MdVideoCall } from "react-icons/md";
-import { FaWhatsapp } from "react-icons/fa";
-import { FaUserTie } from "react-icons/fa";
-import { FaFileAlt } from "react-icons/fa";
-import { FaIdBadge } from "react-icons/fa";
+import { FaWhatsapp, FaIdBadge } from "react-icons/fa";
 import DiscussionSection from "@/components/shared/DiscussionSection";
+import { 
+    ArrowLeft, 
+    ArrowRight, 
+    ShieldCheck, 
+    Zap, 
+    Video, 
+    MessageSquare,
+    Phone,
+    Star,
+    Award
+} from "lucide-react";
+import Link from "next/link";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+
 export default function UsMockInterviewPage() {
+  const [showBookingModal, setShowBookingModal] = useState(false);
 
   return (
-    <div className="w-full bg-white text-gray-800">
+    <main className="min-h-screen pb-16" style={{ background: "#FDFBF7", color: "#3C2A21", fontFamily: "'DM Sans', sans-serif" }}>
+
+      <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+          .fd { font-family: 'Cormorant Garamond', serif; }
+          
+          .gold-shimmer {
+            background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+          }
+
+          @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+          }
+          
+          .glass-panel {
+            background: #FFFFFF;
+            border: 1px solid rgba(197,160,89, 0.15);
+            border-radius: 32px;
+            box-shadow: 0 40px 100px rgba(197,160,89, 0.05);
+          }
+
+          .btn-gold {
+             background: #C5A059;
+             color: white;
+             padding: 18px 30px;
+             border-radius: 18px;
+             font-weight: 700;
+             text-transform: uppercase;
+             letter-spacing: 0.1em;
+             font-size: 11px;
+             transition: all 0.3s ease;
+             display: inline-flex;
+             alignItems: center;
+             gap: 10px;
+          }
+          .btn-gold:hover {
+             background: #3C2A21;
+             transform: translateY(-2px);
+             box-shadow: 0 10px 20px rgba(197,160,89, 0.2);
+          }
+      `}</style>
 
       {/* ================= HERO ================= */}
-      <section className="bg-[#f7f4ef] py-16 px-6 md:px-16">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
-
-          {/* LEFT */}
-          <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-black mb-4">
-              US VISA MOCK INTERVIEW
+      <section className="relative pt-6 pb-20 px-6 overflow-hidden md:px-16" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <div className="pt-10 space-y-8">
+            <div className="flex flex-col gap-4">
+                <Link 
+                    href="/services" 
+                    className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
+                >
+                    <ArrowLeft size={14} /> Back to Services
+                </Link>
+                <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
+                    Clinical Interview Audit
+                </span>
+            </div>
+            <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
+               US Visa <br/> <span className="gold-shimmer lowercase">Mock Interview</span>
             </h1>
-
-            <p className="text-lg text-gray-600 mb-6">
-              The final step to your US visa is a Visa interview with an officer
-              from the US consulate. Ace the interview with proven tricks and
-              techniques.
+            <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+               "The final strategic barrier to your flight to the USA. Master the consulate session with proven psychological techniques."
             </p>
-
-            <DiscussionSection serviceId="us-mock-interview" />
+            <div className="pt-2">
+                <button 
+                    onClick={() => setShowBookingModal(true)}
+                    className="btn-gold shadow-2xl group w-full sm:w-auto justify-center"
+                >
+                    Begin Prep Protocol <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+            </div>
           </div>
 
-          {/* RIGHT IMAGE */}
-          <div className="flex justify-center">
-            <Image
-              src="/visa.jpg" // 👈 add image in public folder
-              alt="Visa Interview"
-              width={400}
-              height={400}
-              className="rounded-xl"
-            />
+          <div className="relative pt-10">
+             <div className="glass-panel p-2 overflow-hidden shadow-2xl group">
+                <div className="relative aspect-[4/3] w-full rounded-[28px] overflow-hidden border border-[#F1EDEA]">
+                   <Image 
+                      src="/visa.jpg" 
+                      alt="Visa Interview Mastery"
+                      fill
+                      className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0"
+                   />
+                   <div className="absolute inset-0 bg-gradient-to-t from-[#3C2A21]/60 to-transparent" />
+                   <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                      <div className="flex items-center gap-3 mb-2">
+                         <Award className="text-[#C5A059]" size={20} />
+                         <span className="text-[10px] text-white font-bold tracking-widest uppercase">Certified Success Node</span>
+                      </div>
+                      <p className="text-white font-serif italic text-sm leading-relaxed">
+                         "We simulate the consulate friction exactly, ensuring zero-beta performance on the day."
+                      </p>
+                   </div>
+                </div>
+             </div>
           </div>
         </div>
       </section>
 
+<<<<<<< HEAD
       {/* ================= MODAL ================= */}
      
 <<<<<<< HEAD
@@ -113,236 +196,125 @@ export default function UsMockInterviewPage() {
 )}
 =======
 >>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
+=======
+      {/* ================= CONTENT ARCHITECTURE ================= */}
+      <section className="py-24 px-6 bg-white overflow-hidden md:px-16 border-y border-[#F1EDEA]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start relative">
+            
+            {/* LEFT COLUMN: STRATEGIC INSIGHTS (3/5) */}
+            <div className="lg:col-span-3 space-y-20 text-[#6B5E51]">
+                <div className="space-y-8">
+                    <div className="space-y-4">
+                        <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Tactical Preparation</span>
+                        <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">About This <br/> <span className="gold-shimmer">Clinical Audit</span></h2>
+                    </div>
+                    
+                    <div className="space-y-6 font-medium leading-relaxed max-w-2xl text-lg">
+                        <p>
+                            While it may sound simple, visa officers statistically reject 25% of candidates. Failing the interview normally means losing months of academic momentum. Our simulation protocol mimics the consulate environment exactly.
+                        </p>
+                        <div className="p-8 bg-[#FDFBF7] border-l-4 border-[#C5A059] italic text-xl text-[#3C2A21] fd rounded-r-2xl shadow-sm">
+                            "The last barrier to your flight to the USA is the visa stamping. We ensure it's a success."
+                        </div>
+                    </div>
+                </div>
+>>>>>>> f9d81398f55cfac6e9e3690fc61ef5ae796a4372
 
-      {/* ================= ABOUT ================= */}
-    <section className="py-16 px-6 md:px-16">
-  <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+                {/* FEATURE GRID */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {[
+                        { title: "1 in 4 Metric", desc: "Counter-strategies for the 25% rejection rate.", icon: <ShieldCheck size={24} /> },
+                        { title: "High Stakes Protocol", desc: "Exact mimicry of the high-friction consulate environment.", icon: <Zap size={24} /> },
+                        { title: "Complex Case Mapping", desc: "Response architecture for family ties or domestic gaps.", icon: <FaIdBadge size={22} /> },
+                        { title: "Stress Test Cycles", desc: "Rigorous simulations to build performance under pressure.", icon: <Video size={24} /> }
+                    ].map((feat, i) => (
+                        <div key={i} className="bg-white border border-[#C5A059]/10 p-8 rounded-[32px] shadow-sm hover:shadow-xl transition-all duration-500 hover:border-[#C5A059]/40 group flex flex-col gap-5">
+                            <div className="w-12 h-12 rounded-xl bg-[#FDFBF7] flex items-center justify-center text-[#C5A059] border border-[#C5A059]/05 group-hover:scale-110 transition-transform">
+                                {feat.icon}
+                            </div>
+                            <div className="space-y-2">
+                                <h4 className="fd text-xl font-bold text-[#3C2A21]">{feat.title}</h4>
+                                <p className="text-xs leading-relaxed font-medium opacity-70">{feat.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
 
-    {/* LEFT CONTENT */}
-    <div className="md:col-span-2">
+                {/* CONSENSUS */}
+                <div className="space-y-10 pt-10 border-t border-[#F1EDEA]">
+                     <div className="space-y-2">
+                        <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase tracking-widest">Public Consensus</span>
+                        <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
+                     </div>
+                     <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
+                        <DiscussionSection serviceId="us-mock-interview" />
+                     </div>
+                </div>
+            </div>
 
-      <h2 className="text-2xl font-semibold mb-6 text-black">
-        About Service
-      </h2>
+            {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) */}
+            <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-40">
+                <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group border border-[#C5A059]/20">
+                   <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-all duration-1000" />
+                   <h3 className="fd text-3xl font-bold relative z-10">Start Protocol</h3>
+                   
+                   <div className="space-y-6 relative z-10 text-xs">
+                        <div className="flex justify-between border-b border-white/10 pb-4">
+                            <span className="font-bold text-white/40 uppercase tracking-widest text-[9px]">Unit</span>
+                            <span className="font-bold">US Visa Mock</span>
+                        </div>
+                        <div className="space-y-3">
+                            <span className="font-bold text-white/40 uppercase tracking-widest text-[9px] block">Regional Currency</span>
+                            <select className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C5A059] transition-all">
+                                <option className="bg-[#3C2A21]" value="INR">India (₹ INR)</option>
+                                <option className="bg-[#3C2A21]" value="USD">United States ($ USD)</option>
+                            </select>
+                        </div>
+                   </div>
 
-      <p className="mb-4 font-semibold">
-        Last step to your flight to the USA is a visa stamping on your passport
-      </p>
-
-      <div className="flex items-start gap-3 mb-3">
-        <FaUserTie className="text-yellow-500 mt-1" size={18} />
-        <p className="text-gray-700">
-          While it may sound easy, visa officers reject 1 in 4 candidates.
-        </p>
-      </div>
-
-      <div className="flex items-start gap-3 mb-3">
-        <FaFileAlt className="text-yellow-500 mt-1" size={18} />
-        <p className="text-gray-700">
-          Failing this visa interview normally means losing months of hard work...
-        </p>
-      </div>
-
-      <div className="flex items-start gap-3">
-        <FaIdBadge className="text-gray-600 mt-1" size={18} />
-        <p className="text-gray-700">
-          Whether you have family in the US, weak ties to your home country...
-        </p>
-      </div>
-
-    </div>
-
-    {/* RIGHT SIDEBAR */}
-    <div className="bg-white rounded-xl shadow-md p-6 border h-fit">
-
-      <h3 className="text-xl font-semibold text-black mb-4 text-center">
-        Start Now
-      </h3>
-
-      <div className="space-y-3 text-sm">
-        <div className="flex justify-between">
-          <span className="font-semibold text-black">Services:</span>
-          <span>US Visa Mock Interview</span>
-        </div>
-
-        <div className="flex justify-between">
-          <span className="font-semibold text-black">Duration:</span>
-          <span>1 hour(average)</span>
-        </div>
-
-        <div className="flex justify-between items-center">
-          <span className="font-semibold text-black">Currency:</span>
-
-          <select className="border rounded px-2 py-1 text-sm">
-                <option value="INR">India (₹ INR)</option>
-  <option value="USD">United States ($ USD)</option>
-  <option value="GBP">United Kingdom (£ GBP)</option>
-  <option value="EUR">Germany (€ EUR)</option>
-  <option value="EUR">France (€ EUR)</option>
-  <option value="CAD">Canada ($ CAD)</option>
-  <option value="AUD">Australia ($ AUD)</option>
-  <option value="SGD">Singapore ($ SGD)</option>
-  <option value="AED">UAE (د.إ AED)</option>
-  <option value="JPY">Japan (¥ JPY)</option>
-  <option value="CNY">China (¥ CNY)</option>
-  <option value="NZD">New Zealand ($ NZD)</option>
-  <option value="ZAR">South Africa (R ZAR)</option>
-  <option value="CHF">Switzerland (CHF)</option>
-  <option value="SEK">Sweden (kr SEK)</option>
-  <option value="NOK">Norway (kr NOK)</option>
-  <option value="DKK">Denmark (kr DKK)</option>
-  
-          </select>
-          
-        </div>
-        {/* SESSIONS */}
-<div className="flex justify-between items-center">
-  <span className="font-semibold text-black">Sessions:</span>
-
-  <select className="border rounded px-2 py-1 text-sm w-40">
-    <option value="">Sessions</option>
-    <option value="1">1 (3 round) </option>
-    <option value="2">2 (6 round) </option>
-    <option value="3">3 (9 round) </option>
-    <option value="3">4 (12 round) </option>
-    <option value="3">5 (15 round) </option>
-    <option value="3">6 (18 round) </option>
-    <option value="3">7 (21 round) </option>
-  </select>
-</div>
-</div>
-
-      {/* PRICE */}
-      <div className="mt-6 border-t pt-4 space-y-2 text-sm">
-        <div className="flex justify-between">
-          <span className="font-semibold text-black">Amount:</span>
-          
-        </div>
-      </div>
-
-      {/* BUTTONS */}
-      <div className="mt-6 flex gap-3">
-          <button
-  onClick={() => {
-    const item = {
-      name: "Personal History Statement",
-      price: 20607.25,
-    };
-
-    localStorage.setItem("cartItem", JSON.stringify(item));
-    alert("Added to cart ✅");
-  }}
-  className="flex-1 border border-yellow-500 py-2 rounded-lg hover:bg-yellow-100"
->
-  Add to Cart
-</button>
-
-        <button
-  onClick={() => {
-    window.location.href = "/checkout";
-  }}
-  className="flex-1 bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600"
->
-  Buy Now
-</button>
-          </div>
-          {/* <div className="mt-8 bg-gray-50 rounded-xl p-6 border border-gray-100">
-            <DiscussionSection serviceId="us-mock-interview" />
-          </div> */}
-
-    </div>
-
-  </div>
-</section>
-
-      {/* ================= FEATURE BOX ================= */}
-      <section className="px-6 md:px-16 mb-16">
-        <div className="max-w-5xl mx-auto bg-gray-800 text-white rounded-xl p-8 text-center border-4 border-yellow-400">
-          <h3 className="text-xl font-semibold mb-3">
-            Mock Interview Session
-          </h3>
-          <p>
-            Don’t let unpredictable questions from the visa officers crush your U.S. dream. Get support from our experts who have successfully gotten 5000+ cases approved.
-          </p>
+                   <div className="relative z-10 space-y-4">
+                        <button className="w-full border border-[#C5A059] text-[#C5A059] py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-[#C5A059] hover:text-white transition-all">
+                            Add to Portfolio
+                        </button>
+                        <button className="w-full bg-[#C5A059] text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:scale-[1.02] shadow-xl shadow-[#C5A059]/20 transition-all">
+                            Secure Simulation
+                        </button>
+                   </div>
+                </div>
+            </div>
         </div>
       </section>
 
-      {/* ================= CARDS ================= */}
-     <section className="px-6 md:px-16 mb-16">
-  <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+      {/* ================= SUCCESS RATE ================= */}
+      <section className="py-24 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto relative rounded-[50px] overflow-hidden shadow-2xl h-80 flex items-center group">
+            <div className="absolute inset-0 z-0">
+                <Image src="/usa.jpg" alt="USA Heritage" fill className="object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-3000" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#3C2A21] via-[#3C2A21]/80 to-transparent" />
+            </div>
+            
+            <div className="relative z-10 w-full flex flex-col md:flex-row items-center justify-between px-12 md:px-20 gap-8">
+                <div className="space-y-4">
+                    <span className="text-[#C5A059] font-black uppercase tracking-[0.4em] text-[10px]">Strategic Provenance</span>
+                    <h3 className="fd text-4xl md:text-5xl font-bold text-white">Consulate <br/> <span className="gold-shimmer">Success Rate</span></h3>
+                    <p className="text-white/60 text-sm md:text-base max-w-sm italic font-medium leading-relaxed">
+                    Our psychological preparation approach maintains an elite standard of approval across global consulates.
+                    </p>
+                </div>
 
-    {[
-      {
-        title: "Case-Specific Training",
-        desc: "Get unique answers to commonly asked questions based on your case.",
-      },
-      {
-        title: "Video Call Session",
-        desc: "One-on-one call with visa experts through Google Meet. Emulate the real visa interview.",
-      },
-      {
-        title: "Multiple Rounds of Testing",
-        desc: "Our visa experts conduct multiple rounds of tailored interviews to ensure your success.",
-      },
-      {
-        title: "Post Training Support",
-        desc: "Contact us on WhatsApp, and our visa experts will readily assist you even after your mock interview.",
-      },
-    ].map((item, i) => (
-      <div
-        key={i}
-        className="bg-[#f7f4ef] border-2 border-yellow-300 p-6 rounded-xl"
-      >
-        <h4
-          className={`font-semibold mb-2 ${
-            i === 0 ? "text-black" : "text-gray-700"
-          }`}
-        >
-          {item.title}
-        </h4>
+                <div className="flex flex-col items-center md:items-end">
+                    <span className="fd text-7xl md:text-9xl font-black gold-shimmer leading-none">98.7%</span>
+                    <span className="text-white/40 font-black uppercase tracking-[0.5em] text-[10px] mt-2">Certified Approvals</span>
+                </div>
+            </div>
+        </div>
+      </section>
 
-        <p className="text-sm text-gray-600">
-          {item.desc}
-        </p>
-      </div>
-    ))}
+      <BookCounsellingModal 
+        isOpen={showBookingModal} 
+        onClose={() => setShowBookingModal(false)} 
+      />
 
-  </div>
-</section>
-
-      {/* ================= SUCCESS ================= */}
-    <section className="px-6 md:px-16 pb-20">
-  <div className="max-w-6xl mx-auto relative rounded-xl overflow-hidden">
-
-    {/* Background Image */}
-    <div className="bg-[url('/usa.jpg')] bg-cover bg-center h-64"></div>
-
-    {/* Dark Overlay */}
-    <div className="absolute inset-0 bg-black/50"></div>
-
-    {/* Content */}
-    <div className="absolute inset-0 flex items-center justify-between px-8 text-white">
-
-      {/* Left */}
-      <div>
-        <h3 className="text-2xl md:text-3xl font-semibold mb-2">
-          Success Rate
-        </h3>
-
-        <p className="text-sm md:text-base max-w-md">
-          Our approach has been successful in helping candidates ace their visa interview.
-        </p>
-      </div>
-
-      {/* Right */}
-      <div className="text-4xl md:text-5xl font-bold text-yellow-400">
-        98.7%
-      </div>
-
-    </div>
-  </div>
-</section>
-
-    </div>
+    </main>
   );
 }

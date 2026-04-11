@@ -5,7 +5,7 @@ import { X, CheckCircle, GraduationCap, ArrowRight, ArrowLeft } from 'lucide-rea
 interface MastersModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: any) => void;
+  onSubmit: (data: any) => Promise<void> | void;
   initialData?: any;
 }
 
@@ -59,10 +59,20 @@ export const MastersModal = ({ isOpen, onClose, onSubmit, initialData }: Masters
     return Object.keys(newErrors).length === 0;
   };
 
-  const nextStep = () => {
+  const nextStep = async () => {
     if (validateStep(step)) {
       if (step < totalSteps - 1) setStep(step + 1);
-      else onSubmit(formData);
+      else {
+        try {
+          await onSubmit(formData);
+        } catch (error: any) {
+          console.error("❌ Update failed:", error);
+          if (typeof window !== "undefined") {
+            const reason = (error.message || "Could not save academic records").toString();
+            alert(`Error: ${reason}`);
+          }
+        }
+      }
     }
   };
 
@@ -73,128 +83,128 @@ export const MastersModal = ({ isOpen, onClose, onSubmit, initialData }: Masters
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/80 backdrop-blur-md" />
-      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-4xl bg-[#0a0a0a] rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,1)] overflow-hidden flex flex-col md:flex-row h-[520px] border border-[#d4af37]/20">
-        <button
-          onClick={onClose}
-          className="absolute top-6 right-6 text-white/20 hover:text-white z-20 transition-all p-2 bg-white/5 rounded-xl group"
-        >
-          <X size={24} className="group-hover:rotate-90 transition-transform" />
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
+      <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-3xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-3xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px] max-h-[95vh] border border-[#C5A059]/15 font-sans">
+        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/40 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
+             <X size={18} className="md:w-5 md:h-5 group-hover:rotate-90 transition-transform" />
         </button>
 
-        <div className="w-full md:w-[40%] bg-gradient-to-b from-[#f1b441] to-[#d4a017] p-12 flex flex-col items-center justify-center text-center text-[#0a0a0a] relative">
+        <div className="w-full md:w-[35%] bg-gradient-to-b from-[#C5A059] to-[#3C2A21] p-6 md:p-10 flex flex-row md:flex-col items-center justify-center text-center text-white relative">
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
-          <div className="mb-8 p-6 bg-black/10 rounded-[2.5rem] backdrop-blur-xl border border-[#d4af37]/20 shadow-2xl relative z-10">
-            <GraduationCap size={80} />
+          <div className="mb-0 md:mb-6 p-3 md:p-5 bg-white/10 rounded-2xl md:rounded-[2rem] backdrop-blur-xl border border-white/20 shadow-2xl relative z-10 shrink-0">
+            <GraduationCap size={32} className="md:w-[60px] md:h-[60px]" />
           </div>
-          <h2 className="text-2xl font-black mb-4 leading-tight tracking-widest uppercase relative z-10">Master's Degree</h2>
-          <p className="text-[#0a0a0a]/70 text-[12px] max-w-[220px] font-black leading-relaxed uppercase tracking-widest relative z-10">
-            {step === 0 && "Document your advanced scholastic achievement."}
-            {step === 1 && "Verify your specialized performance metrics."}
-            {step === 2 && "Verification complete. Ready for ecosystem sync."}
-          </p>
+          <div className="ml-4 md:ml-0 text-left md:text-center relative z-10 leading-tight">
+            <h2 className="text-md md:text-xl font-black mb-0.5 md:mb-2 leading-tight tracking-widest uppercase italic">Master Node</h2>
+            <p className="text-white/70 text-[9px] md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
+              {step === 0 && "Identify your institution."}
+              {step === 1 && "Document scholastic standing."}
+              {step === 2 && "Protocol Verified."}
+            </p>
+          </div>
         </div>
 
-        <div className="flex-1 p-12 flex flex-col relative">
+        <div className="flex-1 p-6 md:p-10 flex flex-col relative text-[#3C2A21] overflow-y-auto md:overflow-hidden">
           <div className="mb-8">
             <div className="flex justify-between items-end mb-4">
-              <h1 className="text-xl font-black text-white uppercase tracking-widest">Advanced Data</h1>
-              <span className="text-[10px] font-black text-[#f1b441] uppercase tracking-[0.3em]">Phase {step + 1} of 3</span>
+              <h1 className="text-sm md:text-xl font-black uppercase tracking-widest italic">Scholastic Data</h1>
+              <span className="text-[10px] font-black text-[#C5A059] uppercase tracking-[0.3em]">Phase {step + 1} of 3</span>
             </div>
-            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden border border-white/5">
-              <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} transition={{ duration: 0.8 }} className="bg-[#f1b441] h-full shadow-[0_0_15px_rgba(241,180,65,0.3)]" />
+            <div className="h-1.5 w-full bg-[#FDFBF7] rounded-full overflow-hidden border border-[#F1EDEA]">
+              <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="h-full bg-[#C5A059]" />
             </div>
           </div>
 
-          <div className="flex-1 flex flex-col justify-center max-w-md mx-auto w-full">
+          <div className="flex-1 overflow-y-auto no-scrollbar pr-2">
             <AnimatePresence mode="wait">
               {step === 0 && (
-                <motion.div key="step1" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -20, opacity: 0 }} className="space-y-8">
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">University Name</label>
+                <motion.div key="step0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Academic Institution</label>
                     <input
-                      type="text" placeholder="e.g. Imperial College London" value={formData.uniName}
-                      onChange={(e) => {
-                        setFormData({ ...formData, uniName: e.target.value });
-                        if (errors.uniName) setErrors({ ...errors, uniName: false });
-                      }}
-                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.uniName ? 'border-red-500/50' : 'border-white/5 focus:border-[#f1b441]/50'}`}
+                      type="text"
+                      placeholder="e.g., Massachusetts Institute of Technology"
+                      value={formData.uniName}
+                      onChange={(e) => {setFormData({ ...formData, uniName: e.target.value }); setErrors({...errors, uniName: false})}}
+                      className={`w-full bg-[#FDFBF7] border rounded-2xl py-5 px-8 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none transition-all shadow-inner ${errors.uniName ? 'border-red-500/50' : 'border-[#F1EDEA]'}`}
                     />
                   </div>
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Interested Major</label>
+                  <div className="space-y-3">
+                    <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Degree Nomenclature</label>
                     <input
-                      type="text" placeholder="e.g. Data Science" value={formData.degreeName}
-                      onChange={(e) => {
-                        setFormData({ ...formData, degreeName: e.target.value });
-                        if (errors.degreeName) setErrors({ ...errors, degreeName: false });
-                      }}
-                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.degreeName ? 'border-red-500/50' : 'border-white/5 focus:border-[#f1b441]/50'}`}
+                      type="text"
+                      placeholder="e.g., M.S. Artificial Intelligence"
+                      value={formData.degreeName}
+                      onChange={(e) => {setFormData({ ...formData, degreeName: e.target.value }); setErrors({...errors, degreeName: false})}}
+                      className={`w-full bg-[#FDFBF7] border rounded-2xl py-5 px-8 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none transition-all shadow-inner ${errors.degreeName ? 'border-red-500/50' : 'border-[#F1EDEA]'}`}
                     />
                   </div>
                 </motion.div>
               )}
 
               {step === 1 && (
-                <motion.div key="step2" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -20, opacity: 0 }} className="space-y-8">
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Backlogs</label>
-                      <input
-                        type="text" placeholder="Count" value={formData.backlogs}
-                        maxLength={2}
-                        onChange={(e) => setFormData({ ...formData, backlogs: e.target.value.replace(/[^0-9]/g, '') })}
-                        className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.backlogs ? 'border-red-500/50' : 'border-white/5 focus:border-[#f1b441]/50'}`}
-                      />
-                    </div>
-                    <div className="space-y-4">
-                      <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Score</label>
-                      <input
-                        type="text" placeholder="CGPA/ %" value={formData.cgpa}
-                        onChange={(e) => setFormData({ ...formData, cgpa: e.target.value })}
-                        className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl transition-all outline-none font-bold text-white placeholder:text-white/10 ${errors.cgpa ? 'border-red-500/50' : 'border-white/5 focus:border-[#f1b441]/50'}`}
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-4">
-                    <label className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] ml-2">Scale Range</label>
-                    <select
-                      value={formData.outOf} onChange={(e) => setFormData({ ...formData, outOf: e.target.value })}
-                      className={`w-full px-6 py-4 bg-white/5 border-2 rounded-2xl appearance-none outline-none font-bold text-white ${errors.outOf ? 'border-red-400' : 'border-white/5 focus:border-[#f1b441]/50'}`}
-                    >
-                      <option value="" className="bg-[#0a0a0a]">Select Scale</option>
-                      {[4, 5, 10, 100].map(v => <option key={v} value={v} className="bg-[#0a0a0a]">{v}</option>)}
-                    </select>
-                  </div>
+                <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Active Backlogs</label>
+                        <input
+                          type="number"
+                          placeholder="0"
+                          value={formData.backlogs}
+                          onChange={(e) => {setFormData({ ...formData, backlogs: e.target.value }); setErrors({...errors, backlogs: false})}}
+                          className={`w-full bg-[#FDFBF7] border rounded-2xl py-5 px-8 text-xs font-bold text-center text-[#3C2A21] focus:border-[#C5A059] outline-none transition-all shadow-inner ${errors.backlogs ? 'border-red-500/50' : 'border-[#F1EDEA]'}`}
+                        />
+                      </div>
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">CGPA Metric</label>
+                        <input
+                          type="text"
+                          placeholder="0.00"
+                          value={formData.cgpa}
+                          onChange={(e) => {setFormData({ ...formData, cgpa: e.target.value }); setErrors({...errors, cgpa: false})}}
+                          className={`w-full bg-[#FDFBF7] border rounded-2xl py-5 px-8 text-xs font-bold text-center text-[#3C2A21] focus:border-[#C5A059] outline-none transition-all shadow-inner ${errors.cgpa ? 'border-red-500/50' : 'border-[#F1EDEA]'}`}
+                        />
+                      </div>
+                   </div>
+                   <div className="space-y-3">
+                      <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Standardized Scale</label>
+                      <select
+                        value={formData.outOf}
+                        onChange={(e) => {setFormData({ ...formData, outOf: e.target.value }); setErrors({...errors, outOf: false})}}
+                        className={`w-full bg-[#FDFBF7] border rounded-2xl py-5 px-8 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none transition-all shadow-inner appearance-none cursor-pointer ${errors.outOf ? 'border-red-500/50' : 'border-[#F1EDEA]'}`}
+                      >
+                        <option value="">Select Protocol</option>
+                        <option value="4.0">4.0 Scale</option>
+                        <option value="10.0">10.0 Scale</option>
+                        <option value="100">100 (Percentage)</option>
+                      </select>
+                   </div>
                 </motion.div>
               )}
 
               {step === 2 && (
-                <motion.div key="step3" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center text-center space-y-6">
-                  <div className="w-24 h-24 bg-[#f1b441]/10 rounded-full flex items-center justify-center border border-[#f1b441]/20">
-                    <CheckCircle size={48} className="text-[#f1b441]" />
+                <motion.div key="step2" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="flex flex-col items-center justify-center text-center h-full space-y-4">
+                  <div className="w-20 h-20 bg-[#C5A059]/10 rounded-full flex items-center justify-center text-[#C5A059] shadow-inner mb-4">
+                    <CheckCircle size={40} />
                   </div>
-                  <h2 className="text-xl font-black text-white uppercase tracking-widest">Protocol Verified</h2>
-                  <p className="text-white/30 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Integrated data is ready for ecosystem submission.</p>
+                  <h3 className="text-xl md:text-2xl font-black text-[#3C2A21] uppercase tracking-widest italic leading-tight">Verification Ready</h3>
+                  <div className="p-6 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl w-full">
+                     <p className="text-[10px] md:text-[11px] font-black text-[#C5A059] uppercase tracking-widest">{formData.uniName}</p>
+                     <p className="text-[12px] md:text-[13px] font-bold text-[#3C2A21] mt-1">{formData.degreeName}</p>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <div className="mt-auto pt-8 flex gap-4">
+          <div className="flex justify-between items-center gap-4 mt-8">
             {step > 0 && (
-              <button
-                onClick={prevStep}
-                className="flex-1 py-4 text-[10px] font-black text-white/50 border border-[#d4af37]/20 rounded-2xl hover:bg-white/5 transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"
-              >
-                <ArrowLeft size={16} /> Back
+              <button onClick={prevStep} className="flex-1 px-4 py-4 rounded-2xl border border-[#F1EDEA] text-[#6B5E51] font-black uppercase text-[10px] tracking-widest hover:bg-[#FDFBF7] transition-all">
+                Reverse
               </button>
             )}
-            <button
-              onClick={nextStep}
-              className="flex-[2] py-4 bg-[#f1b441] text-[#0a0a0a] text-[10px] font-black rounded-2xl hover:bg-[#d4a017] transition-all shadow-[0_0_30px_rgba(241,180,65,0.3)] uppercase tracking-[0.3em] flex items-center justify-center gap-2"
-            >
-              {step === totalSteps - 1 ? 'Integrate' : 'Continue'} <ArrowRight size={16} />
+            <button onClick={nextStep} className="flex-[2] bg-[#3C2A21] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-[#C5A059] transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2">
+              {step === 2 ? 'Initialize Submission' : 'Proceed'} <ArrowRight size={16} />
             </button>
           </div>
         </div>

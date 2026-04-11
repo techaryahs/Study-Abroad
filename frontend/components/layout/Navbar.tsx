@@ -48,25 +48,27 @@ interface DropdownItem {
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
+const countries = [
+  { name: "USA", href: "/universities/by-country/usa" },
+  { name: "Canada", href: "/universities/by-country/canada" },
+  { name: "United Kingdom", href: "/universities/by-country/united-kingdom" },
+  { name: "Germany", href: "/universities/by-country/germany" },
+  { name: "Australia", href: "/universities/by-country/australia" },
+  { name: "Singapore", href: "/universities/by-country/singapore" },
+  { name: "Ireland", href: "/universities/by-country/ireland" },
+  { name: "Netherlands", href: "/universities/by-country/netherlands" },
+  { name: "France", href: "/universities/by-country/france" },
+  { name: "Switzerland", href: "/universities/by-country/switzerland" },
+  { name: "New Zealand", href: "/universities/by-country/new-zealand" },
+];
+
 const universityItems: DropdownItem[] = [
   {
     icon: <Globe size={18} />,
     title: "Top Universities By Country",
     description: "Find statistics like acceptance rates, expenses, deadlines, and test scores.",
     href: "/universities/by-country",
-    subItems: [
-      { name: "USA", href: "/universities/by-country/usa" },
-      { name: "Canada", href: "/universities/by-country/canada" },
-      { name: "United Kingdom", href: "/universities/by-country/united-kingdom" },
-      { name: "Germany", href: "/universities/by-country/germany" },
-      { name: "Australia", href: "/universities/by-country/australia" },
-      { name: "Singapore", href: "/universities/by-country/singapore" },
-      { name: "Ireland", href: "/universities/by-country/ireland" },
-      { name: "Netherlands", href: "/universities/by-country/netherlands" },
-      { name: "France", href: "/universities/by-country/france" },
-      { name: "Switzerland", href: "/universities/by-country/switzerland" },
-      { name: "New Zealand", href: "/universities/by-country/new-zealand" },
-    ]
+    subItems: countries
   },
   {
     icon: <BarChart2 size={18} />,
@@ -184,7 +186,7 @@ function DropdownPanel({
     <div
       className={`absolute top-full mt-1 ${posClass} rounded-xl shadow-2xl z-50`}
       style={{
-        background: "#1f2937",
+        background: "#2D1F1D",
         width,
         animation: "dropIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) both",
       }}
@@ -192,14 +194,14 @@ function DropdownPanel({
       onMouseLeave={onMouseLeave}
     >
       {/* Section label */}
-      <div className="px-4 pt-4 pb-2 border-b border-[#d4af37]/20">
+      <div className="px-4 pt-3 pb-1.5 border-b border-[#d4af37]/20">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-[#d4af37]">
           {label}
         </p>
       </div>
 
       {/* Items */}
-      <ul className="py-2">
+      <ul className="py-1">
         {items.map((item, index) => (
           <li
             key={item.href}
@@ -209,7 +211,7 @@ function DropdownPanel({
           >
             {item.subItems ? (
               <div
-                className="group flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors duration-150 cursor-default"
+                className="group flex items-start gap-3 px-4 py-2 hover:bg-white/5 transition-colors duration-150 cursor-default"
               >
                 <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
                 <div className="flex-1 min-w-0">
@@ -235,7 +237,7 @@ function DropdownPanel({
             ) : (
               <Link
                 href={item.href}
-                className="group flex items-start gap-3 px-4 py-3 hover:bg-white/5 transition-colors duration-150"
+                className="group flex items-start gap-3 px-4 py-2 hover:bg-white/5 transition-colors duration-150"
               >
                 <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
                 <div className="flex-1 min-w-0">
@@ -263,7 +265,7 @@ function DropdownPanel({
             {/* Sub-menu if items present */}
             {item.subItems && hoveredIndex === index && (
               <div
-                className="absolute left-full top-0 ml-1 bg-[#1f2937] rounded-xl shadow-2xl border border-white/10 w-48 z-50 flex flex-col"
+                className="absolute left-full top-0 ml-1 bg-[#2D1F1D] rounded-xl shadow-2xl border border-white/10 w-48 z-50 flex flex-col"
                 style={{ animation: "dropIn 0.15s ease-out both" }}
               >
                 <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
@@ -271,7 +273,7 @@ function DropdownPanel({
                     Countries
                   </p>
                 </div>
-                <ul className="py-2 max-h-[280px] overflow-y-auto no-scrollbar">
+                <ul className="py-1 max-h-[220px] overflow-y-auto no-scrollbar">
                   {item.subItems.map((sub) => (
                     <li key={sub.name}>
                       <Link
@@ -290,7 +292,7 @@ function DropdownPanel({
       </ul>
 
       {/* Footer CTA */}
-      <div className="px-4 py-3 border-t border-[#d4af37]/20 bg-white/5">
+      <div className="px-4 py-2 border-t border-[#d4af37]/20 bg-white/5">
         <Link
           href={browseHref}
           className="text-xs text-[#d4af37] hover:text-yellow-300 font-medium flex items-center gap-1 transition-colors"
@@ -314,27 +316,23 @@ export default function Navbar() {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+  const [expandedSubItem, setExpandedSubItem] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchError, setSearchError] = useState(false);
   const [suggestions, setSuggestions] = useState<{ name: string, href: string }[]>([]);
+  const [isScrolled, setIsScrolled] = useState(false);
   const searchRef = useRef<HTMLFormElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const countries = [
-    { name: "USA", href: "/universities/by-country/usa" },
-    { name: "Canada", href: "/universities/by-country/canada" },
-    { name: "United Kingdom", href: "/universities/by-country/united-kingdom" },
-    { name: "Germany", href: "/universities/by-country/germany" },
-    { name: "Australia", href: "/universities/by-country/australia" },
-    { name: "Singapore", href: "/universities/by-country/singapore" },
-    { name: "Ireland", href: "/universities/by-country/ireland" },
-    { name: "Netherlands", href: "/universities/by-country/netherlands" },
-    { name: "France", href: "/universities/by-country/france" },
-    { name: "Switzerland", href: "/universities/by-country/switzerland" },
-    { name: "New Zealand", href: "/universities/by-country/new-zealand" },
-  ];
-
+  // Handle scroll for transparency
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 5);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const q = searchQuery.toLowerCase().trim();
@@ -474,15 +472,10 @@ export default function Navbar() {
     { name: "Material", path: "/material", badge: "Coming Soon" },
   ];
 
-  const getInitials = (name: string | undefined | null) => {
-    if (!name) return 'U';
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-  };
-
   const getProfileImage = (user: any) => {
-    if (!user) return null;
+    if (!user) return 'https://www.gravatar.com/avatar/?d=mp&s=200';
     const path = user.profile?.profileImage || user.profileImage || user.image;
-    if (!path) return null;
+    if (!path) return 'https://www.gravatar.com/avatar/?d=mp&s=200';
     if (path.startsWith('http')) return path;
     if (path.startsWith('data:image')) return path;
     if (path.startsWith('//')) return `https:${path}`;
@@ -504,16 +497,18 @@ export default function Navbar() {
         .search-glow:focus-within { box-shadow: 0 0 20px rgba(212,175,55,0.1); }
       `}</style>
 
-      <header className="sticky top-0 z-50 w-full bg-black border-b border-white/5">
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-200 border-b bg-[#2D1F1D] border-[#B3985E]/40 shadow-xl`}
+      >
 
         {/* ── ROW 1: PRIMARY PILLARS & ACTIONS ── */}
-        <div className="flex items-center justify-between px-4 sm:px-8 lg:px-16 h-16 relative z-20 bg-black">
+        <div className={`flex items-center justify-between px-4 sm:px-8 lg:px-16 h-16 relative z-20 transition-all duration-200 bg-transparent`}>
           {/* Logo Section */}
           <div className="flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
               <div className="flex flex-col">
-                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.2em] leading-none">Global Counselling Centre</span>
-                <span className="text-[#d4af37] text-[7px] sm:text-[8px] font-bold uppercase tracking-[0.2em] mt-1 opacity-60">Success Starts Here</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counsellor Centre</span>
+                <span className="text-[#B3985E] text-[7px] sm:text-[8px] font-black uppercase tracking-[0.4em] mt-2 opacity-70">GLOBAL ADMISSIONS</span>
               </div>
             </Link>
           </div>
@@ -527,7 +522,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("universities")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-1.5 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#d4af37] ${activeDropdown === "universities" ? "text-[#d4af37]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-1.5 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white/70"}`}>
                   Universities
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "universities" ? "-rotate-90" : ""}`} />
                 </div>
@@ -546,7 +541,7 @@ export default function Navbar() {
 
               {/* Services (Static Link) */}
               <div className="h-full flex items-center">
-                <Link href="/services" className="text-[10px] font-black uppercase tracking-[0.25em] text-white/70 hover:text-[#d4af37] transition-all">
+                <Link href="/services" className="text-[10px] font-black uppercase tracking-[0.25em] text-white/70 hover:text-[#B3985E] transition-all">
                   Services
                 </Link>
               </div>
@@ -557,9 +552,9 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("resources")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#d4af37] ${activeDropdown === "resources" ? "text-[#d4af37]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-2 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white/70"}`}>
                   Resources
-                  <div className="w-1 h-1 rounded-full bg-[#d4af37] shadow-[0_0_8px_rgba(212,175,55,1)]" />
+                  <div className="w-1 h-1 rounded-full bg-[#B3985E] shadow-[0_0_8px_rgba(179,152,94,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "resources" ? "-rotate-90" : ""}`} />
                 </div>
                 {activeDropdown === "resources" && (
@@ -581,7 +576,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("ai-services")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-default text-[10px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#d4af37] ${activeDropdown === "ai-services" ? "text-[#d4af37]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-2 cursor-default text-[10px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white/70"}`}>
                   AI Services
                   <div className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "ai-services" ? "-rotate-90" : ""}`} />
@@ -606,20 +601,20 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-4 sm:gap-6">
               {!user ? (
                 <>
-                  <Link href="/auth/login" className="text-[10px] font-black uppercase tracking-widest text-white hover:text-[#d4af37] transition-all">Sign In</Link>
+                  <Link href="/auth/login" className="text-[10px] font-black uppercase tracking-widest text-white hover:text-[#B3985E] transition-all">Sign In</Link>
                   <Link
                     href="/auth/RegisterStudent"
-                    className="flex h-9 px-6 rounded-lg bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
+                    className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
                   >
                     Register
                   </Link>
                 </>
               ) : (
                 <div className="flex items-center gap-3 sm:gap-5">
-                  <Link href="/checkout" className="relative group/checkout p-2">
-                    <ShoppingCart size={14} className="text-white opacity-40 group-hover/checkout:opacity-100 group-hover/checkout:text-[#d4af37] transition-all" />
+                  <Link href="/User/cart" className="relative group/checkout p-2">
+                    <ShoppingCart size={14} className="text-white opacity-40 group-hover/checkout:opacity-100 group-hover/checkout:text-[#B3985E] transition-all" />
                     {cartCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[7px] font-black rounded-full flex items-center justify-center shadow-lg border border-black group-hover/checkout:bg-[#d4af37] transition-all">
+                      <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[7px] font-black rounded-full flex items-center justify-center shadow-lg border border-[#2D1F1D] group-hover/checkout:bg-[#B3985E] transition-all">
                         {cartCount}
                       </span>
                     )}
@@ -636,41 +631,37 @@ export default function Navbar() {
                   <div className="relative group/profile">
                     <button
                       onMouseEnter={() => setProfileDropdownOpen(true)}
-                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] transition-transform group-hover/profile:scale-110 shadow-xl"
+                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#B3985E] to-[#8E7B5B] p-[1.5px] transition-transform group-hover/profile:scale-110 shadow-xl"
                     >
-                      <div className="w-full h-full rounded-[11px] bg-black overflow-hidden flex items-center justify-center">
-                        {getProfileImage(user) ? (
-                          <img src={getProfileImage(user) || ''} className="w-full h-full object-cover" alt="Profile" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xs font-black uppercase">{getInitials(user.name)}</div>
-                        )}
+                      <div className="w-full h-full rounded-[11px] bg-[#2D1F1D] overflow-hidden flex items-center justify-center">
+                        <img
+                          src={getProfileImage(user)}
+                          className="w-full h-full object-cover rounded-[11px]"
+                          alt="Profile"
+                        />
                       </div>
                     </button>
 
                     {profileDropdownOpen && (
                       <div
                         onMouseLeave={() => setProfileDropdownOpen(false)}
-                        className="absolute right-0 mt-4 w-60 bg-[#0a0a0a] border border-white/10 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] p-5 z-50 text-center"
+                        className="absolute right-0 mt-4 w-60 bg-[#2D1F1D] border border-white/10 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] p-5 z-50 text-center"
                         style={{ animation: "dropIn 0.2s ease-out both" }}
                       >
                         {/* Card Top: Large Avatar */}
                         <div className="flex justify-center mb-4">
-                          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] shadow-2xl shadow-[#d4af37]/10">
-                            <div className="w-full h-full rounded-[15px] bg-black overflow-hidden flex items-center justify-center">
-                              {getProfileImage(user) ? (
-                                <img src={getProfileImage(user) || ''} className="w-full h-full object-cover" alt="Profile Large" />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xl font-black uppercase">{getInitials(user.name)}</div>
-                              )}
+                          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#B3985E] to-[#8E7B5B] p-[1.5px] shadow-2xl">
+                            <div className="w-full h-full rounded-[15px] bg-[#2D1F1D] overflow-hidden flex items-center justify-center">
+                              <img src={getProfileImage(user)} className="w-full h-full object-cover" alt="Profile Large" />
                             </div>
                           </div>
                         </div>
 
                         <h4 className="text-white font-bold text-sm truncate uppercase tracking-tight">{user.name}</h4>
-                        <span className="inline-block px-2 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[8px] font-black uppercase rounded-full mt-1 border border-[#d4af37]/20">{user.role || 'Student'}</span>
+                        <span className="inline-block px-2 py-0.5 bg-[#B3985E]/10 text-[#B3985E] text-[8px] font-black uppercase rounded-full mt-1 border border-[#B3985E]/20">{user.role || 'Student'}</span>
 
                         <div className="mt-6 pt-5 border-t border-white/5 space-y-1.5 text-left">
-                          <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[10px] font-black text-white hover:bg-white/5 hover:text-[#d4af37] transition-all uppercase tracking-[0.2em] group/link">
+                          <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[10px] font-black text-white hover:bg-white/5 hover:text-[#B3985E] transition-all uppercase tracking-[0.2em] group/link">
                             <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}
                           </Link>
                           <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-[10px] font-black text-red-500 hover:bg-red-500/10 transition-all uppercase tracking-[0.2em] group/out">
@@ -694,8 +685,7 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* ── ROW 2: SEARCH & SECONDARY NAVIGATION ── */}
-        <div className="hidden lg:flex items-center justify-center px-6 md:px-16 h-12 bg-black relative z-10 gap-6 xl:gap-10">
+        <div className={`hidden lg:flex items-center justify-center px-6 md:px-16 h-10 relative z-10 gap-6 xl:gap-10 transition-all duration-200 bg-[#B3985E]/5 backdrop-blur-xl border-t border-[#B3985E]/10`}>
           {/* Modern Condensed Search Bar & Items - Unified Group */}
           <div className="flex items-center h-full shrink-0">
             <form
@@ -703,7 +693,7 @@ export default function Navbar() {
               onSubmit={handleSearch}
               className={`relative group w-[340px] search-glow transition-all duration-300 ${searchError ? "animate-shake border-red-500/50" : ""}`}
             >
-              <button type="submit" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#d4af37] transition-all hover:text-[#d4af37]">
+              <button type="submit" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
                 <Search size={13} />
               </button>
               <input
@@ -711,14 +701,14 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={handleInputChange}
                 placeholder="Search your dream country..."
-                className={`w-full h-8 bg-white/[0.05] border rounded-full pl-10 pr-4 text-[10px] text-white/90 placeholder:text-white/30 outline-none transition-all tracking-wide ${searchError ? "border-red-500/40" : "border-white/40 focus:bg-white/[0.08] focus:border-[#d4af37]/40"}`}
+                className={`w-full h-8 bg-white/[0.05] border rounded-full pl-10 pr-4 text-[10px] text-white/90 placeholder:text-white/30 outline-none transition-all tracking-wide ${searchError ? "border-red-500/40" : "border-white/40 focus:bg-white/[0.08] focus:border-[#B3985E]/40"}`}
               />
 
               {/* Suggestions Dropdown */}
               {suggestions.length > 0 && (
-                <div className="absolute top-full mt-2 w-full bg-[#0a0a0a] border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden z-[100] animate-in fade-in slide-in-from-top-2 duration-200 text-center">
+                <div className="absolute top-full mt-2 w-full bg-[#2D1F1D] border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden z-[100] animate-in fade-in slide-in-from-top-2 duration-200 text-center">
                   <div className="px-3 pt-3 pb-2 border-b border-white/5">
-                    <span className="text-[7px] font-black uppercase tracking-[0.2em] text-[#d4af37]">Destinations Found</span>
+                    <span className="text-[7px] font-black uppercase tracking-[0.2em] text-[#B3985E]">Destinations Found</span>
                   </div>
                   <div className="py-1 max-h-[200px] overflow-y-auto no-scrollbar">
                     {suggestions.map((country) => (
@@ -732,8 +722,8 @@ export default function Navbar() {
                         }}
                         className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 text-left group/item transition-colors"
                       >
-                        <span className="text-[10px] font-bold text-white/70 group-hover/item:text-[#d4af37] transition-colors">{country.name}</span>
-                        <Globe size={10} className="text-white/20 group-hover/item:text-[#d4af37] transition-all" />
+                        <span className="text-[10px] font-bold text-white/70 group-hover/item:text-[#B3985E] transition-colors">{country.name}</span>
+                        <Globe size={10} className="text-white/20 group-hover/item:text-[#B3985E] transition-all" />
                       </button>
                     ))}
                   </div>
@@ -747,21 +737,23 @@ export default function Navbar() {
             {[navItems[0], navItems[3], navItems[4], navItems[5], navItems[8]].map((item) => (
               <div key={item.path} className="relative group h-full flex items-center">
                 {item.badge === "Coming Soon" ? (
-                  <div className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white/50 group-hover:text-[#d4af37]`}>
+                  <div className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white/50 group-hover:text-[#B3985E]`}>
                     {item.name}
                   </div>
                 ) : (
-                  <Link href={item.path} className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap ${pathname === item.path ? "text-[#d4af37]" : "text-white hover:text-[#d4af37]"}`}>
+                  <Link href={item.path} className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap ${pathname === item.path ? "text-[#B3985E]" : "text-white hover:text-[#B3985E]"}`}>
                     {item.name}
                   </Link>
                 )}
                 {item.badge === "Coming Soon" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#0a0a0a] border border-white/20 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-90 group-hover:scale-100 -translate-y-1 group-hover:translate-y-0 pointer-events-none z-[60]">
-                    <span className="text-[7px] text-[#d4af37] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#0a0a0a]" />
+                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-90 group-hover:scale-100 -translate-y-1 group-hover:translate-y-0 pointer-events-none z-[60]">
+                    <span className="text-[7px] text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
+                    {/* Caret: Simulated Border Triangle */}
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[5px] border-b-[#B3985E]/40" />
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#2D1F1D]" />
                   </div>
                 )}
-                <div className="absolute bottom-0 left-4 right-4 h-[1px] bg-[#d4af37] scale-x-0 group-hover:scale-x-100 transition-transform origin-center opacity-50" />
+                <div className="absolute bottom-2 left-4 right-4 h-[1px] bg-[#B3985E] scale-x-0 group-hover:scale-x-100 transition-transform origin-center opacity-50" />
               </div>
             ))}
           </nav>
@@ -769,11 +761,13 @@ export default function Navbar() {
           {/* App Download CTA */}
           <div className="flex items-center h-full shrink-0 pl-4 border-l border-white/5">
             <div className="relative group/app flex items-center h-full gap-1.5 px-2 cursor-help">
-              <Smartphone size={12} className="text-white/40 group-hover/app:text-[#d4af37] transition-all" />
-              <span className="text-[8px] font-black text-white/40 group-hover/app:text-[#d4af37] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
-              <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#0a0a0a] border border-white/20 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover/app:opacity-100 group-hover/app:visible transition-all duration-300 transform scale-90 group-hover/app:scale-100 -translate-y-1 group-hover:translate-y-0 pointer-events-none z-[60]">
-                <span className="text-[7px] text-[#d4af37] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#0a0a0a]" />
+              <Smartphone size={12} className="text-white/40 group-hover/app:text-[#B3985E] transition-all" />
+              <span className="text-[8px] font-black text-white/40 group-hover/app:text-[#B3985E] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
+              <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover/app:opacity-100 group-hover/app:visible transition-all duration-300 transform scale-90 group-hover/app:scale-100 -translate-y-1 group-hover/app:translate-y-0 pointer-events-none z-[60]">
+                <span className="text-[7px] text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
+                {/* Caret: Simulated Border Triangle */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[5px] border-b-[#B3985E]/40" />
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#2D1F1D]" />
               </div>
             </div>
           </div>
@@ -782,15 +776,15 @@ export default function Navbar() {
 
       {/* ── MOBILE FULL SCREEN MENU ── */}
       {menuOpen && (
-        <div className="fixed inset-0 z-[100] bg-black overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-[100] bg-[#2D1F1D] overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-300">
           {/* Animated Background decorative elements */}
-          <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-[#d4af37]/10 rounded-full blur-[120px] pointer-events-none" />
-          <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] bg-[#d4af37]/5 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-[#B3985E]/10 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] bg-[#B3985E]/5 rounded-full blur-[100px] pointer-events-none" />
 
           {/* Mobile Menu Header */}
-          <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-black/50 backdrop-blur-xl shrink-0">
+          <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
             <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counselling Centre</span>
+              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counsellor Centre</span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}
@@ -816,10 +810,10 @@ export default function Navbar() {
                   value={searchQuery}
                   onChange={handleInputChange}
                   placeholder="Search countries..."
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 text-sm text-white outline-none focus:border-[#d4af37]/50 transition-all font-medium"
+                  className="w-full h-12 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 text-sm text-white outline-none focus:border-[#B3985E]/50 transition-all font-medium"
                 />
                 {suggestions.length > 0 && (
-                  <div className="absolute top-full mt-2 w-full bg-[#0a0a0a] border border-white/20 rounded-xl shadow-2xl z-[110] overflow-hidden">
+                  <div className="absolute top-full mt-2 w-full bg-[#2D1F1D] border border-white/20 rounded-xl shadow-2xl z-[110] overflow-hidden">
                     {suggestions.map((country) => (
                       <button
                         key={country.name}
@@ -832,7 +826,7 @@ export default function Navbar() {
                         className="w-full flex items-center justify-between px-5 py-4 hover:bg-white/5 text-left border-b border-white/5 last:border-0"
                       >
                         <span className="text-sm font-bold text-white/70">{country.name}</span>
-                        <Globe size={14} className="text-[#d4af37]" />
+                        <Globe size={14} className="text-[#B3985E]" />
                       </button>
                     ))}
                   </div>
@@ -844,21 +838,21 @@ export default function Navbar() {
             <div className="grid grid-cols-2 gap-4 mb-8">
               <button
                 onClick={() => { setShowCounsellingModal(true); setMenuOpen(false); }}
-                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl"
+                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl"
               >
                 <Star size={14} />
                 Expert Help
               </button>
-              
+
               <Link
-                href="/checkout"
+                href="/User/cart"
                 onClick={() => setMenuOpen(false)}
                 className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 active:scale-95 transition-all relative"
               >
-                <ShoppingCart size={14} className="text-[#d4af37]" />
+                <ShoppingCart size={14} className="text-[#B3985E]" />
                 Cart
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-lg border-2 border-black">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-lg border-2 border-[#2D1F1D]">
                     {cartCount}
                   </span>
                 )}
@@ -873,7 +867,7 @@ export default function Navbar() {
                   const isExpanded = expandedItem === item.name;
                   const hasDropdown = !!item.dropdown;
                   const subItems = hasDropdown ? (item.dropdown === 'universities' ? universityItems : item.dropdown === 'resources' ? resourcesItems : aiServicesItems) : [];
-                  
+
                   return (
                     <div key={item.name} className="flex flex-col">
                       {item.badge === "Coming Soon" ? (
@@ -884,13 +878,22 @@ export default function Navbar() {
                       ) : (
                         <div className={`flex flex-col rounded-2xl transition-all border ${pathname === item.path || isExpanded ? "bg-[#d4af37]/10 border-[#d4af37]/30" : "bg-white/[0.03] border-white/5"} overflow-hidden`}>
                           <div className="flex items-center justify-between px-5 py-4">
-                            <Link
-                              href={item.path}
-                              onClick={() => setMenuOpen(false)}
-                              className={`text-[10px] font-black uppercase tracking-widest flex-1 ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
-                            >
-                              {item.name}
-                            </Link>
+                            {hasDropdown ? (
+                              <button
+                                onClick={() => setExpandedItem(isExpanded ? null : item.name)}
+                                className={`text-[10px] font-black uppercase tracking-widest flex-1 text-left ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
+                              >
+                                {item.name}
+                              </button>
+                            ) : (
+                              <Link
+                                href={item.path}
+                                onClick={() => setMenuOpen(false)}
+                                className={`text-[10px] font-black uppercase tracking-widest flex-1 ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
+                              >
+                                {item.name}
+                              </Link>
+                            )}
 
                             {hasDropdown && (
                               <button
@@ -898,12 +901,12 @@ export default function Navbar() {
                                   e.preventDefault();
                                   setExpandedItem(isExpanded ? null : item.name);
                                 }}
-                                className={`p-2 -mr-2 rounded-lg transition-all ${isExpanded ? "bg-[#d4af37] text-black" : "text-white/20 hover:text-[#d4af37]"}`}
+                                className={`p-2 -mr-2 rounded-lg transition-all ${isExpanded ? "bg-[#B3985E] text-[#2D1F1D]" : "text-white/20 hover:text-[#B3985E]"}`}
                               >
                                 {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                               </button>
                             )}
-                            
+
                             {!hasDropdown && (
                               <ChevronRight size={14} className="opacity-10 text-white/20" />
                             )}
@@ -913,22 +916,67 @@ export default function Navbar() {
                           {hasDropdown && isExpanded && (
                             <div className="px-4 pb-4 space-y-1 animate-in slide-in-from-top-2 duration-300">
                               <div className="h-[1px] bg-white/5 mb-3 mx-2" />
-                              {subItems.map((sub) => (
-                                <Link
-                                  key={sub.title}
-                                  href={sub.href}
-                                  onClick={() => setMenuOpen(false)}
-                                  className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 group border border-transparent hover:border-white/5 transition-all"
-                                >
-                                  <div className="mt-0.5 text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">
-                                    {sub.icon}
+                              {subItems.map((sub) => {
+                                const isSubExpanded = expandedSubItem === sub.title;
+                                const hasSubItems = sub.subItems && sub.subItems.length > 0;
+
+                                return (
+                                  <div key={sub.title} className="flex flex-col">
+                                    {hasSubItems ? (
+                                      <div className="flex flex-col w-full">
+                                        <div
+                                          onClick={() => setExpandedSubItem(isSubExpanded ? null : sub.title)}
+                                          className="flex items-center justify-between p-3 rounded-xl hover:bg-white/5 cursor-pointer group border border-transparent hover:border-white/5 transition-all"
+                                        >
+                                          <div className="flex items-start gap-3">
+                                            <div className="mt-0.5 text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">
+                                              {sub.icon}
+                                            </div>
+                                            <div className="min-w-0">
+                                              <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
+                                              <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
+                                            </div>
+                                          </div>
+                                          <div className={`transition-transform duration-200 ${isSubExpanded ? "rotate-90" : ""}`}>
+                                            <ChevronRight size={12} className="text-[#B3985E]" />
+                                          </div>
+                                        </div>
+                                        {isSubExpanded && (
+                                          <div className="pl-12 py-2 grid grid-cols-2 gap-x-4 gap-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
+                                            {sub.subItems?.map((country) => (
+                                              <Link
+                                                key={country.name}
+                                                href={country.href}
+                                                onClick={() => {
+                                                  setMenuOpen(false);
+                                                }}
+                                                className="text-[9px] font-bold text-white/50 hover:text-[#B3985E] uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
+                                              >
+                                                <div className="w-1 h-1 rounded-full bg-[#B3985E]/30 shrink-0" />
+                                                {country.name}
+                                              </Link>
+                                            ))}
+                                          </div>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <Link
+                                        href={sub.href}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 group border border-transparent hover:border-white/5 transition-all"
+                                      >
+                                        <div className="mt-0.5 text-[#d4af37] opacity-60 group-hover:opacity-100 transition-opacity">
+                                          {sub.icon}
+                                        </div>
+                                        <div className="min-w-0">
+                                          <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
+                                          <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
+                                        </div>
+                                      </Link>
+                                    )}
                                   </div>
-                                  <div className="min-w-0">
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
-                                    <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
-                                  </div>
-                                </Link>
-                              ))}
+                                );
+                              })}
                             </div>
                           )}
                         </div>
@@ -943,13 +991,9 @@ export default function Navbar() {
             {user && (
               <div className="mb-8 p-6 rounded-3xl bg-white/[0.03] border border-white/10 shadow-2xl relative overflow-hidden">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#d4af37] to-yellow-600 p-[1.5px] shadow-lg flex-shrink-0">
-                    <div className="w-full h-full rounded-[14px] bg-black overflow-hidden flex items-center justify-center">
-                      {getProfileImage(user) ? (
-                        <img src={getProfileImage(user) || ""} className="w-full h-full object-cover" alt="User" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-[#d4af37] text-black text-xs font-black uppercase">{getInitials(user.name)}</div>
-                      )}
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#B3985E] to-[#8E7B5B] p-[1.5px] shadow-lg flex-shrink-0">
+                    <div className="w-full h-full rounded-[14px] bg-[#2D1F1D] overflow-hidden flex items-center justify-center">
+                      <img src={getProfileImage(user)} className="w-full h-full object-cover" alt="User" />
                     </div>
                   </div>
                   <div className="min-w-0">
@@ -981,13 +1025,13 @@ export default function Navbar() {
             {!user && (
               <div className="grid grid-cols-2 gap-4 mt-auto pt-10">
                 <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest transition-colors hover:bg-white/10">Sign In</Link>
-                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#d4af37] text-black text-[10px] font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
+                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
               </div>
             )}
           </div>
 
           {/* Mobile Menu Footer */}
-          <div className="p-8 border-t border-white/5 bg-black/80 flex items-center justify-center text-white/10 shrink-0">
+          <div className="p-8 border-t border-white/5 bg-[#2D1F1D]/80 flex items-center justify-center text-white/10 shrink-0">
             <span className="text-[8px] font-black uppercase tracking-[0.4em]">GCC Success Portal © 2026</span>
           </div>
         </div>

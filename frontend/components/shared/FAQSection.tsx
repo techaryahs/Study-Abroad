@@ -44,13 +44,13 @@ type FAQItemProps = {
 
 function FAQItem({ question, answer, isOpen, onClick }: FAQItemProps) {
     return (
-        <div className={`border rounded-xl transition-all duration-300 ${isOpen ? 'bg-gold-500/[0.04] border-gold-500/30 shadow-[0_0_20px_rgba(201,160,80,0.05)]' : 'bg-dark-900/40 border-white/5 shadow-md hover:border-gold-500/20 hover:bg-gold-500/[0.01]'}`}>
+        <div className={`border rounded-2xl overflow-hidden transition-all duration-300 ${isOpen ? 'bg-white border-[#D4A848]/30 shadow-lg' : 'bg-white border-[#D4A848]/10 shadow-sm hover:border-[#D4A848]/30 hover:shadow-md hover:-translate-y-0.5'}`}>
             <button 
                 onClick={onClick}
-                className="w-full px-6 py-4 flex items-center justify-between text-left focus:outline-none group"
+                className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none group"
             >
-                <span className={`font-bold text-[14px] md:text-[15px] pr-8 transition-colors ${isOpen ? 'text-gold-500' : 'text-white/90 group-hover:text-gold-400'}`}>{question}</span>
-                <div className={`shrink-0 w-7 h-7 rounded-md flex items-center justify-center transition-all ${isOpen ? 'bg-gold-500 text-black shadow-[0_0_10px_rgba(201,160,80,0.4)]' : 'bg-gold-500/10 text-gold-500 group-hover:bg-gold-500 group-hover:text-black'}`}>
+                <span className={`font-bold text-[15px] pr-8 transition-colors ${isOpen ? 'text-[#D4A848]' : 'text-[#362B25] group-hover:text-[#D4A848]'}`}>{question}</span>
+                <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all border ${isOpen ? 'bg-[#D4A848] text-white border-[#D4A848] rotate-180' : 'bg-transparent text-[#D4A848] border-[#D4A848]/20 group-hover:bg-[#D4A848]/10 group-hover:border-[#D4A848]'}`}>
                     {isOpen ? <Minus size={16} strokeWidth={3} /> : <Plus size={16} strokeWidth={3} />}
                 </div>
             </button>
@@ -61,8 +61,8 @@ function FAQItem({ question, answer, isOpen, onClick }: FAQItemProps) {
                     opacity: isOpen ? 1 : 0 
                 }}
             >
-                <div className="px-6 pb-4">
-                    <p className="text-white/70 text-sm leading-relaxed font-medium border-t border-gold-500/10 pt-4">
+                <div className="px-6 pb-6">
+                    <p className="text-[#675F5B] text-[14.5px] leading-relaxed pt-2">
                         {answer}
                     </p>
                 </div>
@@ -75,16 +75,16 @@ export default function FAQSection({ faqs = defaultFaqs }: { faqs?: FAQ[] }) {
     const [openIndex, setOpenIndex] = useState<number | null>(null);
 
     return (
-        <section className="py-16 px-6 md:px-16 bg-dark-950">
-            <div className="max-w-5xl mx-auto">
-                <div className="text-center space-y-3 mb-10">
-                    <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-white/90">
-                        Frequently Asked <span className="gradient-text-gold">Questions</span>
+        <section className="py-24 px-8 md:px-20 bg-[#F8F6F1] border-y border-[#D4A848]/10 relative z-10 w-full">
+            <div className="max-w-4xl mx-auto space-y-12">
+                <div className="text-center space-y-4">
+                    <h2 className="text-3xl md:text-4xl font-semibold text-[#362B25]">
+                        Frequently Asked <span className="text-[#D4A848]">Questions</span>
                     </h2>
-                    <div className="w-16 h-[3px] bg-gold-500 mx-auto rounded-full shadow-[0_0_10px_rgba(201,160,80,0.5)]" />
+                    <div className="w-24 h-[2px] bg-[#D4A848] mx-auto" />
                 </div>
 
-                <div className="grid gap-3">
+                <div className="grid gap-4">
                     {faqs.map((faq, idx) => (
                         <FAQItem 
                             key={idx} 

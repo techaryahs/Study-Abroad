@@ -1,11 +1,11 @@
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import PageTransition from "@/components/animations/PageTransition";
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Global Counselling Center Admissions | Elite Study Abroad Mentorship",
+  title: "Global Counsellor Center Admissions | Elite Study Abroad Mentorship",
   description: "Personalized admissions guidance for global success. Secure your path to Ivy League and prestigious international universities.",
 };
 
@@ -16,11 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white antialiased">
+      <body className="bg-[#FAFAFA] text-[#675F5B] antialiased">
         <Navbar />
-        <PageTransition>
+        <main className="pt-[64px] md:pt-[104px]">
           {children}
-        </PageTransition>
+        </main>
         <Footer />
       </body>
     </html>

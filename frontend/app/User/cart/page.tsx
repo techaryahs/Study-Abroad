@@ -4,19 +4,16 @@ import { getToken } from "@/app/lib/token";
 import {
     Trash2,
     ShoppingBag,
-    CreditCard,
     Loader2,
-    ShieldCheck,
-    Zap,
-    AlertCircle,
+    CheckCircle2,
     Star,
     Lock,
-    CheckCircle2,
-    ChevronLeft
+    CreditCard
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import ConfirmationModal from "@/components/shared/ConfirmationModal";
+import ConfirmationModal from "./ConfirmationModal";
+import CheckoutModal from "./checkoutmodal";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
 
@@ -39,6 +36,7 @@ export default function CartPage() {
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const [isClearing, setIsClearing] = useState(false);
     const [showClearConfirm, setShowClearConfirm] = useState(false);
+    const [showCheckoutModal, setShowCheckoutModal] = useState(false);
     const router = useRouter();
 
     const fetchCart = useCallback(async () => {
@@ -104,222 +102,199 @@ export default function CartPage() {
                 method: "DELETE",
                 headers: { "Authorization": `Bearer ${token}` }
             });
+
             if (response.ok) {
                 setCart([]);
                 window.dispatchEvent(new Event('cart-updated'));
                 setShowClearConfirm(false);
             }
         } catch (error) {
-            console.error("Clear error:", error);
+            console.error("Clear cart error:", error);
         } finally {
             setIsClearing(false);
         }
     };
 
-    const subtotal = cart.reduce((acc, item) => acc + (item.price || 0), 0);
-    const currency = cart[0]?.currency || "INR";
-
     const formatPrice = (price: number) => {
-        return price.toLocaleString(currency === "INR" ? "en-IN" : "en-US", {
-            maximumFractionDigits: 0
+        return price.toLocaleString('en-US', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
         });
     };
 
-    if (loading) return (
-        <div className="min-h-screen bg-[#05070a] flex items-center justify-center">
-            <div className="relative">
-                <div className="w-12 h-12 border-2 border-gold-500/20 border-t-gold-500 rounded-full animate-spin" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <Zap size={16} className="text-gold-500 animate-pulse" />
-                </div>
+    const finalTotal = cart.reduce((total, item) => total + (item.price || 0), 0);
+    const actualSubtotal = cart.reduce((total, item) => total + (item.actualPrice || (item.price / 0.8)), 0);
+    const totalDiscount = actualSubtotal - finalTotal;
+    const currency = cart.length > 0 ? (cart[0].currency || "USD") : "USD";
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">
+                <Loader2 className="w-12 h-12 text-[#C5A059] animate-spin" />
             </div>
-        </div>
-    );
+        );
+    }
 
     return (
-        <main className="min-h-screen bg-[#05070a] text-white pt-20 pb-16 relative overflow-hidden">
-            {/* ── AMBIENT BACKGROUND GLOWS ── */}
-            <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-gold-500/10 rounded-full blur-[150px] pointer-events-none animate-pulse duration-[10s]" />
-            <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#c6a96b]/10 rounded-full blur-[150px] pointer-events-none animate-pulse duration-[8s]" />
+        <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] pt-12 md:pt-16 pb-20 selection:bg-[#D4A848]/30 relative overflow-hidden">
+            {/* Background Accent */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4A848]/5 rounded-full blur-[120px] -z-10" />
 
-            <div className="max-w-6xl mx-auto px-6 relative z-10">
-                {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                    <div>
-                        <div className="flex items-center gap-2 mb-2">
-                            <span className="w-10 h-[1px] bg-gold-500/50" />
-                            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-gold-500/80">Premium Enrollment</span>
-                        </div>
-                        <h1 className="text-3xl md:text-5xl font-black tracking-tighter leading-none italic uppercase">
-                            Your <span className="gradient-text-gold">Elite</span> <br /> Selection
-                        </h1>
-                    </div>
-                    {cart.length > 0 && (
-                        <button 
-                            onClick={() => setShowClearConfirm(true)}
-                            className="text-[9px] font-black uppercase tracking-[0.2em] text-white/20 hover:text-red-500 transition-all flex items-center gap-1.5 group"
-                        >
-                            <Trash2 size={10} className="group-hover:rotate-12 transition-transform" /> 
-                            Clear All Selections
-                        </button>
-                    )}
-                </div>
-
+            <div className="max-w-screen-2xl xl:max-w-[1700px] mx-auto px-6 relative z-10">
                 {cart.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-20 bg-white/[0.02] border border-white/[0.05] rounded-3xl backdrop-blur-3xl animate-in zoom-in-95 duration-700">
-                        <div className="w-20 h-20 bg-gold-500/10 rounded-full flex items-center justify-center mb-6 border border-gold-500/20 group animate-float">
-                            <ShoppingBag size={32} className="text-gold-500/50 group-hover:text-gold-500 transition-colors" />
-                        </div>
-                        <h2 className="text-xl font-black uppercase tracking-tight mb-2">The Cart is Empty</h2>
-                        <Link 
-                            href="/services" 
-                            className="btn-gold px-10 py-4 text-[10px]"
+                    <div className="flex flex-col items-center justify-center py-20 bg-white border border-[#D4A848]/20 rounded-3xl shadow-sm">
+                        <ShoppingBag size={48} className="text-[#D4A848]/40 mb-6" />
+                        <h2 className="text-xl font-black uppercase text-[#362B25] mb-6">Your cart is empty</h2>
+                        <Link
+                            href="/services"
+                            className="bg-[#362B25] text-[#FFFFFF] px-10 py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-[#2A221D] transition-all shadow-lg"
                         >
-                            Executive Services
+                            Browse Services
                         </Link>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                        {/* List */}
-                        <div className="lg:col-span-8 space-y-4 max-w-2xl">
-                            {cart.map((item, idx) => (
-                                <div
-                                    key={item.itemId}
-                                    style={{ animationDelay: `${idx * 100}ms` }}
-                                    className="group relative p-4 rounded-3xl bg-gradient-to-br from-white/[0.04] to-transparent border border-white/[0.06] hover:border-gold-500/40 transition-all duration-500 backdrop-blur-xl animate-in fade-in slide-in-from-left-4"
-                                >
-                                    {/* Gold Accent Strip */}
-                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 group-hover:h-1/2 bg-gold-500 transition-all duration-700 rounded-r-full" />
-
-                                    <div className="flex flex-col sm:flex-row gap-4">
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex justify-between items-start gap-4">
-                                                <div>
-                                                    <h3 className="text-xl font-black tracking-tight mb-1 group-hover:text-gold-100 transition-colors leading-tight">{item.title}</h3>
-                                                    <div className="flex flex-wrap gap-x-4 gap-y-1.5">
-                                                        <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 flex items-center gap-2">
-                                                            <div className="w-1 h-1 rounded-full bg-gold-400" /> {item.duration}
-                                                        </span>
-                                                        {item.sessions && (
-                                                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gold-500 bg-gold-500/10 px-2.5 py-0.5 rounded-full border border-gold-500/20">
-                                                                {item.sessions} Sessions
-                                                            </span>
-                                                        )}
-                                                        {item.bschool && (
-                                                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400 bg-blue-400/10 px-2.5 py-0.5 rounded-full border border-blue-400/20">
-                                                                B-School Included
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                                <div className="text-right shrink-0">
-                                                    <div className="text-xl font-black tracking-tighter text-white/90">{item.currency} {formatPrice(item.price)}</div>
-                                                    <button
-                                                        onClick={() => removeFromCart(item.itemId)}
-                                                        disabled={deletingId === item.itemId}
-                                                        className="mt-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/20 hover:text-red-500 transition-all flex items-center gap-1.5 ml-auto"
-                                                    >
-                                                        {deletingId === item.itemId ? <Loader2 size={10} className="animate-spin" /> : <Trash2 size={10} />}
-                                                        Remove
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            {/* ── DYNAMIC DETAILS ── */}
-                                            {(item.selections || item.activeCheckboxes || Object.entries(item).some(([k, v]) => !['itemId', 'serviceId', 'title', 'price', 'currency', 'duration', 'addedAt', 'sessions', 'bschool', '_id', 'selections', 'activeCheckboxes', '__v'].includes(k) && typeof v !== 'object')) && (
-                                                <div className="mt-3 pt-3 border-t border-white/[0.04] flex flex-wrap items-end gap-x-10 gap-y-3">
-                                                    {item.selections && typeof item.selections === 'object' && Object.keys(item.selections).length > 0 && (
-                                                        <div className="flex flex-wrap gap-x-6 gap-y-3">
-                                                            {Object.entries(item.selections).map(([key, val]) => (
-                                                                <div key={key}>
-                                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/20 mb-0.5">{key.replace(/([A-Z])/g, ' $1').trim()}</p>
-                                                                    <p className="text-xs font-bold text-gold-500/70 uppercase italic tracking-tight leading-tight">{String(val)}</p>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    )}
-
-                                                    {item.activeCheckboxes && typeof item.activeCheckboxes === 'object' && Object.values(item.activeCheckboxes).some(v => v === true) && (
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {Object.entries(item.activeCheckboxes).map(([key, val]) => {
-                                                                if (val !== true) return null;
-                                                                return (
-                                                                    <div 
-                                                                        key={key}
-                                                                        className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gold-400/5 border border-gold-400/10 text-[10px] font-black uppercase tracking-widest text-gold-400/60"
-                                                                    >
-                                                                        <CheckCircle2 size={12} className="text-gold-500/50" />
-                                                                        {key.replace(/([A-Z])/g, ' $1').trim()}
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                    <>
+                        <div className="mb-8 md:mb-12">
+                            <div className="flex items-center gap-4 mb-3">
+                                <div className="w-8 md:w-12 h-[1px] bg-[#D4A848]" />
+                                <span className="text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-[#D4A848]">Marketplace</span>
+                            </div>
+                            <h1 className="text-3xl md:text-7xl font-black text-[#362B25] tracking-tighter uppercase leading-[0.9] break-words">Your <span className="text-[#D4A848]">Cart</span></h1>
                         </div>
 
-                        {/* Summary */}
-                        <div className="lg:col-span-4 sticky top-28">
-                            <div className="p-7 rounded-[2rem] bg-gradient-to-br from-[#111] via-[#05070a] to-[#c6a96b]/5 border border-gold-500/15 shadow-2xl relative group overflow-hidden">
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-gold-500/5 rounded-full blur-[60px] pointer-events-none" />
-                                
-                                <div className="flex items-center justify-between mb-8">
-                                    <h3 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/80 italic">Order Summary</h3>
-                                    <Star className="text-gold-500 w-3.5 h-3.5 fill-gold-500" />
+                        <div className="grid md:grid-cols-12 gap-8 md:gap-10">
+                            {/* Cart Items List */}
+                            <div className="md:col-span-7 lg:col-span-8 xl:col-span-9 flex flex-col gap-6">
+                                <div className="flex justify-between items-center mb-2 px-2">
+                                    <h2 className="text-[10px] font-black text-[#362B25] uppercase tracking-widest">{cart.length} Items Selected</h2>
+                                    <button
+                                        onClick={() => setShowClearConfirm(true)}
+                                        className="text-[10px] font-black text-[#675F5B] hover:text-red-500 uppercase tracking-widest flex items-center gap-2 transition-colors"
+                                    >
+                                        <Trash2 size={12} /> <span className="hidden sm:inline">Clear Cart</span>
+                                    </button>
                                 </div>
 
-                                <div className="space-y-4 mb-8 text-xs font-bold uppercase tracking-widest">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-white/20 text-[10px]">Subtotal</span>
-                                        <span className="text-white/70">{currency} {formatPrice(subtotal)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-white/20 text-[10px]">Processing</span>
-                                        <span className="text-gold-500/60 text-[9px]">Complimentary</span>
-                                    </div>
-                                    
-                                    <div className="pt-6 border-t border-white/5">
-                                        <div className="flex justify-between items-baseline">
-                                            <span className="text-[9px] text-white/30">Total</span>
-                                            <div className="text-3xl font-black text-gold-500 tracking-tighter italic">
-                                                {currency} {formatPrice(subtotal)}
+                                <div className="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4 lg:gap-6">
+                                    {cart.map((item) => (
+                                        <div
+                                            key={item.itemId}
+                                            className="bg-[#FFFFFF] border border-[#D4A848]/20 rounded-xl md:rounded-2xl p-2 sm:p-4 shadow-sm hover:border-[#D4A848]/50 transition-all group relative flex flex-row gap-2 sm:gap-4 items-start"
+                                        >
+                                            <div className="w-6 h-6 sm:w-12 sm:h-12 bg-[#F8F6F1] border border-[#D4A848]/20 rounded-lg flex items-center justify-center text-xs sm:text-2xl shrink-0 group-hover:scale-105 transition-transform mt-0.5 sm:mt-0">
+                                                {item.serviceId.includes('visa') ? '🛂' : item.serviceId.includes('research') ? '📄' : '🎓'}
                                             </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="flex flex-col gap-1.5">
+                                                    <div className="flex justify-between items-start gap-1">
+                                                        <h3 className="text-[9px] sm:text-lg font-black text-[#362B25] tracking-tight leading-tight break-words lowercase first-letter:uppercase flex-1">{item.title}</h3>
+                                                        <button
+                                                            onClick={() => removeFromCart(item.itemId)}
+                                                            className="text-red-500/20 hover:text-red-500 p-0.5 transition-colors shrink-0"
+                                                        >
+                                                            <Trash2 size={10} className="sm:w-3.5 sm:h-3.5" />
+                                                        </button>
+                                                    </div>
+
+                                                    <div className="flex flex-col gap-2">
+                                                        <div className="flex flex-col">
+                                                            <p className="text-[9px] sm:text-base font-black text-[#362B25] whitespace-nowrap">{currency} {formatPrice(item.price)}</p>
+                                                            <p className="text-[#675F5B] text-[7px] sm:text-[9px] line-through opacity-50 whitespace-nowrap">{currency} {formatPrice(item.actualPrice || (item.price / 0.8))}</p>
+                                                        </div>
+
+                                                        <div className="flex flex-wrap gap-1 mt-1">
+                                                            <span className="bg-[#F8F6F1] text-[#D4A848] text-[6px] sm:text-[8px] font-black px-1.5 py-0.5 rounded border border-[#D4A848]/20 uppercase tracking-tighter">
+                                                                {item.duration}
+                                                            </span>
+                                                            {item.sessions && (
+                                                                <span className="bg-[#362B25]/5 text-[#362B25] text-[6px] sm:text-[8px] font-black px-1.5 py-0.5 rounded border border-[#362B25]/10 uppercase tracking-tighter">
+                                                                    {item.sessions} Sessions
+                                                                </span>
+                                                            )}
+                                                            {item.selections && Object.entries(item.selections).map(([key, val]) => (
+                                                                <span key={key} className="bg-[#362B25]/5 text-[#362B25] text-[6px] sm:text-[8px] font-black px-1.5 py-0.5 rounded border border-[#362B25]/10 uppercase tracking-tighter">
+                                                                    <span className="opacity-50">{key.replace(/([A-Z])/g, ' $1')}:</span> {String(val)}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="md:col-span-5 lg:col-span-4 xl:col-span-3 sticky top-32">
+                                <div className="bg-[#FFFFFF] border border-[#D4A848]/20 rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-lg relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4A848]/5 rounded-full blur-3xl" />
+                                    <h3 className="text-base sm:text-xl font-black text-[#362B25] mb-4 sm:mb-8 pb-3 border-b border-[#D4A848]/10 text-center uppercase tracking-widest">Order Summary</h3>
+
+                                    <div className="space-y-1.5 sm:space-y-4 mb-4 sm:mb-8">
+                                        <div className="flex justify-between items-center text-[10px] sm:text-sm font-bold uppercase tracking-wider">
+                                            <span className="text-[#675F5B]">Actual Amount:</span>
+                                            <span className="text-[#362B25] whitespace-nowrap">{currency} {formatPrice(actualSubtotal)}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center text-[10px] sm:text-sm font-bold uppercase tracking-wider">
+                                            <span className="text-[#675F5B]">Total Discount:</span>
+                                            <span className="text-red-600 whitespace-nowrap">- {currency} {formatPrice(totalDiscount)}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-[#F8F6F1] rounded-xl sm:rounded-2xl p-3 sm:p-6 mb-4 sm:mb-8 text-center border border-[#D4A848]/10">
+                                        <p className="text-[9px] sm:text-xs font-bold text-[#675F5B] uppercase tracking-widest mb-1">You pay:</p>
+                                        <p className="text-xl sm:text-3xl font-black text-[#362B25] tracking-tighter whitespace-nowrap">
+                                            {currency} {formatPrice(finalTotal)}
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        onClick={() => setShowCheckoutModal(true)}
+                                        className="w-full bg-[#D4A848] text-[#FFFFFF] py-3 sm:py-4 rounded-lg sm:rounded-xl font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] transition-all shadow-md hover:bg-[#c2983d] hover:shadow-lg"
+                                    >
+                                        Checkout Now
+                                    </button>
+
+                                    <div className="mt-4 sm:mt-8 flex flex-col items-center gap-4 text-center">
+                                        <div className="flex items-center gap-2 text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest">
+                                            <Lock size={10} className="text-[#D4A848]/40" /> Secure Encryption
                                         </div>
                                     </div>
                                 </div>
 
-                                <button className="btn-gold w-full py-5 text-[11px] group/pay shadow-lg">
-                                    <div className="flex items-center gap-2">
-                                        <CreditCard size={16} /> Complete Enrollment
+                                {/* Promotional Suggestion */}
+                                <div className="mt-6 bg-[#FFFFFF] border border-[#D4A848]/20 rounded-2xl p-6 shadow-sm">
+                                    <p className="text-[10px] font-black text-[#D4A848] uppercase tracking-widest mb-2">You may also like</p>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 bg-[#F8F6F1] rounded-lg border border-[#D4A848]/20 flex items-center justify-center text-lg">💡</div>
+                                        <div>
+                                            <p className="text-[10px] font-bold text-[#362B25] leading-tight">Complete Application Help</p>
+                                            <p className="text-[9px] text-[#675F5B]">Add to your roadmap for 10% off</p>
+                                        </div>
                                     </div>
-                                </button>
-                                
-                                <div className="mt-6 flex flex-col items-center gap-3 text-center border-t border-white/5 pt-6">
-                                    <div className="flex items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-white/10">
-                                        <Lock size={10} className="text-gold-500/40" /> Secure Checkout
-                                    </div>
-                                    <p className="text-[8px] text-white/10 font-bold uppercase tracking-[0.2em] leading-relaxed max-w-[200px]">
-                                        By proceeding, you agree to our elite mentorship terms.
-                                    </p>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </>
                 )}
             </div>
+
+            <CheckoutModal
+                isOpen={showCheckoutModal}
+                onClose={() => setShowCheckoutModal(false)}
+                items={cart}
+                subtotal={actualSubtotal}
+                discount={totalDiscount}
+                total={finalTotal}
+                currency={currency}
+            />
 
             <ConfirmationModal
                 isOpen={showClearConfirm}
                 onClose={() => setShowClearConfirm(false)}
                 onConfirm={handleConfirmClear}
-                title="Clear Selections"
-                message="Remove all items from your selection?"
-                confirmText={isClearing ? "Clearing..." : "Yes, Clear All"}
+                title="Clear Inventory"
+                message="Are you sure you want to decouple all service nodes from your current session?"
                 loading={isClearing}
             />
         </main>

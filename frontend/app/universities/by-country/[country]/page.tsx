@@ -76,17 +76,17 @@ const SORT_OPTIONS = ["Ranking", "Name (A–Z)", "Acceptance Rate", "Tuition (Lo
 function FilterSection({ title, icon, options, active, onChange }: { title: string, icon: string, options: any[], active: number, onChange: (i: number) => void }) {
   const [open, setOpen] = useState(true);
   return (
-    <div style={{ borderBottom: "1px solid rgba(202,138,4,.12)", paddingBottom: 16, marginBottom: 16 }}>
+    <div style={{ borderBottom: "1px solid rgba(197,160,89, 0.12)", paddingBottom: 16, marginBottom: 16 }}>
       <button
         onClick={() => setOpen(o => !o)}
         style={{
           display: "flex", alignItems: "center", justifyContent: "space-between",
           width: "100%", background: "none", border: "none", cursor: "pointer",
-          color: "#d6d3d1", fontSize: 13, fontWeight: 600, marginBottom: open ? 12 : 0,
+          color: "#2D2926", fontSize: 13, fontWeight: 700, marginBottom: open ? 12 : 0,
           fontFamily: "'DM Sans', sans-serif", padding: 0,
         }}>
         <span>{icon} {title}</span>
-        <span style={{ fontSize: 10, color: "#78716c", transition: "transform .2s", transform: open ? "rotate(180deg)" : "rotate(0)" }}>▼</span>
+        <span style={{ fontSize: 10, color: "#6B5E51", transition: "transform .2s", transform: open ? "rotate(180deg)" : "rotate(0)" }}>▼</span>
       </button>
       {open && (
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -97,14 +97,14 @@ function FilterSection({ title, icon, options, active, onChange }: { title: stri
                 display: "flex", alignItems: "center", gap: 10, padding: "7px 10px",
                 borderRadius: 10, border: "none", cursor: "pointer", textAlign: "left",
                 fontFamily: "'DM Sans', sans-serif", fontSize: 12,
-                background: active === i ? "rgba(202,138,4,.15)" : "transparent",
-                color: active === i ? "#eab308" : "#a8a29e",
+                background: active === i ? "rgba(197,160,89,.15)" : "transparent",
+                color: active === i ? "#C5A059" : "#6B5E51",
                 transition: "all .2s ease",
               }}>
               <span style={{
                 width: 14, height: 14, borderRadius: "50%", flexShrink: 0,
-                border: active === i ? "none" : "1px solid rgba(202,138,4,.30)",
-                background: active === i ? "#eab308" : "transparent",
+                border: active === i ? "none" : "1px solid rgba(197,160,89,.38)",
+                background: active === i ? "#C5A059" : "transparent",
                 transition: "all .2s",
               }} />
               {opt.label}
@@ -119,16 +119,16 @@ function FilterSection({ title, icon, options, active, onChange }: { title: stri
 function StatPill({ icon, value, label }: { icon: string, value: string | number, label: string }) {
   return (
     <div style={{
-      display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
-      padding: "12px 20px", flex: 1,
-      borderRight: "1px solid rgba(202,138,4,.12)",
+      display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+      padding: "16px 24px", flex: 1,
+      background: "#F8F5F0", borderRadius: 20, margin: "0 4px"
     }}>
-      <span style={{ fontSize: 20 }}>{icon}</span>
+      <span style={{ fontSize: 24 }}>{icon}</span>
       <span style={{
         fontFamily: "'Cormorant Garamond', serif",
-        fontSize: 22, fontWeight: 700, color: "#eab308",
+        fontSize: 24, fontWeight: 700, color: "#2D2926",
       }}>{value}</span>
-      <span style={{ fontSize: 10, color: "#57534e", textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</span>
+      <span style={{ fontSize: 10, color: "#6B5E51", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>{label}</span>
     </div>
   );
 }
@@ -137,14 +137,14 @@ function StatPill({ icon, value, label }: { icon: string, value: string | number
 function SkeletonCard() {
   return (
     <div style={{
-      background: "rgba(255,255,255,.03)", border: "1px solid rgba(202,138,4,.10)",
-      borderRadius: 18, padding: 24, overflow: "hidden", position: "relative",
+      background: "#FFFFFF", border: "1px solid rgba(197,160,89, 0.15)",
+      borderRadius: 24, padding: 30, overflow: "hidden", position: "relative",
     }}>
-      <div className="skel" style={{ height: 20, width: "60%", borderRadius: 8, marginBottom: 12 }} />
-      <div className="skel" style={{ height: 14, width: "40%", borderRadius: 6, marginBottom: 20 }} />
-      <div style={{ display: "flex", gap: 12 }}>
+      <div className="skel" style={{ height: 24, width: "60%", borderRadius: 8, marginBottom: 16 }} />
+      <div className="skel" style={{ height: 16, width: "40%", borderRadius: 6, marginBottom: 24 }} />
+      <div style={{ display: "flex", gap: 16 }}>
         {[1, 2, 3].map(i => (
-          <div key={i} className="skel" style={{ height: 48, flex: 1, borderRadius: 10 }} />
+          <div key={i} className="skel" style={{ height: 60, flex: 1, borderRadius: 12 }} />
         ))}
       </div>
     </div>
@@ -170,7 +170,7 @@ export default function CountryPage() {
 
   // ── Dataset selection ──
   const countryLower = (country as string).toLowerCase().replace(/-/g, " ");
-  const meta = COUNTRY_META[countryLower] ?? { flag: "🌍", color: "#eab308", label: (country as string), hero: "World-Class Education" };
+  const meta = COUNTRY_META[countryLower] ?? { flag: "🌍", color: "#C5A059", label: (country as string), hero: "World-Class Education" };
 
   let dataCountry = meta.label;
   let rawUniversities: any[] = [];
@@ -314,7 +314,7 @@ export default function CountryPage() {
   const hasMore = paginated.length < filtered.length;
 
   return (
-    <div className="min-h-screen text-stone-100 overflow-x-hidden" style={{ background: "#0a0a0f", fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen text-[#2D2926] overflow-x-hidden" style={{ background: "#FDFBF7", fontFamily: "'DM Sans', sans-serif" }}>
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -323,8 +323,6 @@ export default function CountryPage() {
         @keyframes fadeIn  { from{opacity:0;} to{opacity:1;} }
         @keyframes shimmer { 0%{background-position:-200% center;} 100%{background-position:200% center;} }
         @keyframes pulse   { 0%,100%{opacity:.5;} 50%{opacity:1;} }
-        @keyframes orbD1   { 0%,100%{transform:translate(0,0);} 50%{transform:translate(30px,-20px);} }
-        @keyframes orbD2   { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-20px,14px);} }
         @keyframes cardIn  { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
         @keyframes skelPulse{ 0%,100%{opacity:.06;} 50%{opacity:.14;} }
 
@@ -332,185 +330,161 @@ export default function CountryPage() {
 
         .afu { animation:fadeUp .75s cubic-bezier(.16,1,.3,1) both; }
         .afi { animation:fadeIn .6s ease both; }
-        .aorb1 { animation:orbD1 13s ease-in-out infinite; }
-        .aorb2 { animation:orbD2 17s ease-in-out infinite; }
 
         .d1{animation-delay:.08s;} .d2{animation-delay:.18s;}
         .d3{animation-delay:.28s;} .d4{animation-delay:.40s;}
         .d5{animation-delay:.52s;}
 
         .gold-shimmer {
-          background:linear-gradient(90deg,#ca8a04,#fde68a,#ca8a04,#d4a555,#ca8a04);
+          background:linear-gradient(90deg,#C5A059,#E6D5B8,#C5A059,#D4AF37,#C5A059);
           background-size:300% auto;
           -webkit-background-clip:text; -webkit-text-fill-color:transparent;
           background-clip:text;
           animation:shimmer 4s linear infinite;
         }
 
-        .grid-texture {
-          background-image:
-            linear-gradient(rgba(202,138,4,.08) 1px,transparent 1px),
-            linear-gradient(90deg,rgba(202,138,4,.08) 1px,transparent 1px);
-          background-size:72px 72px;
-        }
-
         .tag {
           display:inline-block; font-size:10px; letter-spacing:.14em;
-          text-transform:uppercase; color:#eab308;
-          border:1px solid rgba(202,138,4,.35); border-radius:999px;
-          padding:4px 14px;
+          text-transform:uppercase; color:#C5A059;
+          border:1px solid rgba(197,160,89,.38); border-radius:999px;
+          padding:4px 14px; fontWeight: 700;
         }
 
         .card {
-          background:rgba(255,255,255,.032);
-          border:1px solid rgba(202,138,4,.12);
-          border-radius:18px;
-          transition:transform .3s ease,border-color .3s ease,background .3s ease,box-shadow .3s ease;
+          background:#FFFFFF;
+          border:1px solid rgba(197,160,89, 0.15);
+          border-radius:24px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+          transition:transform .3s ease, border-color .3s ease, box-shadow .3s ease;
         }
-        .card:hover {
-          border-color:rgba(202,138,4,.32);
-          background:rgba(202,138,4,.04);
-          box-shadow: 0 12px 40px rgba(0,0,0,.4);
-        }
+        .card:hover { border-color:rgba(197,160,89, 0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 
         .sort-btn {
-          padding:7px 18px; border-radius:999px; font-size:12px; font-weight:500;
-          cursor:pointer; border:1px solid rgba(202,138,4,.20);
-          color:#78716c; background:transparent; transition:all .2s ease;
+          padding:8px 20px; border-radius:999px; font-size:12px; font-weight:600;
+          cursor:pointer; border:1px solid rgba(197,160,89, 0.3);
+          color:#6B5E51; background:transparent; transition:all .2s ease;
           font-family:'DM Sans',sans-serif; white-space:nowrap;
         }
-        .sort-btn:hover { border-color:rgba(202,138,4,.45); color:#d6d3d1; }
-        .sort-btn.active { background:rgba(202,138,4,.15); color:#eab308; border-color:rgba(202,138,4,.50); }
+        .sort-btn:hover { border-color:rgba(197,160,89, 0.6); color:#2D2926; }
+        .sort-btn.active { background:rgba(197,160,89, 0.15); color:#C5A059; border-color:rgba(197,160,89, 0.6); }
 
         .search-box {
-          width:100%; background:rgba(255,255,255,.04);
-          border:1px solid rgba(202,138,4,.18); border-radius:14px;
-          color:#f5f5f4; font-size:14px; padding:12px 48px 12px 18px;
+          width:100%; background:#FDFBF7;
+          border:1px solid rgba(197,160,89, 0.3); border-radius:16px;
+          color:#2D2926; font-size:15px; padding:14px 50px 14px 20px;
           outline:none; font-family:'DM Sans',sans-serif;
-          transition:border-color .25s;
+          transition:border-color .25s, box-shadow .25s;
         }
-        .search-box:focus { border-color:rgba(202,138,4,.55); }
-        .search-box::placeholder { color:#44403c; }
+        .search-box:focus { border-color:rgba(197,160,89, 0.6); box-shadow: 0 0 0 4px rgba(197,160,89, 0.05); }
+        .search-box::placeholder { color:#A8A29E; }
 
         .load-more {
-          background:transparent; color:#eab308;
-          border:1px solid rgba(202,138,4,.38); border-radius:14px;
-          padding:13px 36px; font-size:14px; font-weight:500; cursor:pointer;
+          background:transparent; color:#C5A059;
+          border:1px solid rgba(197,160,89, 0.5); border-radius:16px;
+          padding:14px 40px; font-size:14px; font-weight:700; cursor:pointer;
           font-family:'DM Sans',sans-serif;
-          transition:background .25s,border-color .25s,transform .2s;
+          transition:all .25s;
         }
         .load-more:hover {
-          background:rgba(202,138,4,.10);
-          border-color:rgba(202,138,4,.70);
+          background:rgba(197,160,89, 0.05);
+          border-color:#C5A059;
           transform:translateY(-2px);
         }
 
         .skel {
-          background:rgba(202,138,4,.08);
+          background:#F8F5F0;
           animation:skelPulse 1.6s ease-in-out infinite;
         }
-
-        .stat-divider-last { }
-        .stat-row > *:not(:last-child) { border-right:1px solid rgba(202,138,4,.12); }
       `}</style>
-
-      {/* ── Ambient ── */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
-        <div className="aorb1 absolute rounded-full"
-          style={{ width: 560, height: 560, top: -160, right: -160, background: `radial-gradient(circle,${meta.color}1a 0%,transparent 70%)`, filter: "blur(70px)" }} />
-        <div className="aorb2 absolute rounded-full"
-          style={{ width: 400, height: 400, bottom: 0, left: -100, background: "radial-gradient(circle,rgba(202,138,4,.09) 0%,transparent 70%)", filter: "blur(60px)" }} />
-        <div className="absolute inset-0 grid-texture" />
-      </div>
 
       <div className="relative" style={{ zIndex: 1 }}>
 
         {/* ══ HERO ══ */}
         <section ref={heroRef} style={{
-          background: "linear-gradient(180deg,rgba(202,138,4,.06) 0%,transparent 100%)",
-          borderBottom: "1px solid rgba(202,138,4,.10)",
-          padding: "52px 0 40px",
+          background: "linear-gradient(180deg,rgba(197,160,89, 0.05) 0%,transparent 100%)",
+          borderBottom: "1px solid rgba(197,160,89, 0.1)",
+          padding: "60px 0 50px",
         }}>
           <div className="max-w-6xl mx-auto px-6">
             {/* Breadcrumb */}
-            <div className={mounted ? "afu" : "opacity-0"} style={{ marginBottom: 16 }}>
-              <span style={{ fontSize: 12, color: "#57534e" }}>Universities</span>
-              <span style={{ fontSize: 12, color: "#57534e", margin: "0 8px" }}>›</span>
-              <span style={{ fontSize: 12, color: "#eab308" }}>{dataCountry}</span>
+            <div className={mounted ? "afu" : "opacity-0"} style={{ marginBottom: 20 }}>
+              <span style={{ fontSize: 13, color: "#6B5E51", fontWeight: 500 }}>Global Index</span>
+              <span style={{ fontSize: 13, color: "#6B5E51", margin: "0 10px" }}>›</span>
+              <span style={{ fontSize: 13, color: "#C5A059", fontWeight: 700 }}>{dataCountry} Institutions</span>
             </div>
 
-            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
+            <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 30 }}>
               <div>
-                <span className={`tag ${mounted ? "afu" : "opacity-0"}`} style={{ marginBottom: 14, display: "inline-block" }}>
-                  Explore Universities
+                <span className={`tag ${mounted ? "afu" : "opacity-0"}`} style={{ marginBottom: 16, display: "inline-block" }}>
+                  Institutional Catalog
                 </span>
                 <h1 className={`fd ${mounted ? "afu d1" : "opacity-0"}`}
-                  style={{ fontSize: "clamp(36px,5vw,64px)", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 10 }}>
-                  <span style={{ fontSize: "1.1em" }}>{meta.flag}</span>{" "}
-                  Top Universities in{" "}
+                  style={{ fontSize: "clamp(40px,6vw,72px)", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em", marginBottom: 12, color: "#2D2926" }}>
+                  <span style={{ fontSize: "0.9em" }}>{meta.flag}</span>{" "}
+                  Elite Education in{" "}
                   <span className="gold-shimmer">{dataCountry}</span>
                 </h1>
                 <p className={mounted ? "afu d2" : "opacity-0"}
-                  style={{ fontSize: 15, color: "#78716c", maxWidth: 480 }}>
-                  {meta.hero} — Explore rankings, acceptance rates, costs, and more.
+                  style={{ fontSize: 16, color: "#6B5E51", maxWidth: 520, lineHeight: 1.6, fontWeight: 500 }}>
+                  {meta.hero} — Curated excellence, admission benchmarks, and global career outcomes.
                 </p>
               </div>
 
-              <div className={`card ${mounted ? "afu d3" : "opacity-0"}`} style={{ padding: "12px 20px", display: "flex", alignItems: "center", gap: 10 }}>
-                <span style={{ fontSize: 24 }}>🎯</span>
+              <div className={`card ${mounted ? "afu d3" : "opacity-0"}`} style={{ padding: "16px 24px", display: "flex", alignItems: "center", gap: 14, background: "#2D2926", color: "#FFFFFF" }}>
+                <span style={{ fontSize: 28 }}>✨</span>
                 <div>
-                  <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 1 }}>Not sure where to apply?</p>
-                  <p style={{ fontSize: 11, color: "#78716c" }}>Get a personalized shortlist →</p>
+                  <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>Admission Strategy</p>
+                  <p style={{ fontSize: 12, opacity: 0.8 }}>Get expert guidance today →</p>
                 </div>
               </div>
             </div>
 
             {/* Stats row */}
-            <div className={`card stat-row ${mounted ? "afu d4" : "opacity-0"}`}
-              style={{ display: "flex", marginTop: 32, overflow: "hidden" }}>
-              <StatPill icon="🏛️" value={universities.length} label="Universities" />
-              <StatPill icon="🌍" value={dataCountry} label="Country" />
-              <StatPill icon="📊" value={stats.acc} label="Avg. Accept Rate" />
-              <StatPill icon="💵" value={stats.tuition} label="Avg. Tuition / yr" />
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4, padding: "12px 20px" }}>
-                <span style={{ fontSize: 20 }}>⭐</span>
-                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, fontWeight: 700, color: "#eab308" }}>Top Ranked</span>
-                <span style={{ fontSize: 10, color: "#57534e", textTransform: "uppercase", letterSpacing: ".08em" }}>Global Reputation</span>
+            <div className={`grid grid-cols-2 md:grid-cols-5 gap-4 ${mounted ? "afu d4" : "opacity-0"}`}
+              style={{ marginTop: 40 }}>
+              <StatPill icon="🏛️" value={universities.length} label="Institutions" />
+              <StatPill icon="🌍" value={dataCountry} label="Destination" />
+              <StatPill icon="📊" value={stats.acc} label="Admit Selectivity" />
+              <StatPill icon="💵" value={stats.tuition} label="Avg. Investment" />
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "16px 24px", background: "#F8F5F0", borderRadius: 20 }}>
+                <span style={{ fontSize: 24 }}>🎓</span>
+                <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 24, fontWeight: 700, color: "#2D2926" }}>Global Tier</span>
+                <span style={{ fontSize: 10, color: "#6B5E51", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>Elite Hub</span>
               </div>
             </div>
           </div>
         </section>
 
         {/* ══ BODY ══ */}
-        <div className="max-w-6xl mx-auto px-6 py-10">
-          <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", gap: 28, alignItems: "start" }}>
+        <div className="max-w-6xl mx-auto px-6 py-20">
+          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 40, alignItems: "start" }}>
 
             {/* ── FILTERS SIDEBAR ── */}
-            <div style={{ position: "sticky", top: 24 }}>
-              <div className={`card ${mounted ? "afi" : "opacity-0"}`} style={{ padding: "20px 16px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-                  <h2 style={{ fontSize: 14, fontWeight: 700, color: "#e7e5e4" }}>🎛️ Filters</h2>
+            <div style={{ position: "sticky", top: 40 }}>
+              <div className={`card ${mounted ? "afi" : "opacity-0"}`} style={{ padding: "30px 24px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+                  <h2 style={{ fontSize: 16, fontWeight: 700, color: "#2D2926" }}>🎛️ Parameters</h2>
                   <button
                     onClick={() => { setAcceptFilter(0); setTuitionFilter(0); setSearch(""); }}
                     style={{
-                      fontSize: 11, color: "#78716c", background: "none", border: "none",
+                      fontSize: 12, color: "#6B5E51", background: "none", border: "none",
                       cursor: "pointer", fontFamily: "'DM Sans',sans-serif",
-                      transition: "color .2s",
+                      transition: "color .2s", fontWeight: 600
                     }}
-                    onMouseOver={e => (e.target as HTMLElement).style.color = "#eab308"}
-                    onMouseOut={e => (e.target as HTMLElement).style.color = "#78716c"}>
-                    Clear All
+                    onMouseOver={e => (e.target as HTMLElement).style.color = "#C5A059"}
+                    onMouseOut={e => (e.target as HTMLElement).style.color = "#6B5E51"}>
+                    Reset
                   </button>
                 </div>
 
                 <FilterSection
-                  title="Acceptance Rate" icon="📊"
+                  title="Admission Selectivity" icon="📊"
                   options={FILTER_RANGES.acceptance}
                   active={acceptFilter}
                   onChange={i => { setAcceptFilter(i); setPage(1); }}
                 />
                 <FilterSection
-                  title="Tuition Fee" icon="💵"
+                  title="Annual Fees" icon="💵"
                   options={FILTER_RANGES.tuition}
                   active={tuitionFilter}
                   onChange={i => { setTuitionFilter(i); setPage(1); }}
@@ -518,13 +492,13 @@ export default function CountryPage() {
 
                 {/* Result count */}
                 <div style={{
-                  marginTop: 8, padding: "12px 14px", borderRadius: 12,
-                  background: "rgba(202,138,4,.08)", border: "1px solid rgba(202,138,4,.15)",
+                  marginTop: 10, padding: "20px", borderRadius: 20,
+                  background: "#F8F5F0", border: "1px solid rgba(197,160,89, 0.2)",
                 }}>
-                  <p style={{ fontSize: 12, color: "#78716c", marginBottom: 2 }}>Showing results</p>
-                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 22, fontWeight: 700, color: "#eab308" }}>
+                  <p style={{ fontSize: 13, color: "#6B5E51", marginBottom: 6, fontWeight: 600 }}>Catalogue View</p>
+                  <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 700, color: "#2D2926" }}>
                     {filtered.length}
-                    <span style={{ fontSize: 13, color: "#57534e", fontFamily: "'DM Sans',sans-serif", fontWeight: 400 }}> / {universities.length}</span>
+                    <span style={{ fontSize: 15, color: "#6B5E51", fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}> / {universities.length}</span>
                   </p>
                 </div>
               </div>
@@ -533,20 +507,20 @@ export default function CountryPage() {
             {/* ── LIST ── */}
             <div ref={listRef}>
               {/* Search + Sort bar */}
-              <div className={mounted ? "afu" : "opacity-0"} style={{ marginBottom: 20 }}>
-                <div style={{ position: "relative", marginBottom: 14 }}>
+              <div className={mounted ? "afu" : "opacity-0"} style={{ marginBottom: 30 }}>
+                <div style={{ position: "relative", marginBottom: 20 }}>
                   <input
                     type="text"
                     value={search}
                     onChange={e => { setSearch(e.target.value); setPage(1); }}
-                    placeholder={`Search universities in ${dataCountry}…`}
+                    placeholder={`Find your future at ${dataCountry}…`}
                     className="search-box"
                   />
-                  <span style={{ position: "absolute", right: 16, top: "50%", transform: "translateY(-50%)", fontSize: 16, color: "#57534e" }}>🔍</span>
+                  <span style={{ position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)", fontSize: 20, opacity: 0.5 }}>🔍</span>
                 </div>
 
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-                  <span style={{ fontSize: 12, color: "#57534e", marginRight: 4 }}>Sort by:</span>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                  <span style={{ fontSize: 13, color: "#6B5E51", marginRight: 6, fontWeight: 600 }}>Priority:</span>
                   {SORT_OPTIONS.map((opt, i) => (
                     <button key={i} className={`sort-btn ${sortIdx === i ? "active" : ""}`}
                       onClick={() => { setSortIdx(i); setPage(1); }}>
@@ -558,19 +532,19 @@ export default function CountryPage() {
 
               {/* Cards */}
               {universities.length === 0 ? (
-                <div className="card" style={{ padding: 48, textAlign: "center" }}>
-                  <p style={{ fontSize: 32, marginBottom: 16 }}>🌐</p>
-                  <p className="fd" style={{ fontSize: 24, fontWeight: 600, marginBottom: 8 }}>No Data Available</p>
-                  <p style={{ fontSize: 14, color: "#57534e" }}>More countries will be added soon.</p>
+                <div className="card" style={{ padding: 60, textAlign: "center" }}>
+                  <p style={{ fontSize: 40, marginBottom: 20 }}>🌐</p>
+                  <p className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, color: "#2D2926" }}>Access Restricted</p>
+                  <p style={{ fontSize: 16, color: "#6B5E51" }}>Broadening our global database. Check back soon.</p>
                 </div>
               ) : filtered.length === 0 ? (
-                <div className="card" style={{ padding: 48, textAlign: "center" }}>
-                  <p style={{ fontSize: 32, marginBottom: 16 }}>🔍</p>
-                  <p className="fd" style={{ fontSize: 24, fontWeight: 600, marginBottom: 8 }}>No results found</p>
-                  <p style={{ fontSize: 14, color: "#57534e" }}>Try adjusting your filters or search query.</p>
+                <div className="card" style={{ padding: 60, textAlign: "center" }}>
+                  <p style={{ fontSize: 40, marginBottom: 20 }}>🔍</p>
+                  <p className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, color: "#2D2926" }}>Refining Results</p>
+                  <p style={{ fontSize: 16, color: "#6B5E51" }}>No institutions match your specific criteria. Try broader parameters.</p>
                 </div>
               ) : (
-                <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                   {paginated.map((uni, i) => (
                     <div
                       key={uni.id}
@@ -580,67 +554,16 @@ export default function CountryPage() {
                         transition: `opacity .55s ease ${Math.min(i, 5) * 60}ms, transform .55s ease ${Math.min(i, 5) * 60}ms`,
                       }}>
 
-                      {/* Wrap UniversityCard with our theme shell */}
-                      <div className="card" style={{ overflow: "hidden", position: "relative" }}>
-
-                        {/* Rank badge */}
-                        <div style={{
-                          position: "absolute", top: 16, left: 16, zIndex: 2,
-                          background: "linear-gradient(135deg,#ca8a04,#92400e)",
-                          color: "#fff", fontSize: 10, fontWeight: 800,
-                          padding: "4px 10px", borderRadius: 999,
-                          letterSpacing: ".06em",
-                        }}>
-                          #{uni.ranking}
-                        </div>
-
-                        {/* Quick stats strip */}
-                        <div style={{
-                          display: "flex", gap: 0,
-                          borderBottom: "1px solid rgba(202,138,4,.10)",
-                          padding: "10px 16px 10px 64px",
-                          flexWrap: "wrap", alignItems: "center",
-                        }}>
-                          <span style={{ flex: 1, fontFamily: "'Cormorant Garamond',serif", fontSize: 18, fontWeight: 700, color: "#e7e5e4", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                            {uni.name}
-                          </span>
-                          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                            {uni.acceptance && (
-                              <span style={{ fontSize: 11, color: "#22c55e", background: "rgba(34,197,94,.10)", border: "1px solid rgba(34,197,94,.20)", borderRadius: 999, padding: "3px 10px" }}>
-                                ✓ {uni.acceptance} Accept
-                              </span>
-                            )}
-                            {uni.tuition && (
-                              <span style={{ fontSize: 11, color: "#60a5fa", background: "rgba(96,165,250,.08)", border: "1px solid rgba(96,165,250,.18)", borderRadius: 999, padding: "3px 10px" }}>
-                                💵 {uni.tuition}
-                              </span>
-                            )}
-                            {uni.salary && (
-                              <span style={{ fontSize: 11, color: "#eab308", background: "rgba(234,179,8,.08)", border: "1px solid rgba(234,179,8,.18)", borderRadius: 999, padding: "3px 10px" }}>
-                                💼 {uni.salary} avg salary
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Address */}
-                        <div style={{ padding: "0 16px 10px", display: "flex", alignItems: "center", gap: 6 }}>
-                          <span style={{ fontSize: 10, color: "#57534e" }}>📍 {uni.address || uni.location}</span>
-                        </div>
-
-                        {/* UniversityCard renders inside */}
-                        <div style={{ padding: "0 16px 16px" }}>
-                          <UniversityCard key={uni.id} uni={uni} />
-                        </div>
-                      </div>
+                      {/* Card aesthetic is now handled by UniversityCard being upgraded */}
+                      <UniversityCard key={uni.id} uni={uni} />
                     </div>
                   ))}
 
                   {/* Load more */}
                   {hasMore && (
-                    <div style={{ textAlign: "center", paddingTop: 16 }}>
+                    <div style={{ textAlign: "center", paddingTop: 30 }}>
                       <button className="load-more" onClick={() => setPage(p => p + 1)}>
-                        Load more universities ({filtered.length - paginated.length} remaining)
+                        Reveal More Opportunities ({filtered.length - paginated.length} hidden)
                       </button>
                     </div>
                   )}

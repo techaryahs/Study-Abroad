@@ -188,7 +188,7 @@ const RegisterConsultant = () => {
           <div className="relative z-10">
             <div className="w-10 h-10 rounded-xl bg-gold-500 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(234,179,8,0.3)]"><Sparkles className="w-5 h-5 text-black" /></div>
             <h1 className="text-4xl font-black text-white mb-4 uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Join the<br />Elite Circle</h1>
-            <p className="text-gray-500 text-xs font-bold leading-relaxed max-w-sm uppercase tracking-widest border-l-2 border-gold-500/20 pl-4">Connect with ambitious students as a certified consultant.</p>
+            <p className="text-gray-500 text-xs font-bold leading-relaxed max-w-sm uppercase tracking-widest border-l-2 border-gold-500/20 pl-4">Connect with ambitious students as a certified Counsellor.</p>
           </div>
         </div>
 
@@ -196,7 +196,7 @@ const RegisterConsultant = () => {
         <div className="w-full lg:w-[60%] p-6 md:p-8 flex flex-col justify-center bg-transparent">
           <div className="max-w-xl mx-auto w-full">
             <div className="mb-4">
-              <h2 className="text-2xl font-black text-white mb-1 uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Consultant Application</h2>
+              <h2 className="text-2xl font-black text-white mb-1 uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Counsellor Application</h2>
               <div className="flex items-center gap-3">
                 <div className="h-0.5 w-10 bg-gold-500 rounded-full" />
                 <p className="text-gray-500 text-[8px] font-black uppercase tracking-[3px]">Step {step} of 3</p>

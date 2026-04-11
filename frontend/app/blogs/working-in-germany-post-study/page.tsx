@@ -80,7 +80,7 @@ export default function GermanyWorkingPage() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] rounded-full pointer-events-none"></div>
             <h3 className="text-xl font-black uppercase tracking-widest mb-6 italic gradient-text-gold">Expert Take: Hidden Champions</h3>
             <p className="text-white/30 text-lg md:text-xl leading-relaxed italic border-t border-white/5 pt-8">
-              "Most students look at Munich or Berlin. Germany's true economic strength lies in its 'Hidden Champions'—world-market-leading companies in student-friendly cities. Mapping your career to these hubs is the Global Counselling Center global strategy."
+              "Most students look at Munich or Berlin. Germany's true economic strength lies in its 'Hidden Champions'—world-market-leading companies in student-friendly cities. Mapping your career to these hubs is the Global Counsellor Center global strategy."
             </p>
           </section>
         </div>

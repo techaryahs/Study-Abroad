@@ -185,7 +185,7 @@ export default function EditProfilePage() {
             const isToefl = key === 'toefl';
             const sum = Object.values(scores).reduce((acc: number, v: any) => acc + (Number(v) || 0), 0);
             const mainScore = isToefl ? sum.toString() : (scores.overall || scores.total || '');
-            
+
             return {
               testType: key.toUpperCase(),
               score: mainScore,
@@ -243,8 +243,8 @@ export default function EditProfilePage() {
   };
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-dark-950">
-      <div className="w-10 h-10 border-2 border-gold-500 border-t-transparent rounded-full animate-spin"></div>
+    <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7]">
+      <div className="w-10 h-10 border-2 border-[#C5A059] border-t-transparent rounded-full animate-spin"></div>
     </div>
   );
 
@@ -258,48 +258,58 @@ export default function EditProfilePage() {
   ];
 
   return (
-    <main className="min-h-screen bg-dark-950 text-white pb-32 font-base selection:bg-gold-500/30 overflow-x-hidden">
+    <main className="min-h-screen text-[#3C2A21] pb-32 font-base selection:bg-[#C5A059]/30 overflow-x-hidden" style={{ background: "#FDFBF7", fontFamily: "'DM Sans', sans-serif" }}>
+      <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+          .fd { font-family: 'Cormorant Garamond', serif; }
+          .glass-panel {
+            background: #FFFFFF;
+            border: 1px solid rgba(197,160,89, 0.15);
+            border-radius: 32px;
+            box-shadow: 0 40px 100px rgba(197,160,89, 0.05);
+          }
+      `}</style>
 
-      <div className="max-w-6xl mx-auto px-6 lg:px-10 pt-16 flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-12">
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center gap-3">
+      <div className="max-w-6xl mx-auto px-6 lg:px-10 pt-10 md:pt-16 flex flex-col md:flex-row items-center md:items-end justify-between gap-8 mb-8 md:mb-12">
+        <div className="flex flex-col gap-3 w-full md:w-auto">
+          <div className="flex items-center gap-3 justify-center md:justify-start">
             <button
               onClick={() => router.push('/User/dashboard')}
-              className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-all active:scale-90 group"
+              className="w-10 h-10 rounded-xl bg-white border border-[#C5A059]/10 flex items-center justify-center text-[#6B5E51] hover:text-[#C5A059] hover:bg-white transition-all active:scale-90 shadow-sm group"
             >
               <ChevronLeft size={20} className="group-hover:-translate-x-0.5 transition-transform" />
             </button>
             <div className="flex flex-col">
-              <span className="text-[10px] font-black uppercase text-gold-500/60 tracking-[0.3em] ml-1 mb-1">Your Profile</span>
-              <h1 className="text-4xl font-extrabold text-white uppercase tracking-tighter leading-none">Edit Profile</h1>
+              <span className="text-[10px] font-black uppercase text-[#C5A059]/60 tracking-[0.3em] ml-1 mb-1">Your Profile</span>
+              <h1 className="fd text-2xl md:text-4xl font-bold text-[#3C2A21] uppercase tracking-tighter leading-none">Edit Profile</h1>
             </div>
           </div>
         </div>
-        <button 
+        <button
           onClick={() => handleSave()}
           disabled={saving}
-          className="h-14 px-10 bg-gold-500 text-black rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] hover:bg-gold-400 transition-all shadow-[0_20px_40px_rgba(194,168,120,0.2)] active:scale-95 disabled:opacity-50 flex items-center gap-3"
+          className="w-full md:w-auto h-14 px-10 bg-[#C5A059] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50 flex items-center justify-center gap-3"
         >
-          {saving ? <div className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" /> : <Settings size={16} />}
+          {saving ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Settings size={16} />}
           {saving ? "Updating..." : "Save Changes"}
         </button>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 lg:px-10 mt-12 grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-        <aside className="lg:col-span-3 space-y-4">
-          <div className="space-y-1">
+        <aside className="lg:col-span-3">
+          <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto no-scrollbar pb-2 lg:pb-0">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-4 px-6 py-4 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === tab.id
-                    ? 'bg-gold-500/10 text-gold-500 border border-gold-500/20'
-                    : 'text-gray-500 hover:text-white hover:bg-white/5'
+                className={`flex-shrink-0 flex items-center gap-4 px-6 py-4 rounded-xl text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === tab.id
+                  ? 'bg-[#C5A059]/10 text-[#C5A059] border border-[#C5A059]/20 shadow-sm'
+                  : 'text-[#6B5E51] hover:text-[#3C2A21] hover:bg-white'
                   }`}
               >
                 {tab.icon}
-                {tab.label}
+                <span className="whitespace-nowrap">{tab.label}</span>
               </button>
             ))}
           </div>
@@ -314,43 +324,43 @@ export default function EditProfilePage() {
           >
             {activeTab === 'personal' && (
               <div className="space-y-8">
-                <section className="bg-dark-900 border border-white/5 rounded-[2rem] p-10 shadow-2xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] rounded-full -mr-32 -mt-32" />
-                  <h2 className="text-[10px] font-black uppercase text-gold-500/80 tracking-[0.4em] mb-12 border-b border-white/5 pb-6 relative z-10">Identity Core</h2>
-                  
+                <section className="glass-panel p-6 md:p-10 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/5 blur-[100px] rounded-full -mr-32 -mt-32" />
+                  <h2 className="text-[10px] font-black uppercase text-[#C5A059]/80 tracking-[0.4em] mb-8 md:mb-12 border-b border-[#F1EDEA] pb-6 relative z-10">Identity Core</h2>
+
                   <div className="flex flex-col md:flex-row items-center gap-10 mb-12 relative z-10">
                     <div className="relative group/avatar">
-                      <div 
-                        className="w-28 h-28 rounded-[2.5rem] bg-dark-800 border-4 border-dark-950 overflow-hidden relative group shadow-2xl cursor-pointer"
+                      <div
+                        className="w-28 h-28 rounded-[2.5rem] bg-[#FDFBF7] border-4 border-white overflow-hidden relative group shadow-lg cursor-pointer"
                         onClick={() => fileInputRef.current?.click()}
                       >
                         {profileImage ? (
-                          <img 
-                            src={profileImage.startsWith('http') || profileImage.startsWith('data:image') ? profileImage : `${BACKEND_URL}${profileImage.startsWith('/') ? '' : '/'}${profileImage}`} 
-                            className="w-full h-full object-cover" 
+                          <img
+                            src={profileImage.startsWith('http') || profileImage.startsWith('data:image') ? profileImage : `${BACKEND_URL}${profileImage.startsWith('/') ? '' : '/'}${profileImage}`}
+                            className="w-full h-full object-cover"
                             alt="Avatar"
                           />
                         ) : userData?.image || userData?.profileImage ? (
-                          <img 
-                            src={userData.image || userData.profileImage} 
-                            className="w-full h-full object-cover" 
+                          <img
+                            src={userData.image || userData.profileImage}
+                            className="w-full h-full object-cover"
                             alt="Avatar Fallback"
                           />
                         ) : (
-                          <img 
-                            src={`https://ui-avatars.com/api/?name=${formData.name || 'User'}&background=c2a878&color=000&bold=true&rounded=true`} 
-                            className="w-full h-full grayscale opacity-80" 
+                          <img
+                            src={`https://ui-avatars.com/api/?name=${formData.name || 'User'}&background=c2a878&color=000&bold=true&rounded=true`}
+                            className="w-full h-full grayscale opacity-80"
                             alt="Placeholder"
                           />
                         )}
-                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
-                          <Camera size={24} className="text-gold-500" />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center">
+                          <Camera size={24} className="text-white" />
                         </div>
                       </div>
-                      <input 
-                        type="file" 
-                        ref={fileInputRef} 
-                        className="hidden" 
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        className="hidden"
                         accept="image/*"
                         onChange={(e) => {
                           const file = e.target.files?.[0];
@@ -359,46 +369,46 @@ export default function EditProfilePage() {
                       />
                     </div>
                     <div className="flex flex-col gap-2 text-center md:text-left">
-                       <h3 className="text-2xl font-black text-white italic tracking-tight">{formData.name || "Scholar Instance"}</h3>
-                       <p className="text-[9px] font-black text-gray-600 uppercase tracking-[0.2em]">{formData.email}</p>
+                      <h3 className="fd text-2xl font-bold text-[#3C2A21] italic tracking-tight">{formData.name || "Scholar Instance"}</h3>
+                      <p className="text-[9px] font-bold text-[#6B5E51] uppercase tracking-[0.2em]">{formData.email}</p>
                     </div>
                   </div>
 
                   <div className="space-y-4 max-w-2xl mx-auto relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6">
-                      <div className="flex items-center justify-between py-4 border-b border-white/5 px-4 rounded-xl cursor-default group hover:bg-white/[0.01] transition-all">
-                        <span className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Gender Expression</span>
+                      <div className="flex items-center justify-between py-4 border-b border-[#F1EDEA] px-4 rounded-xl cursor-default group hover:bg-[#FDFBF7] transition-all">
+                        <span className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest">Gender Expression</span>
                         <select
                           value={formData.gender}
                           onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                          className="bg-transparent text-xs font-black text-white focus:outline-none text-right cursor-pointer"
+                          className="bg-transparent text-xs font-black text-[#3C2A21] focus:outline-none text-right cursor-pointer"
                         >
-                          <option value="" className="bg-dark-900">Select Gender</option>
-                          <option value="Male" className="bg-dark-900">Male</option>
-                          <option value="Female" className="bg-dark-900">Female</option>
-                          <option value="Other" className="bg-dark-900">Other</option>
+                          <option value="" className="bg-white text-[#3C2A21]">Select Gender</option>
+                          <option value="Male" className="bg-white text-[#3C2A21]">Male</option>
+                          <option value="Female" className="bg-white text-[#3C2A21]">Female</option>
+                          <option value="Other" className="bg-white text-[#3C2A21]">Other</option>
                         </select>
                       </div>
-                      <div className="flex items-center justify-between py-4 border-b border-white/5 px-4 rounded-xl cursor-default group hover:bg-white/[0.01] transition-all">
-                        <span className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Origin Date</span>
+                      <div className="flex items-center justify-between py-4 border-b border-[#F1EDEA] px-4 rounded-xl cursor-default group hover:bg-[#FDFBF7] transition-all">
+                        <span className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest">Origin Date</span>
                         <input
                           type="date"
                           value={formData.dob}
                           onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                          className="bg-transparent text-xs font-black text-white focus:outline-none text-right cursor-pointer"
+                          className="bg-transparent text-xs font-black text-[#3C2A21] focus:outline-none text-right cursor-pointer"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-4">
-                       <label className="text-[10px] font-black text-gray-600 uppercase tracking-widest ml-4">Personal Narrative (Bio)</label>
-                       <textarea 
-                          rows={4} 
-                          value={formData.bio} 
-                          onChange={(e) => setFormData({ ...formData, bio: e.target.value })} 
-                          placeholder="Craft your scholarship narrative..."
-                          className="w-full bg-white/[0.02] border border-white/10 rounded-2xl px-6 py-6 text-xs font-bold text-white focus:border-gold-500/30 outline-none transition-all resize-none"
-                       />
+                      <label className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest ml-4">Personal Narrative (Bio)</label>
+                      <textarea
+                        rows={4}
+                        value={formData.bio}
+                        onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                        placeholder="Craft your scholarship narrative..."
+                        className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-6 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/30 outline-none transition-all resize-none shadow-sm"
+                      />
                     </div>
                   </div>
                 </section>
@@ -407,8 +417,8 @@ export default function EditProfilePage() {
 
             {activeTab === 'settings' && (
               <div className="space-y-8">
-                <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase px-4">Profile Settings</h2>
-                <section className="bg-dark-900/50 border border-white/5 rounded-[2rem] p-10 shadow-2xl">
+                <h2 className="fd text-3xl font-bold text-[#3C2A21] italic tracking-tighter uppercase px-4">Profile Settings</h2>
+                <section className="glass-panel p-10">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                     {[
                       { label: 'First Name', val: formData.name.split(' ')[0], type: 'first' },
@@ -418,31 +428,31 @@ export default function EditProfilePage() {
                       { label: 'LinkedIn Node', val: formData.linkedin, field: 'linkedin' },
                     ].map((item) => (
                       <div key={item.label} className="space-y-3">
-                        <label className="text-[9px] font-black text-gray-600 uppercase tracking-widest ml-1">{item.label}</label>
+                        <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">{item.label}</label>
                         <input
                           type="text"
                           value={item.val}
                           onChange={(e) => {
-                             if (item.type) {
-                                const names = formData.name.split(' ');
-                                if (item.type === 'first') names[0] = e.target.value;
-                                else names[1] = e.target.value;
-                                setFormData({ ...formData, name: names.join(' ').trim() });
-                             } else {
-                                setFormData({ ...formData, [item.field as string]: e.target.value });
-                             }
+                            if (item.type) {
+                              const names = formData.name.split(' ');
+                              if (item.type === 'first') names[0] = e.target.value;
+                              else names[1] = e.target.value;
+                              setFormData({ ...formData, name: names.join(' ').trim() });
+                            } else {
+                              setFormData({ ...formData, [item.field as string]: e.target.value });
+                            }
                           }}
-                          className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-4 text-xs font-bold text-white focus:border-gold-500/50 outline-none transition-all"
+                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-4 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
                         />
                       </div>
                     ))}
                   </div>
 
-                  <div className="mt-12 pt-8 border-t border-white/5 flex gap-4">
-                     <button onClick={() => setShowPasswordModal(true)} className="px-8 py-3 bg-white/5 border border-white/10 rounded-xl text-[9px] font-black text-gray-500 uppercase tracking-widest hover:text-white transition-colors">Access Logic Reset</button>
-                     <button onClick={() => handleSave()} disabled={saving} className="ml-auto px-12 py-3.5 bg-gold-500 text-black rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gold-400 transition-all shadow-lg active:scale-95 disabled:opacity-50">
-                        {saving ? "Updating..." : "Synchronize Profile"}
-                     </button>
+                  <div className="mt-12 pt-8 border-t border-[#F1EDEA] flex flex-col sm:flex-row gap-4">
+                    <button onClick={() => setShowPasswordModal(true)} className="w-full sm:w-auto px-8 py-3 bg-white border border-[#C5A059]/10 rounded-xl text-[9px] font-black text-[#6B5E51] uppercase tracking-widest hover:text-[#C5A059] transition-colors shadow-sm">Access Logic Reset</button>
+                    <button onClick={() => handleSave()} disabled={saving} className="w-full sm:w-auto sm:ml-auto px-12 py-3.5 bg-[#C5A059] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50">
+                      {saving ? "Updating..." : "Synchronize Profile"}
+                    </button>
                   </div>
                 </section>
               </div>
@@ -450,79 +460,79 @@ export default function EditProfilePage() {
 
             {activeTab === 'education' && (
               <div className="space-y-10">
-                <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase px-4">Education History</h2>
+                <h2 className="fd text-3xl font-bold text-[#3C2A21] italic tracking-tighter uppercase px-4">Education History</h2>
                 {[
                   { id: 'highSchool', label: 'High School' },
                   { id: 'bachelors', label: "Bachelor's Degree" },
                   { id: 'masters', label: "Master's Degree" }
                 ].map((sec) => (
-                  <section key={sec.id} className="bg-dark-900/50 border border-white/5 rounded-2xl p-8 shadow-xl">
-                    <div className="flex items-center gap-4 mb-8 border-b border-white/5 pb-4">
-                       <div className="w-8 h-8 rounded-lg bg-gold-500/10 flex items-center justify-center text-gold-500">
-                          <GraduationCap size={16} />
-                       </div>
-                       <h3 className="text-[10px] font-black text-white uppercase tracking-[0.2em]">{sec.label}</h3>
+                  <section key={sec.id} className="glass-panel p-8">
+                    <div className="flex items-center gap-4 mb-8 border-b border-[#F1EDEA] pb-4">
+                      <div className="w-8 h-8 rounded-lg bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] shadow-inner">
+                        <GraduationCap size={16} />
+                      </div>
+                      <h3 className="text-[10px] font-black text-[#3C2A21] uppercase tracking-[0.2em]">{sec.label}</h3>
                     </div>
-                    
+
                     <div className="space-y-6">
                       <div className="flex flex-col md:flex-row md:items-center gap-6">
                         <div className="flex-1 space-y-2">
-                           <label className="text-[9px] font-black text-gray-600 uppercase tracking-widest ml-1">{sec.id === 'highSchool' ? 'School Name' : 'University Name'}</label>
-                           <input
-                              type="text"
-                              value={(formData.education as any)[sec.id][sec.id === 'highSchool' ? 'schoolName' : 'uniName'] || ''}
-                              onChange={(e) => {
-                                 const edu = { ...formData.education };
-                                 (edu as any)[sec.id][sec.id === 'highSchool' ? 'schoolName' : 'uniName'] = e.target.value;
-                                 setFormData({ ...formData, education: edu });
-                              }}
-                              placeholder="Enter Institution Name"
-                              className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-3.5 text-xs font-bold text-white focus:border-gold-500/50 outline-none transition-all"
-                           />
+                          <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">{sec.id === 'highSchool' ? 'School Name' : 'University Name'}</label>
+                          <input
+                            type="text"
+                            value={(formData.education as any)[sec.id][sec.id === 'highSchool' ? 'schoolName' : 'uniName'] || ''}
+                            onChange={(e) => {
+                              const edu = { ...formData.education };
+                              (edu as any)[sec.id][sec.id === 'highSchool' ? 'schoolName' : 'uniName'] = e.target.value;
+                              setFormData({ ...formData, education: edu });
+                            }}
+                            placeholder="Enter Institution Name"
+                            className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                          />
                         </div>
                         {sec.id !== 'highSchool' && (
-                           <div className="flex-1 space-y-2">
-                              <label className="text-[9px] font-black text-gray-600 uppercase tracking-widest ml-1">Degree Title</label>
-                              <input
-                                 type="text"
-                                 value={(formData.education as any)[sec.id].degreeName || ''}
-                                 onChange={(e) => {
-                                    const edu = { ...formData.education };
-                                    (edu as any)[sec.id].degreeName = e.target.value;
-                                    setFormData({ ...formData, education: edu });
-                                 }}
-                                 placeholder="e.g. Computer Science"
-                                 className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-3.5 text-xs font-bold text-white focus:border-gold-500/50 outline-none transition-all"
-                              />
-                           </div>
+                          <div className="flex-1 space-y-2">
+                            <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Degree Title</label>
+                            <input
+                              type="text"
+                              value={(formData.education as any)[sec.id].degreeName || ''}
+                              onChange={(e) => {
+                                const edu = { ...formData.education };
+                                (edu as any)[sec.id].degreeName = e.target.value;
+                                setFormData({ ...formData, education: edu });
+                              }}
+                              placeholder="e.g. Computer Science"
+                              className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                            />
+                          </div>
                         )}
                         <div className="w-full md:w-auto space-y-2">
-                           <label className="text-[9px] font-black text-gray-600 uppercase tracking-widest ml-1">Result (CGPA)</label>
-                           <div className="flex items-center gap-3">
-                              <input 
-                                 type="text" 
-                                 value={(formData.education as any)[sec.id].cgpa || ''} 
-                                 placeholder="Score"
-                                 onChange={(e) => {
-                                    const edu = { ...formData.education };
-                                    (edu as any)[sec.id].cgpa = e.target.value;
-                                    setFormData({ ...formData, education: edu });
-                                 }} 
-                                 className="w-24 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-center text-xs font-black text-white" 
-                              />
-                              <span className="text-gray-700 text-[10px] font-black uppercase">/</span>
-                              <input 
-                                 type="text" 
-                                 value={(formData.education as any)[sec.id].outOf || ''} 
-                                 placeholder="Max"
-                                 onChange={(e) => {
-                                    const edu = { ...formData.education };
-                                    (edu as any)[sec.id].outOf = e.target.value;
-                                    setFormData({ ...formData, education: edu });
-                                 }} 
-                                 className="w-20 bg-white/[0.03] border border-white/10 rounded-xl px-4 py-3.5 text-center text-xs font-black text-white" 
-                              />
-                           </div>
+                          <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Result (CGPA)</label>
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="text"
+                              value={(formData.education as any)[sec.id].cgpa || ''}
+                              placeholder="Score"
+                              onChange={(e) => {
+                                const edu = { ...formData.education };
+                                (edu as any)[sec.id].cgpa = e.target.value;
+                                setFormData({ ...formData, education: edu });
+                              }}
+                              className="w-24 bg-white border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-center text-xs font-black text-[#3C2A21] shadow-sm"
+                            />
+                            <span className="text-[#6B5E51] text-[10px] font-black uppercase">/</span>
+                            <input
+                              type="text"
+                              value={(formData.education as any)[sec.id].outOf || ''}
+                              placeholder="Max"
+                              onChange={(e) => {
+                                const edu = { ...formData.education };
+                                (edu as any)[sec.id].outOf = e.target.value;
+                                setFormData({ ...formData, education: edu });
+                              }}
+                              className="w-20 bg-white border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-center text-xs font-black text-[#3C2A21] shadow-sm"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -533,8 +543,8 @@ export default function EditProfilePage() {
 
             {activeTab === 'target' && (
               <div className="space-y-10">
-                <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase px-4">Future Aspirations</h2>
-                <section className="bg-dark-900/50 border border-white/5 rounded-2xl p-8 shadow-xl">
+                <h2 className="fd text-3xl font-bold text-[#3C2A21] italic tracking-tighter uppercase px-4">Future Aspirations</h2>
+                <section className="glass-panel p-8">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {[
                       { label: 'University Name', field: 'uniName', icon: <LayoutDashboard size={14} /> },
@@ -543,27 +553,27 @@ export default function EditProfilePage() {
                       { label: 'Target Year', field: 'year', placeholder: 'e.g. 2025', icon: <Settings size={14} /> },
                     ].map((item) => (
                       <div key={item.field} className="space-y-2">
-                        <label className="text-[9px] font-black text-gray-600 uppercase tracking-widest ml-1 flex items-center gap-2">
-                           {item.icon}
-                           {item.label}
+                        <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1 flex items-center gap-2">
+                          {item.icon}
+                          {item.label}
                         </label>
                         <input
                           type="text"
                           value={(formData.target as any)[item.field] || ''}
                           onChange={(e) => {
-                             const t = { ...formData.target };
-                             (t as any)[item.field] = e.target.value;
-                             setFormData({ ...formData, target: t });
+                            const t = { ...formData.target };
+                            (t as any)[item.field] = e.target.value;
+                            setFormData({ ...formData, target: t });
                           }}
                           placeholder={item.placeholder}
-                          className="w-full bg-white/[0.03] border border-white/10 rounded-xl px-5 py-3.5 text-xs font-bold text-white focus:border-gold-500/50 outline-none transition-all"
+                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
                         />
                       </div>
                     ))}
                   </div>
-                  
-                  <div className="mt-10 pt-8 border-t border-white/5 flex">
-                    <button onClick={() => handleSave()} disabled={saving} className="ml-auto px-12 py-3.5 bg-gold-500 text-black rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-gold-400 transition-all shadow-lg active:scale-95 disabled:opacity-50">
+
+                  <div className="mt-10 pt-8 border-t border-[#F1EDEA] flex">
+                    <button onClick={() => handleSave()} disabled={saving} className="ml-auto px-12 py-3.5 bg-[#C5A059] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50">
                       {saving ? "Syncing..." : "Update Trajectory"}
                     </button>
                   </div>
@@ -574,11 +584,11 @@ export default function EditProfilePage() {
             {activeTab === 'test' && (
               <div className="space-y-12">
                 <div className="flex flex-col items-center text-center space-y-4 pt-4">
-                  <h2 className="text-4xl font-black text-white italic tracking-tighter uppercase">Standardized Tests</h2>
-                  <p className="text-gray-500 text-[10px] font-black uppercase tracking-[0.4em] max-w-sm leading-relaxed">
+                  <h2 className="fd text-4xl font-bold text-[#3C2A21] italic tracking-tighter uppercase">Standardized Tests</h2>
+                  <p className="text-[#6B5E51] text-[10px] font-bold uppercase tracking-[0.4em] max-w-sm leading-relaxed italic">
                     Quantify your academic excellence with global benchmarks.
                   </p>
-                  <div className="h-1 w-24 bg-gradient-to-r from-transparent via-gold-500/50 to-transparent rounded-full" />
+                  <div className="h-1 w-24 bg-gradient-to-r from-transparent via-[#C5A059]/50 to-transparent rounded-full" />
                 </div>
 
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6 px-4">
@@ -596,49 +606,48 @@ export default function EditProfilePage() {
                           setActiveEditTest(testId);
                           setShowUpdateModal(true);
                         }}
-                        className={`relative group cursor-pointer aspect-[4/3] rounded-3xl border transition-all duration-500 overflow-hidden ${
-                          hasData 
-                          ? 'bg-dark-900/50 border-gold-500/30 shadow-[0_10px_40px_rgba(194,168,120,0.05)]' 
-                          : 'bg-white/[0.02] border-white/5 hover:border-gold-500/20'
-                        }`}
+                        className={`relative group cursor-pointer aspect-[4/3] rounded-[2.5rem] border transition-all duration-500 overflow-hidden ${hasData
+                          ? 'bg-white border-[#C5A059]/30 shadow-xl'
+                          : 'bg-[#FDFBF7] border-[#F1EDEA] hover:border-[#C5A059]/30 shadow-sm'
+                          }`}
                       >
                         {/* Background Decoration */}
-                        <div className={`absolute top-0 right-0 w-24 h-24 blur-3xl rounded-full transition-opacity duration-500 ${hasData ? 'bg-gold-500/10 opacity-100' : 'bg-white/5 opacity-0 group-hover:opacity-40'}`} />
-                        
+                        <div className={`absolute top-0 right-0 w-24 h-24 blur-3xl rounded-full transition-opacity duration-500 ${hasData ? 'bg-[#C5A059]/10 opacity-100' : 'bg-white/5 opacity-0 group-hover:opacity-40'}`} />
+
                         <div className="absolute inset-0 p-6 flex flex-col justify-between z-10">
                           <div className="flex items-center justify-between">
-                            <span className={`text-[10px] font-black uppercase tracking-widest ${hasData ? 'text-gold-500' : 'text-gray-600 group-hover:text-gray-400'}`}>
+                            <span className={`text-[10px] font-black uppercase tracking-widest ${hasData ? 'text-[#C5A059]' : 'text-[#6B5E51] group-hover:text-[#3C2A21]'}`}>
                               {test.name}
                             </span>
                             {hasData ? (
                               <div className="flex items-center gap-2">
-                                <CheckCircle size={12} className="text-gold-500" />
-                                <div className="p-1.5 bg-gold-500/10 rounded-lg text-gold-500 hover:bg-gold-500 hover:text-black transition-all" onClick={(e) => {
-                                   e.stopPropagation();
-                                   const tests = { ...formData.testScores };
-                                   (tests as any)[testId] = Object.keys((tests as any)[testId]).reduce((acc, k) => ({ ...acc, [k]: '' }), {});
-                                   setFormData({...formData, testScores: tests});
+                                <CheckCircle size={12} className="text-[#C5A059]" />
+                                <div className="p-1.5 bg-[#C5A059]/10 rounded-lg text-[#C5A059] hover:bg-[#C5A059] hover:text-white transition-all shadow-inner" onClick={(e) => {
+                                  e.stopPropagation();
+                                  const tests = { ...formData.testScores };
+                                  (tests as any)[testId] = Object.keys((tests as any)[testId]).reduce((acc, k) => ({ ...acc, [k]: '' }), {});
+                                  setFormData({ ...formData, testScores: tests });
                                 }}>
                                   <Trash2 size={10} />
                                 </div>
                               </div>
                             ) : (
-                              <Plus size={14} className="text-gray-700 group-hover:text-gold-500 transition-colors" />
+                              <Plus size={14} className="text-[#6B5E51] group-hover:text-[#C5A059] transition-colors" />
                             )}
                           </div>
 
                           <div className="space-y-1">
                             {hasData ? (
                               <>
-                                <div className="text-2xl font-black text-white italic tracking-tighter">
+                                <div className="fd text-2xl font-bold text-[#3C2A21] italic tracking-tighter">
                                   {mainScore || "Active"}
                                 </div>
-                                <div className="text-[8px] font-black text-gray-500 uppercase tracking-widest">
+                                <div className="text-[8px] font-black text-[#6B5E51] uppercase tracking-widest opacity-40 italic">
                                   Score Recorded
                                 </div>
                               </>
                             ) : (
-                              <div className="text-[9px] font-black text-gray-700 uppercase tracking-widest group-hover:text-gray-500 transition-colors">
+                              <div className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest group-hover:text-[#3C2A21] transition-colors opacity-40">
                                 Add Details
                               </div>
                             )}
@@ -646,38 +655,38 @@ export default function EditProfilePage() {
                         </div>
 
                         {/* Hover Overlay */}
-                        <div className="absolute inset-0 bg-gold-500 opacity-0 group-hover:opacity-[0.02] transition-opacity duration-500" />
+                        <div className="absolute inset-0 bg-[#C5A059] opacity-0 group-hover:opacity-[0.02] transition-opacity duration-500" />
                       </motion.div>
                     );
                   })}
                 </div>
 
                 <div className="pt-8 flex items-center justify-center">
-                  <button 
-                    onClick={() => handleSave()} 
+                  <button
+                    onClick={() => handleSave()}
                     disabled={saving}
-                    className="group relative px-12 py-4 bg-gold-500 text-black rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] overflow-hidden hover:bg-gold-400 transition-all shadow-[0_20px_40px_rgba(194,168,120,0.3)] active:scale-95 disabled:opacity-50"
+                    className="group relative px-12 py-4 bg-[#3C2A21] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.3em] overflow-hidden hover:bg-[#C5A059] transition-all shadow-xl active:scale-95 disabled:opacity-50"
                   >
                     <span className="relative z-10">{saving ? "Syncing Universe..." : "Lock in Scores"}</span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none" />
                   </button>
                 </div>
               </div>
             )}
 
             {activeTab === 'resume' && (
-              <section className="bg-dark-900 border border-white/5 rounded-[2rem] p-20 text-center shadow-2xl relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-64 h-64 bg-gold-500/5 blur-[100px] rounded-full -ml-32 -mt-32" />
-                <div className="w-24 h-24 bg-gold-500/5 rounded-[2.5rem] border border-white/5 flex items-center justify-center text-gold-500 mx-auto mb-10 shadow-3xl relative z-10">
-                  <FileText size={48} className="opacity-80" />
+              <section className="glass-panel p-10 md:p-20 text-center relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-64 h-64 bg-[#C5A059]/5 blur-[100px] rounded-full -mr-32 -mt-32" />
+                <div className="w-20 h-20 md:w-24 md:h-24 bg-[#FDFBF7] rounded-[2.5rem] border border-[#C5A059]/15 flex items-center justify-center text-[#C5A059] mx-auto mb-8 shadow-inner relative z-10">
+                  <FileText size={40} className="opacity-80 md:hidden" />
+                  <FileText size={48} className="opacity-80 hidden md:block" />
                 </div>
-                <h2 className="text-2xl font-black text-white uppercase tracking-widest mb-4 italic relative z-10">My Resume</h2>
-                <p className="text-gray-500 text-[10px] font-black uppercase tracking-widest max-w-xs mx-auto leading-relaxed mb-12 italic relative z-10">
+                <h2 className="fd text-xl md:text-2xl font-bold text-[#3C2A21] uppercase tracking-widest mb-4 italic relative z-10">My Resume</h2>
+                <p className="text-[#6B5E51] text-[9px] md:text-[10px] font-bold uppercase tracking-widest max-w-xs mx-auto leading-relaxed mb-10 md:mb-12 italic relative z-10 opacity-60">
                   {formData.resumeName ? `Instance Active: ${formData.resumeName}` : "No resume protocol detected."}
                 </p>
-                <div className="max-w-md mx-auto p-12 border-2 border-dashed border-white/10 rounded-3xl group hover:border-gold-500/20 transition-all cursor-pointer relative z-10">
-                  <Plus size={24} className="text-gray-700 mx-auto mb-4 group-hover:text-gold-500 transition-colors" />
-                  <span className="text-[9px] font-black text-gray-600 uppercase tracking-widest block group-hover:text-white transition-colors">Upload New Document</span>
+                <div className="max-w-md mx-auto p-8 md:p-12 border-2 border-dashed border-[#F1EDEA] rounded-[2rem] group hover:border-[#C5A059]/40 transition-all cursor-pointer relative z-10 bg-[#FDFBF7]">
+                  <Plus size={24} className="text-[#6B5E51] opacity-20 mx-auto mb-4 group-hover:text-[#C5A059] group-hover:opacity-100 transition-all" />
+                  <span className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest block group-hover:text-[#3C2A21] transition-colors opacity-40">Upload New Document</span>
                 </div>
               </section>
             )}
@@ -704,7 +713,7 @@ export default function EditProfilePage() {
 
       <AnimatePresence>
         {showUpdateModal && activeEditTest && (
-          <TestUpdateModal 
+          <TestUpdateModal
             testId={activeEditTest}
             testDef={testDefinitions[activeEditTest]}
             scores={(formData.testScores as any)[activeEditTest]}
@@ -747,115 +756,45 @@ const testDefinitions: any = {
 function TestUpdateModal({ testId, testDef, scores, onChange, onClose }: any) {
   return (
     <div className="fixed inset-0 z-[500] flex items-center justify-center p-6">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/95 backdrop-blur-xl" />
-      <motion.div 
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
+      <motion.div
         initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }}
-        className="relative w-full max-w-xl bg-dark-900 border border-white/5 rounded-[3rem] overflow-hidden shadow-3xl"
+        className="relative w-full max-w-xl bg-white border border-[#C5A059]/20 rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl max-h-[90vh] flex flex-col"
       >
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-gold-500 to-transparent" />
-        
-        <div className="p-12 space-y-10">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent" />
+
+        <div className="p-6 md:p-12 space-y-8 md:space-y-10 overflow-y-auto no-scrollbar">
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h3 className="text-3xl font-black text-white italic tracking-tighter uppercase">{testDef.name}</h3>
-              <p className="text-[10px] font-black text-gray-600 uppercase tracking-widest">Update Sectional Benchmarks</p>
+              <h3 className="fd text-3xl font-bold text-[#3C2A21] italic tracking-tighter uppercase">{testDef.name}</h3>
+              <p className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest opacity-40 italic">Update Sectional Benchmarks</p>
             </div>
-            <button onClick={onClose} className="p-3 bg-white/5 rounded-2xl text-gray-500 hover:text-white transition-colors">
+            <button onClick={onClose} className="p-2 md:p-3 bg-white border border-[#C5A059]/10 rounded-2xl text-[#6B5E51]/40 hover:text-[#C5A059] transition-all">
               <Plus size={20} className="rotate-45" />
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
             {testDef.sections.map((section: string) => (
               <div key={section} className="space-y-3">
-                <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest ml-1">{section}</label>
-                <input 
+                <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">{section}</label>
+                <input
                   type="text"
                   value={scores[section] || ''}
                   onChange={(e) => onChange(section, e.target.value)}
                   placeholder="0"
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm font-black text-white focus:border-gold-500/50 outline-none transition-all placeholder:text-white/5"
+                  className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-sm font-black text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all placeholder:text-[#3C2A21]/10 shadow-inner"
                 />
               </div>
             ))}
           </div>
 
-          <button 
+          <button
             onClick={onClose}
-            className="w-full py-5 bg-gold-500 text-black rounded-[1.5rem] font-black text-[11px] uppercase tracking-[0.2em] hover:bg-gold-400 transition-all shadow-xl active:scale-95"
+            className="w-full py-5 bg-[#3C2A21] text-white rounded-[1.5rem] font-black text-[11px] uppercase tracking-[0.2em] hover:bg-[#C5A059] transition-all shadow-xl active:scale-95"
           >
             Confirm Scores
           </button>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
-
-function TestSelectionModal({ selectedTests, onToggle, onClose }: { selectedTests: any, onToggle: (id: string) => void, onClose: () => void }) {
-  const tests = [
-    { id: 'toefl', name: 'TOEFL' },
-    { id: 'ielts', name: 'IELTS' },
-    { id: 'duolingo', name: 'Duolingo' },
-    { id: 'gre', name: 'GRE' },
-    { id: 'gmat', name: 'GMAT' },
-    { id: 'mcat', name: 'MCAT' },
-  ];
-
-  return (
-    <div className="fixed inset-0 z-[400] flex items-center justify-center p-6">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/90 backdrop-blur-md" />
-      <motion.div 
-        initial={{ scale: 0.95, opacity: 0, y: 20 }} 
-        animate={{ scale: 1, opacity: 1, y: 0 }} 
-        exit={{ scale: 0.95, opacity: 0, y: 20 }} 
-        className="relative w-full max-w-4xl bg-dark-900 border border-white/5 rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row h-[600px] shadow-[0_50px_100px_rgba(0,0,0,0.5)]"
-      >
-        {/* Left Banner */}
-        <div className="w-full md:w-80 bg-gold-500 p-12 flex flex-col items-center justify-center text-center gap-8">
-           <div className="w-24 h-24 bg-white/20 rounded-3xl flex items-center justify-center">
-              <ClipboardList size={40} className="text-white" />
-           </div>
-           <div className="space-y-4">
-              <h3 className="text-2xl font-black text-black uppercase leading-tight">Add Test Details</h3>
-              <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest leading-relaxed">Please list any standardized tests you've taken in the past.</p>
-           </div>
-        </div>
-
-        {/* Right Content */}
-        <div className="flex-1 bg-white p-12 overflow-y-auto relative">
-           <button onClick={onClose} className="absolute top-8 right-8 text-black/20 hover:text-black transition-colors">
-              <Plus size={24} className="rotate-45" />
-           </button>
-
-           <div className="max-w-md mx-auto space-y-10">
-              <div className="space-y-2">
-                 <h4 className="text-sm font-black text-black uppercase tracking-widest">Select tests you have appeared for</h4>
-                 <div className="h-1 w-20 bg-gold-500 rounded-full" />
-              </div>
-
-              <div className="space-y-3">
-                 {tests.map(test => (
-                    <div 
-                      key={test.id} 
-                      onClick={() => onToggle(test.id)}
-                      className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all cursor-pointer group ${selectedTests[test.id] ? 'border-gold-500 bg-gold-50/50' : 'border-gray-100 hover:border-gray-200'}`}
-                    >
-                       <span className={`text-[10px] font-black uppercase tracking-widest ${selectedTests[test.id] ? 'text-gold-600' : 'text-gray-400 group-hover:text-gray-600'}`}>{test.name}</span>
-                       <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedTests[test.id] ? 'bg-gold-500 border-gold-500' : 'border-gray-200'}`}>
-                          {selectedTests[test.id] && <Check size={14} className="text-white" />}
-                       </div>
-                    </div>
-                 ))}
-              </div>
-
-              <button 
-                onClick={onClose}
-                className="w-full py-4 bg-black text-white rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-gray-900 transition-all shadow-xl active:scale-95"
-              >
-                Proceed to Scores
-              </button>
-           </div>
         </div>
       </motion.div>
     </div>
@@ -918,31 +857,31 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
   };
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center p-6">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/90 backdrop-blur-sm" />
-      <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="relative w-full max-w-md bg-dark-900 border border-white/5 rounded-[2rem] p-12 overflow-hidden">
-        <h3 className="text-2xl font-black text-white uppercase mb-8">Reset Password</h3>
+    <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-6">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
+      <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="relative w-full max-w-md bg-white border border-[#C5A059]/20 rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
+        <h3 className="fd text-2xl font-bold text-[#3C2A21] uppercase mb-8 italic">Reset Password</h3>
         {message.text && (
-          <div className={`text-[10px] font-black uppercase mb-8 p-4 rounded-xl border ${message.type === 'success' ? 'bg-green-500/10 border-green-500/20 text-green-500' : 'bg-red-500/10 border-red-500/20 text-red-400'}`}>
+          <div className={`text-[10px] font-black uppercase mb-8 p-4 rounded-xl border ${message.type === 'success' ? 'bg-green-500/10 border-green-500/20 text-green-500' : 'bg-red-500/10 border-red-500/20 text-red-600'}`}>
             {message.text}
           </div>
         )}
         {step === 1 ? (
           <div className="space-y-8">
-            <p className="text-gray-500 text-[11px] font-black uppercase tracking-widest">Click below to send a code to {email}</p>
-            <button disabled={loading} onClick={handleTriggerOTP} className="w-full py-4 bg-gold-500 text-black rounded-xl font-black text-[10px] uppercase">{loading ? 'Sending...' : 'Send OTP'}</button>
+            <p className="text-[#6B5E51] text-[11px] font-bold uppercase tracking-widest italic opacity-60">Click below to send a code to {email}</p>
+            <button disabled={loading} onClick={handleTriggerOTP} className="w-full py-4 bg-[#C5A059] text-white rounded-xl font-black text-[10px] uppercase shadow-lg active:scale-95 transition-all">{loading ? 'Sending...' : 'Send OTP'}</button>
           </div>
         ) : (
           <div className="space-y-6">
             <div className="space-y-2">
-              <label className="text-[9px] font-black text-gray-600 uppercase tracking-widest">Enter Code</label>
-              <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white font-black" placeholder="000000" />
+              <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Enter Code</label>
+              <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-black shadow-inner focus:border-[#C5A059]/50 outline-none" placeholder="000000" />
             </div>
             <div className="space-y-2">
-              <label className="text-[9px] font-black text-gray-600 uppercase tracking-widest">New Password</label>
-              <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white" placeholder="Min 6 characters" />
+              <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">New Password</label>
+              <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-bold shadow-inner focus:border-[#C5A059]/50 outline-none" placeholder="Min 6 characters" />
             </div>
-            <button disabled={loading} onClick={handleResetPassword} className="w-full py-4 bg-gold-500 text-black rounded-xl font-black text-[10px] uppercase">{loading ? 'Saving...' : 'Reset Password'}</button>
+            <button disabled={loading} onClick={handleResetPassword} className="w-full py-4 bg-[#3C2A21] text-white rounded-xl font-black text-[10px] uppercase shadow-lg active:scale-95 transition-all">{loading ? 'Saving...' : 'Reset Password'}</button>
           </div>
         )}
       </motion.div>

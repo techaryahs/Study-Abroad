@@ -4,23 +4,23 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-dark-950 text-white border-t border-white/5 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-gold-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+    <footer className="bg-[#2D1F1D] text-white border-t border-[#B3985E]/20 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#B3985E]/5 blur-[120px] rounded-full pointer-events-none"></div>
 
       {/* TOP SECTION */}
-      <div className="max-w-7xl mx-auto px-8 md:px-12 py-24 grid md:grid-cols-4 gap-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-8 md:px-12 py-24 grid md:grid-cols-4 gap-16 relative z-10 transition-all duration-300">
 
         {/* BRAND */}
         <div className="space-y-8">
           <Link href="/" className="flex items-center gap-4 group">
-            <div className="w-12 h-12 rounded-xl bg-gold-500 flex items-center justify-center font-bold text-black text-2xl group-hover:rotate-6 transition-transform">
-              A
+            <div className="w-12 h-12 rounded-xl bg-[#B3985E] flex items-center justify-center font-bold text-[#2D1F1D] text-2xl group-hover:rotate-6 transition-transform">
+              G
             </div>
             <div className="flex flex-col">
               <span className="font-serif font-bold text-xl text-white leading-tight">
-                Global Counselling Center
+                Global Counsellor Center
               </span>
-              <span className="text-[10px] text-gold-500 uppercase tracking-[0.3em] font-black">
+              <span className="text-[10px] text-[#B3985E] uppercase tracking-[0.3em] font-black">
                 Global Admissions
               </span>
             </div>
@@ -37,11 +37,11 @@ export default function Footer() {
             Navigation
           </h3>
           <ul className="space-y-4 text-white/50 text-sm font-medium">
-            <li><Link href="/" className="hover:text-gold-500 transition-colors">Home</Link></li>
-            <li><Link href="/about" className="hover:text-gold-500 transition-colors">About Us</Link></li>
-            <li><Link href="/services" className="hover:text-gold-500 transition-colors">Our Services</Link></li>
-            <li><Link href="/success-stories" className="hover:text-gold-500 transition-colors">Success Stories</Link></li>
-            <li><Link href="/blogs" className="hover:text-gold-500 transition-colors">Insights & Blogs</Link></li>
+            <li><Link href="/" className="hover:text-[#B3985E] transition-colors">Home</Link></li>
+            <li><Link href="/about" className="hover:text-[#B3985E] transition-colors">About Us</Link></li>
+            <li><Link href="/services" className="hover:text-[#B3985E] transition-colors">Our Services</Link></li>
+            <li><Link href="/success-stories" className="hover:text-[#B3985E] transition-colors">Success Stories</Link></li>
+            <li><Link href="/blogs" className="hover:text-[#B3985E] transition-colors">Insights & Blogs</Link></li>
           </ul>
         </div>
 
@@ -51,11 +51,11 @@ export default function Footer() {
             Expertise
           </h3>
           <ul className="space-y-4 text-white/50 text-sm font-medium">
-            <li><Link href="/services/admission-guidance" className="hover:text-gold-500 transition-colors">Admission Guidance</Link></li>
-            <li><Link href="/services/university-shortlisting" className="hover:text-gold-500 transition-colors">University Shortlisting</Link></li>
-            <li><Link href="/services/scholarship-assistance" className="hover:text-gold-500 transition-colors">Scholarship Assistance</Link></li>
-            <li><Link href="/services/visa-guidance" className="hover:text-gold-500 transition-colors">Visa Guidance</Link></li>
-            <li><Link href="/services/profile-building" className="hover:text-gold-500 transition-colors">Profile Building</Link></li>
+            <li><Link href="/services/admission-guidance" className="hover:text-[#B3985E] transition-colors">Admission Guidance</Link></li>
+            <li><Link href="/services/university-shortlisting" className="hover:text-[#B3985E] transition-colors">University Shortlisting</Link></li>
+            <li><Link href="/services/scholarship-assistance" className="hover:text-[#B3985E] transition-colors">Scholarship Assistance</Link></li>
+            <li><Link href="/services/visa-guidance" className="hover:text-[#B3985E] transition-colors">Visa Guidance</Link></li>
+            <li><Link href="/services/profile-building" className="hover:text-[#B3985E] transition-colors">Profile Building</Link></li>
           </ul>
         </div>
 
@@ -66,16 +66,16 @@ export default function Footer() {
           </h3>
           <div className="space-y-6 text-white/50 text-sm font-medium">
             <p className="flex items-start gap-4">
-              <span className="text-gold-500 text-xs">📍</span>
-              Excellence Tower, Mumbai, India
+              <span className="text-[#B3985E] text-xs">📍</span>
+              Gauri Complex, 601, Sector 11, CBD Belapur, Navi Mumbai, Maharashtra 400614
             </p>
             <p className="flex items-center gap-4">
-              <span className="text-gold-500 text-xs">📞</span>
-              +91 89876 54321
+              <span className="text-[#B3985E] text-xs">📞</span>
+              +91 96199 01999
             </p>
             <p className="flex items-center gap-4">
-              <span className="text-gold-500 text-xs">✉</span>
-              admissions@dralam.com
+              <span className="text-[#B3985E] text-xs">✉</span>
+              tech.aryahs@gmail.com
             </p>
           </div>
         </div>
@@ -83,13 +83,13 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM */}
-      <div className="border-t border-white/5 text-center py-12 px-8 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4">
+      <div className="border-t border-[#B3985E]/20 text-center py-12 px-8 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-4">
         <div className="text-white/20 text-[10px] uppercase tracking-[0.5em] font-black">
-          © {new Date().getFullYear()} Global Counselling Center Global.
+          © {new Date().getFullYear()} Global Counsellor Center Global.
         </div>
         <div className="flex gap-8 text-[10px] uppercase tracking-[0.3em] font-black text-white/20">
-          <Link href="/privacy" className="hover:text-gold-500 transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="hover:text-gold-500 transition-colors">Terms of Service</Link>
+          <Link href="/privacy" className="hover:text-[#B3985E] transition-colors">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-[#B3985E] transition-colors">Terms of Service</Link>
         </div>
       </div>
     </footer>

@@ -2,7 +2,8 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { Search, Filter, Bookmark, ArrowRight, GraduationCap, Atom, Beaker, BookOpen } from "lucide-react";
+import { Search, Filter, Bookmark, ArrowRight, GraduationCap } from "lucide-react";
+import { motion } from "framer-motion";
 import scholarshipData from "@/data/scolarship.json";
 
 const ScholarshipsPage = () => {
@@ -25,105 +26,148 @@ const ScholarshipsPage = () => {
   }, [scholarships]);
 
   return (
-    <div className="min-h-screen bg-[#05070a] text-white">  
+    <div className="min-h-screen transition-colors duration-300" style={{ background: "#FDFBF7", color: "#2D2926", fontFamily: "'DM Sans', sans-serif" }}>  
+      
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+        .fd { font-family: 'Cormorant Garamond', serif; }
+        
+        .gold-shimmer {
+          background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
+          background-size: 300% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+
+        .scholarship-card {
+          background: #FFFFFF;
+          border: 1px solid rgba(197,160,89, 0.15);
+          border-radius: 20px;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        }
+
+        .scholarship-card:hover {
+          transform: translateY(-4px);
+          border-color: rgba(197,160,89, 0.4);
+          box-shadow: 0 15px 35px rgba(197,160,89, 0.08);
+        }
+
+        .search-container {
+          background: #FFFFFF;
+          border: 1px solid rgba(197,160,89, 0.2);
+          border-radius: 24px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+        }
+        @media (min-width: 768px) {
+          .search-container {
+            border-radius: 100px;
+          }
+        }
+      `}</style>
       
       {/* Hero Header */}
-      <section className="relative pt-20 pb-4 overflow-hidden bg-gradient-to-b from-[#c2a878]/10 to-transparent">
-         {/* Background Illustrations */}
-         <div className="absolute top-10 left-10 w-32 h-32 opacity-10 border-2 border-[#c2a878] rounded-full rotate-45" />
-         <div className="absolute bottom-10 right-10 w-48 h-48 opacity-10 border-2 border-[#c2a878] rounded-[3rem] -rotate-12" />
-         
-         <div className="absolute top-1/2 left-[10%] -translate-y-1/2 opacity-20 animate-pulse hidden lg:block">
-            <Atom size={120} className="text-[#c2a878]/30 rotate-12" />
-         </div>
-         <div className="absolute top-1/4 right-[12%] opacity-20 animate-bounce hidden lg:block" style={{ animationDuration: '4s' }}>
-            <Beaker size={100} className="text-[#c2a878]/40 -rotate-12" />
-         </div>
-         <div className="absolute bottom-[20%] right-[15%] opacity-10 hidden lg:block">
-            <BookOpen size={80} className="text-white/20 rotate-45" />
-         </div>
-
+      <section className="relative pt-32 pb-24 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.06) 0%, transparent 100%)" }}>
          <div className="max-w-6xl mx-auto px-6 text-center relative z-10">
-            <div className="relative inline-block mb-8">
-               <h1 className="text-6xl md:text-8xl font-black uppercase italic font-serif tracking-tighter bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
-                 Scholarships
+            <motion.div
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ duration: 0.8 }}
+            >
+               <span className="inline-block px-4 py-1 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[10px] tracking-[0.2em] uppercase mb-6">
+                 Financial Support Index
+               </span>
+               <h1 className="fd text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight mb-10 leading-[0.95] text-[#2D2926]">
+                 Elite <span className="gold-shimmer">Scholarships</span>
                </h1>
-               <div className="absolute -top-10 -right-16 text-6xl animate-bounce pointer-events-none hidden md:block" style={{ animationDuration: '3s' }}>🎓</div>
-               <div className="absolute -bottom-6 -left-12 text-4xl opacity-50 grayscale hover:grayscale-0 transition-all cursor-default hidden md:block">🔬</div>
-            </div>
+            </motion.div>
             
-            <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-4 bg-[#0a0a0a] p-2 rounded-[2.5rem] border border-white/10 shadow-2xl">
+            <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-2 p-2 search-container">
                <div className="flex-1 w-full relative flex items-center px-6">
-                  <Search size={20} className="text-gray-600 mr-4" />
+                  <Search size={18} className="text-[#A8A29E] mr-4" />
                   <input 
                     type="text" 
-                    placeholder="Search for a Scholarship"
+                    placeholder="Search by program name or provider..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-transparent py-4 text-sm outline-none placeholder:text-gray-700"
+                    className="w-full bg-transparent py-4 text-sm outline-none placeholder:text-[#A8A29E] font-medium"
                   />
                </div>
-               <div className="h-10 w-[1px] bg-white/10 hidden md:block" />
+               <div className="h-8 w-[1px] bg-[#F1EDEA] hidden md:block" />
                <div className="w-full md:w-64 relative">
                   <select 
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full bg-transparent py-4 px-6 text-sm outline-none appearance-none cursor-pointer text-gray-400 focus:text-white"
+                    className="w-full bg-transparent py-4 px-6 text-sm outline-none appearance-none cursor-pointer text-[#6B5E51] font-bold"
                   >
-                    {categories.map(cat => <option key={cat} value={cat} className="bg-[#0a0a0a]">{cat}</option>)}
+                    {categories.map(cat => <option key={cat} value={cat} className="bg-white">{cat}</option>)}
                   </select>
-                  <Filter size={14} className="absolute right-6 top-1/2 -translate-y-1/2 text-[#c2a878] pointer-events-none" />
+                  <Filter size={14} className="absolute right-6 top-1/2 -translate-y-1/2 text-[#C5A059] pointer-events-none" />
                </div>
-               <button className="w-full md:w-auto px-12 py-4 bg-[#c2a878] text-black font-black uppercase tracking-widest text-[11px] rounded-[2rem] hover:bg-yellow-200 transition-colors shadow-[0_10px_20px_rgba(194,168,120,0.2)]">
-                  Search
+               <button className="w-full md:w-auto px-10 py-4 bg-[#2D2926] text-white font-bold uppercase tracking-widest text-[11px] rounded-full hover:bg-[#C5A059] transition-all">
+                  Apply Filter
                </button>
             </div>
          </div>
       </section>
 
       {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-6 pt-0 pb-24">
+      <main className="max-w-6xl mx-auto px-6 pb-32">
          
-         <div className="flex items-center gap-12 mb-12 border-b border-white/5 pb-6">
+         <div className="flex items-center gap-10 mb-12 border-b border-[#F1EDEA] pb-6">
             <button className="relative group flex items-center gap-2">
-               <span className="text-[#c2a878] font-black text-[10px] uppercase tracking-[0.2em]">{`Scholarship Search (${filteredScholarships.length})`}</span>
-               <div className="absolute -bottom-6 left-0 w-full h-1 bg-[#c2a878] rounded-full" />
+               <span className="text-[#2D2926] font-bold text-[11px] uppercase tracking-[0.15em]">{`Opportunities (${filteredScholarships.length})`}</span>
+               <div className="absolute -bottom-6 left-0 w-full h-0.5 bg-[#C5A059]" />
             </button>
-            <button className="flex items-center gap-2 text-gray-600 hover:text-white transition-colors">
+            <button className="flex items-center gap-2 text-[#A8A29E] hover:text-[#C5A059] transition-colors">
                <Bookmark size={14} />
-               <span className="font-black text-[10px] uppercase tracking-[0.2em]">Saved Scholarships (0)</span>
+               <span className="font-bold text-[11px] uppercase tracking-[0.15em]">Portfolio (0)</span>
             </button>
          </div>
 
-         <div className="bg-white/[0.01] border border-white/5 rounded-[2.5rem] overflow-hidden">
+         <div className="grid gap-6">
             {filteredScholarships.length > 0 ? (
-              filteredScholarships.map((s, idx) => (
+              filteredScholarships.map((s) => (
                 <Link 
                   href={`/resources/scholarships/${s.slug}`}
                   key={s.id} 
-                  className={`block group px-8 md:px-12 py-8 transition-all duration-300 hover:bg-white/[0.02] ${idx !== filteredScholarships.length - 1 ? 'border-b border-white/5' : ''}`}
+                  className="scholarship-card block group p-8 md:p-10"
                 >
-                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
                       
                       <div className="flex-1 min-w-0">
-                         <h3 className="text-xl font-black text-white tracking-tight group-hover:text-[#c2a878] transition-colors mb-1 truncate">{s.name}</h3>
-                         <p className="text-[10px] font-bold uppercase tracking-widest text-gray-600">Sponsor: <span className="text-gray-400 font-medium">{s.sponsor}</span></p>
+                         <div className="flex items-center gap-3 mb-3">
+                           <span className="px-3 py-1 bg-[#F8F5F0] text-[#C5A059] text-[9px] font-bold uppercase tracking-widest rounded-md border border-[rgba(197,160,89,0.1)]">
+                             {s.category}
+                           </span>
+                         </div>
+                         <h3 className="fd text-2xl md:text-3xl font-bold text-[#2D2926] transition-colors mb-2">{s.name}</h3>
+                         <p className="text-xs font-bold text-[#6B5E51] tracking-wide">PROVIDER: <span className="font-medium opacity-80">{s.sponsor}</span></p>
                       </div>
 
-                      <div className="flex items-center gap-8 md:gap-16 flex-shrink-0">
-                         <div className="flex flex-col items-end gap-1">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-[#c2a878]/40">Deadline</span>
-                            <span className="text-xs font-bold text-gray-300 whitespace-nowrap">{s.deadline}</span>
+                      <div className="flex items-center gap-10 md:gap-14 flex-shrink-0">
+                         <div className="flex flex-col items-center md:items-end gap-2">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#A8A29E]">Closing Date</span>
+                            <span className="text-sm font-bold text-[#2D2926] whitespace-nowrap">{s.deadline}</span>
                          </div>
-                         <div className="flex flex-col items-end gap-1">
-                            <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500/40">Amount</span>
-                            <span className="text-xs font-bold text-gray-200 whitespace-nowrap">{s.amount}</span>
+                         <div className="flex flex-col items-center md:items-end gap-2">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">Award value</span>
+                            <span className="text-sm font-bold text-[#2D2926] whitespace-nowrap">{s.amount}</span>
                          </div>
-                         <div className="flex items-center gap-2">
-                            <button className="p-2.5 text-gray-700 hover:text-[#c2a878] transition-colors" onClick={(e) => e.preventDefault()}>
-                               <Bookmark size={18} />
+                         <div className="flex items-center gap-4">
+                            <button className="p-3 bg-[#F8F5F0] text-[#6B5E51] rounded-full hover:text-[#C5A059] transition-colors" onClick={(e) => e.preventDefault()}>
+                               <Bookmark size={20} />
                             </button>
-                            <ArrowRight size={18} className="text-gray-800 group-hover:text-white transition-colors" />
+                            <div className="w-12 h-12 bg-[#2D2926] text-white rounded-full flex items-center justify-center group-hover:bg-[#C5A059] transition-all">
+                              <ArrowRight size={20} />
+                            </div>
                          </div>
                       </div>
 
@@ -131,15 +175,30 @@ const ScholarshipsPage = () => {
                 </Link>
               ))
             ) : (
-              <div className="py-32 text-center">
-                 <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <GraduationCap size={40} className="text-gray-700" />
+              <div className="py-40 text-center card-shell">
+                 <div className="w-24 h-24 bg-[#F8F5F0] rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                    <GraduationCap size={48} className="text-[#A8A29E]" />
                  </div>
-                 <h2 className="text-xl font-bold text-gray-400 tracking-tight">No scholarships found.</h2>
+                 <h2 className="fd text-3xl font-bold text-[#2D2926] tracking-tight">Access Restricted</h2>
+                 <p className="text-[#6B5E51] mt-2 font-medium">No scholarship matches your specific parameters.</p>
               </div>
             )}
          </div>
       </main>
+
+      {/* Advisor CTA */}
+      <section className="max-w-6xl mx-auto px-6 mb-32">
+        <div className="bg-[#2D2926] rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 10% 20%, #C5A059 1px, transparent 1px)", backgroundSize: '40px 40px' }}></div>
+          <div className="relative z-10 max-w-3xl mx-auto">
+            <h2 className="fd text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight">Expert Financial <br/><span className="gold-shimmer">Guidance</span></h2>
+            <p className="text-[#A8A29E] text-lg md:text-xl font-medium mb-10 leading-relaxed">Connect with our dedicated funding specialists to maximize your chances of securing institutional support.</p>
+            <Link href="/contact" className="inline-block bg-[#C5A059] text-white font-bold px-12 py-5 rounded-2xl hover:bg-white hover:text-[#2D2926] transition-all text-xs tracking-widest uppercase">
+              Schedule Briefing
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

@@ -132,7 +132,7 @@ export default function AdminDashboard() {
             onClick={() => router.push("/admin/consultants")}
             className={`px-6 py-3 text-sm font-black uppercase tracking-wider transition-all text-gray-500 hover:text-white`}
           >
-            Consultants
+            Counsellors
           </button>
         </div>
 

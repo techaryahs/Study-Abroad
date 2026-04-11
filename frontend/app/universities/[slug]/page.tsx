@@ -56,7 +56,7 @@ function CountUp({ target, decimals = 0, prefix = "", suffix = "", duration = 16
     return <span ref={ref}>{prefix}{decimals ? val.toFixed(decimals) : val.toLocaleString()}{suffix}</span>;
 }
 
-function RingChart({ pct, size = 100, stroke = 9, color = "#eab308", label }: { pct: number, size?: number, stroke?: number, color?: string, label: string }) {
+function RingChart({ pct, size = 100, stroke = 9, color = "#C5A059", label }: { pct: number, size?: number, stroke?: number, color?: string, label: string }) {
     const [started, setStarted] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -70,17 +70,17 @@ function RingChart({ pct, size = 100, stroke = 9, color = "#eab308", label }: { 
     return (
         <div ref={ref} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
             <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
-                <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={stroke} />
+                <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(0,0,0,0.05)" strokeWidth={stroke} />
                 <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke}
                     strokeDasharray={circ} strokeDashoffset={offset} strokeLinecap="round"
                     style={{ transition: "stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1)" }} />
                 <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle"
-                    fill="#f5f5f4" fontSize={size * 0.18} fontWeight="700" fontFamily="Cormorant Garamond, serif"
+                    fill="#3C2F2F" fontSize={size * 0.18} fontWeight="700" fontFamily="Cormorant Garamond, serif"
                     style={{ transform: "rotate(90deg)", transformOrigin: "center" }}>
                     {pct}%
                 </text>
             </svg>
-            <span style={{ fontSize: 12, color: "#78716c", textAlign: "center", fontFamily: "'DM Sans', sans-serif" }}>{label}</span>
+            <span style={{ fontSize: 12, color: "#6B5E51", textAlign: "center", fontFamily: "'DM Sans', sans-serif" }}>{label}</span>
         </div>
     );
 }
@@ -88,14 +88,14 @@ function RingChart({ pct, size = 100, stroke = 9, color = "#eab308", label }: { 
 function ScatterPlot({ points, visible }: { points: Array<{ gre: number, gpa: number, type: 'admit' | 'reject' | 'applied' }>, visible: boolean }) {
     const greMin = 260, greMax = 340, gpaMin = 1, gpaMax = 10;
     const w = 100, h = 100;
-    const colors: Record<'admit' | 'reject' | 'applied', string> = { admit: "#22c55e", reject: "#ef4444", applied: "#eab308" };
+    const colors: Record<'admit' | 'reject' | 'applied', string> = { admit: "#22c55e", reject: "#ef4444", applied: "#C5A059" };
     return (
         <svg viewBox="0 0 100 100" style={{ width: "100%", height: 260, overflow: "visible" }}>
             {/* Grid */}
             {[0, 25, 50, 75, 100].map(p => (
                 <g key={p}>
-                    <line x1={p} y1={0} x2={p} y2={100} stroke="rgba(255,255,255,0.06)" strokeWidth="0.4" />
-                    <line x1={0} y1={p} x2={100} y2={p} stroke="rgba(255,255,255,0.06)" strokeWidth="0.4" />
+                    <line x1={p} y1={0} x2={p} y2={100} stroke="rgba(0,0,0,0.06)" strokeWidth="0.4" />
+                    <line x1={0} y1={p} x2={100} y2={p} stroke="rgba(0,0,0,0.06)" strokeWidth="0.4" />
                 </g>
             ))}
             {/* Dots */}
@@ -110,8 +110,8 @@ function ScatterPlot({ points, visible }: { points: Array<{ gre: number, gpa: nu
                 );
             })}
             {/* Axes labels */}
-            <text x="50" y="107" textAnchor="middle" fill="#78716c" fontSize="4" fontFamily="DM Sans, sans-serif">GRE →</text>
-            <text x="-50" y="-3" textAnchor="middle" fill="#78716c" fontSize="4" fontFamily="DM Sans, sans-serif"
+            <text x="50" y="107" textAnchor="middle" fill="#6B5E51" fontSize="4" fontFamily="DM Sans, sans-serif">GRE →</text>
+            <text x="-50" y="-3" textAnchor="middle" fill="#6B5E51" fontSize="4" fontFamily="DM Sans, sans-serif"
                 transform="rotate(-90)">CGPA →</text>
         </svg>
     );
@@ -147,10 +147,10 @@ export default function UniversityPage() {
 
     if (!data) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#0a0a0f] text-white">
+            <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] text-[#2D2926]">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4">University Not Found</h1>
-                    <p className="text-stone-400">We couldn't find the university you're looking for.</p>
+                    <p className="text-[#6B5E51]">We couldn't find the university you're looking for.</p>
                 </div>
             </div>
         );
@@ -195,7 +195,7 @@ export default function UniversityPage() {
     useEffect(() => { setMounted(true); }, []);
 
     return (
-        <div className="min-h-screen text-stone-100 overflow-x-hidden" style={{ background: "#0a0a0f", fontFamily: "'DM Sans', sans-serif" }}>
+        <div className="min-h-screen text-[#2D2926] overflow-x-hidden" style={{ background: "#FDFBF7", fontFamily: "'DM Sans', sans-serif" }}>
             <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,300&family=DM+Sans:wght@300;400;500;600&display=swap');
 
@@ -203,10 +203,8 @@ export default function UniversityPage() {
         @keyframes fadeIn   { from{opacity:0;} to{opacity:1;} }
         @keyframes floatY   { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
         @keyframes shimmer  { 0%{background-position:-200% center;} 100%{background-position:200% center;} }
-        @keyframes pulseGlow{ 0%,100%{box-shadow:0 0 0 0 rgba(234,179,8,.45);} 50%{box-shadow:0 0 0 10px rgba(234,179,8,0);} }
+        @keyframes pulseGlow{ 0%,100%{box-shadow:0 0 0 0 rgba(197,160,89,.45);} 50%{box-shadow:0 0 0 10px rgba(197,160,89,0);} }
         @keyframes slideIn  { from{opacity:0;transform:translateX(-16px);} to{opacity:1;transform:translateX(0);} }
-        @keyframes orbD1    { 0%,100%{transform:translate(0,0);} 50%{transform:translate(30px,-20px);} }
-        @keyframes orbD2    { 0%,100%{transform:translate(0,0);} 50%{transform:translate(-20px,15px);} }
         @keyframes rankPop  { 0%{transform:scale(0) rotate(-15deg);opacity:0;} 70%{transform:scale(1.15) rotate(3deg);} 100%{transform:scale(1) rotate(0deg);opacity:1;} }
         @keyframes progressW{ from{width:0;} to{width:var(--w);} }
         @keyframes badgeSlide{ from{opacity:0;transform:translateX(8px);} to{opacity:1;transform:translateX(0);} }
@@ -216,89 +214,81 @@ export default function UniversityPage() {
         .afi { animation:fadeIn  0.6s ease both; }
         .afl { animation:floatY 5s ease-in-out infinite; }
         .aglow { animation:pulseGlow 2.5s ease-in-out infinite; }
-        .aorb1 { animation:orbD1 13s ease-in-out infinite; }
-        .aorb2 { animation:orbD2 17s ease-in-out infinite; }
         .arank { animation:rankPop 0.7s cubic-bezier(.34,1.56,.64,1) 0.5s both; }
 
         .d1{animation-delay:.08s;} .d2{animation-delay:.16s;} .d3{animation-delay:.24s;}
         .d4{animation-delay:.32s;} .d5{animation-delay:.48s;} .d6{animation-delay:.60s;}
 
         .gold-shimmer {
-          background:linear-gradient(90deg,#ca8a04,#fde68a,#ca8a04,#d4a555,#ca8a04);
+          background:linear-gradient(90deg,#C5A059,#E6D5B8,#C5A059,#D4AF37,#C5A059);
           background-size:300% auto;
           -webkit-background-clip:text; -webkit-text-fill-color:transparent;
           background-clip:text;
           animation:shimmer 4s linear infinite;
         }
 
-        .grid-texture {
-          background-image:
-            linear-gradient(rgba(202,138,4,.08) 1px,transparent 1px),
-            linear-gradient(90deg,rgba(202,138,4,.08) 1px,transparent 1px);
-          background-size:72px 72px;
-        }
-
         .tag {
           display:inline-block; font-size:10px; letter-spacing:.14em;
-          text-transform:uppercase; color:#eab308;
-          border:1px solid rgba(202,138,4,.35); border-radius:999px;
+          text-transform:uppercase; color:#C5A059;
+          border:1px solid rgba(197,160,89,.35); border-radius:999px;
           padding:4px 14px; font-family:'DM Sans',sans-serif;
         }
 
         .card {
-          background:rgba(255,255,255,.032);
-          border:1px solid rgba(202,138,4,.12);
-          border-radius:18px;
-          transition:transform .3s ease,border-color .3s ease,background .3s ease;
+          background: #FFFFFF;
+          border: 1px solid rgba(197,160,89, 0.15);
+          border-radius: 24px;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+          transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
         }
-        .card:hover { border-color:rgba(202,138,4,.34); background:rgba(202,138,4,.04); }
+        .card:hover { border-color: rgba(197,160,89, 0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 
         .nav-item {
-          font-size:13px; color:#78716c; cursor:pointer; padding:8px 12px;
-          border-radius:10px; transition:all .2s ease; white-space:nowrap;
+          font-size:13px; color:#6B5E51; cursor:pointer; padding:10px 14px;
+          border-radius:12px; transition:all .2s ease; white-space:nowrap;
         }
-        .nav-item:hover { color:#d6d3d1; background:rgba(255,255,255,.04); }
-        .nav-item.active { color:#eab308; background:rgba(202,138,4,.10); font-weight:500; }
+        .nav-item:hover { color:#2D2926; background:rgba(197,160,89,.05); }
+        .nav-item.active { color:#C5A059; background:rgba(197,160,89,.10); font-weight:600; }
 
         .prog-tab {
-          padding:9px 22px; border-radius:999px; font-size:13px; font-weight:500;
-          cursor:pointer; border:1px solid rgba(202,138,4,.20); color:#78716c;
+          padding:10px 24px; border-radius:999px; font-size:13px; font-weight:500;
+          cursor:pointer; border:1px solid rgba(197,160,89,.25); color:#6B5E51;
           background:transparent; transition:all .25s ease; white-space:nowrap;
         }
-        .prog-tab:hover { border-color:rgba(202,138,4,.45); color:#d6d3d1; }
-        .prog-tab.active { background:#ca8a04; color:#0a0a0f; border-color:#ca8a04; font-weight:700; }
+        .prog-tab:hover { border-color:rgba(197,160,89,.6); color:#2D2926; }
+        .prog-tab.active { background:#C5A059; color:#FFFFFF; border-color:#C5A059; font-weight:700; }
 
         .btn-gold {
-          background:#ca8a04; color:#0a0a0f; font-weight:600;
+          background:#C5A059; color:#FFFFFF; font-weight:600;
           border:none; border-radius:999px; padding:12px 28px; font-size:13px;
           cursor:pointer; transition:background .25s,transform .2s; font-family:'DM Sans',sans-serif;
         }
-        .btn-gold:hover { background:#eab308; transform:scale(1.04); }
+        .btn-gold:hover { background:#D4AF37; transform:scale(1.04); }
 
         .btn-outline {
-          background:transparent; color:#eab308;
-          border:1px solid rgba(202,138,4,.42); border-radius:999px;
+          background:transparent; color:#C5A059;
+          border:1px solid rgba(197,160,89,.5); border-radius:999px;
           padding:10px 24px; font-size:13px; cursor:pointer; font-family:'DM Sans',sans-serif;
           transition:background .25s,border-color .25s;
         }
-        .btn-outline:hover { background:rgba(202,138,4,.10); border-color:#eab308; }
+        .btn-outline:hover { background:rgba(197,160,89,.05); border-color:#C5A059; }
 
         .admit-badge {
           position:absolute; top:0; right:0;
-          background:linear-gradient(135deg,#16a34a,#15803d);
+          background:linear-gradient(135deg,#22c55e,#15803d);
           color:#fff; font-size:9px; font-weight:800; letter-spacing:.10em;
           text-transform:uppercase; padding:4px 10px;
-          border-radius:0 14px 0 10px; animation:badgeSlide .4s ease both;
+          border-radius:0 24px 0 12px; animation:badgeSlide .4s ease both;
         }
 
         .degree-btn {
           font-size:12px; padding:6px 16px; border-radius:999px; cursor:pointer;
-          border:1px solid rgba(202,138,4,.20); color:#78716c; background:transparent;
+          border:1px solid rgba(197,160,89,.20); color:#6B5E51; background:transparent;
           transition:all .2s ease; font-family:'DM Sans',sans-serif;
         }
-        .degree-btn.active { background:rgba(202,138,4,.18); color:#eab308; border-color:rgba(202,138,4,.50); }
+        .degree-btn.active { background:rgba(197,160,89,.15); color:#C5A059; border-color:rgba(197,160,89,.50); }
 
-        .stat-divider { border-right:1px solid rgba(202,138,4,.15); }
+        .stat-divider { border-right:1px solid rgba(197,160,89,.15); }
         .stat-divider:last-child { border-right:none; }
 
         .section-anchor { scroll-margin-top: 80px; }
@@ -308,98 +298,85 @@ export default function UniversityPage() {
           border-radius:14px; cursor:pointer;
           transition:background .2s ease, transform .2s ease;
         }
-        .similar-row:hover { background:rgba(202,138,4,.06); transform:translateX(4px); }
+        .similar-row:hover { background:rgba(197,160,89,.08); transform:translateX(4px); }
       `}</style>
-
-            {/* ── Ambient ── */}
-            <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
-                <div className="aorb1 absolute rounded-full"
-                    style={{ width: 600, height: 600, top: -180, right: -180, background: "radial-gradient(circle,rgba(202,138,4,.11) 0%,transparent 70%)", filter: "blur(70px)" }} />
-                <div className="aorb2 absolute rounded-full"
-                    style={{ width: 400, height: 400, bottom: 0, left: -100, background: "radial-gradient(circle,rgba(120,80,20,.09) 0%,transparent 70%)", filter: "blur(60px)" }} />
-                <div className="absolute inset-0 grid-texture" />
-            </div>
 
             <div className="relative" style={{ zIndex: 1 }}>
 
                 {/* ════════════════════ HERO ════════════════════ */}
-                <section style={{ position: "relative", overflow: "hidden" }}>
-                    {/* Hero image strip */}
+                <section style={{ position: "relative", overflow: "hidden", background: "#FDFBF7" }}>
                     <div style={{
-                        height: 340, position: "relative", overflow: "hidden",
-                        background: "linear-gradient(135deg,#1a1200 0%,#0a0a0f 100%)"
+                        height: 380, position: "relative", overflow: "hidden",
                     }}>
                         <img
                             src={currentUni.heroImg}
                             alt="University Hero"
-                            style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.22, filter: "saturate(0.6)" }}
+                            style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.15, filter: "sepia(0.2) saturate(0.8)" }}
                         />
-                        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom,rgba(10,10,15,.2) 0%,rgba(10,10,15,.95) 100%)" }} />
+                        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 0%, #FDFBF7 100%)" }} />
 
                         {/* Rank badge */}
                         <div className="arank" style={{
-                            position: "absolute", top: 28, right: 28,
-                            width: 70, height: 70, borderRadius: "50%",
-                            background: "linear-gradient(135deg,#ca8a04,#fde68a,#a16207)",
+                            position: "absolute", top: 40, right: 60,
+                            width: 80, height: 80, borderRadius: "50%",
+                            background: "linear-gradient(135deg,#C5A059,#E6D5B8,#A16207)",
                             display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                            boxShadow: "0 8px 32px rgba(202,138,4,.5)",
+                            boxShadow: "0 12px 40px rgba(197,160,89,.3)",
                         }}>
-                            <span style={{ fontSize: 22, fontWeight: 800, color: "#0a0a0f", lineHeight: 1 }}>#{currentUni.rank}</span>
-                            <span style={{ fontSize: 8, color: "#0a0a0f", fontWeight: 700, letterSpacing: ".06em" }}>GLOBAL</span>
+                            <span style={{ fontSize: 24, fontWeight: 800, color: "#FFFFFF", lineHeight: 1 }}>#{currentUni.rank}</span>
+                            <span style={{ fontSize: 8, color: "#FFFFFF", fontWeight: 700, letterSpacing: ".06em" }}>GLOBAL</span>
                         </div>
                     </div>
 
                     {/* Info card overlap */}
-                    <div className="max-w-6xl mx-auto px-6" style={{ marginTop: -120, paddingBottom: 0, position: "relative" }}>
-                        <div className={`card p-8 ${mounted ? "afu" : "opacity-0"}`}
-                            style={{ background: "rgba(14,12,8,.92)", backdropFilter: "blur(20px)", border: "1px solid rgba(202,138,4,.20)" }}>
-                            <div style={{ display: "flex", alignItems: "flex-start", gap: 20, flexWrap: "wrap" }}>
+                    <div className="max-w-6xl mx-auto px-6" style={{ marginTop: -160, paddingBottom: 0, position: "relative" }}>
+                        <div className={`card p-10 ${mounted ? "afu" : "opacity-0"}`}
+                            style={{ background: "#FFFFFF", border: "1px solid rgba(197,160,89,.2)" }}>
+                            <div style={{ display: "flex", alignItems: "flex-start", gap: 32, flexWrap: "wrap" }}>
 
                                 {/* Logo */}
                                 <div style={{
-                                    width: 72, height: 72, borderRadius: 16, flexShrink: 0,
-                                    background: "linear-gradient(135deg,rgba(202,138,4,.20),rgba(202,138,4,.08))",
-                                    border: "1px solid rgba(202,138,4,.30)",
-                                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36,
+                                    width: 90, height: 90, borderRadius: 24, flexShrink: 0,
+                                    background: "#F8F5F0",
+                                    border: "1px solid rgba(197,160,89,.3)",
+                                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48,
                                     overflow: "hidden"
                                 }} className="afl">
                                     {currentUni.logoUrl ? <img src={currentUni.logoUrl} alt={currentUni.name} style={{ width: "100%", height: "100%", objectFit: "contain" }} /> : "🎓"}
                                 </div>
 
                                 <div style={{ flex: 1, minWidth: 260 }}>
-                                    <span className="tag" style={{ marginBottom: 8, display: "inline-block" }}>#{currentUni.rank} Globally</span>
+                                    <span className="tag" style={{ marginBottom: 12, display: "inline-block" }}>The Elite Selection</span>
                                     <h1 className={`fd ${mounted ? "afu d1" : "opacity-0"}`}
-                                        style={{ fontSize: "clamp(32px,4vw,54px)", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 6 }}>
-                                        <span className="gold-shimmer">{currentUni.name}</span>
+                                        style={{ fontSize: "clamp(36px,5vw,60px)", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em", marginBottom: 10, color: "#2D2926" }}>
+                                        {currentUni.name}
                                     </h1>
                                     <p className={mounted ? "afu d2" : "opacity-0"}
-                                        style={{ fontSize: 13, color: "#78716c", display: "flex", alignItems: "center", gap: 6 }}>
-                                        📍 {currentUni.location}
+                                        style={{ fontSize: 14, color: "#6B5E51", display: "flex", alignItems: "center", gap: 8, fontWeight: 500 }}>
+                                        <span style={{ color: "#C5A059" }}>📍</span> {currentUni.location}
                                     </p>
                                 </div>
 
                                 {/* Actions */}
-                                <div className={`flex gap-3 flex-wrap ${mounted ? "afu d3" : "opacity-0"}`} style={{ alignItems: "center" }}>
-                                    <button className="btn-gold aglow">⚡ RateMyChances</button>
-                                    <button className="btn-outline">🛂 Visa Approval Chances</button>
+                                <div className={`flex gap-4 flex-wrap ${mounted ? "afu d3" : "opacity-0"}`} style={{ alignItems: "center" }}>
+                                    <button className="btn-gold aglow">Request Evaluation</button>
+                                    <button className="btn-outline">Visa Guidance</button>
                                 </div>
                             </div>
 
-                            {/* Quick stats */}
-                            <div className={`flex ${mounted ? "afu d4" : "opacity-0"}`}
-                                style={{ marginTop: 28, borderTop: "1px solid rgba(202,138,4,.12)", paddingTop: 24, flexWrap: "wrap" }}>
+                            {/* Quick stats - NEXSALON Style Stats Cards */}
+                            <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 ${mounted ? "afu d4" : "opacity-0"}`}
+                                style={{ marginTop: 40, borderTop: "1px solid rgba(197,160,89,.1)", paddingTop: 30 }}>
                                 {[
-                                    ["🏛️", currentUni.type, "Type"],
-                                    currentUni.totalStudents ? ["👥", currentUni.totalStudents.toLocaleString(), "Total Students"] : null,
+                                    ["🏛️", currentUni.type, "Category"],
+                                    currentUni.totalStudents ? ["👥", currentUni.totalStudents.toLocaleString(), "Total Enrollment"] : null,
                                     currentUni.intlStudents ? ["🌍", currentUni.intlStudents.toLocaleString(), "International"] : null,
-                                    activeBranch?.stats?.acceptance_rate ? ["📊", `${activeBranch.stats.acceptance_rate}%`, "Admit Rate"] : null,
-                                    activeBranch?.stats?.avg_salary ? ["💵", `$${Math.round(activeBranch.stats.avg_salary / 1000)}K`, "Avg. Salary"] : null,
-                                ].filter(Boolean).map(([icon, val, label]: any, i, arr) => (
-                                    <div key={i} className={i < arr.length - 1 ? "stat-divider" : ""}
-                                        style={{ flex: 1, minWidth: 120, textAlign: "center", padding: "4px 16px" }}>
-                                        <p style={{ fontSize: 18, marginBottom: 4 }}>{icon}</p>
-                                        <p className="fd" style={{ fontSize: 18, fontWeight: 700, color: "#eab308", marginBottom: 2 }}>{val}</p>
-                                        <p style={{ fontSize: 11, color: "#57534e", textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
+                                    activeBranch?.stats?.acceptance_rate ? ["📊", `${activeBranch.stats.acceptance_rate}%`, "Acceptance"] : null,
+                                    activeBranch?.stats?.avg_salary ? ["💵", `$${Math.round(activeBranch.stats.avg_salary / 1000)}K`, "Avg. Outcome"] : null,
+                                ].filter(Boolean).map(([icon, val, label]: any, i) => (
+                                    <div key={i} className="p-5" style={{ background: "#F8F5F0", borderRadius: 20, textAlign: "left" }}>
+                                        <p style={{ fontSize: 13, color: "#6B5E51", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 8 }}>{label}</p>
+                                        <p className="fd" style={{ fontSize: 22, fontWeight: 700, color: "#2D2926" }}>{val}</p>
                                     </div>
                                 ))}
                             </div>
@@ -407,7 +384,7 @@ export default function UniversityPage() {
 
                         {/* Program tabs */}
                         <div className={`flex gap-3 flex-wrap ${mounted ? "afu d5" : "opacity-0"}`}
-                            style={{ marginTop: 20, paddingBottom: 4, overflowX: "auto" }}>
+                            style={{ marginTop: 30, paddingBottom: 4, overflowX: "auto" }}>
                             {currentPrograms.map((p: any) => (
                                 <button key={p} className={`prog-tab ${activeProgram === p ? "active" : ""}`}
                                     onClick={() => setActiveProgram(p)}>{p}</button>
@@ -417,12 +394,12 @@ export default function UniversityPage() {
                 </section>
 
                 {/* ════════════════════ BODY ════════════════════ */}
-                <div className="max-w-6xl mx-auto px-6 py-10">
-                    <div style={{ display: "grid", gridTemplateColumns: "220px 1fr 300px", gap: 28, alignItems: "start" }}>
+                <div className="max-w-6xl mx-auto px-6 py-20">
+                    <div style={{ display: "grid", gridTemplateColumns: "240px 1fr 320px", gap: 40, alignItems: "start" }}>
 
                         {/* ── LEFT NAV ── */}
-                        <div style={{ position: "sticky", top: 24 }}>
-                            <div className="card" style={{ padding: "12px 8px" }}>
+                        <div style={{ position: "sticky", top: 40 }}>
+                            <div className="card" style={{ padding: "16px" }}>
                                 {navSections.map((s, i) => (
                                     <div key={s} className={`nav-item ${activeSection === s ? "active" : ""}`}
                                         onClick={() => {
@@ -431,27 +408,27 @@ export default function UniversityPage() {
                                             document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
                                         }}
                                         style={{ animationDelay: `${i * 40}ms` }}>
-                                        {s === "Will you get in?" ? <span>🏆 {s}</span> : s}
+                                        {s === "Will you get in?" ? <span style={{ color: "#C5A059" }}>✨ Success Matrix</span> : s}
                                     </div>
                                 ))}
-                                <div style={{ borderTop: "1px solid rgba(202,138,4,.10)", marginTop: 8, paddingTop: 8 }}>
-                                    <div className="nav-item" style={{ color: "#eab308" }}>Connect with us</div>
+                                <div style={{ borderTop: "1px solid rgba(197,160,89,.1)", marginTop: 12, paddingTop: 12 }}>
+                                    <div className="nav-item" style={{ color: "#C5A059", fontWeight: 700 }}>Exclusive Consulting</div>
                                 </div>
                             </div>
                         </div>
 
                         {/* ── CENTER CONTENT ── */}
-                        <div style={{ display: "flex", flexDirection: "column", gap: 48, minWidth: 0 }}>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 70, minWidth: 0 }}>
 
                             {/* ABOUT */}
                             {currentUni.about && (
                                 <div ref={aboutRef} className="section-anchor" id="about">
-                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>About</span>
-                                    <h2 className="fd" style={{ fontSize: 34, fontWeight: 700, marginBottom: 12, letterSpacing: "-0.01em" }}>{activeProgram}</h2>
-                                    <div style={{ width: 48, height: 2, background: "linear-gradient(90deg,#eab308,transparent)", borderRadius: 2, marginBottom: 20 }} />
+                                    <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Overview</span>
+                                    <h2 className="fd" style={{ fontSize: 44, fontWeight: 700, marginBottom: 16, letterSpacing: "-0.01em", color: "#2D2926" }}>{activeProgram}</h2>
+                                    <div style={{ width: 60, height: 3, background: "#C5A059", borderRadius: 2, marginBottom: 30 }} />
                                     {currentUni.about.split("\n\n").map((para: any, i: any) => (
                                         <p key={i} style={{
-                                            color: "#a8a29e", fontSize: 14, lineHeight: 1.8, marginBottom: 16,
+                                            color: "#6B5E51", fontSize: 16, lineHeight: 1.8, marginBottom: 20,
                                             opacity: aboutVisible ? 1 : 0, transform: aboutVisible ? "translateY(0)" : "translateY(16px)",
                                             transition: `opacity .6s ease ${i * 120}ms, transform .6s ease ${i * 120}ms`,
                                         }}>{para}</p>
@@ -462,24 +439,24 @@ export default function UniversityPage() {
                             {/* WILL YOU GET IN — Scatter */}
                             {scatterPoints && scatterPoints.length > 0 && (
                                 <div ref={scatterRef} className="section-anchor" id="willyougetin">
-                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Will You Get In?</span>
-                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>
-                                        GPA vs Test Scores — Scatter Analysis
+                                    <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Success Analysis</span>
+                                    <h2 className="fd" style={{ fontSize: 36, fontWeight: 700, marginBottom: 24, letterSpacing: "-0.01em", color: "#2D2926" }}>
+                                        Admission Success Matrix
                                     </h2>
 
-                                    <div className="card" style={{ padding: 28 }}>
+                                    <div className="card" style={{ padding: 40 }}>
                                         {/* Controls */}
-                                        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
-                                            <div style={{ display: "flex", gap: 8 }}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 30, flexWrap: "wrap" }}>
+                                            <div style={{ display: "flex", gap: 10 }}>
                                                 {["Undergrad", "Master's", "Ph.D."].map(d => (
                                                     <button key={d} className={`degree-btn ${degreeLevel === d ? "active" : ""}`}
                                                         onClick={() => setDegreeLevel(d)}>{d}</button>
                                                 ))}
                                             </div>
-                                            <div style={{ marginLeft: "auto", display: "flex", gap: 16 }}>
-                                                {[["#22c55e", "Admit"], ["#ef4444", "Reject"], ["#eab308", "Applied"]].map(([c, l]) => (
-                                                    <span key={l} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12, color: "#78716c" }}>
-                                                        <span style={{ width: 8, height: 8, borderRadius: "50%", background: c, display: "inline-block" }} />{l}
+                                            <div style={{ marginLeft: "auto", display: "flex", gap: 20 }}>
+                                                {[["#22c55e", "Admit"], ["#ef4444", "Reject"], ["#C5A059", "Applied"]].map(([c, l]) => (
+                                                    <span key={l} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "#6B5E51", fontWeight: 500 }}>
+                                                        <span style={{ width: 10, height: 10, borderRadius: "50%", background: c, display: "inline-block" }} />{l}
                                                     </span>
                                                 ))}
                                             </div>
@@ -487,9 +464,9 @@ export default function UniversityPage() {
 
                                         <ScatterPlot points={scatterPoints} visible={scatterVisible} />
 
-                                        <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-                                            <button className="btn-gold" style={{ borderRadius: 12, padding: "10px 22px" }}>+ Add your Own</button>
-                                            <button className="btn-outline" style={{ borderRadius: 12 }}>✓ See Decisions</button>
+                                        <div style={{ display: "flex", gap: 16, marginTop: 30 }}>
+                                            <button className="btn-gold" style={{ borderRadius: 16, padding: "12px 28px" }}>Compare My Stats</button>
+                                            <button className="btn-outline" style={{ borderRadius: 16 }}>Historical Trends</button>
                                         </div>
                                     </div>
                                 </div>
@@ -498,33 +475,33 @@ export default function UniversityPage() {
                             {/* STUDENT DEMOGRAPHICS */}
                             {activeBranch?.student_demographics && (
                                 <div ref={demoRef} className="section-anchor" id="studentdemographics">
-                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Student Demographics</span>
-                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Who Studies Here?</h2>
+                                    <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Demographics</span>
+                                    <h2 className="fd" style={{ fontSize: 36, fontWeight: 700, marginBottom: 24, letterSpacing: "-0.01em" }}>Student Community</h2>
 
-                                    <div className="card" style={{ padding: 28 }}>
-                                        <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
+                                    <div className="card" style={{ padding: 40 }}>
+                                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 30, marginBottom: 40 }}>
                                             {[
-                                                ["♂", `${activeBranch.student_demographics.male}%`, "Male", "#60a5fa"], 
-                                                ["♀", `${activeBranch.student_demographics.female}%`, "Female", "#f472b6"], 
-                                                ["🌍", `${activeBranch.student_demographics.international_students}%`, "International", "#eab308"]
+                                                ["♂", `${activeBranch.student_demographics.male}%`, "Male Students", "#C5A059"], 
+                                                ["♀", `${activeBranch.student_demographics.female}%`, "Female Students", "#C5A059"], 
+                                                ["🌍", `${activeBranch.student_demographics.international_students}%`, "International", "#C5A059"]
                                             ].map(([icon, pct, label, color], i) => (
                                                 <div key={i} style={{
-                                                    textAlign: "center",
+                                                    textAlign: "center", padding: "24px", background: "#F8F5F0", borderRadius: 24,
                                                     opacity: demoVisible ? 1 : 0,
                                                     transform: demoVisible ? "translateY(0)" : "translateY(20px)",
                                                     transition: `all .6s ease ${i * 120}ms`,
                                                 }}>
-                                                    <div style={{ fontSize: 36, marginBottom: 8 }}>{icon}</div>
-                                                    <p className="fd" style={{ fontSize: 28, fontWeight: 700, color, marginBottom: 4 }}>{pct}</p>
-                                                    <p style={{ fontSize: 12, color: "#78716c" }}>{label}</p>
+                                                    <div style={{ fontSize: 40, marginBottom: 12 }}>{icon}</div>
+                                                    <p className="fd" style={{ fontSize: 32, fontWeight: 700, color: "#2D2926", marginBottom: 6 }}>{pct}</p>
+                                                    <p style={{ fontSize: 13, color: "#6B5E51", fontWeight: 500 }}>{label}</p>
                                                 </div>
                                             ))}
                                         </div>
                                         {activeBranch.student_demographics.total_enrollment && (
-                                            <div style={{ borderTop: "1px solid rgba(202,138,4,.10)", paddingTop: 16, textAlign: "center" }}>
-                                                <span style={{ fontSize: 13, color: "#57534e" }}>Total Enrollment: </span>
-                                                <span className="fd" style={{ fontSize: 18, fontWeight: 700, color: "#eab308" }}>
-                                                    <CountUp target={activeBranch.student_demographics.total_enrollment} />
+                                            <div style={{ borderTop: "1px solid rgba(197,160,89,.1)", paddingTop: 24, textAlign: "center" }}>
+                                                <span style={{ fontSize: 14, color: "#6B5E51", fontWeight: 500 }}>Global Student Network: </span>
+                                                <span className="fd" style={{ fontSize: 24, fontWeight: 700, color: "#C5A059" }}>
+                                                    <CountUp target={activeBranch.student_demographics.total_enrollment} /> Members
                                                 </span>
                                             </div>
                                         )}
@@ -535,26 +512,26 @@ export default function UniversityPage() {
                             {/* ADMITTED PROFILES */}
                             {(activeBranch?.stats?.avg_gpa || activeBranch?.stats?.avg_gre || activeBranch?.admitted_profiles) && (
                                 <div ref={admitRef} className="section-anchor" id="admittedprofiles">
-                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Admitted Profiles</span>
-                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, letterSpacing: "-0.01em" }}>Average Scores</h2>
+                                    <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Admit Standards</span>
+                                    <h2 className="fd" style={{ fontSize: 36, fontWeight: 700, marginBottom: 24, letterSpacing: "-0.01em" }}>Academic Benchmarks</h2>
 
-                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
-                                        {[["Average GPA", activeBranch?.stats?.avg_gpa], ["Average GRE Score", activeBranch?.stats?.avg_gre]].map(([label, val], i) => val && (
-                                            <div key={i} className="card" style={{ padding: 20, textAlign: "center" }}>
-                                                <p style={{ fontSize: 12, color: "#78716c", marginBottom: 8, textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
-                                                <p className="fd" style={{ fontSize: 36, fontWeight: 700, color: "#eab308" }}>{val}</p>
+                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 30 }}>
+                                        {[["Average CGPA", activeBranch?.stats?.avg_gpa], ["Average GRE Score", activeBranch?.stats?.avg_gre]].map(([label, val], i) => val && (
+                                            <div key={i} className="card" style={{ padding: 30, textAlign: "center", background: "#F8F5F0" }}>
+                                                <p style={{ fontSize: 13, color: "#6B5E51", marginBottom: 10, textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>{label}</p>
+                                                <p className="fd" style={{ fontSize: 48, fontWeight: 700, color: "#C5A059" }}>{val}</p>
                                             </div>
                                         ))}
                                     </div>
 
                                     {activeBranch?.admitted_profiles && (
-                                        <div className="card" style={{ padding: 20, marginBottom: 20 }}>
-                                            <p style={{ fontSize: 12, color: "#78716c", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 16, textAlign: "center" }}>Average Language Scores</p>
+                                        <div className="card" style={{ padding: 30, marginBottom: 30 }}>
+                                            <p style={{ fontSize: 13, color: "#6B5E51", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 24, textAlign: "center", fontWeight: 600 }}>Language Proficiency</p>
                                             <div style={{ display: "flex", gap: 0 }}>
-                                                {[["TOEFL Min.", activeBranch.admitted_profiles.toefl_min], ["TOEFL Mean", activeBranch.admitted_profiles.toefl_avg], ["IELTS Min.", activeBranch.admitted_profiles.ielts_min]].map(([l, v], i) => v && (
-                                                    <div key={i} className={i < 2 ? "stat-divider" : ""} style={{ flex: 1, textAlign: "center", padding: "0 16px" }}>
-                                                        <p className="fd" style={{ fontSize: 24, fontWeight: 700, color: "#e7e5e4", marginBottom: 4 }}>{v}</p>
-                                                        <p style={{ fontSize: 11, color: "#57534e" }}>{l}</p>
+                                                {[["TOEFL Min.", activeBranch.admitted_profiles.toefl_min], ["TOEFL Avg.", activeBranch.admitted_profiles.toefl_avg], ["IELTS Target", activeBranch.admitted_profiles.ielts_min]].map(([l, v], i) => v && (
+                                                    <div key={i} className={i < 2 ? "stat-divider" : ""} style={{ flex: 1, textAlign: "center", padding: "0 20px" }}>
+                                                        <p className="fd" style={{ fontSize: 28, fontWeight: 700, color: "#2D2926", marginBottom: 6 }}>{v}</p>
+                                                        <p style={{ fontSize: 12, color: "#6B5E51", fontWeight: 500 }}>{l}</p>
                                                     </div>
                                                 ))}
                                             </div>
@@ -562,34 +539,34 @@ export default function UniversityPage() {
                                     )}
 
                                     {/* Acceptance rings */}
-                                    <div className="card" style={{ padding: 24 }}>
-                                        <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap" }}>
-                                            {activeBranch?.stats?.acceptance_rate && <RingChart pct={activeBranch.stats.acceptance_rate} size={110} label={`Acceptance Rate (${activeProgram})`} />}
-                                            <RingChart pct={12} size={110} label="Acceptance Rate (Graduate)" />
+                                    <div className="card" style={{ padding: 40, marginBottom: 30 }}>
+                                        <div style={{ display: "flex", gap: 60, justifyContent: "center", flexWrap: "wrap" }}>
+                                            {activeBranch?.stats?.acceptance_rate && <RingChart pct={activeBranch.stats.acceptance_rate} size={140} label={`Selective Admission (${activeProgram})`} />}
+                                            <RingChart pct={12} size={140} label="Global Graduate Admit Rate" />
                                         </div>
                                     </div>
 
                                     {/* Profile cards */}
                                     {(activeBranch?.admitted_profiles_list && activeBranch.admitted_profiles_list.length > 0) && (
-                                        <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 12 }}>
-                                            <h3 className="fd" style={{ fontSize: 20, fontWeight: 600, marginBottom: 4 }}>Recent Admits on StudyAbroad</h3>
+                                        <div style={{ marginTop: 40, display: "flex", flexDirection: "column", gap: 16 }}>
+                                            <h3 className="fd" style={{ fontSize: 24, fontWeight: 700, marginBottom: 10, color: "#2D2926" }}>Recent Success Stories</h3>
                                             {activeBranch.admitted_profiles_list.map((p: any, i: number) => (
                                                 <div key={i} className="card" style={{
-                                                    padding: "16px 18px", position: "relative", overflow: "hidden",
+                                                    padding: "24px 30px", position: "relative", overflow: "hidden",
                                                     opacity: admitVisible ? 1 : 0,
                                                     transform: admitVisible ? "translateY(0)" : "translateY(16px)",
                                                     transition: `all .5s ease ${i * 80}ms`,
                                                 }}>
-                                                    <div className="admit-badge">ADMIT</div>
-                                                    <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-                                                        <div style={{ width: 42, height: 42, borderRadius: "50%", background: "rgba(202,138,4,.12)", border: "1px solid rgba(202,138,4,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>👤</div>
+                                                    <div className="admit-badge">OFFER ISSUED</div>
+                                                    <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+                                                        <div style={{ width: 54, height: 54, borderRadius: "50%", background: "#F8F5F0", border: "1px solid rgba(197,160,89,.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0 }}>👤</div>
                                                         <div style={{ flex: 1 }}>
-                                                            <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 2 }}>{p.name}</p>
-                                                            <p style={{ fontSize: 12, color: "#78716c" }}>📍 {p.location} &nbsp;|&nbsp; 🍁 {p.term}</p>
+                                                            <p style={{ fontWeight: 700, fontSize: 16, marginBottom: 4, color: "#2D2926" }}>{p.name}</p>
+                                                            <p style={{ fontSize: 13, color: "#6B5E51" }}>📍 {p.location} &nbsp;•&nbsp; {p.term}</p>
                                                         </div>
                                                         <div style={{ textAlign: "right" }}>
-                                                            <p style={{ fontSize: 12, color: "#eab308", fontWeight: 500 }}>{currentUni.name}</p>
-                                                            <p style={{ fontSize: 11, color: "#57534e" }}>{p.program}</p>
+                                                            <p style={{ fontSize: 14, color: "#C5A059", fontWeight: 700 }}>{currentUni.name}</p>
+                                                            <p style={{ fontSize: 12, color: "#6B5E51", fontWeight: 500 }}>{p.program}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -602,22 +579,22 @@ export default function UniversityPage() {
                             {/* COST OF EDUCATION */}
                             {(activeBranch?.stats?.tuition_fee || activeBranch?.stats?.living_expense) && (
                                 <div ref={costRef} className="section-anchor" id="costofeducation">
-                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Cost of Education</span>
-                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Financial Overview</h2>
+                                    <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Investment</span>
+                                    <h2 className="fd" style={{ fontSize: 36, fontWeight: 700, marginBottom: 24, letterSpacing: "-0.01em" }}>Financial Commitment</h2>
 
-                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-                                        {[["🎓", "Tuition Expenses", activeBranch?.stats?.tuition_fee, "/year"], ["🏠", "Living Expenses", activeBranch?.stats?.living_expense, "/year"]].map(([icon, label, val, unit], i) => val && (
+                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+                                        {[["🎓", "Annual Tuition", activeBranch?.stats?.tuition_fee, "usd"], ["🏠", "Living Lifestyle", activeBranch?.stats?.living_expense, "usd"]].map(([icon, label, val, unit], i) => val && (
                                             <div key={i} className="card" style={{
-                                                padding: 24,
+                                                padding: 30,
                                                 opacity: costVisible ? 1 : 0,
                                                 transform: costVisible ? "translateY(0)" : "translateY(20px)",
                                                 transition: `all .6s ease ${i * 120}ms`,
                                             }}>
-                                                <span style={{ fontSize: 28, display: "block", marginBottom: 12 }}>{icon}</span>
-                                                <p style={{ fontSize: 12, color: "#78716c", marginBottom: 6, textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
-                                                <p className="fd" style={{ fontSize: 30, fontWeight: 700, color: "#22c55e" }}>
+                                                <span style={{ fontSize: 36, display: "block", marginBottom: 16 }}>{icon}</span>
+                                                <p style={{ fontSize: 13, color: "#6B5E51", marginBottom: 8, textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>{label}</p>
+                                                <p className="fd" style={{ fontSize: 36, fontWeight: 700, color: "#15803d" }}>
                                                     <CountUp target={val} prefix="$" />
-                                                    <span style={{ fontSize: 14, fontWeight: 400, color: "#57534e" }}>{unit}</span>
+                                                    <span style={{ fontSize: 14, fontWeight: 500, color: "#6B5E51", marginLeft: 4 }}>{unit}</span>
                                                 </p>
                                             </div>
                                         ))}
@@ -628,18 +605,18 @@ export default function UniversityPage() {
                             {/* EMPLOYMENT */}
                             {(data.common_sections?.employment_figures || activeBranch?.stats?.avg_salary) && (
                                 <div ref={empRef} className="section-anchor" id="employmentfigure">
-                                    <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Employment Figures</span>
-                                    <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Career Outcomes</h2>
+                                    <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Outcomes</span>
+                                    <h2 className="fd" style={{ fontSize: 36, fontWeight: 700, marginBottom: 24, letterSpacing: "-0.01em" }}>Career Excellence</h2>
 
-                                    <div className="card" style={{ padding: 28 }}>
-                                        <div style={{ display: "flex", gap: 40, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
-                                            {data.common_sections?.employment_figures?.employed && <RingChart pct={data.common_sections.employment_figures.employed} size={120} label="Employed" />}
-                                            {data.common_sections?.employment_figures?.employed_within_3_months && <RingChart pct={data.common_sections.employment_figures.employed_within_3_months} size={120} label="Employed within 3 months" />}
+                                    <div className="card" style={{ padding: 40 }}>
+                                        <div style={{ display: "flex", gap: 60, justifyContent: "center", flexWrap: "wrap", marginBottom: 40 }}>
+                                            {data.common_sections?.employment_figures?.employed && <RingChart pct={data.common_sections.employment_figures.employed} size={150} label="Career Placement" />}
+                                            {data.common_sections?.employment_figures?.employed_within_3_months && <RingChart pct={data.common_sections.employment_figures.employed_within_3_months} size={150} label="Fast-track Employment" />}
                                         </div>
                                         {(activeBranch?.stats?.avg_salary || data.common_sections?.employment_figures?.average_salary) && (
-                                            <div style={{ border: "1px solid rgba(202,138,4,.15)", borderRadius: 14, padding: "18px 24px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                                <span style={{ fontSize: 13, color: "#78716c" }}>Average Salary</span>
-                                                <span className="fd" style={{ fontSize: 28, fontWeight: 700, color: "#22c55e" }}>
+                                            <div style={{ background: "#F8F5F0", border: "1px solid rgba(197,160,89,.2)", borderRadius: 24, padding: "30px 40px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                                <span style={{ fontSize: 16, color: "#6B5E51", fontWeight: 600 }}>Average Alumni Salary</span>
+                                                <span className="fd" style={{ fontSize: 36, fontWeight: 700, color: "#15803d" }}>
                                                     <CountUp target={activeBranch.stats?.avg_salary || data.common_sections?.employment_figures?.average_salary || 0} prefix="$" suffix="/yr" />
                                                 </span>
                                             </div>
@@ -650,25 +627,25 @@ export default function UniversityPage() {
 
                             {/* FINANCIAL AWARDS */}
                             <div ref={awardsRef} className="section-anchor" id="financialawards">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Financial Awards</span>
-                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Funding Opportunities</h2>
+                                <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Scholarships</span>
+                                <h2 className="fd" style={{ fontSize: 36, fontWeight: 700, marginBottom: 24, letterSpacing: "-0.01em" }}>Elite Funding</h2>
 
-                                <div className="card" style={{ padding: 28 }}>
-                                    <div style={{ display: "flex", gap: 0, marginBottom: 24 }}>
-                                        {[["150+", "Fellowships"], ["50+", "Teaching Assistantships"], ["200+", "Research Assistantships"]].map(([val, label], i) => (
-                                            <div key={i} className={i < 2 ? "stat-divider" : ""} style={{ flex: 1, textAlign: "center", padding: "0 16px" }}>
-                                                <p className="fd" style={{ fontSize: 36, fontWeight: 700, color: "#eab308", marginBottom: 4 }}>
+                                <div className="card" style={{ padding: 40 }}>
+                                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0, marginBottom: 30 }}>
+                                        {[["150+", "Prestigious Fellowships"], ["50+", "Academic Assistanceships"], ["200+", "Research Grants"]].map(([val, label], i) => (
+                                            <div key={i} className={i < 2 ? "stat-divider" : ""} style={{ flex: 1, textAlign: "center", padding: "0 20px" }}>
+                                                <p className="fd" style={{ fontSize: 44, fontWeight: 700, color: "#C5A059", marginBottom: 6 }}>
                                                     {awardsVisible ? <CountUp target={parseInt(val)} suffix="+" /> : val}
                                                 </p>
-                                                <p style={{ fontSize: 11, color: "#57534e", textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</p>
+                                                <p style={{ fontSize: 12, color: "#6B5E51", fontWeight: 500, lineHeight: 1.4 }}>{label}</p>
                                             </div>
                                         ))}
                                     </div>
-                                    <div style={{ borderTop: "1px solid rgba(202,138,4,.10)", paddingTop: 18, textAlign: "center" }}>
-                                        <p style={{ fontSize: 12, color: "#78716c", marginBottom: 14 }}>Financial Aid Support</p>
-                                        <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-                                            <div style={{ width: 52, height: 52, borderRadius: "50%", background: "rgba(202,138,4,.10)", border: "1px solid rgba(202,138,4,.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>👔</div>
-                                            <span className="fd" style={{ fontSize: 16, fontWeight: 600 }}>Contact Financial Aid Office</span>
+                                    <div style={{ borderTop: "1px solid rgba(197,160,89,.1)", paddingTop: 30, textAlign: "center" }}>
+                                        <p style={{ fontSize: 14, color: "#6B5E51", marginBottom: 20, fontWeight: 500 }}>Concierge Financial Support</p>
+                                        <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+                                            <div style={{ width: 64, height: 64, borderRadius: "50%", background: "#F8F5F0", border: "1px solid rgba(197,160,89,.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32 }}>💼</div>
+                                            <span className="fd" style={{ fontSize: 18, fontWeight: 700, color: "#2D2926" }}>Consult with Award Specialists</span>
                                         </div>
                                     </div>
                                 </div>
@@ -676,17 +653,17 @@ export default function UniversityPage() {
 
                             {/* REVIEWS */}
                             <div className="section-anchor" id="reviews">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>Student Reviews</span>
-                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>What Students Say</h2>
-                                <div className="space-y-4">
+                                <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Testimonials</span>
+                                <h2 className="fd" style={{ fontSize: 36, fontWeight: 700, marginBottom: 24, letterSpacing: "-0.01em" }}>Student Experience</h2>
+                                <div className="space-y-6">
                                     {(data.common_sections?.reviews || [
                                         { rating: 5, comment: "Exceptional academic environment and world-class research facilities." }
                                     ]).map((rev: any, i: number) => (
-                                        <div key={i} className="card" style={{ padding: 24 }}>
-                                            <div style={{ display: "flex", gap: 4, color: "#eab308", marginBottom: 12 }}>
+                                        <div key={i} className="card" style={{ padding: 30 }}>
+                                            <div style={{ display: "flex", gap: 6, color: "#C5A059", marginBottom: 16, fontSize: 18 }}>
                                                 {[...Array(5)].map((_, j) => <span key={j}>{j < rev.rating ? "★" : "☆"}</span>)}
                                             </div>
-                                            <p style={{ fontSize: 14, color: "#a8a29e", lineHeight: 1.6, fontStyle: "italic" }}>"{rev.comment}"</p>
+                                            <p style={{ fontSize: 16, color: "#6B5E51", lineHeight: 1.8, fontStyle: "italic", fontWeight: 400 }}>"{rev.comment}"</p>
                                         </div>
                                     ))}
                                 </div>
@@ -694,15 +671,15 @@ export default function UniversityPage() {
 
                             {/* FAQ */}
                             <div className="section-anchor" id="faq">
-                                <span className="tag" style={{ marginBottom: 16, display: "inline-block" }}>FAQ</span>
-                                <h2 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 20, letterSpacing: "-0.01em" }}>Common Queries</h2>
-                                <div className="space-y-3">
+                                <span className="tag" style={{ marginBottom: 20, display: "inline-block" }}>Knowledge Base</span>
+                                <h2 className="fd" style={{ fontSize: 36, fontWeight: 700, marginBottom: 24, letterSpacing: "-0.01em" }}>Essential FAQ</h2>
+                                <div className="space-y-4">
                                     {(data.common_sections?.faq || [
                                         { q: "What is the application deadline?", a: "Deadlines vary by program. Generally, Fall intake applications close in January-March." }
                                     ]).map((item: any, i: number) => (
-                                        <div key={i} className="card" style={{ padding: 20 }}>
-                                            <p style={{ fontWeight: 600, fontSize: 14, marginBottom: 8, color: "#eab308" }}>Q: {item.q}</p>
-                                            <p style={{ fontSize: 13, color: "#a8a29e", lineHeight: 1.5 }}>{item.a}</p>
+                                        <div key={i} className="card" style={{ padding: 24 }}>
+                                            <p style={{ fontWeight: 700, fontSize: 16, marginBottom: 10, color: "#2D2926" }}>Q: {item.q}</p>
+                                            <p style={{ fontSize: 14, color: "#6B5E51", lineHeight: 1.6 }}>{item.a}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -711,47 +688,48 @@ export default function UniversityPage() {
                         </div>
 
                         {/* ── RIGHT SIDEBAR ── */}
-                        <div style={{ position: "sticky", top: 24, display: "flex", flexDirection: "column", gap: 18 }}>
+                        <div style={{ position: "sticky", top: 40, display: "flex", flexDirection: "column", gap: 24 }}>
 
-                            {/* Get help card */}
-                            <div style={{ background: "rgba(202,138,4,.06)", border: "1px solid rgba(202,138,4,.22)", borderRadius: 18, padding: 22 }}>
-                                <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 16, lineHeight: 1.4 }}>
-                                    Get help getting into<br /><span className="fd" style={{ fontSize: 18, color: "#eab308" }}>{currentUni.name}</span>
-                                </p>
-                                <div className="card" style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 14, marginBottom: 12 }}>
-                                    <span style={{ fontSize: 24 }}>📋</span>
-                                    <div style={{ flex: 1 }}>
-                                        <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 2 }}>Application Support</p>
-                                        <p style={{ fontSize: 11, color: "#78716c" }}>Expert reviewer team</p>
+                            {/* Get help card - NEXSALON Notification Style */}
+                            <div style={{ background: "#2D2926", borderRadius: 32, padding: 30, color: "#FFFFFF", boxShadow: "0 20px 50px rgba(0,0,0,0.15)" }}>
+                                <div style={{ display: "flex", gap: 14, marginBottom: 20 }}>
+                                    <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>💬</div>
+                                    <div>
+                                        <p style={{ fontSize: 13, opacity: 0.8, fontWeight: 400, marginBottom: 2 }}>Exclusive Offer</p>
+                                        <p style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.3 }}>Ready to secure your spot at <span style={{ color: "#C5A059" }}>{currentUni.name}</span>?</p>
                                     </div>
-                                    <button className="btn-gold" style={{ padding: "8px 14px", fontSize: 12, borderRadius: 10, whiteSpace: "nowrap" }}>Apply</button>
                                 </div>
-                                <div className="card" style={{ padding: "14px 16px", display: "flex", alignItems: "center", gap: 14 }}>
-                                    <span style={{ fontSize: 24 }}>🎯</span>
-                                    <div style={{ flex: 1 }}>
-                                        <p style={{ fontSize: 13, fontWeight: 500, marginBottom: 2 }}>Profile Eval</p>
-                                        <p style={{ fontSize: 11, color: "#78716c" }}>Target evaluation</p>
-                                    </div>
-                                    <button className="btn-gold" style={{ padding: "8px 14px", fontSize: 12, borderRadius: 10 }}>Eval</button>
+                                <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                                    <button className="btn-gold" style={{ width: "100%", padding: "14px", borderRadius: 16, fontSize: 14 }}>Apply with Priority</button>
+                                    <button style={{ width: "100%", padding: "14px", borderRadius: 16, fontSize: 14, background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF" }}>Speak with Counsellor</button>
                                 </div>
                             </div>
 
                             {/* Similar universities */}
-                            <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(202,138,4,.12)", borderRadius: 18, padding: "18px 14px" }}>
-                                <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 14, padding: "0 4px" }}>Similar Institutions</p>
-                                {(data.similarUniversities || [
-                                    { name: "Top Tier Institutional Peer", location: data.location?.country || "International", emoji: "🏛️" }
-                                ]).map((u: any, i: number) => (
-                                    <div key={i} className="similar-row">
-                                        <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(202,138,4,.10)", border: "1px solid rgba(202,138,4,.20)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
-                                            {u.emoji || "🏛️"}
+                            <div className="card" style={{ padding: "24px 20px" }}>
+                                <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 20, padding: "0 8px", color: "#201D1A" }}>Global Peer Institutions</p>
+                                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                                    {(data.similarUniversities || [
+                                        { name: "Top Tier Institutional Peer", location: data.location?.country || "International", emoji: "🏛️" }
+                                    ]).map((u: any, i: number) => (
+                                        <div key={i} className="similar-row">
+                                            <div style={{ width: 40, height: 40, borderRadius: 12, background: "#F8F5F0", border: "1px solid rgba(197,160,89,.2)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, flexShrink: 0 }}>
+                                                {u.emoji || "🏛️"}
+                                            </div>
+                                            <div>
+                                                <p style={{ fontSize: 13, fontWeight: 700, marginBottom: 1, color: "#2D2926" }}>{u.university || u.name}</p>
+                                                <p style={{ fontSize: 11, color: "#6B5E51", fontWeight: 500 }}>{u.location?.city || u.location}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p style={{ fontSize: 12, fontWeight: 500, marginBottom: 1 }}>{u.university || u.name}</p>
-                                            <p style={{ fontSize: 10, color: "#57534e" }}>{u.location?.city || u.location}</p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Stats Card - NEXSALON Style */}
+                            <div className="card" style={{ padding: 24, textAlign: "center", background: "#F8F5F0" }}>
+                                <p style={{ fontSize: 12, fontWeight: 700, color: "#C5A059", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 12 }}>Trust Index</p>
+                                <p className="fd" style={{ fontSize: 40, fontWeight: 700, color: "#2D2926", lineHeight: 1 }}>98.4%</p>
+                                <p style={{ fontSize: 12, color: "#6B5E51", marginTop: 8 }}>Student Satisfaction Rate</p>
                             </div>
                         </div>
 
