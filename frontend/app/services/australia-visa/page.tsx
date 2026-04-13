@@ -688,99 +688,99 @@ export default function AustraliaVisaPage() {
 
       {/* ══════════════ TIMELINE ══════════════ */}
       <Sec className="py-20 bg-[${T.bgAlt}]">
-  <div className="flex flex-col lg:flex-row gap-12 items-start">
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
 
-    {/* LEFT IMAGE */}
-    <div className="w-full lg:w-1/2">
-      <img
-        src="/timeline-image.jpg" // replace with your image
-        alt="Timeline"
-        className="w-full max-w-md rounded-xl"
-      />
-    </div>
+          {/* LEFT IMAGE */}
+          <div className="w-full lg:w-1/2">
+            <img
+              src="/timeline-image.jpg" // replace with your image
+              alt="Timeline"
+              className="w-full max-w-md rounded-xl"
+            />
+          </div>
 
-    {/* RIGHT CONTENT */}
-    <div className="w-full lg:w-1/2">
-      <div className="max-w-xl">
-        
-        {/* HEADER */}
-        <H2 center>Timeline</H2>
-        <Rule center />
+          {/* RIGHT CONTENT */}
+          <div className="w-full lg:w-1/2">
+            <div className="max-w-xl">
+              
+              {/* HEADER */}
+              <H2 center>Timeline</H2>
+              <Rule center />
 
-        <div className="text-center mb-10">
-          <p className="text-sm text-[${T.inkFade}]">
-            Here&apos;s how long it takes to get the Australia NIV.
-          </p>
-        </div>
-
-        {/* TIMELINE */}
-        <div
-          className="relative border-l-2 pl-10"
-          style={{ borderColor: T.gold }}
-        >
-          {timelineSteps.map((t, i) => (
-            <div
-              key={t.step}
-              className={`relative ${
-                i < timelineSteps.length - 1 ? "mb-7" : ""
-              }`}
-            >
-              {/* STEP NUMBER */}
-              <span
-                className="absolute -left-[44px] top-3 w-8 h-8 flex items-center justify-center text-xs font-bold text-white"
-                style={{ background: T.gold }}
-              >
-                {t.step}
-              </span>
-
-              {/* CARD */}
-              <div
-                className="p-5 rounded"
-                style={{
-                  background: t.dark ? T.navy : "#fff",
-                }}
-              >
-                <p
-                  className="text-[10px] tracking-[0.24em] uppercase mb-1"
-                  style={{ color: T.gold }}
-                >
-                  Step {t.step}
+              <div className="text-center mb-10">
+                <p className="text-sm text-[${T.inkFade}]">
+                  Here&apos;s how long it takes to get the Australia NIV.
                 </p>
-
-                <p
-                  className="font-semibold mb-1"
-                  style={{ color: t.dark ? "#fff" : T.ink }}
-                >
-                  {t.title}
-                </p>
-
-                <p
-                  className="text-sm leading-relaxed"
-                  style={{
-                    color: t.dark
-                      ? "rgba(255,255,255,0.56)"
-                      : T.inkFade,
-                  }}
-                >
-                  {t.desc}
-                </p>
-
-                {t.duration && (
-                  <span
-                    className="inline-block mt-3 px-3 py-1 text-xs text-white"
-                    style={{ background: T.gold }}
-                  >
-                    ⏱ {t.duration}
-                  </span>
-                )}
               </div>
-            </div>
-          ))}
+
+              {/* TIMELINE */}
+              <div
+                className="relative border-l-2 pl-10"
+                style={{ borderColor: T.gold }}
+              >
+                {timelineSteps.map((t, i) => (
+                  <div
+                    key={t.step}
+                    className={`relative ${
+                      i < timelineSteps.length - 1 ? "mb-7" : ""
+                    }`}
+                  >
+                    {/* STEP NUMBER */}
+                    <span
+                      className="absolute -left-[44px] top-3 w-8 h-8 flex items-center justify-center text-xs font-bold text-white"
+                      style={{ background: T.gold }}
+                    >
+                      {t.step}
+                    </span>
+
+                    {/* CARD */}
+                    <div
+                      className="p-5 rounded"
+                      style={{
+                        background: t.dark ? T.navy : "#fff",
+                      }}
+                    >
+                      <p
+                        className="text-[10px] tracking-[0.24em] uppercase mb-1"
+                        style={{ color: T.gold }}
+                      >
+                        Step {t.step}
+                      </p>
+
+                      <p
+                        className="font-semibold mb-1"
+                        style={{ color: t.dark ? "#fff" : T.ink }}
+                      >
+                        {t.title}
+                      </p>
+
+                      <p
+                        className="text-sm leading-relaxed"
+                        style={{
+                          color: t.dark
+                            ? "rgba(255,255,255,0.56)"
+                            : T.inkFade,
+                        }}
+                      >
+                        {t.desc}
+                      </p>
+
+                      {t.duration && (
+                        <span
+                          className="inline-block mt-3 px-3 py-1 text-xs text-white"
+                          style={{ background: T.gold }}
+                        >
+                          ⏱ {t.duration}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+          </div>
+          </div>
         </div>
-     </div>
-    </div>
-  </div>
-</Sec>
+      </Sec>
 
       {/* ══════════════ SUCCESS RATES ══════════════ */}
       <Sec bg={T.bg} py={72} topRule>
