@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { MdVideoCall } from "react-icons/md";
 import { FaWhatsapp, FaIdBadge } from "react-icons/fa";
@@ -61,7 +62,7 @@ export default function UsMockInterviewPage() {
              font-size: 11px;
              transition: all 0.3s ease;
              display: inline-flex;
-             alignItems: center;
+             align-items: center;
              gap: 10px;
           }
           .btn-gold:hover {

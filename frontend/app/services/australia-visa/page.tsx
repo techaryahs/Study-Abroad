@@ -160,16 +160,19 @@ function Body({ children, center = false, color = T.inkFade }: { children: React
 
 /** Outer section shell */
 function Sec({
-  children, bg = T.bg, py = 72, topRule = false,
+  children, bg = T.bg, py = 72, topRule = false, className = "",
 }: {
-  children: React.ReactNode; bg?: string; py?: number; topRule?: boolean;
+  children: React.ReactNode; bg?: string; py?: number; topRule?: boolean; className?: string;
 }) {
   return (
-    <section style={{
-      background: bg,
-      padding: `${py}px clamp(24px, 6vw, 112px)`,
-      borderTop: topRule ? "1px solid rgba(201,168,76,0.18)" : "none",
-    }}>
+    <section 
+      className={className}
+      style={{
+        background: bg,
+        padding: `${py}px clamp(24px, 6vw, 112px)`,
+        borderTop: topRule ? "1px solid rgba(201,168,76,0.18)" : "none",
+      }}
+    >
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         {children}
       </div>
@@ -687,7 +690,7 @@ export default function AustraliaVisaPage() {
       </Sec>
 
       {/* ══════════════ TIMELINE ══════════════ */}
-      <Sec className="py-20 bg-[${T.bgAlt}]">
+      <Sec py={80} bg={T.bgAlt}>
   <div className="flex flex-col lg:flex-row gap-12 items-start">
 
     {/* LEFT IMAGE */}
@@ -708,7 +711,7 @@ export default function AustraliaVisaPage() {
         <Rule center />
 
         <div className="text-center mb-10">
-          <p className="text-sm text-[${T.inkFade}]">
+          <p className="text-sm" style={{ color: T.inkFade }}>
             Here&apos;s how long it takes to get the Australia NIV.
           </p>
         </div>
