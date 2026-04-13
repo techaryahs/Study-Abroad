@@ -127,6 +127,76 @@ export default function UsMockInterviewPage() {
         </div>
       </section>
 
+<<<<<<< HEAD
+      {/* ================= MODAL ================= */}
+     
+<<<<<<< HEAD
+               {showOptions && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+
+    {/* Modal Box */}
+    <div className="bg-white rounded-xl w-[90%] max-w-md p-6 relative shadow-lg">
+
+      {/* Close Button */}
+       <button
+              onClick={() => setShowOptions(false)}
+              className="absolute top-3 right-4 text-gray-600 text-xl"
+            >
+              ×
+            </button>
+        
+        {/* Heading */}
+            <h2 className="text-lg font-semibold text-center mb-6 text-black">
+              Choose a Preferred Communication Method to Continue
+            </h2>
+
+      
+
+      {/* Options */}
+      <div className="space-y-4">
+
+        {/* WhatsApp */}
+        <div
+          onClick={() => window.open("https://wa.me/918987654321", "_blank")}
+          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+        >
+          <p className="font-medium text-green-600">WhatsApp</p>
+          <p className="text-sm text-gray-500">Chat on WhatsApp</p>
+        </div>
+
+        {/* Telegram */}
+        <div
+          onClick={() => window.open("https://t.me/", "_blank")}
+          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+        >
+          <p className="font-medium">Telegram</p>
+          <p className="text-sm text-gray-500">Continue on Telegram</p>
+        </div>
+
+        {/* Email */}
+    <div
+  onClick={() =>
+    window.open(
+      "https://mail.google.com/mail/?view=cm&fs=1&to=admissions@dralam.com",
+      "_blank"
+    )
+  }
+  className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
+>
+  <p className="font-medium">Email</p>
+  <p className="text-sm text-gray-500">
+    Continue on Email
+  </p>
+</div>
+
+      </div>
+
+    </div>
+  </div>
+)}
+=======
+>>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
+=======
       {/* ================= CONTENT ARCHITECTURE ================= */}
       <section className="py-24 px-6 bg-white overflow-hidden md:px-16 border-y border-[#F1EDEA]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start relative">
@@ -148,6 +218,7 @@ export default function UsMockInterviewPage() {
                         </div>
                     </div>
                 </div>
+>>>>>>> f9d81398f55cfac6e9e3690fc61ef5ae796a4372
 
                 {/* FEATURE GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
