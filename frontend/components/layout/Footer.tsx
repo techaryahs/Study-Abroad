@@ -44,7 +44,7 @@ export default function Footer() {
   ];
 
   const toolItems = [
-    { name: "RateMyChances", href: "/universities/rate-my-chances" },
+    { name: "RateMyChances", href: "/universities/RateMyChances" },
     { name: "UniPredict", href: "/universities/unipredict" },
   ];
 

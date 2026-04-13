@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import Flag from "react-world-flags";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 export default function UniversitiesPage() {
+  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -187,12 +190,20 @@ export default function UniversitiesPage() {
             Connect with our global advisors to architect a bespoke institutional roadmap tailored to your professional trajectory.
           </p>
           <div className="pt-8">
-            <Link href="/contact" className="inline-block bg-[#C5A059] text-white font-bold px-12 py-5 rounded-2xl shadow-2xl hover:bg-white hover:text-[#2D2926] transition-all text-sm tracking-widest uppercase">
+            <button
+              onClick={() => setShowCounsellingModal(true)}
+              className="inline-block bg-[#C5A059] text-white font-bold px-12 py-5 rounded-2xl shadow-2xl hover:bg-white hover:text-[#2D2926] transition-all text-sm tracking-widest uppercase cursor-pointer"
+            >
               Schedule Your Briefing
-            </Link>
+            </button>
           </div>
         </div>
       </section>
+
+      <BookCounsellingModal
+        isOpen={showCounsellingModal}
+        onClose={() => setShowCounsellingModal(false)}
+      />
     </div>
   );
 }

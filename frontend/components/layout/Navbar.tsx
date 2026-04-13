@@ -83,7 +83,7 @@ const universityItems: DropdownItem[] = [
     icon: <Percent size={18} />,
     title: "RateMyChances",
     description: "Estimates your admit chances based on your profile.",
-    href: "/universities/rate-my-chances",
+    href: "/universities/RateMyChances",
     badge: "NEW",
   },
   {
@@ -468,7 +468,7 @@ function DropdownPanel({
                     Global Reach
                   </p>
                 </div>
-                <ul className="py-1 max-h-[220px] overflow-y-auto custom-nav-scroll">
+                <ul className="py-1 max-h-[220px] overflow-y-auto custom-nav-scroll no-scrollbar">
                   {item.subItems.map((sub) => (
                     <li key={sub.name}>
                       <Link
@@ -674,7 +674,7 @@ export default function Navbar() {
     { name: "Services", path: "/services" },
     { name: "Decisions", path: "/decisions", badge: "Coming Soon" },
     { name: "Discussions", path: "/discussions", badge: "Coming Soon" },
-    { name: "Articles", path: "/blogs" },
+    { name: "Articles", path: "/blogs", badge: "Coming Soon" },
     { name: "Resources", path: "/resources", badge: "New", dropdown: "resources" as DropdownKey },
     { name: "AI Services", path: "/ai-services", badge: "New", dropdown: "ai-services" as DropdownKey },
     { name: "Material", path: "/material", badge: "Coming Soon" },

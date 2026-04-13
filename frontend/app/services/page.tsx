@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import { getUser } from "@/app/lib/token";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -167,6 +168,19 @@ export default function ServicesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "failed">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  
+  // Pre-fill name/email from logged-in user
+  useEffect(() => {
+    const user = getUser();
+    if (user) {
+      setForm((prev) => ({
+        ...prev,
+        name: user.name || prev.name,
+        email: user.email || prev.email,
+        mobile: user.mobile || prev.mobile || "",
+      }));
+    }
+  }, []);
 
   const filtered = services.filter(
     (s) =>

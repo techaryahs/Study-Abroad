@@ -68,6 +68,7 @@ app.use("/api/activity", require("./routes/activityRoutes"));
 
 app.use("/api/feature-activity", featureActivityRoutes);
 app.use("/api/research-groups", require("./routes/researchGroup.routes"));
+app.use("/api/reviews", require("./routes/review.routes"));
 
 
 
