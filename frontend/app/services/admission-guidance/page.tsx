@@ -1,26 +1,224 @@
 "use client";
 
-import ServiceLayout from "@/components/layout/ServiceLayout";
+import { useState } from "react";
+import AddToCart from "@/components/shared/AddToCart";
+import Image from "next/image";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import DiscussionSection from "@/components/shared/DiscussionSection";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ShieldCheck,
+  Star,
+  Zap,
+  GraduationCap,
+  FileSearch,
+} from "lucide-react";
+import FAQSection from "@/components/shared/FAQSection";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+
+const guidanceFeatures = [
+  { title: "Profile Evaluation", desc: "In-depth gap analysis and strategic profile building for elite admits.", icon: <FileSearch size={24} /> },
+  { title: "Merit Mapping", desc: "Aligning your narrative with specific university values and quotas.", icon: <Star size={24} /> },
+  { title: "Success Strategy", desc: "Clinical application timeline and document protocol orchestration.", icon: <Zap size={24} /> },
+  { title: "Elite Outcomes", desc: "Proven track record with tier-1 global university placements.", icon: <GraduationCap size={24} /> }
+];
 
 export default function AdmissionGuidancePage() {
+  const [showBookingModal, setShowBookingModal] = useState(false);
+
   return (
-    <ServiceLayout 
-      title="Admission Guidance"
-      serviceId="admission-guidance"
-      description="Personalized advice from experts to help you apply for the best universities based on your profile and career goals."
-      details={[
-        "Profile evaluation and gap analysis",
-        "One-on-one expert mentorship",
-        "University application strategy",
-        "Admission interview preparation",
-        "Enrollment and deposit assistance"
-      ]}
-      icon={
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M12 14l9-5-9-5-9 5 9 5z" />
-          <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-        </svg>
-      }
-    />
+    <main className="min-h-screen pb-16" style={{ background: "#FDFBF7", color: "#3C2A21", fontFamily: "'DM Sans', sans-serif" }}>
+
+      <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+          .fd { font-family: 'Cormorant Garamond', serif; }
+          
+          .gold-shimmer {
+            background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+          }
+
+          @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+          }
+          
+          .glass-panel {
+            background: #FFFFFF;
+            border: 1px solid rgba(197,160,89, 0.15);
+            border-radius: 32px;
+            box-shadow: 0 40px 100px rgba(197,160,89, 0.05);
+          }
+
+          .feature-pill {
+            background: #FFFFFF;
+            border: 1px solid rgba(197,160,89, 0.1);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+
+          .feature-pill:hover {
+            border-color: #C5A059;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(197,160,89, 0.08);
+          }
+
+          .btn-gold {
+             background: #C5A059;
+             color: white;
+             padding: 18px 30px;
+             border-radius: 18px;
+             font-weight: 700;
+             text-transform: uppercase;
+             letter-spacing: 0.1em;
+             font-size: 11px;
+             transition: all 0.3s ease;
+             display: inline-flex;
+             align-items: center;
+             gap: 10px;
+             cursor: pointer;
+          }
+          .btn-gold:hover {
+             background: #3C2A21;
+             transform: translateY(-2px);
+             box-shadow: 0 10px 20px rgba(197,160,89, 0.2);
+          }
+      `}</style>
+
+      {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
+      <section className="relative pt-6 pb-20 px-6 overflow-hidden md:px-16" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="pt-10 space-y-8"
+          >
+            <div className="flex flex-col gap-4">
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
+              >
+                <ArrowLeft size={14} /> Back to Services
+              </Link>
+              <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
+                Premier Guidance Node
+              </span>
+            </div>
+            <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
+               COMPLETE <br /> <span className="gold-shimmer lowercase">Admission Help</span>
+            </h1>
+            <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+              "Architecting your transition into the world's most elite universities through clinical profile positioning."
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative pt-10"
+          >
+            <div className="glass-panel p-2 overflow-hidden shadow-2xl group">
+              <div className="relative aspect-[4/3] w-full rounded-[28px] overflow-hidden border border-[#F1EDEA]">
+                <Image
+                  src="/admission-hero.png"
+                  alt="Elite Admission Guidance"
+                  fill
+                  className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#3C2A21]/60 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <ShieldCheck className="text-[#C5A059]" size={20} />
+                    <span className="text-[10px] text-white font-bold tracking-widest uppercase">Verified Expert node</span>
+                  </div>
+                  <p className="text-white font-serif italic text-sm leading-relaxed">
+                    "We turn profile gaps into strategic advantages. Command the attention of admissions committees."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── CONTENT ARCHITECTURE ────────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-white overflow-hidden md:px-16 border-y border-[#F1EDEA]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start relative">
+
+          {/* LEFT COLUMN: STRATEGIC NARRATIVE (3/5) */}
+          <div className="lg:col-span-3 space-y-20 text-[#6B5E51]">
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">The Core Strategy</span>
+                <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Clinical <br /> <span className="gold-shimmer">Admission Orchestration</span></h2>
+              </div>
+
+              <div className="space-y-6 font-medium leading-relaxed max-w-2xl text-lg">
+                <p>
+                  Most applications fail because they lack a coherent Professional Identity. Our Admission Guidance node is designed to extract your unique value and translate it into a language that admissions officers respect.
+                </p>
+                <p>
+                  We don't just help with forms. We manage the entire narrative arc of your profile, from gap evaluation to the final interview script.
+                </p>
+              </div>
+            </div>
+
+            {/* Grid Features */}
+            <div className="space-y-10">
+              <div className="space-y-2">
+                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Guidance Pillars</span>
+                <h3 className="fd text-3xl font-bold text-[#3C2A21]">Strategic Advisory</h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {guidanceFeatures.map((feat, i) => (
+                  <div key={i} className="feature-pill p-8 flex flex-col gap-5 items-start">
+                    <div className="w-12 h-12 rounded-xl bg-[#FDFBF7] flex items-center justify-center text-[#C5A059] border border-[#C5A059]/10">
+                      {feat.icon}
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="fd text-xl font-bold text-[#3C2A21]">{feat.title}</h4>
+                      <p className="text-xs leading-relaxed font-medium opacity-70">{feat.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Community Consensus */}
+            <div className="space-y-10 pt-10 border-t border-[#F1EDEA]">
+              <div className="space-y-2">
+                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Public Consensus</span>
+                <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
+              </div>
+              <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
+                <DiscussionSection serviceId="admission-guidance" />
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) */}
+          <div className="lg:col-span-2 lg:sticky lg:top-40">
+            <AddToCart serviceId="application-help" />
+          </div>
+
+        </div>
+      </section>
+
+      <div className="bg-white">
+        <FAQSection />
+      </div>
+
+      <BookCounsellingModal
+        isOpen={showBookingModal}
+        onClose={() => setShowBookingModal(false)}
+      />
+
+    </main>
   );
 }

@@ -117,7 +117,7 @@ export default function Home() {
           {/* HERO TEXT */}
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
             <motion.h1 variants={itemVariants} className="text-4xl sm:text-5xl lg:text-[3.8rem] leading-[1.1] font-black tracking-tighter text-[#362B25]">
-              Education Leader<br/> Led Path to <br />
+              Education Leader<br /> Led Path to <br />
               <span className="text-[#D4A848]">
                 Ivy League &
               </span>

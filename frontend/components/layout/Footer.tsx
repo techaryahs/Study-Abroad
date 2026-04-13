@@ -152,7 +152,7 @@ export default function Footer() {
                 </div>
                 <div className="flex items-center gap-4">
                   <Phone size={16} className="text-[#B3985E] shrink-0" />
-                  <p>+91 96199 01999</p>
+                  <p>+91 86578 69659</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <Mail size={16} className="text-[#B3985E] shrink-0" />

@@ -16,8 +16,8 @@ import {
     Star,
     Award
 } from "lucide-react";
-import Link from "next/link";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import AddToCart from "@/components/shared/AddToCart";
 
 export default function UsMockInterviewPage() {
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -87,7 +87,7 @@ export default function UsMockInterviewPage() {
                 </span>
             </div>
             <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
-               US Visa <br/> <span className="gold-shimmer lowercase">Mock Interview</span>
+               US Visa <br/> <span className="gold-shimmer italic">Mock Interview</span>
             </h1>
             <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                "The final strategic barrier to your flight to the USA. Master the consulate session with proven psychological techniques."
@@ -127,76 +127,6 @@ export default function UsMockInterviewPage() {
         </div>
       </section>
 
-<<<<<<< HEAD
-      {/* ================= MODAL ================= */}
-     
-<<<<<<< HEAD
-               {showOptions && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-
-    {/* Modal Box */}
-    <div className="bg-white rounded-xl w-[90%] max-w-md p-6 relative shadow-lg">
-
-      {/* Close Button */}
-       <button
-              onClick={() => setShowOptions(false)}
-              className="absolute top-3 right-4 text-gray-600 text-xl"
-            >
-              ×
-            </button>
-        
-        {/* Heading */}
-            <h2 className="text-lg font-semibold text-center mb-6 text-black">
-              Choose a Preferred Communication Method to Continue
-            </h2>
-
-      
-
-      {/* Options */}
-      <div className="space-y-4">
-
-        {/* WhatsApp */}
-        <div
-          onClick={() => window.open("https://wa.me/918987654321", "_blank")}
-          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-        >
-          <p className="font-medium text-green-600">WhatsApp</p>
-          <p className="text-sm text-gray-500">Chat on WhatsApp</p>
-        </div>
-
-        {/* Telegram */}
-        <div
-          onClick={() => window.open("https://t.me/", "_blank")}
-          className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
-        >
-          <p className="font-medium">Telegram</p>
-          <p className="text-sm text-gray-500">Continue on Telegram</p>
-        </div>
-
-        {/* Email */}
-    <div
-  onClick={() =>
-    window.open(
-      "https://mail.google.com/mail/?view=cm&fs=1&to=admissions@dralam.com",
-      "_blank"
-    )
-  }
-  className="border rounded-lg p-4 hover:bg-gray-50 cursor-pointer"
->
-  <p className="font-medium">Email</p>
-  <p className="text-sm text-gray-500">
-    Continue on Email
-  </p>
-</div>
-
-      </div>
-
-    </div>
-  </div>
-)}
-=======
->>>>>>> 5f5222ebc4dfd8d0983a98e87e6b0ae4c3c4e182
-=======
       {/* ================= CONTENT ARCHITECTURE ================= */}
       <section className="py-24 px-6 bg-white overflow-hidden md:px-16 border-y border-[#F1EDEA]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start relative">
@@ -218,7 +148,6 @@ export default function UsMockInterviewPage() {
                         </div>
                     </div>
                 </div>
->>>>>>> f9d81398f55cfac6e9e3690fc61ef5ae796a4372
 
                 {/* FEATURE GRID */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -252,35 +181,8 @@ export default function UsMockInterviewPage() {
                 </div>
             </div>
 
-            {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) */}
             <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-40">
-                <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group border border-[#C5A059]/20">
-                   <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-all duration-1000" />
-                   <h3 className="fd text-3xl font-bold relative z-10">Start Protocol</h3>
-                   
-                   <div className="space-y-6 relative z-10 text-xs">
-                        <div className="flex justify-between border-b border-white/10 pb-4">
-                            <span className="font-bold text-white/40 uppercase tracking-widest text-[9px]">Unit</span>
-                            <span className="font-bold">US Visa Mock</span>
-                        </div>
-                        <div className="space-y-3">
-                            <span className="font-bold text-white/40 uppercase tracking-widest text-[9px] block">Regional Currency</span>
-                            <select className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-[#C5A059] transition-all">
-                                <option className="bg-[#3C2A21]" value="INR">India (₹ INR)</option>
-                                <option className="bg-[#3C2A21]" value="USD">United States ($ USD)</option>
-                            </select>
-                        </div>
-                   </div>
-
-                   <div className="relative z-10 space-y-4">
-                        <button className="w-full border border-[#C5A059] text-[#C5A059] py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:bg-[#C5A059] hover:text-white transition-all">
-                            Add to Portfolio
-                        </button>
-                        <button className="w-full bg-[#C5A059] text-white py-4 rounded-2xl font-bold uppercase tracking-widest text-[10px] hover:scale-[1.02] shadow-xl shadow-[#C5A059]/20 transition-all">
-                            Secure Simulation
-                        </button>
-                   </div>
-                </div>
+                <AddToCart serviceId="visa_mock_interview" />
             </div>
         </div>
       </section>

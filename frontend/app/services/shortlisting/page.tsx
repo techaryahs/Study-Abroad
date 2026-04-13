@@ -1,214 +1,231 @@
-'use client';
+"use client";
 
 import { useState } from "react";
 import AddToCart from "@/components/shared/AddToCart";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import FAQSection from "@/components/shared/FAQSection";
 import {
-  Phone,
-  MessageSquare,
-  CheckCircle2,
-  ChevronDown,
-  Info,
+  ArrowLeft,
+  ShieldCheck,
+  Star,
+  Zap,
   GraduationCap,
   Search,
-  Plus,
-  Minus,
-  Video,
-  Award,
-  Star,
-  Globe,
-  Zap,
-  Briefcase,
-  Target,
-  Scale
 } from "lucide-react";
+import FAQSection from "@/components/shared/FAQSection";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+
+const shortlistingFeatures = [
+  { title: "Profile Pruning", desc: "Scientific evaluation of your GPA, GRE, and work exp to identify safety and reach schools.", icon: <Search size={24} /> },
+  { title: "Quota Alignment", desc: "Matching your profile with university-specific funding and diversity quotas.", icon: <Star size={24} /> },
+  { title: "Strategic Mix", desc: "A clinical list of 8-12 universities across Ambitious, Moderate, and Safe categories.", icon: <Zap size={24} /> },
+  { title: "ROX Analytics", desc: "Focusing on universities with the highest return on experience and placement rates.", icon: <GraduationCap size={24} /> }
+];
 
 export default function ShortlistingPage() {
-
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 }
-    }
-  };
-
-  const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 110,
-        damping: 18,
-        duration: 0.6
-      }
-    }
-  };
-
-  const logos = [
-    { name: "UPenn", src: "https://www.google.com/s2/favicons?domain=upenn.edu&sz=128" },
-    { name: "Columbia", src: "https://www.google.com/s2/favicons?domain=columbia.edu&sz=128" },
-    { name: "Harvard", src: "https://www.google.com/s2/favicons?domain=harvard.edu&sz=128" },
-    { name: "Stanford", src: "https://www.google.com/s2/favicons?domain=stanford.edu&sz=128" },
-    { name: "Yale", src: "https://www.google.com/s2/favicons?domain=yale.edu&sz=128" },
-    { name: "MIT", src: "https://www.google.com/s2/favicons?domain=mit.edu&sz=128" }
-  ];
+  const [showBookingModal, setShowBookingModal] = useState(false);
 
   return (
-    <main className="min-h-screen bg-[#FFFFFF] text-[#675F5B] font-base selection:bg-[#D4A848]/20 relative overflow-hidden">
+    <main className="min-h-screen pb-16" style={{ background: "#FDFBF7", color: "#3C2A21", fontFamily: "'DM Sans', sans-serif" }}>
 
-      {/* ── BACKGROUND AMBIENT GLOWS ── */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#D4A848]/5 blur-[150px] rounded-full" />
-        <div className="absolute bottom-1/2 left-0 w-[300px] h-[300px] bg-[#D4A848]/5 blur-[150px] rounded-full" />
-      </div>
+      <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+          .fd { font-family: 'Cormorant Garamond', serif; }
+          
+          .gold-shimmer {
+            background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+          }
 
-      {/* ── HERO SECTION ── */}
-      <section className="relative pt-12 pb-20 px-8 md:px-20 z-10">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12">
+          @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+          }
+          
+          .glass-panel {
+            background: #FFFFFF;
+            border: 1px solid rgba(197,160,89, 0.15);
+            border-radius: 32px;
+            box-shadow: 0 40px 100px rgba(197,160,89, 0.05);
+          }
+
+          .feature-pill {
+            background: #FFFFFF;
+            border: 1px solid rgba(197,160,89, 0.1);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+
+          .feature-pill:hover {
+            border-color: #C5A059;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(197,160,89, 0.08);
+          }
+
+          .btn-gold {
+             background: #C5A059;
+             color: white;
+             padding: 18px 30px;
+             border-radius: 18px;
+             font-weight: 700;
+             text-transform: uppercase;
+             letter-spacing: 0.1em;
+             font-size: 11px;
+             transition: all 0.3s ease;
+             display: inline-flex;
+             align-items: center;
+             gap: 10px;
+             cursor: pointer;
+          }
+          .btn-gold:hover {
+             background: #3C2A21;
+             transform: translateY(-2px);
+             box-shadow: 0 10px 20px rgba(197,160,89, 0.2);
+          }
+      `}</style>
+
+      {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
+      <section className="relative pt-6 pb-20 px-6 overflow-hidden md:px-16" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="lg:w-1/2 space-y-8"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="pt-10 space-y-8"
           >
-            <motion.div variants={itemVariants} className="space-y-3">
-              <h1 className="text-3xl md:text-5xl font-black leading-[1.1] uppercase tracking-tight text-[#362B25] break-words">
-                PROFILE EVALUATION & <br />
-                <span className="text-[#D4A848]" > UNIVERSITY SHORTLISTING</span>
-              </h1>
-            </motion.div>
-
-            <motion.div variants={itemVariants} className="space-y-4 max-w-xl text-[#675F5B]/80 leading-relaxed font-medium">
-              <p>
-                More than <span className="font-bold text-[#362B25]">75%</span> of applicants blindly apply to universities <span className="font-bold text-[#362B25]">without</span> analyzing historical profile data.
-              </p>
-              <p>
-                Our admission experts architect data-backed, tailored university portfolios optimized for elite acceptances, maximum funding, and seamless visa approvals.
-              </p>
-            </motion.div>
-
-            <DiscussionSection serviceId="shortlisting" />
+            <div className="flex flex-col gap-4">
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
+              >
+                <ArrowLeft size={14} /> Back to Services
+              </Link>
+              <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
+                Strategic Pruning Node
+              </span>
+            </div>
+            <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
+               UNIVERSITY <br /> <span className="gold-shimmer lowercase">Shortlisting</span>
+            </h1>
+            <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+              "Don't waste thousands on applications. We identify the exact universities where your profile is most likely to win an admit."
+            </p>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:w-1/2 relative"
+            className="relative pt-10"
           >
-            <div className="relative aspect-[4/3] w-full group">
-              <div className="absolute inset-0 bg-[#D4A848]/20 blur-[100px] rounded-full pointer-events-none" />
-              <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden border border-[#D4A848]/10 group-hover:border-[#D4A848]/30 transition-all duration-1000 shadow-2xl">
+            <div className="glass-panel p-2 overflow-hidden shadow-2xl group">
+              <div className="relative aspect-[4/3] w-full rounded-[28px] overflow-hidden border border-[#F1EDEA]">
                 <Image
                   src="/shortlisting-hero.png"
-                  alt="Shortlisting realistic campus"
+                  alt="Elite University Shortlisting"
                   fill
-                  className="object-cover opacity-90 group-hover:opacity-100 transition-all duration-2000"
+                  className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90 group-hover:opacity-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#D4A848]/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#3C2A21]/60 to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                  <div className="flex items-center gap-3 mb-2">
+                    <ShieldCheck className="text-[#C5A059]" size={20} />
+                    <span className="text-[10px] text-white font-bold tracking-widest uppercase">Verified Expert node</span>
+                  </div>
+                  <p className="text-white font-serif italic text-sm leading-relaxed">
+                    "We maintain a zero-commission policy. Your shortlist is driven purely by your success potential."
+                  </p>
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ── ABOUT SERVICE & WIDGET ── */}
-      <section className="py-24 px-8 md:px-20 bg-[#F8F6F1] border-y border-[#D4A848]/10 relative z-10">
-        <div className="max-w-7xl mx-auto space-y-12">
+      {/* ── CONTENT ARCHITECTURE ────────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-white overflow-hidden md:px-16 border-y border-[#F1EDEA]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start relative">
 
-          <div className="space-y-3">
-            <h2 className="text-3xl md:text-4xl font-semibold text-[#362B25]">About Service</h2>
-            <div className="w-16 h-[2px] bg-[#D4A848]" />
-          </div>
+          {/* LEFT COLUMN: STRATEGIC NARRATIVE (3/5) */}
+          <div className="lg:col-span-3 space-y-20 text-[#6B5E51]">
+            <div className="space-y-8">
+              <div className="space-y-4">
+                <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">The Selection Logic</span>
+                <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Clinical <br /> <span className="gold-shimmer">Profile Positioning</span></h2>
+              </div>
 
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
-            {/* Main Info Column */}
-            <div className="lg:w-2/3 space-y-8">
-              {[
-                {
-                  t: "Personalized Curation",
-                  icon: <Target size={24} className="text-[#D4A848]" />,
-                  d: [
-                    "We factor in your exact constraints—from geographical preferences and budget limitations to standardized testing waivers.",
-                    "We craft a highly customized university portfolio that precisely mirrors your academic ambitions and personal criteria."
-                  ]
-                },
-                {
-                  t: "Funding-Optimized Mapping",
-                  icon: <Award size={24} className="text-[#D4A848]" />,
-                  d: [
-                    "We analyze extensive historical data from recent admission cycles to identify institutions where candidates with your exact profile successfully secured grants and scholarships."
-                  ]
-                },
-                {
-                  t: "Outcome & Career Forecasting",
-                  icon: <Briefcase size={24} className="text-[#D4A848]" />,
-                  d: [
-                    "By examining thousands of historical admission outcomes, we construct high-probability models determining where you are most likely to be accepted.",
-                    "We heavily weigh post-graduation ROI, targeting universities known for robust alumni networks and premier job placement rates."
-                  ]
-                },
-                {
-                  t: "Independent & Objective Guidance",
-                  icon: <Scale size={24} className="text-[#D4A848]" />,
-                  d: [
-                    "Low-ranking tier-3 institutions drastically increase the risk of visa denials, employment struggles, and severe financial setbacks for families.",
-                    "We operate entirely independently. Our advisors will never steer you toward low-tier, commission-based partner universities.",
-                    "We ensure you target the most prestigious universities within your reach to guarantee a world-class education and secure visa success."
-                  ]
-                }
-              ].map((section, i) => (
-                <div key={i} className="flex gap-4 items-start group">
-                  <div className="hidden sm:flex flex-shrink-0 w-12 h-12 rounded-2xl bg-white border border-[#D4A848]/20 items-center justify-center shadow-sm group-hover:-translate-y-1 transition-all">
-                    {section.icon}
+              <div className="space-y-6 font-medium leading-relaxed max-w-2xl text-lg">
+                <p>
+                  University selection is a game of probabilities. Our Shortlisting node uses clinical data to map your profile against historical admit trends, ensuring you don't undersell yourself or take unnecessary risks.
+                </p>
+                <p>
+                  We categorize your list into Ambitious, Moderate, and Safe, protecting your future while aiming for the highest possible prestige.
+                </p>
+              </div>
+            </div>
+
+            {/* Grid Features */}
+            <div className="space-y-10">
+              <div className="space-y-2">
+                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Evaluation Pillars</span>
+                <h3 className="fd text-3xl font-bold text-[#3C2A21]">Strategic Advisory</h3>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {shortlistingFeatures.map((feat, i) => (
+                  <div key={i} className="feature-pill p-8 flex flex-col gap-5 items-start">
+                    <div className="w-12 h-12 rounded-xl bg-[#FDFBF7] flex items-center justify-center text-[#C5A059] border border-[#C5A059]/10">
+                      {feat.icon}
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="fd text-xl font-bold text-[#3C2A21]">{feat.title}</h4>
+                      <p className="text-xs leading-relaxed font-medium opacity-70">{feat.desc}</p>
+                    </div>
                   </div>
-                  <div className="space-y-1.5">
-                    <h3 className="text-[17px] font-bold text-[#362B25] flex items-center gap-2">
-                      <span className="sm:hidden w-8 h-8 flex items-center justify-center">{section.icon}</span>
-                      {section.t}
-                    </h3>
-                    <ul className="list-disc list-outside ml-4 space-y-1.5 text-[#675F5B] leading-relaxed text-[13px]">
-                      {section.d.map((point, j) => (
-                        <li key={j}>{point}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
-            {/* Right Widget Column */}
-            <div className="lg:w-1/3 w-full sticky top-24">
-              <AddToCart serviceId="shortlisting" />
+            {/* Community Consensus */}
+            <div className="space-y-10 pt-10 border-t border-[#F1EDEA]">
+              <div className="space-y-2">
+                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Public Consensus</span>
+                <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
+              </div>
+              <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
+                <DiscussionSection serviceId="shortlisting" />
+              </div>
             </div>
           </div>
 
-          <div className="pt-16 space-y-10 border-t border-[#D4A848]/10 max-w-5xl">
-            <h3 className="text-2xl font-bold text-[#362B25]">Our Signature Consultation Protocol</h3>
-            <ul className="space-y-8 text-[15px] text-[#675F5B] leading-relaxed list-disc list-outside ml-6">
-              <li><span className="font-bold text-[#362B25]">Deep Profile Audit:</span> We begin by meticulously evaluating your academic history, test scores, and extracurriculars to uncover your maximum potential.</li>
-              <li><span className="font-bold text-[#362B25]">Aligning Your Vision:</span> You define the parameters. Share your ideal number of universities alongside any strict geographical, financial, or ranking requirements.</li>
-              <li><span className="font-bold text-[#362B25]">Strategic Portfolio Construction:</span> Merging your parameters with our historical data analytics, we architect a tailored matrix of 'Reach', 'Target', and 'Safety' institutions designed for comprehensive security.</li>
-              <li><span className="font-bold text-[#362B25]">Expert Review & Refinement:</span> Once your preliminary portfolio is built, you will collaborate 1-on-1 with your advisor to fine-tune and finalize every target destination.</li>
-            </ul>
-            <div className="pt-4">
-              <p className="text-[15px] text-[#675F5B] bg-[#FFFFFF] p-6 rounded-2xl border border-[#D4A848]/20 shadow-sm relative overflow-hidden">
-                <span className="absolute top-0 left-0 w-2 h-full bg-[#D4A848]" />
-                <span className="font-bold text-[#362B25]">Zero-Commission Guarantee:</span> We maintain a strict zero-commission policy with universities. Your shortlist is purely driven by objective data and merit, completely protecting you from biased tier-3 institutional placements.
-              </p>
+          {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) */}
+          <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-40">
+            <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group border border-[#C5A059]/20">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-all duration-1000" />
+              <div className="space-y-2 relative z-10">
+                <h3 className="fd text-3xl font-bold italic">Bespoke Shortlist</h3>
+                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Pricing Protocol.</p>
+              </div>
+              <div className="relative z-10 w-full">
+                <AddToCart serviceId="shortlisting" />
+              </div>
             </div>
           </div>
-
         </div>
       </section>
-      <FAQSection />
+
+      <div className="bg-white">
+        <FAQSection />
+      </div>
+
+      <BookCounsellingModal
+        isOpen={showBookingModal}
+        onClose={() => setShowBookingModal(false)}
+      />
+
     </main>
   );
 }
