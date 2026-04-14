@@ -280,10 +280,10 @@ export default function MeetingPage() {
           </h1>
           <p className="text-white/35 text-sm leading-relaxed">{sessionError}</p>
           <button
-            onClick={() => router.push("/services")}
+            onClick={() => router.push("/User/dashboard")}
             className="px-6 py-3 bg-[#d4af37] text-black font-bold rounded-xl hover:bg-yellow-400 transition-all text-sm uppercase tracking-wider"
           >
-            Back to Services
+            Back to Dashboard
           </button>
         </div>
       </div>

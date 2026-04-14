@@ -162,7 +162,7 @@ function ServiceCard({
 export default function ServicesPage() {
   const [query, setQuery] = useState("");
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
-  const contactPhone = process.env.NEXT_PUBLIC_WTSP_PHONE || "919619901999";
+  const contactPhone = (process.env.NEXT_PUBLIC_WTSP_PHONE || "+918657869659").replace(/\D/g, '');
   const [form, setForm] = useState({ name: "", email: "", mobile: "", message: "" });
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

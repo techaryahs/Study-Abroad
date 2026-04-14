@@ -66,6 +66,8 @@ export default function DashboardPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [openModal, setOpenModal] = useState<string | null>(null);
   const [activeProfileTab, setActiveProfileTab] = useState('about');
+  const [mainTab, setMainTab] = useState<'profile' | 'bookings' | 'sessions'>('profile');
+  const [sessionFilter, setSessionFilter] = useState<'upcoming' | 'past'>('upcoming');
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<{ section: string; data: any } | null>(null);
@@ -378,6 +380,20 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* ── MAIN TABS ── */}
+      <div className="max-w-6xl mx-auto px-6 mt-8 flex flex-wrap gap-4 border-b border-[#F1EDEA] pb-4">
+        {['profile', 'bookings', 'sessions'].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setMainTab(tab as any)}
+            className={`px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all ${mainTab === tab ? 'bg-[#3C2A21] text-[#C5A059] shadow-lg' : 'bg-white border border-[#F1EDEA] text-[#6B5E51] hover:bg-[#FDFBF7]'}`}
+          >
+            {tab === 'profile' ? 'Profile' : tab === 'bookings' ? 'My Bookings' : 'My Sessions'}
+          </button>
+        ))}
+      </div>
+
+      {mainTab === 'profile' && (
       <div className="max-w-6xl mx-auto px-6 mt-12 space-y-12">
         {/* ── IDENTITY MODULE ── */}
         <div className="bg-white border border-[#F1EDEA] rounded-[2.5rem] shadow-sm overflow-hidden flex flex-col md:flex-row h-auto transition-all hover:border-[#C5A059]/20">
@@ -388,7 +404,6 @@ export default function DashboardPage() {
               { id: 'undergrad', label: "Bachelor's", hasData: userData?.profile?.underGrad?.length > 0 },
               { id: 'masters', label: "Master's", hasData: userData?.profile?.masters?.length > 0 },
               { id: 'target', label: 'Target', hasData: userData?.profile?.targetUniversities?.length > 0 },
-              { id: 'bookings', label: 'My Bookings', hasData: receipts.length > 0 },
               ...((userData?.profile?.testScores || []).map((score: any) => ({
                 id: `score-${score.testType.toLowerCase()}`,
                 label: score.testType.toUpperCase(),
@@ -492,31 +507,6 @@ export default function DashboardPage() {
                   <p className="text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-widest">No scores added yet.</p>
                 </motion.div>
               )}
-              {activeProfileTab === 'bookings' && (
-                <motion.div key="bookings" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
-                  <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Service Purchase History</h2>
-                  {receipts.map((receipt: any) => (
-                    <div key={receipt._id} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 group/card hover:border-[#C5A059]/20 transition-all shadow-sm">
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <p className="text-[9px] font-black text-green-600 uppercase tracking-widest mb-1">Paid • {new Date(receipt.createdAt).toLocaleDateString()}</p>
-                          <h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">Order ID: {receipt.orderId}</h4>
-                        </div>
-                        <p className="text-xl font-black text-red-700 italic">{receipt.currency} {receipt.total.toLocaleString()}</p>
-                      </div>
-                      <div className="space-y-2">
-                        {receipt.items.map((item: any, idx: number) => (
-                          <div key={idx} className="flex items-center gap-3 py-2 border-t border-black/5">
-                            <div className="w-2 h-2 rounded-full bg-[#C5A059]/40" />
-                            <span className="text-[11px] font-bold text-[#3C2A21]">{item.title}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                  {receipts.length === 0 && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No purchase history found.</p>}
-                </motion.div>
-              )}
             </AnimatePresence>
           </div>
         </div>
@@ -578,6 +568,88 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+      )}
+
+      {mainTab === 'bookings' && (
+        <div className="max-w-6xl mx-auto px-6 mt-12 space-y-16">
+          
+          {/* SERVICE PURCHASES */}
+          <div>
+            <h2 className="text-[14px] font-black uppercase tracking-[0.2em] text-[#3C2A21] mb-8 border-b border-[#F1EDEA] pb-4">Service Purchase History</h2>
+            <div className="space-y-6">
+              {receipts.map((receipt: any) => (
+                <div key={receipt._id} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 group/card hover:border-[#C5A059]/20 transition-all shadow-sm">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <p className="text-[9px] font-black text-green-600 uppercase tracking-widest mb-1">Paid • {new Date(receipt.createdAt).toLocaleDateString()}</p>
+                      <h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">Order ID: {receipt.orderId}</h4>
+                    </div>
+                    <p className="text-xl font-black text-red-700 italic">{receipt.currency} {receipt.total.toLocaleString()}</p>
+                  </div>
+                  <div className="space-y-2">
+                    {receipt.items.map((item: any, idx: number) => (
+                      <div key={idx} className="flex items-center gap-3 py-2 border-t border-black/5">
+                        <div className="w-2 h-2 rounded-full bg-[#C5A059]/40" />
+                        <span className="text-[11px] font-bold text-[#3C2A21]">{item.title}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              {receipts.length === 0 && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No service purchases found.</p>}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {mainTab === 'sessions' && (() => {
+        const now = new Date();
+        const allSessions = userData?.profile?.mySessions || [];
+        const upcomingSessions = allSessions.filter((s:any) => new Date(`${s.date}T${s.time || '00:00'}:00`) >= now);
+        const pastSessions = allSessions.filter((s:any) => new Date(`${s.date}T${s.time || '00:00'}:00`) < now);
+        const displayedSessions = sessionFilter === 'upcoming' ? upcomingSessions : pastSessions;
+
+        return (
+        <div className="max-w-6xl mx-auto px-6 mt-12 space-y-6">
+          <div className="flex items-center justify-between mb-8 border-b border-[#F1EDEA] pb-4">
+            <h2 className="text-[14px] font-black uppercase tracking-[0.2em] text-[#3C2A21]">My Sessions</h2>
+            <div className="flex gap-2">
+              <button onClick={() => setSessionFilter('upcoming')} className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sessionFilter === 'upcoming' ? 'bg-[#C5A059] text-white shadow-md' : 'bg-[#FDFBF7] text-[#6B5E51] border border-[#F1EDEA] hover:bg-[#F1EDEA]'}`}>Upcoming</button>
+              <button onClick={() => setSessionFilter('past')} className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sessionFilter === 'past' ? 'bg-[#C5A059] text-white shadow-md' : 'bg-[#FDFBF7] text-[#6B5E51] border border-[#F1EDEA] hover:bg-[#F1EDEA]'}`}>Past</button>
+            </div>
+          </div>
+          {displayedSessions.map((s: any) => (
+            <div key={s._id} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl p-4 shadow-sm hover:border-[#C5A059]/30 transition-all group flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex-1 space-y-1">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                   <h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest leading-none">{s.consultantName === 'Admin' ? 'Counselling Session' : (s.consultantName || "Counselling Session")}</h4>
+                   <span className="text-[8px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-2 py-0.5 rounded border border-[#C5A059]/20 uppercase">{sessionFilter === 'past' ? 'COMPLETED' : (s.status || "CONFIRMED")}</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-black text-[#3C2A21]">{new Date(s.date).toLocaleDateString()}</span>
+                      <span className="text-xs font-black text-[#C5A059] uppercase tracking-tighter">@{s.time}</span>
+                    </div>
+                    <div className="flex items-center gap-2 border-l border-[#F1EDEA] pl-6">
+                       <span className="text-[9px] font-black text-[#6B5E51]/40 uppercase tracking-widest">Meeting ID:</span>
+                       <code className="text-xs font-mono font-bold text-[#3C2A21] tracking-wider">{s.meetingId}</code>
+                    </div>
+                </div>
+              </div>
+              {sessionFilter === 'upcoming' && (
+                <button 
+                  onClick={() => router.push(`/meeting/${s.sessionId || s._id}`)} 
+                  className="px-6 py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-lg text-[10px] font-black uppercase tracking-widest shadow-lg shadow-green-600/10 transition-all active:scale-95 shrink-0 text-center"
+                >
+                  Join Meeting
+                </button>
+              )}
+            </div>
+          ))}
+          {displayedSessions.length === 0 && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No {sessionFilter} sessions found.</p>}
+        </div>
+        );
+      })()}
 
       <AnimatePresence>
         {openModal === "highSchool" && <HighSchoolModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("highSchool", d); }} initialData={editingItem?.data} />}

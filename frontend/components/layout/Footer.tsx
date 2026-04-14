@@ -9,18 +9,18 @@ import {
 
 export default function Footer() {
   const serviceItems = [
-    { name: "Complete Application Help", href: "/services" },
+    { name: "Complete Application Help", href: "/services/application-help" },
     { name: "Counselling Session", href: "/services" },
-    { name: "Profile Evaluation & Shortlisting", href: "/services" },
+    { name: "Profile Evaluation & Shortlisting", href: "/services/shortlisting" },
     { name: "Statement of Purpose Drafting", href: "/services/sop" },
     { name: "US Visa Mock Interview", href: "/ai_services/mock_interview_ai" },
   ];
 
   const disciplineItems = [
-    { name: "Data Science", href: "/universities" },
-    { name: "Business", href: "/universities" },
-    { name: "Architecture", href: "/universities" },
-    { name: "Psychology", href: "/universities" },
+    { name: "Data Science", href: "/universities/byprogram?program=Data%20Science" },
+    { name: "Business", href: "/universities/byprogram?program=Business" },
+    { name: "Architecture", href: "/universities/byprogram?program=Architecture" },
+    { name: "Psychology", href: "/universities/byprogram?program=Psychology" },
   ];
 
   const countryItems = [

@@ -130,7 +130,10 @@ export default function Home() {
               >
                 Talk to an Expert
               </button>
-              <button onClick={() => window.open('https://wa.me/918987654321', '_blank')}
+              <button onClick={() => {
+                const phone = (process.env.NEXT_PUBLIC_WTSP_PHONE || "+918657869659").replace(/\D/g, '');
+                window.open(`https://wa.me/${phone}`, '_blank');
+              }}
                 className="border-[1.5px] border-[#40332D] px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[#40332D] text-[10px] md:text-[13px] font-black uppercase tracking-wider md:tracking-widest hover:bg-[#D4A848] hover:text-[#40332D] transition-all flex-1 md:flex-none text-center"
               >
                 Whatsapp Us

@@ -1120,10 +1120,12 @@ export default function Navbar() {
                               {subItems.map((sub) => {
                                 const isSubExpanded = expandedSubItem === sub.title;
                                 const hasSubItems = sub.subItems && sub.subItems.length > 0;
+                                const hasSubAccordion = sub.subAccordion && sub.subAccordion.length > 0;
+                                const hasAnySub = hasSubItems || hasSubAccordion;
 
                                 return (
                                   <div key={sub.title} className="flex flex-col">
-                                    {hasSubItems ? (
+                                    {hasAnySub ? (
                                       <div className="flex flex-col w-full">
                                         <div
                                           onClick={() => setExpandedSubItem(isSubExpanded ? null : sub.title)}
@@ -1143,20 +1145,44 @@ export default function Navbar() {
                                           </div>
                                         </div>
                                         {isSubExpanded && (
-                                          <div className="pl-12 py-2 grid grid-cols-2 gap-x-4 gap-y-3 animate-in fade-in slide-in-from-top-1 duration-200">
-                                            {sub.subItems?.map((country) => (
-                                              <Link
-                                                key={country.name}
-                                                href={country.href}
-                                                onClick={() => {
-                                                  setMenuOpen(false);
-                                                }}
-                                                className="text-[9px] font-bold text-white/50 hover:text-[#B3985E] uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
-                                              >
-                                                <div className="w-1 h-1 rounded-full bg-[#B3985E]/30 shrink-0" />
-                                                {country.name}
-                                              </Link>
-                                            ))}
+                                          <div className="pl-12 py-2 animate-in fade-in slide-in-from-top-1 duration-200">
+                                            {hasSubItems && (
+                                              <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+                                                {sub.subItems?.map((country) => (
+                                                  <Link
+                                                    key={country.name}
+                                                    href={country.href}
+                                                    onClick={() => setMenuOpen(false)}
+                                                    className="text-[9px] font-bold text-white/50 hover:text-[#B3985E] uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
+                                                  >
+                                                    <div className="w-1 h-1 rounded-full bg-[#B3985E]/30 shrink-0" />
+                                                    {country.name}
+                                                  </Link>
+                                                ))}
+                                              </div>
+                                            )}
+                                            {hasSubAccordion && (
+                                              <div className="flex flex-col gap-4">
+                                                {sub.subAccordion?.map((group) => (
+                                                  <div key={group.name} className="flex flex-col">
+                                                    <span className="text-[9px] font-black uppercase tracking-widest text-[#B3985E] mb-2">{group.name}</span>
+                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3 pl-2 border-l border-white/5">
+                                                      {group.items.map((item) => (
+                                                        <Link
+                                                          key={item.name}
+                                                          href={item.href}
+                                                          onClick={() => setMenuOpen(false)}
+                                                          className="text-[9px] font-bold text-white/50 hover:text-white uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
+                                                        >
+                                                          <div className="w-1 h-1 bg-white/20 shrink-0 rounded-sm" />
+                                                          {item.name}
+                                                        </Link>
+                                                      ))}
+                                                    </div>
+                                                  </div>
+                                                ))}
+                                              </div>
+                                            )}
                                           </div>
                                         )}
                                       </div>

@@ -47,7 +47,8 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
   const predefinedMessage = `I am interested in your Study Abroad services.`;
   const encodedMessage = encodeURIComponent(predefinedMessage);
   const contactEmail = process.env.NEXT_PUBLIC_EMAIL || "[EMAIL_ADDRESS]";
-  const contactPhone = process.env.NEXT_PUBLIC_WTSP_PHONE || "";
+  const rawPhone = process.env.NEXT_PUBLIC_WTSP_PHONE || "+918657869659";
+  const contactPhone = rawPhone.replace(/\D/g, '');
 
   const handleEmailAction = () => {
     const subject = encodeURIComponent(`Consultation: ${serviceId.replace(/-/g, " ").toUpperCase()}`);
@@ -213,7 +214,7 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
                   </div>
                   
                   <div className="bg-[#FDFBF7] p-4 rounded-xl border border-[#C5A059]/10 flex items-center justify-between gap-4">
-                    <span className="text-lg font-bold text-[#3C2A21] tracking-tight">{contactPhone}</span>
+                    <span className="text-lg font-bold text-[#3C2A21] tracking-tight">{rawPhone}</span>
                     <button 
                       onClick={handleCopy}
                       className="p-2 hover:bg-[#C5A059]/10 rounded-lg transition-colors text-[#C5A059]"
