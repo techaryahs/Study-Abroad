@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 
 export default function AboutPage() {
+  const contactPhone = (process.env.NEXT_PUBLIC_WTSP_PHONE || "+918657869659").replace(/\D/g, '');
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.3 } },
@@ -255,7 +256,13 @@ export default function AboutPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-8 pt-6">
             <Link href="/contact" className="btn-gold px-12 py-5 text-base">Book Evaluation</Link>
-            <Link href="https://wa.me/918987654321" target="_blank" className="btn-outline-gold px-12 py-5 text-base hover:bg-gold-500 hover:text-black">Talk via WhatsApp</Link>
+            <Link 
+              href={`https://wa.me/${contactPhone}`} 
+              target="_blank" 
+              className="btn-outline-gold px-12 py-5 text-base hover:bg-gold-500 hover:text-black"
+            >
+              Talk via WhatsApp
+            </Link>
           </div>
         </motion.div>
       </section>

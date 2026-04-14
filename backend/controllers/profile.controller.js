@@ -6,7 +6,10 @@ exports.getProfile = async (req, res) => {
     const userId = req.params.userId || (req.user ? req.user.id : null);
     if (!userId) return res.status(400).json({ message: "No user ID provided" });
 
-    const user = await Student.findById(userId).select("-password");
+    const user = await Student.findById(userId)
+      .select("-password")
+      .populate("profile.myBookings")
+      .populate("profile.mySessions");
 
     if (!user) {
       return res.status(404).json({ message: "Student not found" });

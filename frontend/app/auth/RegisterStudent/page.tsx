@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Select from "react-select";
 import { Country, State } from "country-state-city";
 import { motion, AnimatePresence } from "framer-motion";
@@ -517,7 +518,9 @@ const Register = () => {
 
                   <div className="flex items-center gap-2.5 pt-1">
                     <input type="checkbox" checked={acceptedPolicy} onChange={(e) => setAcceptedPolicy(e.target.checked)} className="w-3.5 h-3.5 rounded bg-[#FDFBF7] accent-[#C5A059] border-[#F1EDEA]" />
-                    <p className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest">I accept the data policy and terms of service</p>
+                    <p className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest">
+                      I accept the <Link href="/privacy" className="text-[#C5A059] hover:underline">Privacy Policy</Link> and <Link href="/terms" className="text-[#C5A059] hover:underline">Terms of Service</Link>
+                    </p>
                   </div>
 
                   <button

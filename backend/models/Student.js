@@ -93,6 +93,8 @@ const StudentSchema = new mongoose.Schema(
       targetUniversities: [{
         uniName: String, degree: String, major: String, term: String, year: String
       }],
+      myBookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
+      mySessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
     },
     cart: {
       type: [mongoose.Schema.Types.Mixed],

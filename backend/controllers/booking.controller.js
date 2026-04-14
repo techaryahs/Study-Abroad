@@ -102,6 +102,18 @@ exports.bookConsultant = async (req, res) => {
     });
 
     try {
+      const student = await Student.findOne({ email: userEmail });
+      if (student) {
+        if (!student.profile) student.profile = {};
+        if (!student.profile.myBookings) student.profile.myBookings = [];
+        student.profile.myBookings.push(booking._id);
+        await student.save();
+      }
+    } catch (err) {
+      console.warn("Could not link booking to student profile:", err.message);
+    }
+
+    try {
       await sendEmail(
         userEmail,
         "Your CareerGenAI Consultation is Confirmed",
@@ -559,6 +571,18 @@ exports.bookCounsellingSession = async (req, res) => {
     });
 
     await newBooking.save();
+
+    try {
+      const student = await Student.findOne({ email: userEmail });
+      if (student) {
+        if (!student.profile) student.profile = {};
+        if (!student.profile.mySessions) student.profile.mySessions = [];
+        student.profile.mySessions.push(newBooking._id);
+        await student.save();
+      }
+    } catch (err) {
+      console.warn("Could not link session mapping to student profile:", err.message);
+    }
 
     // Notify student
     try {
