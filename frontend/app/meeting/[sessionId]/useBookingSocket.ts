@@ -35,6 +35,7 @@ interface UseBookingSocketReturn {
   endCall: () => void;
   sendChatMessage: (msg: object) => void;
   updateMyState: (isAudioMuted: boolean, isVideoOff: boolean) => void;
+  isConnected: boolean;
 }
 
 export function useBookingSocket({
