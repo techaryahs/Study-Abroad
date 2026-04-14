@@ -6,17 +6,9 @@ import Link from "next/link";
 import Flag from "react-world-flags";
 import { motion, Variants } from "framer-motion";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import useEmblaCarousel from "embla-carousel-react";
-import Autoplay from "embla-carousel-autoplay";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 export default function Home() {
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
-  const [emblaRef] = useEmblaCarousel({ loop: true, duration: 30 }, [
-    Autoplay({ delay: 3000, stopOnInteraction: false }),
-  ]);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -70,8 +62,6 @@ export default function Home() {
     { code: "DE", name: "GER", stat: "Full", sub: "Scholarship" },
     { code: "AU", name: "AUS", stat: "50%", sub: "Fee Waiver" },
   ];
-
-  const images = ["/sir2.jpeg", "/sirbgggg.png", "/sirbgg.png", "/sirbggg.png", "/sir2.jpeg"];
 
   return (
     <main className="relative min-h-screen bg-[#F8F6F1] text-[#675F5B] overflow-hidden pt-6 font-base selection:bg-[#D4A848]/10">
@@ -152,23 +142,15 @@ export default function Home() {
           <div className="xl:hidden flex flex-col items-center">
             <div className="relative w-full max-w-[340px] aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-[#D4A848]/40 shadow-[0_20px_60px_-15px_rgba(212,168,72,0.4)]">
               <div className="absolute inset-0 bg-gradient-to-t from-[#40332D] via-transparent to-transparent z-10 pointer-events-none" />
-              <div className="overflow-hidden w-full h-full" ref={emblaRef}>
-                <div className="flex h-full">
-                  {images.map((src, i) => (
-                    <div key={i} className="flex-[0_0_100%] min-w-0 relative h-full">
-                      <Image
-                        src={src}
-                        alt={`Dr Alam ${i}`}
-                        fill
-                        sizes="100vw"
-                        quality={80}
-                        className="object-cover object-top"
-                        priority={i === 0}
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <Image
+                src="/sir2.jpeg"
+                alt="Dr Alam"
+                fill
+                sizes="100vw"
+                quality={80}
+                className="object-cover object-top"
+                priority
+              />
             </div>
 
             {/* MOBILE DREAMS - Compact flags below image on mobile */}
@@ -230,23 +212,15 @@ export default function Home() {
           <div className="relative w-full max-w-[340px] h-[420px] rounded-[3rem] overflow-hidden border border-[#D4A848]/40 shadow-[0_20px_60px_-15px_rgba(212,168,72,0.4)] transition-all hover:shadow-[0_25px_65px_-10px_rgba(212,168,72,0.5)]">
             <div className="absolute inset-0 bg-gradient-to-t from-[#40332D] via-transparent to-transparent z-10 pointer-events-none" />
 
-            <div className="overflow-hidden w-full h-[420px]" ref={emblaRef}>
-              <div className="flex h-full">
-                {images.map((src, i) => (
-                  <div key={i} className="flex-[0_0_100%] min-w-0 relative h-full">
-                    <Image
-                      src={src}
-                      alt={`Dr Alam ${i}`}
-                      fill
-                      sizes="450px"
-                      quality={60}
-                      className="object-cover object-top"
-                      priority={i === 0}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+            <Image
+              src="/sir2.jpeg"
+              alt="Dr Alam"
+              fill
+              sizes="450px"
+              quality={60}
+              className="object-cover object-top"
+              priority
+            />
           </div>
 
           {/* DREAMS */}
