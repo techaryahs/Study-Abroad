@@ -26,13 +26,40 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
 
+  const [authChecked, setAuthChecked] = useState(false);
+
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
-    const user = getUser();
-    if (!user || user.role !== "admin") {
-      router.push("/auth/login");
-      return;
-    }
-    fetchSessions();
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const user = getUser();
+
+      if (!user) {
+        router.replace("/auth/login");
+        return;
+      }
+
+      if (user.role !== "admin") {
+        router.replace("/auth/login");
+        return;
+      }
+
+      const token = getToken();
+
+      if (!token) {
+        router.replace("/auth/login");
+        return;
+      }
+
+      setAuthChecked(true);
+      fetchSessions();
+    };
+
+    checkAuth();
   }, [router]);
 
   const fetchSessions = async () => {
@@ -57,28 +84,59 @@ export default function AdminDashboard() {
   const cancelSession = async (sessionId: string) => {
     if (!window.confirm("Cancel this counselling session?")) return;
     try {
-      const response = await fetch(`${BACKEND_URL}/api/bookings/${sessionId}`, {
-        method: "DELETE",
+      const response = await fetch(`${BACKEND_URL}/api/bookings/cancel/${sessionId}`, {
+        method: "PUT",
         headers: {
-          "Authorization": `Bearer ${getToken()}`
-        }
+          Authorization: `Bearer ${getToken()}`,
+        },
       });
       
       if (response.ok) {
-        setSessions(prev => prev.filter(s => s._id !== sessionId));
+        setSessions(prev =>
+          prev.map(s =>
+            s._id === sessionId
+              ? { ...s, status: "cancelled" }
+              : s
+          )
+        );
       }
     } catch (err) {
       console.error("Error cancelling session:", err);
     }
   };
 
-  const activeSessions = sessions.filter(s => s.status === "booked");
-  const pastSessions = sessions.filter(s => s.status === "completed" || s.status === "cancelled");
+  const isSessionPast = (session: CounsellingSession) => {
+    try {
+      const [day, month, year] = session.date.split("/"); // if DD/MM/YYYY
+      const formattedDate = `${year}-${month}-${day}`;
 
-  if (loading) {
+      const sessionDateTime = new Date(`${formattedDate} ${session.endTime}`);
+      return sessionDateTime < new Date();
+    } catch {
+      return false;
+    }
+  };
+
+  const activeSessions = sessions.filter(
+    s =>
+      s.status?.toLowerCase() === "booked" &&
+      !isSessionPast(s)
+  );
+
+  const pastSessions = sessions.filter(
+    s =>
+      ["completed", "cancelled"].includes(s.status?.toLowerCase()) ||
+      isSessionPast(s)
+  );
+
+  if (!mounted) {
+    return null; // prevents hydration mismatch
+  }
+
+  if (!authChecked) {
     return (
-      <div className="min-h-screen bg-[#05070a] flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-[#c2a878] border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center text-white">
+        Checking authentication...
       </div>
     );
   }

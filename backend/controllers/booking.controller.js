@@ -412,6 +412,29 @@ exports.deleteBooking = async (req, res) => {
   }
 };
 
+// ================ DELETE BOOKING ==================================
+
+exports.cancelBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findByIdAndUpdate(
+      req.params.id,
+      { status: "cancelled" },
+      { new: true }
+    );
+
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+
+    console.log(`❌ Booking ${req.params.id} cancelled`);
+    res.json({ message: "Booking cancelled", booking });
+
+  } catch (err) {
+    console.error("❌ Cancel error:", err.message);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 /* ==============================================================================
    COUNSELLING SESSION LOGIC (Added to resolve TypeError crash)
 ============================================================================== */
