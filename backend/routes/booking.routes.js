@@ -19,6 +19,7 @@ router.put("/:id/accept", bookingCtrl.acceptBooking);
 router.put("/:id/reject", bookingCtrl.rejectBooking);
 router.put("/:id/complete", bookingCtrl.completeBooking);
 router.delete("/:id", bookingCtrl.deleteBooking);
+router.put("/cancel/:id", bookingCtrl.cancelBooking);
 router.post("/seed", bookingCtrl.seedConsultants);
 
 // ── Counselling Session routes ─────────────────────────────────────────────

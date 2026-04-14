@@ -93,10 +93,8 @@ export default function MeetingPage() {
 
     setMyName(user.name || user.email || "You");
 
-    // Admin-only host identification: Admin role or consultantName === "Admin"
-    const isAdminRole = user.role === "admin";
-    const isAdminSession = session.consultantName === "Admin";
-    setIsHost(isAdminRole && isAdminSession);
+    // Host = anyone with admin role (regardless of consultantName string)
+    setIsHost(user.role === "admin");
   }, [session]);
 
   // ── Acquire camera/mic ────────────────────────────────────────────────
@@ -183,7 +181,9 @@ export default function MeetingPage() {
       // Auto-redirect after 3 seconds
       setTimeout(() => {
         localStream?.getTracks().forEach((t) => t.stop());
-        router.push("/User/dashboard");
+        const currentUser = getUser();
+        const userIsAdmin = currentUser?.role === "admin";
+        router.push(userIsAdmin ? "/admin-dashboard" : "/User/dashboard");
       }, 3000);
     };
 
@@ -194,7 +194,9 @@ export default function MeetingPage() {
       setHostLeftMsg("Meeting auto-ended. The host did not return.");
       setTimeout(() => {
         localStream?.getTracks().forEach((t) => t.stop());
-        router.push("/User/dashboard");
+        const currentUser = getUser();
+        const userIsAdmin = currentUser?.role === "admin";
+        router.push(userIsAdmin ? "/admin-dashboard" : "/User/dashboard");
       }, 4000);
     };
 
@@ -230,9 +232,12 @@ export default function MeetingPage() {
   };
 
   const handleLeave = () => {
-    if (isHost) endCall();
+    // Re-read role directly from storage to avoid stale isHost state
+    const currentUser = getUser();
+    const userIsAdmin = currentUser?.role === "admin";
+    if (userIsAdmin) endCall();
     localStream?.getTracks().forEach((t) => t.stop());
-    router.push(isHost ? "/consultant-dashboard" : "/User/dashboard");
+    router.push(userIsAdmin ? "/admin-dashboard" : "/User/dashboard");
   };
 
   const handleSendChat = () => {
