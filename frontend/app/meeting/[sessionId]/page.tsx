@@ -131,9 +131,9 @@ export default function MeetingPage() {
     participantName: myName,
     isHost,
     localStream: setupDone ? localStream : null,
-    onCallStarted: () => {},
-    onCallEnded: () => setCallEnded(true),
-    onHostLeft: () => setHostLeftMsg("The counsellor has left the session."),
+    onCallStarted: useCallback(() => {}, []),
+    onCallEnded: useCallback(() => setCallEnded(true), []),
+    onHostLeft: useCallback(() => setHostLeftMsg("The counsellor has left the session."), []),
     refreshKey,
   });
 
