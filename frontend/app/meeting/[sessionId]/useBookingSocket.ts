@@ -3,14 +3,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-const SOCKET_URL =
-  process.env.NEXT_PUBLIC_BACKEND_URL &&
-    process.env.NEXT_PUBLIC_BACKEND_URL !== "undefined"
-    ? process.env.NEXT_PUBLIC_BACKEND_URL
-    : process.env.NEXT_PUBLIC_BACKEND_URL &&
-      process.env.NEXT_PUBLIC_BACKEND_URL !== "undefined"
-      ? process.env.NEXT_PUBLIC_BACKEND_URL
-      : "http://localhost:5001";
+const SOCKET_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
 
 export interface Participant {
   participantId: string;
@@ -64,6 +57,9 @@ export function useBookingSocket({
   const iceServers: RTCIceServer[] = [
     { urls: "stun:stun.l.google.com:19302" },
     { urls: "stun:stun1.l.google.com:19302" },
+    { urls: "stun:stun2.l.google.com:19302" },
+    { urls: "stun:stun3.l.google.com:19302" },
+    { urls: "stun:stun4.l.google.com:19302" },
   ];
 
   // ─── Create RTCPeerConnection for a participant ────────────────────────
@@ -120,15 +116,22 @@ export function useBookingSocket({
     socketRef.current = socket;
 
     // ── Join meeting room ───────────────────────────────────────────────
+    const joinData = {
+      meetingId,
+      participantId,
+      participantName,
+      isHost,
+      sessionId,
+    };
+
     socket.on("connect", () => {
-      socket.emit("join-meeting", {
-        meetingId,
-        participantId,
-        participantName,
-        isHost,
-        sessionId,
-      });
+      socket.emit("join-meeting", joinData);
     });
+
+    // If socket is already connected when listeners are attached
+    if (socket.connected) {
+      socket.emit("join-meeting", joinData);
+    }
 
     // ── Existing participants (sent when we first join) ─────────────────
     socket.on(
@@ -306,7 +309,7 @@ export function useBookingSocket({
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [meetingId, participantId, participantName, isHost, sessionId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [meetingId, participantId, participantName, isHost, sessionId, localStream, createPeerConnection, onCallStarted, onCallEnded, onHostLeft]);
 
   // ─── Host: start call ─────────────────────────────────────────────────
   const startCall = useCallback(() => {
