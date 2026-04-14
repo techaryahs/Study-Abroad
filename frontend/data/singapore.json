@@ -19,7 +19,8 @@
           "acceptance_rate": 8,
           "tuition_fee": 38000,
           "living_expense": 24000,
-          "avg_salary": 72000
+          "avg_salary": 72000,
+          "avg_sat": 1480
         },
         "student_demographics": {
           "male": 65,
@@ -101,7 +102,8 @@
           "acceptance_rate": 25,
           "tuition_fee": 35000,
           "living_expense": 22000,
-          "avg_salary": 68000
+          "avg_salary": 68000,
+          "avg_sat": 1450
         },
         "student_demographics": {
           "male": 70,
@@ -177,7 +179,8 @@
           "acceptance_rate": 22,
           "tuition_fee": 45000,
           "living_expense": 26000,
-          "avg_salary": 90000
+          "avg_salary": 90000,
+          "avg_sat": 1380
         }
       },
       {

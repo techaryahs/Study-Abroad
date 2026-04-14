@@ -9,7 +9,8 @@
       {
         "name": "Medical Sciences",
         "description": "Oxford's Medical Sciences Division is a world-leader in biomedical research and clinical training, famously developing the Oxford-AstraZeneca vaccine.",
-        "stats": { "acceptance_rate": 9, "tuition_fee": 52000, "living_expense": 18000, "avg_salary": 95000, "avg_gpa": 3.9 },
+        "stats": { "acceptance_rate": 9, "tuition_fee": 52000, "living_expense": 18000, "avg_salary": 95000, "avg_gpa": 3.9, "avg_sat": 1500 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 },
         "student_demographics": { "male": 48, "female": 52, "international_students": 25, "total_enrollment": 3500 }
       },
       {
@@ -47,7 +48,8 @@
       {
         "name": "Technology & CS",
         "description": "Cambridge is Europe's tech hub, with the Department of Computer Science leading in AI foundations and 'Silicon Fen' industry ties.",
-        "stats": { "acceptance_rate": 11, "tuition_fee": 48000, "living_expense": 18000, "avg_salary": 105000, "avg_gpa": 3.95, "avg_gre": 330 },
+        "stats": { "acceptance_rate": 11, "tuition_fee": 48000, "living_expense": 18000, "avg_salary": 105000, "avg_gpa": 3.95, "avg_gre": 330, "avg_sat": 1520 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 112 },
         "student_demographics": { "male": 70, "female": 30, "international_students": 40, "total_enrollment": 3000 }
       },
       {
@@ -85,7 +87,8 @@
       {
         "name": "Engineering",
         "description": "The world's premier engineering faculty, leading in aerospace, mechanical, and civil engineering with cutting-edge laboratories.",
-        "stats": { "acceptance_rate": 12, "tuition_fee": 41000, "living_expense": 22000, "avg_salary": 98000, "avg_gpa": 3.8, "avg_gre": 326 },
+        "stats": { "acceptance_rate": 12, "tuition_fee": 41000, "living_expense": 22000, "avg_salary": 98000, "avg_gpa": 3.8, "avg_gre": 326, "avg_sat": 1470 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 105 },
         "student_demographics": { "male": 65, "female": 35, "international_students": 50, "total_enrollment": 10000 }
       },
       {
@@ -123,7 +126,8 @@
       {
         "name": "Engineering Sciences",
         "description": "UCL Engineering is a dynamic multidisciplinary faculty known for its 'Integrated Engineering Programme' and high research output.",
-        "stats": { "acceptance_rate": 18, "tuition_fee": 38000, "living_expense": 22000, "avg_salary": 85000 },
+        "stats": { "acceptance_rate": 18, "tuition_fee": 38000, "living_expense": 22000, "avg_salary": 85000, "avg_sat": 1440 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 6.5, "toefl_avg": 100 },
         "student_demographics": { "male": 60, "female": 40, "international_students": 45, "total_enrollment": 5000 }
       },
       {
@@ -161,7 +165,8 @@
       {
         "name": "Economics",
         "description": "The world's most prestigious economics department, producing more Nobel Prize winners in the field than any other UK institution.",
-        "stats": { "acceptance_rate": 7, "tuition_fee": 32000, "living_expense": 24000, "avg_salary": 120000, "avg_gre": 168 },
+        "stats": { "acceptance_rate": 7, "tuition_fee": 32000, "living_expense": 24000, "avg_salary": 120000, "avg_gre": 168, "avg_sat": 1480 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.5, "toefl_avg": 110 },
         "student_demographics": { "male": 55, "female": 45, "international_students": 70, "total_enrollment": 1500 }
       },
       {

@@ -9,7 +9,8 @@
       {
         "name": "Engineering & CS",
         "description": "UofT's Faculty of Applied Science & Engineering is Canada's top-ranked engineering school, a global leader in AI, robotics, and clean energy.",
-        "stats": { "acceptance_rate": 22, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 95000, "avg_gpa": 3.9, "avg_gre": 326 },
+        "stats": { "acceptance_rate": 22, "tuition_fee": 62000, "living_expense": 22000, "avg_salary": 95000, "avg_gpa": 3.9, "avg_gre": 326, "avg_sat": 1450 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 108 },
         "student_demographics": { "male": 62, "female": 38, "international_students": 30, "total_enrollment": 8000 }
       },
       {
@@ -47,7 +48,8 @@
       {
         "name": "Applied Science",
         "description": "UBC Engineering is a powerhouse of research and innovation, particularly in sustainable infrastructure and marine technology.",
-        "stats": { "acceptance_rate": 35, "tuition_fee": 56000, "living_expense": 24000, "avg_salary": 88000, "avg_gpa": 3.8, "avg_gre": 322 },
+        "stats": { "acceptance_rate": 35, "tuition_fee": 56000, "living_expense": 24000, "avg_salary": 88000, "avg_gpa": 3.8, "avg_gre": 322, "avg_sat": 1420 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 6.5, "toefl_avg": 98 },
         "student_demographics": { "male": 68, "female": 32, "international_students": 35, "total_enrollment": 6000 }
       },
       {
@@ -85,7 +87,8 @@
       {
         "name": "Medicine",
         "description": "McGill Medicine is world-renowned for its clinical research, notably in neurology, oncology, and infectious diseases.",
-        "stats": { "acceptance_rate": 7, "tuition_fee": 65000, "living_expense": 18000, "avg_salary": 165000, "avg_gpa": 3.9 }
+        "stats": { "acceptance_rate": 7, "tuition_fee": 65000, "living_expense": 18000, "avg_salary": 165000, "avg_gpa": 3.9, "avg_sat": 1440 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 102 }
       },
       {
         "name": "Management",
@@ -122,7 +125,8 @@
       {
         "name": "Computer Science",
         "description": "The David R. Cheriton School of Computer Science is Canada's premier CS school, globally famous for its elite co-op program.",
-        "stats": { "acceptance_rate": 15, "tuition_fee": 64000, "living_expense": 18000, "avg_salary": 115000, "avg_gpa": 3.95, "avg_gre": 328 },
+        "stats": { "acceptance_rate": 15, "tuition_fee": 64000, "living_expense": 18000, "avg_salary": 115000, "avg_gpa": 3.95, "avg_gre": 328, "avg_sat": 1460 },
+        "admitted_profiles": { "toefl_min": 90, "ielts_min": 7.0, "toefl_avg": 105 },
         "student_demographics": { "male": 75, "female": 25, "international_students": 45, "total_enrollment": 4000 }
       },
       {
@@ -160,7 +164,8 @@
       {
         "name": "Engineering",
         "description": "UAlberta Engineering is a research powerhouse, especially in chemical and petroleum engineering, with over $65 million in annual research funding.",
-        "stats": { "acceptance_rate": 38, "tuition_fee": 42000, "living_expense": 18000, "avg_salary": 85000, "avg_gpa": 3.7 }
+        "stats": { "acceptance_rate": 38, "tuition_fee": 42000, "living_expense": 18000, "avg_salary": 85000, "avg_gpa": 3.7, "avg_sat": 1380 },
+        "admitted_profiles": { "toefl_min": 88, "ielts_min": 6.5, "toefl_avg": 96 }
       },
       {
         "name": "Science",
@@ -215,7 +220,8 @@
       {
         "name": "Health Sciences",
         "description": "McMaster's Health Sciences program is world-famous for its 'problem-based learning' approach and is the most competitive in Canada.",
-        "stats": { "acceptance_rate": 4, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 140000, "avg_gpa": 3.95 }
+        "stats": { "acceptance_rate": 4, "tuition_fee": 55000, "living_expense": 18000, "avg_salary": 140000, "avg_gpa": 3.95, "avg_sat": 1430 },
+        "admitted_profiles": { "toefl_min": 92, "ielts_min": 6.5, "toefl_avg": 100 }
       },
       {
         "name": "Engineering",
@@ -288,7 +294,8 @@
       {
         "name": "Business",
         "description": "Ivey Business School is Canada's premier case-method business school, renowned for producing top-tier consultants and investment bankers.",
-        "stats": { "acceptance_rate": 15, "tuition_fee": 62000, "living_expense": 18000, "avg_salary": 115000, "avg_gmat": 710 }
+        "stats": { "acceptance_rate": 15, "tuition_fee": 62000, "living_expense": 18000, "avg_salary": 115000, "avg_gmat": 710, "avg_sat": 1410 },
+        "admitted_profiles": { "toefl_min": 100, "ielts_min": 7.0, "toefl_avg": 106 }
       },
       {
         "name": "Engineering",
@@ -325,7 +332,8 @@
       {
         "name": "Business",
         "description": "Smith School of Business is globally recognized for its MBA and commerce programs, with a focus on team-based learning and leadership.",
-        "stats": { "acceptance_rate": 12, "tuition_fee": 58000, "living_expense": 18000, "avg_salary": 108000, "avg_gmat": 700 }
+        "stats": { "acceptance_rate": 12, "tuition_fee": 58000, "living_expense": 18000, "avg_salary": 108000, "avg_gmat": 700, "avg_sat": 1400 },
+        "admitted_profiles": { "toefl_min": 95, "ielts_min": 7.0, "toefl_avg": 102 }
       },
       {
         "name": "Engineering",

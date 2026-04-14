@@ -17,7 +17,8 @@
           "acceptance_rate": 65,
           "tuition_fee": 35000,
           "living_expense": 15000,
-          "avg_salary": 72000
+          "avg_salary": 72000,
+          "avg_sat": 1380
         },
         "admitted_profiles": {
           "toefl_min": 88,
@@ -29,10 +30,8 @@
         "name": "Business",
         "description": "Business, accounting, and economics programs aligned with UK standards and Dubai’s corporate ecosystem.",
         "stats": {
-          "acceptance_rate": 68,
-          "tuition_fee": 34000,
-          "living_expense": 15000,
-          "avg_salary": 68000
+          "avg_salary": 68000,
+          "avg_sat": 1360
         },
         "admitted_profiles": {
           "toefl_min": 88,
@@ -44,10 +43,8 @@
         "name": "Data Science & AI",
         "description": "Data‑driven programs with AI, machine learning, and analytics focus.",
         "stats": {
-          "acceptance_rate": 62,
-          "tuition_fee": 36000,
-          "living_expense": 15000,
-          "avg_salary": 75000
+          "avg_salary": 75000,
+          "avg_sat": 1400
         },
         "admitted_profiles": {
           "toefl_min": 90,

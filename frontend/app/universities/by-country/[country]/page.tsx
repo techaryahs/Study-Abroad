@@ -246,13 +246,29 @@ export default function CountryPage() {
       const b = uni.branches.find((b: any) => b.stats?.avg_salary);
       if (b) salary = `$${b.stats.avg_salary.toLocaleString()}`;
     }
-    if (uni.branches) {
-      const bs = uni.branches.find((b: any) => b.stats?.avg_sat);
-      if (bs) sat = bs.stats.avg_sat;
-      const bt = uni.branches.find((b: any) => b.admitted_profiles?.toefl_min);
-      if (bt) toefl = bt.admitted_profiles.toefl_min;
-      const bg = uni.branches.find((b: any) => b.stats?.avg_gpa);
-      if (bg) gpa = bg.stats.avg_gpa;
+
+    if (uni.branches && Array.isArray(uni.branches)) {
+      // Robust multi-pass extraction
+      const firstBranch = uni.branches[0];
+      
+      // Pass 1: Try first branch for everything
+      sat = firstBranch.stats?.avg_sat || null;
+      toefl = firstBranch.admitted_profiles?.toefl_min || firstBranch.stats?.toefl_min || null;
+      gpa = firstBranch.stats?.avg_gpa || null;
+
+      // Pass 2: If anything is missing, search all branches
+      if (!sat) {
+        const b = uni.branches.find((br: any) => br.stats?.avg_sat);
+        if (b) sat = b.stats.avg_sat;
+      }
+      if (!toefl) {
+        const b = uni.branches.find((br: any) => br.admitted_profiles?.toefl_min || br.stats?.toefl_min);
+        if (b) toefl = b.admitted_profiles?.toefl_min || b.stats?.toefl_min;
+      }
+      if (!gpa) {
+        const b = uni.branches.find((br: any) => br.stats?.avg_gpa);
+        if (b) gpa = b.stats.avg_gpa;
+      }
     }
 
     return {
