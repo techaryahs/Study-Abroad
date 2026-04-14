@@ -68,8 +68,7 @@ export default function AffordableUnisPage() {
         const country = uni.location?.country || '';
         const symbol = getCurrencySymbol(country);
 
-        // Normalize rank. The raw datasets appear to be missing formal ranking values.
-        // We synthesize a highly correlated proxy rank via acceptance rates and GPA.
+        // Normalize rank.
         if (isNaN(rank)) {
             if (stats.acceptance_rate) {
                 rank = Math.max(1, Math.round(stats.acceptance_rate * 1.5));
@@ -82,6 +81,21 @@ export default function AffordableUnisPage() {
 
         // Calculate a "value score" combining rank and price
         const valueScore = rank * (tuitionRaw || 1000000);
+
+        // Enhanced requirement extraction
+        let sat = stats.avg_sat || null;
+        let toefl = stats.toefl_min || branch.admitted_profiles?.toefl_min || null;
+        let gpa = stats.avg_gpa || null;
+
+        // If not found in first branch, try to find in any branch
+        if (uni.branches && (!sat || !toefl || !gpa)) {
+            const bs = uni.branches.find((b: any) => b.stats?.avg_sat);
+            if (bs && !sat) sat = bs.stats.avg_sat;
+            const bt = uni.branches.find((b: any) => b.admitted_profiles?.toefl_min || b.stats?.toefl_min);
+            if (bt && !toefl) toefl = bt.admitted_profiles?.toefl_min || bt.stats?.toefl_min;
+            const bg = uni.branches.find((b: any) => b.stats?.avg_gpa);
+            if (bg && !gpa) gpa = bg.stats.avg_gpa;
+        }
 
         return {
             originalName: uni.name,
@@ -96,9 +110,9 @@ export default function AffordableUnisPage() {
             tuitionRaw: tuitionRaw,
             tuition: tuitionRaw ? formatCurrency(tuitionRaw, symbol) : null,
             salary: salaryRaw ? formatCurrency(salaryRaw, symbol) : null,
-            sat: stats.avg_sat || null,
-            toefl: stats.min_toefl || null,
-            gpa: stats.avg_gpa || null,
+            sat,
+            toefl,
+            gpa,
             valueScore
         };
     }).filter(u => u.tuitionRaw && u.ranking && u.ranking < 200).slice(0, 50); // Filter to top 50 affordable

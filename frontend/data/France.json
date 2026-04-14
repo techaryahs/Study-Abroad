@@ -19,7 +19,8 @@
           "acceptance_rate": 10,
           "tuition_fee": 3770,
           "living_expense": 20000,
-          "avg_salary": 75000
+          "avg_salary": 75000,
+          "avg_sat": 1450
         },
         "student_demographics": {
           "male": 60,
@@ -99,7 +100,8 @@
           "acceptance_rate": 30,
           "tuition_fee": 2770,
           "living_expense": 20000,
-          "avg_salary": 52000
+          "avg_salary": 52000,
+          "avg_sat": 1380
         }
       },
       {
@@ -168,7 +170,8 @@
           "acceptance_rate": 18,
           "tuition_fee": 35000,
           "living_expense": 18000,
-          "avg_salary": 145000
+          "avg_salary": 145000,
+          "avg_sat": 1420
         },
         "admitted_profiles": {
           "avg_gmat": 710,
@@ -243,7 +246,8 @@
           "acceptance_rate": 8,
           "tuition_fee": 15000,
           "living_expense": 15000,
-          "avg_salary": 90000
+          "avg_salary": 90000,
+          "avg_sat": 1520
         }
       },
       {
