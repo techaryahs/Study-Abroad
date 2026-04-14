@@ -24,6 +24,7 @@ interface UseBookingSocketOptions {
   onCallStarted?: (info: { sessionId: string; meetingId: string; hostName: string }) => void;
   onCallEnded?: () => void;
   onHostLeft?: () => void;
+  refreshKey?: number;
 }
 
 interface UseBookingSocketReturn {
@@ -46,6 +47,7 @@ export function useBookingSocket({
   onCallStarted,
   onCallEnded,
   onHostLeft,
+  refreshKey = 0,
 }: UseBookingSocketOptions): UseBookingSocketReturn {
   const socketRef = useRef<Socket | null>(null);
   const peerConnectionsRef = useRef<Map<string, RTCPeerConnection>>(new Map());
@@ -53,6 +55,7 @@ export function useBookingSocket({
     Map<string, Participant & { stream?: MediaStream }>
   >(new Map());
   const [isCalling, setIsCalling] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
   const iceServers: RTCIceServer[] = [
     { urls: "stun:stun.l.google.com:19302" },
@@ -112,7 +115,7 @@ export function useBookingSocket({
   useEffect(() => {
     if (!meetingId || !participantId) return;
 
-    const socket = io(SOCKET_URL, { transports: ["websocket"] });
+    const socket = io(SOCKET_URL);
     socketRef.current = socket;
 
     // ── Join meeting room ───────────────────────────────────────────────
@@ -125,11 +128,19 @@ export function useBookingSocket({
     };
 
     socket.on("connect", () => {
+      console.log("Socket connected!");
+      setIsConnected(true);
       socket.emit("join-meeting", joinData);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Socket disconnected");
+      setIsConnected(false);
     });
 
     // If socket is already connected when listeners are attached
     if (socket.connected) {
+      setIsConnected(true);
       socket.emit("join-meeting", joinData);
     }
 
@@ -170,7 +181,7 @@ export function useBookingSocket({
     // ── New participant joined ──────────────────────────────────────────
     socket.on(
       "participant-joined",
-      (p: { participantId: string; participantName: string; isHost: boolean }) => {
+      async (p: { participantId: string; participantName: string; isHost: boolean }) => {
         setRemoteParticipants((prev) => {
           const next = new Map(prev);
           next.set(p.participantId, {
@@ -180,6 +191,17 @@ export function useBookingSocket({
             isVideoOff: false,
           });
           return next;
+        });
+
+        // Also initiate offer from our side when someone joins
+        // (Symmetric offering ensures connectivity even if new joiner's offer stalls)
+        const pc = createPeerConnection(p.participantId);
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+        socket.emit("offer", {
+          meetingId,
+          toParticipantId: p.participantId,
+          offer,
         });
       }
     );
@@ -309,7 +331,7 @@ export function useBookingSocket({
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [meetingId, participantId, participantName, isHost, sessionId, localStream, createPeerConnection, onCallStarted, onCallEnded, onHostLeft]);
+  }, [meetingId, participantId, participantName, isHost, sessionId, localStream, createPeerConnection, onCallStarted, onCallEnded, onHostLeft, refreshKey]);
 
   // ─── Host: start call ─────────────────────────────────────────────────
   const startCall = useCallback(() => {
@@ -359,5 +381,6 @@ export function useBookingSocket({
     endCall,
     sendChatMessage,
     updateMyState,
+    isConnected,
   };
 }

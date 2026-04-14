@@ -64,6 +64,7 @@ export default function MeetingPage() {
   const [setupDone, setSetupDone] = useState(false);
   const [autoEndCountdown, setAutoEndCountdown] = useState<number | null>(null); // seconds remaining
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   // ── Fetch session ─────────────────────────────────────────────────────
   useEffect(() => {
@@ -122,6 +123,7 @@ export default function MeetingPage() {
     sendChatMessage,
     updateMyState,
     socket,
+    isConnected,
   } = useBookingSocket({
     sessionId,
     meetingId: session?.meetingId ?? "",
@@ -132,6 +134,7 @@ export default function MeetingPage() {
     onCallStarted: () => {},
     onCallEnded: () => setCallEnded(true),
     onHostLeft: () => setHostLeftMsg("The counsellor has left the session."),
+    refreshKey,
   });
 
   // ── Receive chat from socket ──────────────────────────────────────────
@@ -252,6 +255,10 @@ export default function MeetingPage() {
     sendChatMessage(msg);
     setChatInput("");
   };
+  
+  const handleRepair = () => {
+    setRefreshKey(prev => prev + 1);
+  };
 
   const remoteList = Array.from(remoteParticipants.values());
 
@@ -311,10 +318,10 @@ export default function MeetingPage() {
       {/* Top Bar */}
       <div className="flex-shrink-0 flex items-center justify-between px-4 sm:px-6 py-3 bg-[#080808]/95 backdrop-blur-xl border-b border-white/[0.06] z-10">
         <div className="flex items-center gap-3">
-          {isCalling ? (
-            <span className="w-2.5 h-2.5 rounded-full bg-red-400 animate-pulse flex-shrink-0" />
+          {isConnected ? (
+            <span className="w-2.5 h-2.5 rounded-full bg-green-400/60 flex-shrink-0" title="Connected to server" />
           ) : (
-            <span className="w-2.5 h-2.5 rounded-full bg-green-400/60 flex-shrink-0" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0" title="Connecting..." />
           )}
           <div>
             <p className="text-white font-semibold text-sm leading-none">
@@ -457,6 +464,7 @@ export default function MeetingPage() {
         onToggleChat={() => setShowChat((s) => !s)}
         onStartCall={startCall}
         onLeave={handleLeave}
+        onRepair={handleRepair}
       />
     </div>
   );
