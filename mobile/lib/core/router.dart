@@ -11,6 +11,7 @@ import '../features/universities/university_list_screen.dart';
 import '../features/services/services_screen.dart';
 import '../features/blogs/blogs_screen.dart';
 import '../features/about/about_screen.dart';
+import '../features/dashboard/edit_profile_screen.dart';
 import '../features/contact/contact_screen.dart';
 import '../features/success_stories/success_stories_screen.dart';
 import '../features/ai_services/ai_services_screen.dart';
@@ -58,6 +59,12 @@ class AppRouter {
             GoRoute(path: '/success-stories', builder: (_, __) => const SuccessStoriesScreen()),
             GoRoute(path: '/ai-services', builder: (_, __) => const AiServicesScreen()),
             GoRoute(path: '/resources', builder: (_, __) => const ResourcesScreen()),
+            GoRoute(
+              path: '/dashboard/edit',
+              builder: (context, state) => EditProfileScreen(
+                userData: state.extra as Map<String, dynamic>,
+              ),
+            ),
             GoRoute(
               path: '/consultant-dashboard',
               builder: (_, __) => const ConsultantDashboardScreen(),

@@ -51,10 +51,10 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<Color> _carouselColors = [
-    const Color(0xFF3C2A21),
-    const Color(0xFF2D2015),
-    const Color(0xFF1A1207),
-    const Color(0xFF40332D),
+    const Color(0xFFFAF9F6), // Alabaster
+    const Color(0xFFFDFBF7), // Cream
+    const Color(0xFFF5F1E9), // Champagne
+    const Color(0xFFFFFDF9), // Shell
   ];
 
   @override
@@ -93,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverAppBar(
             expandedHeight: 0,
             pinned: true,
-            backgroundColor: AppTheme.background,
+            backgroundColor: Colors.white,
+            elevation: 0,
             title: Row(
               children: [
                 Container(
@@ -128,9 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 260,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(28),
+                    border: Border.all(color: AppTheme.borderLight),
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.darkBrown.withOpacity(0.3),
+                        color: Colors.black.withOpacity(0.05),
                         blurRadius: 30,
                         offset: const Offset(0, 10),
                       ),
@@ -149,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               gradient: LinearGradient(
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
-                                colors: [_carouselColors[i], _carouselColors[i].withOpacity(0.7)],
+                                colors: [_carouselColors[i], Colors.white.withOpacity(0.9)],
                               ),
                             ),
                           ),
@@ -169,9 +171,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.gold.withOpacity(0.2),
+                                  color: AppTheme.gold.withOpacity(0.1),
                                   borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: AppTheme.gold.withOpacity(0.4)),
+                                  border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
                                 ),
                                 child: const Text(
                                   '✦  EDUCATION LEADER',
@@ -187,7 +189,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const Text(
                                 'Led Path to\nIvy League &\nTop Global\nUniversities',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: AppTheme.textPrimary,
                                   fontSize: 26,
                                   fontWeight: FontWeight.w900,
                                   height: 1.1,
@@ -202,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       onPressed: () => showBookCounsellingSheet(context),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: AppTheme.gold,
-                                        foregroundColor: AppTheme.darkBrown,
+                                        foregroundColor: Colors.white,
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                         padding: const EdgeInsets.symmetric(vertical: 12),
                                         textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1),
@@ -217,8 +219,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       icon: const Icon(Icons.chat_rounded, size: 14),
                                       label: const Text('WHATSAPP', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1)),
                                       style: OutlinedButton.styleFrom(
-                                        foregroundColor: Colors.white,
-                                        side: const BorderSide(color: Colors.white54),
+                                        foregroundColor: AppTheme.textPrimary,
+                                        side: const BorderSide(color: AppTheme.borderLight),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                         padding: const EdgeInsets.symmetric(vertical: 12),
                                       ),
@@ -239,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: i == _carouselIndex ? 16 : 4,
                               height: 4,
                               decoration: BoxDecoration(
-                                color: i == _carouselIndex ? AppTheme.gold : Colors.white30,
+                                color: i == _carouselIndex ? AppTheme.gold : AppTheme.gold.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(2),
                               ),
                             )),
@@ -264,25 +266,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Container(
                         width: 110,
                         decoration: BoxDecoration(
-                          color: AppTheme.darkBrown,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(18),
+                          border: Border.all(color: AppTheme.borderLight),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(s['value']!,
                                 style: const TextStyle(
-                                  color: AppTheme.gold,
+                                  color: AppTheme.textPrimary,
                                   fontSize: 22,
                                   fontWeight: FontWeight.w900,
                                   letterSpacing: -1,
                                 )),
                             const SizedBox(height: 2),
                             Text(s['label']!.toUpperCase(),
-                                style: TextStyle(
-                                  color: Colors.white.withOpacity(0.5),
+                                style: const TextStyle(
+                                  color: AppTheme.gold,
                                   fontSize: 8,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w800,
                                   letterSpacing: 1.5,
                                 )),
                           ],
@@ -311,9 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () => context.go('/services'),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: AppTheme.darkBrown,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(18),
-                          border: Border.all(color: AppTheme.gold.withOpacity(0.15)),
+                          border: Border.all(color: AppTheme.borderLight),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -326,9 +329,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 s['title']!,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  color: Colors.white,
+                                  color: AppTheme.textPrimary,
                                   fontSize: 10,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w800,
                                   height: 1.3,
                                 ),
                               ),
@@ -398,9 +401,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: AppTheme.darkBrown,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+                    border: Border.all(color: AppTheme.borderLight),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -413,10 +416,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(height: 8),
                         Text(d['name']!,
                             style: const TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 1)),
+                        const SizedBox(height: 4),
                         Text(d['stat']!,
-                            style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900)),
+                            style: const TextStyle(color: AppTheme.textPrimary, fontSize: 16, fontWeight: FontWeight.w900)),
                         Text(d['sub']!,
-                            style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 8, fontWeight: FontWeight.w600)),
+                            style: TextStyle(color: AppTheme.textSecondary.withOpacity(0.6), fontSize: 8, fontWeight: FontWeight.w600)),
                       ],
                     )).toList(),
                   ),
@@ -438,9 +442,9 @@ class _HomeScreenState extends State<HomeScreen> {
         text.toUpperCase(),
         style: const TextStyle(
           fontSize: 10,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w900,
           letterSpacing: 2.5,
-          color: AppTheme.gold,
+          color: AppTheme.textPrimary,
         ),
       ),
     );

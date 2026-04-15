@@ -46,12 +46,13 @@ class _AppScaffoldState extends State<AppScaffold> {
       body: widget.child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: AppTheme.darkBrown,
+          color: Colors.white,
+          border: const Border(top: BorderSide(color: AppTheme.borderLight, width: 1)),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.darkBrown.withOpacity(0.3),
+              color: Colors.black.withOpacity(0.04),
               blurRadius: 20,
-              offset: const Offset(0, -4),
+              offset: const Offset(0, -5),
             ),
           ],
         ),
@@ -70,8 +71,8 @@ class _AppScaffoldState extends State<AppScaffold> {
                     duration: const Duration(milliseconds: 200),
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppTheme.gold.withOpacity(0.15) : Colors.transparent,
-                      borderRadius: BorderRadius.circular(12),
+                      color: isSelected ? AppTheme.gold.withOpacity(0.12) : Colors.transparent,
+                      borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -79,16 +80,16 @@ class _AppScaffoldState extends State<AppScaffold> {
                         Icon(
                           item.icon,
                           size: 22,
-                          color: isSelected ? AppTheme.gold : Colors.white.withOpacity(0.4),
+                          color: isSelected ? AppTheme.gold : AppTheme.textSecondary.withOpacity(0.6),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           item.label,
                           style: TextStyle(
                             fontSize: 10,
-                            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                            color: isSelected ? AppTheme.gold : Colors.white.withOpacity(0.4),
-                            letterSpacing: 0.3,
+                            fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
+                            color: isSelected ? AppTheme.gold : AppTheme.textSecondary.withOpacity(0.6),
+                            letterSpacing: 0.2,
                           ),
                         ),
                       ],
