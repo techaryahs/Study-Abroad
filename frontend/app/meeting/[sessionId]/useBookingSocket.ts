@@ -168,15 +168,19 @@ export function useBookingSocket({
             });
             return next;
           });
-          // As new joiner, initiate offer to each existing participant
-          const pc = createPeerConnection(p.participantId);
-          const offer = await pc.createOffer();
-          await pc.setLocalDescription(offer);
-          socket.emit("offer", {
-            meetingId,
-            toParticipantId: p.participantId,
-            offer,
-          });
+          
+          // Only initiate offer if the call has already started
+          // If not, we wait for the call-started event or isCalling to become true
+          if (isCalling) {
+            const pc = createPeerConnection(p.participantId);
+            const offer = await pc.createOffer();
+            await pc.setLocalDescription(offer);
+            socket.emit("offer", {
+              meetingId,
+              toParticipantId: p.participantId,
+              offer,
+            });
+          }
         }
       }
     );
@@ -196,9 +200,20 @@ export function useBookingSocket({
           return next;
         });
 
-        // Simply create the peer connection so we are ready to receive their offer via ICE etc.
-        // We do NOT create an offer here to avoid WebRTC glare (symmetric offering collision).
-        createPeerConnection(p.participantId);
+        // Simply create the peer connection record
+        // We will only offer if we ARE already calling.
+        // If we are host and call hasn't started, we won't offer yet.
+        const pc = createPeerConnection(p.participantId);
+        
+        if (isCalling) {
+          const offer = await pc.createOffer();
+          await pc.setLocalDescription(offer);
+          socket.emit("offer", {
+            meetingId,
+            toParticipantId: p.participantId,
+            offer,
+          });
+        }
       }
     );
 
@@ -322,15 +337,40 @@ export function useBookingSocket({
       onHostLeft?.();
     });
 
-    return () => {
-      // Cleanup
-      socket.emit("leave-meeting", { meetingId, participantId });
-      peerConnectionsRef.current.forEach((pc) => pc.close());
-      peerConnectionsRef.current.clear();
-      socket.disconnect();
-      socketRef.current = null;
-    };
-  }, [meetingId, participantId, participantName, isHost, sessionId, localStream, createPeerConnection, onCallStarted, onCallEnded, onHostLeft, refreshKey]);
+      return () => {
+        // Cleanup
+        socket.emit("leave-meeting", { meetingId, participantId });
+        peerConnectionsRef.current.forEach((pc) => pc.close());
+        peerConnectionsRef.current.clear();
+        socket.disconnect();
+        socketRef.current = null;
+      };
+    }, [meetingId, participantId, participantName, isHost, sessionId, localStream, createPeerConnection, onCallStarted, onCallEnded, onHostLeft, refreshKey]); // Remove isCalling from here!
+
+  // ─── Trigger offers when call starts ──────────────────────────────────
+  useEffect(() => {
+    if (isCalling && socketRef.current) {
+      // If the call just started, and we have remote participants with no active peer connection or tracks, send offers.
+      // This is primarily for the Host when they click "Start".
+      remoteParticipants.forEach(async (p, pid) => {
+        let pc = peerConnectionsRef.current.get(pid);
+        if (!pc) {
+          pc = createPeerConnection(pid);
+        }
+        
+        // If we haven't sent an offer yet (check signaling state)
+        if (pc.signalingState === "stable") {
+           const offer = await pc.createOffer();
+           await pc.setLocalDescription(offer);
+           socketRef.current?.emit("offer", {
+             meetingId,
+             toParticipantId: pid,
+             offer,
+           });
+        }
+      });
+    }
+  }, [isCalling, remoteParticipants, meetingId, createPeerConnection]);
 
   // ─── Host: start call ─────────────────────────────────────────────────
   const startCall = useCallback(() => {
