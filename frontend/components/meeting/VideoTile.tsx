@@ -27,7 +27,7 @@ export default function VideoTile({
     if (videoRef.current && stream) {
       videoRef.current.srcObject = stream;
     }
-  }, [stream]);
+  }, [stream, isVideoOff]);
 
   const initials = label
     .split(" ")
@@ -45,21 +45,33 @@ export default function VideoTile({
       }`}
     >
       {/* Video or Avatar */}
-      {stream && !isVideoOff ? (
-        <video
-          ref={videoRef}
-          autoPlay
-          playsInline
-          muted={isLocal}
-          className="w-full h-full object-cover"
-        />
+      {stream ? (
+        <>
+          <video
+            ref={videoRef}
+            autoPlay
+            playsInline
+            muted={isLocal}
+            className={`w-full h-full object-cover ${isVideoOff ? "hidden" : "block"}`}
+          />
+          {isVideoOff && (
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4af37]/20 to-[#d4af37]/5 border border-[#d4af37]/30 flex items-center justify-center text-xl font-black text-[#d4af37]">
+                {initials || "?"}
+              </div>
+              <span className="text-white/30 text-xs font-medium">
+                Camera off
+              </span>
+            </div>
+          )}
+        </>
       ) : (
         <div className="flex flex-col items-center gap-3">
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4af37]/20 to-[#d4af37]/5 border border-[#d4af37]/30 flex items-center justify-center text-xl font-black text-[#d4af37]">
             {initials || "?"}
           </div>
           <span className="text-white/30 text-xs font-medium">
-            {isVideoOff ? "Camera off" : "Connecting…"}
+            Connecting…
           </span>
         </div>
       )}
