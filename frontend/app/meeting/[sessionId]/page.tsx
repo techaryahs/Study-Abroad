@@ -140,8 +140,8 @@ export default function MeetingPage() {
   // ── Receive chat from socket ──────────────────────────────────────────
   useEffect(() => {
     if (!socket) return;
-    const handleChat = (data: { message: ChatMessage }) => {
-      setChatMessages((prev) => [...prev, data.message]);
+    const handleChat = (message: ChatMessage) => {
+      setChatMessages((prev) => [...prev, message]);
     };
     socket.on("chat-message", handleChat);
     return () => { socket.off("chat-message", handleChat); };

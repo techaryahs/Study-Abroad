@@ -15,6 +15,8 @@ interface CheckoutModalProps {
     onSuccess?: () => void;
 }
 
+// Razorpay script loading commented out
+/*
 function loadRazorpayScript(): Promise<boolean> {
     return new Promise((resolve) => {
         if ((window as any).Razorpay) return resolve(true);
@@ -25,6 +27,7 @@ function loadRazorpayScript(): Promise<boolean> {
         document.body.appendChild(script);
     });
 }
+*/
 
 export default function CheckoutModal({
     isOpen,
@@ -50,6 +53,25 @@ export default function CheckoutModal({
         setIsProcessing(true);
         setError(null);
 
+        // Simulation of success without Razorpay
+        setTimeout(() => {
+            setIsProcessing(false);
+            setReceiptData({
+                paymentId: "OFFLINE_TEST_" + Date.now(),
+                userEmail: getUser()?.email || "test@example.com",
+                items: items.map(i => ({
+                    title: i.name || i.title,
+                    price: i.price
+                })),
+                subtotal,
+                discount,
+                total,
+                currency: currency || "INR"
+            });
+            if (onSuccess) onSuccess();
+        }, 1500);
+
+        /*
         const loaded = await loadRazorpayScript();
         if (!loaded) {
             setError("Failed to load payment gateway. Check your internet connection.");
@@ -71,7 +93,6 @@ export default function CheckoutModal({
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    // body: JSON.stringify({ amount: total, currency: currency || "INR" }),
                     body: JSON.stringify({ amount: total, currency: currency || "INR" }),
                 }
             );
@@ -87,7 +108,6 @@ export default function CheckoutModal({
                 name: "Global Counselling Centre",
                 description: items.map((i: any) => i.name || i.title || "Service").join(", "),
                 handler: async (response: any) => {
-                    // Verify and save receipt on backend
                     const verifyRes = await fetch(
                         `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001"}/api/payment/verify`,
                         {
@@ -135,6 +155,7 @@ export default function CheckoutModal({
             setError(err.message || "Something went wrong. Please try again.");
             setIsProcessing(false);
         }
+        */
     };
 
     if (!isOpen) return null;
@@ -195,7 +216,7 @@ export default function CheckoutModal({
                                 <Download size={14} /> Download
                             </button>
                             <button className="flex items-center justify-center gap-2 bg-black/[0.03] hover:bg-black/[0.05] text-[#362B25] py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">
-                                <Printer size={14} /> Print
+                                <Printer size={14} /> Printer
                             </button>
                         </div>
 
@@ -262,10 +283,10 @@ export default function CheckoutModal({
                             onClick={handlePayment}
                             className="w-full bg-[#302621] text-white py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all hover:bg-[#251d1a] shadow-lg active:scale-95 flex items-center justify-center h-[52px] disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                            {isProcessing ? <Loader2 size={16} className="animate-spin" /> : "Buy Now with RazorPay"}
+                            {isProcessing ? <Loader2 size={16} className="animate-spin" /> : "Proceed (Offine Mode)"}
                         </button>
                         <p className="text-[9px] text-[#675F5B] font-bold uppercase tracking-widest mt-4 opacity-70">
-                            Secured by Razorpay · EMI Available
+                            Payment system currently in offline mode
                         </p>
                     </div>
                 </div>
