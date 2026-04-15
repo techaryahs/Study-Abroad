@@ -41,7 +41,7 @@ class _ContactScreenState extends State<ContactScreen> {
           // Contact cards
           Row(children: [
             _contactCard('📱', 'WhatsApp', '+91 89876 54321',
-                () => launchUrl(Uri.parse('https://wa.me/918987654321'))),
+                () => launchUrl(Uri.parse('https://wa.me/918657869659'))),
             const SizedBox(width: 12),
             _contactCard('✉️', 'Email', 'info@studyabroad.in',
                 () => launchUrl(Uri.parse('mailto:info@studyabroad.in'))),

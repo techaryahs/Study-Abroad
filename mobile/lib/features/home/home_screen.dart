@@ -215,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: OutlinedButton.icon(
-                                      onPressed: () => launchUrl(Uri.parse('https://wa.me/918987654321')),
+                                      onPressed: () => launchUrl(Uri.parse('https://wa.me/918657869659')),
                                       icon: const Icon(Icons.chat_rounded, size: 14),
                                       label: const Text('WHATSAPP', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1)),
                                       style: OutlinedButton.styleFrom(
