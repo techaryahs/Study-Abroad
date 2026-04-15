@@ -30,28 +30,55 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _isLoading = true; _error = null; });
+
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
 
     try {
       final auth = context.read<AuthProvider>();
-      final user = await auth.login(
+
+      // ✅ LOGIN (get full response)
+      final data = await auth.login(
         _emailCtrl.text.trim(),
         _passwordCtrl.text.trim(),
       );
+
       if (!mounted) return;
 
-      final role = user['role'] as String? ?? 'student';
-      if (role == 'admin')           context.go('/admin-dashboard');
-      else if (role == 'consultant') context.go('/consultant-dashboard');
-      else                            context.go('/');
+      final user = data['user'] as Map<String, dynamic>;
+      final role = (user['role'] as String?)?.toLowerCase().trim() ?? 'user';
+      final isVerified = user['isVerified'] ?? false;
+
+      // ✅ SAME AS WEBSITE
+      if (!isVerified) {
+        context.go('/register'); // or /verify
+        return;
+      }
+
+      // ✅ ROLE BASED NAVIGATION (MATCH WEB)
+      if (role == 'admin') {
+        context.go('/admin-dashboard');
+      } else if (role == 'consultant') {
+        context.go('/consultant-dashboard');
+      } else if (role == 'parent') {
+        context.go('/parent-dashboard');
+      } else {
+        context.go('/user-dashboard');
+      }
+
     } catch (e) {
-      // extractErrorMessage reads the actual JSON `error` field from the server
-      setState(() => _error = extractErrorMessage(e));
+      setState(() {
+        _error = extractErrorMessage(e);
+      });
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

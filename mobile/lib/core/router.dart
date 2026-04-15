@@ -28,18 +28,41 @@ class AppRouter {
     return GoRouter(
       initialLocation: '/',
       refreshListenable: auth,
-      redirect: (context, state) async {
-        final isLoggedIn = auth.isLoggedIn;
-        final isAuthRoute = state.uri.path == '/login' || state.uri.path == '/register';
 
+      // 🔥 FIXED REDIRECT LOGIC
+      redirect: (context, state) {
+        final isLoggedIn = auth.isLoggedIn;
+        final isAuthRoute =
+            state.uri.path == '/login' || state.uri.path == '/register';
+
+        final role = auth.role?.toLowerCase().trim();
+
+        // ❌ Not logged in → go login
         if (!isLoggedIn && !isAuthRoute) return '/login';
-        if (isLoggedIn && isAuthRoute) return _homeForRole(auth.role);
+
+        // ✅ Logged in → block auth pages
+        if (isLoggedIn && isAuthRoute) {
+          return _homeForRole(role);
+        }
+
+        // 🔥 CRITICAL FIX → handle "/"
+        if (isLoggedIn && state.uri.path == '/') {
+          return _homeForRole(role);
+        }
+
         return null;
       },
+
       routes: [
         // ── AUTH ──────────────────────────────────────────────
-        GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
-        GoRoute(path: '/register', builder: (_, __) => const RegisterScreen()),
+        GoRoute(
+          path: '/login',
+          builder: (_, __) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: '/register',
+          builder: (_, __) => const RegisterScreen(),
+        ),
 
         // ── SHELL (bottom nav) ────────────────────────────────
         ShellRoute(
@@ -74,28 +97,39 @@ class AppRouter {
                 userData: state.extra as Map<String, dynamic>,
               ),
             ),
-            GoRoute(
-              path: '/consultant-dashboard',
-              builder: (_, __) => const ConsultantDashboardScreen(),
-            ),
-            GoRoute(
-              path: '/admin-dashboard',
-              builder: (_, __) => const AdminDashboardScreen(),
-            ),
           ],
         ),
+
+        // ── DASHBOARDS (NO BOTTOM NAV) ────────────────────────
+        GoRoute(
+          path: '/consultant-dashboard',
+          builder: (_, __) => const ConsultantDashboardScreen(),
+        ),
+        GoRoute(
+          path: '/admin-dashboard',
+          builder: (_, __) => const AdminDashboardScreen(),
+        ),
+
+        // 🔥 OPTIONAL (if you have parent role)
+        // GoRoute(
+        //   path: '/parent-dashboard',
+        //   builder: (_, __) => const ParentDashboardScreen(),
+        // ),
       ],
     );
   }
 
+  // 🔥 ROLE BASED ROUTING
   static String _homeForRole(String? role) {
-    switch (role) {
+    switch (role?.trim().toLowerCase()) {
       case 'admin':
         return '/admin-dashboard';
       case 'consultant':
         return '/consultant-dashboard';
+      case 'parent':
+        return '/parent-dashboard'; // only if exists
       default:
-        return '/';
+        return '/dashboard'; // ✅ FIXED (not '/')
     }
   }
 }
