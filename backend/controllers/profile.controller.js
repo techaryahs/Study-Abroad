@@ -1,4 +1,4 @@
-const Student = require("../models/Student");
+const { findUserById } = require("../utils/userHelper");
 const fs = require("fs");
 
 exports.getProfile = async (req, res) => {
@@ -6,18 +6,13 @@ exports.getProfile = async (req, res) => {
     const userId = req.params.userId || (req.user ? req.user.id : null);
     if (!userId) return res.status(400).json({ message: "No user ID provided" });
 
-    const user = await Student.findById(userId)
-      .select("-password")
-      .populate("profile.myBookings")
-      .populate("profile.mySessions");
+    const result = await findUserById(userId);
+    if (!result) return res.status(404).json({ message: "User not found" });
 
-    if (!user) {
-      return res.status(404).json({ message: "Student not found" });
-    }
-
-    if (!user.profile) {
-      user.profile = {};
-      await user.save();
+    const { user } = result;
+    // Populate bookings/sessions if it's a student (which usually has these)
+    if (user.profile && user.profile.populate) {
+       await user.populate("profile.myBookings profile.mySessions");
     }
 
     res.json(user);
@@ -32,27 +27,34 @@ exports.updateProfile = async (req, res) => {
     const userId = req.params.userId || (req.user ? req.user.id : null);
     if (!userId) return res.status(401).json({ message: "Authentication required" });
 
+    const result = await findUserById(userId);
+    if (!result) return res.status(404).json({ message: "User not found" });
+
+    const { user } = result;
     const { name, mobile, email, gender, dob, country, profile } = req.body;
     
-    let user = await Student.findById(userId);
-    if (!user) return res.status(404).json({ message: "Student not found" });
+    // Ensure profile object exists for non-consultants
+    if (!user.profile && result.role !== "consultant") {
+      user.profile = {};
+    }
 
-    if (!user.profile) user.profile = {};
-
-    // Handle image upload - Convert to Base64 and store in MongoDB
+    // Handle image upload
     if (req.file) {
       try {
         const fileData = fs.readFileSync(req.file.path);
         const base64Image = `data:${req.file.mimetype};base64,${fileData.toString('base64')}`;
-        user.profile.profileImage = base64Image;
-        
-        // Delete the temporary local file
+        if (user.profile) {
+          user.profile.profileImage = base64Image;
+        } else {
+          user.profileImage = base64Image; // Fallback
+        }
         fs.unlinkSync(req.file.path);
       } catch (uploadError) {
-        console.error("Error processing image for MongoDB storage:", uploadError);
+        console.error("Error processing image:", uploadError);
       }
     }
 
+    // Top-level updates
     if (name) user.name = name;
     if (mobile) user.mobile = mobile;
     if (email) user.email = email;
@@ -60,16 +62,25 @@ exports.updateProfile = async (req, res) => {
     if (dob) user.dob = dob;
     if (country) user.country = country;
 
-    if (req.body.bio) user.profile.bio = req.body.bio;
-    if (req.body.portfolio) user.profile.portfolio = req.body.portfolio;
-    if (req.body.linkedin) user.profile.linkedin = req.body.linkedin;
-    if (req.body.isPublic !== undefined) user.profile.isPublic = req.body.isPublic;
-    
-    if (profile) {
-      Object.keys(profile).forEach(key => {
-        user.profile[key] = profile[key];
-      });
+    // Profile sub-object updates
+    if (user.profile) {
+      if (req.body.bio !== undefined) user.profile.bio = req.body.bio;
+      if (req.body.portfolio !== undefined) user.profile.portfolio = req.body.portfolio;
+      if (req.body.linkedin !== undefined) user.profile.linkedin = req.body.linkedin;
+      if (req.body.isPublic !== undefined) user.profile.isPublic = req.body.isPublic;
+
+      // Handle nested profile data if passed as object
+      if (profile) {
+        const pData = typeof profile === 'string' ? JSON.parse(profile) : profile;
+        Object.keys(pData).forEach(key => {
+          user.profile[key] = pData[key];
+        });
+      }
       user.markModified('profile');
+    } else {
+      // Flat profile (Consultants)
+      if (req.body.bio !== undefined) user.bio = req.body.bio;
+      if (req.body.linkedin !== undefined) user.linkedin = req.body.linkedin;
     }
 
     await user.save();

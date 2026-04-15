@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:study_abroad/features/dashboard/widgets/profile_recommendation_card.dart';
+import 'package:study_abroad/features/dashboard/widgets/profile_progress_bar.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../auth/auth_provider.dart';
@@ -20,6 +25,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
   bool _loading = true;
   String _activeTab = 'profile'; // 'profile', 'bookings', 'sessions'
   String _activeProfileTab = 'about';
+  final _picker = ImagePicker();
+
+  Future<void> _pickAndUploadPhoto() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery, imageQuality: 50);
+    if (pickedFile == null) return;
+
+    try {
+      final formData = FormData.fromMap({
+        'profileImage': await MultipartFile.fromFile(pickedFile.path, filename: 'photo.jpg'),
+      });
+      await ApiClient.instance.put('/api/user/profile/${_userData!['_id']}', data: formData);
+      _fetchData(); // Refresh to show new photo
+    } catch (e) {
+      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
+    }
+  }
 
   void _showBioLinkedInModal() {
     final profile = _userData?['profile'] ?? {};
@@ -89,8 +110,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     setModalState(() => saving = true);
                     try {
                       await ApiClient.instance.put('/api/user/profile/${_userData!['_id']}', data: {
-                        'bio': bioController.text,
-                        'linkedin': linkedinController.text,
+                        'profile': {
+                          'bio': bioController.text,
+                          'linkedin': linkedinController.text,
+                        }
                       });
                       if (context.mounted) {
                         Navigator.pop(context);
@@ -120,6 +143,212 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _showAddProfileItemSheet(Map<String, String> sectionInfo) async {
+    final section = sectionInfo['section']!;
+    final title = sectionInfo['title']!;
+    
+    final controllers = <String, TextEditingController>{};
+    final fields = _getFieldsForSection(section);
+    for (var f in fields) {
+      controllers[f['key']!] = TextEditingController();
+    }
+
+    bool saving = false;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setModalState) => Container(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 40,
+            left: 28, right: 28, top: 32,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(36)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('ADD $title', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.5, fontFamily: 'Playfair Display')),
+                  IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, size: 20)),
+                ],
+              ),
+              const SizedBox(height: 24),
+              ...fields.map((f) => Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(f['label']!.toUpperCase(), style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: controllers[f['key']],
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                      decoration: InputDecoration(
+                        hintText: f['hint'],
+                        filled: true,
+                        fillColor: AppTheme.background,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                      ),
+                    ),
+                  ],
+                ),
+              )).toList(),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: saving ? null : () async {
+                    setModalState(() => saving = true);
+                    try {
+                      final data = <String, dynamic>{};
+                      for (var f in fields) {
+                        data[f['key']!] = controllers[f['key']]!.text;
+                      }
+
+                      await ApiClient.instance.post('/api/user/profile/${_userData!['_id']}/add-item', data: {
+                        'section': section,
+                        'data': data,
+                      });
+                      
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                        _fetchData();
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$title Added!'), backgroundColor: Colors.green));
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+                      }
+                    } finally {
+                      if (context.mounted) setModalState(() => saving = false);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.darkBrown,
+                    foregroundColor: AppTheme.gold,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    elevation: 0,
+                  ),
+                  child: saving 
+                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.gold, strokeWidth: 2))
+                    : const Text('SAVE RECORD', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 11)),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Map<String, String>> _getFieldsForSection(String section) {
+    switch (section) {
+      case 'highSchool':
+        return [
+          {'key': 'schoolName', 'label': 'School Name', 'hint': 'e.g. St. Xaviers'},
+          {'key': 'cgpa', 'label': 'CGPA / Percentage', 'hint': 'e.g. 9.5'},
+          {'key': 'outOf', 'label': 'Out Of', 'hint': 'e.g. 10.0'},
+        ];
+      case 'underGrad':
+      case 'masters':
+        return [
+          {'key': 'uniName', 'label': 'University Name', 'hint': 'e.g. IIT Bombay'},
+          {'key': 'degreeName', 'label': 'Degree', 'hint': 'e.g. B.Tech Computer Science'},
+          {'key': 'cgpa', 'label': 'CGPA', 'hint': '9.0'},
+          {'key': 'outOf', 'label': 'Out Of', 'hint': '10.0'},
+        ];
+      case 'targetUniversities':
+        return [
+          {'key': 'uniName', 'label': 'University Name', 'hint': 'e.g. Stanford University'},
+          {'key': 'degree', 'label': 'Target Degree', 'hint': 'MS in AI'},
+          {'key': 'major', 'label': 'Major', 'hint': 'Computer Science'},
+          {'key': 'term', 'label': 'Intake Term', 'hint': 'Fall / Spring'},
+          {'key': 'year', 'label': 'Year', 'hint': '2026'},
+        ];
+      case 'workExperience':
+        return [
+          {'key': 'role', 'label': 'Job Role', 'hint': 'Software Engineer'},
+          {'key': 'organization', 'label': 'Company', 'hint': 'Google'},
+          {'key': 'type', 'label': 'Work Type', 'hint': 'Full-time / Internship'},
+          {'key': 'country', 'label': 'Country', 'hint': 'e.g. India'},
+          {'key': 'description', 'label': 'Description', 'hint': 'Worked on cloud infrastructure...'},
+        ];
+      case 'projects':
+        return [
+          {'key': 'title', 'label': 'Project Title', 'hint': 'AI Chatbot'},
+          {'key': 'category', 'label': 'Category', 'hint': 'Web Development'},
+          {'key': 'description', 'label': 'Details', 'hint': 'Built using Flutter and Node.js'},
+        ];
+      case 'research':
+        return [
+          {'key': 'title', 'label': 'Research Title', 'hint': 'e.g. Machine Learning in Healthcare'},
+          {'key': 'publisher', 'label': 'Publisher / Journal', 'hint': 'IEEE / ACM'},
+          {'key': 'url', 'label': 'Link', 'hint': 'https://doi.org/...'},
+        ];
+      case 'volunteering':
+        return [
+          {'key': 'organization', 'label': 'Organization', 'hint': 'Blue Cross'},
+          {'key': 'role', 'label': 'Role', 'hint': 'Volunteer'},
+          {'key': 'description', 'label': 'What did you do?', 'hint': 'Organized events...'},
+        ];
+      case 'testScores':
+        return [
+          {'key': 'testType', 'label': 'Test Name', 'hint': 'IELTS / TOEFL / GRE'},
+          {'key': 'score', 'label': 'Score', 'hint': '8.0 / 320'},
+          {'key': 'date', 'label': 'Date Taken', 'hint': 'YYYY-MM-DD'},
+        ];
+      default:
+        return [
+          {'key': 'title', 'label': 'Title', 'hint': 'Enter details'},
+        ];
+    }
+  }
+
+  Future<void> _togglePublicStatus(bool current) async {
+    final auth = context.read<AuthProvider>();
+    
+    // ── OPTIMISTIC UI: Update locally first for instant feel ──
+    setState(() {
+      if (_userData != null && _userData!['profile'] != null) {
+        _userData!['profile']['isPublic'] = !current;
+      }
+    });
+
+    try {
+      await ApiClient.instance.put('/api/user/profile/${auth.userId}', data: {
+        'profile': {'isPublic': !current}
+      });
+      // Silent refresh to ensure sync
+      final profileRes = await ApiClient.instance.get('/api/user/profile/${auth.userId}');
+      if (mounted) {
+        setState(() {
+          _userData = profileRes.data;
+        });
+      }
+    } catch (e) {
+      // ── ROLLBACK: If API fails, revert the toggle ──
+      setState(() {
+        if (_userData != null && _userData!['profile'] != null) {
+          _userData!['profile']['isPublic'] = current;
+        }
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Sync failed: $e'),
+            backgroundColor: Colors.red));
+      }
+    }
   }
 
   final List<Map<String, String>> _profileCards = [
@@ -195,45 +424,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
                      Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Avatar with Camera
-                        Stack(
-                          children: [
-                            Container(
-                              width: 86, height: 86,
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(color: AppTheme.borderLight),
-                                gradient: LinearGradient(
-                                  colors: [AppTheme.gold.withOpacity(0.2), Colors.transparent],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                              child: ClipOval(
-                                child: profile['profileImage'] != null
-                                    ? Image.network(
-                                        '${ApiClient.baseUrl}${profile['profileImage']}',
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (_, __, ___) => _avatarPlaceholder(name),
-                                      )
-                                    : _avatarPlaceholder(name),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0, right: 0,
-                              child: Container(
-                                width: 32, height: 32,
+                        GestureDetector(
+                          onTap: _pickAndUploadPhoto,
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: 86, height: 86,
+                                padding: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
-                                  color: AppTheme.gold,
                                   shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.white, width: 3),
-                                  boxShadow: [BoxShadow(color: AppTheme.gold.withOpacity(0.3), blurRadius: 10)],
+                                  border: Border.all(color: AppTheme.borderLight),
+                                  gradient: LinearGradient(
+                                    colors: [AppTheme.gold.withOpacity(0.2), Colors.transparent],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                  ),
                                 ),
-                                child: const Icon(Icons.camera_alt, color: Colors.white, size: 14),
+                                child: ClipOval(
+                                  child: profile['profileImage'] != null
+                                      ? _buildProfileImage(profile['profileImage'], name)
+                                      : _avatarPlaceholder(name),
+                                ),
                               ),
-                            ),
-                          ],
+                              Positioned(
+                                bottom: 0, right: 0,
+                                child: Container(
+                                  width: 32, height: 32,
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.gold,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white, width: 3),
+                                    boxShadow: [BoxShadow(color: AppTheme.gold.withOpacity(0.3), blurRadius: 10)],
+                                  ),
+                                  child: const Icon(Icons.camera_alt, color: Colors.white, size: 14),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(width: 20),
                         Expanded(
@@ -250,20 +477,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     fontStyle: FontStyle.italic,
                                   )),
                               const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  Text(
-                                    (profile['isPublic'] ?? false) ? "PUBLIC" : "PRIVATE",
-                                    style: TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w900,
-                                      letterSpacing: 2,
-                                      color: (profile['isPublic'] ?? false) ? Colors.green : AppTheme.textSecondary,
+                              GestureDetector(
+                                onTap: () => _togglePublicStatus(profile['isPublic'] ?? false),
+                                behavior: HitTestBehavior.opaque,
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      (profile['isPublic'] ?? false) ? "PUBLIC" : "PRIVATE",
+                                      style: TextStyle(
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 2,
+                                        color: (profile['isPublic'] ?? false) ? Colors.green : AppTheme.textSecondary,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  _toggle(profile['isPublic'] ?? false),
-                                ],
+                                    const SizedBox(width: 8),
+                                    _toggle(profile['isPublic'] ?? false),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -383,6 +614,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildProfileImage(String imgSource, String name) {
+    if (imgSource.startsWith('data:')) {
+      // Handle Base64 from backend
+      final base64String = imgSource.split(',').last;
+      return Image.memory(base64Decode(base64String), fit: BoxFit.cover, errorBuilder: (_, __, ___) => _avatarPlaceholder(name));
+    }
+    // Handle URL
+    final fullUrl = imgSource.startsWith('http') ? imgSource : '${ApiClient.baseUrl}$imgSource';
+    return Image.network(fullUrl, fit: BoxFit.cover, errorBuilder: (_, __, ___) => _avatarPlaceholder(name));
   }
 
   Widget _buildScoreView(Map<String, dynamic> score) {
@@ -745,79 +987,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
           const SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('PROFILE COMPLETION', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
-              Text('$completed/9', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: AppTheme.gold, fontStyle: FontStyle.italic)),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Stack(
-            children: [
-              Container(
-                height: 6,
-                width: double.infinity,
-                decoration: BoxDecoration(color: AppTheme.background, borderRadius: BorderRadius.circular(10)),
-              ),
-              AnimatedContainer(
-                duration: const Duration(seconds: 1),
-                height: 6,
-                width: (MediaQuery.of(context).size.width - 88) * (completed / 9),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(colors: [Colors.green, Colors.lightGreen]),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [BoxShadow(color: Colors.green.withOpacity(0.3), blurRadius: 8)],
-                ),
-              ),
-            ],
-          ),
+          // Progress Bar
+          ProfileProgressBar(completed: completed),
+          
           const SizedBox(height: 32),
+          
           if (pending.isNotEmpty)
             SizedBox(
-              height: 190,
+              height: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
                 itemCount: pending.length,
                 itemBuilder: (context, i) {
-                  final card = pending[i];
-                  return Container(
-                    width: 160,
-                    margin: const EdgeInsets.only(right: 16),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(24),
-                      border: Border.all(color: AppTheme.borderLight),
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Colors.white, AppTheme.background.withOpacity(0.5)],
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(card['icon']!, style: const TextStyle(fontSize: 32)),
-                        const SizedBox(height: 12),
-                        Text(card['title']!.toUpperCase(), 
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2, height: 1.4)),
-                        const Spacer(),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: AppTheme.darkBrown,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [BoxShadow(color: AppTheme.darkBrown.withOpacity(0.2), blurRadius: 10)],
-                          ),
-                          child: const Center(
-                            child: Text('COMPLETE', style: TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
-                          ),
-                        ),
-                      ],
-                    ),
+                  return ProfileRecommendationCard(
+                    card: pending[i],
+                    onComplete: () => _showAddProfileItemSheet(pending[i]),
                   );
                 },
               ),
@@ -866,7 +1051,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(width: 8),
                     Text(n['label'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textMuted)),
                     const Spacer(),
-                    const Icon(Icons.add_circle, color: Colors.green, size: 24),
+                    GestureDetector(
+                      onTap: () {
+                        final card = _profileCards.firstWhere((c) => c['section'] == n['id']);
+                        _showAddProfileItemSheet(card);
+                      },
+                      child: const Icon(Icons.add_circle, color: Colors.green, size: 24),
+                    ),
                   ],
                 ),
               ),
