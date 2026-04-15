@@ -60,39 +60,42 @@ class _AppScaffoldState extends State<AppScaffold> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: List.generate(_navItems.length, (i) {
                 final item = _navItems[i];
                 final isSelected = _currentIndex == i && i != 4;
-                return GestureDetector(
-                  onTap: () => _onTap(i),
-                  behavior: HitTestBehavior.opaque,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: isSelected ? AppTheme.gold.withOpacity(0.12) : Colors.transparent,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          item.icon,
-                          size: 22,
-                          color: isSelected ? AppTheme.gold : AppTheme.textSecondary.withOpacity(0.6),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          item.label,
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
+                return Expanded(
+                  child: GestureDetector(
+                    onTap: () => _onTap(i),
+                    behavior: HitTestBehavior.opaque,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      decoration: BoxDecoration(
+                        color: isSelected ? AppTheme.gold.withOpacity(0.12) : Colors.transparent,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            item.icon,
+                            size: 20,
                             color: isSelected ? AppTheme.gold : AppTheme.textSecondary.withOpacity(0.6),
-                            letterSpacing: 0.2,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 4),
+                          Text(
+                            item.label,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 9,
+                              fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
+                              color: isSelected ? AppTheme.gold : AppTheme.textSecondary.withOpacity(0.6),
+                              letterSpacing: 0.1,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -132,76 +135,87 @@ class _MoreMenuSheet extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(28),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40, height: 4,
-            decoration: BoxDecoration(
-              color: AppTheme.borderLight,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: GridView.count(
-              crossAxisCount: 3,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              children: items.map((item) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                    context.go(item.route);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.background,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppTheme.borderLight),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(item.icon, color: AppTheme.gold, size: 24),
-                        const SizedBox(height: 6),
-                        Text(
-                          item.label,
-                          style: const TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.w700,
-                            color: AppTheme.textPrimary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SizedBox(
-              width: double.infinity,
-              child: TextButton.icon(
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await auth.logout();
-                },
-                icon: const Icon(Icons.logout_rounded, color: Colors.red, size: 18),
-                label: const Text('Sign Out',
-                    style: TextStyle(color: Colors.red, fontWeight: FontWeight.w700, fontSize: 13)),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 12),
+              Container(
+                width: 40, height: 4,
+                decoration: BoxDecoration(
+                  color: AppTheme.borderLight,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-            ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 1.0,
+                  ),
+                  itemCount: items.length,
+                  itemBuilder: (context, i) {
+                    final item = items[i];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                        context.go(item.route);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppTheme.background,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppTheme.borderLight),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(item.icon, color: AppTheme.gold, size: 24),
+                            const SizedBox(height: 6),
+                            Text(
+                              item.label,
+                              style: const TextStyle(
+                                fontSize: 9, fontWeight: FontWeight.w700,
+                                color: AppTheme.textPrimary,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: TextButton.icon(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      await auth.logout();
+                    },
+                    icon: const Icon(Icons.logout_rounded, color: Colors.red, size: 18),
+                    label: const Text('Sign Out',
+                        style: TextStyle(color: Colors.red, fontWeight: FontWeight.w700, fontSize: 13)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
-          const SizedBox(height: 20),
-        ],
+        ),
       ),
     );
   }
