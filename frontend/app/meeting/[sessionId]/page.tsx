@@ -265,7 +265,7 @@ export default function MeetingPage() {
   // ─── Loading ──────────────────────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+      <div className="fixed inset-0 bg-[#050505] flex items-center justify-center z-[9999]">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 rounded-full border-2 border-[#d4af37]/30 border-t-[#d4af37] animate-spin" />
           <p className="text-white/30 text-sm">Loading session…</p>
@@ -277,7 +277,7 @@ export default function MeetingPage() {
   // ─── Error ────────────────────────────────────────────────────────────────
   if (sessionError) {
     return (
-      <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
+      <div className="fixed inset-0 bg-[#050505] flex items-center justify-center p-4 z-[9999]">
         <div className="max-w-sm text-center space-y-5">
           <div className="w-16 h-16 mx-auto rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-3xl">
             🔒
@@ -313,7 +313,7 @@ export default function MeetingPage() {
 
   // ─── Meeting Room ─────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-[#050505] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 bg-[#050505] flex flex-col overflow-hidden z-[9999] selection:bg-[#d4af37]/20">
 
       {/* Top Bar */}
       <div className="flex-shrink-0 flex items-center justify-between px-4 sm:px-6 py-3 bg-[#080808]/95 backdrop-blur-xl border-b border-white/[0.06] z-10">
@@ -352,90 +352,84 @@ export default function MeetingPage() {
       </div>
 
       {/* Body */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Video Grid */}
-        <div className="flex-1 flex flex-col p-3 sm:p-4 gap-3 overflow-auto">
-
-          {/* Banners */}
-          <AnimatePresence>
-            {(callEnded || hostLeftMsg) && (
-              <motion.div
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 text-amber-400 text-sm text-center"
-              >
-                {callEnded ? "The call has ended." : hostLeftMsg}
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Auto-end countdown timer */}
-          {autoEndCountdown !== null && autoEndCountdown > 0 && !callEnded && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-red-500/10 border border-red-500/25 rounded-xl px-5 py-4 flex items-center justify-between"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-red-400 animate-pulse" />
-                <div>
-                  <p className="text-red-400 text-sm font-bold">Host has left — session will auto-end</p>
-                  <p className="text-red-400/50 text-xs mt-0.5">The counsellor can rejoin to cancel the timer</p>
-                </div>
-              </div>
-              <div className="bg-red-500/20 border border-red-500/30 rounded-xl px-4 py-2 text-center">
-                <p className="text-red-400 text-xl font-mono font-black tabular-nums tracking-wider">
-                  {String(Math.floor(autoEndCountdown / 60)).padStart(2, "0")}:{String(autoEndCountdown % 60).padStart(2, "0")}
-                </p>
-                <p className="text-red-400/40 text-[8px] uppercase tracking-widest font-bold">remaining</p>
-              </div>
-            </motion.div>
-          )}
-
-          {/* Tiles */}
-          <div
-            className={`grid gap-3 flex-1 ${
-              remoteList.length === 0
-                ? "grid-cols-1 max-w-2xl mx-auto w-full"
-                : remoteList.length === 1
-                ? "grid-cols-1 sm:grid-cols-2"
-                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-            }`}
+      <div className="flex flex-1 overflow-hidden relative">
+        <div className="flex-1 flex flex-col min-w-0 bg-[#050505] p-2 md:p-6 overflow-hidden">
+          {/* Main Grid Container */}
+          <div 
+            className={`
+              grid gap-4 w-full h-full mx-auto transition-all duration-500
+              ${
+                remoteList.length === 0
+                  ? "max-w-4xl grid-cols-1 place-items-center"
+                  : remoteList.length === 1
+                  ? "max-w-6xl grid-cols-1 md:grid-cols-2"
+                  : remoteList.length === 2
+                  ? "max-w-7xl grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                  : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+              }
+            `}
           >
-            {/* Local */}
-            <VideoTile
-              stream={localStream}
-              label={myName}
-              isHost={isHost}
-              isMuted={isAudioMuted}
-              isVideoOff={isVideoOff}
-              isLocal
-            />
-
-            {/* Remote */}
-            {remoteList.map((p: Participant & { stream?: MediaStream }) => (
+            {/* Local Video */}
+            <div className={`w-full h-full ${remoteList.length === 0 ? "aspect-video max-h-[70vh]" : ""}`}>
               <VideoTile
-                key={p.participantId}
-                stream={p.stream}
-                label={p.participantName}
-                isHost={p.isHost}
-                isMuted={p.isAudioMuted}
-                isVideoOff={p.isVideoOff}
+                stream={localStream}
+                label={myName}
+                isHost={isHost}
+                isMuted={isAudioMuted}
+                isVideoOff={isVideoOff}
+                isLocal
               />
-            ))}
+            </div>
 
-            {/* Waiting placeholder */}
-            {remoteList.length === 0 && (
-              <div className="flex flex-col items-center gap-3 text-white/20 py-12">
-                <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <p className="text-sm">Waiting for others to join…</p>
+            {/* Remote Videos */}
+            {remoteList.map((p: Participant & { stream?: MediaStream }) => (
+              <div key={p.participantId} className="w-full h-full">
+                <VideoTile
+                  stream={p.stream}
+                  label={p.participantName}
+                  isHost={p.isHost}
+                  isMuted={p.isAudioMuted}
+                  isVideoOff={p.isVideoOff}
+                />
               </div>
-            )}
+            ))}
+          </div>
+
+          {/* Overlay Banners */}
+          <div className="absolute top-6 left-1/2 -translate-x-1/2 z-40 w-full max-w-xl px-4 pointer-events-none">
+            <AnimatePresence>
+              {(callEnded || hostLeftMsg || autoEndCountdown !== null) && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-3"
+                >
+                  {(callEnded || hostLeftMsg) && (
+                    <div className="bg-amber-500/10 backdrop-blur-xl border border-amber-500/20 rounded-2xl px-6 py-4 flex items-center gap-4 shadow-2xl">
+                      <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-500">
+                        ⚠️
+                      </div>
+                      <p className="text-amber-200 text-sm font-medium">
+                        {callEnded ? "Session ended." : hostLeftMsg}
+                      </p>
+                    </div>
+                  )}
+
+                  {autoEndCountdown !== null && autoEndCountdown > 0 && !callEnded && (
+                    <div className="bg-red-500/10 backdrop-blur-xl border border-red-500/20 rounded-2xl px-6 py-4 flex items-center justify-between shadow-2xl">
+                       <div className="flex items-center gap-4">
+                          <div className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
+                          <p className="text-red-200 text-sm font-bold uppercase tracking-wider">Host left · Ending in</p>
+                       </div>
+                       <span className="text-red-500 font-mono text-xl font-black tabular-nums">
+                          {String(Math.floor(autoEndCountdown / 60)).padStart(2, "0")}:{String(autoEndCountdown % 60).padStart(2, "0")}
+                       </span>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 

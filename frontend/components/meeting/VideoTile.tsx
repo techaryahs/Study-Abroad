@@ -30,6 +30,7 @@ export default function VideoTile({
   }, [stream, isVideoOff]);
 
   const initials = label
+    .split("@")[0]
     .split(" ")
     .map((w) => w[0])
     .join("")
@@ -38,90 +39,70 @@ export default function VideoTile({
 
   return (
     <div
-      className={`relative rounded-2xl overflow-hidden bg-[#0d0d0d] border aspect-video flex items-center justify-center transition-all duration-300 ${
+      className={`relative rounded-[2rem] overflow-hidden bg-[#0A0A0A] border transition-all duration-700 h-full flex items-center justify-center ${
         isSpeaking
-          ? "border-[#d4af37]/60 shadow-[0_0_20px_rgba(212,175,55,0.2)]"
-          : "border-white/[0.06]"
+          ? "border-[#d4af37]/60 shadow-[0_0_40px_rgba(212,175,55,0.1)] ring-1 ring-[#d4af37]/20"
+          : "border-white/[0.05]"
       }`}
     >
+      {/* Background Ambience */}
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent pointer-events-none z-10" />
+
       {/* Video or Avatar */}
-      {stream ? (
-        <>
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted={isLocal}
-            className={`w-full h-full object-cover ${isVideoOff ? "hidden" : "block"}`}
-          />
-          {isVideoOff && (
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4af37]/20 to-[#d4af37]/5 border border-[#d4af37]/30 flex items-center justify-center text-xl font-black text-[#d4af37]">
-                {initials || "?"}
-              </div>
-              <span className="text-white/30 text-xs font-medium">
-                Camera off
-              </span>
-            </div>
-          )}
-        </>
+      {stream && !isVideoOff ? (
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted={isLocal}
+          className={`w-full h-full object-cover transition-transform duration-1000 ${isSpeaking ? "scale-[1.03]" : "scale-100"}`}
+        />
       ) : (
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#d4af37]/20 to-[#d4af37]/5 border border-[#d4af37]/30 flex items-center justify-center text-xl font-black text-[#d4af37]">
-            {initials || "?"}
+        <div className="relative flex flex-col items-center gap-6 group">
+          <div className="w-20 md:w-24 h-20 md:h-24 rounded-full bg-gradient-to-br from-[#d4af37] to-[#8a6d29] p-[1px] shadow-2xl relative z-20">
+            <div className="w-full h-full rounded-full bg-[#0A0A0A] flex items-center justify-center text-2xl font-black text-[#d4af37] tracking-tighter">
+              {initials || "?"}
+            </div>
           </div>
-          <span className="text-white/30 text-xs font-medium">
-            Connecting…
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#d4af37]/5 blur-3xl rounded-full opacity-40 animate-pulse" />
+          <span className="text-white/20 text-[10px] uppercase font-black tracking-[0.3em] relative z-20">
+            {isVideoOff ? "Video Suspended" : "Initializing..."}
           </span>
         </div>
       )}
 
-      {/* Ambient glow when speaking */}
+      {/* Speaking Glow Overlay */}
       {isSpeaking && (
-        <div className="absolute inset-0 rounded-2xl border border-[#d4af37]/40 pointer-events-none animate-pulse" />
-      )}
-
-      {/* Name + Host badge */}
-      <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
-        {isHost && (
-          <span className="bg-[#d4af37] text-black text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-md">
-            Host
-          </span>
-        )}
-        {isLocal && (
-          <span className="bg-white/10 text-white/60 text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-md backdrop-blur-sm">
-            You
-          </span>
-        )}
-        <span className="bg-black/60 backdrop-blur-sm text-white text-xs px-2 py-0.5 rounded-lg font-medium max-w-[140px] truncate">
-          {label}
-        </span>
-      </div>
-
-      {/* Muted indicator */}
-      {isMuted && (
-        <div className="absolute top-3 right-3 w-7 h-7 bg-red-500/90 rounded-full flex items-center justify-center shadow-lg">
-          <svg
-            className="w-3.5 h-3.5 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
-          >
-            <line x1="1" y1="1" x2="23" y2="23" />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 9v3a3 3 0 005.12 2.12M15 9.34V4a3 3 0 00-5.94-.6"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17 16.95A7 7 0 015 12v-2m14 0v2a7 7 0 01-.11 1.23M12 19v4M8 23h8"
-            />
-          </svg>
+        <div className="absolute inset-0 pointer-events-none z-20">
+          <div className="absolute inset-0 border-2 border-[#d4af37]/30 rounded-[2rem] animate-[ping_2s_infinite]" />
         </div>
       )}
+
+      {/* Bottom Info Section */}
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between pointer-events-none z-30">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-black/40 backdrop-blur-xl rounded-full border border-white/10 shadow-xl">
+          {isHost && (
+            <div className="w-2 h-2 rounded-full bg-[#d4af37] shadow-[0_0_10px_#d4af37]" />
+          )}
+          <span className="text-white text-[11px] font-bold tracking-tight">
+            {label} {isLocal && "(You)"}
+          </span>
+          {isHost && (
+            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-[#d4af37]/70 ml-1">
+              Admin
+            </span>
+          )}
+        </div>
+
+        {isMuted && (
+          <div className="w-8 h-8 bg-red-500/20 backdrop-blur-xl rounded-full flex items-center justify-center border border-red-500/30">
+            <svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+               <path strokeLinecap="round" strokeLinejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4" />
+               <line x1="1" y1="1" x2="23" y2="23" />
+            </svg>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

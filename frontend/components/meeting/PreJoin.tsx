@@ -55,7 +55,7 @@ export default function PreJoin({
   onJoin,
 }: PreJoinProps) {
   return (
-    <div className="min-h-screen bg-[#FDFBF7] font-base flex items-center justify-center p-4 selection:bg-[#C5A059]/20">
+    <div className="fixed inset-0 bg-[#FDFBF7] font-base flex items-center justify-center p-4 selection:bg-[#C5A059]/20 z-[9999]">
       {/* Ambient background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 right-0 w-full h-[60vh] bg-gradient-to-b from-[#C5A059]/5 to-transparent" />
