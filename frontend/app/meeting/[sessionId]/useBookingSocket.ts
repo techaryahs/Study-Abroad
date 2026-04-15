@@ -86,7 +86,9 @@ export function useBookingSocket({
       };
 
       pc.ontrack = (event) => {
-        const [remoteStream] = event.streams;
+        const remoteStream = event.streams[0];
+        if (!remoteStream) return;
+
         setRemoteParticipants((prev) => {
           const next = new Map(prev);
           const existing = next.get(remoteParticipantId);
@@ -194,16 +196,9 @@ export function useBookingSocket({
           return next;
         });
 
-        // Also initiate offer from our side when someone joins
-        // (Symmetric offering ensures connectivity even if new joiner's offer stalls)
-        const pc = createPeerConnection(p.participantId);
-        const offer = await pc.createOffer();
-        await pc.setLocalDescription(offer);
-        socket.emit("offer", {
-          meetingId,
-          toParticipantId: p.participantId,
-          offer,
-        });
+        // Simply create the peer connection so we are ready to receive their offer via ICE etc.
+        // We do NOT create an offer here to avoid WebRTC glare (symmetric offering collision).
+        createPeerConnection(p.participantId);
       }
     );
 
@@ -218,7 +213,10 @@ export function useBookingSocket({
         fromParticipantName: string;
         offer: RTCSessionDescriptionInit;
       }) => {
-        const pc = createPeerConnection(fromParticipantId);
+        let pc = peerConnectionsRef.current.get(fromParticipantId);
+        if (!pc) {
+          pc = createPeerConnection(fromParticipantId);
+        }
         await pc.setRemoteDescription(new RTCSessionDescription(offer));
         const answer = await pc.createAnswer();
         await pc.setLocalDescription(answer);
