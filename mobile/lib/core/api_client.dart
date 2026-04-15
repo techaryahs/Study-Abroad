@@ -4,12 +4,12 @@ import 'storage.dart';
 /// Converts any Dio / network exception into a readable message string.
 String extractErrorMessage(Object e) {
   if (e is DioException) {
-    // Server returned a JSON body with an `error` or `message` field
     final data = e.response?.data;
+
     if (data is Map) {
       return (data['error'] ?? data['message'] ?? 'Server error').toString();
     }
-    // Network-level errors
+
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
@@ -25,10 +25,11 @@ String extractErrorMessage(Object e) {
 }
 
 class ApiClient {
-  /// Live Render backend — works on all devices & platforms
-  static const String baseUrl = 'https://study-abroad-backend-pfjq.onrender.com';
+  static const String baseUrl =
+      'https://study-abroad-backend-pfjq.onrender.com';
 
-
+  static const String frontendUrl =
+      'https://study-abroad-frontend-rho.vercel.app';
 
   static Dio? _dio;
 
@@ -48,25 +49,29 @@ class ApiClient {
       },
     ));
 
-    // ── JWT Interceptor ──────────────────────────────────────────────
+    // ✅ JWT Interceptor (AUTO TOKEN ATTACH)
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final token = await AppStorage.getToken();
+
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
+
           return handler.next(options);
         },
         onResponse: (response, handler) => handler.next(response),
-        onError: (DioException err, handler) {
-          // Let error propagate — caller uses extractErrorMessage()
-          return handler.next(err);
-        },
+        onError: (DioException err, handler) => handler.next(err),
       ),
     );
 
     return dio;
+  }
+
+  /// ✅ FORCE REFRESH AFTER LOGIN (IMPORTANT)
+  static void refresh() {
+    _dio = null;
   }
 
   static void reset() {
