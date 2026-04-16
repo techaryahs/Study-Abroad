@@ -43,6 +43,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
   String? _myParticipantId;
   bool _advisorJoined = false;
   bool _remoteWebRTCConnected = false;
+  final Set<String> _joinedParticipants = {};
   
   // Chat
   final List<Map<String, dynamic>> _messages = [];
@@ -119,6 +120,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
         };
         _localStream = await navigator.mediaDevices.getUserMedia(constraints);
         if (!mounted) return;
+        
+        // Ensure speakerphone is on for better meeting experience
+        Helper.setSpeakerphoneOn(true);
+        
         _localRenderer.srcObject = _localStream;
         setState(() {
           _setupDone = true;
@@ -163,19 +168,23 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
     _socket!.onDisconnect((_) => setState(() => _isConnected = false));
 
-    _socket!.on('existing-participants', (data) {
+    _socket!.on('existing-participants', (data) async {
        final participants = data as List;
        for (var p in participants) {
-         _createPeerConnection(p['participantId'], p['participantName']);
-         if (_isCalling) _sendOffer(p['participantId']);
+         final pid = p['participantId'];
+         setState(() => _joinedParticipants.add(pid));
+         await _createPeerConnection(pid, p['participantName']);
+         if (_isCalling) _sendOffer(pid);
          if (p['isHost'] == true) {
            setState(() => _advisorJoined = true);
          }
        }
     });
 
-    _socket!.on('participant-joined', (data) {
-       _createPeerConnection(data['participantId'], data['participantName']);
+    _socket!.on('participant-joined', (data) async {
+       final pid = data['participantId'];
+       setState(() => _joinedParticipants.add(pid));
+       await _createPeerConnection(pid, data['participantName']);
        // We wait for the newcomer to send us an offer
        if (data['isHost'] == true) {
           setState(() => _advisorJoined = true);
@@ -216,6 +225,17 @@ class _MeetingScreenState extends State<MeetingScreen> {
            candidateData['sdpMLineIndex'],
          ));
        }
+    });
+
+    _socket!.on('participant-left', (data) {
+       final pid = data['participantId'];
+       setState(() {
+         _joinedParticipants.remove(pid);
+         final pc = _peerConnections.remove(pid);
+         pc?.close();
+         final renderer = _remoteRenderers.remove(pid);
+         renderer?.dispose();
+       });
     });
 
     _socket!.on('chat-message', (msg) {
@@ -440,10 +460,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   Widget _buildVideoLayout() {
-    final remotes = _remoteRenderers.values.toList();
+    final activeParticipants = _joinedParticipants.toList();
     final isHost = context.read<AuthProvider>().role == 'admin' || context.read<AuthProvider>().role == 'consultant';
     
-    if (remotes.isEmpty) {
+    if (activeParticipants.isEmpty) {
       return Stack(
         fit: StackFit.expand,
         children: [
@@ -485,25 +505,52 @@ class _MeetingScreenState extends State<MeetingScreen> {
     
     return Column(
       children: [
-        // Remote Participant(s) 
-        ...remotes.asMap().entries.map((e) => Expanded(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              RTCVideoView(e.value, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
-              _participantLabel("Remote Participant ${e.key + 1}"),
-            ],
-          ),
-        )),
-        // Local Participant
+        // Top Rectangle(s): Remote Participant(s)
+        ...activeParticipants.map((pid) {
+          final renderer = _remoteRenderers[pid];
+          return Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppTheme.gold.withOpacity(0.5), width: 2),
+                color: Colors.black,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    if (renderer != null && renderer.srcObject != null)
+                      RTCVideoView(renderer, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover)
+                    else
+                      const Center(child: CircularProgressIndicator(color: AppTheme.gold)),
+                    _participantLabel("Participant"),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
+        
+        // Bottom Rectangle: Local Me
         Expanded(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              RTCVideoView(_localRenderer, mirror: true, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
-              _participantLabel("You (Self)"),
-              if (_isAudioMuted) _muteIcon(),
-            ],
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white24, width: 1),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(18),
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  RTCVideoView(_localRenderer, mirror: true, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
+                  _participantLabel("You (Self)"),
+                  if (_isAudioMuted) _muteIcon(),
+                ],
+              ),
+            ),
           ),
         ),
       ],
