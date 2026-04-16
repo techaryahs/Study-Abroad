@@ -115,10 +115,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
       try {
         final Map<String, dynamic> constraints = {
           'audio': true,
-          'video': <String, dynamic>{
+          'video': {
             'facingMode': 'user',
-            'width': 1280,
-            'height': 720,
+            'width': {'ideal': 640},
+            'height': {'ideal': 480},
           },
         };
         _localStream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -207,17 +207,30 @@ class _MeetingScreenState extends State<MeetingScreen> {
     });
 
     _socket!.on('offer', (data) async {
-       final fromId = data['fromParticipantId'];
+       final fromId = data['fromParticipantId']?.toString();
        final offer = data['offer'];
-       var pc = _peerConnections[fromId] ?? await _createPeerConnection(fromId, "Remote");
-       await pc.setRemoteDescription(RTCSessionDescription(offer['sdp'], offer['type']));
-       final answer = await pc.createAnswer();
-       await pc.setLocalDescription(answer);
-       _socket!.emit('answer', {
-         'meetingId': _sessionData?['meetingId'],
-         'toParticipantId': fromId,
-         'answer': {'sdp': answer.sdp, 'type': answer.type},
-       });
+       if (fromId == null) return;
+
+       if (!_peerConnections.containsKey(fromId)) {
+          final pName = data['fromParticipantName'] ?? 'Remote';
+          setState(() {
+            _joinedParticipants.add(fromId);
+            _participantNames[fromId] = pName;
+          });
+          await _createPeerConnection(fromId, pName);
+       }
+
+       final pc = _peerConnections[fromId];
+       if (pc != null) {
+         await pc.setRemoteDescription(RTCSessionDescription(offer['sdp'], offer['type']));
+         final answer = await pc.createAnswer();
+         await pc.setLocalDescription(answer);
+         _socket!.emit('answer', {
+           'meetingId': _sessionData?['meetingId'],
+           'toParticipantId': fromId,
+           'answer': {'sdp': answer.sdp, 'type': answer.type},
+         });
+       }
     });
 
     _socket!.on('answer', (data) async {
@@ -243,13 +256,33 @@ class _MeetingScreenState extends State<MeetingScreen> {
     });
 
     _socket!.on('participant-left', (data) {
-       final pid = data['participantId'];
+       final pid = data['participantId']?.toString();
+       if (pid != null) {
+         setState(() {
+           _joinedParticipants.remove(pid);
+           final pc = _peerConnections.remove(pid);
+           pc?.close();
+           final renderer = _remoteRenderers.remove(pid);
+           renderer?.dispose();
+           _participantNames.remove(pid);
+           _remoteVideoOff.remove(pid);
+           _remoteAudioMuted.remove(pid);
+         });
+       }
+    });
+
+    _socket!.on('host-left', (data) {
+       // Clear any remote state if host leaves
        setState(() {
-         _joinedParticipants.remove(pid);
-         final pc = _peerConnections.remove(pid);
-         pc?.close();
-         final renderer = _remoteRenderers.remove(pid);
-         renderer?.dispose();
+         final hostId = _participantNames.entries
+           .where((e) => e.value.toLowerCase().contains('advisor') || e.value.toLowerCase().contains('admin'))
+           .firstOrNull?.key;
+         
+         if (hostId != null) {
+           _joinedParticipants.remove(hostId);
+           _peerConnections.remove(hostId)?.close();
+           _remoteRenderers.remove(hostId)?.dispose();
+         }
        });
     });
 
@@ -547,10 +580,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
                   children: [
                     if (videoOff)
                       _videoPlaceholder(name)
-                    else if (renderer != null && renderer.srcObject != null)
+                    else if (renderer != null && renderer.srcObject != null && renderer.srcObject!.getVideoTracks().any((t) => t.enabled))
                       RTCVideoView(renderer, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover)
                     else
-                      const Center(child: CircularProgressIndicator(color: AppTheme.gold)),
+                      _videoPlaceholder(name),
                     
                     _participantLabel(name),
                     if (audioMuted) _participantMutedIcon(),
