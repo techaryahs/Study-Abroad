@@ -44,6 +44,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
   bool _advisorJoined = false;
   bool _remoteWebRTCConnected = false;
   final Set<String> _joinedParticipants = {};
+  final Map<String, String> _participantNames = {};
+  final Map<String, bool> _remoteVideoOff = {};
+  final Map<String, bool> _remoteAudioMuted = {};
   
   // Chat
   final List<Map<String, dynamic>> _messages = [];
@@ -172,8 +175,14 @@ class _MeetingScreenState extends State<MeetingScreen> {
        final participants = data as List;
        for (var p in participants) {
          final pid = p['participantId'];
-         setState(() => _joinedParticipants.add(pid));
-         await _createPeerConnection(pid, p['participantName']);
+         final pName = p['participantName'] ?? 'Advisor';
+         setState(() {
+           _joinedParticipants.add(pid);
+           _participantNames[pid] = pName;
+           _remoteVideoOff[pid] = p['isVideoOff'] == true;
+           _remoteAudioMuted[pid] = p['isAudioMuted'] == true;
+         });
+         await _createPeerConnection(pid, pName);
          if (_isCalling) _sendOffer(pid);
          if (p['isHost'] == true) {
            setState(() => _advisorJoined = true);
@@ -183,8 +192,14 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
     _socket!.on('participant-joined', (data) async {
        final pid = data['participantId'];
-       setState(() => _joinedParticipants.add(pid));
-       await _createPeerConnection(pid, data['participantName']);
+       final pName = data['participantName'] ?? 'Student';
+       setState(() {
+         _joinedParticipants.add(pid);
+         _participantNames[pid] = pName;
+         _remoteVideoOff[pid] = data['isVideoOff'] == true;
+         _remoteAudioMuted[pid] = data['isAudioMuted'] == true;
+       });
+       await _createPeerConnection(pid, pName);
        // We wait for the newcomer to send us an offer
        if (data['isHost'] == true) {
           setState(() => _advisorJoined = true);
@@ -242,6 +257,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
       if (mounted && msg is Map) {
         setState(() => _messages.add(Map<String, dynamic>.from(msg)));
       }
+    });
+
+    _socket!.on('participant-state-changed', (data) {
+       // Refresh UI when participant toggles cam/mic
+       if (mounted) setState(() {});
     });
 
     _socket!.on('call-started', (_) => setState(() => _isCalling = true));
@@ -508,6 +528,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
         // Top Rectangle(s): Remote Participant(s)
         ...activeParticipants.map((pid) {
           final renderer = _remoteRenderers[pid];
+          final name = _participantNames[pid] ?? "Participant";
+          final videoOff = _remoteVideoOff[pid] == true;
+          final audioMuted = _remoteAudioMuted[pid] == true;
+
           return Expanded(
             child: Container(
               margin: const EdgeInsets.only(bottom: 8),
@@ -521,11 +545,15 @@ class _MeetingScreenState extends State<MeetingScreen> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    if (renderer != null && renderer.srcObject != null)
+                    if (videoOff)
+                      _videoPlaceholder(name)
+                    else if (renderer != null && renderer.srcObject != null)
                       RTCVideoView(renderer, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover)
                     else
                       const Center(child: CircularProgressIndicator(color: AppTheme.gold)),
-                    _participantLabel("Participant"),
+                    
+                    _participantLabel(name),
+                    if (audioMuted) _participantMutedIcon(),
                   ],
                 ),
               ),
@@ -545,7 +573,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  RTCVideoView(_localRenderer, mirror: true, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
+                  if (_isVideoOff)
+                    _videoPlaceholder("You")
+                  else
+                    RTCVideoView(_localRenderer, mirror: true, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
+                  
                   _participantLabel("You (Self)"),
                   if (_isAudioMuted) _muteIcon(),
                 ],
@@ -554,6 +586,37 @@ class _MeetingScreenState extends State<MeetingScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _videoPlaceholder(String name) {
+    return Container(
+      color: Colors.grey.shade900,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 60, height: 60,
+              decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: AppTheme.gold.withOpacity(0.2), width: 2)),
+              child: Center(child: Text(name[0].toUpperCase(), style: const TextStyle(color: AppTheme.gold, fontSize: 24, fontWeight: FontWeight.w900))),
+            ),
+            const SizedBox(height: 12),
+            const Text('VIDEO OFF', style: TextStyle(color: Colors.white24, fontSize: 8, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _participantMutedIcon() {
+    return Positioned(
+      top: 12, right: 12,
+      child: Container(
+        padding: const EdgeInsets.all(4),
+        decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(8)),
+        child: const Icon(Icons.mic_off, color: Colors.redAccent, size: 14),
+      ),
     );
   }
 
@@ -669,6 +732,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
               onTap: () {
                 setState(() => _isAudioMuted = !_isAudioMuted);
                 _localStream?.getAudioTracks().forEach((t) => t.enabled = !_isAudioMuted);
+                _socket?.emit('update-participant-state', {
+                  'meetingId': _sessionData?['meetingId'],
+                  'participantId': _myParticipantId,
+                  'isAudioMuted': _isAudioMuted,
+                });
               },
             ),
             _circularControl(
@@ -677,6 +745,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
               onTap: () {
                 setState(() => _isVideoOff = !_isVideoOff);
                 _localStream?.getVideoTracks().forEach((t) => t.enabled = !_isVideoOff);
+                _socket?.emit('update-participant-state', {
+                  'meetingId': _sessionData?['meetingId'],
+                  'participantId': _myParticipantId,
+                  'isVideoOff': _isVideoOff,
+                });
               },
             ),
             _circularControl(
@@ -723,42 +796,40 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   Widget _buildChatOverlay() {
+    final myName = context.read<AuthProvider>().user?['name'] ?? 'Me';
     return Positioned(
-      bottom: 120, right: 20, left: 20, height: 380,
+      bottom: 120, right: 20, left: 20, height: 420,
       child: Container(
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppTheme.backgroundAlt, 
-          borderRadius: BorderRadius.circular(24), 
-          border: Border.all(color: AppTheme.borderLight),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 40)],
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 30, spreadRadius: 5)],
         ),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: AppTheme.borderLight))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('TEAM CHAT', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w900, fontSize: 11, letterSpacing: 1.5)),
-                  IconButton(icon: const Icon(Icons.close, color: AppTheme.textSecondary, size: 18), onPressed: () => setState(() => _showChat = false)),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('ROOM CHAT', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 1, color: AppTheme.textPrimary)),
+                IconButton(icon: const Icon(Icons.close_rounded), onPressed: () => setState(() => _showChat = false)),
+              ],
             ),
+            const Divider(height: 24),
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.only(bottom: 16),
                 itemCount: _messages.length,
-                itemBuilder: (context, i) {
-                  final m = _messages[i];
-                  final isMe = m['sender'] == 'You';
+                itemBuilder: (context, index) {
+                  final m = _messages[index];
+                  final bool isMe = m['sender'] == myName;
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Column(
                       crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                       children: [
-                        Text(m['sender'].toString().toUpperCase(), style: TextStyle(color: isMe ? AppTheme.gold : AppTheme.textSecondary, fontSize: 8, fontWeight: FontWeight.w900)),
-                        const SizedBox(height: 4),
+                        if (!isMe) Text(m['sender'] ?? 'User', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
+                        const SizedBox(height: 2),
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
