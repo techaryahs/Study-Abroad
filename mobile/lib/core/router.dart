@@ -9,6 +9,7 @@ import '../features/cart/cart_screen.dart';
 import '../features/countries/countries_screen.dart';
 import '../features/universities/university_list_screen.dart';
 import '../features/services/services_screen.dart';
+import '../features/services/service_detail_screen.dart';
 import '../features/blogs/blogs_screen.dart';
 import '../features/about/about_screen.dart';
 import '../features/dashboard/edit_profile_screen.dart';
@@ -21,6 +22,7 @@ import '../features/ai_services/screens/plagiarism_remover_screen.dart';
 import '../features/resources/resources_screen.dart';
 import '../features/consultant/consultant_dashboard_screen.dart';
 import '../features/admin/admin_dashboard_screen.dart';
+import '../features/meeting/meeting_screen.dart';
 import '../widgets/app_scaffold.dart';
 
 class AppRouter {
@@ -28,40 +30,31 @@ class AppRouter {
     return GoRouter(
       initialLocation: '/',
       refreshListenable: auth,
-
-      // 🔥 FIXED REDIRECT LOGIC
       redirect: (context, state) {
         final isLoggedIn = auth.isLoggedIn;
-        final isAuthRoute =
-            state.uri.path == '/login' || state.uri.path == '/register';
+        final isAuthRoute = state.uri.path == '/login' || state.uri.path == '/register';
 
-        final role = auth.role?.toLowerCase().trim();
-
-        // ❌ Not logged in → go login
         if (!isLoggedIn && !isAuthRoute) return '/login';
-
-        // ✅ Logged in → block auth pages
-        if (isLoggedIn && isAuthRoute) {
-          return _homeForRole(role);
-        }
-
-        // 🔥 CRITICAL FIX → handle "/"
-        if (isLoggedIn && state.uri.path == '/') {
-          return _homeForRole(role);
+        
+        // If logged in and on an auth route, or on the root home page as a non-student
+        if (isLoggedIn && (isAuthRoute || (state.uri.path == '/' && auth.role != 'student'))) {
+          return _homeForRole(auth.role);
         }
 
         return null;
       },
-
       routes: [
         // ── AUTH ──────────────────────────────────────────────
+        GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
+        GoRoute(path: '/register', builder: (_, __) => const RegisterScreen()),
+
+        // ── MEETINGS ──────────────────────────────────────────
         GoRoute(
-          path: '/login',
-          builder: (_, __) => const LoginScreen(),
-        ),
-        GoRoute(
-          path: '/register',
-          builder: (_, __) => const RegisterScreen(),
+          path: '/meeting/:id',
+          builder: (context, state) => MeetingScreen(
+            sessionId: state.pathParameters['id'] ?? '',
+            sessionData: state.extra is Map ? Map<String, dynamic>.from(state.extra as Map) : null,
+          ),
         ),
 
         // ── SHELL (bottom nav) ────────────────────────────────
@@ -77,6 +70,12 @@ class AppRouter {
               ),
             ),
             GoRoute(path: '/services', builder: (_, __) => const ServicesScreen()),
+            GoRoute(
+              path: '/services/:slug',
+              builder: (context, state) => ServiceDetailScreen(
+                slug: state.pathParameters['slug'] ?? '',
+              ),
+            ),
             GoRoute(path: '/dashboard', builder: (_, __) => const DashboardScreen()),
             GoRoute(path: '/cart', builder: (_, __) => const CartScreen()),
             GoRoute(path: '/blogs', builder: (_, __) => const BlogsScreen()),
@@ -94,42 +93,31 @@ class AppRouter {
             GoRoute(
               path: '/dashboard/edit',
               builder: (context, state) => EditProfileScreen(
-                userData: state.extra as Map<String, dynamic>,
+                userData: Map<String, dynamic>.from(state.extra as Map),
               ),
+            ),
+            GoRoute(
+              path: '/consultant-dashboard',
+              builder: (_, __) => const ConsultantDashboardScreen(),
+            ),
+            GoRoute(
+              path: '/admin-dashboard',
+              builder: (_, __) => const AdminDashboardScreen(),
             ),
           ],
         ),
-
-        // ── DASHBOARDS (NO BOTTOM NAV) ────────────────────────
-        GoRoute(
-          path: '/consultant-dashboard',
-          builder: (_, __) => const ConsultantDashboardScreen(),
-        ),
-        GoRoute(
-          path: '/admin-dashboard',
-          builder: (_, __) => const AdminDashboardScreen(),
-        ),
-
-        // 🔥 OPTIONAL (if you have parent role)
-        // GoRoute(
-        //   path: '/parent-dashboard',
-        //   builder: (_, __) => const ParentDashboardScreen(),
-        // ),
       ],
     );
   }
 
-  // 🔥 ROLE BASED ROUTING
   static String _homeForRole(String? role) {
-    switch (role?.trim().toLowerCase()) {
+    switch (role) {
       case 'admin':
         return '/admin-dashboard';
       case 'consultant':
         return '/consultant-dashboard';
-      case 'parent':
-        return '/parent-dashboard'; // only if exists
       default:
-        return '/dashboard'; // ✅ FIXED (not '/')
+        return '/';
     }
   }
 }

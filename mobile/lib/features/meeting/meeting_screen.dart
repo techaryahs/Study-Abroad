@@ -41,6 +41,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
   bool _loading = true;
   Map<String, dynamic>? _sessionData;
   String? _myParticipantId;
+  bool _advisorJoined = false;
+  bool _remoteWebRTCConnected = false;
   
   // Chat
   final List<Map<String, dynamic>> _messages = [];
@@ -139,17 +141,19 @@ class _MeetingScreenState extends State<MeetingScreen> {
     _socket = io.io(ApiClient.baseUrl, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
+      'query': {'meetingId': _sessionData?['meetingId']},
     });
 
     _socket!.connect();
 
     _socket!.onConnect((_) {
       setState(() => _isConnected = true);
+      final isHost = auth.role == 'admin' || auth.role == 'consultant';
       _socket!.emit('join-meeting', {
         'meetingId': _sessionData?['meetingId'],
         'participantId': _myParticipantId,
         'participantName': user['name'] ?? 'Guest',
-        'isHost': auth.role == 'admin',
+        'isHost': isHost,
         'sessionId': widget.sessionId,
       });
     });
@@ -161,12 +165,18 @@ class _MeetingScreenState extends State<MeetingScreen> {
        for (var p in participants) {
          _createPeerConnection(p['participantId'], p['participantName']);
          if (_isCalling) _sendOffer(p['participantId']);
+         if (p['isHost'] == true) {
+           setState(() => _advisorJoined = true);
+         }
        }
     });
 
     _socket!.on('participant-joined', (data) {
        _createPeerConnection(data['participantId'], data['participantName']);
        if (_isCalling) _sendOffer(data['participantId']);
+       if (data['isHost'] == true) {
+          setState(() => _advisorJoined = true);
+       }
     });
 
     _socket!.on('offer', (data) async {
@@ -239,6 +249,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
     final renderer = RTCVideoRenderer();
     await renderer.initialize();
     renderer.srcObject = stream;
+    renderer.onFirstFrameRendered = () {
+      if (mounted) setState(() => _remoteWebRTCConnected = true);
+    };
     setState(() => _remoteRenderers[id] = renderer);
   }
 
@@ -351,6 +364,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   Widget _buildPreJoin() {
+    final auth = context.read<AuthProvider>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0, leading: IconButton(icon: const Icon(Icons.close, color: AppTheme.textPrimary), onPressed: () => context.pop())),
@@ -406,7 +420,12 @@ class _MeetingScreenState extends State<MeetingScreen> {
                   elevation: 10,
                   shadowColor: AppTheme.gold.withOpacity(0.4),
                 ),
-                child: const Text('JOIN ROOM VIDEO', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                child: Text(
+                    (auth.role == 'admin' || auth.role == 'consultant' || _sessionData?['isHost'] == true)
+                        ? 'START MEETING'
+                        : 'JOIN MEETING',
+                    style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13),
+                  ),
               ),
             ).animate().slideY(begin: 0.2, duration: 500.ms),
           ],
@@ -417,6 +436,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
   Widget _buildVideoLayout() {
     final remotes = _remoteRenderers.values.toList();
+    final isHost = context.read<AuthProvider>().role == 'admin' || context.read<AuthProvider>().role == 'consultant';
+    
     if (remotes.isEmpty) {
       return Stack(
         fit: StackFit.expand,
@@ -442,14 +463,15 @@ class _MeetingScreenState extends State<MeetingScreen> {
           else
             RTCVideoView(_localRenderer, mirror: true, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
           
-          Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(20)),
-              child: const Text('Waiting for advisor to join...', 
-                style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
+          if (!isHost && !_advisorJoined && !_remoteWebRTCConnected)
+            Center(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(20)),
+                child: const Text('Waiting for advisor to join...', 
+                  style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
+              ),
             ),
-          ),
           _participantLabel("You (Self)"),
           if (_isAudioMuted) _muteIcon(),
         ],

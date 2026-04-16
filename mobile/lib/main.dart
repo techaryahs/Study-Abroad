@@ -4,14 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'core/router.dart';
 import 'core/theme.dart';
 import 'features/auth/auth_provider.dart';
+import 'features/cart/cart_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final authProvider = AuthProvider();
   await authProvider.init();
   runApp(
-    ChangeNotifierProvider.value(
-      value: authProvider,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: authProvider),
+        ChangeNotifierProvider(create: (_) => CartProvider()..fetchCart()),
+      ],
       child: const StudyAbroadApp(),
     ),
   );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../auth/auth_provider.dart';
@@ -103,13 +103,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     }
   }
 
-  Future<void> _joinMeeting(String sessionId) async {
-    final Uri url = Uri.parse('${ApiClient.frontendUrl}/meeting/$sessionId');
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Could not launch meeting link')));
-      }
-    }
+  Future<void> _joinMeeting(String sessionId, dynamic session) async {
+    context.push('/meeting/$sessionId', extra: Map<String, dynamic>.from(session));
   }
 
   bool _isSessionPast(dynamic session) {
@@ -288,7 +283,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 children: [
                   Expanded(
                     child: ElevatedButton.icon(
-                      onPressed: () => _joinMeeting(b['sessionId'] ?? b['_id']),
+                      onPressed: () => _joinMeeting(b['sessionId'] ?? b['_id'], b),
                       icon: const Icon(Icons.video_camera_front_rounded, size: 18),
                       label: const Text('JOIN MEETING'),
                       style: ElevatedButton.styleFrom(

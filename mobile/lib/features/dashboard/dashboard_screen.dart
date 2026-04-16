@@ -399,7 +399,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
 
-    final profile = _userData?['profile'] ?? {};
+    final profile = _userData != null && _userData!['profile'] is Map ? Map<String, dynamic>.from(_userData!['profile']) : <String, dynamic>{};
     final name = _userData?['name'] ?? 'Student Member';
     final completedSteps = _countCompleted(profile);
 
@@ -776,18 +776,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text((s['consultantName'] ?? 'Counselling Session').toString().toUpperCase(), 
+                      Text((s['consultantName']?.toString() ?? 'Counselling Session').toUpperCase(), 
                           style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
                       const SizedBox(height: 6),
                       Row(
                         children: [
                           const Icon(Icons.calendar_today, size: 10, color: AppTheme.gold),
                           const SizedBox(width: 4),
-                          Text(s['date'] ?? '—', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900)),
+                          Text((s['date'] == null || s['date'] == "null") ? 'Scheduled' : s['date'].toString(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900)),
                           const SizedBox(width: 12),
                           const Icon(Icons.access_time, size: 10, color: AppTheme.gold),
                           const SizedBox(width: 4),
-                          Text(s['time'] ?? '—', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+                          Text((s['time'] == null || s['time'] == "null") ? 'Live' : s['time'].toString(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                         ],
                       ),
                     ],
@@ -799,6 +799,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(content: Text('Joining session...'), duration: Duration(seconds: 1)),
                         );
+                        context.push('/meeting/${s['_id']}', extra: s);
                      },
                      child: Container(
                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -1199,7 +1200,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  int _countCompleted(Map<String, dynamic> profile) {
+  int _countCompleted(Map profile) {
     int count = 0;
     for (final key in ['highSchool', 'underGrad', 'masters', 'testScores', 'workExperience', 'research', 'projects', 'volunteering', 'targetUniversities']) {
       if ((profile[key] as List?)?.isNotEmpty ?? false) count++;
@@ -1207,7 +1208,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return count;
   }
 
-  bool _hasData(Map<String, dynamic> profile, String section) {
+  bool _hasData(Map profile, String section) {
     return (profile[section] as List?)?.isNotEmpty ?? false;
   }
 }
