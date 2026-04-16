@@ -1,0 +1,250 @@
+{
+  "countries": [
+    {
+      "slug": "germany",
+      "name": "Germany",
+      "code": "DE",
+      "hero": "Engineering Excellence",
+      "popular": true,
+      "universities": [
+        {
+          "slug": "technical-university-of-munich",
+          "name": "Technical University of Munich",
+          "location": "Munich, Germany",
+          "rank": "#37 QS World",
+          "programs": "MS, PhD, Engineering",
+          "fee": "€0–350/sem",
+          "type": "Technical University",
+          "about": "TUM is Germany’s leading technical university with world-class engineering, computer science, medicine, and life science programs.",
+          "highlights": [
+            "Top-ranked engineering faculty",
+            "Strong industry research partnerships",
+            "International graduate programs",
+            "Low tuition for EU and international students"
+          ]
+        },
+        {
+          "slug": "ludwig-maximilians-university-munich",
+          "name": "Ludwig-Maximilians-Universität München",
+          "location": "Munich, Germany",
+          "rank": "Top 50 QS",
+          "programs": "Business, Law, Social Sciences",
+          "fee": "€0–300/sem",
+          "type": "Research University",
+          "about": "LMU Munich is a comprehensive research university with strong humanities, business, and STEM offerings.",
+          "highlights": [
+            "Historic campus in central Munich",
+            "Wide global exchange network",
+            "Leading social sciences research",
+            "Free tuition for most programs"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "usa",
+      "name": "United States",
+      "code": "US",
+      "hero": "Ivy League & Beyond",
+      "popular": false,
+      "universities": [
+        {
+          "slug": "massachusetts-institute-of-technology",
+          "name": "Massachusetts Institute of Technology",
+          "location": "Cambridge, Massachusetts, USA",
+          "rank": "#1 QS World",
+          "programs": "MS, PhD, MBA",
+          "fee": "$55,000/yr",
+          "type": "Private University",
+          "about": "MIT is a global leader in science, technology, and innovation, offering rigorous research-driven graduate programs.",
+          "highlights": [
+            "Top STEM research institution",
+            "Strong startup and entrepreneurship ecosystem",
+            "Global faculty and industry links",
+            "Highly selective admissions"
+          ]
+        },
+        {
+          "slug": "stanford-university",
+          "name": "Stanford University",
+          "location": "Stanford, California, USA",
+          "rank": "#3 QS World",
+          "programs": "MS, PhD, MBA",
+          "fee": "$58,000/yr",
+          "type": "Private University",
+          "about": "Stanford combines academic excellence with deep ties to Silicon Valley, entrepreneurial support, and innovation research.",
+          "highlights": [
+            "Market-leading technology programs",
+            "Strong entrepreneurship support",
+            "Close industry partnerships",
+            "Prestigious faculty and alumni"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "united-kingdom",
+      "name": "United Kingdom",
+      "code": "GB",
+      "hero": "Legacy of Excellence",
+      "popular": false,
+      "universities": [
+        {
+          "slug": "university-of-oxford",
+          "name": "University of Oxford",
+          "location": "Oxford, United Kingdom",
+          "rank": "#1 UK",
+          "programs": "MBA, Law, MSc",
+          "fee": "£30,000/yr",
+          "type": "Public Research University",
+          "about": "Oxford is one of the oldest universities in the world, offering elite academic programs with deep global reputation.",
+          "highlights": [
+            "Ancient collegiate system",
+            "World-leading humanities and law faculties",
+            "Highly selective admissions",
+            "Strong alumni network"
+          ]
+        },
+        {
+          "slug": "university-of-cambridge",
+          "name": "University of Cambridge",
+          "location": "Cambridge, United Kingdom",
+          "rank": "#2 UK",
+          "programs": "MSc, PhD, MBA",
+          "fee": "£28,000/yr",
+          "type": "Public Research University",
+          "about": "Cambridge offers research-intensive programs with a strong academic tradition in science, engineering, and arts.",
+          "highlights": [
+            "World-famous research output",
+            "Collegiate academic community",
+            "Top-ranked STEM and humanities faculties",
+            "Strong employer recognition"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "canada",
+      "name": "Canada",
+      "code": "CA",
+      "hero": "Innovation & Quality",
+      "popular": false,
+      "universities": [
+        {
+          "slug": "university-of-toronto",
+          "name": "University of Toronto",
+          "location": "Toronto, Canada",
+          "rank": "#21 QS World",
+          "programs": "MS, MBA, PhD",
+          "fee": "CA$32,000/yr",
+          "type": "Public Research University",
+          "about": "U of T is Canada’s top-ranked university with strong research and professional programs.",
+          "highlights": [
+            "Leading global research institution",
+            "Extensive graduate programs",
+            "Strong industry collaboration",
+            "Vibrant metropolitan campus"
+          ]
+        },
+        {
+          "slug": "mcgill-university",
+          "name": "McGill University",
+          "location": "Montreal, Canada",
+          "rank": "#31 QS World",
+          "programs": "MS, MBA",
+          "fee": "CA$24,000/yr",
+          "type": "Public Research University",
+          "about": "McGill is known for high academic standards and strong global recognition in medicine, law, and engineering.",
+          "highlights": [
+            "International student community",
+            "Highly ranked medical faculty",
+            "Bilingual city experience",
+            "Strong research funding"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "australia",
+      "name": "Australia",
+      "code": "AU",
+      "hero": "Innovation & Excellence",
+      "popular": false,
+      "universities": [
+        {
+          "slug": "university-of-melbourne",
+          "name": "University of Melbourne",
+          "location": "Melbourne, Australia",
+          "rank": "#33 QS World",
+          "programs": "MS, MBA, PhD",
+          "fee": "A$40,000/yr",
+          "type": "Public Research University",
+          "about": "The University of Melbourne is a top Australian university recognized for research, graduate programs, and global partnerships.",
+          "highlights": [
+            "Strong research reputation",
+            "Comprehensive graduate offerings",
+            "Vibrant student city",
+            "High employability outcomes"
+          ]
+        },
+        {
+          "slug": "australian-national-university",
+          "name": "Australian National University",
+          "location": "Canberra, Australia",
+          "rank": "#34 QS World",
+          "programs": "MS, PhD",
+          "fee": "A$42,000/yr",
+          "type": "Public Research University",
+          "about": "ANU is a national research university with strong science, policy, and global exchange programs.",
+          "highlights": [
+            "Research-led academic community",
+            "Strong science and humanities faculties",
+            "Campus in the capital city",
+            "High international student support"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "singapore",
+      "name": "Singapore",
+      "code": "SG",
+      "hero": "Global Tech Hub",
+      "popular": true,
+      "universities": [
+        {
+          "slug": "national-university-of-singapore",
+          "name": "National University of Singapore",
+          "location": "Singapore",
+          "rank": "#11 QS World",
+          "programs": "MS, PhD, MBA",
+          "fee": "S$30,000/yr",
+          "type": "Public Research University",
+          "about": "NUS is Singapore’s flagship university with world-class engineering, business, and science programs.",
+          "highlights": [
+            "Global research collaborations",
+            "Strong engineering and business schools",
+            "High employability outcomes",
+            "International student campus"
+          ]
+        },
+        {
+          "slug": "nanyang-technological-university",
+          "name": "Nanyang Technological University",
+          "location": "Singapore",
+          "rank": "#13 QS World",
+          "programs": "MS, PhD, Engineering",
+          "fee": "S$28,000/yr",
+          "type": "Public Research University",
+          "about": "NTU is a technology-focused university with top programs in engineering, business, and environmental science.",
+          "highlights": [
+            "Leading engineering programs",
+            "Strong research centres",
+            "Modern campus facilities",
+            "Close industry partnerships"
+          ]
+        }
+      ]
+    }
+  ]
+}
