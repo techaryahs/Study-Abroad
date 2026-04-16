@@ -115,10 +115,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
       try {
         final Map<String, dynamic> constraints = {
           'audio': true,
-          'video': <String, dynamic>{
+          'video': {
             'facingMode': 'user',
-            'width': 1280,
-            'height': 720,
+            'width': {'ideal': 640},
+            'height': {'ideal': 480},
           },
         };
         _localStream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -151,6 +151,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
     _socket = io.io(ApiClient.baseUrl, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
+      'forceNew': true,
       'query': {'meetingId': _sessionData?['meetingId']},
     });
 
@@ -174,7 +175,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
     _socket!.on('existing-participants', (data) async {
        final participants = data as List;
        for (var p in participants) {
-         final pid = p['participantId'];
+         final pid = p['participantId']?.toString();
+         if (pid == null) continue;
          final pName = p['participantName'] ?? 'Advisor';
          setState(() {
            _joinedParticipants.add(pid);
@@ -191,33 +193,54 @@ class _MeetingScreenState extends State<MeetingScreen> {
     });
 
     _socket!.on('participant-joined', (data) async {
-       final pid = data['participantId'];
+       final pid = data['participantId']?.toString();
+       if (pid == null) return;
+       
+       // Force a clear cycle to ensure the UI normalizes before a rejoin
+       if (_joinedParticipants.contains(pid)) {
+          _cleanupParticipant(pid);
+       }
+
        final pName = data['participantName'] ?? 'Student';
-       setState(() {
-         _joinedParticipants.add(pid);
-         _participantNames[pid] = pName;
-         _remoteVideoOff[pid] = data['isVideoOff'] == true;
-         _remoteAudioMuted[pid] = data['isAudioMuted'] == true;
-       });
+       if (mounted) {
+         setState(() {
+           _joinedParticipants.add(pid);
+           _participantNames[pid] = pName;
+           _remoteVideoOff[pid] = data['isVideoOff'] == true;
+           _remoteAudioMuted[pid] = data['isAudioMuted'] == true;
+         });
+       }
        await _createPeerConnection(pid, pName);
-       // We wait for the newcomer to send us an offer
        if (data['isHost'] == true) {
           setState(() => _advisorJoined = true);
        }
     });
 
     _socket!.on('offer', (data) async {
-       final fromId = data['fromParticipantId'];
+       final fromId = data['fromParticipantId']?.toString();
        final offer = data['offer'];
-       var pc = _peerConnections[fromId] ?? await _createPeerConnection(fromId, "Remote");
-       await pc.setRemoteDescription(RTCSessionDescription(offer['sdp'], offer['type']));
-       final answer = await pc.createAnswer();
-       await pc.setLocalDescription(answer);
-       _socket!.emit('answer', {
-         'meetingId': _sessionData?['meetingId'],
-         'toParticipantId': fromId,
-         'answer': {'sdp': answer.sdp, 'type': answer.type},
-       });
+       if (fromId == null) return;
+
+       if (!_peerConnections.containsKey(fromId)) {
+          final pName = data['fromParticipantName'] ?? 'Remote';
+          setState(() {
+            _joinedParticipants.add(fromId);
+            _participantNames[fromId] = pName;
+          });
+          await _createPeerConnection(fromId, pName);
+       }
+
+       final pc = _peerConnections[fromId];
+       if (pc != null) {
+         await pc.setRemoteDescription(RTCSessionDescription(offer['sdp'], offer['type']));
+         final answer = await pc.createAnswer();
+         await pc.setLocalDescription(answer);
+         _socket!.emit('answer', {
+           'meetingId': _sessionData?['meetingId'],
+           'toParticipantId': fromId,
+           'answer': {'sdp': answer.sdp, 'type': answer.type},
+         });
+       }
     });
 
     _socket!.on('answer', (data) async {
@@ -243,13 +266,26 @@ class _MeetingScreenState extends State<MeetingScreen> {
     });
 
     _socket!.on('participant-left', (data) {
-       final pid = data['participantId'];
+       final pid = data['participantId']?.toString();
+       if (pid != null) {
+         _cleanupParticipant(pid);
+       }
+    });
+
+    _socket!.on('host-left', (data) {
+       // When host leaves, we often want to clear them regardless of ID matching 
+       // because there's usually only one host.
        setState(() {
-         _joinedParticipants.remove(pid);
-         final pc = _peerConnections.remove(pid);
-         pc?.close();
-         final renderer = _remoteRenderers.remove(pid);
-         renderer?.dispose();
+         final hostIds = _participantNames.entries
+           .where((e) => e.value.toLowerCase().contains('advisor') || 
+                         e.value.toLowerCase().contains('admin') ||
+                         e.value.toLowerCase().contains('host'))
+           .map((e) => e.key)
+           .toList();
+         
+         for (var id in hostIds) {
+           _cleanupParticipant(id);
+         }
        });
     });
 
@@ -287,7 +323,29 @@ class _MeetingScreenState extends State<MeetingScreen> {
       if (event.streams.isNotEmpty) _addRemoteRenderer(remoteId, event.streams[0]);
     };
     _peerConnections[remoteId] = pc;
+
+    pc.onIceConnectionState = (state) {
+      if (state == RTCIceConnectionState.RTCIceConnectionStateFailed ||
+          state == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
+         _cleanupParticipant(remoteId);
+      }
+    };
+    
     return pc;
+  }
+
+  void _cleanupParticipant(String? pid) {
+    if (pid == null) return;
+    if (mounted) {
+      setState(() {
+        _joinedParticipants.remove(pid);
+        _peerConnections.remove(pid)?.close();
+        _remoteRenderers.remove(pid)?.dispose();
+        _participantNames.remove(pid);
+        _remoteVideoOff.remove(pid);
+        _remoteAudioMuted.remove(pid);
+      });
+    }
   }
 
   void _addRemoteRenderer(String id, MediaStream stream) async {
@@ -316,7 +374,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
     if (_chatController.text.isEmpty) return;
     final msg = {
       'text': _chatController.text,
-      'sender': 'You',
+      'sender': context.read<AuthProvider>().user?['name'] ?? 'Me',
       'id': _myParticipantId,
       'at': DateTime.now().toIso8601String(),
     };
@@ -331,10 +389,24 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   void _handleHangup({bool shouldPop = true}) {
+    // 1. Tell the server we are leaving (triggers instant UI update for others)
+    _socket?.emit('leave-meeting', {
+      'meetingId': _sessionData?['meetingId'],
+      'participantId': _myParticipantId,
+    });
+    
+    // 2. Close local connections and socket
     _socket?.disconnect();
     _peerConnections.forEach((k, pc) => pc.close());
     _remoteRenderers.forEach((k, r) => r.dispose());
-    _localStream?.getTracks().forEach((t) => t.stop());
+    
+    // 3. HARD STOP for camera and mic hardware
+    _localStream?.getTracks().forEach((t) {
+       t.stop();
+       t.enabled = false;
+    });
+    _localStream = null;
+    _localRenderer.srcObject = null;
     _localRenderer.dispose();
     if (shouldPop && mounted) {
       context.pop();
@@ -402,7 +474,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
           if (_showChat) _buildChatOverlay(),
 
           // ── BOTTOM ZOOM CONTROLS (Per Image Style) ──────────────
-          _buildMeetingControls(),
+          if (!_showChat) _buildMeetingControls(),
         ],
       ),
     );
@@ -533,6 +605,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
           final audioMuted = _remoteAudioMuted[pid] == true;
 
           return Expanded(
+            key: ValueKey(pid),
             child: Container(
               margin: const EdgeInsets.only(bottom: 8),
               decoration: BoxDecoration(
@@ -550,7 +623,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                     else if (renderer != null && renderer.srcObject != null)
                       RTCVideoView(renderer, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover)
                     else
-                      const Center(child: CircularProgressIndicator(color: AppTheme.gold)),
+                      _videoPlaceholder(name),
                     
                     _participantLabel(name),
                     if (audioMuted) _participantMutedIcon(),
@@ -563,6 +636,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
         
         // Bottom Rectangle: Local Me
         Expanded(
+          key: const ValueKey('local_me'),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -768,7 +842,25 @@ class _MeetingScreenState extends State<MeetingScreen> {
               },
             ),
             GestureDetector(
-              onTap: _handleHangup,
+              onTap: () async {
+                final confirm = await showDialog<bool>(
+                  context: context,
+                  builder: (ctx) => AlertDialog(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    title: const Text('End Meeting?', style: TextStyle(fontWeight: FontWeight.w900)),
+                    content: const Text('Are you sure you want to leave the session?'),
+                    actions: [
+                      TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('CANCEL')),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                        onPressed: () => Navigator.pop(ctx, true),
+                        child: const Text('END'),
+                      ),
+                    ],
+                  ),
+                );
+                if (confirm == true) _handleHangup();
+              },
               child: Container(
                 width: 56, height: 56,
                 decoration: const BoxDecoration(color: Color(0xFFFF4B4B), shape: BoxShape.circle),
@@ -822,7 +914,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   final m = _messages[index];
-                  final bool isMe = m['sender'] == myName;
+                  final bool isMe = m['id'] == _myParticipantId || m['sender'] == 'You';
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Column(
