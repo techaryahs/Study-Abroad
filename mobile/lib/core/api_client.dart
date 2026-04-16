@@ -4,12 +4,12 @@ import 'storage.dart';
 /// Converts any Dio / network exception into a readable message string.
 String extractErrorMessage(Object e) {
   if (e is DioException) {
+    // Server returned a JSON body with an `error` or `message` field
     final data = e.response?.data;
-
     if (data is Map) {
       return (data['error'] ?? data['message'] ?? 'Server error').toString();
     }
-
+    // Network-level errors
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.receiveTimeout:
@@ -25,11 +25,13 @@ String extractErrorMessage(Object e) {
 }
 
 class ApiClient {
-  static const String baseUrl =
-      'https://study-abroad-backend-pfjq.onrender.com';
-
-  static const String frontendUrl =
-      'https://study-abroad-frontend-rho.vercel.app';
+  /// Live Render backend
+  static const String baseUrl = 'https://study-abroad-backend-pfjq.onrender.com';
+  
+  /// Local Backend (Uncomment for local testing)
+  // static const String baseUrl = 'http://10.0.2.2:5001'; // For Android Emulator
+  // static const String baseUrl = 'http://localhost:5001'; // For iOS/Web
+  // static const String baseUrl = 'http://YOUR_LOCAL_IP:5001'; // For Physical Device
 
   static Dio? _dio;
 
@@ -49,29 +51,25 @@ class ApiClient {
       },
     ));
 
-    // ✅ JWT Interceptor (AUTO TOKEN ATTACH)
+    // ── JWT Interceptor ──────────────────────────────────────────────
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final token = await AppStorage.getToken();
-
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
           }
-
           return handler.next(options);
         },
         onResponse: (response, handler) => handler.next(response),
-        onError: (DioException err, handler) => handler.next(err),
+        onError: (DioException err, handler) {
+          // Let error propagate — caller uses extractErrorMessage()
+          return handler.next(err);
+        },
       ),
     );
 
     return dio;
-  }
-
-  /// ✅ FORCE REFRESH AFTER LOGIN (IMPORTANT)
-  static void refresh() {
-    _dio = null;
   }
 
   static void reset() {
