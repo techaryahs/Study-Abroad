@@ -57,6 +57,10 @@ class AppRouter {
           ),
         ),
 
+        // ── DASHBOARDS (No bottom nav) ─────────────────────────
+        GoRoute(path: '/admin-dashboard', builder: (_, __) => const AdminDashboardScreen()),
+        GoRoute(path: '/consultant-dashboard', builder: (_, __) => const ConsultantDashboardScreen()),
+
         // ── SHELL (bottom nav) ────────────────────────────────
         ShellRoute(
           builder: (context, state, child) => AppScaffold(child: child),
@@ -95,14 +99,6 @@ class AppRouter {
               builder: (context, state) => EditProfileScreen(
                 userData: Map<String, dynamic>.from(state.extra as Map),
               ),
-            ),
-            GoRoute(
-              path: '/consultant-dashboard',
-              builder: (_, __) => const ConsultantDashboardScreen(),
-            ),
-            GoRoute(
-              path: '/admin-dashboard',
-              builder: (_, __) => const AdminDashboardScreen(),
             ),
           ],
         ),
