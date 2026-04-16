@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 
 class RateMyChancesScreen extends StatelessWidget {
@@ -8,106 +11,177 @@ class RateMyChancesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.background,
-      appBar: AppBar(
-        backgroundColor: AppTheme.background,
-        elevation: 0,
-        title: const Text('Rate My Chances', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w900, fontSize: 20)),
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Get instant feedback on your admission chances at top universities worldwide.',
-                style: TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.6),
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            backgroundColor: AppTheme.background,
+            elevation: 0,
+            leading: IconButton(
+              icon: const Icon(LucideIcons.arrowLeft, color: AppTheme.textPrimary),
+              onPressed: () => context.pop(),
+            ),
+            title: const Text(
+              'RATEMYCHANCES',
+              style: TextStyle(
+                color: AppTheme.gold,
+                fontSize: 10,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 3,
+                fontFamily: 'Cormorant Garamond',
               ),
-              const SizedBox(height: 24),
-              _featureCard(
-                title: 'Rate Your Chances',
-                description: 'Advanced algorithms find your ideal university matches.',
-                icon: Icons.calculate_rounded,
-              ),
-              const SizedBox(height: 14),
-              _featureCard(
-                title: 'Overall Profile Check',
-                description: 'In-depth analysis for a complete picture of your strengths.',
-                icon: Icons.verified_rounded,
-              ),
-              const SizedBox(height: 14),
-              _featureCard(
-                title: 'Improvements Detailed',
-                description: 'Expert-level guidance on how to strengthen your profile.',
-                icon: Icons.assignment_rounded,
-              ),
-              const SizedBox(height: 14),
-              _featureCard(
-                title: 'Quick Evaluations',
-                description: 'Instant feedback and rapid results in minutes.',
-                icon: Icons.timer_rounded,
-              ),
-              const SizedBox(height: 14),
-              _featureCard(
-                title: '24/7 Access',
-                description: 'Access your dashboard anywhere, anytime on any device.',
-                icon: Icons.cloud_done_rounded,
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.gold,
-                    foregroundColor: AppTheme.darkBrown,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            ),
+          ),
+          
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Elite',
+                    style: TextStyle(fontFamily: 'Cormorant Garamond', fontSize: 32, fontWeight: FontWeight.w300, color: AppTheme.textPrimary),
                   ),
-                  child: const Text('Start Rating My Chances', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900)),
-                ),
+                  const Text(
+                    'Evaluations',
+                    style: TextStyle(fontFamily: 'Cormorant Garamond', fontSize: 48, fontWeight: FontWeight.w900, height: 0.9, color: AppTheme.gold),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'POWERED BY GLOBAL COUNSELLOR CENTRE',
+                    style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.textSecondary),
+                  ),
+                  
+                  const SizedBox(height: 48),
+                  
+                  Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: AppTheme.gold.withOpacity(0.1)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.02),
+                          blurRadius: 30,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: const Text(
+                      "Rate My Chances evaluates GPA, research, work experience, GRE/GMAT scores, and acceptance rates, providing accurate admission probabilities and profile improvement guidance.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.8),
+                    ),
+                  ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.2, end: 0),
+                  
+                  const SizedBox(height: 64),
+                  
+                  const Text(
+                    'WHY GO PREMIUM?',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: AppTheme.textPrimary),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(height: 3, width: 40, color: AppTheme.gold),
+                  
+                  const SizedBox(height: 40),
+                  
+                  _premiumGrid(),
+                  
+                  const SizedBox(height: 120),
+                ],
               ),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppTheme.background.withOpacity(0),
+              AppTheme.background,
             ],
+          ),
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          height: 64,
+          child: ElevatedButton(
+            onPressed: () => context.push('/universities/unipredict/calculator'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.darkBrown,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              elevation: 0,
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('START EVALUATION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+                SizedBox(width: 8),
+                Icon(LucideIcons.sparkles, size: 16),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _featureCard({required String title, required String description, required IconData icon}) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.borderLight),
+  Widget _premiumGrid() {
+    final features = [
+      {'icon': LucideIcons.calculator, 'title': 'Rate Your Chances', 'desc': 'Advanced algorithms find your ideal university!'},
+      {'icon': LucideIcons.checkCircle2, 'title': 'Profile Check', 'desc': 'In-depth analysis for the complete picture!'},
+      {'icon': LucideIcons.fileText, 'title': 'Improvements', 'desc': 'Expert-level profile-building guidance.'},
+      {'icon': LucideIcons.clock, 'title': 'Quick Feedback', 'desc': 'Instant feedback and rapid results.'},
+      {'icon': LucideIcons.globe, 'title': '24/7 Access', 'desc': 'Access your dashboard anywhere, anytime.'},
+      {'icon': LucideIcons.trendingUp, 'title': 'Math Modelling', 'desc': 'Complex systems distilled into results.'},
+    ];
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 32,
+        childAspectRatio: 0.85,
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppTheme.gold.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(14),
+      itemCount: features.length,
+      itemBuilder: (context, index) {
+        final f = features[index];
+        return Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+                border: Border.all(color: AppTheme.gold.withOpacity(0.1)),
+              ),
+              child: Icon(f['icon'] as IconData, color: AppTheme.gold, size: 24),
             ),
-            child: Icon(icon, size: 24, color: AppTheme.gold),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
-                const SizedBox(height: 8),
-                Text(description, style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary, height: 1.6)),
-              ],
+            const SizedBox(height: 16),
+            Text(
+              f['title'] as String,
+              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary),
+              textAlign: TextAlign.center,
             ),
-          ),
-        ],
-      ),
+            const SizedBox(height: 8),
+            Text(
+              f['desc'] as String,
+              style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary, height: 1.4),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+      },
     );
   }
 }
