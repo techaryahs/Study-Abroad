@@ -176,7 +176,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
     _socket!.on('participant-joined', (data) {
        _createPeerConnection(data['participantId'], data['participantName']);
-       if (_isCalling) _sendOffer(data['participantId']);
+       // We wait for the newcomer to send us an offer
        if (data['isHost'] == true) {
           setState(() => _advisorJoined = true);
        }
@@ -231,7 +231,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
   Future<RTCPeerConnection> _createPeerConnection(String remoteId, String name) async {
     final Map<String, dynamic> config = {
       'iceServers': [
-        <String, dynamic>{'urls': 'stun:stun.l.google.com:19302'}
+        {'urls': 'stun:stun.l.google.com:19302'},
+        {'urls': 'stun:stun1.l.google.com:19302'},
+        {'urls': 'stun:stun2.l.google.com:19302'},
       ]
     };
     final RTCPeerConnection pc = await createPeerConnection(config);
@@ -481,28 +483,30 @@ class _MeetingScreenState extends State<MeetingScreen> {
       );
     }
     
-    return PageView.builder(
-      itemCount: remotes.length + 1,
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return Stack(
+    return Column(
+      children: [
+        // Remote Participant(s) 
+        ...remotes.asMap().entries.map((e) => Expanded(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              RTCVideoView(e.value, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
+              _participantLabel("Remote Participant ${e.key + 1}"),
+            ],
+          ),
+        )),
+        // Local Participant
+        Expanded(
+          child: Stack(
             fit: StackFit.expand,
             children: [
               RTCVideoView(_localRenderer, mirror: true, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
               _participantLabel("You (Self)"),
               if (_isAudioMuted) _muteIcon(),
             ],
-          );
-        }
-        final renderer = remotes[index - 1];
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            RTCVideoView(renderer, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
-            _participantLabel("Participant ${index}"),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
 
