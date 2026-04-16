@@ -103,6 +103,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   Future<void> _joinMeeting() async {
+    debugPrint("Join Meeting Pressed");
     final cam = await Permission.camera.request();
     final mic = await Permission.microphone.request();
 
@@ -117,10 +118,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
           },
         };
         _localStream = await navigator.mediaDevices.getUserMedia(constraints);
+        if (!mounted) return;
         _localRenderer.srcObject = _localStream;
         setState(() {
           _setupDone = true;
-          _isCalling = true; // Mark as calling so offers are sent
+          _isCalling = true;
         });
         _connectSocket();
       } catch (e) {
@@ -134,9 +136,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   void _connectSocket() {
+    if (!mounted) return;
     final auth = context.read<AuthProvider>();
     final user = auth.user;
-    if (user == null) return;
 
     _socket = io.io(ApiClient.baseUrl, <String, dynamic>{
       'transports': ['websocket'],
@@ -147,12 +149,13 @@ class _MeetingScreenState extends State<MeetingScreen> {
     _socket!.connect();
 
     _socket!.onConnect((_) {
+      if (!mounted) return;
       setState(() => _isConnected = true);
       final isHost = auth.role == 'admin' || auth.role == 'consultant';
       _socket!.emit('join-meeting', {
         'meetingId': _sessionData?['meetingId'],
         'participantId': _myParticipantId,
-        'participantName': user['name'] ?? 'Guest',
+        'participantName': user?['name'] ?? 'Guest',
         'isHost': isHost,
         'sessionId': widget.sessionId,
       });
@@ -405,7 +408,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Text('JOINING AS: ${context.read<AuthProvider>().user?['name']?.toString().toUpperCase() ?? 'GUEST'}', 
+            Text('JOINING AS: ${auth.user?['name']?.toString().toUpperCase() ?? 'GUEST'}', 
               style: const TextStyle(color: AppTheme.textSecondary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
             const SizedBox(height: 80),
             SizedBox(
@@ -427,7 +430,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                     style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13),
                   ),
               ),
-            ).animate().slideY(begin: 0.2, duration: 500.ms),
+            ),
           ],
         ),
       ),

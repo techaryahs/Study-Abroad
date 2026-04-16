@@ -796,10 +796,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 if (_sessionFilter == 'upcoming')
                    GestureDetector(
                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Joining session...'), duration: Duration(seconds: 1)),
-                        );
-                        context.push('/meeting/${s['_id']}', extra: s);
+                        context.push('/meeting/${s['_id']}', extra: Map<String, dynamic>.from(s));
                      },
                      child: Container(
                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
