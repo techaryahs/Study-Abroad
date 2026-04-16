@@ -1,6 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/theme.dart';
+import '../../../models/checkout_item.dart';
+import '../../../widgets/checkout_sheet.dart';
 
 class SopGeneratorScreen extends StatefulWidget {
   const SopGeneratorScreen({super.key});
@@ -38,63 +40,18 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
     },
   ];
 
-  void _showCheckoutSheet(Map<String, dynamic> plan) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (_) {
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 48,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.borderLight,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Text('Checkout Plan', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w900)),
-              const SizedBox(height: 12),
-              Text(plan['title'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
-              const SizedBox(height: 8),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text('INR', style: TextStyle(color: AppTheme.textSecondary, fontSize: 16, fontWeight: FontWeight.w700)),
-                  const SizedBox(width: 8),
-                  Text('${plan['discounted']}', style: const TextStyle(fontSize: 36, fontWeight: FontWeight.w900)),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text('Saved INR ${plan['actual'] - plan['discounted']}', style: const TextStyle(color: AppTheme.gold, fontWeight: FontWeight.w700)),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.darkBrown,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  minimumSize: const Size.fromHeight(52),
-                ),
-                child: const Text('Proceed to Checkout', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.1)),
-              ),
-              const SizedBox(height: 16),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('Cancel', style: TextStyle(color: AppTheme.textSecondary)),
-              ),
-            ],
-          ),
+  void _showCheckoutSheet(CheckoutItem plan) {
+    CheckoutSheet.show(
+      context,
+      items: [plan],
+      currency: plan.currency,
+      onCheckout: () {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${plan.title} checkout initiated!')),
         );
       },
+      title: 'Checkout Plan',
     );
   }
 
@@ -163,7 +120,17 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () => _showCheckoutSheet({'title': '1 SOP', 'actual': 5000, 'discounted': 3999}),
+                          onPressed: () => _showCheckoutSheet(
+                            CheckoutItem(
+                              id: 'sop-1',
+                              title: '1 SOP',
+                              icon: '✍️',
+                              price: 3999,
+                              actualPrice: 5000,
+                              currency: 'INR',
+                              description: 'Single SOP generation with AI-assisted editing and human review.',
+                            ),
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.darkBrown,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
@@ -390,7 +357,17 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () => _showCheckoutSheet({'title': '1 SOP', 'actual': 5000, 'discounted': 3999}),
+                              onPressed: () => _showCheckoutSheet(
+                                CheckoutItem(
+                                  id: 'sop-1',
+                                  title: '1 SOP',
+                                  icon: '✍️',
+                                  price: 3999,
+                                  actualPrice: 5000,
+                                  currency: 'INR',
+                                  description: 'Single SOP generation with AI-assisted editing and human review.',
+                                ),
+                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppTheme.darkBrown,
                                 foregroundColor: Colors.white,
@@ -465,7 +442,17 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                       'Fully Customized',
                       'Perfect for a single high-stakes application',
                     ],
-                    onTap: () => _showCheckoutSheet({'title': '1 SOP', 'actual': 5000, 'discounted': 3999}),
+                    onTap: () => _showCheckoutSheet(
+                      CheckoutItem(
+                        id: 'sop-1',
+                        title: '1 SOP',
+                        icon: '✍️',
+                        price: 3999,
+                        actualPrice: 5000,
+                        currency: 'INR',
+                        description: 'Single SOP generation with AI-assisted editing and human review.',
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   _buildPricingCard(
@@ -479,7 +466,17 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                       'Fully Customized',
                       'Ideal for multiple top school applications',
                     ],
-                    onTap: () => _showCheckoutSheet({'title': '5 SOPs', 'actual': 25000, 'discounted': 14999}),
+                    onTap: () => _showCheckoutSheet(
+                      CheckoutItem(
+                        id: 'sop-5',
+                        title: '5 SOPs',
+                        icon: '✍️',
+                        price: 14999,
+                        actualPrice: 25000,
+                        currency: 'INR',
+                        description: 'Five SOPs for multiple application submissions.',
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 16),
                   _buildPricingCard(
@@ -494,7 +491,17 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                       'Great for applying across universities or diverse programs',
                     ],
                     isHighlighted: true,
-                    onTap: () => _showCheckoutSheet({'title': '10 SOPs', 'actual': 40000, 'discounted': 24999}),
+                    onTap: () => _showCheckoutSheet(
+                      CheckoutItem(
+                        id: 'sop-10',
+                        title: '10 SOPs',
+                        icon: '✍️',
+                        price: 24999,
+                        actualPrice: 40000,
+                        currency: 'INR',
+                        description: 'Ten SOPs with maximum coverage for diverse applications.',
+                      ),
+                    ),
                   ),
                 ],
               ),

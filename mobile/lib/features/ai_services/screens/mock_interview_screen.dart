@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/theme.dart';
+import '../../../models/checkout_item.dart';
+import '../../../widgets/checkout_sheet.dart';
 
 class MockInterviewScreen extends StatefulWidget {
   const MockInterviewScreen({super.key});
@@ -533,7 +535,28 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                     height: 52,
                     child: ElevatedButton(
                       onPressed: () {
-                        // TODO: open checkout
+                        final item = CheckoutItem(
+                          id: plan['rounds'] as String,
+                          title: plan['rounds'] as String,
+                          icon: '🎙️',
+                          price: plan['price'] as int,
+                          actualPrice: plan['original'] as int,
+                          currency: selectedCurrency,
+                          description: 'Mock interview package for visa preparation.',
+                          features: List<String>.from(plan['features'] as List<dynamic>),
+                        );
+                        CheckoutSheet.show(
+                          context,
+                          items: [item],
+                          currency: selectedCurrency,
+                          onCheckout: () {
+                            Navigator.pop(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Checking out ${item.title}')),
+                            );
+                          },
+                          title: 'Mock Interview Checkout',
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isHighlight ? const Color(0xFFC5A059) : const Color(0xFF2D2926),

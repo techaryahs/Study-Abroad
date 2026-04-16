@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:country_flags/country_flags.dart';
 import '../../core/theme.dart';
 
@@ -134,61 +135,64 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
               delegate: SliverChildBuilderDelegate(
                 (_, i) {
                   final u = universities[i];
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: AppTheme.borderLight),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 44, height: 44,
-                              decoration: BoxDecoration(
-                                color: AppTheme.darkBrown,
-                                borderRadius: BorderRadius.circular(12),
+                  return GestureDetector(
+                    onTap: () => context.go('/university/${_slug(u['name'] as String)}'),
+                    child: Container(
+                      margin: const EdgeInsets.only(bottom: 12),
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(color: AppTheme.borderLight),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 44, height: 44,
+                                decoration: BoxDecoration(
+                                  color: AppTheme.darkBrown,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Center(
+                                  child: Text('🏛', style: TextStyle(fontSize: 22)),
+                                ),
                               ),
-                              child: const Center(
-                                child: Text('🏛', style: TextStyle(fontSize: 22)),
-                              ),
-                            ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(u['name'] as String,
-                                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.textPrimary, height: 1.2)),
-                                  const SizedBox(height: 6),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                                    decoration: BoxDecoration(
-                                      color: AppTheme.gold.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(20),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(u['name'] as String,
+                                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.textPrimary, height: 1.2)),
+                                    const SizedBox(height: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.gold.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(u['rank'] as String,
+                                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.gold)),
                                     ),
-                                    child: Text(u['rank'] as String,
-                                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.gold)),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 14),
-                        Row(
-                          children: [
-                            _chip(Icons.school_rounded, u['programs'] as String),
-                            const SizedBox(width: 8),
-                            _chip(Icons.attach_money_rounded, u['fee'] as String),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                          const SizedBox(height: 14),
+                          Row(
+                            children: [
+                              _chip(Icons.school_rounded, u['programs'] as String),
+                              const SizedBox(width: 8),
+                              _chip(Icons.attach_money_rounded, u['fee'] as String),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ).animate().fadeIn(delay: Duration(milliseconds: i * 50)).slideY(begin: 0.05);
                 },
@@ -201,6 +205,10 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
         ],
       ),
     );
+  }
+
+  String _slug(String text) {
+    return text.toLowerCase().replaceAll(RegExp(r"[^a-z0-9]+"), '-').replaceAll(RegExp(r'-+'), '-').trim();
   }
 
   Widget _chip(IconData icon, String text) {

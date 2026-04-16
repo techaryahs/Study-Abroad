@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../features/auth/auth_provider.dart';
 import '../features/auth/login_screen.dart';
@@ -20,6 +19,7 @@ import '../features/ai_services/screens/sop_generator_screen.dart';
 import '../features/ai_services/screens/mock_interview_screen.dart';
 import '../features/ai_services/screens/plagiarism_remover_screen.dart';
 import '../features/resources/resources_screen.dart';
+import '../features/university/university_detail_screen.dart';
 import '../features/consultant/consultant_dashboard_screen.dart';
 import '../features/admin/admin_dashboard_screen.dart';
 import '../features/meeting/meeting_screen.dart';
@@ -35,10 +35,15 @@ class AppRouter {
         final isAuthRoute = state.uri.path == '/login' || state.uri.path == '/register';
 
         if (!isLoggedIn && !isAuthRoute) return '/login';
-        
-        // If logged in and on an auth route, or on the root home page as a non-student
-        if (isLoggedIn && (isAuthRoute || (state.uri.path == '/' && auth.role != 'student'))) {
-          return _homeForRole(auth.role);
+
+        // ✅ Logged in → block auth pages
+        if (isLoggedIn && isAuthRoute) {
+          return _homeForRole(role);
+        }
+
+        // 🔥 keep the home route for logged-in users
+        if (isLoggedIn && state.uri.path == '/') {
+          return null;
         }
 
         return null;
@@ -56,10 +61,6 @@ class AppRouter {
             sessionData: state.extra is Map ? Map<String, dynamic>.from(state.extra as Map) : null,
           ),
         ),
-
-        // ── DASHBOARDS (No bottom nav) ─────────────────────────
-        GoRoute(path: '/admin-dashboard', builder: (_, __) => const AdminDashboardScreen()),
-        GoRoute(path: '/consultant-dashboard', builder: (_, __) => const ConsultantDashboardScreen()),
 
         // ── SHELL (bottom nav) ────────────────────────────────
         ShellRoute(
@@ -92,13 +93,26 @@ class AppRouter {
             GoRoute(path: '/ai-services/sop-generator', builder: (_, __) => const SopGeneratorScreen()),
             GoRoute(path: '/ai-services/mock-interview', builder: (_, __) => const MockInterviewScreen()),
             GoRoute(path: '/ai-services/plagiarism-remover', builder: (_, __) => const PlagiarismRemoverScreen()),
-            
+            GoRoute(
+              path: '/university/:slug',
+              builder: (_, state) => UniversityDetailScreen(
+                slug: state.pathParameters['slug'] ?? '',
+              ),
+            ),
             GoRoute(path: '/resources', builder: (_, __) => const ResourcesScreen()),
             GoRoute(
               path: '/dashboard/edit',
               builder: (context, state) => EditProfileScreen(
                 userData: Map<String, dynamic>.from(state.extra as Map),
               ),
+            ),
+            GoRoute(
+              path: '/consultant-dashboard',
+              builder: (_, __) => const ConsultantDashboardScreen(),
+            ),
+            GoRoute(
+              path: '/admin-dashboard',
+              builder: (_, __) => const AdminDashboardScreen(),
             ),
           ],
         ),
@@ -114,6 +128,16 @@ class AppRouter {
         return '/consultant-dashboard';
       default:
         return '/';
+    }
+  }
+}
+';
+      case 'consultant':
+        return '/consultant-dashboard';
+      case 'parent':
+        return '/parent-dashboard'; // only if exists
+      default:
+        return '/dashboard'; // ✅ FIXED (not '/')
     }
   }
 }
