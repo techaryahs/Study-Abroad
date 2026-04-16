@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/theme.dart';
+import '../../models/checkout_item.dart';
+import '../../widgets/checkout_sheet.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -9,12 +11,28 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  final List<Map<String, dynamic>> _cartItems = [
-    {'title': 'Admission Guidance', 'icon': '🏛️', 'price': 4999},
-    {'title': 'SOP & LOR Support', 'icon': '✍️', 'price': 5999},
+  final List<CheckoutItem> _cartItems = [
+    CheckoutItem(
+      id: 'admission-guidance',
+      title: 'Admission Guidance',
+      icon: '🏛️',
+      price: 4999,
+      actualPrice: 5999,
+      currency: 'INR',
+      description: 'Expert step-by-step application strategy for top global universities.',
+    ),
+    CheckoutItem(
+      id: 'sop-lor-support',
+      title: 'SOP & LOR Support',
+      icon: '✍️',
+      price: 5999,
+      actualPrice: 7499,
+      currency: 'INR',
+      description: 'Premium Statement of Purpose and Letter of Recommendation crafting.',
+    ),
   ];
 
-  int get _subtotal => _cartItems.fold(0, (sum, item) => sum + (item['price'] as int));
+  int get _subtotal => _cartItems.fold(0, (sum, item) => sum + item.price);
   int get _gst => (_subtotal * 0.18).round();
   int get _total => _subtotal + _gst;
 
@@ -71,17 +89,17 @@ class _CartScreenState extends State<CartScreen> {
                                 color: AppTheme.darkBrown,
                                 borderRadius: BorderRadius.circular(14),
                               ),
-                              child: Center(child: Text(item['icon'] as String, style: const TextStyle(fontSize: 24))),
+                              child: Center(child: Text(item.icon, style: const TextStyle(fontSize: 24))),
                             ),
                             const SizedBox(width: 14),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(item['title'] as String,
+                                  Text(item.title,
                                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
                                   const SizedBox(height: 4),
-                                  Text('₹${item['price']}',
+                                  Text('₹${item.price}',
                                       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                                 ],
                               ),
@@ -124,7 +142,15 @@ class _CartScreenState extends State<CartScreen> {
                           width: double.infinity,
                           height: 56,
                           child: ElevatedButton.icon(
-                            onPressed: () => _showPaymentDialog(),
+                            onPressed: () => CheckoutSheet.show(
+                              context,
+                              items: _cartItems,
+                              currency: 'INR',
+                              onCheckout: () {
+                                Navigator.pop(context);
+                                _showPaymentDialog();
+                              },
+                            ),
                             icon: const Icon(Icons.lock_rounded, size: 18),
                             label: Text('PROCEED TO PAY  ₹$_total',
                                 style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1)),

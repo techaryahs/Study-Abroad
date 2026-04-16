@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/theme.dart';
+import '../../../models/checkout_item.dart';
+import '../../../widgets/checkout_sheet.dart';
 
 class PlagiarismRemoverScreen extends StatefulWidget {
   const PlagiarismRemoverScreen({super.key});
@@ -92,47 +94,28 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
   void _showPlanSummary() {
     if (_selectedPlan == null) return;
     final plan = _plans.firstWhere((plan) => plan['name'] == _selectedPlan);
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Selected Plan', style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 12),
-              Text(plan['name'] as String, style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: AppTheme.darkBrown)),
-              const SizedBox(height: 8),
-              Text('Price: ₹${plan['price']}', style: Theme.of(context).textTheme.bodyLarge),
-              const SizedBox(height: 16),
-              ...List<Widget>.from((plan['features'] as List<String>).map((feature) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.check_circle, color: AppTheme.gold, size: 18),
-                        const SizedBox(width: 10),
-                        Expanded(child: Text(feature, style: Theme.of(context).textTheme.bodyMedium)),
-                      ],
-                    ),
-                  ))),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Continue'),
-                ),
-              ),
-            ],
-          ),
+    final item = CheckoutItem(
+      id: plan['name'] as String,
+      title: plan['name'] as String,
+      icon: '🧠',
+      price: plan['price'] as int,
+      actualPrice: plan['original'] as int,
+      currency: 'INR',
+      description: 'AI-based plagiarism remover plan for academic drafts.',
+      features: List<String>.from(plan['features'] as List<dynamic>),
+    );
+
+    CheckoutSheet.show(
+      context,
+      items: [item],
+      currency: 'INR',
+      onCheckout: () {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Checking out ${item.title}')),
         );
       },
+      title: 'Selected Plan',
     );
   }
 
