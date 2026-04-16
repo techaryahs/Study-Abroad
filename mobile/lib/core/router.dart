@@ -37,13 +37,8 @@ class AppRouter {
         if (!isLoggedIn && !isAuthRoute) return '/login';
 
         // ✅ Logged in → block auth pages
-        if (isLoggedIn && isAuthRoute) {
-          return _homeForRole(role);
-        }
-
-        // 🔥 keep the home route for logged-in users
-        if (isLoggedIn && state.uri.path == '/') {
-          return null;
+        if (isLoggedIn && (isAuthRoute || (state.uri.path == '/' && auth.role != 'student'))) {
+          return _homeForRole(auth.role);
         }
 
         return null;
@@ -61,6 +56,10 @@ class AppRouter {
             sessionData: state.extra is Map ? Map<String, dynamic>.from(state.extra as Map) : null,
           ),
         ),
+
+        // ── DASHBOARDS (No bottom nav) ─────────────────────────
+        GoRoute(path: '/admin-dashboard', builder: (_, __) => const AdminDashboardScreen()),
+        GoRoute(path: '/consultant-dashboard', builder: (_, __) => const ConsultantDashboardScreen()),
 
         // ── SHELL (bottom nav) ────────────────────────────────
         ShellRoute(
@@ -106,14 +105,6 @@ class AppRouter {
                 userData: Map<String, dynamic>.from(state.extra as Map),
               ),
             ),
-            GoRoute(
-              path: '/consultant-dashboard',
-              builder: (_, __) => const ConsultantDashboardScreen(),
-            ),
-            GoRoute(
-              path: '/admin-dashboard',
-              builder: (_, __) => const AdminDashboardScreen(),
-            ),
           ],
         ),
       ],
@@ -126,18 +117,10 @@ class AppRouter {
         return '/admin-dashboard';
       case 'consultant':
         return '/consultant-dashboard';
+      case 'parent':
+        return '/dashboard';
       default:
         return '/';
-    }
-  }
-}
-';
-      case 'consultant':
-        return '/consultant-dashboard';
-      case 'parent':
-        return '/parent-dashboard'; // only if exists
-      default:
-        return '/dashboard'; // ✅ FIXED (not '/')
     }
   }
 }
