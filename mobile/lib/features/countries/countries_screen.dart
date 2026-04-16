@@ -10,6 +10,7 @@ class CountriesScreen extends StatelessWidget {
   final List<Map<String, dynamic>> _countries = const [
     {
       'name': 'USA',
+      'slug': 'usa',
       'code': 'US',
       'universities': '4500+',
       'description': 'Home to Ivy League & Top-ranked institutions',
@@ -19,6 +20,7 @@ class CountriesScreen extends StatelessWidget {
     },
     {
       'name': 'UK',
+      'slug': 'united-kingdom',
       'code': 'GB',
       'universities': '160+',
       'description': 'Russell Group & prestigious academic heritage',
@@ -108,7 +110,7 @@ class CountriesScreen extends StatelessWidget {
           ...List.generate(_countries.length, (i) {
             final c = _countries[i];
             return GestureDetector(
-              onTap: () => context.go('/universities/${c['name']}'),
+              onTap: () => context.go('/universities/${c['slug']}'),
               child: Container(
                 margin: const EdgeInsets.only(bottom: 14),
                 decoration: BoxDecoration(

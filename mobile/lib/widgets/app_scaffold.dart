@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../core/theme.dart';
-import '../features/auth/auth_provider.dart';
 
 class AppScaffold extends StatefulWidget {
   final Widget child;
@@ -24,20 +22,12 @@ class _AppScaffoldState extends State<AppScaffold> {
   ];
 
   void _onTap(int index) {
-    if (index == 4) {
+    if (index == _navItems.length - 1) {
       _showMoreMenu(context);
       return;
     }
     setState(() => _currentIndex = index);
     context.go(_navItems[index].route);
-  }
-
-  void _showMoreMenu(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (_) => _MoreMenuSheet(),
-    );
   }
 
   @override
@@ -62,7 +52,7 @@ class _AppScaffoldState extends State<AppScaffold> {
             child: Row(
               children: List.generate(_navItems.length, (i) {
                 final item = _navItems[i];
-                final isSelected = _currentIndex == i && i != 4;
+                final isSelected = _currentIndex == i;
                 return Expanded(
                   child: GestureDetector(
                     onTap: () => _onTap(i),
@@ -106,26 +96,31 @@ class _AppScaffoldState extends State<AppScaffold> {
       ),
     );
   }
-}
 
-class _NavItem {
-  final IconData icon;
-  final String label;
-  final String route;
-  _NavItem({required this.icon, required this.label, required this.route});
+  void _showMoreMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => const SafeArea(
+        bottom: true,
+        top: false,
+        child: _MoreMenuSheet(),
+      ),
+    );
+  }
 }
 
 class _MoreMenuSheet extends StatelessWidget {
+  const _MoreMenuSheet({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final auth = context.read<AuthProvider>();
     final items = [
-      _MoreItem(Icons.shopping_cart_rounded, 'Cart', '/cart'),
-      _MoreItem(Icons.article_rounded, 'Blogs', '/blogs'),
+      _MoreItem(Icons.school_rounded, 'Universities', '/universities'),
       _MoreItem(Icons.auto_awesome_rounded, 'AI Services', '/ai-services'),
+      _MoreItem(Icons.shopping_cart_rounded, 'Cart', '/cart'),
       _MoreItem(Icons.menu_book_rounded, 'Resources', '/resources'),
-      _MoreItem(Icons.star_rounded, 'Success Stories', '/success-stories'),
-      _MoreItem(Icons.info_outline_rounded, 'About Us', '/about'),
       _MoreItem(Icons.mail_outline_rounded, 'Contact', '/contact'),
     ];
 
@@ -144,7 +139,8 @@ class _MoreMenuSheet extends StatelessWidget {
             children: [
               const SizedBox(height: 12),
               Container(
-                width: 40, height: 4,
+                width: 40,
+                height: 4,
                 decoration: BoxDecoration(
                   color: AppTheme.borderLight,
                   borderRadius: BorderRadius.circular(2),
@@ -184,7 +180,8 @@ class _MoreMenuSheet extends StatelessWidget {
                             Text(
                               item.label,
                               style: const TextStyle(
-                                fontSize: 9, fontWeight: FontWeight.w700,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w700,
                                 color: AppTheme.textPrimary,
                               ),
                               textAlign: TextAlign.center,
@@ -194,22 +191,6 @@ class _MoreMenuSheet extends StatelessWidget {
                       ),
                     );
                   },
-                ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: TextButton.icon(
-                    onPressed: () async {
-                      Navigator.pop(context);
-                      await auth.logout();
-                    },
-                    icon: const Icon(Icons.logout_rounded, color: Colors.red, size: 18),
-                    label: const Text('Sign Out',
-                        style: TextStyle(color: Colors.red, fontWeight: FontWeight.w700, fontSize: 13)),
-                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -225,5 +206,13 @@ class _MoreItem {
   final IconData icon;
   final String label;
   final String route;
-  _MoreItem(this.icon, this.label, this.route);
+  const _MoreItem(this.icon, this.label, this.route);
 }
+
+class _NavItem {
+  final IconData icon;
+  final String label;
+  final String route;
+  _NavItem({required this.icon, required this.label, required this.route});
+}
+

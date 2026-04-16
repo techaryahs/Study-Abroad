@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
+import '../features/auth/auth_provider.dart';
 
 void showBookCounsellingSheet(BuildContext context) {
   showModalBottomSheet(
@@ -19,43 +22,138 @@ class BookCounsellingSheet extends StatefulWidget {
 }
 
 class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
-  final _formKey = GlobalKey<FormState>();
+  int _step = 1; // 1: Date, 2: Slot, 3: Details, 4: Confirmation
+  
+  // Step 1: Date selection
+  late DateTime _today;
+  int _calendarYear = DateTime.now().year;
+  int _calendarMonth = DateTime.now().month;
+  String _selectedDate = '';
+  
+  // Step 2: Slot selection
+  List<Map<String, dynamic>> _slots = [];
+  bool _slotsLoading = false;
+  int? _selectedSlotIndex;
+  String _error = '';
+  
+  // Step 3: Personal details
   final _nameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
-  final _phoneCtrl = TextEditingController();
-  String _selectedCountry = 'USA';
-  String _selectedCourse = 'MS';
-  String _selectedDate = '';
-  bool _isLoading = false;
-  bool _success = false;
+  bool _bookingLoading = false;
+  
+  // Step 4: Confirmation
+  Map<String, dynamic>? _bookingResult;
 
-  final List<String> _countries = ['USA', 'UK', 'Germany', 'Australia', 'Ireland', 'Canada', 'Dubai'];
-  final List<String> _courses = ['MS', 'MBA', 'PhD', 'Bachelors', 'PG Diploma'];
+  @override
+  void initState() {
+    super.initState();
+    _today = DateTime.now();
+    _calendarYear = _today.year;
+    _calendarMonth = _today.month;
+    _autofillUserData();
+  }
+
+  Future<void> _autofillUserData() async {
+    final authProvider = context.read<AuthProvider>();
+    if (authProvider.isLoggedIn && authProvider.user != null) {
+      final user = authProvider.user!;
+      _nameCtrl.text = user['fullName'] ?? user['name'] ?? '';
+      _emailCtrl.text = user['email'] ?? '';
+    }
+  }
 
   @override
   void dispose() {
     _nameCtrl.dispose();
     _emailCtrl.dispose();
-    _phoneCtrl.dispose();
     super.dispose();
   }
 
-  Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
-    setState(() => _isLoading = true);
+  List<int?> _buildCalendarGrid() {
+    final firstDay = DateTime(_calendarYear, _calendarMonth, 1).weekday;
+    final daysInMonth = DateTime(_calendarYear, _calendarMonth + 1, 0).day;
+    final cells = <int?>[];
+    
+    for (int i = 0; i < firstDay; i++) cells.add(null);
+    for (int d = 1; d <= daysInMonth; d++) cells.add(d);
+    while (cells.length % 7 != 0) cells.add(null);
+    
+    return cells;
+  }
+
+  bool _isCellDisabled(int? day) {
+    if (day == null) return true;
+    final dateStr = '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+    final todayStr = _today.toString().split(' ')[0];
+    return dateStr.compareTo(todayStr) < 0;
+  }
+
+  void _selectDay(int? day) {
+    if (day == null || _isCellDisabled(day)) return;
+    setState(() {
+      _selectedDate = '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+    });
+  }
+
+  Future<void> _fetchSlots(String date) async {
+    setState(() {
+      _slotsLoading = true;
+      _selectedSlotIndex = null;
+      _error = '';
+      _slots = [];
+    });
     try {
-      await ApiClient.instance.post('/api/bookings/enquiry', data: {
-        'name': _nameCtrl.text.trim(),
-        'email': _emailCtrl.text.trim(),
-        'phone': _phoneCtrl.text.trim(),
-        'country': _selectedCountry,
-        'course': _selectedCourse,
-        'preferredDate': _selectedDate,
+      final res = await ApiClient.instance.get(
+        '/api/bookings/available-slots',
+        queryParameters: {'date': date},
+      );
+      // Backend automatically filters slots:
+      // - Marks past times as available: false (for today, slots before current time)
+      // - Marks booked times as available: false (existing bookings)
+      // - Marks available slots as available: true (only bookable slots)
+      setState(() {
+        _slots = List<Map<String, dynamic>>.from(res.data['slots'] ?? []);
       });
-      setState(() { _isLoading = false; _success = true; });
-    } catch (_) {
-      // Still show success for good UX (enquiry saved locally)
-      setState(() { _isLoading = false; _success = true; });
+    } catch (e) {
+      setState(() => _error = 'Could not load slots. Try again.');
+    } finally {
+      setState(() => _slotsLoading = false);
+    }
+  }
+
+  Future<void> _confirmBooking() async {
+    if (_nameCtrl.text.isEmpty || _emailCtrl.text.isEmpty) {
+      setState(() => _error = 'Please fill in all details');
+      return;
+    }
+    if (_selectedSlotIndex == null) {
+      setState(() => _error = 'Please select a time slot');
+      return;
+    }
+
+    setState(() => _bookingLoading = true);
+    try {
+      // Get slot from full slots array (index matches selected slot in grid)
+      final slot = _slots[_selectedSlotIndex!];
+      final res = await ApiClient.instance.post(
+        '/api/bookings/book-session',
+        data: {
+          'date': _selectedDate,
+          'time': slot['time'],
+          'userName': _nameCtrl.text.trim(),
+          'userEmail': _emailCtrl.text.trim(),
+        },
+      );
+      setState(() {
+        _bookingResult = res.data['booking'];
+        _step = 4;
+        _bookingLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = 'Booking failed. Try again.';
+        _bookingLoading = false;
+      });
     }
   }
 
@@ -67,16 +165,17 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       maxChildSize: 0.95,
       builder: (_, ctrl) => Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.background,
           borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
         ),
         child: Column(
           children: [
             // Handle
             Padding(
-              padding: const EdgeInsets.only(top: 12, bottom: 4),
+              padding: const EdgeInsets.only(top: 12, bottom: 8),
               child: Container(
-                width: 40, height: 4,
+                width: 40,
+                height: 4,
                 decoration: BoxDecoration(
                   color: AppTheme.borderLight,
                   borderRadius: BorderRadius.circular(2),
@@ -86,175 +185,301 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
 
             // Header
             Container(
-              padding: const EdgeInsets.fromLTRB(24, 12, 24, 16),
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
               decoration: BoxDecoration(
                 border: Border(bottom: BorderSide(color: AppTheme.borderLight)),
               ),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: AppTheme.gold.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(Icons.headset_mic_rounded, color: AppTheme.gold, size: 20),
-                  ),
-                  const SizedBox(width: 14),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Book Counselling',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 18)),
-                      const Text('Talk to an expert — it\'s free',
-                          style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppTheme.gold.withOpacity(0.1),
+                          border: Border.all(color: AppTheme.gold.withOpacity(0.25), width: 0.5),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              width: 4,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: AppTheme.gold,
+                                borderRadius: BorderRadius.circular(2),
+                              ),
+                            ),
+                            const SizedBox(width: 6),
+                            const Text('BOOK SESSION',
+                                style: TextStyle(fontSize: 7, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 0.5)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      const Text('Counselling Session',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                      const Text('1-hour private session',
+                          style: TextStyle(fontSize: 8, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
                     ],
                   ),
-                  const Spacer(),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close_rounded, color: AppTheme.textSecondary),
+                    icon: const Icon(Icons.close_rounded, color: AppTheme.textSecondary, size: 20),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                   ),
                 ],
               ),
             ),
 
+            // Step indicators with lines
+            if (_step < 4)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _stepDot(1, 'Date'),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        height: 1,
+                        color: _step > 1 ? AppTheme.gold.withOpacity(0.4) : AppTheme.borderLight,
+                      ),
+                    ),
+                    _stepDot(2, 'Time'),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
+                        height: 1,
+                        color: _step > 2 ? AppTheme.gold.withOpacity(0.4) : AppTheme.borderLight,
+                      ),
+                    ),
+                    _stepDot(3, 'Confirm'),
+                  ],
+                ),
+              ),
+
+            // Admin Badge
+            if (_step < 4)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppTheme.gold.withOpacity(0.1),
+                    border: Border.all(color: AppTheme.gold.withOpacity(0.25), width: 0.5),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text('👤 Counselling with Admin',
+                      style: TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.gold)),
+                ),
+              ),
+
+            const SizedBox(height: 12),
+
+            // Content
             Expanded(
-              child: _success ? _buildSuccess() : _buildForm(ctrl),
+              child: ListView(
+                controller: ctrl,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                children: [
+                  if (_step == 1) _buildDatePicker(),
+                  if (_step == 2) _buildSlotPicker(),
+                  if (_step == 3) _buildDetailsForm(),
+                  if (_step == 4) _buildConfirmation(),
+                ],
+              ),
             ),
+
+            // Footer
+            if (_step < 4)
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    if (_step > 1)
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () => setState(() => _step--),
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: AppTheme.borderLight),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          ),
+                          child: const Text('BACK',
+                              style: TextStyle(color: AppTheme.textSecondary, fontSize: 10, fontWeight: FontWeight.w900)),
+                        ),
+                      ),
+                    if (_step > 1) const SizedBox(width: 10),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: _getNextButtonAction(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.gold,
+                          foregroundColor: AppTheme.darkBrown,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: Text(
+                          _bookingLoading ? '...' : _step == 3 ? 'CONFIRM & PAY' : 'CONTINUE',
+                          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 10, letterSpacing: 0.5),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSuccess() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: Colors.green.shade50,
-              shape: BoxShape.circle,
+  Widget _stepDot(int step, String label) {
+    final done = _step > step;
+    final active = _step == step;
+    return Column(
+      children: [
+        Container(
+          width: 28,
+          height: 28,
+          decoration: BoxDecoration(
+            color: done ? AppTheme.gold : active ? Colors.transparent : AppTheme.background,
+            border: Border.all(
+              color: active ? AppTheme.gold : done ? AppTheme.gold : AppTheme.borderLight,
+              width: 1.5,
             ),
-            child: Icon(Icons.check_rounded, color: Colors.green.shade600, size: 48),
+            borderRadius: BorderRadius.circular(50),
           ),
-          const SizedBox(height: 24),
-          const Text('Booking Confirmed!',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
-          const SizedBox(height: 8),
-          const Text('Our team will reach out within 24 hours.',
-              style: TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
-          const SizedBox(height: 32),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('DONE'),
+          child: Center(
+            child: done
+                ? const Icon(Icons.check_rounded, color: AppTheme.darkBrown, size: 14)
+                : Text(
+                    step.toString(),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: active ? AppTheme.gold : AppTheme.textSecondary,
+                      fontSize: 11,
+                    ),
+                  ),
           ),
-        ],
-      ),
+        ),
+        const SizedBox(height: 3),
+        Text(label, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+      ],
     );
   }
 
-  Widget _buildForm(ScrollController ctrl) {
-    return ListView(
-      controller: ctrl,
-      padding: const EdgeInsets.all(24),
+  Widget _buildDatePicker() {
+    final cells = _buildCalendarGrid();
+    final monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    final dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Form(
-          key: _formKey,
+        const Text('SELECT DATE', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppTheme.background.withOpacity(0.5),
+            border: Border.all(color: AppTheme.borderLight),
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _field(_nameCtrl, 'Full Name', 'Your full name', Icons.person_outline_rounded,
-                  validator: (v) => v!.isEmpty ? 'Required' : null),
-              const SizedBox(height: 16),
-
-              _field(_emailCtrl, 'Email', 'name@email.com', Icons.mail_outline_rounded,
-                  type: TextInputType.emailAddress,
-                  validator: (v) => v!.isEmpty ? 'Required' : null),
-              const SizedBox(height: 16),
-
-              _field(_phoneCtrl, 'Phone', '+91 9999999999', Icons.phone_outlined,
-                  type: TextInputType.phone,
-                  validator: (v) => v!.isEmpty ? 'Required' : null),
-              const SizedBox(height: 16),
-
-              _dropdownField('Interested Country', _selectedCountry, _countries,
-                  (val) => setState(() => _selectedCountry = val!)),
-              const SizedBox(height: 16),
-
-              _dropdownField('Course Level', _selectedCourse, _courses,
-                  (val) => setState(() => _selectedCourse = val!)),
-              const SizedBox(height: 16),
-
-              // Date picker
-              _labelText('Preferred Date'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () => setState(() {
+                      if (_calendarMonth == 1) {
+                        _calendarYear--;
+                        _calendarMonth = 12;
+                      } else {
+                        _calendarMonth--;
+                      }
+                    }),
+                    icon: const Icon(Icons.chevron_left, size: 20),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                  ),
+                  Text('${monthNames[_calendarMonth - 1]} $_calendarYear',
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                  IconButton(
+                    onPressed: () => setState(() {
+                      if (_calendarMonth == 12) {
+                        _calendarYear++;
+                        _calendarMonth = 1;
+                      } else {
+                        _calendarMonth++;
+                      }
+                    }),
+                    icon: const Icon(Icons.chevron_right, size: 20),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                  ),
+                ],
+              ),
               const SizedBox(height: 8),
-              GestureDetector(
-                onTap: () async {
-                  final picked = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now().add(const Duration(days: 1)),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime.now().add(const Duration(days: 90)),
-                    builder: (context, child) => Theme(
-                      data: Theme.of(context).copyWith(
-                        colorScheme: const ColorScheme.light(primary: AppTheme.gold),
-                      ),
-                      child: child!,
-                    ),
-                  );
-                  if (picked != null) {
-                    setState(() => _selectedDate =
-                        '${picked.day}/${picked.month}/${picked.year}');
-                  }
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 4, crossAxisSpacing: 4),
+                itemCount: 7,
+                itemBuilder: (_, i) => Center(
+                  child: Text(dayNames[i],
+                      style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                ),
+              ),
+              const SizedBox(height: 8),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 4, crossAxisSpacing: 4),
+                itemCount: cells.length,
+                itemBuilder: (_, i) {
+                  final day = cells[i];
+                  final disabled = _isCellDisabled(day);
+                  final dateStr = day != null ? '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}' : '';
+                  final isSelected = dateStr == _selectedDate;
+                  final isToday = dateStr == _today.toString().split(' ')[0];
+                  
+                  return day == null
+                      ? const SizedBox()
+                      : GestureDetector(
+                          onTap: () => _selectDay(day),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: isSelected ? AppTheme.gold : isToday && !isSelected ? AppTheme.gold.withOpacity(0.1) : Colors.transparent,
+                              border: Border.all(
+                                color: isToday && !isSelected ? AppTheme.gold.withOpacity(0.3) : Colors.transparent,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(day.toString(),
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w700,
+                                    color: isSelected
+                                        ? AppTheme.darkBrown
+                                        : disabled
+                                            ? AppTheme.textSecondary.withOpacity(0.3)
+                                            : AppTheme.textPrimary,
+                                  )),
+                            ),
+                          ),
+                        );
                 },
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppTheme.background,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppTheme.borderLight),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.calendar_today_outlined, size: 18, color: AppTheme.textSecondary),
-                      const SizedBox(width: 12),
-                      Text(
-                        _selectedDate.isEmpty ? 'Select a date' : _selectedDate,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: _selectedDate.isEmpty ? AppTheme.textSecondary.withOpacity(0.4) : AppTheme.textPrimary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
-
-              const SizedBox(height: 28),
-
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _submit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.gold,
-                    foregroundColor: AppTheme.darkBrown,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  ),
-                  child: _isLoading
-                      ? const SizedBox(width: 20, height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.darkBrown))
-                      : const Text('BOOK FREE COUNSELLING',
-                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
-                ),
-              ),
-              const SizedBox(height: 40),
             ],
           ),
         ),
@@ -262,40 +487,337 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     );
   }
 
-  Widget _field(TextEditingController ctrl, String label, String hint, IconData icon,
-      {TextInputType? type, String? Function(String?)? validator}) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _labelText(label),
-      const SizedBox(height: 8),
-      TextFormField(
-        controller: ctrl,
-        keyboardType: type,
-        validator: validator,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary),
-        decoration: InputDecoration(
-          hintText: hint,
-          prefixIcon: Icon(icon, size: 18, color: AppTheme.textSecondary.withOpacity(0.5)),
+  Widget _buildSlotPicker() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('SELECT TIME', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const SizedBox(height: 8),
+        // Date info with emoji
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppTheme.background.withOpacity(0.5),
+            border: Border.all(color: AppTheme.borderLight),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              const Text('📅', style: TextStyle(fontSize: 16)),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(DateFormat('EEE, MMM d, yyyy').format(DateTime.parse(_selectedDate)),
+                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                  const Text('Select a preferred slot below',
+                      style: TextStyle(fontSize: 8, color: AppTheme.textSecondary)),
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    ]);
+        const SizedBox(height: 12),
+        
+        // Error message
+        if (_error.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(_error, style: const TextStyle(color: Colors.red, fontSize: 10)),
+          ),
+        
+        // Loading state
+        if (_slotsLoading)
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 1.1,
+            ),
+            itemCount: 9,
+            itemBuilder: (_, __) => Container(
+              decoration: BoxDecoration(
+                color: AppTheme.background.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          )
+        
+        // No slots at all
+        else if (_slots.isEmpty)
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: Column(
+                children: [
+                  const Text('⏰', style: TextStyle(fontSize: 32)),
+                  const SizedBox(height: 8),
+                  Text('No slots available',
+                      style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11, fontWeight: FontWeight.w600)),
+                  const Text('Please select another date',
+                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 9)),
+                ],
+              ),
+            ),
+          )
+        
+        // Slot grid - shows all slots (available and disabled)
+        else
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              childAspectRatio: 1.0,
+            ),
+            itemCount: _slots.length,
+            itemBuilder: (_, i) {
+              final slot = _slots[i];
+              final isAvailable = slot['available'] == true;
+              final isSelected = _selectedSlotIndex == i && isAvailable;
+              final startTime = slot['time'] ?? '';
+              
+              return GestureDetector(
+                onTap: isAvailable ? () => setState(() => _selectedSlotIndex = i) : null,
+                child: Opacity(
+                  opacity: isAvailable ? 1.0 : 0.5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: isSelected ? AppTheme.gold : AppTheme.background.withOpacity(0.6),
+                      border: Border.all(
+                        color: isSelected ? AppTheme.gold : AppTheme.borderLight.withOpacity(0.5),
+                        width: isSelected ? 2 : 1,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Start time (larger)
+                        Text(
+                          startTime,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w900,
+                            color: isSelected ? AppTheme.darkBrown : AppTheme.textPrimary,
+                            fontSize: 13,
+                          ),
+                        ),
+                        // End time or N/A (smaller, lighter)
+                        Text(
+                          isAvailable ? (slot['endTime'] ?? '') : 'N/A',
+                          style: TextStyle(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w600,
+                            color: isSelected ? AppTheme.darkBrown.withOpacity(0.5) : AppTheme.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+      ],
+    );
   }
 
-  Widget _dropdownField(String label, String value, List<String> items, ValueChanged<String?> onChanged) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _labelText(label),
-      const SizedBox(height: 8),
-      DropdownButtonFormField<String>(
-        value: value,
-        onChanged: onChanged,
-        items: items.map((i) => DropdownMenuItem(value: i, child: Text(i))).toList(),
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary),
-        decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.public_rounded, size: 18, color: AppTheme.textSecondary),
+  Widget _buildDetailsForm() {
+    final availableSlots = _slots.where((slot) => slot['available'] == true).toList();
+    final selectedSlot = _selectedSlotIndex != null ? availableSlots[_selectedSlotIndex!] : null;
+    
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('YOUR DETAILS', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const SizedBox(height: 12),
+        // Summary
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppTheme.background.withOpacity(0.5),
+            border: Border.all(color: AppTheme.borderLight),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Summary', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+              const SizedBox(height: 6),
+              Text(DateFormat('EEE, MMM d, yyyy').format(DateTime.parse(_selectedDate)),
+                  style: const TextStyle(fontWeight: FontWeight.w900, color: AppTheme.textPrimary, fontSize: 10)),
+              const SizedBox(height: 2),
+              if (selectedSlot != null)
+                Text('${selectedSlot['time']} – ${selectedSlot['endTime']}',
+                    style: const TextStyle(fontWeight: FontWeight.w700, color: AppTheme.gold, fontSize: 9)),
+            ],
+          ),
         ),
-      ),
-    ]);
+        const SizedBox(height: 12),
+        // Name
+        TextField(
+          controller: _nameCtrl,
+          style: const TextStyle(fontSize: 12),
+          decoration: InputDecoration(
+            hintText: 'Full Name',
+            filled: true,
+            fillColor: AppTheme.background.withOpacity(0.5),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          ),
+        ),
+        const SizedBox(height: 10),
+        // Email
+        TextField(
+          controller: _emailCtrl,
+          keyboardType: TextInputType.emailAddress,
+          style: const TextStyle(fontSize: 12),
+          decoration: InputDecoration(
+            hintText: 'Email Address *',
+            filled: true,
+            fillColor: AppTheme.background.withOpacity(0.5),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          ),
+        ),
+        const SizedBox(height: 12),
+        // Price
+        Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: AppTheme.gold.withOpacity(0.08),
+            border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Session Charge', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+              const Text('₹599', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+            ],
+          ),
+        ),
+        const SizedBox(height: 6),
+        const Text(
+          'Charges are fully adjustable in any service you opt for later.',
+          style: TextStyle(fontSize: 8, color: AppTheme.textSecondary),
+        ),
+        if (_error.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Text(_error, style: const TextStyle(color: Colors.red, fontSize: 10)),
+        ],
+      ],
+    );
   }
 
-  Widget _labelText(String text) => Text(text.toUpperCase(),
-      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary));
+  Widget _buildConfirmation() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 16),
+        Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            color: AppTheme.gold.withOpacity(0.1),
+            border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
+            borderRadius: BorderRadius.circular(28),
+          ),
+          child: const Center(
+            child: Text('🎉', style: TextStyle(fontSize: 32)),
+          ),
+        ),
+        const SizedBox(height: 12),
+        const Text('Confirmed!', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+        const SizedBox(height: 2),
+        Text('Sent to ${_bookingResult?['userEmail'] ?? 'your email'}',
+            style: const TextStyle(fontSize: 8, color: AppTheme.textSecondary)),
+        const SizedBox(height: 14),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppTheme.background.withOpacity(0.5),
+            border: Border.all(color: AppTheme.borderLight),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _summaryRow('Date', DateFormat('EEE, MMM d, yyyy').format(DateTime.parse(_bookingResult?['date'] ?? ''))),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 6),
+                child: Divider(height: 1, color: AppTheme.borderLight),
+              ),
+              _summaryRow('Time', _bookingResult?['time'] ?? ''),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 6),
+                child: Divider(height: 1, color: AppTheme.borderLight),
+              ),
+              if (_bookingResult?['meetingId'] != null) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Meeting ID', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                      const SizedBox(height: 3),
+                      Text(_bookingResult?['meetingId'] ?? '', 
+                          style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.gold, fontFamily: 'monospace')),
+                    ],
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () => Navigator.pop(context),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.gold,
+              foregroundColor: AppTheme.darkBrown,
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
+            child: const Text('DONE', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 10, letterSpacing: 0.5)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _summaryRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+        Text(value, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+      ],
+    );
+  }
+
+  VoidCallback? _getNextButtonAction() {
+    if (_step == 1) {
+      return _selectedDate.isNotEmpty
+          ? () {
+              _fetchSlots(_selectedDate);
+              setState(() => _step = 2);
+            }
+          : null;
+    } else if (_step == 2) {
+      return _selectedSlotIndex != null ? () => setState(() => _step = 3) : null;
+    } else if (_step == 3) {
+      return _bookingLoading ? null : _confirmBooking;
+    }
+    return null;
+  }
 }

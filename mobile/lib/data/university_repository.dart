@@ -96,13 +96,20 @@ class UniversityRepository {
     _loaded = true;
   }
 
+  static Future<List<UniversityCountry>> getAllCountries() async {
+    await _ensureLoaded();
+    return List.unmodifiable(_countries);
+  }
+
   static Future<UniversityCountry?> getCountryBySlug(String slug) async {
     await _ensureLoaded();
     final lowerSlug = slug.toLowerCase();
-    return _countries.firstWhere(
-      (country) => country.slug.toLowerCase() == lowerSlug || country.name.toLowerCase() == lowerSlug,
-      orElse: () => null,
-    );
+    for (final country in _countries) {
+      if (country.slug.toLowerCase() == lowerSlug || country.name.toLowerCase() == lowerSlug) {
+        return country;
+      }
+    }
+    return null;
   }
 
   static Future<UniversityItem?> getUniversityBySlug(String slug) async {

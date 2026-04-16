@@ -27,13 +27,13 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<Map<String, String>> _countries = [
-    {'name': 'USA', 'code': 'US'},
-    {'name': 'UK', 'code': 'GB'},
-    {'name': 'Germany', 'code': 'DE'},
-    {'name': 'Australia', 'code': 'AU'},
-    {'name': 'Ireland', 'code': 'IE'},
-    {'name': 'Dubai', 'code': 'AE'},
-    {'name': 'Canada', 'code': 'CA'},
+    {'name': 'USA', 'slug': 'usa', 'code': 'US'},
+    {'name': 'UK', 'slug': 'united-kingdom', 'code': 'GB'},
+    {'name': 'Germany', 'slug': 'germany', 'code': 'DE'},
+    {'name': 'Australia', 'slug': 'australia', 'code': 'AU'},
+    {'name': 'Ireland', 'slug': 'ireland', 'code': 'IE'},
+    {'name': 'Dubai', 'slug': 'dubai', 'code': 'AE'},
+    {'name': 'Canada', 'slug': 'canada', 'code': 'CA'},
   ];
 
   final List<Map<String, String>> _stats = [
@@ -355,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (_, i) {
                       final c = _countries[i];
                       return GestureDetector(
-                        onTap: () => context.go('/universities/${c['name']}'),
+                        onTap: () => context.go('/universities/${c['slug']}'),
                         child: Column(
                           children: [
                             Container(

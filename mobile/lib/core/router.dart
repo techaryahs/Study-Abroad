@@ -6,7 +6,14 @@ import '../features/home/home_screen.dart';
 import '../features/dashboard/dashboard_screen.dart';
 import '../features/cart/cart_screen.dart';
 import '../features/countries/countries_screen.dart';
+import '../features/universities/universities_screen.dart';
+import '../features/universities/university_countries_screen.dart';
 import '../features/universities/university_list_screen.dart';
+import '../features/universities/unipredict_screen.dart';
+import '../features/universities/rate_my_chances_screen.dart';
+import '../features/universities/popular_programs_screen.dart';
+import '../features/universities/high_ranked_cheap_universities_screen.dart';
+import '../features/universities/top_universities_by_state_screen.dart';
 import '../features/services/services_screen.dart';
 import '../features/services/service_detail_screen.dart';
 import '../features/blogs/blogs_screen.dart';
@@ -67,6 +74,13 @@ class AppRouter {
           routes: [
             GoRoute(path: '/', builder: (_, __) => const HomeScreen()),
             GoRoute(path: '/countries', builder: (_, __) => const CountriesScreen()),
+            GoRoute(path: '/universities', builder: (_, __) => const UniversitiesScreen()),
+            GoRoute(path: '/universities/countries', builder: (_, __) => const UniversityCountriesScreen()),
+            GoRoute(path: '/universities/unipredict', builder: (_, __) => const UniPredictScreen()),
+            GoRoute(path: '/universities/rate-my-chances', builder: (_, __) => const RateMyChancesScreen()),
+            GoRoute(path: '/universities/popular-programs', builder: (_, __) => const PopularProgramsScreen()),
+            GoRoute(path: '/universities/high-ranked-cheap', builder: (_, __) => const HighRankedCheapUniversitiesScreen()),
+            GoRoute(path: '/universities/by-state', builder: (_, __) => const TopUniversitiesByStateScreen()),
             GoRoute(
               path: '/universities/:country',
               builder: (_, state) => UniversityListScreen(
