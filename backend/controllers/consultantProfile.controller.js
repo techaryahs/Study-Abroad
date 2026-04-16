@@ -5,8 +5,11 @@ const Consultant = require("../models/Consultant");
 ========================= */
 exports.getConsultantProfile = async (req, res) => {
   try {
-    const userId = req.params.userId || (req.user ? req.user.id : null);
-    if (!userId) return res.status(400).json({ message: "No user ID provided" });
+    const userId = req.params.userId || req.user?.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "No user ID provided" });
+    }
 
     console.log(`📡 [ConsultantProfile] Fetching ID: ${userId}`);
 
@@ -16,9 +19,13 @@ exports.getConsultantProfile = async (req, res) => {
       return res.status(404).json({ message: "Consultant not found" });
     }
 
-    res.json({ user: consultant, role: "consultant" });
+    res.json({
+      user: consultant,
+      role: "consultant",
+    });
+
   } catch (err) {
-    console.error("Consultant profile fetch error:", err);
+    console.error("❌ Consultant profile fetch error:", err);
     res.status(500).json({ message: "Server error fetching consultant profile" });
   }
 };
@@ -28,44 +35,86 @@ exports.getConsultantProfile = async (req, res) => {
 ========================= */
 exports.updateConsultantProfile = async (req, res) => {
   try {
-    const userId = req.params.userId || (req.user ? req.user.id : null);
-    if (!userId) return res.status(401).json({ message: "Authentication required" });
+    // 🔐 Always use logged-in user (NO param trust)
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
 
     const updateData = req.body;
+
+    // 📸 Handle image upload
     let imagePath = null;
     if (req.file) {
       imagePath = `/uploads/${req.file.filename}`;
     }
 
     const consultant = await Consultant.findById(userId);
-    if (!consultant) return res.status(404).json({ message: "Consultant not found" });
+    if (!consultant) {
+      return res.status(404).json({ message: "Consultant not found" });
+    }
 
-    // Fields that consultants can update
-    const fields = [
-      "name", 
-      "email", 
-      "mobile", 
-      "role", 
-      "expertise", 
-      "experience", 
-      "bio", 
-      "price"
+    /* =========================
+       ALLOWED FIELDS ONLY
+    ========================= */
+    const allowedFields = [
+      "name",
+      "mobile",
+      "expertise",
+      "experience",
+      "bio",
+      "price",
     ];
 
-    fields.forEach(field => {
+    allowedFields.forEach((field) => {
       if (updateData[field] !== undefined) {
         consultant[field] = updateData[field];
       }
     });
 
-    if (imagePath) consultant.image = imagePath;
+    /* =========================
+       AVAILABILITY UPDATE
+    ========================= */
+    if (updateData.availability) {
+      if (!Array.isArray(updateData.availability)) {
+        return res.status(400).json({ message: "Availability must be an array" });
+      }
+
+      // Validate time slots
+      for (let slot of updateData.availability) {
+        if (!slot.day || !slot.startTime || !slot.endTime) {
+          return res.status(400).json({ message: "Invalid availability format" });
+        }
+
+        if (slot.startTime >= slot.endTime) {
+          return res.status(400).json({
+            message: `Invalid time range for ${slot.day}`,
+          });
+        }
+      }
+
+      consultant.availability = updateData.availability;
+    }
+
+    /* =========================
+       IMAGE UPDATE
+    ========================= */
+    if (imagePath) {
+      consultant.image = imagePath;
+    }
 
     await consultant.save();
-    console.log(`✅ [ConsultantProfile] Updated successfully for: ${consultant.email}`);
 
-    res.json({ message: "Consultant profile updated successfully", user: consultant });
+    console.log(`✅ [ConsultantProfile] Updated: ${consultant.email}`);
+
+    res.json({
+      message: "Consultant profile updated successfully",
+      user: consultant,
+    });
+
   } catch (err) {
-    console.error("Consultant profile update error:", err);
+    console.error("❌ Consultant profile update error:", err);
     res.status(500).json({ message: "Server error updating consultant profile" });
   }
 };

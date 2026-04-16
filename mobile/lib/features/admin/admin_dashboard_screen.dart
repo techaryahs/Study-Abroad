@@ -19,6 +19,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
   List<dynamic> _sessions = [];
   bool _loadingUsers = true;
   bool _loadingSessions = true;
+  List<dynamic> _consultants = [];
+  bool _loadingConsultants = true;
+  String? _togglingConsultantId;
 
   @override
   void initState() {
@@ -26,12 +29,60 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     _tabController = TabController(length: 3, vsync: this);
     _fetchUsersData();
     _fetchSessionsData();
+    _fetchConsultants();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  Future<void> _toggleVideoAccess(String consultantId) async {
+    setState(() => _togglingConsultantId = consultantId);
+
+    try {
+      final res = await ApiClient.instance.put(
+        '/api/admin/consultants/$consultantId/toggle-video',
+      );
+
+      final updated = res.data;
+
+      setState(() {
+        _consultants = _consultants.map((c) {
+          if (c['_id'] == consultantId) {
+            return {
+              ...c,
+              'videoCallEnabled': updated['videoCallEnabled']
+            };
+          }
+          return c;
+        }).toList();
+        _togglingConsultantId = null;
+      });
+
+    } catch (e) {
+      setState(() => _togglingConsultantId = null);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(extractErrorMessage(e))),
+      );
+    }
+  }
+
+  Future<void> _fetchConsultants() async {
+    try {
+      final res = await ApiClient.instance.get('/api/admin/consultants');
+      final data = res.data;
+
+      if (mounted) {
+        setState(() {
+          _consultants = data is List ? data : (data['consultants'] ?? []);
+          _loadingConsultants = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) setState(() => _loadingConsultants = false);
+    }
   }
 
   Future<void> _fetchUsersData() async {
@@ -192,7 +243,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
               tabs: [
                 Tab(text: 'Active (${activeSessions.length})'),
                 Tab(text: 'Past (${pastSessions.length})'),
-                const Tab(text: 'Users Summary'),
+                const Tab(text: 'Consultants'),
               ],
             ),
           ),
@@ -203,7 +254,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
               children: [
                 _buildActiveSessions(activeSessions),
                 _buildPastSessions(pastSessions),
-                _buildUserStats(),
+                _buildConsultantManagement(),
               ],
             ),
           ),
@@ -379,90 +430,155 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     );
   }
 
-  Widget _buildUserStats() {
-    if (_loadingUsers) {
-      return const Center(child: CircularProgressIndicator(color: AppTheme.gold));
+  Widget _buildConsultantManagement() {
+    if (_loadingConsultants) {
+      return const Center(
+        child: CircularProgressIndicator(color: AppTheme.gold),
+      );
     }
-    return SingleChildScrollView(
+
+    if (_consultants.isEmpty) {
+      return const Center(
+        child: Text(
+          'No counsellors found',
+          style: TextStyle(color: AppTheme.textSecondary),
+        ),
+      );
+    }
+
+    return ListView.builder(
       padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Stats grid
-          GridView.count(
-            crossAxisCount: 3,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-            childAspectRatio: 1.0,
+      itemCount: _consultants.length,
+      itemBuilder: (context, index) {
+        final c = _consultants[index];
+
+        final isEnabled = c['videoCallEnabled'] == true;
+        final isPremium = c['isPremium'] == true;
+
+        return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppTheme.borderLight),
+          ),
+          child: Row(
             children: [
-              _adminStat('👥', '${_stats['totalUsers'] ?? 0}', 'Total Users'),
-              _adminStat('🎓', '${_stats['students'] ?? 0}', 'Students'),
-              _adminStat('🧑‍💼', '${_stats['consultants'] ?? 0}', 'Consultants'),
-            ],
-          ).animate().fadeIn(duration: 400.ms),
-
-          const SizedBox(height: 24),
-
-          const Text('RECENT USERS',
-              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 2, color: AppTheme.gold)),
-          const SizedBox(height: 14),
-
-          ..._recentUsers.asMap().entries.map((e) {
-            final u = e.value;
-            return Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.borderLight),
+              // Avatar
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: AppTheme.gold.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.person, color: AppTheme.gold),
               ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 40, height: 40,
-                    decoration: BoxDecoration(
-                      color: AppTheme.gold.withOpacity(0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        (u['name'] ?? 'U').toString().isNotEmpty ? (u['name'] ?? 'U').toString()[0].toUpperCase() : 'U',
-                        style: const TextStyle(fontWeight: FontWeight.w900, color: AppTheme.gold, fontSize: 16),
+
+              const SizedBox(width: 14),
+
+              // Info
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      c['name'] ?? 'Consultant',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 14,
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Text(
+                      c['email'] ?? '',
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: AppTheme.textSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+
+                    Row(
                       children: [
-                        Text(u['name'] ?? '—',
-                            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
-                        Text(u['email'] ?? '—',
-                            style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                        Text(
+                          (c['expertise'] ?? 'General')
+                              .toString()
+                              .toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w800,
+                            color: AppTheme.textSecondary,
+                          ),
+                        ),
+
+                        if (isPremium) ...[
+                          const SizedBox(width: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: AppTheme.gold.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              'PREMIUM',
+                              style: TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.w900,
+                                color: AppTheme.gold,
+                              ),
+                            ),
+                          )
+                        ]
                       ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: AppTheme.gold.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      (u['role'] ?? 'user').toString().toUpperCase(),
-                      style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: AppTheme.gold),
-                    ),
-                  ),
-                ],
+                    )
+                  ],
+                ),
               ),
-            ).animate().fadeIn(delay: Duration(milliseconds: e.key * 50));
-          }),
-        ],
-      ),
+
+              // Toggle Button
+              ElevatedButton.icon(
+                onPressed: _togglingConsultantId == c['_id']
+                    ? null
+                    : () => _toggleVideoAccess(c['_id']),
+                icon: _togglingConsultantId == c['_id']
+                    ? const SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Icon(
+                        isEnabled
+                            ? Icons.videocam_rounded
+                            : Icons.videocam_off_rounded,
+                        size: 16,
+                      ),
+                label: Text(
+                  isEnabled ? 'ENABLED' : 'DISABLED',
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: isEnabled
+                      ? AppTheme.gold
+                      : Colors.grey.shade200,
+                  foregroundColor:
+                      isEnabled ? AppTheme.darkBrown : Colors.grey,
+                  elevation: 0,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ).animate().fadeIn(delay: Duration(milliseconds: index * 50));
+      },
     );
   }
 
