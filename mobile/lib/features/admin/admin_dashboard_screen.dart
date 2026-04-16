@@ -26,7 +26,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
     _fetchUsersData();
     _fetchSessionsData();
     _fetchConsultants();
@@ -36,6 +36,106 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  void _showChangePasswordDialog() {
+    final oldPass = TextEditingController();
+    final newPass = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Change Password"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: oldPass,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: "Old Password"),
+            ),
+            TextField(
+              controller: newPass,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: "New Password"),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              try {
+                await ApiClient.instance.put(
+                  '/api/auth/change-password',
+                  data: {
+                    "oldPassword": oldPass.text,
+                    "newPassword": newPass.text,
+                  },
+                );
+
+                Navigator.pop(context);
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Password updated successfully")),
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(extractErrorMessage(e))),
+                );
+              }
+            },
+            child: const Text("Update"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAddSlotDialog(String day) {
+    final startController = TextEditingController();
+    final endController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text("Add Slot - $day"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: startController,
+              decoration: const InputDecoration(labelText: "Start Time (HH:mm)"),
+            ),
+            TextField(
+              controller: endController,
+              decoration: const InputDecoration(labelText: "End Time (HH:mm)"),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+          ElevatedButton(
+            onPressed: () async {
+              await ApiClient.instance.post(
+                '/api/weekly-schedule/day/$day/slot',
+                data: {
+                  "startTime": startController.text,
+                  "endTime": endController.text,
+                  "duration": 60,
+                },
+              );
+              Navigator.pop(context);
+              setState(() {});
+            },
+            child: const Text("Add"),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _toggleVideoAccess(String consultantId) async {
@@ -113,6 +213,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
       if (mounted) {
         setState(() {
           _sessions = data is List ? data : (data['bookings'] ?? data['data'] ?? []);
+
+          _sessions.sort((a, b) {
+            final aDate = _parseSessionDate(a);
+            final bDate = _parseSessionDate(b);
+            return bDate.compareTo(aDate); // latest first
+          });
+
           _loadingSessions = false;
         });
       }
@@ -160,33 +267,68 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
 
   bool _isSessionPast(dynamic session) {
     try {
-      final dateStr = session['date']?.toString();
-      final timeStr = session['endTime']?.toString();
-      if (dateStr == null) return false;
-      
-      final parts = dateStr.split('/');
-      if (parts.length == 3) {
-        final year = parts[2].padLeft(4, '0');
-        final month = parts[1].padLeft(2, '0');
-        final day = parts[0].padLeft(2, '0');
-        
-        DateTime dt = DateTime.parse('$year-$month-$day');
-        if (timeStr != null) {
-          final timePartsStr = timeStr.split(RegExp(r'[\s:]')); 
-          if (timePartsStr.length >= 2) {
-             final h = int.parse(timePartsStr[0]);
-             final m = int.parse(timePartsStr[1]);
-             int hr = h;
-             if (timeStr.toLowerCase().contains('pm') && h != 12) hr += 12;
-             if (timeStr.toLowerCase().contains('am') && h == 12) hr = 0;
-             dt = DateTime(int.parse(year), int.parse(month), int.parse(day), hr, m);
-          }
-        }
-        return dt.isBefore(DateTime.now());
+      if (session['date'] == null) return false;
+
+      DateTime sessionDate;
+
+      /// ✅ Handle multiple formats safely
+      if (session['date'].toString().contains('-')) {
+        // yyyy-MM-dd or ISO
+        sessionDate = DateTime.parse(session['date']);
+      } else {
+        // dd/MM/yyyy
+        final parts = session['date'].split('/');
+        sessionDate = DateTime(
+          int.parse(parts[2]),
+          int.parse(parts[1]),
+          int.parse(parts[0]),
+        );
       }
+
+      /// ✅ Handle time
+      if (session['endTime'] != null && session['endTime'].toString().isNotEmpty) {
+        final time = session['endTime'].toString().toLowerCase();
+
+        final match = RegExp(r'(\d+):(\d+)').firstMatch(time);
+        if (match != null) {
+          int hour = int.parse(match.group(1)!);
+          int minute = int.parse(match.group(2)!);
+
+          if (time.contains('pm') && hour != 12) hour += 12;
+          if (time.contains('am') && hour == 12) hour = 0;
+
+          sessionDate = DateTime(
+            sessionDate.year,
+            sessionDate.month,
+            sessionDate.day,
+            hour,
+            minute,
+          );
+        }
+      }
+
+      return sessionDate.isBefore(DateTime.now());
+    } catch (e) {
       return false;
+    }
+  }
+
+  DateTime _parseSessionDate(dynamic session) {
+    try {
+      if (session['date'] == null) return DateTime.now();
+
+      if (session['date'].toString().contains('-')) {
+        return DateTime.parse(session['date']);
+      } else {
+        final parts = session['date'].split('/');
+        return DateTime(
+          int.parse(parts[2]),
+          int.parse(parts[1]),
+          int.parse(parts[0]),
+        );
+      }
     } catch (_) {
-      return false;
+      return DateTime.now();
     }
   }
 
@@ -196,12 +338,20 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     
     final activeSessions = _sessions.where((s) {
       final status = s['status']?.toString().toLowerCase();
-      return status == 'booked' && !_isSessionPast(s);
+
+      return (status == 'booked' ||
+              status == 'confirmed' ||
+              status == 'active' || 
+              status == 'pending') &&
+          !_isSessionPast(s);
     }).toList();
     
     final pastSessions = _sessions.where((s) {
       final status = s['status']?.toString().toLowerCase();
-      return status == 'completed' || status == 'cancelled' || _isSessionPast(s);
+
+      return status == 'completed' ||
+             status == 'cancelled' ||
+             _isSessionPast(s);
     }).toList();
 
     return Scaffold(
@@ -244,6 +394,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 Tab(text: 'Active (${activeSessions.length})'),
                 Tab(text: 'Past (${pastSessions.length})'),
                 const Tab(text: 'Consultants'),
+                const Tab(text: 'Slots'),
+                const Tab(text: 'Profile'),
               ],
             ),
           ),
@@ -255,11 +407,147 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 _buildActiveSessions(activeSessions),
                 _buildPastSessions(pastSessions),
                 _buildConsultantManagement(),
+                _buildSlotsManagement(),
+                _buildAdminProfile(),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _profileTile({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppTheme.borderLight),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: AppTheme.gold),
+        title: Text(
+          title,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios, size: 14),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  Widget _buildAdminProfile() {
+    final auth = context.watch<AuthProvider>();
+    final user = auth.user ?? {};
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        /// PROFILE CARD
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppTheme.borderLight),
+          ),
+          child: Column(
+            children: [
+              /// AVATAR
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: AppTheme.gold.withOpacity(0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.person, size: 40, color: AppTheme.gold),
+              ),
+
+              const SizedBox(height: 12),
+
+              Text(
+                user['name'] ?? 'Admin',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+
+              Text(
+                user['email'] ?? '',
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppTheme.textSecondary,
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppTheme.gold.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Text(
+                  "ADMIN",
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    color: AppTheme.gold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        /// ACTIONS
+        _profileTile(
+          icon: Icons.lock,
+          title: "Change Password",
+          onTap: _showChangePasswordDialog,
+        ),
+
+        _profileTile(
+          icon: Icons.security,
+          title: "Security Settings",
+          onTap: () {},
+        ),
+
+        _profileTile(
+          icon: Icons.info_outline,
+          title: "About Admin",
+          onTap: () {},
+        ),
+
+        const SizedBox(height: 20),
+
+        /// LOGOUT BUTTON
+        ElevatedButton.icon(
+          onPressed: () async {
+            await auth.logout();
+          },
+          icon: const Icon(Icons.logout),
+          label: const Text("LOGOUT"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -578,6 +866,151 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
             ],
           ),
         ).animate().fadeIn(delay: Duration(milliseconds: index * 50));
+      },
+    );
+  }
+
+  Widget _buildSlotsManagement() {
+    return FutureBuilder(
+      future: ApiClient.instance.get('/api/weekly-schedule'),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(color: AppTheme.gold),
+          );
+        }
+
+        final data = snapshot.data as dynamic;
+        final schedule = data.data['schedule']?['schedule'] ?? [];
+
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: schedule.length,
+          itemBuilder: (context, index) {
+            final day = schedule[index];
+            final slots = day['timeSlots'] ?? [];
+            final isEnabled = day['isEnabled'] ?? false;
+
+            return Container(
+              margin: const EdgeInsets.only(bottom: 14),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppTheme.borderLight),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// HEADER
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        day['dayOfWeek'].toString().toUpperCase(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14,
+                        ),
+                      ),
+
+                      Switch(
+                        value: isEnabled,
+                        activeColor: AppTheme.gold,
+                        onChanged: (_) async {
+                          await ApiClient.instance.patch(
+                            '/api/weekly-schedule/day/${day['dayOfWeek']}/toggle',
+                          );
+                          setState(() {});
+                        },
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  /// SLOTS
+                  if (slots.isEmpty)
+                    const Text(
+                      "No slots available",
+                      style: TextStyle(color: AppTheme.textSecondary),
+                    )
+                  else
+                    ...slots.map<Widget>((slot) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 8),
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: slot['isActive']
+                              ? Colors.green.withOpacity(0.05)
+                              : Colors.grey.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${slot['startTime']} - ${slot['endTime']}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+
+                            Row(
+                              children: [
+                                /// ENABLE / DISABLE
+                                IconButton(
+                                  icon: Icon(
+                                    slot['isActive']
+                                        ? Icons.toggle_on
+                                        : Icons.toggle_off,
+                                    color: slot['isActive']
+                                        ? Colors.green
+                                        : Colors.grey,
+                                  ),
+                                  onPressed: () async {
+                                    await ApiClient.instance.patch(
+                                      '/api/weekly-schedule/day/${day['dayOfWeek']}/slot/${slot['_id']}/toggle',
+                                    );
+                                    setState(() {});
+                                  },
+                                ),
+
+                                /// DELETE
+                                IconButton(
+                                  icon: const Icon(Icons.delete, color: Colors.red),
+                                  onPressed: () async {
+                                    await ApiClient.instance.delete(
+                                      '/api/weekly-schedule/day/${day['dayOfWeek']}/slot/${slot['_id']}',
+                                    );
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+
+                  const SizedBox(height: 10),
+
+                  /// ADD SLOT BUTTON
+                  ElevatedButton(
+                    onPressed: () {
+                      _showAddSlotDialog(day['dayOfWeek']);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.gold,
+                      foregroundColor: AppTheme.darkBrown,
+                    ),
+                    child: const Text("ADD SLOT"),
+                  )
+                ],
+              ),
+            );
+          },
+        );
       },
     );
   }
