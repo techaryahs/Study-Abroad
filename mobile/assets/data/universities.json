@@ -245,6 +245,48 @@
           ]
         }
       ]
+    },
+    {
+      "slug": "ireland",
+      "name": "Ireland",
+      "code": "IE",
+      "hero": "Emerald Isle of Excellence",
+      "popular": false
+    },
+    {
+      "slug": "france",
+      "name": "France",
+      "code": "FR",
+      "hero": "Legacy of Elite Education",
+      "popular": false
+    },
+    {
+      "slug": "switzerland",
+      "name": "Switzerland",
+      "code": "CH",
+      "hero": "Peak of Innovation",
+      "popular": false
+    },
+    {
+      "slug": "netherlands",
+      "name": "Netherlands",
+      "code": "NL",
+      "hero": "Gateway to Global Careers",
+      "popular": false
+    },
+    {
+      "slug": "new-zealand",
+      "name": "New Zealand",
+      "code": "NZ",
+      "hero": "World-Class Research",
+      "popular": false
+    },
+    {
+      "slug": "dubai",
+      "name": "Dubai (UAE)",
+      "code": "AE",
+      "hero": "Innovation & Business Hub",
+      "popular": false
     }
   ]
 }

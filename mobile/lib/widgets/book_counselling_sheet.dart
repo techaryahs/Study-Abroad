@@ -84,7 +84,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   bool _isCellDisabled(int? day) {
     if (day == null) return true;
     final dateStr = '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
-    final todayStr = _today.toString().split(' ')[0];
+    final todayStr = DateFormat('yyyy-MM-dd').format(_today);
     return dateStr.compareTo(todayStr) < 0;
   }
 
@@ -133,8 +133,16 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
 
     setState(() => _bookingLoading = true);
     try {
-      // Get slot from full slots array (index matches selected slot in grid)
-      final slot = _slots[_selectedSlotIndex!];
+      // Get the selected slot
+      // For today, displaySlots contains only available slots
+      // For future dates, displaySlots contains all slots but only available ones are selectable
+      final todayStr = DateFormat('yyyy-MM-dd').format(_today);
+      final isToday = _selectedDate == todayStr;
+      final displaySlots = isToday 
+          ? _slots.where((slot) => slot['available'] == true).toList()
+          : _slots;
+      
+      final slot = displaySlots[_selectedSlotIndex!];
       final res = await ApiClient.instance.post(
         '/api/bookings/book-session',
         data: {
@@ -450,7 +458,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                   final disabled = _isCellDisabled(day);
                   final dateStr = day != null ? '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}' : '';
                   final isSelected = dateStr == _selectedDate;
-                  final isToday = dateStr == _today.toString().split(' ')[0];
+                  final todayStr = DateFormat('yyyy-MM-dd').format(_today);
+                  final isToday = dateStr == todayStr;
                   
                   return day == null
                       ? const SizedBox()
@@ -488,6 +497,25 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   }
 
   Widget _buildSlotPicker() {
+    final todayStr = DateFormat('yyyy-MM-dd').format(_today);
+    final isToday = _selectedDate == todayStr;
+    
+    // Filter out past slots for today
+    final displaySlots = isToday 
+        ? _slots.where((slot) {
+            if (slot['available'] != true) return false;
+            try {
+              final timeStr = slot['time'] as String;
+              final time = DateFormat.jm().parse(timeStr);
+              final now = DateTime.now();
+              final slotTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+              return slotTime.isAfter(now.add(const Duration(minutes: 5))); // 5 min buffer
+            } catch (e) {
+              return true;
+            }
+          }).toList()
+        : _slots;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -546,8 +574,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
             ),
           )
         
-        // No slots at all
-        else if (_slots.isEmpty)
+        // No slots available
+        else if (displaySlots.isEmpty)
           Padding(
             padding: const EdgeInsets.all(20),
             child: Center(
@@ -564,7 +592,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
             ),
           )
         
-        // Slot grid - shows all slots (available and disabled)
+        // Slot grid - for today show only future slots, for other dates show all slots with disabled past ones
         else
           GridView.builder(
             shrinkWrap: true,
@@ -575,9 +603,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               crossAxisSpacing: 10,
               childAspectRatio: 1.0,
             ),
-            itemCount: _slots.length,
+            itemCount: displaySlots.length,
             itemBuilder: (_, i) {
-              final slot = _slots[i];
+              final slot = displaySlots[i];
               final isAvailable = slot['available'] == true;
               final isSelected = _selectedSlotIndex == i && isAvailable;
               final startTime = slot['time'] ?? '';
@@ -585,7 +613,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               return GestureDetector(
                 onTap: isAvailable ? () => setState(() => _selectedSlotIndex = i) : null,
                 child: Opacity(
-                  opacity: isAvailable ? 1.0 : 0.5,
+                  opacity: isAvailable ? 1.0 : 0.2,
                   child: Container(
                     decoration: BoxDecoration(
                       color: isSelected ? AppTheme.gold : AppTheme.background.withOpacity(0.6),
@@ -628,8 +656,13 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   }
 
   Widget _buildDetailsForm() {
-    final availableSlots = _slots.where((slot) => slot['available'] == true).toList();
-    final selectedSlot = _selectedSlotIndex != null ? availableSlots[_selectedSlotIndex!] : null;
+    // Properly format today's date using DateFormat to ensure correct comparison
+    final todayStr = DateFormat('yyyy-MM-dd').format(_today);
+    final isToday = _selectedDate == todayStr;
+    final displaySlots = isToday 
+        ? _slots.where((slot) => slot['available'] == true).toList()
+        : _slots;
+    final selectedSlot = _selectedSlotIndex != null ? displaySlots[_selectedSlotIndex!] : null;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -809,8 +842,11 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     if (_step == 1) {
       return _selectedDate.isNotEmpty
           ? () {
-              _fetchSlots(_selectedDate);
-              setState(() => _step = 2);
+              _fetchSlots(_selectedDate).then((_) {
+                if (mounted) {
+                  setState(() => _step = 2);
+                }
+              });
             }
           : null;
     } else if (_step == 2) {

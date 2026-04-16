@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 
 class TopUniversitiesByStateScreen extends StatelessWidget {
@@ -50,7 +51,7 @@ class TopUniversitiesByStateScreen extends StatelessWidget {
                   itemCount: _states.length,
                   itemBuilder: (context, index) {
                     final state = _states[index];
-                    return _stateCard(state);
+                    return _stateCard(context, state);
                   },
                 ),
               ),
@@ -61,7 +62,7 @@ class TopUniversitiesByStateScreen extends StatelessWidget {
     );
   }
 
-  Widget _stateCard(Map<String, dynamic> state) {
+  Widget _stateCard(BuildContext context, Map<String, dynamic> state) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -80,7 +81,9 @@ class TopUniversitiesByStateScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: InkWell(
           borderRadius: BorderRadius.circular(20),
-          onTap: () {},
+          onTap: () {
+            context.push('/universities/usa?state=${state['state']}');
+          },
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(

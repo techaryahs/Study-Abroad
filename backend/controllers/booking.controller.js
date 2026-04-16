@@ -520,7 +520,7 @@ exports.getAvailableSlots = async (req, res) => {
           status: "booked"
         });
 
-        const isPast = date === todayStr && slotStartTime <= currentTime;
+        const isPast = date === todayStr && slotStartTime < currentTime;
         const isBooked = !!existingBooking;
         const isAvailable = !isPast && !isBooked;
 

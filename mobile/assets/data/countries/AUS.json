@@ -1,0 +1,766 @@
+[
+  {
+    "_id": "uni_aus_001",
+    "slug": "university-of-melbourne",
+    "name": "University of Melbourne",
+    "logo": "https://www.google.com/s2/favicons?domain=unimelb.edu.au&sz=128",
+    "location": {
+      "city": "Melbourne",
+      "state": "Victoria",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "The University of Melbourne’s engineering faculty is a powerhouse of innovation, blending theoretical depth with real-world application. Students engage in cutting-edge research across AI, biomedical systems, and infrastructure, supported by strong industry partnerships. Its global reputation is anchored in high-impact research and exceptional graduate employability.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 45000,
+          "living_expense": 21000,
+          "avg_salary": 85000,
+          "avg_sat": 1450,
+          "avg_gpa": 3.8,
+          "avg_gre": 322
+        },
+        "admitted_profiles": {
+          "toefl_min": 94,
+          "ielts_min": 7.0,
+          "toefl_avg": 105
+        }
+      },
+      {
+        "name": "Business",
+        "description": "Melbourne Business School stands as one of the most prestigious in the Asia-Pacific region, offering programs that fuse leadership, analytics, and global strategy. With a diverse international cohort and strong corporate connections, students gain practical exposure alongside academic excellence. Graduates consistently secure roles in top consulting firms and multinational companies.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 50000,
+          "living_expense": 22000,
+          "avg_salary": 95000,
+          "avg_sat": 1480,
+          "avg_gpa": 3.9,
+          "avg_gre": 328
+        },
+        "admitted_profiles": {
+          "toefl_min": 100,
+          "ielts_min": 7.5,
+          "toefl_avg": 110
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 87,
+        "employed_within_3_months": 91,
+        "average_salary": 90000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Australia’s leading university with exceptional research depth and global prestige."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_002",
+    "slug": "university-of-sydney",
+    "name": "The University of Sydney",
+    "logo": "https://www.google.com/s2/favicons?domain=sydney.edu.au&sz=128",
+    "location": {
+      "city": "Sydney",
+      "state": "New South Wales",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "The University of Sydney offers a dynamic engineering environment where innovation meets real-world problem solving. With advanced laboratories and strong ties to global industries, students explore disciplines like software, civil, and electrical engineering. The curriculum emphasizes hands-on learning, research impact, and future-ready technical skills.",
+        "stats": {
+          "acceptance_rate": 68,
+          "tuition_fee": 47000,
+          "living_expense": 23000,
+          "avg_salary": 88000,
+          "avg_sat": 1440,
+          "avg_gpa": 3.7,
+          "avg_gre": 318
+        },
+        "admitted_profiles": {
+          "toefl_min": 92,
+          "ielts_min": 7.0,
+          "toefl_avg": 102
+        }
+      },
+      {
+        "name": "Medicine",
+        "description": "Sydney’s medical school is globally respected for its rigorous training and research-driven approach to healthcare education. Students gain early clinical exposure and access to world-class hospitals and research institutes. The program produces highly skilled professionals ready to contribute to global health systems and medical innovation.",
+        "stats": {
+          "acceptance_rate": 30,
+          "tuition_fee": 60000,
+          "living_expense": 25000,
+          "avg_salary": 110000,
+          "avg_sat": "Competitive",
+          "avg_gpa": 3.95,
+          "avg_gre": "Not Req."
+        },
+        "admitted_profiles": {
+          "toefl_min": 100,
+          "ielts_min": 7.5,
+          "toefl_avg": 112
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 86,
+        "employed_within_3_months": 90,
+        "average_salary": 92000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "A historic and prestigious institution with strong global recognition and career outcomes."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_003",
+    "slug": "monash-university",
+    "name": "Monash University",
+    "logo": "https://www.google.com/s2/favicons?domain=monash.edu&sz=128",
+    "location": {
+      "city": "Melbourne",
+      "state": "Victoria",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Pharmacy",
+        "description": "Monash University’s pharmacy faculty is consistently ranked among the best in the world, known for groundbreaking research and industry collaboration. Students benefit from advanced laboratories, global partnerships, and a curriculum aligned with healthcare innovation. The program produces graduates who lead in pharmaceuticals, research, and clinical practice.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 48000,
+          "living_expense": 21000,
+          "avg_salary": 90000,
+          "avg_sat": 1400,
+          "avg_gpa": 3.65,
+          "avg_gre": 315
+        },
+        "admitted_profiles": {
+          "toefl_min": 90,
+          "ielts_min": 7.0,
+          "toefl_avg": 98
+        }
+      },
+      {
+        "name": "IT & Engineering",
+        "description": "Monash delivers a future-focused education in IT and engineering, emphasizing data science, cybersecurity, and emerging technologies. Its global campuses and industry links provide students with international exposure and practical experience. The programs are designed to prepare graduates for rapidly evolving tech landscapes.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 46000,
+          "living_expense": 21000,
+          "avg_salary": 87000,
+          "avg_sat": 1420,
+          "avg_gpa": 3.7,
+          "avg_gre": 316
+        },
+        "admitted_profiles": {
+          "toefl_min": 85,
+          "ielts_min": 6.5,
+          "toefl_avg": 95
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 89,
+        "average_salary": 88000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Highly international university with strong research quality and global campus presence."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_004",
+    "slug": "australian-national-university",
+    "name": "Australian National University",
+    "logo": "https://www.google.com/s2/favicons?domain=anu.edu.au&sz=128",
+    "location": {
+      "city": "Canberra",
+      "state": "ACT",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Public Policy",
+        "description": "ANU is globally renowned for its expertise in politics, international relations, and public policy, attracting students from across the world. Located in Australia’s capital, it offers unique access to government institutions and policy-making bodies. The programs emphasize analytical thinking, leadership, and global governance.",
+        "stats": {
+          "acceptance_rate": 50,
+          "tuition_fee": 44000,
+          "living_expense": 20000,
+          "avg_salary": 85000,
+          "avg_sat": 1460,
+          "avg_gpa": 3.8,
+          "avg_gre": 320
+        },
+        "admitted_profiles": {
+          "toefl_min": 92,
+          "ielts_min": 7.0,
+          "toefl_avg": 100
+        }
+      },
+      {
+        "name": "Science",
+        "description": "The science programs at ANU are deeply research-oriented, supported by world-class facilities and distinguished faculty. Students engage in advanced study across physics, biology, and environmental science with a strong emphasis on discovery and innovation. The university is known for producing influential researchers and scientists.",
+        "stats": {
+          "acceptance_rate": 55,
+          "tuition_fee": 43000,
+          "living_expense": 20000,
+          "avg_salary": 80000,
+          "avg_sat": 1430,
+          "avg_gpa": 3.75,
+          "avg_gre": 312
+        },
+        "admitted_profiles": {
+          "toefl_min": 90,
+          "ielts_min": 6.5,
+          "toefl_avg": 98
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 84,
+        "employed_within_3_months": 88,
+        "average_salary": 86000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "A research-intensive university with strong academic focus and global influence."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_005",
+    "slug": "unsw-sydney",
+    "name": "UNSW Sydney",
+    "logo": "https://www.google.com/s2/favicons?domain=unsw.edu.au&sz=128",
+    "location": {
+      "city": "Sydney",
+      "state": "New South Wales",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "UNSW Engineering is globally recognized for its strong industry connections and emphasis on innovation-driven learning. Students gain practical experience through internships, research projects, and collaborations with leading companies. The faculty is known for producing highly employable graduates in cutting-edge fields.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 47000,
+          "living_expense": 23000,
+          "avg_salary": 92000,
+          "avg_sat": 1450,
+          "avg_gpa": 3.85,
+          "avg_gre": 320
+        },
+        "admitted_profiles": {
+          "toefl_min": 90,
+          "ielts_min": 7.0,
+          "toefl_avg": 100
+        }
+      },
+      {
+        "name": "Business",
+        "description": "UNSW Business School offers a modern, data-driven approach to business education, focusing on finance, analytics, and entrepreneurship. With strong ties to global industries and startups, students gain hands-on experience and career-ready skills. The school is highly regarded for employability and innovation.",
+        "stats": {
+          "acceptance_rate": 60,
+          "tuition_fee": 48000,
+          "living_expense": 23000,
+          "avg_salary": 95000,
+          "avg_sat": 1480,
+          "avg_gpa": 3.9,
+          "avg_gre": 325
+        },
+        "admitted_profiles": {
+          "toefl_min": 95,
+          "ielts_min": 7.5,
+          "toefl_avg": 105
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 88,
+        "employed_within_3_months": 92,
+        "average_salary": 93000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Excellent industry integration and one of the best universities for career outcomes in Australia."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_006",
+    "slug": "university-of-queensland",
+    "name": "The University of Queensland",
+    "logo": "https://www.google.com/s2/favicons?domain=uq.edu.au&sz=128",
+    "location": {
+      "city": "Brisbane",
+      "state": "Queensland",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Life Sciences",
+        "description": "The University of Queensland is a global leader in life sciences, with strong research in biotechnology, environmental science, and health. Students engage in hands-on research supported by world-class labs and industry collaborations. The university is known for translating scientific discoveries into real-world impact.",
+        "stats": {
+          "acceptance_rate": 65,
+          "tuition_fee": 45000,
+          "living_expense": 20000,
+          "avg_salary": 85000,
+          "avg_sat": 1420,
+          "avg_gpa": 3.7,
+          "avg_gre": 315
+        },
+        "admitted_profiles": {
+          "toefl_min": 88,
+          "ielts_min": 6.5,
+          "toefl_avg": 96
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 86,
+        "employed_within_3_months": 90,
+        "average_salary": 88000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Strong research university with excellent global reputation in science and health."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_007",
+    "slug": "university-of-adelaide",
+    "name": "University of Adelaide",
+    "logo": "https://www.google.com/s2/favicons?domain=adelaide.edu.au&sz=128",
+    "location": {
+      "city": "Adelaide",
+      "state": "South Australia",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Engineering",
+        "description": "The University of Adelaide offers a strong engineering tradition backed by decades of innovation and academic excellence. Its programs emphasize practical learning, research depth, and industry engagement. Graduates are well-prepared for careers in infrastructure, mining, and advanced technologies.",
+        "stats": {
+          "acceptance_rate": 70,
+          "tuition_fee": 43000,
+          "living_expense": 19000,
+          "avg_salary": 82000,
+          "avg_sat": 1380,
+          "avg_gpa": 3.6,
+          "avg_gre": 310
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 83,
+        "employed_within_3_months": 87,
+        "average_salary": 84000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Historic university with strong academic roots and research contributions."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_008",
+    "slug": "university-of-technology-sydney",
+    "name": "University of Technology Sydney",
+    "logo": "https://www.google.com/s2/favicons?domain=uts.edu.au&sz=128",
+    "location": {
+      "city": "Sydney",
+      "state": "New South Wales",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Technology & Design",
+        "description": "UTS is known for its modern, industry-focused approach to education, blending technology, design, and innovation. Students benefit from hands-on learning, internships, and close ties with industry leaders. The university excels in preparing graduates for rapidly evolving digital careers.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 42000,
+          "living_expense": 23000,
+          "avg_salary": 85000,
+          "avg_sat": 1350,
+          "avg_gpa": 3.55,
+          "avg_gre": 308
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 94
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 87,
+        "employed_within_3_months": 91,
+        "average_salary": 87000
+      },
+      "reviews": [
+        {
+          "rating": 5,
+          "comment": "Highly practical university with strong industry alignment and employability."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_009",
+    "slug": "university-of-western-australia",
+    "name": "The University of Western Australia",
+    "logo": "https://www.google.com/s2/favicons?domain=uwa.edu.au&sz=128",
+    "location": {
+      "city": "Perth",
+      "state": "Western Australia",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Earth & Marine Sciences",
+        "description": "UWA is renowned for its strengths in earth sciences, marine biology, and environmental research. With access to unique ecosystems and research facilities, students gain unparalleled field experience. The university plays a key role in addressing global environmental challenges.",
+        "stats": {
+          "acceptance_rate": 68,
+          "tuition_fee": 44000,
+          "living_expense": 20000,
+          "avg_salary": 83000,
+          "avg_sat": 1400,
+          "avg_gpa": 3.65,
+          "avg_gre": 312
+        },
+        "admitted_profiles": {
+          "toefl_min": 82,
+          "ielts_min": 6.5,
+          "toefl_avg": 93
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 84,
+        "employed_within_3_months": 88,
+        "average_salary": 85000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Beautiful campus with strong research in environmental and natural sciences."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_010",
+    "slug": "macquarie-university",
+    "name": "Macquarie University",
+    "logo": "https://www.google.com/s2/favicons?domain=mq.edu.au&sz=128",
+    "location": {
+      "city": "Sydney",
+      "state": "New South Wales",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Business & Analytics",
+        "description": "Macquarie University is highly regarded for its business and analytics programs, offering strong links to global industries and financial institutions. Students gain practical skills in finance, data analysis, and management. The university is known for producing career-ready graduates.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 42000,
+          "living_expense": 23000,
+          "avg_salary": 85000,
+          "avg_sat": 1340,
+          "avg_gpa": 3.5,
+          "avg_gre": 305
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 89,
+        "average_salary": 86000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Strong industry connections and excellent programs in finance and analytics."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_011",
+    "slug": "deakin-university",
+    "name": "Deakin University",
+    "logo": "https://www.google.com/s2/favicons?domain=deakin.edu.au&sz=128",
+    "location": {
+      "city": "Geelong",
+      "state": "Victoria",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Health Sciences",
+        "description": "Deakin University is widely recognized for its excellence in health sciences, sports science, and public health. Its programs emphasize practical training, research innovation, and community impact. Students benefit from modern facilities and strong career pathways.",
+        "stats": {
+          "acceptance_rate": 80,
+          "tuition_fee": 40000,
+          "living_expense": 19000,
+          "avg_salary": 80000,
+          "avg_sat": 1310,
+          "avg_gpa": 3.4,
+          "avg_gre": 302
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 90
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 83,
+        "employed_within_3_months": 88,
+        "average_salary": 82000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Innovative teaching approach with strong focus on employability."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_012",
+    "slug": "queensland-university-of-technology",
+    "name": "Queensland University of Technology",
+    "logo": "https://www.google.com/s2/favicons?domain=qut.edu.au&sz=128",
+    "location": {
+      "city": "Brisbane",
+      "state": "Queensland",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Creative Industries & Tech",
+        "description": "QUT blends creativity with technology, offering unique programs in media, design, and IT. Its industry-focused curriculum ensures students gain real-world experience through projects and internships. The university is known for innovation and practical learning.",
+        "stats": {
+          "acceptance_rate": 78,
+          "tuition_fee": 41000,
+          "living_expense": 20000,
+          "avg_salary": 82000,
+          "avg_sat": 1330,
+          "avg_gpa": 3.45,
+          "avg_gre": 304
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 84,
+        "employed_within_3_months": 88,
+        "average_salary": 83000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Modern university with strong emphasis on real-world skills."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_013",
+    "slug": "university-of-wollongong",
+    "name": "University of Wollongong",
+    "logo": "https://www.google.com/s2/favicons?domain=uow.edu.au&sz=128",
+    "location": {
+      "city": "Wollongong",
+      "state": "New South Wales",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Engineering & IT",
+        "description": "The University of Wollongong is known for its strong engineering and IT programs, supported by cutting-edge research and industry partnerships. Its coastal campus offers a unique learning environment, while its graduates are highly regarded for technical expertise and innovation.",
+        "stats": {
+          "acceptance_rate": 75,
+          "tuition_fee": 42000,
+          "living_expense": 20000,
+          "avg_salary": 83000,
+          "avg_sat": 1320,
+          "avg_gpa": 3.4,
+          "avg_gre": 302
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 91
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 85,
+        "employed_within_3_months": 89,
+        "average_salary": 84000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Great balance of academic quality and lifestyle with strong career outcomes."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_014",
+    "slug": "curtin-university",
+    "name": "Curtin University",
+    "logo": "https://www.google.com/s2/favicons?domain=curtin.edu.au&sz=128",
+    "location": {
+      "city": "Perth",
+      "state": "Western Australia",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Mining & Engineering",
+        "description": "Curtin University is globally recognized for its expertise in mining, engineering, and applied sciences. With strong ties to industry, students gain practical experience and access to real-world projects. The university is a leader in resource and energy sector education.",
+        "stats": {
+          "acceptance_rate": 78,
+          "tuition_fee": 41000,
+          "living_expense": 20000,
+          "avg_salary": 85000,
+          "avg_sat": 1340,
+          "avg_gpa": 3.45,
+          "avg_gre": 305
+        },
+        "admitted_profiles": {
+          "toefl_min": 80,
+          "ielts_min": 6.5,
+          "toefl_avg": 92
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 84,
+        "employed_within_3_months": 88,
+        "average_salary": 83000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Top choice for mining and engineering with strong industry demand."
+        }
+      ]
+    }
+  },
+
+  {
+    "_id": "uni_aus_015",
+    "slug": "griffith-university",
+    "name": "Griffith University",
+    "logo": "https://www.google.com/s2/favicons?domain=griffith.edu.au&sz=128",
+    "location": {
+      "city": "Gold Coast",
+      "state": "Queensland",
+      "country": "Australia"
+    },
+    "branches": [
+      {
+        "name": "Hospitality & Tourism",
+        "description": "Griffith University is highly regarded for its hospitality, tourism, and business programs, benefiting from its location in a global tourist hub. Students gain hands-on experience through internships and industry projects. The university focuses on practical skills and global career readiness.",
+        "stats": {
+          "acceptance_rate": 80,
+          "tuition_fee": 40000,
+          "living_expense": 20000,
+          "avg_salary": 80000,
+          "avg_sat": 1300,
+          "avg_gpa": 3.35,
+          "avg_gre": 300
+        },
+        "admitted_profiles": {
+          "toefl_min": 79,
+          "ielts_min": 6.5,
+          "toefl_avg": 88
+        }
+      }
+    ],
+    "common_sections": {
+      "employment_figures": {
+        "employed": 83,
+        "employed_within_3_months": 87,
+        "average_salary": 81000
+      },
+      "reviews": [
+        {
+          "rating": 4,
+          "comment": "Strong practical programs with excellent lifestyle and student experience."
+        }
+      ]
+    }
+  }
+]

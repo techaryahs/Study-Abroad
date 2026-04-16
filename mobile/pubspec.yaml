@@ -76,3 +76,5 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/data/universities.json
+    - assets/data/countries/
+    - assets/data/scolarship.json
