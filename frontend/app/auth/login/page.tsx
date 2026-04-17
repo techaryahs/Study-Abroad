@@ -118,20 +118,55 @@ const Login: React.FC = () => {
       return;
     }
 
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(forgotPassword)) {
+      setForgotMessage({ text: "Password must be 8+ characters with uppercase, lowercase & numbers", type: "error" });
+      return;
+    }
+
     setForgotLoading(true);
     setForgotMessage({ text: "", type: "error" });
 
     try {
+      // Step 1: Verify OTP (works for both admin and regular users)
+      const verifyRes = await fetch(`${BACKEND_URL}/api/auth/verify-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail.trim(), otp: forgotOtp.trim() }),
+      });
+
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok) {
+        // If verify-otp fails, try admin verify-otp (for admins)
+        const adminVerifyRes = await fetch(`${BACKEND_URL}/api/auth/admin/verify-otp`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: forgotEmail.trim(), otp: forgotOtp.trim() }),
+        });
+        if (!adminVerifyRes.ok) {
+          throw new Error(verifyData.error || "Invalid reset code");
+        }
+      }
+
+      // Step 2: Reset password (generic endpoint works for all users)
       const response = await fetch(`${BACKEND_URL}/api/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim(), otp: forgotOtp.trim(), newPassword: forgotPassword.trim() }),
       });
 
-      const data = await response.json();
-
+      // If generic reset fails, try admin reset
       if (!response.ok) {
-        throw new Error(data.error || "Failed to reset password");
+        const adminResetRes = await fetch(`${BACKEND_URL}/api/auth/admin/reset-password`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: forgotEmail.trim(), otp: forgotOtp.trim(), newPassword: forgotPassword.trim() }),
+        });
+        
+        const adminResetData = await adminResetRes.json();
+        if (!adminResetRes.ok) {
+          throw new Error(adminResetData.error || "Failed to reset password");
+        }
       }
 
       setForgotMessage({ text: "Password reset successfully! Redirecting to login...", type: "success" });

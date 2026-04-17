@@ -121,17 +121,69 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+    // Password validation
+    final passwordRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$');
+    if (!passwordRegex.hasMatch(_forgotPasswordCtrl.text)) {
+      setState(() {
+        _forgotMessage = 'Password must be 8+ chars with uppercase, lowercase & number';
+        _forgotMessageIsSuccess = false;
+      });
+      return;
+    }
+
     setState(() { _forgotLoading = true; _forgotMessage = ''; });
 
     try {
-      await ApiClient.instance.post(
-        '/api/auth/reset-password',
-        data: {
-          'email': _forgotEmailCtrl.text.trim(),
-          'otp': _forgotOtpCtrl.text.trim(),
-          'newPassword': _forgotPasswordCtrl.text,
-        },
-      );
+      // Step 1: Verify OTP (try generic endpoint first)
+      bool otpVerified = false;
+      try {
+        await ApiClient.instance.post(
+          '/api/auth/verify-otp',
+          data: {
+            'email': _forgotEmailCtrl.text.trim(),
+            'otp': _forgotOtpCtrl.text.trim(),
+          },
+        );
+        otpVerified = true;
+      } catch (e) {
+        // If generic fails, try admin endpoint
+        try {
+          await ApiClient.instance.post(
+            '/api/auth/admin/verify-otp',
+            data: {
+              'email': _forgotEmailCtrl.text.trim(),
+              'otp': _forgotOtpCtrl.text.trim(),
+            },
+          );
+          otpVerified = true;
+        } catch (e2) {
+          throw Exception(extractErrorMessage(e));
+        }
+      }
+
+      if (!otpVerified) throw Exception('OTP verification failed');
+
+      // Step 2: Reset password (try generic endpoint first)
+      try {
+        await ApiClient.instance.post(
+          '/api/auth/reset-password',
+          data: {
+            'email': _forgotEmailCtrl.text.trim(),
+            'otp': _forgotOtpCtrl.text.trim(),
+            'newPassword': _forgotPasswordCtrl.text,
+          },
+        );
+      } catch (e) {
+        // If generic fails, try admin endpoint
+        await ApiClient.instance.post(
+          '/api/auth/admin/reset-password',
+          data: {
+            'email': _forgotEmailCtrl.text.trim(),
+            'otp': _forgotOtpCtrl.text.trim(),
+            'newPassword': _forgotPasswordCtrl.text,
+          },
+        );
+      }
 
       if (mounted) {
         setState(() {
