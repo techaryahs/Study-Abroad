@@ -18,12 +18,12 @@ class _HomeScreenState extends State<HomeScreen> {
   int _carouselIndex = 0;
 
   final List<Map<String, String>> _services = [
-    {'title': 'Admission Guidance', 'icon': '🏛️', 'route': '/services'},
-    {'title': 'University Shortlisting', 'icon': '📋', 'route': '/services'},
-    {'title': 'SOP & LOR Support', 'icon': '✍️', 'route': '/services'},
-    {'title': 'Scholarship Assistance', 'icon': '🎓', 'route': '/services'},
-    {'title': 'Visa Guidance', 'icon': '🛂', 'route': '/services'},
-    {'title': 'Profile Building', 'icon': '📈', 'route': '/services'},
+    {'title': 'Admission Guidance',      'icon': '📋', 'slug': 'application-help'},
+    {'title': 'University Shortlisting', 'icon': '🏛️', 'slug': 'shortlisting'},
+    {'title': 'SOP & LOR Support',       'icon': '✍️', 'slug': 'sop'},
+    {'title': 'Scholarship Assistance',  'icon': '🎓', 'slug': 'scholarship'},
+    {'title': 'Visa Guidance',           'icon': '🛂', 'slug': 'visa-application-help'},
+    {'title': 'Profile Building',        'icon': '📈', 'slug': 'profile-building'},
   ];
 
   final List<Map<String, String>> _countries = [
@@ -311,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (_, i) {
                     final s = _services[i];
                     return GestureDetector(
-                      onTap: () => context.go('/services'),
+                      onTap: () => context.push('/services/${s['slug']}'),
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,

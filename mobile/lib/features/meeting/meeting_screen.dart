@@ -444,37 +444,128 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
     if (!_setupDone) return _buildPreJoin();
 
+    if (_showChat) return _buildChatFullScreen();
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // ── MAIN VIDEO AREA ─────────────────────────────────────
-          Positioned(
-            top: 120, bottom: 180, left: 16, right: 16,
+          // ── MAIN VIDEO AREA – full screen ────────────────────────
+          Positioned.fill(
+            child: _buildVideoLayout(),
+          ),
+
+          // ── TOP INFO BAR ──────────────────────────────────────────
+          _buildTopBar(),
+
+          // ── BOTTOM STATUS OVERLAY ─────────────────────────────────
+          _buildBottomStatus(),
+
+          // ── MEETING CONTROLS ──────────────────────────────────────
+          _buildMeetingControls(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChatFullScreen() {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, color: AppTheme.textPrimary, size: 20),
+          onPressed: () => setState(() => _showChat = false),
+        ),
+        centerTitle: true,
+        title: const Text('ROOM CHAT', 
+          style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 2)),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(color: AppTheme.borderLight, height: 1),
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(20),
+              itemCount: _messages.length,
+              itemBuilder: (context, index) {
+                final m = _messages[index];
+                final bool isMe = m['id'] == _myParticipantId || m['sender'] == 'You';
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  child: Column(
+                    crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                    children: [
+                      if (!isMe)
+                        Padding(
+                          padding: const EdgeInsets.only(left: 4, bottom: 4),
+                          child: Text(m['sender'] ?? 'User',
+                              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: AppTheme.textMuted, letterSpacing: 0.5)),
+                        ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
+                        decoration: BoxDecoration(
+                          color: isMe ? AppTheme.gold.withOpacity(0.12) : AppTheme.background,
+                          borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(16),
+                            topRight: const Radius.circular(16),
+                            bottomLeft: Radius.circular(isMe ? 16 : 4),
+                            bottomRight: Radius.circular(isMe ? 4 : 16),
+                          ),
+                          border: isMe ? Border.all(color: AppTheme.gold.withOpacity(0.2)) : null,
+                        ),
+                        child: Text(m['text'],
+                            style: const TextStyle(color: AppTheme.textPrimary, fontSize: 14, height: 1.4, fontWeight: FontWeight.w500)),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          SafeArea(
+            top: false,
             child: Container(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
               decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.white.withOpacity(0.05)),
+                color: Colors.white,
+                border: Border(top: BorderSide(color: AppTheme.borderLight)),
               ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: _buildVideoLayout(),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _chatController,
+                      style: const TextStyle(color: AppTheme.textPrimary, fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText: 'Type your message...',
+                        hintStyle: const TextStyle(color: AppTheme.textMuted),
+                        filled: true,
+                        fillColor: AppTheme.background,
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(100), borderSide: BorderSide.none),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      ),
+                      onSubmitted: (_) => _sendMessage(),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  GestureDetector(
+                    onTap: _sendMessage,
+                    child: Container(
+                      width: 44, height: 44,
+                      decoration: const BoxDecoration(color: AppTheme.gold, shape: BoxShape.circle),
+                      child: const Icon(Icons.send_rounded, color: Colors.black, size: 20),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          
-          // ── TOP INFO BAR (Per Image) ──────────────────────────────
-          _buildTopBar(),
-
-          // ── BOTTOM DECORATION (Per Image) ───────────────────────
-          _buildBottomStatus(),
-
-          // ── SIDE CHAT (IF OPEN) ──────────────────────────────────
-          if (_showChat) _buildChatOverlay(),
-
-          // ── BOTTOM ZOOM CONTROLS (Per Image Style) ──────────────
-          if (!_showChat) _buildMeetingControls(),
         ],
       ),
     );
@@ -553,107 +644,147 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
   Widget _buildVideoLayout() {
     final activeParticipants = _joinedParticipants.toList();
-    final isHost = context.read<AuthProvider>().role == 'admin' || context.read<AuthProvider>().role == 'consultant';
-    
+    final isHost = context.read<AuthProvider>().role == 'admin' ||
+        context.read<AuthProvider>().role == 'consultant';
+
+    // ── ALONE: self video fills full screen ──
     if (activeParticipants.isEmpty) {
       return Stack(
         fit: StackFit.expand,
         children: [
           if (_isVideoOff)
             Container(
-              color: Colors.black,
+              color: const Color.fromARGB(255, 93, 91, 91),
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       width: 80, height: 80,
-                      decoration: BoxDecoration(border: Border.all(color: AppTheme.gold, width: 2), shape: BoxShape.circle),
-                      child: Center(child: Text(context.read<AuthProvider>().user?['name']?[0]?.toUpperCase() ?? 'U', style: const TextStyle(color: AppTheme.gold, fontSize: 32, fontWeight: FontWeight.w900))),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppTheme.gold, width: 2),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          context.read<AuthProvider>().user?['name']?[0]?.toUpperCase() ?? 'U',
+                          style: const TextStyle(color: AppTheme.gold, fontSize: 32, fontWeight: FontWeight.w900),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 20),
-                    const Text('VIDEO SUSPENDED', style: TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 2)),
+                    const Text('VIDEO SUSPENDED',
+                        style: TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 2)),
                   ],
                 ),
               ),
             )
           else
             RTCVideoView(_localRenderer, mirror: true, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
-          
+
           if (!isHost && !_advisorJoined && !_remoteWebRTCConnected)
             Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(20)),
-                child: const Text('Waiting for advisor to join...', 
-                  style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
+                child: const Text('Waiting for advisor to join...',
+                    style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600)),
               ),
             ),
-          _participantLabel("You (Self)"),
+          _participantLabel('You (Self)'),
           if (_isAudioMuted) _muteIcon(),
         ],
       );
     }
-    
-    return Column(
-      children: [
-        // Top Rectangle(s): Remote Participant(s)
-        ...activeParticipants.map((pid) {
-          final renderer = _remoteRenderers[pid];
-          final name = _participantNames[pid] ?? "Participant";
-          final videoOff = _remoteVideoOff[pid] == true;
-          final audioMuted = _remoteAudioMuted[pid] == true;
 
-          return Expanded(
-            key: ValueKey(pid),
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppTheme.gold.withOpacity(0.5), width: 2),
-                color: Colors.black,
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(18),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    if (videoOff)
-                      _videoPlaceholder(name)
-                    else if (renderer != null && renderer.srcObject != null)
-                      RTCVideoView(renderer, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover)
-                    else
-                      _videoPlaceholder(name),
-                    
-                    _participantLabel(name),
-                    if (audioMuted) _participantMutedIcon(),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }),
-        
-        // Bottom Rectangle: Local Me
-        Expanded(
-          key: const ValueKey('local_me'),
+    // ── WITH REMOTE: remote fills full screen, self = PiP corner ──
+    final pid = activeParticipants.first;
+    final renderer = _remoteRenderers[pid];
+    final name = _participantNames[pid] ?? 'Participant';
+    final videoOff = _remoteVideoOff[pid] == true;
+    final audioMuted = _remoteAudioMuted[pid] == true;
+
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        // Remote participant — fills the entire screen
+        if (videoOff)
+          _videoPlaceholder(name)
+        else if (renderer != null && renderer.srcObject != null)
+          RTCVideoView(renderer, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover)
+        else
+          _videoPlaceholder(name),
+
+        _participantLabel(name),
+        if (audioMuted) _participantMutedIcon(),
+
+        // Self video — polished vertical PiP, bottom-right above controls
+        Positioned(
+          bottom: 130,
+          right: 16,
+          width: 96,
+          height: 148,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.white24, width: 1),
+              borderRadius: BorderRadius.circular(18),
+              // Gold glow border
+              border: Border.all(color: AppTheme.gold.withOpacity(0.7), width: 2),
+              boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(0.55), blurRadius: 18, spreadRadius: 2),
+                BoxShadow(color: AppTheme.gold.withOpacity(0.18), blurRadius: 10, spreadRadius: 0),
+              ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(16),
               child: Stack(
                 fit: StackFit.expand,
                 children: [
+                  // Video or placeholder
                   if (_isVideoOff)
-                    _videoPlaceholder("You")
+                    _videoPlaceholder('You')
                   else
-                    RTCVideoView(_localRenderer, mirror: true, objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
-                  
-                  _participantLabel("You (Self)"),
-                  if (_isAudioMuted) _muteIcon(),
+                    RTCVideoView(_localRenderer, mirror: true,
+                        objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover),
+
+                  // Bottom gradient + "You" label
+                  Positioned(
+                    bottom: 0, left: 0, right: 0,
+                    height: 42,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [Colors.black.withOpacity(0.75), Colors.transparent],
+                        ),
+                      ),
+                      alignment: Alignment.bottomCenter,
+                      padding: const EdgeInsets.only(bottom: 7),
+                      child: const Text(
+                        'You',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 9,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Mute badge — top-left
+                  if (_isAudioMuted)
+                    Positioned(
+                      top: 6, left: 6,
+                      child: Container(
+                        padding: const EdgeInsets.all(3),
+                        decoration: const BoxDecoration(
+                          color: Colors.redAccent,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.mic_off, color: Colors.white, size: 9),
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -665,7 +796,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
   Widget _videoPlaceholder(String name) {
     return Container(
-      color: Colors.grey.shade900,
+      color: const Color(0xFF1E1E1E),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -685,7 +816,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
   Widget _participantMutedIcon() {
     return Positioned(
-      top: 12, right: 12,
+      top: 150, right: 12,
       child: Container(
         padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(8)),
@@ -696,7 +827,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
   Widget _muteIcon() {
     return Positioned(
-      top: 16, right: 16,
+      top: 150, right: 16,
       child: Container(
         padding: const EdgeInsets.all(6),
         decoration: const BoxDecoration(color: Colors.redAccent, shape: BoxShape.circle),
@@ -720,12 +851,12 @@ class _MeetingScreenState extends State<MeetingScreen> {
     return Positioned(
       top: 0, left: 0, right: 0,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(28, 64, 28, 40),
+        padding: EdgeInsets.fromLTRB(24, MediaQuery.of(context).padding.top + 16, 24, 20),
         decoration: BoxDecoration(
-          gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.white.withOpacity(0.95), Colors.white.withOpacity(0.0)]),
+          color: Colors.black26,
+          borderRadius: const BorderRadius.vertical(bottom: Radius.circular(32)),
         ),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
@@ -736,16 +867,16 @@ class _MeetingScreenState extends State<MeetingScreen> {
                     Container(width: 8, height: 8, decoration: const BoxDecoration(color: Colors.green, shape: BoxShape.circle)),
                     const SizedBox(width: 8),
                     Text(_sessionData?['consultantName'] ?? 'Counselling Room', 
-                      style: const TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 0.5)),
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 0.5)),
                   ],
                 ),
                 const SizedBox(height: 4),
                 Text('${(_sessionData?['date'] == null || _sessionData?['date'] == "null") ? 'Session' : _sessionData!['date']} · ${(_sessionData?['time'] == null || _sessionData?['time'] == "null") ? 'Live' : _sessionData!['time']}', 
-                  style: const TextStyle(color: AppTheme.textSecondary, fontWeight: FontWeight.w600, fontSize: 10)),
+                  style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.w600, fontSize: 10)),
               ],
             ),
             Text(_sessionData?['meetingId']?.toString().toUpperCase() ?? 'LIVE ROOM', 
-              style: const TextStyle(color: AppTheme.textMuted, fontSize: 9, fontWeight: FontWeight.bold)),
+              style: const TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -754,22 +885,25 @@ class _MeetingScreenState extends State<MeetingScreen> {
 
   Widget _buildBottomStatus() {
     return Positioned(
-      bottom: 130, left: 28, right: 28,
+      bottom: 130, left: 28, right: 120, // right: 120 leaves room for PiP
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              Text('Session Room', style: TextStyle(color: AppTheme.textSecondary, fontSize: 12, fontWeight: FontWeight.w900)),
+              Text('Session Room',
+                  style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w900)),
               SizedBox(height: 2),
-              Text('LIVE ENCRYPTION ACTIVE', style: TextStyle(color: AppTheme.textMuted, fontSize: 8, fontWeight: FontWeight.w800, letterSpacing: 1)),
+              Text('LIVE ENCRYPTION ACTIVE',
+                  style: TextStyle(color: Colors.white38, fontSize: 8, fontWeight: FontWeight.w800, letterSpacing: 1)),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const Text('SIGNAL STRENGTH', style: TextStyle(color: AppTheme.textMuted, fontSize: 7, fontWeight: FontWeight.w900, letterSpacing: 1)),
+              const Text('SIGNAL',
+                  style: TextStyle(color: Colors.white38, fontSize: 7, fontWeight: FontWeight.w900, letterSpacing: 1)),
               const SizedBox(height: 4),
               Row(
                 children: [
@@ -777,7 +911,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
                     Container(
                       margin: const EdgeInsets.only(left: 2),
                       width: 3, height: 4.0 + (i * 3),
-                      decoration: BoxDecoration(color: i < 3 ? AppTheme.gold : AppTheme.borderLight, borderRadius: BorderRadius.circular(1)),
+                      decoration: BoxDecoration(
+                          color: i < 3 ? AppTheme.gold : Colors.white24,
+                          borderRadius: BorderRadius.circular(1)),
                     ),
                 ],
               ),
@@ -888,9 +1024,22 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   Widget _buildChatOverlay() {
-    final myName = context.read<AuthProvider>().user?['name'] ?? 'Me';
+    // Keyboard-aware: top is fixed, bottom rises with the keyboard
+    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+    // Top edge: just below the top info bar (~statusBar + 110)
+    final chatTop = statusBarHeight + 110.0;
+    // Bottom edge: above controls bar OR above keyboard — whichever is higher
+    const controlsBarHeight = 120.0;
+    final chatBottom = keyboardHeight > 0
+        ? keyboardHeight + 12.0   // sit just above the keyboard
+        : controlsBarHeight + 8.0; // sit above controls bar normally
+
     return Positioned(
-      bottom: 120, right: 20, left: 20, height: 420,
+      top: chatTop,
+      left: 20,
+      right: 20,
+      bottom: chatBottom,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -900,17 +1049,23 @@ class _MeetingScreenState extends State<MeetingScreen> {
         ),
         child: Column(
           children: [
+            // ── Header (always visible at top) ──
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text('ROOM CHAT', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 1, color: AppTheme.textPrimary)),
-                IconButton(icon: const Icon(Icons.close_rounded), onPressed: () => setState(() => _showChat = false)),
+                IconButton(
+                  icon: const Icon(Icons.close_rounded),
+                  onPressed: () => setState(() => _showChat = false),
+                ),
               ],
             ),
-            const Divider(height: 24),
+            const Divider(height: 16),
+
+            // ── Messages list (fills remaining space) ──
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.only(bottom: 16),
+                padding: const EdgeInsets.only(bottom: 8),
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   final m = _messages[index];
@@ -920,7 +1075,9 @@ class _MeetingScreenState extends State<MeetingScreen> {
                     child: Column(
                       crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                       children: [
-                        if (!isMe) Text(m['sender'] ?? 'User', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
+                        if (!isMe)
+                          Text(m['sender'] ?? 'User',
+                              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
                         const SizedBox(height: 2),
                         Container(
                           padding: const EdgeInsets.all(12),
@@ -929,7 +1086,8 @@ class _MeetingScreenState extends State<MeetingScreen> {
                             borderRadius: BorderRadius.circular(12),
                             border: isMe ? null : Border.all(color: AppTheme.borderLight),
                           ),
-                          child: Text(m['text'], style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13, height: 1.4)),
+                          child: Text(m['text'],
+                              style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13, height: 1.4)),
                         ),
                       ],
                     ),
@@ -937,8 +1095,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
                 },
               ),
             ),
+
+            // ── Input row (pinned above keyboard) ──
             Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.only(top: 8),
               child: Row(
                 children: [
                   Expanded(
@@ -946,25 +1106,46 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       controller: _chatController,
                       style: const TextStyle(color: AppTheme.textPrimary, fontSize: 14),
                       decoration: InputDecoration(
-                        hintText: 'Message Admin...',
+                        hintText: 'Type a message...',
                         hintStyle: const TextStyle(color: AppTheme.textMuted),
                         filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        fillColor: AppTheme.cream,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide.none),
+                        enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide.none),
+                        focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(color: AppTheme.gold, width: 1.5)),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       ),
                       onSubmitted: (_) => _sendMessage(),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  IconButton(icon: const Icon(Icons.send_rounded, color: AppTheme.gold), onPressed: _sendMessage),
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: _sendMessage,
+                    child: Container(
+                      width: 44, height: 44,
+                      decoration: BoxDecoration(
+                        color: AppTheme.gold,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(color: AppTheme.gold.withOpacity(0.35), blurRadius: 8, spreadRadius: 0),
+                        ],
+                      ),
+                      child: const Icon(Icons.send_rounded, color: Colors.black, size: 20),
+                    ),
+                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
-    ).animate().fadeIn().slideY(begin: 0.1);
+    ).animate().fadeIn(duration: 200.ms).slideY(begin: 0.06);
   }
 }
