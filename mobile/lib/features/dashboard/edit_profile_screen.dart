@@ -198,6 +198,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               bioController: _bioController,
               linkedinController: _linkedinController,
             ),
+            const SizedBox(height: 28),
+            // Change Password Button
+            Container(
+              decoration: BoxDecoration(
+                color: AppTheme.darkBrown,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppTheme.gold.withOpacity(0.3), width: 1),
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                leading: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.gold.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.lock_outline, color: AppTheme.gold, size: 20),
+                ),
+                title: const Text('Change Password', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, letterSpacing: 0.5, color: Colors.white)),
+                subtitle: const Text('Update your security credentials', style: TextStyle(fontSize: 10, color: Colors.white70)),
+                trailing: const Icon(Icons.chevron_right, color: AppTheme.gold),
+                onTap: () => _showChangePasswordModal(),
+              ),
+            ),
           ],
         ).animate().fadeIn();
       case 'EDUCATION':
@@ -320,5 +344,325 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (section == 'testScores') return [{'key': 'testType', 'label': 'Test', 'hint': 'GRE/IELTS'}, {'key': 'score', 'label': 'Score', 'hint': '320'}];
     if (section == 'targetUniversities') return [{'key': 'uniName', 'label': 'University', 'hint': 'Target Uni'}, {'key': 'degree', 'label': 'Degree', 'hint': 'MS/PhD'}, {'key': 'major', 'label': 'Major', 'hint': 'CS/DS'}, {'key': 'term', 'label': 'Term', 'hint': 'Fall'}, {'key': 'year', 'label': 'Year', 'hint': '2026'}];
     return [{'key': 'title', 'label': 'Title', 'hint': 'Enter detail'}];
+  }
+
+  void _showChangePasswordModal() {
+    final currentPasswordController = TextEditingController();
+    final newPasswordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+    
+    bool showCurrentPassword = false;
+    bool showNewPassword = false;
+    bool showConfirmPassword = false;
+    bool isLoading = false;
+    String errorMessage = '';
+    String successMessage = '';
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setModalState) => Container(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom + 40,
+            left: 28,
+            right: 28,
+            top: 32,
+          ),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(36)),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Change Password', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary)),
+                const SizedBox(height: 8),
+                const Text('Update your password for better security', style: TextStyle(fontSize: 11, color: AppTheme.textMuted, fontWeight: FontWeight.w500)),
+                const SizedBox(height: 28),
+
+                // Current Password
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Current Password', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: currentPasswordController,
+                      obscureText: !showCurrentPassword,
+                      style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                      decoration: InputDecoration(
+                        hintText: 'Enter current password',
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.gold, width: 1.5)),
+                        suffixIcon: GestureDetector(
+                          onTap: () => setModalState(() => showCurrentPassword = !showCurrentPassword),
+                          child: Icon(showCurrentPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined, color: AppTheme.gold, size: 18),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // New Password
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('New Password', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: newPasswordController,
+                      obscureText: !showNewPassword,
+                      style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                      decoration: InputDecoration(
+                        hintText: 'Min 8 chars, uppercase, lowercase & numbers',
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.gold, width: 1.5)),
+                        suffixIcon: GestureDetector(
+                          onTap: () => setModalState(() => showNewPassword = !showNewPassword),
+                          child: Icon(showNewPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined, color: AppTheme.gold, size: 18),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Confirm Password
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Confirm New Password', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: confirmPasswordController,
+                      obscureText: !showConfirmPassword,
+                      style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                      decoration: InputDecoration(
+                        hintText: 'Confirm your new password',
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.gold, width: 1.5)),
+                        suffixIcon: GestureDetector(
+                          onTap: () => setModalState(() => showConfirmPassword = !showConfirmPassword),
+                          child: Icon(showConfirmPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined, color: AppTheme.gold, size: 18),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                // Requirements
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFAF7F2),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: AppTheme.borderLight),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Requirements:', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 0.5, color: AppTheme.textPrimary)),
+                      const SizedBox(height: 6),
+                      _buildRequirementItem('At least 8 characters', newPasswordController.text.length >= 8),
+                      _buildRequirementItem('Uppercase letter', newPasswordController.text.contains(RegExp(r'[A-Z]'))),
+                      _buildRequirementItem('Lowercase letter', newPasswordController.text.contains(RegExp(r'[a-z]'))),
+                      _buildRequirementItem('Number', newPasswordController.text.contains(RegExp(r'[0-9]'))),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Error/Success Messages
+                if (errorMessage.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.red.withOpacity(0.3)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.error_outline, color: Colors.red, size: 16),
+                        const SizedBox(width: 8),
+                        Expanded(child: Text(errorMessage, style: const TextStyle(fontSize: 10, color: Colors.red, fontWeight: FontWeight.w600))),
+                      ],
+                    ),
+                  ),
+                if (successMessage.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.green.withOpacity(0.3)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.check_circle_outline, color: Colors.green, size: 16),
+                        const SizedBox(width: 8),
+                        Expanded(child: Text(successMessage, style: const TextStyle(fontSize: 10, color: Colors.green, fontWeight: FontWeight.w600))),
+                      ],
+                    ),
+                  ),
+                const SizedBox(height: 24),
+
+                // Action Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: isLoading ? null : () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          side: const BorderSide(color: AppTheme.borderLight),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1, fontSize: 11, color: AppTheme.textPrimary)),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: isLoading ? null : () {
+                          setModalState(() => isLoading = true);
+                          _submitChangePassword(
+                            context,
+                            currentPasswordController.text,
+                            newPasswordController.text,
+                            confirmPasswordController.text,
+                            setModalState,
+                            (message, type) {
+                              setModalState(() {
+                                isLoading = false;
+                                if (type == 'error') {
+                                  errorMessage = message;
+                                  successMessage = '';
+                                } else {
+                                  successMessage = message;
+                                  errorMessage = '';
+                                }
+                              });
+                            },
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          backgroundColor: AppTheme.darkBrown,
+                          foregroundColor: AppTheme.gold,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        ),
+                        child: isLoading
+                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation(AppTheme.gold)))
+                          : const Text('Update Password', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1, fontSize: 11)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRequirementItem(String text, bool isValid) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        children: [
+          Icon(isValid ? Icons.check_circle : Icons.radio_button_unchecked, size: 12, color: isValid ? Colors.green : AppTheme.textMuted),
+          const SizedBox(width: 6),
+          Text(text, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w500, color: isValid ? Colors.green : AppTheme.textMuted)),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _submitChangePassword(
+    BuildContext context,
+    String currentPassword,
+    String newPassword,
+    String confirmPassword,
+    StateSetter setModalState,
+    Function(String message, String type) onResult,
+  ) async {
+    // Validation
+    if (currentPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty) {
+      onResult('All fields are required', 'error');
+      return;
+    }
+
+    if (newPassword != confirmPassword) {
+      onResult('New passwords do not match', 'error');
+      return;
+    }
+
+    final passwordRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$');
+    if (!passwordRegex.hasMatch(newPassword)) {
+      onResult('Password must be 8+ chars with uppercase, lowercase & numbers', 'error');
+      return;
+    }
+
+    try {
+      final token = await _getToken();
+      if (token == null) {
+        onResult('Authentication error. Please login again', 'error');
+        return;
+      }
+
+      final response = await ApiClient.instance.post(
+        '/api/user/change-password',
+        data: {
+          'currentPassword': currentPassword,
+          'newPassword': newPassword,
+          'confirmPassword': confirmPassword,
+        },
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      if (response.statusCode == 200) {
+        onResult('✓ Password changed successfully! Logging you out...', 'success');
+        Future.delayed(const Duration(seconds: 2), () {
+          // Logout logic
+          if (mounted) {
+            Provider.of<AuthProvider>(context, listen: false).logout();
+            Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+          }
+        });
+      }
+    } catch (e) {
+      String errorMsg = 'Failed to change password';
+      if (e is DioException && e.response?.data['message'] != null) {
+        errorMsg = e.response?.data['message'];
+      } else if (e is DioException) {
+        errorMsg = e.message ?? 'Network error occurred';
+      }
+      onResult(errorMsg, 'error');
+    }
+  }
+
+  Future<String?> _getToken() async {
+    // Get token from secure storage or shared preferences
+    // This depends on how your app stores tokens
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      return authProvider.token; // Adjust based on your auth implementation
+    } catch (e) {
+      return null;
+    }
   }
 }

@@ -3,7 +3,7 @@
 import React, { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Mail, Lock, Eye, EyeOff, ChevronRight, Sparkles } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ChevronRight, Sparkles, AlertCircle } from "lucide-react";
 import { setToken, setUser, getToken } from "@/app/lib/token";
 
 type User = {
@@ -19,6 +19,18 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [showForgotModal, setShowForgotModal] = useState<boolean>(false);
+  const [forgotStep, setForgotStep] = useState<1 | 2>(1);
+  const [forgotEmail, setForgotEmail] = useState<string>("");
+  const [forgotOtp, setForgotOtp] = useState<string>("");
+  const [forgotPassword, setForgotPassword] = useState<string>("");
+  const [forgotConfirm, setForgotConfirm] = useState<string>("");
+  const [forgotLoading, setForgotLoading] = useState<boolean>(false);
+  const [forgotMessage, setForgotMessage] = useState<{ text: string; type: "success" | "error" }>({ text: "", type: "error" });
+
+  const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') 
+    ? process.env.NEXT_PUBLIC_BACKEND_URL 
+    : 'http://localhost:5001';
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,7 +38,6 @@ const Login: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
       const response = await fetch(`${BACKEND_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43,11 +54,10 @@ const Login: React.FC = () => {
       const role = user.role;
 
       if (!user.isVerified) {
-        router.push(`/auth/RegisterStudent`); // Point to registration for verification
+        router.push(`/auth/RegisterStudent`);
         return;
       }
 
-      // Save session credentials using custom lib
       setToken(token);
       setUser(user);
 
@@ -63,6 +73,80 @@ const Login: React.FC = () => {
       setErrorMsg(err.message || "Login failed");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleForgotPasswordStep1 = async () => {
+    if (!forgotEmail.trim()) {
+      setForgotMessage({ text: "Please enter your email address", type: "error" });
+      return;
+    }
+
+    setForgotLoading(true);
+    setForgotMessage({ text: "", type: "error" });
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send reset code");
+      }
+
+      setForgotMessage({ text: "Reset code sent to your email. Check your inbox.", type: "success" });
+      setTimeout(() => setForgotStep(2), 1500);
+    } catch (err: any) {
+      setForgotMessage({ text: err.message || "Failed to send reset code", type: "error" });
+    } finally {
+      setForgotLoading(false);
+    }
+  };
+
+  const handleForgotPasswordStep2 = async () => {
+    if (!forgotOtp.trim() || !forgotPassword.trim() || !forgotConfirm.trim()) {
+      setForgotMessage({ text: "Please fill all fields", type: "error" });
+      return;
+    }
+
+    if (forgotPassword !== forgotConfirm) {
+      setForgotMessage({ text: "Passwords do not match", type: "error" });
+      return;
+    }
+
+    setForgotLoading(true);
+    setForgotMessage({ text: "", type: "error" });
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: forgotEmail.trim(), otp: forgotOtp.trim(), newPassword: forgotPassword.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to reset password");
+      }
+
+      setForgotMessage({ text: "Password reset successfully! Redirecting to login...", type: "success" });
+      setTimeout(() => {
+        setShowForgotModal(false);
+        setForgotStep(1);
+        setForgotEmail("");
+        setForgotOtp("");
+        setForgotPassword("");
+        setForgotConfirm("");
+      }, 2000);
+    } catch (err: any) {
+      setForgotMessage({ text: err.message || "Failed to reset password", type: "error" });
+    } finally {
+      setForgotLoading(false);
     }
   };
 
@@ -149,15 +233,21 @@ const Login: React.FC = () => {
             </div>
 
             <div className="flex justify-end pt-1">
-              <button type="button" className="text-[9px] font-black text-[#6B5E51]/40 hover:text-[#C5A059] uppercase tracking-widest transition-all">Forgot Credentials?</button>
+              <button 
+                type="button" 
+                onClick={() => setShowForgotModal(true)}
+                className="text-[9px] font-black text-[#6B5E51]/40 hover:text-[#C5A059] uppercase tracking-widest transition-all"
+              >
+                Forgot Credentials?
+              </button>
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 mt-2"
+              className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 mt-2 hover:bg-[#C5A059]"
             >
-              {isSubmitting ? "Authenticating..." : "Establish Connection"}
+              {isSubmitting ? "Authenticating..." : "Sign In"}
               {!isSubmitting && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
             </button>
 
@@ -179,6 +269,140 @@ const Login: React.FC = () => {
           </div>
         </div>
       </motion.div>
+
+      {/* Forgot Password Modal */}
+      {showForgotModal && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+            className="bg-white border border-[#C5A059]/20 rounded-[2rem] p-8 max-w-md w-full shadow-2xl relative"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent" />
+
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-black text-[#3C2A21] uppercase italic tracking-tight">Reset Password</h3>
+              <button
+                onClick={() => {
+                  setShowForgotModal(false);
+                  setForgotStep(1);
+                  setForgotMessage({ text: "", type: "error" });
+                }}
+                className="text-[#6B5E51]/40 hover:text-[#C5A059] transition-all text-2xl leading-none"
+              >
+                ×
+              </button>
+            </div>
+
+            {forgotMessage.text && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`text-[10px] font-black uppercase mb-4 p-3 rounded-lg border flex items-center gap-2 ${
+                  forgotMessage.type === "success"
+                    ? "bg-green-500/10 border-green-500/20 text-green-600"
+                    : "bg-red-500/10 border-red-500/20 text-red-600"
+                }`}
+              >
+                <AlertCircle size={14} />
+                {forgotMessage.text}
+              </motion.div>
+            )}
+
+            {forgotStep === 1 ? (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="block text-[9px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Email Address</label>
+                  <div className="relative group">
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/40 group-focus-within:text-[#C5A059] transition-all" />
+                    <input
+                      type="email"
+                      value={forgotEmail}
+                      onChange={(e) => setForgotEmail(e.target.value)}
+                      placeholder="name@email.com"
+                      className="w-full pl-12 pr-4 py-3 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-xs text-[#3C2A21] font-bold placeholder:text-[#6B5E51]/20 focus:border-[#C5A059] transition-all outline-none shadow-inner"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    onClick={() => {
+                      setShowForgotModal(false);
+                      setForgotStep(1);
+                      setForgotMessage({ text: "", type: "error" });
+                    }}
+                    disabled={forgotLoading}
+                    className="flex-1 py-3 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-[#FDFBF7] transition-all disabled:opacity-50"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleForgotPasswordStep1}
+                    disabled={forgotLoading}
+                    className="flex-1 py-3 bg-[#C5A059] text-white rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg disabled:opacity-50"
+                  >
+                    {forgotLoading ? "Sending..." : "Send Code"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="block text-[9px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Reset Code</label>
+                  <input
+                    type="text"
+                    value={forgotOtp}
+                    onChange={(e) => setForgotOtp(e.target.value)}
+                    placeholder="000000"
+                    className="w-full px-4 py-3 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-xs text-[#3C2A21] font-bold placeholder:text-[#6B5E51]/20 focus:border-[#C5A059] transition-all outline-none shadow-inner"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-[9px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">New Password</label>
+                  <input
+                    type="password"
+                    value={forgotPassword}
+                    onChange={(e) => setForgotPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-4 py-3 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-xs text-[#3C2A21] font-bold placeholder:text-[#6B5E51]/20 focus:border-[#C5A059] transition-all outline-none shadow-inner"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-[9px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Confirm Password</label>
+                  <input
+                    type="password"
+                    value={forgotConfirm}
+                    onChange={(e) => setForgotConfirm(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full px-4 py-3 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-xs text-[#3C2A21] font-bold placeholder:text-[#6B5E51]/20 focus:border-[#C5A059] transition-all outline-none shadow-inner"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <button
+                    onClick={() => setForgotStep(1)}
+                    disabled={forgotLoading}
+                    className="flex-1 py-3 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-[#FDFBF7] transition-all disabled:opacity-50"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={handleForgotPasswordStep2}
+                    disabled={forgotLoading}
+                    className="flex-1 py-3 bg-[#C5A059] text-white rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg disabled:opacity-50"
+                  >
+                    {forgotLoading ? "Resetting..." : "Reset Password"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

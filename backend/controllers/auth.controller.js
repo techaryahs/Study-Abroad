@@ -541,6 +541,12 @@ exports.resetPassword = async (req, res) => {
     return res.status(400).json({ error: "OTP expired" });
   }
 
+  // Password strength validation (minimum 8 characters, at least 1 uppercase, 1 lowercase, 1 number)
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+  if (!passwordRegex.test(newPassword)) {
+    return res.status(400).json({ error: "Password must be 8+ characters with uppercase, lowercase & numbers" });
+  }
+
   const hashedPassword = await bcrypt.hash(newPassword, 10);
 
   // Find the user first to identify the correct collection
