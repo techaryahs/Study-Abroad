@@ -20,7 +20,7 @@ class _ContactScreenState extends State<ContactScreen> {
   bool _sent = false;
 
   bool _isValidEmail(String email) {
-    return RegExp(r'^[^@]+@[^@]+\\.[^@]+').hasMatch(email);
+    return RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(email);
   }
 
   Future<void> _send() async {
