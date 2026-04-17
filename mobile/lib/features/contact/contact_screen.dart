@@ -201,7 +201,7 @@ class _ContactScreenState extends State<ContactScreen> {
         ),
         child: _isLoading
             ? const CircularProgressIndicator(color: Colors.white)
-            : const Text("SEND MESSAGE"),
+            : const Text("SEND MESSAGE", style: TextStyle(color: Colors.white)),
       ),
     );
   }

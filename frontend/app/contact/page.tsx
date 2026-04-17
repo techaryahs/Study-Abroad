@@ -154,7 +154,7 @@ function ContactContent() {
           </div>
           <div className="grid grid-cols-2 gap-3 pt-2">
             <button className="btn-gold w-full text-center py-3.5 rounded-lg text-[10px] uppercase tracking-[0.2em] font-black shadow-lg shadow-gold-500/5 hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
-              Submit Query
+              Send Message
             </button>
 
             <button 

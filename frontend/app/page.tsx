@@ -141,20 +141,8 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* MOBILE HERO IMAGE - Only visible on small screens between Hero Text and Trust Us */}
-          <div className="xl:hidden flex flex-col items-center">
-            <div className="relative w-full max-w-[340px] aspect-[4/5] rounded-[2.5rem] overflow-hidden border border-[#D4A848]/40 shadow-[0_20px_60px_-15px_rgba(212,168,72,0.4)]">
-              <div className="absolute inset-0 bg-gradient-to-t from-[#40332D] via-transparent to-transparent z-10 pointer-events-none" />
-              <Image
-                src="/sir2.jpeg"
-                alt="Dr Alam"
-                fill
-                sizes="100vw"
-                quality={80}
-                className="object-cover object-top"
-                priority
-              />
-            </div>
+          {/* MOBILE HERO IMAGE CONTAINER (Photo removed) */}
+          <div className="xl:hidden flex flex-col items-center mt-6">
 
             {/* MOBILE DREAMS - Compact flags below image on mobile */}
             <div className="mt-4 bg-[#40332D] p-4 rounded-2xl grid grid-cols-4 gap-2 shadow-lg border border-[#D4A848]/20 w-full max-w-[340px]">
@@ -211,23 +199,8 @@ export default function Home() {
         {/* RIGHT - Only visible on Laptop/Desktop */}
         <div className="hidden xl:flex xl:w-2/5 flex-col items-center relative z-20 pb-16">
 
-          {/* IMAGE */}
-          <div className="relative w-full max-w-[340px] h-[420px] rounded-[3rem] overflow-hidden border border-[#D4A848]/40 shadow-[0_20px_60px_-15px_rgba(212,168,72,0.4)] transition-all hover:shadow-[0_25px_65px_-10px_rgba(212,168,72,0.5)]">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#40332D] via-transparent to-transparent z-10 pointer-events-none" />
-
-            <Image
-              src="/sir2.jpeg"
-              alt="Dr Alam"
-              fill
-              sizes="450px"
-              quality={60}
-              className="object-cover object-top"
-              priority
-            />
-          </div>
-
           {/* DREAMS */}
-          <div className="mt-6 bg-[#40332D] p-6 rounded-3xl grid grid-cols-4 gap-4 shadow-[0_10px_40px_rgba(212,168,72,0.12)] border border-[#D4A848]/20 w-full max-w-[450px]">
+          <div className="mt-[440px] bg-[#40332D] p-6 rounded-3xl grid grid-cols-4 gap-4 shadow-[0_10px_40px_rgba(212,168,72,0.12)] border border-[#D4A848]/20 w-full max-w-[450px]">
             {dreams.map((d, i) => (
               <div key={i} className="text-center">
                 <div className="w-8 h-5 mx-auto mb-2 rounded-sm overflow-hidden border border-[#D4A848]/20">

@@ -95,8 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       // ── Photo card ────────────────────────────
                       Container(
-                        height: 400,
+                        padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(32),
                           border: Border.all(color: AppTheme.gold.withOpacity(0.4)),
                           boxShadow: [
@@ -107,100 +108,61 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(32),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              // Portrait photo
-                              Image.asset(
-                                'assets/images/sir2.jpeg',
-                                fit: BoxFit.cover,
-                                alignment: Alignment.topCenter,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Education Leader\nLed Path to\nIvy League &\nTop Global Universities',
+                              style: TextStyle(
+                                color: AppTheme.darkBrown,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                                height: 1.15,
+                                letterSpacing: -0.5,
                               ),
-
-                              // Dark gradient overlay (bottom)
-                              Positioned.fill(
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      stops: const [0.45, 1.0],
-                                      colors: [
-                                        Colors.transparent,
-                                        const Color(0xFF40332D).withOpacity(0.92),
-                                      ],
+                            ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () => showBookCounsellingSheet(context),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppTheme.gold,
+                                      foregroundColor: AppTheme.darkBrown,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12)),
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                    ),
+                                    child: const Text('TALK TO EXPERT',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 1)),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: OutlinedButton.icon(
+                                    onPressed: () => launchUrl(Uri.parse('https://wa.me/918657869659')),
+                                    icon: const Icon(Icons.chat_rounded, size: 13, color: AppTheme.darkBrown),
+                                    label: const Text('WHATSAPP',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 1,
+                                            color: AppTheme.darkBrown)),
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(color: AppTheme.darkBrown.withOpacity(0.35)),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12)),
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
                                     ),
                                   ),
                                 ),
-                              ),
-
-
-                              // Bottom content: headline + buttons
-                              Positioned(
-                                left: 20,
-                                right: 20,
-                                bottom: 20,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Education Leader\nLed Path to\nIvy League &\nTop Global Universities',
-                                      style: TextStyle(
-                                        color: Color(0xFFF8F6F1),
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w900,
-                                        height: 1.15,
-                                        letterSpacing: -0.5,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 16),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: ElevatedButton(
-                                            onPressed: () => showBookCounsellingSheet(context),
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: AppTheme.gold,
-                                              foregroundColor: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(12)),
-                                              padding: const EdgeInsets.symmetric(vertical: 12),
-                                              textStyle: const TextStyle(
-                                                  fontSize: 10,
-                                                  fontWeight: FontWeight.w800,
-                                                  letterSpacing: 1),
-                                            ),
-                                            child: const Text('TALK TO EXPERT'),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: OutlinedButton.icon(
-                                            onPressed: () => launchUrl(Uri.parse('https://wa.me/918657869659')),
-                                            icon: const Icon(Icons.chat_rounded, size: 13, color: Color(0xFFF8F6F1)),
-                                            label: const Text('WHATSAPP',
-                                                style: TextStyle(
-                                                    fontSize: 10,
-                                                    fontWeight: FontWeight.w800,
-                                                    letterSpacing: 1,
-                                                    color: Color(0xFFF8F6F1))),
-                                            style: OutlinedButton.styleFrom(
-                                              side: BorderSide(color: Colors.white.withOpacity(0.35)),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(12)),
-                                              padding: const EdgeInsets.symmetric(vertical: 12),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
 
