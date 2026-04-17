@@ -14,7 +14,7 @@ export default function Footer() {
                 <span className="text-white font-bold text-sm">SA</span>
               </div>
               <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white underline underline-offset-4 decoration-blue-600/30">
-                Study Abroad
+                International EduLeader Council
               </span>
             </Link>
             <p className="max-w-xs text-sm text-gray-500 leading-relaxed dark:text-gray-400">
@@ -50,11 +50,11 @@ export default function Footer() {
             <ul className="mt-4 space-y-2">
               <li className="text-sm text-gray-500 dark:text-gray-400 flex flex-col">
                 <span className="font-medium text-gray-900 dark:text-white">Email:</span>
-                hello@studyabroad.com
+                [EMAIL_ADDRESS]
               </li>
               <li className="text-sm text-gray-500 dark:text-gray-400 flex flex-col">
                 <span className="font-medium text-gray-900 dark:text-white">Phone:</span>
-                +1 (234) 567-890
+                +91 8657869659
               </li>
             </ul>
           </div>
@@ -63,7 +63,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 border-t border-gray-100 pt-8 dark:border-white/5">
           <p className="text-center text-xs text-gray-400">
-            &copy; {currentYear} Study Abroad. All rights reserved.
+            &copy; {currentYear} International EduLeader Council. All rights reserved.
           </p>
         </div>
       </div>

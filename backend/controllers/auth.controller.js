@@ -119,11 +119,11 @@ exports.sendOtpSignup = async (req, res) => {
     // 3️⃣ Send Email
     await sendEmail(
       emailLower,
-      "Verify Your Email - StudyAbroad",
+      "Verify Your Email - International EduLeader Council",
       "",
       `<div style="font-family:serif;padding:30px;background:#090909;color:white;border-radius:20px;">
          <h2 style="color:#EAB308;font-style:italic;font-size:24px;">Confirm Your Identity</h2>
-         <p style="color:#9ca3af;">Use the code below to verify your email for StudyAbroad.</p>
+         <p style="color:#9ca3af;">Use the code below to verify your email for International EduLeader Council.</p>
          <div style="background:#1a1a1a;color:#EAB308;padding:25px;text-align:center;font-size:36px;letter-spacing:12px;font-weight:900;border-radius:15px;margin:25px 0;border:1px solid #EAB308/20;">
            ${otp}
          </div>
@@ -189,7 +189,7 @@ exports.sendOtpMobile = async (req, res) => {
     // 2️⃣ Send SMS
     const smsResult = await sendSMSOTP(mobile, otp);
     if (!smsResult.success) {
-        return res.status(500).json({ error: smsResult.message });
+      return res.status(500).json({ error: smsResult.message });
     }
 
     res.json({ message: "Verification code sent to your mobile successfully" });
@@ -533,7 +533,7 @@ exports.adminForgotPassword = async (req, res) => {
 
     await sendEmail(
       emailLower,
-      "Admin Password Reset — StudyAbroad",
+      "Admin Password Reset — International EduLeader Council",
       "",
       `<div style="font-family:serif;padding:30px;background:#090909;color:white;border-radius:20px;">
          <h2 style="color:#EAB308;font-style:italic;font-size:24px;">Admin Password Reset</h2>
