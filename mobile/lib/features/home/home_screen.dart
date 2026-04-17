@@ -14,16 +14,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final PageController _carouselCtrl = PageController();
-  int _carouselIndex = 0;
-
   final List<Map<String, String>> _services = [
-    {'title': 'Admission Guidance', 'icon': '🏛️', 'route': '/services'},
-    {'title': 'University Shortlisting', 'icon': '📋', 'route': '/services'},
-    {'title': 'SOP & LOR Support', 'icon': '✍️', 'route': '/services'},
-    {'title': 'Scholarship Assistance', 'icon': '🎓', 'route': '/services'},
-    {'title': 'Visa Guidance', 'icon': '🛂', 'route': '/services'},
-    {'title': 'Profile Building', 'icon': '📈', 'route': '/services'},
+    {'title': 'Admission Guidance', 'icon': '🏛️', 'route': '/services/application-help'},
+    {'title': 'University Shortlisting', 'icon': '📋', 'route': '/services/shortlisting'},
+    {'title': 'SOP & LOR Support', 'icon': '✍️', 'route': '/services/sop'},
+    {'title': 'Scholarship Assistance', 'icon': '🎓', 'route': '/services/scholarship'},
+    {'title': 'Visa Guidance', 'icon': '🛂', 'route': '/services/visa-application-help'},
+    {'title': 'Profile Building', 'icon': '📈', 'route': '/services/profile-building'},
   ];
 
   final List<Map<String, String>> _countries = [
@@ -49,39 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
     {'code': 'DE', 'name': 'GER', 'stat': 'Full', 'sub': 'Scholarship'},
     {'code': 'AU', 'name': 'AUS', 'stat': '50%', 'sub': 'Fee Waiver'},
   ];
-
-  final List<Color> _carouselColors = [
-    const Color(0xFFFAF9F6), // Alabaster
-    const Color(0xFFFDFBF7), // Cream
-    const Color(0xFFF5F1E9), // Champagne
-    const Color(0xFFFFFDF9), // Shell
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _startCarousel();
-  }
-
-  void _startCarousel() {
-    Future.delayed(const Duration(seconds: 3), () {
-      if (!mounted) return;
-      final next = (_carouselIndex + 1) % _carouselColors.length;
-      _carouselCtrl.animateToPage(
-        next,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeInOut,
-      );
-      setState(() => _carouselIndex = next);
-      _startCarousel();
-    });
-  }
-
-  @override
-  void dispose() {
-    _carouselCtrl.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,132 +87,166 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                // ── HERO CARD ─────────────────────────────────
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  height: 260,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: AppTheme.borderLight),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 30,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(28),
-                    child: Stack(
-                      children: [
-                        // Animated background
-                        PageView.builder(
-                          controller: _carouselCtrl,
-                          itemCount: _carouselColors.length,
-                          itemBuilder: (_, i) => Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [_carouselColors[i], Colors.white.withOpacity(0.9)],
-                              ),
+                // ── HERO CARD (Photo + Scholarship Strip) ──────
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // ── Photo card ────────────────────────────
+                      Container(
+                        height: 400,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32),
+                          border: Border.all(color: AppTheme.gold.withOpacity(0.4)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppTheme.gold.withOpacity(0.25),
+                              blurRadius: 40,
+                              offset: const Offset(0, 12),
                             ),
-                          ),
+                          ],
                         ),
-
-                        // Gold pattern overlay
-                        Positioned.fill(
-                          child: CustomPaint(painter: _GoldPatternPainter()),
-                        ),
-
-                        // Content
-                        Padding(
-                          padding: const EdgeInsets.all(24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(32),
+                          child: Stack(
+                            fit: StackFit.expand,
                             children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.gold.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
-                                ),
-                                child: const Text(
-                                  '✦  EDUCATION LEADER',
-                                  style: TextStyle(
-                                    color: AppTheme.gold,
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 2,
+                              // Portrait photo
+                              Image.asset(
+                                'assets/images/sir2.jpeg',
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                              ),
+
+                              // Dark gradient overlay (bottom)
+                              Positioned.fill(
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      stops: const [0.45, 1.0],
+                                      colors: [
+                                        Colors.transparent,
+                                        const Color(0xFF40332D).withOpacity(0.92),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 16),
-                              const Text(
-                                'Led Path to\nIvy League &\nTop Global\nUniversities',
-                                style: TextStyle(
-                                  color: AppTheme.textPrimary,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w900,
-                                  height: 1.1,
-                                  letterSpacing: -0.5,
+
+
+                              // Bottom content: headline + buttons
+                              Positioned(
+                                left: 20,
+                                right: 20,
+                                bottom: 20,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Education Leader\nLed Path to\nIvy League &\nTop Global Universities',
+                                      style: TextStyle(
+                                        color: Color(0xFFF8F6F1),
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w900,
+                                        height: 1.15,
+                                        letterSpacing: -0.5,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            onPressed: () => showBookCounsellingSheet(context),
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: AppTheme.gold,
+                                              foregroundColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(12)),
+                                              padding: const EdgeInsets.symmetric(vertical: 12),
+                                              textStyle: const TextStyle(
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w800,
+                                                  letterSpacing: 1),
+                                            ),
+                                            child: const Text('TALK TO EXPERT'),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: OutlinedButton.icon(
+                                            onPressed: () => launchUrl(Uri.parse('https://wa.me/918657869659')),
+                                            icon: const Icon(Icons.chat_rounded, size: 13, color: Color(0xFFF8F6F1)),
+                                            label: const Text('WHATSAPP',
+                                                style: TextStyle(
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.w800,
+                                                    letterSpacing: 1,
+                                                    color: Color(0xFFF8F6F1))),
+                                            style: OutlinedButton.styleFrom(
+                                              side: BorderSide(color: Colors.white.withOpacity(0.35)),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(12)),
+                                              padding: const EdgeInsets.symmetric(vertical: 12),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const Spacer(),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: () => showBookCounsellingSheet(context),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppTheme.gold,
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
-                                        textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1),
-                                      ),
-                                      child: const Text('TALK TO EXPERT'),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: OutlinedButton.icon(
-                                      onPressed: () => launchUrl(Uri.parse('https://wa.me/918657869659')),
-                                      icon: const Icon(Icons.chat_rounded, size: 14),
-                                      label: const Text('WHATSAPP', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1)),
-                                      style: OutlinedButton.styleFrom(
-                                        foregroundColor: AppTheme.textPrimary,
-                                        side: const BorderSide(color: AppTheme.borderLight),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ],
                           ),
                         ),
+                      ),
 
-                        // Dots
-                        Positioned(
-                          top: 20, right: 20,
-                          child: Row(
-                            children: List.generate(_carouselColors.length, (i) => Container(
-                              margin: const EdgeInsets.only(left: 4),
-                              width: i == _carouselIndex ? 16 : 4,
-                              height: 4,
-                              decoration: BoxDecoration(
-                                color: i == _carouselIndex ? AppTheme.gold : AppTheme.gold.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                            )),
-                          ),
+                      // ── Scholarship strip ──────────────────────
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF40332D),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppTheme.gold.withOpacity(0.1),
+                              blurRadius: 20,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: _dreams.map((d) => Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(3),
+                                child: CountryFlag.fromCountryCode(d['code']!, height: 20, width: 30),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(d['name']!,
+                                  style: const TextStyle(
+                                      color: AppTheme.gold, fontSize: 8, fontWeight: FontWeight.w800, letterSpacing: 1)),
+                              const SizedBox(height: 2),
+                              Text(d['stat']!,
+                                  style: const TextStyle(
+                                      color: Color(0xFFF8F6F1), fontSize: 14, fontWeight: FontWeight.w900)),
+                              Text(d['sub']!,
+                                  style: TextStyle(
+                                      color: const Color(0xFFF8F6F1).withOpacity(0.5),
+                                      fontSize: 7,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.8)),
+                            ],
+                          )).toList(),
+                        ),
+                      ),
+                    ],
                   ),
                 ).animate().fadeIn(duration: 500.ms).slideY(begin: 0.1),
 
@@ -311,7 +309,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (_, i) {
                     final s = _services[i];
                     return GestureDetector(
-                      onTap: () => context.go('/services'),
+                      onTap: () {
+                        if (s['route'] == 'sheet') {
+                          showBookCounsellingSheet(context);
+                        } else {
+                          context.go(s['route']!);
+                        }
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -395,37 +399,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                // ── DREAMS / SCHOLARSHIPS ─────────────────────
-                _sectionLabel('Scholarship Highlights'),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppTheme.borderLight),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: _dreams.map((d) => Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: CountryFlag.fromCountryCode(d['code']!, height: 28, width: 44),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(d['name']!,
-                            style: const TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 1)),
-                        const SizedBox(height: 4),
-                        Text(d['stat']!,
-                            style: const TextStyle(color: AppTheme.textPrimary, fontSize: 16, fontWeight: FontWeight.w900)),
-                        Text(d['sub']!,
-                            style: TextStyle(color: AppTheme.textSecondary.withOpacity(0.6), fontSize: 8, fontWeight: FontWeight.w600)),
-                      ],
-                    )).toList(),
-                  ),
-                ),
-
                 const SizedBox(height: 32),
               ],
             ),
@@ -449,20 +422,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class _GoldPatternPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppTheme.gold.withOpacity(0.05)
-      ..strokeWidth = 1
-      ..style = PaintingStyle.stroke;
-    for (double r = 50; r < size.width * 1.5; r += 60) {
-      canvas.drawCircle(Offset(size.width, 0), r, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_) => false;
 }
