@@ -24,4 +24,10 @@ router.post("/forgot-password", authCtrl.forgotPassword);
 router.post("/verifyfp-otp", authCtrl.verifyForgotOtp);
 router.post("/reset-password", authCtrl.resetPassword);
 
+// ── ADMIN-SPECIFIC PASSWORD MANAGEMENT ──────────────────────────────────────
+// These routes validate that the email belongs to an admin account
+router.post("/admin/forgot-password", authCtrl.adminForgotPassword);
+router.post("/admin/verify-otp",      authCtrl.adminVerifyForgotOtp);
+router.post("/admin/reset-password",  authCtrl.adminResetPassword);
+
 module.exports = router;
