@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../auth/auth_provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -1045,7 +1046,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
 
   Widget _buildActiveSessions(List<dynamic> activeSessions) {
     if (_loadingSessions) {
-      return const Center(child: CircularProgressIndicator(color: AppTheme.gold));
+      return _buildSessionSkeleton();
     }
     if (activeSessions.isEmpty) {
       return const Center(child: Text('No active sessions found.', style: TextStyle(color: AppTheme.textSecondary)));
@@ -1149,7 +1150,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
 
   Widget _buildPastSessions(List<dynamic> pastSessions) {
     if (_loadingSessions) {
-      return const Center(child: CircularProgressIndicator(color: AppTheme.gold));
+      return _buildSessionSkeleton();
     }
     if (pastSessions.isEmpty) {
       return const Center(child: Text('No past sessions found.', style: TextStyle(color: AppTheme.textSecondary)));
@@ -1502,6 +1503,65 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
               ),
             );
           },
+        );
+      },
+    );
+  }
+
+  Widget _buildSessionSkeleton() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: 6,
+      itemBuilder: (_, index) {
+        return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppTheme.borderLight),
+          ),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(width: 44, height: 44, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(height: 12, width: 120, color: Colors.white),
+                          const SizedBox(height: 6),
+                          Container(height: 10, width: 180, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 14),
+
+                Container(height: 10, width: double.infinity, color: Colors.white),
+                const SizedBox(height: 8),
+                Container(height: 10, width: 200, color: Colors.white),
+
+                const SizedBox(height: 16),
+
+                Row(
+                  children: [
+                    Expanded(child: Container(height: 36, color: Colors.white)),
+                    const SizedBox(width: 10),
+                    Container(height: 36, width: 40, color: Colors.white),
+                  ],
+                )
+              ],
+            ),
+          ),
         );
       },
     );
