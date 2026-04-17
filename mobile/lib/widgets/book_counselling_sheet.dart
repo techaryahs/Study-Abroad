@@ -35,6 +35,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   bool _slotsLoading = false;
   int? _selectedSlotIndex;
   String _error = '';
+  String _prefetchedDate = ''; // tracks which date was prefetched
   
   // Step 3: Personal details
   final _nameCtrl = TextEditingController();
@@ -88,11 +89,42 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     return dateStr.compareTo(todayStr) < 0;
   }
 
+  /// Returns true if a slot should be blocked (not selectable).
+  /// Blocked when: booked (available==false) OR today's date and slot time
+  /// is at/before current IST device time.
+  bool _isSlotBlocked(Map<String, dynamic> slot, bool isToday) {
+    if (slot['available'] != true) return true;
+    if (isToday) {
+      final timeStr = (slot['time'] as String? ?? '').trim();
+      if (timeStr.isEmpty) return false;
+
+      DateTime? parsed;
+      // Try multiple formats with explicit en_US locale so AM/PM always resolves
+      for (final fmt in ['h:mm a', 'hh:mm a', 'h:mma', 'hh:mma', 'H:mm', 'HH:mm']) {
+        try {
+          parsed = DateFormat(fmt, 'en_US').parse(timeStr);
+          break;
+        } catch (_) {}
+      }
+      if (parsed == null) return false; // can't parse → don't block
+
+      final now = DateTime.now(); // device local time == IST
+      final slotDt = DateTime(now.year, now.month, now.day, parsed.hour, parsed.minute);
+      // Block if slot start is not strictly after now
+      return !slotDt.isAfter(now);
+    }
+    return false;
+  }
+
   void _selectDay(int? day) {
     if (day == null || _isCellDisabled(day)) return;
-    setState(() {
-      _selectedDate = '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
-    });
+    final newDate = '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+    setState(() => _selectedDate = newDate);
+    // Prefetch slots immediately so Continue tap is instant
+    if (newDate != _prefetchedDate) {
+      _prefetchedDate = newDate;
+      _fetchSlots(newDate);
+    }
   }
 
   Future<void> _fetchSlots(String date) async {
@@ -133,16 +165,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
 
     setState(() => _bookingLoading = true);
     try {
-      // Get the selected slot
-      // For today, displaySlots contains only available slots
-      // For future dates, displaySlots contains all slots but only available ones are selectable
-      final todayStr = DateFormat('yyyy-MM-dd').format(_today);
-      final isToday = _selectedDate == todayStr;
-      final displaySlots = isToday 
-          ? _slots.where((slot) => slot['available'] == true).toList()
-          : _slots;
-      
-      final slot = displaySlots[_selectedSlotIndex!];
+      // _selectedSlotIndex is always an index into _slots directly
+      final slot = _slots[_selectedSlotIndex!];
       final res = await ApiClient.instance.post(
         '/api/bookings/book-session',
         data: {
@@ -499,22 +523,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   Widget _buildSlotPicker() {
     final todayStr = DateFormat('yyyy-MM-dd').format(_today);
     final isToday = _selectedDate == todayStr;
-    
-    // Filter out past slots for today
-    final displaySlots = isToday 
-        ? _slots.where((slot) {
-            if (slot['available'] != true) return false;
-            try {
-              final timeStr = slot['time'] as String;
-              final time = DateFormat.jm().parse(timeStr);
-              final now = DateTime.now();
-              final slotTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-              return slotTime.isAfter(now.add(const Duration(minutes: 5))); // 5 min buffer
-            } catch (e) {
-              return true;
-            }
-          }).toList()
-        : _slots;
+    // Always show ALL slots; blocked ones are dimmed and non-selectable
+    final displaySlots = _slots;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -583,8 +593,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                 children: [
                   const Text('⏰', style: TextStyle(fontSize: 32)),
                   const SizedBox(height: 8),
-                  Text('No slots available',
-                      style: const TextStyle(color: AppTheme.textSecondary, fontSize: 11, fontWeight: FontWeight.w600)),
+                  const Text('No slots available',
+                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 11, fontWeight: FontWeight.w600)),
                   const Text('Please select another date',
                       style: TextStyle(color: AppTheme.textSecondary, fontSize: 9)),
                 ],
@@ -592,7 +602,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
             ),
           )
         
-        // Slot grid - for today show only future slots, for other dates show all slots with disabled past ones
+        // Slot grid — shows ALL slots; past/booked are blocked (dimmed, non-tappable)
         else
           GridView.builder(
             shrinkWrap: true,
@@ -606,44 +616,91 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
             itemCount: displaySlots.length,
             itemBuilder: (_, i) {
               final slot = displaySlots[i];
-              final isAvailable = slot['available'] == true;
-              final isSelected = _selectedSlotIndex == i && isAvailable;
-              final startTime = slot['time'] ?? '';
-              
+              // A slot is blocked if booked OR if today and its time has passed (IST)
+              final isBlocked = _isSlotBlocked(slot, isToday);
+              final isSelected = _selectedSlotIndex == i && !isBlocked;
+              final startTime = (slot['time'] ?? '') as String;
+              final isBooked = slot['available'] != true;
+              final isPast = !isBooked && isBlocked; // blocked because of past time today
+
+              // Label shown under the time
+              String subLabel;
+              if (isBooked) {
+                subLabel = 'Booked';
+              } else if (isPast) {
+                subLabel = 'Past';
+              } else {
+                subLabel = slot['endTime'] ?? '';
+              }
+
               return GestureDetector(
-                onTap: isAvailable ? () => setState(() => _selectedSlotIndex = i) : null,
+                onTap: isBlocked ? null : () => setState(() => _selectedSlotIndex = i),
                 child: Opacity(
-                  opacity: isAvailable ? 1.0 : 0.2,
+                  opacity: isBlocked ? 0.35 : 1.0,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: isSelected ? AppTheme.gold : AppTheme.background.withOpacity(0.6),
+                      color: isSelected
+                          ? AppTheme.gold
+                          : isBlocked
+                              ? AppTheme.background.withOpacity(0.3)
+                              : AppTheme.background.withOpacity(0.6),
                       border: Border.all(
-                        color: isSelected ? AppTheme.gold : AppTheme.borderLight.withOpacity(0.5),
+                        color: isSelected
+                            ? AppTheme.gold
+                            : isBlocked
+                                ? AppTheme.borderLight.withOpacity(0.3)
+                                : AppTheme.borderLight.withOpacity(0.5),
                         width: isSelected ? 2 : 1,
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Stack(
                       children: [
-                        // Start time (larger)
-                        Text(
-                          startTime,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            color: isSelected ? AppTheme.darkBrown : AppTheme.textPrimary,
-                            fontSize: 13,
+                        Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                startTime,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w900,
+                                  color: isSelected
+                                      ? AppTheme.darkBrown
+                                      : isBlocked
+                                          ? AppTheme.textSecondary
+                                          : AppTheme.textPrimary,
+                                  fontSize: 13,
+                                  decoration: isBlocked ? TextDecoration.lineThrough : null,
+                                  decorationColor: AppTheme.textSecondary,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                subLabel,
+                                style: TextStyle(
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w700,
+                                  color: isSelected
+                                      ? AppTheme.darkBrown.withOpacity(0.6)
+                                      : isBlocked
+                                          ? Colors.redAccent.withOpacity(0.7)
+                                          : AppTheme.textSecondary,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        // End time or N/A (smaller, lighter)
-                        Text(
-                          isAvailable ? (slot['endTime'] ?? '') : 'N/A',
-                          style: TextStyle(
-                            fontSize: 8,
-                            fontWeight: FontWeight.w600,
-                            color: isSelected ? AppTheme.darkBrown.withOpacity(0.5) : AppTheme.textSecondary,
+                        // Lock icon on blocked slots
+                        if (isBlocked)
+                          Positioned(
+                            top: 4,
+                            right: 4,
+                            child: Icon(
+                              isBooked ? Icons.person_off_rounded : Icons.lock_clock,
+                              size: 10,
+                              color: AppTheme.textSecondary.withOpacity(0.5),
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -656,13 +713,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   }
 
   Widget _buildDetailsForm() {
-    // Properly format today's date using DateFormat to ensure correct comparison
-    final todayStr = DateFormat('yyyy-MM-dd').format(_today);
-    final isToday = _selectedDate == todayStr;
-    final displaySlots = isToday 
-        ? _slots.where((slot) => slot['available'] == true).toList()
-        : _slots;
-    final selectedSlot = _selectedSlotIndex != null ? displaySlots[_selectedSlotIndex!] : null;
+    // _selectedSlotIndex is always an index into _slots directly
+    final selectedSlot = _selectedSlotIndex != null ? _slots[_selectedSlotIndex!] : null;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -840,14 +892,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
 
   VoidCallback? _getNextButtonAction() {
     if (_step == 1) {
+      // Slots are already being fetched (started on date tap), just navigate
       return _selectedDate.isNotEmpty
-          ? () {
-              _fetchSlots(_selectedDate).then((_) {
-                if (mounted) {
-                  setState(() => _step = 2);
-                }
-              });
-            }
+          ? () => setState(() => _step = 2)
           : null;
     } else if (_step == 2) {
       return _selectedSlotIndex != null ? () => setState(() => _step = 3) : null;
