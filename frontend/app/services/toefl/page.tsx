@@ -145,25 +145,25 @@ export default function ToeflHelpPage() {
                                 <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
                                     <div className="flex items-center gap-3">
                                         <Trophy className="text-[#C5A059]" size={20} />
-                                        <span className="text-[10px] text-[#3C2A21] font-bold tracking-widest uppercase">Benchmark Scorecard</span>
+                                        <span className="text-[14px] font-bold text-[#3C2A21] font-bold tracking-widest uppercase">Benchmark Scorecard</span>
                                     </div>
                                     <div className="w-3 h-3 rounded-full bg-[#22c55e] animate-pulse" />
                                 </div>
                                 <div className="p-10 space-y-8 bg-[#FDFBF7]">
                                     <div className="text-center space-y-2">
-                                        <span className="text-[10px] text-[#C5A059] font-bold tracking-[0.2em] uppercase">Mentor Score</span>
+                                        <span className="text-[14px] font-bold text-[#C5A059] font-bold tracking-[0.2em] uppercase">Mentor Score</span>
                                         <div className="fd text-6xl font-bold text-[#3C2A21]">119<span className="text-2xl text-[#C5A059]/40">/120</span></div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4">
                                         {scores.map((s) => (
                                             <div key={s.label} className="bg-white p-4 rounded-2xl border border-[#F1EDEA] flex justify-between items-center">
-                                                <span className="text-[10px] font-bold text-[#3C2A21]/40 uppercase tracking-widest">{s.label}</span>
+                                                <span className="text-[14px] font-bold font-bold text-[#3C2A21]/40 uppercase tracking-widest">{s.label}</span>
                                                 <span className="text-[#C5A059] font-black text-xs">{s.val}</span>
                                             </div>
                                         ))}
                                     </div>
                                     <div className="p-6 bg-[#3C2A21] rounded-2xl space-y-2">
-                                        <p className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">Strategy Insight</p>
+                                        <p className="text-white/60 text-[14px] font-bold font-bold uppercase tracking-[0.2em]">Strategy Insight</p>
                                         <p className="text-white font-serif italic text-xs leading-relaxed">
                                             "We target high-yield weaknesses through surgical mock evaluation, ensuring 110+ result within 15 days of prep."
                                         </p>
@@ -247,7 +247,7 @@ export default function ToeflHelpPage() {
                                     </div>
                                     <div>
                                         <h3 className="fd text-2xl font-bold">Secure Your Bench</h3>
-                                        <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Global Standards Applied</p>
+                                        <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Global Standards Applied</p>
                                     </div>
                                 </div>
                                 <AddToCart serviceId="toefl" />

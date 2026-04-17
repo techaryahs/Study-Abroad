@@ -93,7 +93,7 @@ export default function CounsellingPage() {
                       <span className="text-sm font-semibold text-[#e5e5e5]">
                         {item.name}
                       </span>
-                      <span className="text-[10px] font-black text-[#c6a96b] border border-[#c6a96b]/20 px-3 py-1.5 rounded-lg group-hover:bg-[#c6a96b] group-hover:text-[#000000] transition-all">
+                      <span className="text-[14px] font-bold font-black text-[#c6a96b] border border-[#c6a96b]/20 px-3 py-1.5 rounded-lg group-hover:bg-[#c6a96b] group-hover:text-[#000000] transition-all">
                         CHECK
                       </span>
                     </div>

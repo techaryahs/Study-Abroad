@@ -283,7 +283,7 @@ export default function EditProfilePage() {
               <ChevronLeft size={20} className="group-hover:-translate-x-0.5 transition-transform" />
             </button>
             <div className="flex flex-col">
-              <span className="text-[10px] font-black uppercase text-[#C5A059]/60 tracking-[0.3em] ml-1 mb-1">Your Profile</span>
+              <span className="text-[14px] font-bold font-black uppercase text-[#C5A059]/60 tracking-[0.3em] ml-1 mb-1">Your Profile</span>
               <h1 className="fd text-2xl md:text-4xl font-bold text-[#3C2A21] uppercase tracking-tighter leading-none">Edit Profile</h1>
             </div>
           </div>
@@ -329,7 +329,7 @@ export default function EditProfilePage() {
               <div className="space-y-8">
                 <section className="glass-panel p-6 md:p-10 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/5 blur-[100px] rounded-full -mr-32 -mt-32" />
-                  <h2 className="text-[10px] font-black uppercase text-[#C5A059]/80 tracking-[0.4em] mb-8 md:mb-12 border-b border-[#F1EDEA] pb-6 relative z-10">Identity Core</h2>
+                  <h2 className="text-[14px] font-bold font-black uppercase text-[#C5A059]/80 tracking-[0.4em] mb-8 md:mb-12 border-b border-[#F1EDEA] pb-6 relative z-10">Identity Core</h2>
 
                   <div className="flex flex-col md:flex-row items-center gap-10 mb-12 relative z-10">
                     <div className="relative group/avatar">
@@ -373,14 +373,14 @@ export default function EditProfilePage() {
                     </div>
                     <div className="flex flex-col gap-2 text-center md:text-left">
                       <h3 className="fd text-2xl font-bold text-[#3C2A21] italic tracking-tight">{formData.name || "Scholar Instance"}</h3>
-                      <p className="text-[9px] font-bold text-[#6B5E51] uppercase tracking-[0.2em]">{formData.email}</p>
+                      <p className="text-[13px] font-bold font-bold text-[#6B5E51] uppercase tracking-[0.2em]">{formData.email}</p>
                     </div>
                   </div>
 
                   <div className="space-y-4 max-w-2xl mx-auto relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-6">
                       <div className="flex items-center justify-between py-4 border-b border-[#F1EDEA] px-4 rounded-xl cursor-default group hover:bg-[#FDFBF7] transition-all">
-                        <span className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest">Gender Expression</span>
+                        <span className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest">Gender Expression</span>
                         <select
                           value={formData.gender}
                           onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
@@ -393,7 +393,7 @@ export default function EditProfilePage() {
                         </select>
                       </div>
                       <div className="flex items-center justify-between py-4 border-b border-[#F1EDEA] px-4 rounded-xl cursor-default group hover:bg-[#FDFBF7] transition-all">
-                        <span className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest">Origin Date</span>
+                        <span className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest">Origin Date</span>
                         <input
                           type="date"
                           value={formData.dob}
@@ -404,7 +404,7 @@ export default function EditProfilePage() {
                     </div>
 
                     <div className="space-y-4">
-                      <label className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest ml-4">Personal Narrative (Bio)</label>
+                      <label className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-4">Personal Narrative (Bio)</label>
                       <textarea
                         rows={4}
                         value={formData.bio}
@@ -431,7 +431,7 @@ export default function EditProfilePage() {
                       { label: 'LinkedIn Node', val: formData.linkedin, field: 'linkedin' },
                     ].map((item) => (
                       <div key={item.label} className="space-y-3">
-                        <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">{item.label}</label>
+                        <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">{item.label}</label>
                         <input
                           type="text"
                           value={item.val}
@@ -452,8 +452,8 @@ export default function EditProfilePage() {
                   </div>
 
                   <div className="mt-12 pt-8 border-t border-[#F1EDEA] flex flex-col sm:flex-row gap-4">
-                    <button onClick={() => setShowPasswordModal(true)} className="w-full sm:w-auto px-8 py-3 bg-white border border-[#C5A059]/10 rounded-xl text-[9px] font-black text-[#6B5E51] uppercase tracking-widest hover:text-[#C5A059] transition-colors shadow-sm">Access Logic Reset</button>
-                    <button onClick={() => handleSave()} disabled={saving} className="w-full sm:w-auto sm:ml-auto px-12 py-3.5 bg-[#C5A059] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50">
+                    <button onClick={() => setShowPasswordModal(true)} className="w-full sm:w-auto px-8 py-3 bg-white border border-[#C5A059]/10 rounded-xl text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest hover:text-[#C5A059] transition-colors shadow-sm">Access Logic Reset</button>
+                    <button onClick={() => handleSave()} disabled={saving} className="w-full sm:w-auto sm:ml-auto px-12 py-3.5 bg-[#C5A059] text-white rounded-xl text-[14px] font-bold font-black uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50">
                       {saving ? "Updating..." : "Synchronize Profile"}
                     </button>
                   </div>
@@ -474,13 +474,13 @@ export default function EditProfilePage() {
                       <div className="w-8 h-8 rounded-lg bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] shadow-inner">
                         <GraduationCap size={16} />
                       </div>
-                      <h3 className="text-[10px] font-black text-[#3C2A21] uppercase tracking-[0.2em]">{sec.label}</h3>
+                      <h3 className="text-[14px] font-bold font-black text-[#3C2A21] uppercase tracking-[0.2em]">{sec.label}</h3>
                     </div>
 
                     <div className="space-y-6">
                       <div className="flex flex-col md:flex-row md:items-center gap-6">
                         <div className="flex-1 space-y-2">
-                          <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">{sec.id === 'highSchool' ? 'School Name' : 'University Name'}</label>
+                          <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">{sec.id === 'highSchool' ? 'School Name' : 'University Name'}</label>
                           <input
                             type="text"
                             value={(formData.education as any)[sec.id][sec.id === 'highSchool' ? 'schoolName' : 'uniName'] || ''}
@@ -495,7 +495,7 @@ export default function EditProfilePage() {
                         </div>
                         {sec.id !== 'highSchool' && (
                           <div className="flex-1 space-y-2">
-                            <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Degree Title</label>
+                            <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Degree Title</label>
                             <input
                               type="text"
                               value={(formData.education as any)[sec.id].degreeName || ''}
@@ -510,7 +510,7 @@ export default function EditProfilePage() {
                           </div>
                         )}
                         <div className="w-full md:w-auto space-y-2">
-                          <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Result (CGPA)</label>
+                          <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Result (CGPA)</label>
                           <div className="flex items-center gap-3">
                             <input
                               type="text"
@@ -523,7 +523,7 @@ export default function EditProfilePage() {
                               }}
                               className="w-24 bg-white border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-center text-xs font-black text-[#3C2A21] shadow-sm"
                             />
-                            <span className="text-[#6B5E51] text-[10px] font-black uppercase">/</span>
+                            <span className="text-[#6B5E51] text-[14px] font-bold font-black uppercase">/</span>
                             <input
                               type="text"
                               value={(formData.education as any)[sec.id].outOf || ''}
@@ -556,7 +556,7 @@ export default function EditProfilePage() {
                       { label: 'Target Year', field: 'year', placeholder: 'e.g. 2025', icon: <Settings size={14} /> },
                     ].map((item) => (
                       <div key={item.field} className="space-y-2">
-                        <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1 flex items-center gap-2">
+                        <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 flex items-center gap-2">
                           {item.icon}
                           {item.label}
                         </label>
@@ -576,7 +576,7 @@ export default function EditProfilePage() {
                   </div>
 
                   <div className="mt-10 pt-8 border-t border-[#F1EDEA] flex">
-                    <button onClick={() => handleSave()} disabled={saving} className="ml-auto px-12 py-3.5 bg-[#C5A059] text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50">
+                    <button onClick={() => handleSave()} disabled={saving} className="ml-auto px-12 py-3.5 bg-[#C5A059] text-white rounded-xl text-[14px] font-bold font-black uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50">
                       {saving ? "Syncing..." : "Update Trajectory"}
                     </button>
                   </div>
@@ -588,7 +588,7 @@ export default function EditProfilePage() {
               <div className="space-y-12">
                 <div className="flex flex-col items-center text-center space-y-4 pt-4">
                   <h2 className="fd text-4xl font-bold text-[#3C2A21] italic tracking-tighter uppercase">Standardized Tests</h2>
-                  <p className="text-[#6B5E51] text-[10px] font-bold uppercase tracking-[0.4em] max-w-sm leading-relaxed italic">
+                  <p className="text-[#6B5E51] text-[14px] font-bold font-bold uppercase tracking-[0.4em] max-w-sm leading-relaxed italic">
                     Quantify your academic excellence with global benchmarks.
                   </p>
                   <div className="h-1 w-24 bg-gradient-to-r from-transparent via-[#C5A059]/50 to-transparent rounded-full" />
@@ -619,7 +619,7 @@ export default function EditProfilePage() {
 
                         <div className="absolute inset-0 p-6 flex flex-col justify-between z-10">
                           <div className="flex items-center justify-between">
-                            <span className={`text-[10px] font-black uppercase tracking-widest ${hasData ? 'text-[#C5A059]' : 'text-[#6B5E51] group-hover:text-[#3C2A21]'}`}>
+                            <span className={`text-[14px] font-bold font-black uppercase tracking-widest ${hasData ? 'text-[#C5A059]' : 'text-[#6B5E51] group-hover:text-[#3C2A21]'}`}>
                               {test.name}
                             </span>
                             {hasData ? (
@@ -645,12 +645,12 @@ export default function EditProfilePage() {
                                 <div className="fd text-2xl font-bold text-[#3C2A21] italic tracking-tighter">
                                   {mainScore || "Active"}
                                 </div>
-                                <div className="text-[8px] font-black text-[#6B5E51] uppercase tracking-widest opacity-40 italic">
+                                <div className="text-[12px] font-black font-black text-[#6B5E51] uppercase tracking-widest opacity-40 italic">
                                   Score Recorded
                                 </div>
                               </>
                             ) : (
-                              <div className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest group-hover:text-[#3C2A21] transition-colors opacity-40">
+                              <div className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest group-hover:text-[#3C2A21] transition-colors opacity-40">
                                 Add Details
                               </div>
                             )}
@@ -684,12 +684,12 @@ export default function EditProfilePage() {
                   <FileText size={48} className="opacity-80 hidden md:block" />
                 </div>
                 <h2 className="fd text-xl md:text-2xl font-bold text-[#3C2A21] uppercase tracking-widest mb-4 italic relative z-10">My Resume</h2>
-                <p className="text-[#6B5E51] text-[9px] md:text-[10px] font-bold uppercase tracking-widest max-w-xs mx-auto leading-relaxed mb-10 md:mb-12 italic relative z-10 opacity-60">
+                <p className="text-[#6B5E51] text-[13px] font-bold md:text-[14px] font-bold font-bold uppercase tracking-widest max-w-xs mx-auto leading-relaxed mb-10 md:mb-12 italic relative z-10 opacity-60">
                   {formData.resumeName ? `Instance Active: ${formData.resumeName}` : "No resume protocol detected."}
                 </p>
                 <div className="max-w-md mx-auto p-8 md:p-12 border-2 border-dashed border-[#F1EDEA] rounded-[2rem] group hover:border-[#C5A059]/40 transition-all cursor-pointer relative z-10 bg-[#FDFBF7]">
                   <Plus size={24} className="text-[#6B5E51] opacity-20 mx-auto mb-4 group-hover:text-[#C5A059] group-hover:opacity-100 transition-all" />
-                  <span className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest block group-hover:text-[#3C2A21] transition-colors opacity-40">Upload New Document</span>
+                  <span className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest block group-hover:text-[#3C2A21] transition-colors opacity-40">Upload New Document</span>
                 </div>
               </section>
             )}
@@ -770,9 +770,9 @@ function TestUpdateModal({ testId, testDef, scores, onChange, onClose }: any) {
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <h3 className="fd text-3xl font-bold text-[#3C2A21] italic tracking-tighter uppercase">{testDef.name}</h3>
-              <p className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest opacity-40 italic">Update Sectional Benchmarks</p>
+              <p className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest opacity-40 italic">Update Sectional Benchmarks</p>
             </div>
-            <button onClick={onClose} className="p-2 md:p-3 bg-white border border-[#C5A059]/10 rounded-2xl text-[#6B5E51]/40 hover:text-[#C5A059] transition-all">
+            <button onClick={onClose} className="p-2 md:p-3 bg-white border border-[#C5A059]/10 rounded-2xl text-[#6B5E51]/70 hover:text-[#C5A059] transition-all">
               <Plus size={20} className="rotate-45" />
             </button>
           </div>
@@ -780,7 +780,7 @@ function TestUpdateModal({ testId, testDef, scores, onChange, onClose }: any) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
             {testDef.sections.map((section: string) => (
               <div key={section} className="space-y-3">
-                <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">{section}</label>
+                <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">{section}</label>
                 <input
                   type="text"
                   value={scores[section] || ''}
@@ -890,7 +890,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
           </div>
           <button 
             onClick={onClose} 
-            className="p-2 md:p-3 bg-white border border-[#C5A059]/10 rounded-2xl text-[#6B5E51]/40 hover:text-[#C5A059] transition-all"
+            className="p-2 md:p-3 bg-white border border-[#C5A059]/10 rounded-2xl text-[#6B5E51]/70 hover:text-[#C5A059] transition-all"
           >
             <Plus size={20} className="rotate-45" />
           </button>
@@ -900,7 +900,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
           <motion.div 
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`text-[10px] font-black uppercase mb-6 p-4 rounded-xl border flex items-center gap-3 ${
+            className={`text-[14px] font-bold font-black uppercase mb-6 p-4 rounded-xl border flex items-center gap-3 ${
               message.type === 'success' 
                 ? 'bg-green-500/10 border-green-500/20 text-green-600' 
                 : 'bg-red-500/10 border-red-500/20 text-red-600'
@@ -914,7 +914,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
         <div className="space-y-6">
           {/* Current Password */}
           <div className="space-y-2">
-            <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Current Password</label>
+            <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Current Password</label>
             <div className="relative">
               <input 
                 type={showPasswords.current ? 'text' : 'password'}
@@ -926,7 +926,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
               <button
                 type="button"
                 onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/50 hover:text-[#C5A059] transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/80 hover:text-[#C5A059] transition-colors"
               >
                 {showPasswords.current ? <Eye size={16} /> : <EyeOff size={16} />}
               </button>
@@ -935,7 +935,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
 
           {/* New Password */}
           <div className="space-y-2">
-            <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">New Password</label>
+            <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">New Password</label>
             <div className="relative">
               <input 
                 type={showPasswords.new ? 'text' : 'password'}
@@ -947,7 +947,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
               <button
                 type="button"
                 onClick={() => setShowPasswords({ ...showPasswords, new: !showPasswords.new })}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/50 hover:text-[#C5A059] transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/80 hover:text-[#C5A059] transition-colors"
               >
                 {showPasswords.new ? <Eye size={16} /> : <EyeOff size={16} />}
               </button>
@@ -956,7 +956,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
 
           {/* Confirm Password */}
           <div className="space-y-2">
-            <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Confirm New Password</label>
+            <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Confirm New Password</label>
             <div className="relative">
               <input 
                 type={showPasswords.confirm ? 'text' : 'password'}
@@ -968,7 +968,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
               <button
                 type="button"
                 onClick={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/50 hover:text-[#C5A059] transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/80 hover:text-[#C5A059] transition-colors"
               >
                 {showPasswords.confirm ? <Eye size={16} /> : <EyeOff size={16} />}
               </button>
@@ -977,8 +977,8 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
 
           {/* Password Requirements */}
           <div className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl p-4 space-y-2">
-            <p className="text-[8px] font-black text-[#6B5E51] uppercase tracking-widest">Password Requirements:</p>
-            <div className="space-y-1 text-[9px] font-bold text-[#6B5E51]/70">
+            <p className="text-[12px] font-black font-black text-[#6B5E51] uppercase tracking-widest">Password Requirements:</p>
+            <div className="space-y-1 text-[13px] font-bold font-bold text-[#6B5E51]/70">
               <div className="flex items-center gap-2">
                 <div className={`w-2 h-2 rounded-full ${newPassword.length >= 8 ? 'bg-green-500' : 'bg-[#C5A059]/20'}`} />
                 At least 8 characters
@@ -1003,14 +1003,14 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
             <button 
               onClick={onClose}
               disabled={loading}
-              className="flex-1 py-4 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#FDFBF7] transition-all active:scale-95 disabled:opacity-50"
+              className="flex-1 py-4 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-xl font-black text-[14px] font-bold uppercase tracking-widest hover:bg-[#FDFBF7] transition-all active:scale-95 disabled:opacity-50"
             >
               Cancel
             </button>
             <button 
               onClick={handleChangePassword}
               disabled={loading}
-              className="flex-1 py-4 bg-[#C5A059] text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg hover:bg-[#3C2A21] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 py-4 bg-[#C5A059] text-white rounded-xl font-black text-[14px] font-bold uppercase tracking-widest shadow-lg hover:bg-[#3C2A21] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>

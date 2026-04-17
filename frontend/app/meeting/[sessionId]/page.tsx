@@ -327,18 +327,18 @@ export default function MeetingPage() {
             <p className="text-white font-semibold text-sm leading-none">
               {session?.consultantName}
             </p>
-            <p className="text-white/30 text-[10px] mt-0.5">
+            <p className="text-white/30 text-[14px] font-bold mt-0.5">
               {session?.date} · {session?.time} – {session?.endTime}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="hidden sm:block text-white/20 text-[10px] font-mono">
+          <span className="hidden sm:block text-white/20 text-[14px] font-bold font-mono">
             {session?.meetingId}
           </span>
           {isHost && (
-            <span className="text-[9px] font-black uppercase tracking-widest text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/20 px-2 py-1 rounded-lg">
+            <span className="text-[13px] font-bold font-black uppercase tracking-widest text-[#d4af37] bg-[#d4af37]/10 border border-[#d4af37]/20 px-2 py-1 rounded-lg">
               Host
             </span>
           )}

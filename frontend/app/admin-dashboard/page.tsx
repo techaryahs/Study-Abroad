@@ -60,7 +60,7 @@ function PasswordInput({
   const [show, setShow] = useState(false);
   return (
     <div>
-      <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#c2a878]/60 mb-2">{label}</label>
+      <label className="block text-[14px] font-bold font-black uppercase tracking-[0.15em] text-[#c2a878]/60 mb-2">{label}</label>
       <div className="relative">
         <Lock size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#c2a878]/40" />
         <input
@@ -82,7 +82,7 @@ function PasswordInput({
 function EmailInput({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div>
-      <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#c2a878]/60 mb-2">{label}</label>
+      <label className="block text-[14px] font-bold font-black uppercase tracking-[0.15em] text-[#c2a878]/60 mb-2">{label}</label>
       <input
         type="email"
         value={value}
@@ -97,7 +97,7 @@ function EmailInput({ label, value, onChange }: { label: string; value: string; 
 function OtpInput({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <div>
-      <label className="block text-[10px] font-black uppercase tracking-[0.15em] text-[#c2a878]/60 mb-2">{label}</label>
+      <label className="block text-[14px] font-bold font-black uppercase tracking-[0.15em] text-[#c2a878]/60 mb-2">{label}</label>
       <input
         type="text"
         inputMode="numeric"
@@ -181,7 +181,7 @@ function ChangePasswordModal({ onClose, onForgot, token }: {
           </div>
           <div className="flex-1">
             <h2 className="text-base font-black text-white">Change Password</h2>
-            <p className="text-[10px] font-semibold text-white/40 uppercase tracking-widest">Update admin credentials</p>
+            <p className="text-[14px] font-bold font-semibold text-white/40 uppercase tracking-widest">Update admin credentials</p>
           </div>
           <button onClick={onClose} className="text-white/30 hover:text-white transition-colors"><X size={18} /></button>
         </div>
@@ -196,7 +196,7 @@ function ChangePasswordModal({ onClose, onForgot, token }: {
 
         {/* Forgot link */}
         <button onClick={onForgot}
-          className="mt-3 text-[10px] font-black text-[#c2a878]/60 hover:text-[#c2a878] transition-colors float-right uppercase tracking-wider">
+          className="mt-3 text-[14px] font-bold font-black text-[#c2a878]/60 hover:text-[#c2a878] transition-colors float-right uppercase tracking-wider">
           Forgot current password?
         </button>
 
@@ -284,7 +284,7 @@ function ForgotPasswordModal({ onClose }: { onClose: () => void }) {
           </div>
           <div className="flex-1">
             <h2 className="text-base font-black text-white">Forgot Password</h2>
-            <p className="text-[10px] font-semibold text-white/40 uppercase tracking-widest">
+            <p className="text-[14px] font-bold font-semibold text-white/40 uppercase tracking-widest">
               Step {step} of 2 — {step === 1 ? "Verify Identity" : "Set New Password"}
             </p>
           </div>
@@ -349,7 +349,7 @@ function ProfileTab({ user, token, onLogout }: {
           <div>
             <p className="text-xl font-black text-white">{user?.name || "Admin"}</p>
             <p className="text-sm text-white/40 mt-0.5">{user?.email || ""}</p>
-            <span className="mt-2 inline-block text-[9px] font-black px-3 py-1 rounded-full bg-[#c2a878] text-black uppercase tracking-widest">
+            <span className="mt-2 inline-block text-[13px] font-bold font-black px-3 py-1 rounded-full bg-[#c2a878] text-black uppercase tracking-widest">
               Administrator
             </span>
           </div>
@@ -370,7 +370,7 @@ function ProfileTab({ user, token, onLogout }: {
             </div>
             <div className="flex-1">
               <p className="text-sm font-black text-white">{label}</p>
-              <p className="text-[10px] text-white/40 mt-0.5">{desc}</p>
+              <p className="text-[14px] font-bold text-white/40 mt-0.5">{desc}</p>
             </div>
             <ChevronRight size={14} className="text-white/20 group-hover:text-[#c2a878] transition-colors" />
           </button>
@@ -490,7 +490,7 @@ export default function AdminDashboard() {
             </h1>
             <button
               onClick={handleLogout}
-              className="ml-auto flex items-center gap-2 px-4 py-2 text-[10px] font-black uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 hover:border-red-500/40 rounded-xl transition-all"
+              className="ml-auto flex items-center gap-2 px-4 py-2 text-[14px] font-bold font-black uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 hover:border-red-500/40 rounded-xl transition-all"
             >
               <LogOut size={13} /> Logout
             </button>
@@ -537,19 +537,19 @@ export default function AdminDashboard() {
                   <div className="flex items-center gap-3 mb-2">
                     <User size={16} className="text-[#c2a878]" />
                     <span className="text-white font-bold">{s.userName || s.userEmail}</span>
-                    <span className="text-[8px] px-2 py-0.5 bg-[#c2a878] text-black font-black uppercase rounded-full">Active</span>
+                    <span className="text-[12px] font-black px-2 py-0.5 bg-[#c2a878] text-black font-black uppercase rounded-full">Active</span>
                   </div>
-                  <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-gray-600">
+                  <div className="flex items-center gap-4 text-[14px] font-bold font-black uppercase tracking-widest text-gray-600">
                     <div className="flex items-center gap-2"><Calendar size={12} className="text-[#c2a878]" /><span>{s.date}</span></div>
                     <div className="flex items-center gap-2"><Clock size={12} className="text-[#c2a878]" /><span>{s.time} - {s.endTime}</span></div>
                   </div>
-                  <div className="text-[10px] text-gray-500 mt-1">
+                  <div className="text-[14px] font-bold text-gray-500 mt-1">
                     Meeting ID: <span className="text-[#c2a878] font-mono">{s.meetingId}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <button onClick={() => router.push(`/meeting/${s.sessionId}`)}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95">
+                    className="flex items-center gap-2 px-6 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[14px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95">
                     <Video size={14} /> Join Meeting
                   </button>
                   <button onClick={() => cancelSession(s._id)}
@@ -560,7 +560,7 @@ export default function AdminDashboard() {
               </div>
             )) : (
               <div className="py-20 text-center rounded-2xl border border-dashed border-white/5">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-700">No active sessions scheduled</p>
+                <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-gray-700">No active sessions scheduled</p>
               </div>
             )}
           </div>
@@ -580,22 +580,22 @@ export default function AdminDashboard() {
                   <div className="flex items-center gap-3 mb-2">
                     <User size={16} className="text-gray-500" />
                     <span className="text-white font-bold">{s.userName || s.userEmail}</span>
-                    <span className={`text-[8px] px-2 py-0.5 font-black uppercase rounded-full ${
+                    <span className={`text-[12px] font-black px-2 py-0.5 font-black uppercase rounded-full ${
                       s.status === "completed" ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400"
                     }`}>{s.status}</span>
                   </div>
-                  <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-gray-600">
+                  <div className="flex items-center gap-4 text-[14px] font-bold font-black uppercase tracking-widest text-gray-600">
                     <div className="flex items-center gap-2"><Calendar size={12} /><span>{s.date}</span></div>
                     <div className="flex items-center gap-2"><Clock size={12} /><span>{s.time} - {s.endTime}</span></div>
                   </div>
                 </div>
-                <div className="text-[10px] text-gray-600 uppercase tracking-wider">
+                <div className="text-[14px] font-bold text-gray-600 uppercase tracking-wider">
                   {s.status === "completed" ? "Session Complete" : "Cancelled"}
                 </div>
               </div>
             )) : (
               <div className="py-20 text-center rounded-2xl border border-dashed border-white/5">
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-700">No past sessions found</p>
+                <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-gray-700">No past sessions found</p>
               </div>
             )}
           </div>

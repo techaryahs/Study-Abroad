@@ -116,7 +116,7 @@ export default function UsMockInterviewPage() {
                    <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                       <div className="flex items-center gap-3 mb-2">
                          <Award className="text-[#C5A059]" size={20} />
-                         <span className="text-[10px] text-white font-bold tracking-widest uppercase">Certified Success Node</span>
+                         <span className="text-[14px] font-bold text-white font-bold tracking-widest uppercase">Certified Success Node</span>
                       </div>
                       <p className="text-white font-serif italic text-sm leading-relaxed">
                          "We simulate the consulate friction exactly, ensuring zero-beta performance on the day."
@@ -173,7 +173,7 @@ export default function UsMockInterviewPage() {
                 {/* CONSENSUS */}
                 <div className="space-y-10 pt-10 border-t border-[#F1EDEA]">
                      <div className="space-y-2">
-                        <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase tracking-widest">Public Consensus</span>
+                        <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.2em] uppercase tracking-widest">Public Consensus</span>
                         <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
                      </div>
                      <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
@@ -198,7 +198,7 @@ export default function UsMockInterviewPage() {
             
             <div className="relative z-10 w-full flex flex-col md:flex-row items-center justify-between px-12 md:px-20 gap-8">
                 <div className="space-y-4">
-                    <span className="text-[#C5A059] font-black uppercase tracking-[0.4em] text-[10px]">Strategic Provenance</span>
+                    <span className="text-[#C5A059] font-black uppercase tracking-[0.4em] text-[14px] font-bold">Strategic Provenance</span>
                     <h3 className="fd text-4xl md:text-5xl font-bold text-white">Consulate <br/> <span className="gold-shimmer">Success Rate</span></h3>
                     <p className="text-white/60 text-sm md:text-base max-w-sm italic font-medium leading-relaxed">
                     Our psychological preparation approach maintains an elite standard of approval across global consulates.
@@ -207,7 +207,7 @@ export default function UsMockInterviewPage() {
 
                 <div className="flex flex-col items-center md:items-end">
                     <span className="fd text-7xl md:text-9xl font-black gold-shimmer leading-none">98.7%</span>
-                    <span className="text-white/40 font-black uppercase tracking-[0.5em] text-[10px] mt-2">Certified Approvals</span>
+                    <span className="text-white/40 font-black uppercase tracking-[0.5em] text-[14px] font-bold mt-2">Certified Approvals</span>
                 </div>
             </div>
         </div>

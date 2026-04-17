@@ -58,7 +58,7 @@ export default function BlogsPage() {
         className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24"
       >
         <motion.div variants={itemVariants} className="text-center mb-20 space-y-6">
-          <span className="text-gold-500 uppercase tracking-[0.4em] font-black text-[10px]">Insights</span>
+          <span className="text-gold-500 uppercase tracking-[0.4em] font-black text-[14px] font-bold">Insights</span>
           <h1 className="text-2xl md:text-4xl font-black leading-[1.1]">Global <span className="gradient-text-gold italic">Insights</span></h1>
           <p className="text-white/30 text-base max-w-2xl mx-auto font-normal italic">
             Elite academic mentorship strategies and latest international updates.
@@ -85,12 +85,12 @@ export default function BlogsPage() {
               className="glass-card group cursor-default relative overflow-hidden h-full transform-gpu"
             >
                <div className="space-y-6">
-                  <span className="text-[10px] text-gold-500 font-black uppercase tracking-[0.3em]">{blog.date}</span>
+                  <span className="text-[14px] font-bold text-gold-500 font-black uppercase tracking-[0.3em]">{blog.date}</span>
                   <h3 className="text-3xl font-black leading-tight group-hover:text-gold-500 transition-colors tracking-tight uppercase">{blog.title}</h3>
                   <p className="text-white/30 text-base leading-relaxed font-medium">{blog.excerpt}</p>
                </div>
                <div className="pt-12">
-                  <Link href={`/blogs/${blog.slug}`} className="btn-outline-gold inline-block w-full text-center py-4 text-[10px] uppercase font-black tracking-[0.3em] transition-all">
+                  <Link href={`/blogs/${blog.slug}`} className="btn-outline-gold inline-block w-full text-center py-4 text-[14px] font-bold uppercase font-black tracking-[0.3em] transition-all">
                     Read Full Article
                   </Link>
                </div>

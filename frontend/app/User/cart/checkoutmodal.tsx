@@ -176,13 +176,13 @@ export default function CheckoutModal({
                     <div className="p-10">
                         <div className="text-center mb-8">
                             <h2 className="text-[24px] font-serif font-black text-[#362B25] mb-1">Receipt</h2>
-                            <p className="text-[10px] uppercase font-black tracking-widest text-black/40">ID: {receiptData.paymentId}</p>
+                            <p className="text-[14px] font-bold uppercase font-black tracking-widest text-black/70">ID: {receiptData.paymentId}</p>
                         </div>
 
                         {/* Details */}
                         <div className="space-y-6 mb-10">
                             <div className="border-b border-black/5 pb-4">
-                                <h4 className="text-[9px] font-black uppercase tracking-widest text-black/30 mb-4">Purchased Services</h4>
+                                <h4 className="text-[13px] font-bold font-black uppercase tracking-widest text-black/60 mb-4">Purchased Services</h4>
                                 <div className="space-y-3">
                                     {receiptData.items.map((item: any, idx: number) => (
                                         <div key={idx} className="flex justify-between items-center bg-black/[0.02] p-3 rounded-xl border border-black/5">
@@ -194,7 +194,7 @@ export default function CheckoutModal({
                             </div>
 
                             <div className="space-y-3 px-2">
-                                <div className="flex justify-between text-[11px] font-bold text-black/40">
+                                <div className="flex justify-between text-[11px] font-bold text-black/70">
                                     <span>Subtotal</span>
                                     <span>{receiptData.currency} {formatPrice(receiptData.subtotal)}</span>
                                 </div>
@@ -212,10 +212,10 @@ export default function CheckoutModal({
 
                         {/* Action Buttons */}
                         <div className="grid grid-cols-2 gap-4 mb-4">
-                            <button className="flex items-center justify-center gap-2 bg-black/[0.03] hover:bg-black/[0.05] text-[#362B25] py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">
+                            <button className="flex items-center justify-center gap-2 bg-black/[0.03] hover:bg-black/[0.05] text-[#362B25] py-3.5 rounded-2xl text-[14px] font-bold font-black uppercase tracking-widest transition-all">
                                 <Download size={14} /> Download
                             </button>
-                            <button className="flex items-center justify-center gap-2 bg-black/[0.03] hover:bg-black/[0.05] text-[#362B25] py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">
+                            <button className="flex items-center justify-center gap-2 bg-black/[0.03] hover:bg-black/[0.05] text-[#362B25] py-3.5 rounded-2xl text-[14px] font-bold font-black uppercase tracking-widest transition-all">
                                 <Printer size={14} /> Printer
                             </button>
                         </div>
@@ -230,7 +230,7 @@ export default function CheckoutModal({
                             Done <ArrowRight size={14} />
                         </button>
 
-                        <p className="text-[9px] text-center text-black/40 font-bold uppercase tracking-widest mt-6">
+                        <p className="text-[13px] font-bold text-center text-black/70 font-bold uppercase tracking-widest mt-6">
                             A copy has been sent to {receiptData.userEmail}
                         </p>
                     </div>
@@ -249,7 +249,7 @@ export default function CheckoutModal({
                         <h2 className="text-[14px] font-black uppercase tracking-[0.15em] text-[#362B25]">Your Payment</h2>
                         <div className="h-[1px] bg-black/20 flex-1" />
                     </div>
-                    <button onClick={onClose} className="absolute top-4 right-4 p-2 text-black/40 hover:text-black transition-all">
+                    <button onClick={onClose} className="absolute top-4 right-4 p-2 text-black/70 hover:text-black transition-all">
                         <X size={16} />
                     </button>
                 </div>
@@ -272,7 +272,7 @@ export default function CheckoutModal({
                     </div>
 
                     {error && (
-                        <p className="text-red-500 text-[10px] font-bold text-center mb-4 bg-red-50 rounded-lg px-4 py-2">
+                        <p className="text-red-500 text-[14px] font-bold font-bold text-center mb-4 bg-red-50 rounded-lg px-4 py-2">
                             {error}
                         </p>
                     )}
@@ -285,7 +285,7 @@ export default function CheckoutModal({
                         >
                             {isProcessing ? <Loader2 size={16} className="animate-spin" /> : "Proceed (Offine Mode)"}
                         </button>
-                        <p className="text-[9px] text-[#675F5B] font-bold uppercase tracking-widest mt-4 opacity-70">
+                        <p className="text-[13px] font-bold text-[#675F5B] font-bold uppercase tracking-widest mt-4 opacity-70">
                             Payment system currently in offline mode
                         </p>
                     </div>

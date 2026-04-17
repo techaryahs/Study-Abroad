@@ -141,27 +141,27 @@ export default function GrePrepPage() {
                                 <div className="bg-[#3C2A21] px-6 py-4 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <Trophy className="text-[#C5A059]" size={20} />
-                                        <span className="text-[10px] text-white font-bold tracking-widest uppercase">Mentor Benchmark</span>
+                                        <span className="text-[14px] font-bold text-white font-bold tracking-widest uppercase">Mentor Benchmark</span>
                                     </div>
-                                    <span className="text-[10px] text-[#C5A059] font-bold uppercase tracking-widest">Global Top 1%</span>
+                                    <span className="text-[14px] font-bold text-[#C5A059] font-bold uppercase tracking-widest">Global Top 1%</span>
                                 </div>
                                 <div className="p-10 space-y-8 bg-[#FDFBF7]">
                                     <div className="text-center space-y-1">
-                                        <p className="text-[10px] text-[#3C2A21]/40 font-bold uppercase tracking-widest">Certified Score</p>
+                                        <p className="text-[14px] font-bold text-[#3C2A21]/40 font-bold uppercase tracking-widest">Certified Score</p>
                                         <h2 className="fd text-6xl font-black text-[#C5A059]">329 <span className="text-2xl text-[#3C2A21]/20">/340</span></h2>
                                     </div>
                                     <div className="grid grid-cols-3 gap-4 border-y border-[#F1EDEA] py-6">
                                         <div className="text-center space-y-1">
                                             <p className="text-[#3C2A21] font-bold text-lg">161</p>
-                                            <p className="text-[8px] text-[#C5A059] font-bold uppercase tracking-widest">Verbal</p>
+                                            <p className="text-[12px] font-black text-[#C5A059] font-bold uppercase tracking-widest">Verbal</p>
                                         </div>
                                         <div className="text-center space-y-1 border-x border-[#F1EDEA]">
                                             <p className="text-[#3C2A21] font-bold text-lg">168</p>
-                                            <p className="text-[8px] text-[#C5A059] font-bold uppercase tracking-widest">Quant</p>
+                                            <p className="text-[12px] font-black text-[#C5A059] font-bold uppercase tracking-widest">Quant</p>
                                         </div>
                                         <div className="text-center space-y-1">
                                             <p className="text-[#3C2A21] font-bold text-lg">4.5</p>
-                                            <p className="text-[8px] text-[#C5A059] font-bold uppercase tracking-widest">AWA</p>
+                                            <p className="text-[12px] font-black text-[#C5A059] font-bold uppercase tracking-widest">AWA</p>
                                         </div>
                                     </div>
                                     <div className="space-y-4">
@@ -239,7 +239,7 @@ export default function GrePrepPage() {
                             <p className="text-sm text-[#3C2A21]/60 font-medium leading-relaxed">
                                 Not sure if you're ready for the deep dive? Connect with a team member to legacy-check your current progress.
                             </p>
-                            <Link href="/contact" className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[10px] tracking-widest uppercase hover:gap-3 transition-all">
+                            <Link href="/contact" className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[14px] font-bold tracking-widest uppercase hover:gap-3 transition-all">
                                 Message now <ArrowRight size={14} />
                             </Link>
                         </div>

@@ -35,7 +35,7 @@ export default function GroupDetailsModal({ isOpen, onClose, group, onJoinClick 
           >
             {/* Header */}
             <div className="flex items-center justify-between px-8 py-6 border-b border-[#F1EDEA]">
-              <h2 className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-[0.3em] flex-1">Cluster Specifications</h2>
+              <h2 className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-[0.3em] flex-1">Cluster Specifications</h2>
               <button 
                 onClick={onClose}
                 className="text-[#A8A29E] hover:text-[#C5A059] transition-all bg-[#F8F5F0] p-1.5 rounded-full"
@@ -63,11 +63,11 @@ export default function GroupDetailsModal({ isOpen, onClose, group, onJoinClick 
                 {/* Performance Indicators */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-[#F8F5F0] p-4 rounded-2xl border border-[rgba(197,160,89,0.1)]">
-                    <span className="text-[9px] font-bold text-[#A8A29E] uppercase tracking-widest block mb-2">Saturation</span>
+                    <span className="text-[13px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest block mb-2">Saturation</span>
                     <span className="text-lg font-bold text-[#2D2926]">{group.spots} Members</span>
                   </div>
                   <div className="bg-[#F8F5F0] p-4 rounded-2xl border border-[rgba(197,160,89,0.1)]">
-                    <span className="text-[9px] font-bold text-[#A8A29E] uppercase tracking-widest block mb-2">Initiated</span>
+                    <span className="text-[13px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest block mb-2">Initiated</span>
                     <span className="text-lg font-bold text-[#2D2926]">{group.date}</span>
                   </div>
                 </div>
@@ -86,7 +86,7 @@ export default function GroupDetailsModal({ isOpen, onClose, group, onJoinClick 
                                 <div className="w-10 h-10 rounded-full bg-[rgba(197,160,89,0.1)] flex items-center justify-center text-[#C5A059] font-bold text-xs">PI</div>
                                 <div className="flex flex-col">
                                   <span className="text-sm font-bold text-[#2D2926]">{group.author}</span>
-                                  <span className="text-[9px] font-bold text-[#A8A29E] uppercase">Lead Author</span>
+                                  <span className="text-[13px] font-bold font-bold text-[#A8A29E] uppercase">Lead Author</span>
                                 </div>
                             </div>
                             <button className="text-[#C5A059] hover:scale-110 transition-all">
@@ -121,7 +121,7 @@ export default function GroupDetailsModal({ isOpen, onClose, group, onJoinClick 
                           onClose();
                           onJoinClick();
                       }}
-                      className="w-full bg-[#2D2926] hover:bg-[#C5A059] text-white font-bold py-5 rounded-2xl uppercase tracking-[0.2em] text-[10px] transition-all shadow-xl active:scale-[0.98]"
+                      className="w-full bg-[#2D2926] hover:bg-[#C5A059] text-white font-bold py-5 rounded-2xl uppercase tracking-[0.2em] text-[14px] font-bold transition-all shadow-xl active:scale-[0.98]"
                   >
                       Apply for Cluster Membership
                   </button>

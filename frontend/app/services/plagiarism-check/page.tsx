@@ -140,17 +140,17 @@ export default function PlagiarismCheckPage() {
                                 <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
                                     <div className="flex items-center gap-3">
                                         <FileSearch className="text-[#C5A059]" size={20} />
-                                        <span className="text-[10px] text-[#3C2A21] font-bold tracking-widest uppercase">System Status</span>
+                                        <span className="text-[14px] font-bold text-[#3C2A21] font-bold tracking-widest uppercase">System Status</span>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[10px] text-[#22c55e] font-bold">LIVE AUDIT ENABLED</span>
+                                        <span className="text-[14px] font-bold text-[#22c55e] font-bold">LIVE AUDIT ENABLED</span>
                                         <div className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
                                     </div>
                                 </div>
                                 <div className="p-10 space-y-8 bg-[#FDFBF7]">
                                     <div className="flex items-center justify-between">
                                         <div className="space-y-1">
-                                            <p className="text-[10px] text-[#3C2A21]/40 font-bold uppercase tracking-widest">Protocol Type</p>
+                                            <p className="text-[14px] font-bold text-[#3C2A21]/40 font-bold uppercase tracking-widest">Protocol Type</p>
                                             <p className="text-[#3C2A21] font-bold text-lg">Turnitin Instructor-Grade</p>
                                         </div>
                                         <div className="w-12 h-12 rounded-full bg-[#C5A059]/10 border border-[#C5A059]/20 flex items-center justify-center text-[#C5A059]">
@@ -220,13 +220,13 @@ export default function PlagiarismCheckPage() {
                         {/* MATCH OVERVIEW */}
                         <div className="lg:col-span-2 glass-panel overflow-hidden border-none shadow-xl">
                             <div className="bg-[#3C2A21] px-6 py-4 flex items-center justify-between">
-                                <span className="text-white text-[10px] font-bold tracking-widest uppercase">Match Overview</span>
+                                <span className="text-white text-[14px] font-bold font-bold tracking-widest uppercase">Match Overview</span>
                                 <AlertCircle size={14} className="text-[#C5A059]" />
                             </div>
                             <div className="p-8 space-y-8 bg-[#FDFBF7]">
                                 <div className="text-center space-y-1">
                                     <div className="text-5xl font-black text-[#C5A059]">76%</div>
-                                    <p className="text-[10px] text-[#3C2A21]/40 font-bold uppercase tracking-widest">Similarity Index</p>
+                                    <p className="text-[14px] font-bold text-[#3C2A21]/40 font-bold uppercase tracking-widest">Similarity Index</p>
                                 </div>
                                 <div className="space-y-4">
                                     {[
@@ -242,7 +242,7 @@ export default function PlagiarismCheckPage() {
                                         </div>
                                     ))}
                                 </div>
-                                <button className="w-full py-4 text-[10px] font-bold uppercase tracking-widest text-white bg-[#3C2A21] rounded-xl hover:bg-[#C5A059] transition-colors">
+                                <button className="w-full py-4 text-[14px] font-bold font-bold uppercase tracking-widest text-white bg-[#3C2A21] rounded-xl hover:bg-[#C5A059] transition-colors">
                                     Request Plagiarism Removal
                                 </button>
                             </div>

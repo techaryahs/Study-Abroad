@@ -352,7 +352,7 @@ const Register = () => {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-[320px] bg-white rounded-[24px] shadow-2xl p-6 text-center border border-[#C5A059]/15">
               {verifyModal.mode !== 'loading' && (
-                <button onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute top-4 right-4 text-[#6B5E51]/40 hover:text-[#C5A059]"><X className="w-4 h-4" /></button>
+                <button onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="absolute top-4 right-4 text-[#6B5E51]/70 hover:text-[#C5A059]"><X className="w-4 h-4" /></button>
               )}
               <div className="mb-4 flex justify-center">
                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${verifyModal.mode === 'success' ? 'bg-green-500/10 border-green-500 text-green-500' : 'bg-[#C5A059]/10 border-[#C5A059] text-[#C5A059]'}`}>
@@ -362,15 +362,15 @@ const Register = () => {
               {verifyModal.mode === 'confirm' && (
                 <div className="animate-in fade-in">
                   <h3 className="text-lg font-black text-[#3C2A21] mb-1 uppercase tracking-tight italic">Verify Account</h3>
-                  <p className="text-[#6B5E51]/40 text-[9px] mb-6 uppercase tracking-widest leading-relaxed">Identity verification required for: <span className="text-[#3C2A21] block mt-1 lowercase font-bold">{verifyModal.value}</span></p>
-                  <button onClick={() => handleSendOtp()} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl text-[10px] uppercase tracking-widest hover:bg-[#3C2A21] shadow-xl shadow-[#C5A059]/20 transition-all">Send Verification Code</button>
+                  <p className="text-[#6B5E51]/70 text-[13px] font-bold mb-6 uppercase tracking-widest leading-relaxed">Identity verification required for: <span className="text-[#3C2A21] block mt-1 lowercase font-bold">{verifyModal.value}</span></p>
+                  <button onClick={() => handleSendOtp()} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl text-[14px] font-bold uppercase tracking-widest hover:bg-[#3C2A21] shadow-xl shadow-[#C5A059]/20 transition-all">Send Verification Code</button>
                 </div>
               )}
               {verifyModal.mode === 'otp' && (
                 <div className="animate-in fade-in">
                   <h3 className="text-lg font-black text-[#3C2A21] mb-4 tracking-tighter uppercase italic">Secure Code</h3>
                   <input type="text" maxLength={6} value={otpValue} onChange={(e) => setOtpValue(e.target.value)} className="w-full text-center text-xl font-bold tracking-[0.5em] py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl mb-4 text-[#C5A059] outline-none focus:border-[#C5A059] shadow-inner" placeholder="000000" />
-                  <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl disabled:opacity-50 text-[10px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/20 transition-all">Verify Code</button>
+                  <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6} className="w-full py-4 bg-[#C5A059] text-white font-black rounded-xl disabled:opacity-50 text-[14px] font-bold uppercase tracking-widest shadow-xl shadow-[#C5A059]/20 transition-all">Verify Code</button>
                 </div>
               )}
               {verifyModal.mode === 'success' && <h3 className="text-xl font-black text-[#3C2A21] uppercase tracking-tighter italic">OTP VERIFIED</h3>}
@@ -394,15 +394,15 @@ const Register = () => {
             <h1 className="text-4xl font-black leading-tight uppercase mb-6 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
               Architect <br /> <span className="text-[#C5A059]">Global</span> <br /> Careers.
             </h1>
-            <p className="text-white/40 text-[10px] leading-relaxed uppercase tracking-[0.2em] italic border-l-2 border-[#C5A059]/30 pl-4">
+            <p className="text-white/40 text-[14px] font-bold leading-relaxed uppercase tracking-[0.2em] italic border-l-2 border-[#C5A059]/30 pl-4">
               Elite academic mentorship for the Ivy League and beyond. Start your journey here.
             </p>
           </div>
           <div className="flex items-center gap-3">
             <div className="flex -space-x-2">
-              {[1, 2, 3].map(i => <div key={i} className="w-6 h-6 rounded-full bg-white/10 border-2 border-[#3C2A21] flex items-center justify-center text-[7px] font-bold">U{i}</div>)}
+              {[1, 2, 3].map(i => <div key={i} className="w-6 h-6 rounded-full bg-white/10 border-2 border-[#3C2A21] flex items-center justify-center text-[11px] font-black font-bold">U{i}</div>)}
             </div>
-            <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em]">+2k Aspirants</p>
+            <p className="text-[13px] font-bold font-bold text-white/30 uppercase tracking-[0.2em]">+2k Aspirants</p>
           </div>
         </div>
 
@@ -412,7 +412,7 @@ const Register = () => {
             <div className="mb-4 flex items-end justify-between border-b border-[#F1EDEA] pb-2">
               <div>
                 <h2 className="text-2xl font-black text-[#3C2A21] uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Create Your Account</h2>
-                <p className="text-[#C5A059] text-[9px] font-black uppercase tracking-[0.3em] mt-1">Step {step} of {formData.lookUpFor.includes("Admissions") ? 3 : 2}</p>
+                <p className="text-[#C5A059] text-[13px] font-bold font-black uppercase tracking-[0.3em] mt-1">Step {step} of {formData.lookUpFor.includes("Admissions") ? 3 : 2}</p>
               </div>
               <div className="flex gap-1.5 h-1">
                 {[1, 2, (formData.lookUpFor.includes("Admissions") ? 3 : null)].filter(Boolean).map(i => (
@@ -426,19 +426,19 @@ const Register = () => {
                 <motion.div key="step1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Identity Name</label>
+                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Identity Name</label>
                       <div className="relative group">
                         <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#6B5E51]/30 group-focus-within:text-[#C5A059]" />
                         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="e.g. John Doe" maxLength={50} className="w-full pl-10 pr-4 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner" />
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Sync Email</label>
+                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Sync Email</label>
                       <div className="relative">
                         <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 ${isEmailVerified ? 'text-green-500' : 'text-[#6B5E51]/30'}`} />
                         <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="name@university.com" className={`w-full pl-10 pr-16 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner ${isEmailVerified ? 'border-green-500/50' : 'focus:border-[#C5A059]'}`} />
                         {formData.email && !isEmailVerified && (
-                          <button onClick={() => setVerifyModal({ show: true, type: 'email', value: formData.email, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-[#3C2A21] text-white px-2 rounded-lg font-black text-[8px] uppercase shadow-lg hover:bg-[#C5A059] transition-all">Verify</button>
+                          <button onClick={() => setVerifyModal({ show: true, type: 'email', value: formData.email, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-[#3C2A21] text-white px-2 rounded-lg font-black text-[12px] font-black uppercase shadow-lg hover:bg-[#C5A059] transition-all">Verify</button>
                         )}
                         {isEmailVerified && <ShieldCheck className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />}
                       </div>
@@ -446,12 +446,12 @@ const Register = () => {
 
                     <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">DOB</label>
-                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2.5 py-2 bg-[#FDFBF7] border rounded-xl text-[10px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.dob ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
+                        <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">DOB</label>
+                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2.5 py-2 bg-[#FDFBF7] border rounded-xl text-[14px] font-bold font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.dob ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Gender</label>
-                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2.5 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[10px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
+                        <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Gender</label>
+                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2.5 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[14px] font-bold font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
                           <option value="">Select</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
@@ -461,7 +461,7 @@ const Register = () => {
 
                     <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Country</label>
+                        <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Country</label>
                         <Select
                           instanceId="country-select"
                           options={Country.getAllCountries().map((c: any) => ({ value: c.isoCode, label: c.name }))}
@@ -470,7 +470,7 @@ const Register = () => {
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">State</label>
+                        <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">State</label>
                         <Select
                           instanceId="state-select"
                           options={formData.country ? State.getStatesOfCountry(formData.country.value).map((s: any) => ({ value: s.isoCode, label: s.name })) : []}
@@ -481,20 +481,20 @@ const Register = () => {
                     </div>
 
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Mobile Access</label>
+                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Mobile Access</label>
                       <div className="flex gap-2">
-                        <div className="w-14 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[#3C2A21] font-black text-[10px] text-center shadow-inner">{formData.mobilePrefix}</div>
+                        <div className="w-14 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[#3C2A21] font-black text-[14px] font-bold text-center shadow-inner">{formData.mobilePrefix}</div>
                         <div className="relative flex-1">
                           <input type="text" name="mobile" value={formData.mobile} onChange={handleChange} maxLength={15} className={`w-full px-3 py-2 pr-16 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner ${isMobileVerified ? 'border-green-500' : 'focus:border-[#C5A059]'}`} />
                           {formData.mobile && !isMobileVerified && (
-                            <button onClick={() => setVerifyModal({ show: true, type: 'mobile', value: `${formData.mobilePrefix}${formData.mobile}`, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-[#3C2A21] text-white px-2 rounded-lg font-black text-[8px] uppercase shadow-lg hover:bg-[#C5A059] transition-all">Verify</button>
+                            <button onClick={() => setVerifyModal({ show: true, type: 'mobile', value: `${formData.mobilePrefix}${formData.mobile}`, mode: 'confirm' })} className="absolute right-1 top-1 bottom-1 bg-[#3C2A21] text-white px-2 rounded-lg font-black text-[12px] font-black uppercase shadow-lg hover:bg-[#C5A059] transition-all">Verify</button>
                           )}
                           {isMobileVerified && <ShieldCheck className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-green-500" />}
                         </div>
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Inquiry Source</label>
+                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Inquiry Source</label>
                       <select name="source" value={formData.source} onChange={handleChange} className="w-full px-4 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
                         <option value="">Select Source</option>
                         <option value="Google">Google search</option>
@@ -504,32 +504,32 @@ const Register = () => {
                     </div>
 
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Define Passcode</label>
+                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Define Passcode</label>
                       <div className="relative">
                         <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} minLength={6} maxLength={32} className={`w-full px-4 pr-10 py-2 bg-[#FDFBF7] border rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.password ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
                         <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B5E51]/30"><Eye className="w-3.5 h-3.5" /></button>
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Confirm Sync</label>
+                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Confirm Sync</label>
                       <input type={showPassword ? "text" : "password"} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className={`w-full px-4 py-2 bg-[#FDFBF7] border rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.confirmPassword ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2.5 pt-1">
                     <input type="checkbox" checked={acceptedPolicy} onChange={(e) => setAcceptedPolicy(e.target.checked)} className="w-3.5 h-3.5 rounded bg-[#FDFBF7] accent-[#C5A059] border-[#F1EDEA]" />
-                    <p className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest">
+                    <p className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest">
                       I accept the <Link href="/privacy" className="text-[#C5A059] hover:underline">Privacy Policy</Link> and <Link href="/terms" className="text-[#C5A059] hover:underline">Terms of Service</Link>
                     </p>
                   </div>
 
                   <button
                     onClick={() => { if (validateStep1()) setStep(2); }}
-                    className="w-full py-3 bg-[#C5A059] hover:bg-[#3C2A21] text-white font-black rounded-xl shadow-xl shadow-[#C5A059]/10 transition-all flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.2em] mt-1 active:scale-95"
+                    className="w-full py-3 bg-[#C5A059] hover:bg-[#3C2A21] text-white font-black rounded-xl shadow-xl shadow-[#C5A059]/10 transition-all flex items-center justify-center gap-3 text-[14px] font-bold uppercase tracking-[0.2em] mt-1 active:scale-95"
                   >
                     Proceed to Goals <ChevronRight className="w-4 h-4" />
                   </button>
-                  {errors.verification && <p className="text-rose-500 text-[8px] text-center font-black uppercase tracking-widest mt-2 italic">{errors.verification}</p>}
+                  {errors.verification && <p className="text-rose-500 text-[12px] font-black text-center font-black uppercase tracking-widest mt-2 italic">{errors.verification}</p>}
                 </motion.div>
               )}
 
@@ -537,18 +537,18 @@ const Register = () => {
                 <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
                     {["Admissions", "Scholarships", "Visa", "Research", "Jobs"].map(item => (
-                      <button key={item} onClick={() => toggleLookUp(item)} className={`py-3 px-2 rounded-2xl border text-center transition-all shadow-sm ${formData.lookUpFor.includes(item) ? 'bg-[#C5A059] border-[#C5A059] text-white shadow-[#C5A059]/30' : 'bg-[#FDFBF7] border-[#F1EDEA] text-[#6B5E51]/40 hover:border-[#C5A059]/20'}`}>
-                        <span className="font-black uppercase tracking-widest text-[9px]">{item}</span>
+                      <button key={item} onClick={() => toggleLookUp(item)} className={`py-3 px-2 rounded-2xl border text-center transition-all shadow-sm ${formData.lookUpFor.includes(item) ? 'bg-[#C5A059] border-[#C5A059] text-white shadow-[#C5A059]/30' : 'bg-[#FDFBF7] border-[#F1EDEA] text-[#6B5E51]/70 hover:border-[#C5A059]/20'}`}>
+                        <span className="font-black uppercase tracking-widest text-[13px] font-bold">{item}</span>
                       </button>
                     ))}
                   </div>
 
                   {formData.lookUpFor.includes("Admissions") ? (
                     <div className="space-y-3 pt-4 border-t border-[#F1EDEA]">
-                      <p className="text-[9px] font-black text-[#6B5E51]/40 uppercase tracking-widest text-center">Objective Degree</p>
+                      <p className="text-[13px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-widest text-center">Objective Degree</p>
                       <div className="grid grid-cols-3 gap-2">
                         {["Bachelor's", "Master's", "Ph.D."].map(deg => (
-                          <button key={deg} onClick={() => setFormData(p => ({ ...p, degree: deg }))} className={`py-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-widest ${formData.degree.includes(deg) ? 'border-[#C5A059] bg-[#C5A059]/5 text-[#C5A059]' : 'border-[#F1EDEA] bg-[#FDFBF7] text-[#6B5E51]/40'}`}>
+                          <button key={deg} onClick={() => setFormData(p => ({ ...p, degree: deg }))} className={`py-3 rounded-2xl border transition-all text-[13px] font-bold font-black uppercase tracking-widest ${formData.degree.includes(deg) ? 'border-[#C5A059] bg-[#C5A059]/5 text-[#C5A059]' : 'border-[#F1EDEA] bg-[#FDFBF7] text-[#6B5E51]/70'}`}>
                             {deg}
                           </button>
                         ))}
@@ -559,16 +559,16 @@ const Register = () => {
                       <label className="flex items-center gap-4 p-4 rounded-2xl border border-[#C5A059]/20 bg-[#C5A059]/5 cursor-pointer shadow-inner">
                         <input type="checkbox" name="loanInterest" checked={formData.loanInterest} onChange={(e) => setFormData(p => ({ ...p, loanInterest: e.target.checked }))} className="w-4 h-4 accent-[#C5A059]" />
                         <div>
-                          <div className="font-black text-[#3C2A21] text-[10px] uppercase tracking-tight">Financing Interest?</div>
-                          <p className="text-[8px] text-[#6B5E51]/60 font-bold uppercase tracking-widest">Access elite partner loan rates.</p>
+                          <div className="font-black text-[#3C2A21] text-[14px] font-bold uppercase tracking-tight">Financing Interest?</div>
+                          <p className="text-[12px] font-black text-[#6B5E51]/60 font-bold uppercase tracking-widest">Access elite partner loan rates.</p>
                         </div>
                       </label>
                     )
                   )}
 
                   <div className="pt-4 flex gap-4">
-                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-2xl text-[9px] uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
-                    <button onClick={nextStep} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[9px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all active:scale-95">Sync Timeline</button>
+                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-2xl text-[13px] font-bold uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
+                    <button onClick={nextStep} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[13px] font-bold uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all active:scale-95">Sync Timeline</button>
                   </div>
                 </motion.div>
               )}
@@ -576,7 +576,7 @@ const Register = () => {
               {step === 3 && (
                 <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Target University Node</label>
+                    <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Target University Node</label>
                     <Select
                       instanceId="target-univ-select"
                       options={universities} onChange={(s: any) => setFormData(p => ({ ...p, targetUniv: s }))} value={formData.targetUniv} placeholder="Search Node..."
@@ -586,14 +586,14 @@ const Register = () => {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Terminal Term</label>
+                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Terminal Term</label>
                       <select name="targetTerm" value={formData.targetTerm} onChange={handleChange} className="w-full px-3 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner">
                         <option value="">Select Term</option>
                         {terms.map(t => <option key={t} value={t}>{t}</option>)}
                       </select>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Academic Year</label>
+                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Academic Year</label>
                       <select name="targetYear" value={formData.targetYear} onChange={handleChange} className="w-full px-3 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner">
                         {years.map(y => <option key={y} value={y}>{y}</option>)}
                       </select>
@@ -601,7 +601,7 @@ const Register = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[8px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Target Specialization</label>
+                    <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Target Specialization</label>
                     <Select
                       instanceId="target-major-select"
                       options={majors} onChange={(s: any) => setFormData(p => ({ ...p, targetMajor: s }))} value={formData.targetMajor} placeholder="Search Major..."
@@ -610,8 +610,8 @@ const Register = () => {
                   </div>
 
                   <div className="pt-8 flex gap-4">
-                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-2xl text-[9px] uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
-                    <button onClick={handleRegister} disabled={isSubmitting} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[9px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all disabled:opacity-50 active:scale-95">
+                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-2xl text-[13px] font-bold uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
+                    <button onClick={handleRegister} disabled={isSubmitting} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[13px] font-bold uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all disabled:opacity-50 active:scale-95">
                       {isSubmitting ? "Finalizing..." : "Finalize Registry"}
                     </button>
                   </div>
@@ -620,7 +620,7 @@ const Register = () => {
             </AnimatePresence>
 
             <div className="mt-8 text-center border-t border-[#F1EDEA] pt-4">
-              <button onClick={() => router.push("/auth/login")} className="text-[9px] font-black uppercase tracking-[0.3em] text-[#6B5E51]/40 hover:text-[#C5A059] transition-all italic">Already a Synchronized Member? Log In</button>
+              <button onClick={() => router.push("/auth/login")} className="text-[13px] font-bold font-black uppercase tracking-[0.3em] text-[#6B5E51]/70 hover:text-[#C5A059] transition-all italic">Already a Synchronized Member? Log In</button>
             </div>
           </div>
         </div>

@@ -140,7 +140,7 @@ export default function ResumeDraftingPage() {
                                 <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
                                     <div className="flex items-center gap-3">
                                         <Eye className="text-[#C5A059]" size={18} />
-                                        <span className="text-[10px] text-[#3C2A21] font-bold tracking-widest uppercase">Visual Proof</span>
+                                        <span className="text-[14px] font-bold text-[#3C2A21] font-bold tracking-widest uppercase">Visual Proof</span>
                                     </div>
                                     <Maximize2 className="text-[#C5A059]/40" size={14} />
                                 </div>
@@ -159,7 +159,7 @@ export default function ResumeDraftingPage() {
                                     </div>
                                     <div>
                                         <p className="text-xl font-bold fd tracking-wide">+18% Success Factor</p>
-                                        <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Admits & Scholarships ROI</p>
+                                        <p className="text-[14px] font-bold text-white/40 font-bold uppercase tracking-widest">Admits & Scholarships ROI</p>
                                     </div>
                                 </div>
                             </div>

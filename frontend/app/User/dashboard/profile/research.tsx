@@ -89,7 +89,7 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
       <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-3xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-3xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px] max-h-[95vh] border border-[#C5A059]/15 font-sans">
 
-        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/40 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
+        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/70 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
           <X size={18} className="md:w-5 md:h-5 group-hover:rotate-90 transition-transform" />
         </button>
 
@@ -100,7 +100,7 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
           </div>
           <div className="ml-4 md:ml-0 text-left md:text-center relative z-10 leading-tight">
             <h2 className="text-md md:text-xl font-black mb-0.5 md:mb-2 leading-tight tracking-widest uppercase italic">Research Lab</h2>
-            <p className="text-white/70 text-[9px] md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
+            <p className="text-white/70 text-[13px] font-bold md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
               {step === 0 && "Identify your publication."}
               {step === 1 && "Document the timeline."}
               {step === 2 && "Protocol Verified."}
@@ -112,7 +112,7 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
           <div className="mb-8">
             <div className="flex justify-between items-end mb-4">
               <h1 className="text-xl font-black uppercase tracking-widest italic">Research Data</h1>
-              <span className="text-[10px] font-black text-[#C5A059] uppercase tracking-[0.3em]">Step {step + 1} of 3</span>
+              <span className="text-[14px] font-bold font-black text-[#C5A059] uppercase tracking-[0.3em]">Step {step + 1} of 3</span>
             </div>
             <div className="h-1.5 w-full bg-[#FDFBF7] rounded-full border border-[#F1EDEA] overflow-hidden">
               <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="bg-[#C5A059] h-full shadow-sm" />
@@ -124,11 +124,11 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
               {step === 0 && (
                 <motion.div key="s0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-[0.3em] ml-2">Publication Title</label>
+                    <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Publication Title</label>
                     <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} placeholder="e.g. Quantum Neural Networks" className={`w-full px-6 py-4 bg-[#FDFBF7] border-2 rounded-2xl outline-none font-bold text-[#3C2A21] placeholder:text-[#6B5E51]/20 transition-all shadow-inner ${errors.title ? 'border-red-500/50' : 'border-[#F1EDEA] focus:border-[#C5A059]'}`} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-[0.3em] ml-2">Publisher / Journal</label>
+                    <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Publisher / Journal</label>
                     <input type="text" value={formData.publisher} onChange={(e) => setFormData({ ...formData, publisher: e.target.value })} placeholder="e.g. IEEE Journal" className={`w-full px-6 py-4 bg-[#FDFBF7] border-2 rounded-2xl outline-none font-bold text-[#3C2A21] placeholder:text-[#6B5E51]/20 transition-all shadow-inner ${errors.publisher ? 'border-red-500/50' : 'border-[#F1EDEA] focus:border-[#C5A059]'}`} />
                   </div>
                 </motion.div>
@@ -136,15 +136,15 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
               {step === 1 && (
                 <motion.div key="s1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-[0.3em] ml-2">Publication Date</label>
+                    <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Publication Date</label>
                     <input type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} className={`w-full px-6 py-4 bg-[#FDFBF7] border-2 rounded-2xl outline-none font-bold text-[#3C2A21] transition-all shadow-inner ${errors.date ? 'border-red-500/50' : 'border-[#F1EDEA] focus:border-[#C5A059]'}`} />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-[0.3em] ml-2">Discovery Link (URL)</label>
+                    <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Discovery Link (URL)</label>
                     <input type="text" value={formData.url} onChange={(e) => setFormData({ ...formData, url: e.target.value })} placeholder="https://..." className="w-full px-6 py-4 bg-[#FDFBF7] border-2 border-[#F1EDEA] focus:border-[#C5A059] rounded-2xl outline-none font-bold text-[#3C2A21] placeholder:text-[#6B5E51]/20 shadow-inner" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-[0.3em] ml-2">Narrative / Description</label>
+                    <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Narrative / Description</label>
                     <textarea rows={3} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Describe the impact and key findings..." className="w-full px-6 py-4 bg-[#FDFBF7] border-2 border-[#F1EDEA] focus:border-[#C5A059] rounded-2xl outline-none font-bold text-[#3C2A21] placeholder:text-[#6B5E51]/20 resize-none transition-all shadow-inner" />
                   </div>
                 </motion.div>
@@ -155,15 +155,15 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
                     <CheckCircle size={48} className="text-[#C5A059]" />
                   </div>
                   <h2 className="text-xl font-black text-[#3C2A21] uppercase tracking-widest italic">Protocol Verified</h2>
-                  <p className="text-[#6B5E51]/40 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Research data has been synchronized with the discovery network.</p>
+                  <p className="text-[#6B5E51]/70 text-[11px] font-black uppercase tracking-[0.2em] max-w-[240px]">Research data has been synchronized with the discovery network.</p>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
           <div className="mt-8 flex gap-4">
-            {step > 0 && <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-[#6B5E51]/60 border border-[#F1EDEA] rounded-2xl hover:bg-[#FDFBF7] transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>}
-            <button onClick={nextStep} className="flex-[2] py-4 bg-[#3C2A21] text-white text-[10px] font-black rounded-2xl hover:bg-[#C5A059] transition-all shadow-xl uppercase tracking-[0.3em] flex items-center justify-center gap-2">
+            {step > 0 && <button onClick={prevStep} className="flex-1 py-4 text-[14px] font-bold font-black text-[#6B5E51]/60 border border-[#F1EDEA] rounded-2xl hover:bg-[#FDFBF7] transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>}
+            <button onClick={nextStep} className="flex-[2] py-4 bg-[#3C2A21] text-white text-[14px] font-bold font-black rounded-2xl hover:bg-[#C5A059] transition-all shadow-xl uppercase tracking-[0.3em] flex items-center justify-center gap-2">
               {step === 2 ? 'Submit' : 'Continue'} <ArrowRight size={16} />
             </button>
           </div>

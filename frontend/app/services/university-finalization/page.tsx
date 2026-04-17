@@ -143,7 +143,7 @@ export default function UniversityFinalizationPage() {
                                 <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
                                     <div className="flex items-center gap-3">
                                         <Compass className="text-[#C5A059]" size={20} />
-                                        <span className="text-[10px] text-[#3C2A21] font-bold tracking-widest uppercase">Decision Vault</span>
+                                        <span className="text-[14px] font-bold text-[#3C2A21] font-bold tracking-widest uppercase">Decision Vault</span>
                                     </div>
                                     <div className="w-2 h-2 rounded-full bg-[#C5A059] animate-pulse" />
                                 </div>
@@ -156,11 +156,11 @@ export default function UniversityFinalizationPage() {
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="p-4 bg-white border border-[#C5A059]/10 rounded-xl space-y-1">
-                                                <p className="text-[10px] text-[#C5A059] font-bold uppercase tracking-widest">Admits Needed</p>
+                                                <p className="text-[14px] font-bold text-[#C5A059] font-bold uppercase tracking-widest">Admits Needed</p>
                                                 <p className="text-[#3C2A21] font-bold text-lg">2 to 6+</p>
                                             </div>
                                             <div className="p-4 bg-white border border-[#C5A059]/10 rounded-xl space-y-1">
-                                                <p className="text-[10px] text-[#C5A059] font-bold uppercase tracking-widest">Audit Depth</p>
+                                                <p className="text-[14px] font-bold text-[#C5A059] font-bold uppercase tracking-widest">Audit Depth</p>
                                                 <p className="text-[#3C2A21] font-bold text-lg">9+ Metrics</p>
                                             </div>
                                         </div>

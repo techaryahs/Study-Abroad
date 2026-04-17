@@ -164,7 +164,7 @@ export default function USVisaMockInterview() {
                                  <div className="w-3 h-3 rounded-full bg-[#eab308]" />
                                  <div className="w-3 h-3 rounded-full bg-[#22c55e]" />
                               </div>
-                              <span className="text-[10px] text-white/40 font-bold tracking-widest uppercase">Encryption Active</span>
+                              <span className="text-[14px] font-bold text-white/40 font-bold tracking-widest uppercase">Encryption Active</span>
                            </div>
                            <div className="p-10 space-y-8">
                               <div className="flex gap-4 items-start">
@@ -182,7 +182,7 @@ export default function USVisaMockInterview() {
                               <div className="pt-6 border-t border-white/5">
                                  <div className="flex items-center gap-3 text-[#C5A059] mb-4">
                                     <Zap size={16} />
-                                    <span className="text-[10px] font-bold tracking-widest uppercase">Live Feedback Engine</span>
+                                    <span className="text-[14px] font-bold font-bold tracking-widest uppercase">Live Feedback Engine</span>
                                  </div>
                                  <div className="text-white/40 text-xs italic font-medium leading-relaxed">
                                     "Strong answer. You successfully linked your academic interests to specific university offerings. Recommendation: Mention one specific professor's work to boost credibility."
@@ -243,7 +243,7 @@ export default function USVisaMockInterview() {
                      ].map((stat, i) => (
                         <div key={i} className="text-center space-y-2">
                            <p className="gold-shimmer fd text-5xl font-bold">{stat.val}</p>
-                           <p className="text-white/40 text-[10px] font-bold tracking-[0.2em] uppercase">{stat.label}</p>
+                           <p className="text-white/40 text-[14px] font-bold font-bold tracking-[0.2em] uppercase">{stat.label}</p>
                         </div>
                      ))}
                   </div>
@@ -265,7 +265,7 @@ export default function USVisaMockInterview() {
                            <button 
                              key={c}
                              onClick={() => setCurrency(c)}
-                             className={`px-4 py-1.5 rounded-full text-[10px] font-bold transition-all border ${currency === c ? 'bg-[#2D2926] text-white border-[#2D2926]' : 'text-[#6B5E51] border-[#F1EDEA] hover:border-[#C5A059]'}`}
+                             className={`px-4 py-1.5 rounded-full text-[14px] font-bold font-bold transition-all border ${currency === c ? 'bg-[#2D2926] text-white border-[#2D2926]' : 'text-[#6B5E51] border-[#F1EDEA] hover:border-[#C5A059]'}`}
                            >
                               {c}
                            </button>
@@ -277,7 +277,7 @@ export default function USVisaMockInterview() {
                      {plans.map((plan, i) => (
                         <div key={i} className={`pricing-card p-12 space-y-10 relative overflow-hidden ${plan.highlight ? 'featured shadow-2xl scale-105 z-10' : ''}`}>
                            {plan.label && (
-                              <div className="absolute top-0 right-0 bg-[#C5A059] text-[#2D2926] text-[9px] font-black px-4 py-1.5 rounded-bl-2xl uppercase tracking-widest">
+                              <div className="absolute top-0 right-0 bg-[#C5A059] text-[#2D2926] text-[13px] font-bold font-black px-4 py-1.5 rounded-bl-2xl uppercase tracking-widest">
                                  {plan.label}
                               </div>
                            )}

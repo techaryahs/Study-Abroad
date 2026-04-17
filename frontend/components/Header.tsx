@@ -66,7 +66,7 @@ export default function Header() {
                 {/* Dropdown Menu */}
                 <div className="absolute right-0 mt-2 w-52 origin-top-right rounded-2xl bg-[#1f2937] shadow-2xl ring-1 ring-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform scale-95 group-hover:scale-100 z-50 overflow-hidden border border-white/5">
                   <div className="px-4 pt-4 pb-2 border-b border-white/5">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#EAB308]/60">Select Role</p>
+                    <p className="text-[14px] font-bold font-bold uppercase tracking-[0.2em] text-[#EAB308]/60">Select Role</p>
                   </div>
                   <div className="py-1">
                     <Link

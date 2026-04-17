@@ -314,7 +314,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
     >
       <div className="bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 flex flex-col overflow-hidden">
         <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-[#B3985E] truncate">
+          <p className="text-[14px] font-bold font-semibold uppercase tracking-widest text-[#B3985E] truncate">
             {accordionItems[0]?.items[0]?.href.includes('program') ? 'Academic Categories' : 'Regions & States'}
           </p>
         </div>
@@ -337,7 +337,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
                     <li key={subItem.name}>
                       <Link
                         href={subItem.href}
-                        className="block px-6 py-2.5 text-[10px] font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all border-l-2 border-transparent hover:border-[#B3985E]"
+                        className="block px-6 py-2.5 text-[14px] font-bold font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all border-l-2 border-transparent hover:border-[#B3985E]"
                       >
                         {subItem.name}
                       </Link>
@@ -415,7 +415,7 @@ function DropdownPanel({
                       {item.title}
                     </span>
                     {item.badge === "NEW" && (
-                      <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide flex-shrink-0">
+                      <span className="bg-red-500 text-white text-[13px] font-bold font-bold px-1.5 py-0.5 rounded uppercase tracking-wide flex-shrink-0">
                         NEW
                       </span>
                     )}
@@ -441,7 +441,7 @@ function DropdownPanel({
                       {item.title}
                     </span>
                     {item.badge === "NEW" && (
-                      <span className="bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wide flex-shrink-0">
+                      <span className="bg-red-500 text-white text-[13px] font-bold font-bold px-1.5 py-0.5 rounded uppercase tracking-wide flex-shrink-0">
                         NEW
                       </span>
                     )}
@@ -464,7 +464,7 @@ function DropdownPanel({
                 style={{ animation: "dropIn 0.15s ease-out both" }}
               >
                 <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-[#B3985E]">
+                  <p className="text-[14px] font-bold font-semibold uppercase tracking-widest text-[#B3985E]">
                     Global Reach
                   </p>
                 </div>
@@ -716,7 +716,7 @@ export default function Navbar() {
             <Link href="/" className="group flex items-center gap-3 shrink-0">
               <div className="flex flex-col">
                 <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counsellor Centre</span>
-                <span className="text-[#B3985E] text-[7px] sm:text-[8px] font-black uppercase tracking-[0.4em] mt-2 opacity-70">GLOBAL ADMISSIONS</span>
+                <span className="text-[#B3985E] text-[11px] font-black sm:text-[12px] font-black font-black uppercase tracking-[0.4em] mt-2 opacity-70">GLOBAL ADMISSIONS</span>
               </div>
             </Link>
           </div>
@@ -730,7 +730,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("universities")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-1.5 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-1.5 cursor-pointer text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white/70"}`}>
                   Universities
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "universities" ? "-rotate-90" : ""}`} />
                 </div>
@@ -749,7 +749,7 @@ export default function Navbar() {
 
               {/* Services (Static Link) */}
               <div className="h-full flex items-center">
-                <Link href="/services" className="text-[10px] font-black uppercase tracking-[0.25em] text-white/70 hover:text-[#B3985E] transition-all">
+                <Link href="/services" className="text-[14px] font-bold font-black uppercase tracking-[0.25em] text-white/70 hover:text-[#B3985E] transition-all">
                   Services
                 </Link>
               </div>
@@ -760,7 +760,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("resources")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-2 cursor-pointer text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white/70"}`}>
                   Resources
                   <div className="w-1 h-1 rounded-full bg-[#B3985E] shadow-[0_0_8px_rgba(179,152,94,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "resources" ? "-rotate-90" : ""}`} />
@@ -784,7 +784,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("ai-services")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-default text-[10px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-2 cursor-default text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white/70"}`}>
                   AI Services
                   <div className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "ai-services" ? "-rotate-90" : ""}`} />
@@ -809,10 +809,10 @@ export default function Navbar() {
             <div className="hidden md:flex items-center gap-4 sm:gap-6">
               {!user ? (
                 <>
-                  <Link href="/auth/login" className="text-[10px] font-black uppercase tracking-widest text-white hover:text-[#B3985E] transition-all">Sign In</Link>
+                  <Link href="/auth/login" className="text-[14px] font-bold font-black uppercase tracking-widest text-white hover:text-[#B3985E] transition-all">Sign In</Link>
                   <Link
                     href="/auth/RegisterStudent"
-                    className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
+                    className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
                   >
                     Register
                   </Link>
@@ -822,14 +822,14 @@ export default function Navbar() {
                   <Link href="/User/cart" className="relative group/checkout p-2">
                     <ShoppingCart size={14} className="text-white opacity-40 group-hover/checkout:opacity-100 group-hover/checkout:text-[#B3985E] transition-all" />
                     {cartCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[7px] font-black rounded-full flex items-center justify-center shadow-lg border border-[#2D1F1D] group-hover/checkout:bg-[#B3985E] transition-all">
+                      <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[11px] font-black font-black rounded-full flex items-center justify-center shadow-lg border border-[#2D1F1D] group-hover/checkout:bg-[#B3985E] transition-all">
                         {cartCount}
                       </span>
                     )}
                   </Link>
 
                   <button
-                    className="hidden lg:flex px-4 sm:px-5 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all active:scale-95"
+                    className="hidden lg:flex px-4 sm:px-5 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-[13px] font-bold font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all active:scale-95"
                     onClick={() => setShowCounsellingModal(true)}
                   >
                     Book Session
@@ -866,13 +866,13 @@ export default function Navbar() {
                         </div>
 
                         <h4 className="text-white font-bold text-sm truncate uppercase tracking-tight">{user.name}</h4>
-                        <span className="inline-block px-2 py-0.5 bg-[#B3985E]/10 text-[#B3985E] text-[8px] font-black uppercase rounded-full mt-1 border border-[#B3985E]/20">{user.role || 'Student'}</span>
+                        <span className="inline-block px-2 py-0.5 bg-[#B3985E]/10 text-[#B3985E] text-[12px] font-black font-black uppercase rounded-full mt-1 border border-[#B3985E]/20">{user.role || 'Student'}</span>
 
                         <div className="mt-6 pt-5 border-t border-white/5 space-y-1.5 text-left">
-                          <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[10px] font-black text-white hover:bg-white/5 hover:text-[#B3985E] transition-all uppercase tracking-[0.2em] group/link">
+                          <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold font-black text-white hover:bg-white/5 hover:text-[#B3985E] transition-all uppercase tracking-[0.2em] group/link">
                             <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}
                           </Link>
-                          <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-[10px] font-black text-red-500 hover:bg-red-500/10 transition-all uppercase tracking-[0.2em] group/out">
+                          <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-[14px] font-bold font-black text-red-500 hover:bg-red-500/10 transition-all uppercase tracking-[0.2em] group/out">
                             <LogOut size={14} className="opacity-40 group-hover/out:opacity-100 transition-opacity" /> Logout
                           </button>
                         </div>
@@ -909,14 +909,14 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={handleInputChange}
                 placeholder="Search your dream country..."
-                className={`w-full h-8 bg-white/[0.05] border rounded-full pl-10 pr-4 text-[10px] text-white/90 placeholder:text-white/30 outline-none transition-all tracking-wide ${searchError ? "border-red-500/40" : "border-white/40 focus:bg-white/[0.08] focus:border-[#B3985E]/40"}`}
+                className={`w-full h-8 bg-white/[0.05] border rounded-full pl-10 pr-4 text-[14px] font-bold text-white/90 placeholder:text-white/30 outline-none transition-all tracking-wide ${searchError ? "border-red-500/40" : "border-white/40 focus:bg-white/[0.08] focus:border-[#B3985E]/40"}`}
               />
 
               {/* Suggestions Dropdown */}
               {suggestions.length > 0 && (
                 <div className="absolute top-full mt-2 w-full bg-[#2D1F1D] border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden z-[100] animate-in fade-in slide-in-from-top-2 duration-200 text-center">
                   <div className="px-3 pt-3 pb-2 border-b border-white/5">
-                    <span className="text-[7px] font-black uppercase tracking-[0.2em] text-[#B3985E]">Destinations Found</span>
+                    <span className="text-[11px] font-black font-black uppercase tracking-[0.2em] text-[#B3985E]">Destinations Found</span>
                   </div>
                   <div className="py-1 max-h-[200px] overflow-y-auto no-scrollbar">
                     {suggestions.map((country) => (
@@ -926,7 +926,7 @@ export default function Navbar() {
                         onMouseDown={() => router.push(country.href)}
                         className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 text-left group/item transition-colors cursor-pointer"
                       >
-                        <span className="text-[10px] font-bold text-white/70 group-hover/item:text-[#B3985E] transition-colors">{country.name}</span>
+                        <span className="text-[14px] font-bold font-bold text-white/70 group-hover/item:text-[#B3985E] transition-colors">{country.name}</span>
                         <Globe size={10} className="text-white/20 group-hover/item:text-[#B3985E] transition-all" />
                       </div>
                     ))}
@@ -941,17 +941,17 @@ export default function Navbar() {
             {[navItems[0], navItems[3], navItems[4], navItems[5], navItems[8]].map((item) => (
               <div key={item.path} className="relative group h-full flex items-center">
                 {item.badge === "Coming Soon" ? (
-                  <div className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white/50 group-hover:text-[#B3985E]`}>
+                  <div className={`flex items-center gap-2 px-4 h-full text-[13px] font-bold font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white/50 group-hover:text-[#B3985E]`}>
                     {item.name}
                   </div>
                 ) : (
-                  <Link href={item.path} className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap ${pathname === item.path ? "text-[#B3985E]" : "text-white hover:text-[#B3985E]"}`}>
+                  <Link href={item.path} className={`flex items-center gap-2 px-4 h-full text-[13px] font-bold font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap ${pathname === item.path ? "text-[#B3985E]" : "text-white hover:text-[#B3985E]"}`}>
                     {item.name}
                   </Link>
                 )}
                 {item.badge === "Coming Soon" && (
                   <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-90 group-hover:scale-100 -translate-y-1 group-hover:translate-y-0 pointer-events-none z-[60]">
-                    <span className="text-[7px] text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
+                    <span className="text-[11px] font-black text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
                     {/* Caret: Simulated Border Triangle */}
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[5px] border-b-[#B3985E]/40" />
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#2D1F1D]" />
@@ -966,9 +966,9 @@ export default function Navbar() {
           <div className="flex items-center h-full shrink-0 pl-4 border-l border-white/5">
             <div className="relative group/app flex items-center h-full gap-1.5 px-2 cursor-help">
               <Smartphone size={12} className="text-white/40 group-hover/app:text-[#B3985E] transition-all" />
-              <span className="text-[8px] font-black text-white/40 group-hover/app:text-[#B3985E] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
+              <span className="text-[12px] font-black font-black text-white/40 group-hover/app:text-[#B3985E] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
               <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover/app:opacity-100 group-hover/app:visible transition-all duration-300 transform scale-90 group-hover/app:scale-100 -translate-y-1 group-hover/app:translate-y-0 pointer-events-none z-[60]">
-                <span className="text-[7px] text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
+                <span className="text-[11px] font-black text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
                 {/* Caret: Simulated Border Triangle */}
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[5px] border-b-[#B3985E]/40" />
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#2D1F1D]" />
@@ -988,7 +988,7 @@ export default function Navbar() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
             <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counsellor Centre</span>
+              <span className="text-white font-black text-[14px] font-bold uppercase tracking-widest leading-none">Global Counsellor Centre</span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}
@@ -1039,7 +1039,7 @@ export default function Navbar() {
             <div className="grid grid-cols-2 gap-4 mb-8">
               <button
                 onClick={() => { setShowCounsellingModal(true); setMenuOpen(false); }}
-                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl"
+                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl"
               >
                 <Star size={14} />
                 Expert Help
@@ -1048,12 +1048,12 @@ export default function Navbar() {
               <Link
                 href="/User/cart"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 active:scale-95 transition-all relative"
+                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[14px] font-bold font-black uppercase tracking-widest hover:bg-white/10 active:scale-95 transition-all relative"
               >
                 <ShoppingCart size={14} className="text-[#B3985E]" />
                 Cart
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-[9px] font-black rounded-full flex items-center justify-center shadow-lg border-2 border-[#2D1F1D]">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-[13px] font-bold font-black rounded-full flex items-center justify-center shadow-lg border-2 border-[#2D1F1D]">
                     {cartCount}
                   </span>
                 )}
@@ -1062,7 +1062,7 @@ export default function Navbar() {
 
             {/* Navigation Links */}
             <div className="mb-8">
-              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#d4af37]/60 mb-4 ml-2">Navigation</p>
+              <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#d4af37]/60 mb-4 ml-2">Navigation</p>
               <nav className="space-y-2">
                 {navItems.map((item) => {
                   const isExpanded = expandedItem === item.name;
@@ -1072,9 +1072,9 @@ export default function Navbar() {
                   return (
                     <div key={item.name} className="flex flex-col">
                       {item.badge === "Coming Soon" ? (
-                        <div className="flex items-center justify-between px-5 py-4 rounded-2xl bg-white/[0.02] border border-white/5 text-white/20 text-[10px] font-black uppercase tracking-widest">
+                        <div className="flex items-center justify-between px-5 py-4 rounded-2xl bg-white/[0.02] border border-white/5 text-white/20 text-[14px] font-bold font-black uppercase tracking-widest">
                           {item.name}
-                          <span className="text-[7px] border border-white/10 px-2 py-0.5 rounded-full">Soon</span>
+                          <span className="text-[11px] font-black border border-white/10 px-2 py-0.5 rounded-full">Soon</span>
                         </div>
                       ) : (
                         <div className={`flex flex-col rounded-2xl transition-all border ${pathname === item.path || isExpanded ? "bg-[#d4af37]/10 border-[#d4af37]/30" : "bg-white/[0.03] border-white/5"} overflow-hidden`}>
@@ -1082,7 +1082,7 @@ export default function Navbar() {
                             {hasDropdown ? (
                               <button
                                 onClick={() => setExpandedItem(isExpanded ? null : item.name)}
-                                className={`text-[10px] font-black uppercase tracking-widest flex-1 text-left ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
+                                className={`text-[14px] font-bold font-black uppercase tracking-widest flex-1 text-left ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
                               >
                                 {item.name}
                               </button>
@@ -1090,7 +1090,7 @@ export default function Navbar() {
                               <Link
                                 href={item.path}
                                 onClick={() => setMenuOpen(false)}
-                                className={`text-[10px] font-black uppercase tracking-widest flex-1 ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
+                                className={`text-[14px] font-bold font-black uppercase tracking-widest flex-1 ${pathname === item.path ? "text-[#d4af37]" : "text-white/70 hover:text-white"}`}
                               >
                                 {item.name}
                               </Link>
@@ -1136,8 +1136,8 @@ export default function Navbar() {
                                               {sub.icon}
                                             </div>
                                             <div className="min-w-0">
-                                              <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
-                                              <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
+                                              <p className="text-[14px] font-bold font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
+                                              <p className="text-[12px] font-black text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
                                             </div>
                                           </div>
                                           <div className={`transition-transform duration-200 ${isSubExpanded ? "rotate-90" : ""}`}>
@@ -1153,7 +1153,7 @@ export default function Navbar() {
                                                     key={country.name}
                                                     href={country.href}
                                                     onClick={() => setMenuOpen(false)}
-                                                    className="text-[9px] font-bold text-white/50 hover:text-[#B3985E] uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
+                                                    className="text-[13px] font-bold font-bold text-white/50 hover:text-[#B3985E] uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
                                                   >
                                                     <div className="w-1 h-1 rounded-full bg-[#B3985E]/30 shrink-0" />
                                                     {country.name}
@@ -1165,14 +1165,14 @@ export default function Navbar() {
                                               <div className="flex flex-col gap-4">
                                                 {sub.subAccordion?.map((group) => (
                                                   <div key={group.name} className="flex flex-col">
-                                                    <span className="text-[9px] font-black uppercase tracking-widest text-[#B3985E] mb-2">{group.name}</span>
+                                                    <span className="text-[13px] font-bold font-black uppercase tracking-widest text-[#B3985E] mb-2">{group.name}</span>
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3 pl-2 border-l border-white/5">
                                                       {group.items.map((item) => (
                                                         <Link
                                                           key={item.name}
                                                           href={item.href}
                                                           onClick={() => setMenuOpen(false)}
-                                                          className="text-[9px] font-bold text-white/50 hover:text-white uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
+                                                          className="text-[13px] font-bold font-bold text-white/50 hover:text-white uppercase tracking-[0.1em] transition-colors flex items-center gap-2"
                                                         >
                                                           <div className="w-1 h-1 bg-white/20 shrink-0 rounded-sm" />
                                                           {item.name}
@@ -1196,8 +1196,8 @@ export default function Navbar() {
                                           {sub.icon}
                                         </div>
                                         <div className="min-w-0">
-                                          <p className="text-[10px] font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
-                                          <p className="text-[8px] text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
+                                          <p className="text-[14px] font-bold font-black uppercase tracking-widest text-white/80 group-hover:text-[#d4af37] transition-colors">{sub.title}</p>
+                                          <p className="text-[12px] font-black text-white/30 truncate group-hover:text-white/50">{sub.description}</p>
                                         </div>
                                       </Link>
                                     )}
@@ -1225,7 +1225,7 @@ export default function Navbar() {
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-white font-black text-sm tracking-tight truncate uppercase leading-tight">{user.name}</h3>
-                    <span className="inline-block px-2 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[8px] font-black uppercase tracking-widest rounded-md border border-[#d4af37]/20 mt-1">{user.role || "Global Member"}</span>
+                    <span className="inline-block px-2 py-0.5 bg-[#d4af37]/10 text-[#d4af37] text-[12px] font-black font-black uppercase tracking-widest rounded-md border border-[#d4af37]/20 mt-1">{user.role || "Global Member"}</span>
                   </div>
                 </div>
 
@@ -1236,14 +1236,14 @@ export default function Navbar() {
                     className="flex items-center gap-3 w-full h-12 px-5 rounded-xl bg-white/5 text-white/80 hover:bg-white/10 transition-all border border-white/10 group"
                   >
                     <LayoutDashboard size={16} className="opacity-40 group-hover:opacity-100 transition-opacity" />
-                    <span className="text-[10px] font-black uppercase tracking-widest leading-none">Personal Portal</span>
+                    <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">Personal Portal</span>
                   </Link>
                   <button
                     onClick={() => { handleLogout(); setMenuOpen(false); }}
                     className="flex items-center gap-3 w-full h-12 px-5 rounded-xl bg-red-500/5 text-red-500 hover:bg-red-500/10 transition-all border border-red-500/10 group"
                   >
                     <LogOut size={16} className="opacity-40 group-hover:opacity-100 transition-opacity" />
-                    <span className="text-[10px] font-black uppercase tracking-widest leading-none">Logout</span>
+                    <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">Logout</span>
                   </button>
                 </div>
               </div>
@@ -1251,15 +1251,15 @@ export default function Navbar() {
 
             {!user && (
               <div className="grid grid-cols-2 gap-4 mt-auto pt-10">
-                <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest transition-colors hover:bg-white/10">Sign In</Link>
-                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
+                <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[14px] font-bold font-black uppercase tracking-widest transition-colors hover:bg-white/10">Sign In</Link>
+                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
               </div>
             )}
           </div>
 
           {/* Mobile Menu Footer */}
           <div className="p-8 border-t border-white/5 bg-[#2D1F1D]/80 flex items-center justify-center text-white/10 shrink-0">
-            <span className="text-[8px] font-black uppercase tracking-[0.4em]">GCC Success Portal © 2026</span>
+            <span className="text-[12px] font-black font-black uppercase tracking-[0.4em]">GCC Success Portal © 2026</span>
           </div>
         </div>
       )}

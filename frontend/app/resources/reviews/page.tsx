@@ -103,7 +103,7 @@ function ReviewCard({ review }: { review: Review }) {
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <span className="font-bold text-[#2D2926] text-sm truncate">{review.name}</span>
             {review.isVerified && (
-              <span className="text-[9px] font-bold text-[#C5A059] border border-[rgba(197,160,89,0.3)] px-2 py-0.5 rounded-md uppercase tracking-widest flex-shrink-0">
+              <span className="text-[13px] font-bold font-bold text-[#C5A059] border border-[rgba(197,160,89,0.3)] px-2 py-0.5 rounded-md uppercase tracking-widest flex-shrink-0">
                 Verified
               </span>
             )}
@@ -113,7 +113,7 @@ function ReviewCard({ review }: { review: Review }) {
       </div>
 
       {/* Service badge */}
-      <span className="self-start text-[9px] font-bold uppercase tracking-widest bg-[#F8F5F0] text-[#6B5E51] px-3 py-1 rounded-full border border-[#EDE8DF]">
+      <span className="self-start text-[13px] font-bold font-bold uppercase tracking-widest bg-[#F8F5F0] text-[#6B5E51] px-3 py-1 rounded-full border border-[#EDE8DF]">
         {review.service}
       </span>
 
@@ -124,7 +124,7 @@ function ReviewCard({ review }: { review: Review }) {
       <p className="text-sm text-[#6B5E51] leading-relaxed">{review.body}</p>
 
       {/* Date */}
-      <p className="text-[10px] text-[#A8A29E] font-medium mt-auto">{date}</p>
+      <p className="text-[14px] font-bold text-[#A8A29E] font-medium mt-auto">{date}</p>
     </motion.div>
   );
 }
@@ -269,7 +269,7 @@ export default function ReviewsPage() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto space-y-5"
         >
-          <span className="inline-block px-5 py-1.5 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[10px] tracking-[0.3em] uppercase">
+          <span className="inline-block px-5 py-1.5 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[14px] font-bold tracking-[0.3em] uppercase">
             Student Voices
           </span>
           <h1 className="fd text-5xl sm:text-6xl md:text-7xl font-bold text-[#2D2926] tracking-tight leading-[0.95]">
@@ -288,7 +288,7 @@ export default function ReviewsPage() {
             </button>
             <div className="text-left">
               <p className="text-2xl font-bold text-[#2D2926]">{total}</p>
-              <p className="text-[10px] text-[#A8A29E] uppercase tracking-widest font-bold">Reviews</p>
+              <p className="text-[14px] font-bold text-[#A8A29E] uppercase tracking-widest font-bold">Reviews</p>
             </div>
           </div>
         </motion.div>
@@ -301,7 +301,7 @@ export default function ReviewsPage() {
             <button
               key={tab.value}
               onClick={() => setActiveFilter(tab.value)}
-              className={`whitespace-nowrap flex-shrink-0 px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+              className={`whitespace-nowrap flex-shrink-0 px-5 py-2.5 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest transition-all border ${
                 activeFilter === tab.value
                   ? "bg-[#2D2926] text-[#C5A059] border-[#2D2926] shadow-lg"
                   : "bg-white text-[#6B5E51] border-[rgba(197,160,89,0.2)] hover:border-[#C5A059]"
@@ -379,7 +379,7 @@ export default function ReviewsPage() {
                 >
                   <X size={20} />
                 </button>
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#C5A059] mb-1">Share Your Experience</p>
+                <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#C5A059] mb-1">Share Your Experience</p>
                 <h2 className="fd text-3xl font-bold text-white leading-tight">Write a Review</h2>
               </div>
 
@@ -401,7 +401,7 @@ export default function ReviewsPage() {
                     {/* Name + Email */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-[#C5A059]">
+                        <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
                           Your Name <span className="text-red-400">*</span>
                         </label>
                         <input
@@ -413,7 +413,7 @@ export default function ReviewsPage() {
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-[#C5A059]">
+                        <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
                           Email <span className="text-[#A8A29E]">(optional)</span>
                         </label>
                         <input
@@ -428,7 +428,7 @@ export default function ReviewsPage() {
 
                     {/* Service Selector */}
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-[#C5A059]">
+                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
                         Service <span className="text-red-400">*</span>
                       </label>
                       <div className="relative">
@@ -448,7 +448,7 @@ export default function ReviewsPage() {
 
                     {/* Star Rating */}
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-[#C5A059]">
+                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
                         Overall Rating <span className="text-red-400">*</span>
                       </label>
                       <div className="flex items-center gap-3">
@@ -467,7 +467,7 @@ export default function ReviewsPage() {
 
                     {/* Review Title */}
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-[#C5A059]">
+                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
                         Review Title <span className="text-[#A8A29E]">(optional)</span>
                       </label>
                       <input
@@ -481,7 +481,7 @@ export default function ReviewsPage() {
 
                     {/* Review Body */}
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-[#C5A059]">
+                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
                         Your Review <span className="text-red-400">*</span>
                       </label>
                       <textarea

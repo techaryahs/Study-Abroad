@@ -744,7 +744,7 @@ export default function AustraliaVisaPage() {
                       }}
                     >
                       <p
-                        className="text-[10px] tracking-[0.24em] uppercase mb-1"
+                        className="text-[14px] font-bold tracking-[0.24em] uppercase mb-1"
                         style={{ color: T.gold }}
                       >
                         Step {t.step}

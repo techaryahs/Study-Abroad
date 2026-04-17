@@ -63,7 +63,7 @@ export default function UniPredictPage() {
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
                         <span className="w-8 h-[2px] bg-[#D4A848]"></span>
-                        <span className="text-[10px] font-black first-letter:uppercase tracking-[0.4em] text-[#D4A848] uppercase">The Expert Algorithm</span>
+                        <span className="text-[14px] font-bold font-black first-letter:uppercase tracking-[0.4em] text-[#D4A848] uppercase">The Expert Algorithm</span>
                     </div>
                     <h1 className="text-4xl text-[#362B25] md:text-6xl font-black tracking-tighter uppercase leading-none italic">
                         Uni<span className="text-[#D4A848]">Predict</span>
@@ -88,7 +88,7 @@ export default function UniPredictPage() {
                             >
                                 RateMyChances <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                             </button>
-                            <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[#675F5B]/50">
+                            <span className="text-[14px] font-bold sm:text-xs font-black uppercase tracking-widest text-[#675F5B]/50">
                                 We have now launched a much more advanced tool
                             </span>
                         </div>
@@ -166,8 +166,8 @@ export default function UniPredictPage() {
                                 {/* 1. Academic Credentials */}
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[10px] font-black">1</div>
-                                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4A848]">Academic Foundation</label>
+                                        <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[14px] font-bold font-black">1</div>
+                                        <label className="text-[14px] font-bold font-black uppercase tracking-[0.2em] text-[#D4A848]">Academic Foundation</label>
                                     </div>
 
                                     <div className="flex gap-4">
@@ -176,7 +176,7 @@ export default function UniPredictPage() {
                                                 key={type}
                                                 type="button"
                                                 onClick={() => setAcademicType(type as any)}
-                                                className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                                                className={`flex-1 py-3 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest transition-all border ${
                                                     academicType === type
                                                     ? "bg-[#362B25] text-white border-[#362B25] shadow-lg"
                                                     : "bg-transparent text-[#362B25]/40 border-[#D4A848]/20 hover:border-[#D4A848]"
@@ -200,7 +200,7 @@ export default function UniPredictPage() {
                                                 maxLength={3}
                                                 className="w-full bg-[#F8F6F1]/50 border-2 border-transparent border-b-[#D4A848]/20 focus:border-[#D4A848] transition-all px-4 py-4 pr-20 text-xs sm:text-sm font-bold outline-none placeholder:text-[#362B25]/30 rounded-t-xl"
                                             />
-                                            <span className="absolute right-4 bottom-4 text-[10px] font-black text-[#362B25]/30 uppercase tracking-widest">% Score</span>
+                                            <span className="absolute right-4 bottom-4 text-[14px] font-bold font-black text-[#362B25]/30 uppercase tracking-widest">% Score</span>
                                         </div>
                                     ) : (
                                         <div className="relative">
@@ -213,7 +213,7 @@ export default function UniPredictPage() {
                                                 required
                                                 className="w-full bg-[#F8F6F1]/50 border-2 border-transparent border-b-[#D4A848]/20 focus:border-[#D4A848] transition-all px-4 py-4 pr-20 text-xs sm:text-sm font-bold outline-none placeholder:text-[#362B25]/30 rounded-t-xl"
                                             />
-                                            <span className="absolute right-4 bottom-4 text-[10px] font-black text-[#362B25]/30 uppercase tracking-widest">CGPA / 10</span>
+                                            <span className="absolute right-4 bottom-4 text-[14px] font-bold font-black text-[#362B25]/30 uppercase tracking-widest">CGPA / 10</span>
                                         </div>
                                     )}
                                 </div>
@@ -221,8 +221,8 @@ export default function UniPredictPage() {
                                 {/* 2. Aptitude Test */}
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[10px] font-black">2</div>
-                                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4A848]">Aptitude Assessment</label>
+                                        <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[14px] font-bold font-black">2</div>
+                                        <label className="text-[14px] font-bold font-black uppercase tracking-[0.2em] text-[#D4A848]">Aptitude Assessment</label>
                                     </div>
                                     
                                     <div className="flex gap-4">
@@ -231,7 +231,7 @@ export default function UniPredictPage() {
                                                 key={type}
                                                 type="button"
                                                 onClick={() => setTestType(type as any)}
-                                                className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                                                className={`flex-1 py-3 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest transition-all border ${
                                                     testType === type 
                                                     ? "bg-[#362B25] text-white border-[#362B25] shadow-lg" 
                                                     : "bg-transparent text-[#362B25]/40 border-[#D4A848]/20 hover:border-[#D4A848]"
@@ -281,8 +281,8 @@ export default function UniPredictPage() {
                                 {/* 3. English Proficiency */}
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[10px] font-black">3</div>
-                                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4A848]">English Proficiency</label>
+                                        <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[14px] font-bold font-black">3</div>
+                                        <label className="text-[14px] font-bold font-black uppercase tracking-[0.2em] text-[#D4A848]">English Proficiency</label>
                                     </div>
                                     
                                     <div className="flex gap-4">
@@ -291,7 +291,7 @@ export default function UniPredictPage() {
                                                 key={type}
                                                 type="button"
                                                 onClick={() => setEnglishTest(type as any)}
-                                                className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                                                className={`flex-1 py-3 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest transition-all border ${
                                                     englishTest === type 
                                                     ? "bg-[#362B25] text-white border-[#362B25] shadow-lg" 
                                                     : "bg-transparent text-[#362B25]/40 border-[#D4A848]/20 hover:border-[#D4A848]"
@@ -315,13 +315,13 @@ export default function UniPredictPage() {
                                 {/* 4. Tuition Expenses */}
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[10px] font-black">4</div>
-                                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4A848]">Financial Planning</label>
+                                        <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[14px] font-bold font-black">4</div>
+                                        <label className="text-[14px] font-bold font-black uppercase tracking-[0.2em] text-[#D4A848]">Financial Planning</label>
                                     </div>
                                     
                                     <div className="bg-[#F8F6F1]/80 p-6 rounded-2xl border border-[#D4A848]/10">
                                         <div className="flex justify-between items-end mb-4">
-                                            <span className="text-[9px] font-black uppercase tracking-widest text-[#362B25]/40">Tuition Budget (Max)</span>
+                                            <span className="text-[13px] font-bold font-black uppercase tracking-widest text-[#362B25]/40">Tuition Budget (Max)</span>
                                             <span className="text-xl font-black text-[#D4A848] tracking-tight">{formatCurrency(budget)}</span>
                                         </div>
                                         <input 
@@ -333,7 +333,7 @@ export default function UniPredictPage() {
                                             onChange={(e) => setBudget(Number(e.target.value))}
                                             className="w-full accent-[#D4A848] h-1 bg-[#D4A848]/20 rounded-lg appearance-none cursor-pointer"
                                         />
-                                        <div className="flex justify-between mt-2 text-[8px] font-bold text-[#362B25]/20 uppercase">
+                                        <div className="flex justify-between mt-2 text-[12px] font-black font-bold text-[#362B25]/20 uppercase">
                                             <span>₹10L</span>
                                             <span>₹1.5Cr</span>
                                         </div>
@@ -355,7 +355,7 @@ export default function UniPredictPage() {
                                                 <div className="w-1.5 h-1.5 rounded-full bg-white animate-bounce [animation-delay:-0.3s]" />
                                                 <div className="w-1.5 h-1.5 rounded-full bg-white animate-bounce [animation-delay:-0.15s]" />
                                                 <div className="w-1.5 h-1.5 rounded-full bg-white animate-bounce" />
-                                                <span className="text-[9px] tracking-widest ml-2">Running Algorithm</span>
+                                                <span className="text-[13px] font-bold tracking-widest ml-2">Running Algorithm</span>
                                             </div>
                                         )}
                                     </button>
@@ -376,7 +376,7 @@ export default function UniPredictPage() {
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 flex flex-col items-center text-center">
                     <div className="inline-flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8 bg-[#D4A848]/10 border border-[#D4A848]/20 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full">
                         <Sparkles size={16} className="text-[#D4A848]" />
-                        <span className="text-[#D4A848] text-[10px] font-black uppercase tracking-[0.4em]">Proprietary Technology</span>
+                        <span className="text-[#D4A848] text-[14px] font-bold font-black uppercase tracking-[0.4em]">Proprietary Technology</span>
                     </div>
 
                     <h2 className="text-3xl md:text-5xl font-black text-white italic tracking-tight mb-8">
@@ -395,7 +395,7 @@ export default function UniPredictPage() {
                         ].map((node, i) => (
                             <div key={i} className="bg-white/5 border border-white/10 p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] group hover:border-[#D4A848]/40 transition-all">
                                 <h3 className={`text-4xl sm:text-5xl font-black tracking-tighter mb-4 ${node.color}`}>{node.title}</h3>
-                                <p className="text-white/40 text-[9px] sm:text-[10px] font-black uppercase tracking-widest leading-loose">{node.desc}</p>
+                                <p className="text-white/40 text-[13px] font-bold sm:text-[14px] font-bold font-black uppercase tracking-widest leading-loose">{node.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -424,7 +424,7 @@ export default function UniPredictPage() {
                                 <Sparkles className="absolute top-8 left-8 text-white/40" />
                                 <BarChart3 className="absolute bottom-8 right-8 text-white/40" />
                                 <h2 className="text-4xl font-black text-white italic tracking-tighter uppercase mb-4">Evaluation Complete</h2>
-                                <p className="text-white/80 font-bold uppercase tracking-widest text-[10px]">Your admission landscape is ready</p>
+                                <p className="text-white/80 font-bold uppercase tracking-widest text-[14px] font-bold">Your admission landscape is ready</p>
                             </div>
                             <div className="p-12 space-y-8 flex-1">
                                 <div className="space-y-4 text-center">
@@ -437,9 +437,9 @@ export default function UniPredictPage() {
                                         />
                                     </div>
                                     <div className="flex justify-between items-center px-1">
-                                      <p className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest">Average</p>
+                                      <p className="text-[14px] font-bold font-black text-[#675F5B] uppercase tracking-widest">Average</p>
                                       <p className="text-[14px] font-black text-[#D4A848] uppercase tracking-widest">78% Chance</p>
-                                      <p className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest">Excellent</p>
+                                      <p className="text-[14px] font-bold font-black text-[#675F5B] uppercase tracking-widest">Excellent</p>
                                     </div>
                                 </div>
                                 <div className="pt-4 border-t border-[#D4A848]/10 flex flex-col gap-4">
@@ -451,7 +451,7 @@ export default function UniPredictPage() {
                                     </button>
                                     <button 
                                         onClick={() => setShowResult(false)}
-                                        className="text-[#675F5B] py-2 font-black text-[10px] uppercase tracking-widest border-b border-transparent hover:border-[#D4A848] transition-all"
+                                        className="text-[#675F5B] py-2 font-black text-[14px] font-bold uppercase tracking-widest border-b border-transparent hover:border-[#D4A848] transition-all"
                                     >
                                         Close Results
                                     </button>

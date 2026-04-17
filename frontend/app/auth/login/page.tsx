@@ -209,16 +209,16 @@ const Login: React.FC = () => {
             <h1 className="text-4xl font-black mb-6 uppercase tracking-tighter italic leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
               Architect <br /> Your <br /> <span className="text-[#C5A059]">Global</span> <br /> Legacy.
             </h1>
-            <p className="text-white/60 text-[10px] font-black leading-relaxed max-w-xs uppercase tracking-widest pl-4 border-l-2 border-[#C5A059]/30">
+            <p className="text-white/60 text-[14px] font-bold font-black leading-relaxed max-w-xs uppercase tracking-widest pl-4 border-l-2 border-[#C5A059]/30">
               Elite academic mentorship for the Ivy League and beyond. Access your centralized dashboard.
             </p>
           </div>
 
           <div className="relative z-10 flex items-center gap-3 border-t border-white/10 pt-8 mt-12">
             <div className="flex -space-x-3">
-              {[1, 2, 3].map(i => <div key={i} className="w-8 h-8 rounded-full bg-[#1A1A1A] border-2 border-[#2D2926] overflow-hidden flex items-center justify-center text-[10px] font-black text-white/40">U{i}</div>)}
+              {[1, 2, 3].map(i => <div key={i} className="w-8 h-8 rounded-full bg-[#1A1A1A] border-2 border-[#2D2926] overflow-hidden flex items-center justify-center text-[14px] font-bold font-black text-white/40">U{i}</div>)}
             </div>
-            <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] italic">Standard Protocol Verified</p>
+            <p className="text-[13px] font-bold font-black text-white/30 uppercase tracking-[0.2em] italic">Standard Protocol Verified</p>
           </div>
         </div>
 
@@ -231,9 +231,9 @@ const Login: React.FC = () => {
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Terminal Node Address</label>
+              <label className="block text-[14px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Terminal Node Address</label>
               <div className="relative group">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/40 group-focus-within:text-[#C5A059] transition-all" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
                 <input
                   type="email"
                   value={email}
@@ -246,9 +246,9 @@ const Login: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Access Passcode</label>
+              <label className="block text-[14px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Access Passcode</label>
               <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/40 group-focus-within:text-[#C5A059] transition-all" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
@@ -260,7 +260,7 @@ const Login: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/40 hover:text-[#C5A059] transition-all outline-none"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/70 hover:text-[#C5A059] transition-all outline-none"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -271,7 +271,7 @@ const Login: React.FC = () => {
               <button 
                 type="button" 
                 onClick={() => setShowForgotModal(true)}
-                className="text-[9px] font-black text-[#6B5E51]/40 hover:text-[#C5A059] uppercase tracking-widest transition-all"
+                className="text-[13px] font-bold font-black text-[#6B5E51]/70 hover:text-[#C5A059] uppercase tracking-widest transition-all"
               >
                 Forgot Credentials?
               </button>
@@ -287,17 +287,17 @@ const Login: React.FC = () => {
             </button>
 
             {errorMsg && (
-              <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[10px] items-center justify-center flex mt-6 font-black uppercase italic bg-rose-50/50 py-4 rounded-xl border border-rose-100 px-4 text-center">
+              <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[14px] font-bold items-center justify-center flex mt-6 font-black uppercase italic bg-rose-50/50 py-4 rounded-xl border border-rose-100 px-4 text-center">
                 {errorMsg}
               </motion.p>
             )}
           </form>
 
           <div className="mt-8 pt-6 border-t border-[#F1EDEA] flex flex-col gap-4 items-center">
-             <p className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-widest">New Node Initialization?</p>
+             <p className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-widest">New Node Initialization?</p>
              <button 
                 onClick={() => router.push("/auth/RegisterStudent")} 
-                className="text-[10px] font-black text-[#C5A059] hover:text-[#3C2A21] transition-all uppercase tracking-widest"
+                className="text-[14px] font-bold font-black text-[#C5A059] hover:text-[#3C2A21] transition-all uppercase tracking-widest"
              >
                 Initialize Student Account
              </button>
@@ -324,7 +324,7 @@ const Login: React.FC = () => {
                   setForgotStep(1);
                   setForgotMessage({ text: "", type: "error" });
                 }}
-                className="text-[#6B5E51]/40 hover:text-[#C5A059] transition-all text-2xl leading-none"
+                className="text-[#6B5E51]/70 hover:text-[#C5A059] transition-all text-2xl leading-none"
               >
                 ×
               </button>
@@ -334,7 +334,7 @@ const Login: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`text-[10px] font-black uppercase mb-4 p-3 rounded-lg border flex items-center gap-2 ${
+                className={`text-[14px] font-bold font-black uppercase mb-4 p-3 rounded-lg border flex items-center gap-2 ${
                   forgotMessage.type === "success"
                     ? "bg-green-500/10 border-green-500/20 text-green-600"
                     : "bg-red-500/10 border-red-500/20 text-red-600"
@@ -348,9 +348,9 @@ const Login: React.FC = () => {
             {forgotStep === 1 ? (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="block text-[9px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Email Address</label>
+                  <label className="block text-[13px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Email Address</label>
                   <div className="relative group">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/40 group-focus-within:text-[#C5A059] transition-all" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
                     <input
                       type="email"
                       value={forgotEmail}
@@ -369,14 +369,14 @@ const Login: React.FC = () => {
                       setForgotMessage({ text: "", type: "error" });
                     }}
                     disabled={forgotLoading}
-                    className="flex-1 py-3 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-[#FDFBF7] transition-all disabled:opacity-50"
+                    className="flex-1 py-3 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-lg font-black text-[14px] font-bold uppercase tracking-widest hover:bg-[#FDFBF7] transition-all disabled:opacity-50"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleForgotPasswordStep1}
                     disabled={forgotLoading}
-                    className="flex-1 py-3 bg-[#C5A059] text-white rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg disabled:opacity-50"
+                    className="flex-1 py-3 bg-[#C5A059] text-white rounded-lg font-black text-[14px] font-bold uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg disabled:opacity-50"
                   >
                     {forgotLoading ? "Sending..." : "Send Code"}
                   </button>
@@ -385,7 +385,7 @@ const Login: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <label className="block text-[9px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Reset Code</label>
+                  <label className="block text-[13px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Reset Code</label>
                   <input
                     type="text"
                     value={forgotOtp}
@@ -396,7 +396,7 @@ const Login: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-[9px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">New Password</label>
+                  <label className="block text-[13px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">New Password</label>
                   <input
                     type="password"
                     value={forgotPassword}
@@ -407,7 +407,7 @@ const Login: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-[9px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Confirm Password</label>
+                  <label className="block text-[13px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Confirm Password</label>
                   <input
                     type="password"
                     value={forgotConfirm}
@@ -421,14 +421,14 @@ const Login: React.FC = () => {
                   <button
                     onClick={() => setForgotStep(1)}
                     disabled={forgotLoading}
-                    className="flex-1 py-3 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-[#FDFBF7] transition-all disabled:opacity-50"
+                    className="flex-1 py-3 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-lg font-black text-[14px] font-bold uppercase tracking-widest hover:bg-[#FDFBF7] transition-all disabled:opacity-50"
                   >
                     Back
                   </button>
                   <button
                     onClick={handleForgotPasswordStep2}
                     disabled={forgotLoading}
-                    className="flex-1 py-3 bg-[#C5A059] text-white rounded-lg font-black text-[10px] uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg disabled:opacity-50"
+                    className="flex-1 py-3 bg-[#C5A059] text-white rounded-lg font-black text-[14px] font-bold uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg disabled:opacity-50"
                   >
                     {forgotLoading ? "Resetting..." : "Reset Password"}
                   </button>

@@ -157,8 +157,8 @@ export default function ApplicationReviewPage() {
                                         <Image src="/logo1.png" alt="Consultant" fill className="object-cover" />
                                     </div>
                                     <div className="text-left">
-                                        <p className="text-[10px] font-bold text-white uppercase tracking-widest">Expert Board</p>
-                                        <p className="text-[9px] text-[#C5A059] font-bold uppercase tracking-widest">Decisive Reviews</p>
+                                        <p className="text-[14px] font-bold font-bold text-white uppercase tracking-widest">Expert Board</p>
+                                        <p className="text-[13px] font-bold text-[#C5A059] font-bold uppercase tracking-widest">Decisive Reviews</p>
                                     </div>
                                 </div>
                             </div>

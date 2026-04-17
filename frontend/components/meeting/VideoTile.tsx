@@ -65,7 +65,7 @@ export default function VideoTile({
             </div>
           </div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#d4af37]/5 blur-3xl rounded-full opacity-40 animate-pulse" />
-          <span className="text-white/20 text-[10px] uppercase font-black tracking-[0.3em] relative z-20">
+          <span className="text-white/20 text-[14px] font-bold uppercase font-black tracking-[0.3em] relative z-20">
             {isVideoOff ? "Video Suspended" : "Initializing..."}
           </span>
         </div>
@@ -88,7 +88,7 @@ export default function VideoTile({
             {label} {isLocal && "(You)"}
           </span>
           {isHost && (
-            <span className="text-[8px] font-black uppercase tracking-[0.2em] text-[#d4af37]/70 ml-1">
+            <span className="text-[12px] font-black font-black uppercase tracking-[0.2em] text-[#d4af37]/70 ml-1">
               Admin
             </span>
           )}

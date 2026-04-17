@@ -59,7 +59,7 @@ function StepDot({ step, current, label }: { step: number; current: number; labe
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-[10px] md:text-xs font-bold border-2 transition-all duration-300 ${done
+        className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-[14px] font-bold md:text-xs font-bold border-2 transition-all duration-300 ${done
           ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D]"
           : active
             ? "bg-transparent border-[#D4A848] text-[#D4A848]"
@@ -68,7 +68,7 @@ function StepDot({ step, current, label }: { step: number; current: number; labe
       >
         {done ? "✓" : step}
       </div>
-      <span className={`text-[8px] md:text-[9px] font-semibold uppercase tracking-wider ${active ? "text-[#D4A848]" : done ? "text-white/60" : "text-white/25"}`}>
+      <span className={`text-[12px] font-black md:text-[13px] font-bold font-semibold uppercase tracking-wider ${active ? "text-[#D4A848]" : done ? "text-white/60" : "text-white/25"}`}>
         {label}
       </span>
     </div>
@@ -227,10 +227,10 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                 <div>
                   <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-2.5 py-0.5 mb-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#D4A848] animate-pulse" />
-                    <span className="text-[#D4A848] text-[8px] md:text-[9px] font-bold tracking-widest uppercase">Book Session</span>
+                    <span className="text-[#D4A848] text-[12px] font-black md:text-[13px] font-bold font-bold tracking-widest uppercase">Book Session</span>
                   </div>
                   <h2 className="text-base md:text-lg font-black text-white leading-tight">Counselling Session</h2>
-                  <p className="text-white/40 text-[9px] md:text-[10px] mt-0.5">1-hour private session</p>
+                  <p className="text-white/40 text-[13px] font-bold md:text-[14px] font-bold mt-0.5">1-hour private session</p>
                 </div>
                 <button onClick={onClose} className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all">
                   <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={3}><path d="M18 6L6 18M6 6l12 12" /></svg>
@@ -252,7 +252,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
               {step < 4 && (
                 <div className="px-4 md:px-5 pb-2 flex-shrink-0">
                   <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-2.5 py-1">
-                    <span className="text-[#D4A848] text-[8px] md:text-[9px] font-bold uppercase tracking-tight">👤 Counselling with Admin</span>
+                    <span className="text-[#D4A848] text-[12px] font-black md:text-[13px] font-bold font-bold uppercase tracking-tight">👤 Counselling with Admin</span>
                   </div>
                 </div>
               )}
@@ -265,7 +265,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                   {step === 1 && (
                     <motion.div key="s1" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-4 space-y-4">
                       <div className="space-y-3">
-                        <label className="text-[9px] md:text-[10px] font-bold text-white/50 uppercase tracking-widest block">Select Date</label>
+                        <label className="text-[13px] font-bold md:text-[14px] font-bold font-bold text-white/50 uppercase tracking-widest block">Select Date</label>
                         <div className="bg-[#362B25]/40 border border-[#D4A848]/10 rounded-xl p-3">
                           <div className="flex items-center justify-between mb-3">
                             <button onClick={prevMonth} className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white">‹</button>
@@ -274,7 +274,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                           </div>
                           <div className="grid grid-cols-7 mb-2">
                             {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => (
-                              <div key={d} className="text-center text-[9px] font-bold text-white/20 uppercase py-1">{d}</div>
+                              <div key={d} className="text-center text-[13px] font-bold font-bold text-white/20 uppercase py-1">{d}</div>
                             ))}
                           </div>
                           <div className="grid grid-cols-7 gap-0.5">
@@ -306,10 +306,10 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                         <span className="text-lg">📅</span>
                         <div>
                           <div className="text-white font-bold text-xs">{formatDate(selectedDate)}</div>
-                          <div className="text-white/40 text-[9px]">Select a preferred slot below</div>
+                          <div className="text-white/40 text-[13px] font-bold">Select a preferred slot below</div>
                         </div>
                       </div>
-                      {error && <div className="text-red-400 text-[10px] px-2">{error}</div>}
+                      {error && <div className="text-red-400 text-[14px] font-bold px-2">{error}</div>}
                       {slotsLoading ? (
                         <div className="grid grid-cols-3 gap-2">{Array.from({ length: 9 }).map((_, i) => <div key={i} className="h-12 bg-white/5 rounded-lg animate-pulse" />)}</div>
                       ) : (
@@ -326,7 +326,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                                 `}
                               >
                                 <span>{slot.time}</span>
-                                <span className={`text-[8px] ${isSelected ? "text-[#2D1F1D]/60" : "text-white/30"}`}>{slot.available ? slot.endTime : "NA"}</span>
+                                <span className={`text-[12px] font-black ${isSelected ? "text-[#2D1F1D]/60" : "text-white/30"}`}>{slot.available ? slot.endTime : "NA"}</span>
                               </button>
                             );
                           })}
@@ -338,9 +338,9 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                   {step === 3 && (
                     <motion.div key="s3" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-4 space-y-4">
                       <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-xl p-3.5 space-y-2">
-                        <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Summary</div>
+                        <div className="text-[13px] font-bold font-bold text-white/30 uppercase tracking-widest">Summary</div>
                         <div className="text-white text-xs font-bold leading-none">{formatDate(selectedDate)}</div>
-                        <div className="text-[#D4A848] text-[10px] font-bold uppercase">{selectedSlot?.time} – {selectedSlot?.endTime}</div>
+                        <div className="text-[#D4A848] text-[14px] font-bold font-bold uppercase">{selectedSlot?.time} – {selectedSlot?.endTime}</div>
                       </div>
                       <div className="space-y-2">
                         <input type="text" placeholder="Full Name" value={userName} onChange={e => setUserName(e.target.value)}
@@ -349,11 +349,11 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                           className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none" />
                       </div>
                       <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-xl p-3.5 space-y-1">
-                        <div className="flex justify-between items-center text-[10px] font-bold text-white/50 uppercase">
+                        <div className="flex justify-between items-center text-[14px] font-bold font-bold text-white/50 uppercase">
                           <span>Session Charge</span>
                           <span className="text-white">₹599</span>
                         </div>
-                        <div className="text-[9px] text-[#D4A848]/60 font-medium">Charges are fully adjustable in any service you opt for later.</div>
+                        <div className="text-[13px] font-bold text-[#D4A848]/60 font-medium">Charges are fully adjustable in any service you opt for later.</div>
                       </div>
                     </motion.div>
                   )}
@@ -363,13 +363,13 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                       <div className="w-14 h-14 bg-[#D4A848]/10 border border-[#D4A848]/30 rounded-full flex items-center justify-center mx-auto text-2xl">🎉</div>
                       <div>
                         <h3 className="text-lg font-black text-white leading-tight">Confirmed!</h3>
-                        <p className="text-white/40 text-[10px] mt-1">Sent to {userEmail}</p>
+                        <p className="text-white/40 text-[14px] font-bold mt-1">Sent to {userEmail}</p>
                       </div>
                       <div className="bg-black/20 border border-white/5 rounded-xl p-3 space-y-2 text-left">
                         <Row label="Date" value={formatDate(booking.date)} />
                         <Row label="Time" value={booking.time} />
                         <div className="pt-2 border-t border-white/5">
-                          <div className="text-[8px] text-white/30 uppercase mb-0.5">Meeting ID</div>
+                          <div className="text-[12px] font-black text-white/30 uppercase mb-0.5">Meeting ID</div>
                           <code className="text-[#D4A848] text-xs font-bold font-mono">{booking.meetingId}</code>
                         </div>
                       </div>
@@ -384,7 +384,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
               {step < 4 && (
                 <div className="p-3 md:p-4 border-t border-white/5 flex gap-2">
                   {step > 1 && (
-                    <button onClick={() => goBack(step - 1)} className="flex-1 py-2.5 rounded-lg border border-white/10 text-white/50 text-[10px] font-bold uppercase transition-all">Back</button>
+                    <button onClick={() => goBack(step - 1)} className="flex-1 py-2.5 rounded-lg border border-white/10 text-white/50 text-[14px] font-bold font-bold uppercase transition-all">Back</button>
                   )}
                   <button
                     onClick={() => {
@@ -396,7 +396,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                       }
                     }}
                     disabled={(step === 1 && !selectedDate) || (step === 2 && !selectedSlot) || (step === 3 && bookingLoading)}
-                    className="flex-1 py-2.5 rounded-lg bg-[#D4A848] text-[#2D1F1D] text-[10px] font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
+                    className="flex-1 py-2.5 rounded-lg bg-[#D4A848] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
                   >
                     {bookingLoading ? "..." : step === 3 ? "Confirm & Pay" : "Continue"}
                   </button>
@@ -424,7 +424,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between items-center">
-      <span className="text-white/30 text-[10px] font-bold uppercase">{label}</span>
+      <span className="text-white/30 text-[14px] font-bold font-bold uppercase">{label}</span>
       <span className="text-white text-[11px] font-bold">{value}</span>
     </div>
   );

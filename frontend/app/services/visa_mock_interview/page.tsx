@@ -69,7 +69,7 @@ export default function VisaMockInterviewPage() {
             >
               <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/20 px-3 py-1.5 rounded-full">
                 <span className="w-1.5 h-1.5 bg-[#D4A848] rounded-full animate-pulse" />
-                <span className="text-[#D4A848] text-[10px] font-black uppercase tracking-[0.2em]">Premium Service</span>
+                <span className="text-[#D4A848] text-[14px] font-bold font-black uppercase tracking-[0.2em]">Premium Service</span>
               </div>
 
               <h1 className="text-3xl md:text-5xl font-black leading-[1.1] tracking-tight uppercase text-[#362B25] break-words">
@@ -112,13 +112,13 @@ export default function VisaMockInterviewPage() {
                 <div className="absolute z-30 top-4 right-4 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-2 rounded-xl flex items-center gap-2 shadow-xl scale-90 origin-top-right">
                   <Star className="text-[#D4A848] w-4 h-4 fill-[#D4A848]" />
                   <div>
-                    <p className="text-[10px] font-black text-white uppercase tracking-widest">4.9/5 Rating</p>
+                    <p className="text-[14px] font-bold font-black text-white uppercase tracking-widest">4.9/5 Rating</p>
                   </div>
                 </div>
 
                 <div className="absolute z-30 bottom-4 left-4 bg-[#D4A848] px-4 py-2 rounded-xl flex items-center gap-3 shadow-xl scale-90 origin-bottom-left">
                   <ShieldCheck className="text-black w-5 h-5" />
-                  <p className="text-[10px] font-black text-black uppercase tracking-tight">Verified Expert</p>
+                  <p className="text-[14px] font-bold font-black text-black uppercase tracking-tight">Verified Expert</p>
                 </div>
               </div>
             </motion.div>

@@ -120,7 +120,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
         exit={{ y: 20, opacity: 0, scale: 0.95 }}
         className="relative w-full max-w-3xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-3xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px] max-h-[95vh] border border-[#C5A059]/15 font-sans"
       >
-        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/40 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
+        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/70 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
              <X size={18} className="md:w-5 md:h-5 group-hover:rotate-90 transition-transform" />
         </button>
 
@@ -131,7 +131,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
              </div>
              <div className="ml-4 md:ml-0 text-left md:text-center relative z-10 leading-tight">
                 <h2 className="text-md md:text-xl font-black mb-0.5 md:mb-2 leading-tight tracking-widest uppercase italic">School Node</h2>
-                <p className="text-white/70 text-[9px] md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
+                <p className="text-white/70 text-[13px] font-bold md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
                   {step === 0 && "Identify your institution."}
                   {step === 1 && "Sync academic metrics."}
                   {step === 2 && "Protocol Verified."}
@@ -143,7 +143,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
           <div className="mb-8">
             <div className="flex justify-between items-end mb-4">
               <h2 className="text-sm font-black text-[#3C2A21] uppercase tracking-[0.2em] italic">High School Profile</h2>
-              <span className="text-[10px] font-black text-[#C5A059] uppercase tracking-[0.3em]">Step {step + 1} of 3</span>
+              <span className="text-[14px] font-bold font-black text-[#C5A059] uppercase tracking-[0.3em]">Step {step + 1} of 3</span>
             </div>
             <div className="h-1.5 w-full bg-[#FDFBF7] rounded-full border border-[#F1EDEA] overflow-hidden">
                <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="bg-[#C5A059] h-full shadow-sm" />
@@ -155,7 +155,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
               {step === 0 && (
                 <motion.div key="step0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-[#6B5E51] ml-1">Current School Name</label>
+                    <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#6B5E51] ml-1">Current School Name</label>
                     <div className={`relative transition-all duration-300 ${errors.schoolName ? 'translate-x-1' : ''}`}>
                       <School className="absolute left-5 top-1/2 -translate-y-1/2 text-[#C5A059]/40" size={18} />
                       <input
@@ -174,7 +174,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
                 <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                      <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-[#6B5E51] ml-1">CGPA / Percentage</label>
+                        <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#6B5E51] ml-1">CGPA / Percentage</label>
                         <input
                           type="text"
                           placeholder="0.00"
@@ -184,7 +184,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
                         />
                      </div>
                      <div className="space-y-3">
-                        <label className="text-[10px] font-black uppercase tracking-widest text-[#6B5E51] ml-1">Out Of / Scale</label>
+                        <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#6B5E51] ml-1">Out Of / Scale</label>
                         <select
                           value={formData.outOf}
                           onChange={(e) => { setFormData({ ...formData, outOf: e.target.value }); setErrors({ ...errors, outOf: false }); }}
@@ -208,7 +208,7 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
                   </div>
                   <div>
                     <h3 className="text-xl font-black text-[#3C2A21] uppercase tracking-wider italic">Verification</h3>
-                    <p className="text-[10px] text-[#6B5E51] font-bold uppercase tracking-widest mt-2">{formData.schoolName}</p>
+                    <p className="text-[14px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest mt-2">{formData.schoolName}</p>
                     <p className="text-[11px] text-[#C5A059] font-black uppercase tracking-widest mt-1">Score: {formData.cgpa} / {formData.outOf}</p>
                   </div>
                 </motion.div>
@@ -218,12 +218,12 @@ export const HighSchoolModal = ({ isOpen, onClose, onSubmit, initialData }: High
 
           <div className="flex justify-between items-center mt-8 gap-4">
             {step > 0 && (
-              <button onClick={prevStep} className="flex-1 px-8 py-4 rounded-2xl border border-[#F1EDEA] text-[#6B5E51] font-black uppercase text-[10px] tracking-widest hover:bg-[#FDFBF7] transition-all flex items-center justify-center gap-2">
+              <button onClick={prevStep} className="flex-1 px-8 py-4 rounded-2xl border border-[#F1EDEA] text-[#6B5E51] font-black uppercase text-[14px] font-bold tracking-widest hover:bg-[#FDFBF7] transition-all flex items-center justify-center gap-2">
                 <ArrowLeft size={16} /> Back
               </button>
             )}
             
-            <button onClick={nextStep} className="flex-[2] bg-[#3C2A21] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-[#C5A059] transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2">
+            <button onClick={nextStep} className="flex-[2] bg-[#3C2A21] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[14px] font-bold hover:bg-[#C5A059] transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2">
               {step === 2 ? 'Finalize' : 'Proceed'} <ArrowRight size={16} />
             </button>
           </div>

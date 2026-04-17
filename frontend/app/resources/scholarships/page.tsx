@@ -81,7 +81,7 @@ const ScholarshipsPage = () => {
                animate={{ opacity: 1, y: 0 }}
                transition={{ duration: 0.8 }}
             >
-               <span className="inline-block px-4 py-1 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[10px] tracking-[0.2em] uppercase mb-6">
+               <span className="inline-block px-4 py-1 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[14px] font-bold tracking-[0.2em] uppercase mb-6">
                  Financial Support Index
                </span>
                <h1 className="fd text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight mb-10 leading-[0.95] text-[#2D2926]">
@@ -144,7 +144,7 @@ const ScholarshipsPage = () => {
                       
                       <div className="flex-1 min-w-0">
                          <div className="flex items-center gap-3 mb-3">
-                           <span className="px-3 py-1 bg-[#F8F5F0] text-[#C5A059] text-[9px] font-bold uppercase tracking-widest rounded-md border border-[rgba(197,160,89,0.1)]">
+                           <span className="px-3 py-1 bg-[#F8F5F0] text-[#C5A059] text-[13px] font-bold font-bold uppercase tracking-widest rounded-md border border-[rgba(197,160,89,0.1)]">
                              {s.category}
                            </span>
                          </div>
@@ -154,11 +154,11 @@ const ScholarshipsPage = () => {
 
                       <div className="flex items-center gap-10 md:gap-14 flex-shrink-0">
                          <div className="flex flex-col items-center md:items-end gap-2">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#A8A29E]">Closing Date</span>
+                            <span className="text-[14px] font-bold font-bold uppercase tracking-widest text-[#A8A29E]">Closing Date</span>
                             <span className="text-sm font-bold text-[#2D2926] whitespace-nowrap">{s.deadline}</span>
                          </div>
                          <div className="flex flex-col items-center md:items-end gap-2">
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">Award value</span>
+                            <span className="text-[14px] font-bold font-bold uppercase tracking-widest text-[#C5A059]">Award value</span>
                             <span className="text-sm font-bold text-[#2D2926] whitespace-nowrap">{s.amount}</span>
                          </div>
                          <div className="flex items-center gap-4">

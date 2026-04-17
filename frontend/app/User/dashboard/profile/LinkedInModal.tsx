@@ -65,7 +65,7 @@ export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialData }: Props)
             
             <form onSubmit={handleSubmit} className="p-8 space-y-6">
               <div className="space-y-3">
-                <p className="text-[10px] font-bold text-[#C5A059] uppercase tracking-widest ml-1">Profile Interface URL</p>
+                <p className="text-[14px] font-bold font-bold text-[#C5A059] uppercase tracking-widest ml-1">Profile Interface URL</p>
                 <div className="relative">
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#C5A059]">
                     <LinkIcon size={16} />
@@ -78,12 +78,12 @@ export const LinkedInModal = ({ isOpen, onClose, onSubmit, initialData }: Props)
                       if (error) setError(null);
                     }}
                     placeholder="https://linkedin.com/in/username"
-                    className={`w-full bg-[#F8F5F0] border ${error ? 'border-red-500/50' : 'border-[#F1EDEA]'} rounded-2xl pl-12 pr-4 py-4 text-sm text-[#2D2926] font-medium focus:outline-none ${error ? 'focus:border-red-500' : 'focus:border-[#C5A059]'} transition-all placeholder:text-[#6B5E51]/40`}
+                    className={`w-full bg-[#F8F5F0] border ${error ? 'border-red-500/50' : 'border-[#F1EDEA]'} rounded-2xl pl-12 pr-4 py-4 text-sm text-[#2D2926] font-medium focus:outline-none ${error ? 'focus:border-red-500' : 'focus:border-[#C5A059]'} transition-all placeholder:text-[#6B5E51]/70`}
                     required
                   />
                 </div>
                 {error && (
-                  <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-[10px] text-red-500 font-bold uppercase tracking-widest ml-1">
+                  <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-[14px] font-bold text-red-500 font-bold uppercase tracking-widest ml-1">
                     {error}
                   </motion.p>
                 )}

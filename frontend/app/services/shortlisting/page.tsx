@@ -134,7 +134,7 @@ export default function ShortlistingPage() {
                 <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                   <div className="flex items-center gap-3 mb-2">
                     <ShieldCheck className="text-[#C5A059]" size={20} />
-                    <span className="text-[10px] text-white font-bold tracking-widest uppercase">Verified Expert node</span>
+                    <span className="text-[14px] font-bold text-white font-bold tracking-widest uppercase">Verified Expert node</span>
                   </div>
                   <p className="text-white font-serif italic text-sm leading-relaxed">
                     "We maintain a zero-commission policy. Your shortlist is driven purely by your success potential."
@@ -171,7 +171,7 @@ export default function ShortlistingPage() {
             {/* Grid Features */}
             <div className="space-y-10">
               <div className="space-y-2">
-                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Evaluation Pillars</span>
+                <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.2em] uppercase">Evaluation Pillars</span>
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Strategic Advisory</h3>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -192,7 +192,7 @@ export default function ShortlistingPage() {
             {/* Community Consensus */}
             <div className="space-y-10 pt-10 border-t border-[#F1EDEA]">
               <div className="space-y-2">
-                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Public Consensus</span>
+                <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.2em] uppercase">Public Consensus</span>
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
               </div>
               <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
@@ -207,7 +207,7 @@ export default function ShortlistingPage() {
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-all duration-1000" />
               <div className="space-y-2 relative z-10">
                 <h3 className="fd text-3xl font-bold italic">Bespoke Shortlist</h3>
-                <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Pricing Protocol.</p>
+                <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Pricing Protocol.</p>
               </div>
               <div className="relative z-10 w-full">
                 <AddToCart serviceId="shortlisting" />

@@ -149,7 +149,7 @@ export default function LORDraftingPage() {
                                 <div className="absolute bottom-8 left-8 right-8 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                                     <div className="flex items-center gap-3 mb-2">
                                         <Quote className="text-[#C5A059]" size={20} />
-                                        <span className="text-[10px] text-white font-bold tracking-widest uppercase">Credential Audit</span>
+                                        <span className="text-[14px] font-bold text-white font-bold tracking-widest uppercase">Credential Audit</span>
                                     </div>
                                     <p className="text-white font-serif italic text-sm leading-relaxed">
                                         "We bridge the gap between academic genericism and strategic institutional resonance."
@@ -190,7 +190,7 @@ export default function LORDraftingPage() {
                         {/* INTEGRATED PILLARS */}
                         <div className="space-y-8 pt-10 border-t border-[#F1EDEA]">
                             <div className="space-y-2">
-                                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Drafting Framework</span>
+                                <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.2em] uppercase">Drafting Framework</span>
                                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Strategic LOR Pillars</h3>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -245,7 +245,7 @@ export default function LORDraftingPage() {
                             <p className="text-xs text-[#3C2A21]/60 font-medium leading-relaxed">
                                 Not sure who to ask? Connect with our team to map out your recommendation strategy before drafting begins.
                             </p>
-                            <Link href="/contact" className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[10px] tracking-widest uppercase hover:gap-3 transition-all">
+                            <Link href="/contact" className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[14px] font-bold tracking-widest uppercase hover:gap-3 transition-all">
                                 Message now <ArrowRight size={14} />
                             </Link>
                         </div>
@@ -279,7 +279,7 @@ export default function LORDraftingPage() {
                     >
                         Begin LOR Strategy <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </button>
-                    <div className="flex items-center gap-2 text-[10px] text-[#C5A059] font-black tracking-widest uppercase opacity-40">
+                    <div className="flex items-center gap-2 text-[14px] font-bold text-[#C5A059] font-black tracking-widest uppercase opacity-40">
                         <Zap size={12} /> Ivy League Standards Certified
                     </div>
                 </motion.div>

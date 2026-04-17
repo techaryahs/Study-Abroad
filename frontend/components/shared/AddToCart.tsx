@@ -205,13 +205,13 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
             <div className="space-y-3">
                 {/* Services Row */}
                 <div className="flex justify-between gap-4 py-1 text-[#D4A848]/60">
-                    <span className="text-[10px] font-black uppercase tracking-widest">Services</span>
+                    <span className="text-[14px] font-bold font-black uppercase tracking-widest">Services</span>
                     <span className="text-xs font-bold text-[#FFFFFF] text-right leading-tight max-w-[150px]">{data.title}</span>
                 </div>
 
                 {/* Duration Row */}
                 <div className="flex justify-between items-center py-1 text-[#D4A848]/60">
-                    <span className="text-[10px] font-black uppercase tracking-widest">Duration</span>
+                    <span className="text-[14px] font-bold font-black uppercase tracking-widest">Duration</span>
                     <span className="text-xs font-bold text-[#FFFFFF] animate-in fade-in duration-500">{displayDuration}</span>
                 </div>
 
@@ -219,11 +219,11 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                 {data.selections ? (
                     data.selections.map((s: any) => (
                         <div key={s.id} className="flex justify-between items-center py-1 text-[#D4A848]/60">
-                            <span className="text-[10px] font-black uppercase tracking-widest leading-none text-[#D4A848]/60">{s.title}</span>
+                            <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none text-[#D4A848]/60">{s.title}</span>
                             <div className="relative">
                                 <button
                                     onClick={() => setOpenDropdown(openDropdown === s.id ? null : s.id)}
-                                    className="flex items-center gap-2 bg-white/5 border border-[#D4A848]/30 text-[#FFFFFF] text-[10px] font-black uppercase px-5 py-2 rounded-full hover:bg-white transition-all min-w-[100px] justify-between group/btn"
+                                    className="flex items-center gap-2 bg-white/5 border border-[#D4A848]/30 text-[#FFFFFF] text-[14px] font-bold font-black uppercase px-5 py-2 rounded-full hover:bg-white transition-all min-w-[100px] justify-between group/btn"
                                 >
                                     <span>{selections[s.id]}</span>
                                     <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openDropdown === s.id ? "rotate-180" : ""}`} />
@@ -239,7 +239,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                                                         setSelections(prev => ({ ...prev, [s.id]: opt }));
                                                         setOpenDropdown(null);
                                                     }}
-                                                    className="w-full flex items-center justify-between px-4 py-1.5 text-[10px] font-black uppercase tracking-widest hover:bg-[#362B25] hover:text-[#FDFBF7] transition-colors text-[#D4A848]/70"
+                                                    className="w-full flex items-center justify-between px-4 py-1.5 text-[14px] font-bold font-black uppercase tracking-widest hover:bg-[#362B25] hover:text-[#FDFBF7] transition-colors text-[#D4A848]/70"
                                                 >
                                                     {opt}
                                                     {selections[s.id] === opt && <Check className="w-3 h-3 text-[#FFFFFF]" />}
@@ -253,11 +253,11 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                     ))
                 ) : (data.experts || data.options) && (
                     <div className="flex justify-between items-center py-1 text-[#D4A848]/60">
-                        <span className="text-[10px] font-black uppercase tracking-widest leading-none">{selectionTitle}</span>
+                        <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">{selectionTitle}</span>
                         <div className="relative" ref={selectionRef}>
                             <button
                                 onClick={() => setOpenDropdown(openDropdown === selectionKey ? null : selectionKey)}
-                                className="flex items-center gap-2 bg-white/5 border border-[#D4A848]/30 text-[#FDFBF7] text-[10px] font-black uppercase px-5 py-2 rounded-full hover:bg-white transition-all min-w-[100px] justify-between group/btn"
+                                className="flex items-center gap-2 bg-white/5 border border-[#D4A848]/30 text-[#FDFBF7] text-[14px] font-bold font-black uppercase px-5 py-2 rounded-full hover:bg-white transition-all min-w-[100px] justify-between group/btn"
                             >
                                 <span className="truncate max-w-[100px]">{selections[selectionKey]}</span>
                                 <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${openDropdown === selectionKey ? "rotate-180" : ""}`} />
@@ -274,7 +274,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                                                     setSelections({ [selectionKey]: opt });
                                                     setOpenDropdown(null);
                                                 }}
-                                                className="w-full flex items-center justify-between px-4 py-1.5 text-[10px] font-black uppercase tracking-widest hover:bg-[#362B25] hover:text-[#FDFBF7] transition-colors text-[#FDFBF7]/70"
+                                                className="w-full flex items-center justify-between px-4 py-1.5 text-[14px] font-bold font-black uppercase tracking-widest hover:bg-[#362B25] hover:text-[#FDFBF7] transition-colors text-[#FDFBF7]/70"
                                             >
                                                 {opt}
                                                 {selections[selectionKey] === opt && <Check className="w-3 h-3 text-[#FFFFFF]" />}
@@ -302,7 +302,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                                     <div className="w-4 h-4 border border-[#D4A848] rounded-[4px] bg-white/50 peer-checked:bg-[#D4A848] peer-checked:border-gold-500 transition-all duration-300" />
                                     <Check className="w-2.5 h-2.5 text-white absolute left-0.5 opacity-0 peer-checked:opacity-100 transition-all duration-300" strokeWidth={4} />
                                 </div>
-                                <span className="text-[9px] font-bold text-[#D4A848] uppercase tracking-widest group-hover/cb:text-[#FFFFFF] transition-colors leading-relaxed">
+                                <span className="text-[13px] font-bold font-bold text-[#D4A848] uppercase tracking-widest group-hover/cb:text-[#FFFFFF] transition-colors leading-relaxed">
                                     {cb.label}
                                     {cb.type === "addon" && (
                                         <span className="text-[#FFFFFF]/60 ml-1.5 font-black shrink-0">
@@ -318,17 +318,17 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                 {/* Highlight Badge */}
                 {data.highlight && (
                     <div className="bg-gradient-to-r from-gold-400/10 to-[#D4A848]/10 border border-[#D4A848]/30 rounded-xl p-3 text-center">
-                        <p className="text-[10px] font-black text-[#FDFBF7] uppercase tracking-widest leading-none">✦ {data.highlight}</p>
+                        <p className="text-[14px] font-bold font-black text-[#FDFBF7] uppercase tracking-widest leading-none">✦ {data.highlight}</p>
                     </div>
                 )}
 
                 {/* Currency Selection (Custom Dropdown) */}
                 <div className="flex justify-between items-center py-1 text-[#D4A848]/60">
-                    <span className="text-[10px] font-black uppercase tracking-widest">Currency</span>
+                    <span className="text-[14px] font-bold font-black uppercase tracking-widest">Currency</span>
                     <div className="relative" ref={currencyRef}>
                         <button
                             onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
-                            className="flex items-center gap-2 bg-white/5 border border-[#D4A848]/30 text-[#FDFBF7] text-[10px] font-black uppercase px-5 py-2 rounded-full hover:bg-white transition-all min-w-[100px] justify-between"
+                            className="flex items-center gap-2 bg-white/5 border border-[#D4A848]/30 text-[#FDFBF7] text-[14px] font-bold font-black uppercase px-5 py-2 rounded-full hover:bg-white transition-all min-w-[100px] justify-between"
                         >
                             <span>{currency}</span>
                             <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isCurrencyOpen ? "rotate-180" : ""}`} />
@@ -345,7 +345,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                                                 setCurrency(c);
                                                 setIsCurrencyOpen(false);
                                             }}
-                                            className="w-full flex items-center justify-between px-4 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-[#362B25] hover:text-[#FDFBF7] transition-colors text-[#FDFBF7]/70"
+                                            className="w-full flex items-center justify-between px-4 py-2 text-[14px] font-bold font-black uppercase tracking-widest hover:bg-[#362B25] hover:text-[#FDFBF7] transition-colors text-[#FDFBF7]/70"
                                         >
                                             {c}
                                             {currency === c && <Check className="w-3 h-3 text-[#FFFFFF]" />}
@@ -359,25 +359,25 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
 
                 <div className="pt-4 border-t border-[#D4A848]/30">
                     <div className="flex justify-between items-center py-1 text-[#FDFBF7]/40">
-                        <span className="text-[10px] font-black uppercase tracking-widest leading-none">Actual Amount</span>
+                        <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">Actual Amount</span>
                         <span className="text-[11px] line-through decoration-[#D4A848]/20 leading-none">{currency} {displayActual}</span>
                     </div>
 
                     <div className="flex justify-between items-baseline mb-3 leading-none mt-1">
-                        <span className="text-[9px] text-[#FFFFFF]/40 font-black uppercase tracking-[0.2em] leading-none">Amount</span>
+                        <span className="text-[13px] font-bold text-[#FFFFFF]/40 font-black uppercase tracking-[0.2em] leading-none">Amount</span>
                         <div className="flex items-baseline gap-2 leading-none">
                             <span className="text-2xl font-black text-[#D4A848] leading-none tracking-tighter">
                                 {currency} {displayDiscounted}
                             </span>
-                            {data.suffix && <span className="text-[9px] text-[#FFFFFF]/30 font-bold tracking-tight uppercase">{data.suffix}</span>}
+                            {data.suffix && <span className="text-[13px] font-bold text-[#FFFFFF]/30 font-bold tracking-tight uppercase">{data.suffix}</span>}
                         </div>
                     </div>
 
                     <div className="flex justify-between items-center mb-5 text-[#FDFBF7]/60 leading-none mt-1">
-                        <span className="text-[10px] font-black uppercase tracking-widest leading-none">You save</span>
+                        <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">You save</span>
                         <div className="flex items-center gap-2 leading-none text-right">
-                            <span className="text-[10px] font-black text-[#FDFBF7] leading-none">{currency} {displaySave}</span>
-                            <span className="bg-[#D4A848]/10 text-[#FDFBF7] px-2 py-0.5 border border-[#FFFFFF]/20 rounded-[2px] text-[9px] font-black uppercase leading-none">
+                            <span className="text-[14px] font-bold font-black text-[#FDFBF7] leading-none">{currency} {displaySave}</span>
+                            <span className="bg-[#D4A848]/10 text-[#FDFBF7] px-2 py-0.5 border border-[#FFFFFF]/20 rounded-[2px] text-[13px] font-bold font-black uppercase leading-none">
                                 {basePricing.off}
                             </span>
                         </div>
@@ -388,7 +388,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                             isInCart ? (
                                 <button
                                     disabled
-                                    className="w-full bg-[#362B25] border border-[#D4A848]/30 text-[#FFFFFF]/40 py-3.5 rounded-xl text-[10px] font-black uppercase tracking-widest text-center flex items-center justify-center gap-2 cursor-not-allowed"
+                                    className="w-full bg-[#362B25] border border-[#D4A848]/30 text-[#FFFFFF]/40 py-3.5 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest text-center flex items-center justify-center gap-2 cursor-not-allowed"
                                 >
                                     <div className="w-1.5 h-1.5 rounded-full bg-[#D4A848]/10" />
                                     Already in Cart
@@ -397,14 +397,14 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                                 <>
                                     <button
                                         onClick={() => setIsCheckoutOpen(true)}
-                                        className="bg-[#D4A848] text-[#40332D] py-3 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg transition-all hover:-translate-y-1 active:scale-95 text-center leading-none"
+                                        className="bg-[#D4A848] text-[#40332D] py-3 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest shadow-lg transition-all hover:-translate-y-1 active:scale-95 text-center leading-none"
                                     >
                                         Buy Now
                                     </button>
                                     <button
                                         onClick={handleAddToCart}
                                         disabled={loading}
-                                        className="border border-[#D4A848] text-[#FDFBF7] hover:bg-[#D4A848]/5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 text-center leading-none disabled:opacity-50"
+                                        className="border border-[#D4A848] text-[#FDFBF7] hover:bg-[#D4A848]/5 py-3 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest transition-all active:scale-95 text-center leading-none disabled:opacity-50"
                                     >
                                         {loading ? "Adding..." : "Add to Cart"}
                                     </button>
@@ -413,7 +413,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
                         ) : (
                             <Link
                                 href="/auth/login"
-                                className="bg-[#D4A848] text-[#40332D] py-4 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-[0_10px_20px_-5px_rgba(194,168,120,0.4)] transition-all hover:-translate-y-1 active:scale-95 text-center flex items-center justify-center gap-2"
+                                className="bg-[#D4A848] text-[#40332D] py-4 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest shadow-[0_10px_20px_-5px_rgba(194,168,120,0.4)] transition-all hover:-translate-y-1 active:scale-95 text-center flex items-center justify-center gap-2"
                             >
                                 <LogIn size={14} />
                                 Log In To Pay
@@ -424,7 +424,7 @@ export default function AddToCart({ serviceId }: { serviceId: string }) {
             </div>
 
             <div className="mt-4 pt-2 border-t border-[#D4A848]/30 text-center">
-                <p className="text-[8px] text-[#FFFFFF]/20 font-black uppercase tracking-[0.3em] flex items-center justify-center gap-2 leading-none">
+                <p className="text-[12px] font-black text-[#FFFFFF]/20 font-black uppercase tracking-[0.3em] flex items-center justify-center gap-2 leading-none">
                     <ShieldCheck size={10} className="text-[#FFFFFF]/40" /> Secure Checkout
                 </p>
             </div>

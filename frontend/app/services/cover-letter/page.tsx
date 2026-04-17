@@ -141,7 +141,7 @@ export default function CoverLetterPage() {
                         <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
                            <div className="flex items-center gap-3">
                               <FileText className="text-[#C5A059]" size={20} />
-                              <span className="text-[10px] text-[#3C2A21] font-bold tracking-widest uppercase">Drafting Laboratory</span>
+                              <span className="text-[14px] font-bold text-[#3C2A21] font-bold tracking-widest uppercase">Drafting Laboratory</span>
                            </div>
                            <div className="w-3 h-3 rounded-full bg-[#22c55e] animate-pulse" />
                         </div>
@@ -157,12 +157,12 @@ export default function CoverLetterPage() {
                         </div>
                         <div className="p-10 space-y-6">
                            <div className="p-6 bg-[#3C2A21] rounded-2xl space-y-4">
-                              <p className="text-white/60 text-[10px] font-bold uppercase tracking-[0.2em]">The Focal Point</p>
+                              <p className="text-white/60 text-[14px] font-bold font-bold uppercase tracking-[0.2em]">The Focal Point</p>
                               <p className="text-white font-serif italic text-base leading-relaxed">
                                  "We spotlight why you are the perfect fit, transforming a standard application into a narrative of inevitability."
                               </p>
                            </div>
-                           <div className="flex justify-between items-center text-[10px] font-bold text-[#C5A059] tracking-widest uppercase">
+                           <div className="flex justify-between items-center text-[14px] font-bold font-bold text-[#C5A059] tracking-widest uppercase">
                               <span>Verified Authenticity</span>
                               <span>Plagiarism-Free</span>
                            </div>
@@ -245,7 +245,7 @@ export default function CoverLetterPage() {
                            </div>
                            <div>
                               <h3 className="fd text-2xl font-bold">Secure Your Draft</h3>
-                              <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest">Global Standards Applied</p>
+                              <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Global Standards Applied</p>
                            </div>
                         </div>
                         <AddToCart serviceId="cover-letter" />

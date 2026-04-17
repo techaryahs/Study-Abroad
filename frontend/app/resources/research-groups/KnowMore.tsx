@@ -58,7 +58,7 @@ export default function KnowMore() {
             <p className="text-[#A8A29E] text-xs max-w-sm font-medium uppercase tracking-[0.1em] text-center leading-loose">Our advisors are equipped to guide you through the intricacies of international research paradigms.</p>
         </div>
         <Link href="/contact" className="relative z-10">
-          <button className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] px-10 py-4 text-[10px] font-bold rounded-xl border border-transparent transition-all uppercase tracking-widest">Speak With a Specialist</button>
+          <button className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] px-10 py-4 text-[14px] font-bold font-bold rounded-xl border border-transparent transition-all uppercase tracking-widest">Speak With a Specialist</button>
         </Link>
       </div>
     </div>

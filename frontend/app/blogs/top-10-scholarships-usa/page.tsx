@@ -51,7 +51,7 @@ export default function ScholarshipsUSAPage() {
                 <div className="flex-1 space-y-4">
                   <div className="flex justify-between items-start gap-4">
                     <h3 className="text-xl md:text-2xl font-black tracking-tight uppercase group-hover:text-gold-500 transition-colors">{s.name}</h3>
-                    <span className="text-[9px] font-black uppercase tracking-[0.3em] bg-white/5 px-4 py-1.5 rounded-full border border-white/5 group-hover:bg-black group-hover:text-white">{s.type}</span>
+                    <span className="text-[13px] font-bold font-black uppercase tracking-[0.3em] bg-white/5 px-4 py-1.5 rounded-full border border-white/5 group-hover:bg-black group-hover:text-white">{s.type}</span>
                   </div>
                   <p className="text-white/30 text-base leading-relaxed font-normal italic">{s.desc}</p>
                 </div>
@@ -77,7 +77,7 @@ export default function ScholarshipsUSAPage() {
           {/* Expert Take Section */}
           <section className="bg-dark-900 p-12 md:p-16 rounded-3xl border border-gold-500/10 text-center relative overflow-hidden shadow-4xl hover:shadow-gold-500/5 transition-all transform-gpu">
             <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] rounded-full pointer-events-none"></div>
-            <p className="text-[10px] uppercase font-black tracking-[0.5em] mb-6 opacity-40">Mentorship Perspective</p>
+            <p className="text-[14px] font-bold uppercase font-black tracking-[0.5em] mb-6 opacity-40">Mentorship Perspective</p>
             <p className="text-xl md:text-2xl font-black leading-snug italic border-t border-white/5 pt-8">
               "Scholarships are not rewards for past brilliance; they are investments in future potential. We show the committee that your future is the safest bet they can make."
             </p>

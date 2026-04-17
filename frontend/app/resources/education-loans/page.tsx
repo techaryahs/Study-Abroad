@@ -214,11 +214,11 @@ export default function EducationLoanPage() {
               >
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white text-[10px] font-bold">AXIS</div>
+                    <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white text-[14px] font-bold font-bold">AXIS</div>
                     <span className="font-bold text-sm text-[#2D2926]">AXIS BANK</span>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-[10px] text-[#A8A29E] font-bold uppercase">Tenure</span>
+                    <span className="text-[14px] font-bold text-[#A8A29E] font-bold uppercase">Tenure</span>
                     <span className="text-xs font-bold text-[#C5A059]">14 Years ▾</span>
                   </div>
                 </div>
@@ -299,7 +299,7 @@ export default function EducationLoanPage() {
                 View All
               </button>
             </div>
-            <p className="text-[10px] text-[#A8A29E] italic text-center mt-4">
+            <p className="text-[14px] font-bold text-[#A8A29E] italic text-center mt-4">
               *Actual loan terms may vary based on individual profile and lender assessment.
             </p>
           </div>
@@ -312,8 +312,8 @@ export default function EducationLoanPage() {
           <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926]">AXIS BANK</div>
           <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926] italic">Credila</div>
           <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926]">pnb</div>
-          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926]">IDFC FIRST <br /><span className="text-[10px] tracking-widest uppercase">Bank</span></div>
-          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926] text-blue-500">Prodigy <br /><span className="text-[10px] tracking-normal text-[#6B5E51]">Finance</span></div>
+          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926]">IDFC FIRST <br /><span className="text-[14px] font-bold tracking-widest uppercase">Bank</span></div>
+          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926] text-blue-500">Prodigy <br /><span className="text-[14px] font-bold tracking-normal text-[#6B5E51]">Finance</span></div>
         </div>
       </section>
 
@@ -339,7 +339,7 @@ export default function EducationLoanPage() {
           <div className="lg:col-span-3 flex gap-6 overflow-x-auto no-scrollbar pb-10">
             {PARTNER_HIGHLIGHTS.map((p, i) => (
               <div key={i} className="flex-shrink-0 w-80 bg-white rounded-[32px] p-8 space-y-8 shadow-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 px-6 py-2 bg-[#C5A059]/10 text-[#C5A059] text-[10px] font-black tracking-widest uppercase rounded-bl-3xl">
+                <div className="absolute top-0 right-0 px-6 py-2 bg-[#C5A059]/10 text-[#C5A059] text-[14px] font-bold font-black tracking-widest uppercase rounded-bl-3xl">
                   {p.type}
                 </div>
                 
@@ -352,25 +352,25 @@ export default function EducationLoanPage() {
 
                 <div className="grid grid-cols-2 gap-y-6 gap-x-4">
                   <div>
-                    <p className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Maximum Loan</p>
+                    <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Maximum Loan</p>
                     <p className="text-sm font-black text-[#2D2926]">{p.maxLoan}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Interest Rate</p>
+                    <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Interest Rate</p>
                     <p className="text-sm font-black text-[#2D2926]">{p.interestRate}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Processing time</p>
+                    <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Processing time</p>
                     <p className="text-sm font-black text-[#2D2926]">{p.processingTime}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Processing fee</p>
+                    <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Processing fee</p>
                     <p className="text-sm font-black text-[#2D2926]">{p.processingFee}</p>
                   </div>
                 </div>
 
                 <div className="pt-6 border-t border-[#F1EDEA]">
-                  <p className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Loan Type</p>
+                  <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Loan Type</p>
                   <p className="text-sm font-black text-[#2D2926]">{p.loanType}</p>
                 </div>
               </div>

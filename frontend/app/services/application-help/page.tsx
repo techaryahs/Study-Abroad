@@ -10,7 +10,7 @@ function StatBar({ country, flagUrl, count, percentage }: { country: string; fla
   return (
     <div className="flex items-center gap-4 mb-4 group">
       {/* Country Name */}
-      <span className="w-28 text-[10px] font-bold text-[#675F5B] truncate uppercase tracking-widest group-hover:text-[#362B25] transition-colors">
+      <span className="w-28 text-[14px] font-bold font-bold text-[#675F5B] truncate uppercase tracking-widest group-hover:text-[#362B25] transition-colors">
         {country}
       </span>
 
@@ -32,7 +32,7 @@ function StatBar({ country, flagUrl, count, percentage }: { country: string; fla
       </div>
 
       {/* Count */}
-      <span className="w-12 text-[10px] font-bold text-[#D4A848] text-right tracking-tighter">
+      <span className="w-12 text-[14px] font-bold font-bold text-[#D4A848] text-right tracking-tighter">
         {count}
       </span>
     </div>
@@ -74,7 +74,7 @@ export default function ApplicationHelpPage() {
 
               <div className="space-y-1 md:space-y-3">
                 <div className="inline-block border border-[#D4A848]/30 px-3 md:px-4 py-0.5 md:py-1 rounded-full bg-[#FFFFFF]">
-                  <span className="text-[8px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-[#D4A848]">Admissions • Premium Mentorship</span>
+                  <span className="text-[12px] font-black md:text-[14px] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-[#D4A848]">Admissions • Premium Mentorship</span>
                 </div>
                 <h1 className="text-2xl sm:text-3xl md:text-7xl font-bold tracking-tighter leading-[1.1] break-words">
                   <span className="text-[#362B25] block">COMPLETE</span>
@@ -143,15 +143,15 @@ export default function ApplicationHelpPage() {
           <div className="grid grid-cols-3 bg-[#FFFFFF] border border-[#D4A848]/20 rounded-2xl overflow-hidden divide-x divide-[#D4A848]/10 shadow-sm">
             <div className="p-10 text-center group">
               <p className="text-4xl font-light text-[#D4A848] mb-2 group-hover:scale-110 transition-transform">22%</p>
-              <p className="text-[9px] font-bold text-[#675F5B] uppercase tracking-[0.2em]">Full Funding</p>
+              <p className="text-[13px] font-bold font-bold text-[#675F5B] uppercase tracking-[0.2em]">Full Funding</p>
             </div>
             <div className="p-10 text-center group">
               <p className="text-4xl font-light text-[#362B25] mb-2 group-hover:scale-110 transition-transform">∞</p>
-              <p className="text-[9px] font-bold text-[#675F5B] uppercase tracking-[0.2em]">Priority Support</p>
+              <p className="text-[13px] font-bold font-bold text-[#675F5B] uppercase tracking-[0.2em]">Priority Support</p>
             </div>
             <div className="p-10 text-center group">
               <p className="text-4xl font-light text-[#D4A848] mb-2 group-hover:scale-110 transition-transform">83%</p>
-              <p className="text-[9px] font-bold text-[#675F5B] uppercase tracking-[0.2em]">Scholarship &gt;$10k</p>
+              <p className="text-[13px] font-bold font-bold text-[#675F5B] uppercase tracking-[0.2em]">Scholarship &gt;$10k</p>
             </div>
           </div>
 

@@ -85,7 +85,7 @@ export default function AboutPage() {
             className="md:w-3/5 space-y-10"
           >
             <div className="space-y-6">
-              <span className="text-gold-400 uppercase tracking-[0.4em] font-black text-[10px] px-6 py-2 border border-gold-500/20 rounded-full bg-gold-500/5 backdrop-blur-3xl shadow-[0_0_30px_rgba(194,168,120,0.1)] inline-block">
+              <span className="text-gold-400 uppercase tracking-[0.4em] font-black text-[14px] font-bold px-6 py-2 border border-gold-500/20 rounded-full bg-gold-500/5 backdrop-blur-3xl shadow-[0_0_30px_rgba(194,168,120,0.1)] inline-block">
                 Our Elite Pedigree
               </span>
               <h1 className="text-3xl md:text-5xl font-black leading-[1.1] uppercase text-white !opacity-100 !visible">
@@ -137,7 +137,7 @@ export default function AboutPage() {
               <div className="text-3xl md:text-5xl font-black text-white group-hover:text-gold-500 transition-all duration-1000 tracking-tight group-hover:scale-110">
                 {item.value}
               </div>
-              <div className="text-[10px] uppercase tracking-[0.3em] font-black text-white/30 pt-6 group-hover:text-gold-500/50 transition-all cursor-default text-center">
+              <div className="text-[14px] font-bold uppercase tracking-[0.3em] font-black text-white/30 pt-6 group-hover:text-gold-500/50 transition-all cursor-default text-center">
                 {item.label}
               </div>
             </motion.div>
@@ -162,7 +162,7 @@ export default function AboutPage() {
             style={{ perspective: 1000 }}
             className="space-y-6 glass-card p-10 md:p-12 border border-[#d4af37]/20 relative group bg-white/[0.01] hover:bg-gold-500 hover:text-black duration-700 transform-gpu"
           >
-            <div className="text-gold-500 group-hover:text-black font-black uppercase tracking-[0.4em] text-[9px] mb-4 flex items-center gap-4 transition-colors">
+            <div className="text-gold-500 group-hover:text-black font-black uppercase tracking-[0.4em] text-[13px] font-bold mb-4 flex items-center gap-4 transition-colors">
               <span className="w-12 h-[1px] bg-current opacity-30"></span> Our Vision
             </div>
             <h2 className="text-2xl md:text-3xl font-black leading-tight uppercase italic">Unlocking <br />Global Potential</h2>
@@ -186,7 +186,7 @@ export default function AboutPage() {
             style={{ perspective: 1000 }}
             className="space-y-6 glass-card p-10 md:p-12 border border-[#d4af37]/20 relative group bg-white/[0.01] hover:bg-gold-500 hover:text-black duration-700 transform-gpu"
           >
-            <div className="text-gold-500 group-hover:text-black font-black uppercase tracking-[0.4em] text-[9px] mb-4 flex items-center gap-4 transition-colors">
+            <div className="text-gold-500 group-hover:text-black font-black uppercase tracking-[0.4em] text-[13px] font-bold mb-4 flex items-center gap-4 transition-colors">
               <span className="w-12 h-[1px] bg-current opacity-30"></span> Our Mission
             </div>
             <h2 className="text-2xl md:text-3xl font-black leading-tight uppercase italic">Precision <br />Admissions</h2>
@@ -208,7 +208,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="md:w-1/2 space-y-6"
           >
-            <span className="text-gold-500 uppercase tracking-[0.4em] font-black text-[9px]">The Strategic Edge</span>
+            <span className="text-gold-500 uppercase tracking-[0.4em] font-black text-[13px] font-bold">The Strategic Edge</span>
             <h2 className="text-3xl md:text-5xl font-black leading-none uppercase">Why Strategic Mentorship <br /><span className="gradient-text-gold italic">Wins Admissions?</span></h2>
             <p className="text-white/30 text-base md:text-lg italic font-normal">Consultancy is about paperwork. Mentorship is about architectural prestige.</p>
           </motion.div>

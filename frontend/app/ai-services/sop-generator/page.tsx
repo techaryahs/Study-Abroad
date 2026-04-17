@@ -124,7 +124,7 @@ export default function AISOPGeneratorPage() {
                                 <div className="w-36 h-44 bg-gradient-to-br from-white/10 to-transparent rounded-[20px] border-[2px] border-[#362B25]/20 backdrop-blur-md relative flex items-center justify-center shadow-2xl">
                                     <div className="w-24 h-24 bg-gradient-to-tr from-[#c8922c] to-[#fce498] rounded-full shadow-[0_0_50px_rgba(212,168,72,0.3)] flex flex-col items-center justify-center text-[#362B25] font-black text-center p-2 border-[4px] border-dashed border-[#57442a]/30 leading-tight">
                                         <div className="text-3xl pt-1">100%</div>
-                                        <div className="text-[10px] tracking-wider mt-0.5">ORIGINAL</div>
+                                        <div className="text-[14px] font-bold tracking-wider mt-0.5">ORIGINAL</div>
                                     </div>
                                     <div className="absolute -right-2 top-8 text-green-400"><div className="flex justify-center items-center w-6 h-6 bg-green-500 rounded-full text-white">✓</div></div>
                                     <div className="absolute -left-4 bottom-12 text-green-400 scale-75"><div className="flex justify-center items-center w-6 h-6 bg-green-500 rounded-full text-white">✓</div></div>
@@ -354,7 +354,7 @@ export default function AISOPGeneratorPage() {
                                 <div className="flex items-center gap-5">
                                     <div className="w-11 h-11 bg-[#D4A848] rounded-[10px] flex items-center justify-center shrink-0">
                                         <div className="w-[18px] h-[18px] border-[1.5px] border-white rounded-[10px] flex items-center justify-center">
-                                            <span className="text-white text-[10px] font-bold">✓</span>
+                                            <span className="text-white text-[14px] font-bold font-bold">✓</span>
                                         </div>
                                     </div>
                                     <span className="text-[#362B25] font-medium text-[16px]">Plagiarism-Free</span>
@@ -417,7 +417,7 @@ export default function AISOPGeneratorPage() {
                                         </div>
                                         <span className="font-bold text-[#10a37f] text-lg">ChatGPT</span>
                                     </div>
-                                    <div className="bg-[#f0f2f5] text-[#362B25] text-[9px] uppercase font-bold px-3 py-1.5 rounded tracking-widest">Generic AI Model</div>
+                                    <div className="bg-[#f0f2f5] text-[#362B25] text-[13px] font-bold uppercase font-bold px-3 py-1.5 rounded tracking-widest">Generic AI Model</div>
                                 </div>
                                 
                                 <ul className="space-y-6 flex-1">
@@ -454,7 +454,7 @@ export default function AISOPGeneratorPage() {
                                         </div>
                                         <span className="font-bold text-[#362B25] text-[17px] leading-tight">Global<br/>Counsellor</span>
                                     </div>
-                                    <div className="bg-[#D4A848] text-white text-[9px] uppercase font-bold px-3 py-1.5 rounded tracking-widest shadow-sm">University-Focused AI</div>
+                                    <div className="bg-[#D4A848] text-white text-[13px] font-bold uppercase font-bold px-3 py-1.5 rounded tracking-widest shadow-sm">University-Focused AI</div>
                                 </div>
                                 
                                 <ul className="space-y-6 flex-1">
@@ -518,19 +518,19 @@ export default function AISOPGeneratorPage() {
                             <div className="text-[#362B25] font-semibold text-[15px] mb-6">What's included</div>
                             <ul className="space-y-5 flex-1 mb-10">
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Generate <strong className="font-semibold text-gray-800">1</strong> SOP</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">AI and Plagiarism Removal</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Fully Customized</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Perfect for a single high-stakes application</span>
                                 </li>
                             </ul>
@@ -551,19 +551,19 @@ export default function AISOPGeneratorPage() {
                             <div className="text-[#362B25] font-semibold text-[15px] mb-6">What's included</div>
                             <ul className="space-y-5 flex-1 mb-10">
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Generate <strong className="font-semibold text-gray-800">5</strong> SOPs</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">5x AI and Plagiarism Removal</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Fully Customized</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Ideal for applying to multiple top schools</span>
                                 </li>
                             </ul>
@@ -572,7 +572,7 @@ export default function AISOPGeneratorPage() {
                         
                         {/* Card 3 (Value) */}
                         <div className="bg-[#362B25] rounded-2xl md:rounded-[24px] p-8 shadow-[0_20px_40px_rgb(0,0,0,0.15)] flex flex-col h-full relative transform md:-translate-y-4 border border-gray-700">
-                            <div className="absolute top-6 right-6 border border-[#D4A848] text-[#D4A848] text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded">Value</div>
+                            <div className="absolute top-6 right-6 border border-[#D4A848] text-[#D4A848] text-[14px] font-bold font-bold tracking-widest uppercase px-3 py-1 rounded">Value</div>
                             <div className="text-gray-400 text-[13px] mb-2">Price: <span className="line-through">INR 40,000</span></div>
                             <div className="flex items-baseline gap-2 mb-4">
                                 <span className="font-bold text-white text-xl">INR</span>
@@ -585,19 +585,19 @@ export default function AISOPGeneratorPage() {
                             <div className="text-white font-semibold text-[15px] mb-6">What's included</div>
                             <ul className="space-y-5 flex-1 mb-10">
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-gray-200 text-[14px]">Generate <strong className="font-semibold text-white">10</strong> SOPs</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-gray-200 text-[14px]">10x AI and Plagiarism Removal</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-gray-200 text-[14px]">Fully Customized</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[14px] font-bold font-bold">✓</span></div>
                                     <span className="text-gray-200 text-[14px]">Great for applying across universities or diverse programs</span>
                                 </li>
                             </ul>

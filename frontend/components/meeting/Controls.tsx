@@ -74,7 +74,7 @@ export default function Controls({
       {/* Session ID / Meeting Info (Desktop Only) */}
       <div className="hidden lg:flex flex-col">
         <span className="text-white text-sm font-medium">Session Room</span>
-        <span className="text-white/40 text-[10px] uppercase tracking-widest font-black">Live Encryption Active</span>
+        <span className="text-white/40 text-[14px] font-bold uppercase tracking-widest font-black">Live Encryption Active</span>
       </div>
 
       {/* Main Controls Overlay */}
@@ -134,7 +134,7 @@ export default function Controls({
           <button
             id="start-call-btn"
             onClick={onStartCall}
-            className="h-10 md:h-12 px-5 md:px-8 bg-[#d4af37] text-black font-black text-[10px] md:text-xs uppercase tracking-[0.2em] rounded-full hover:bg-yellow-400 transition-all shadow-lg active:scale-95"
+            className="h-10 md:h-12 px-5 md:px-8 bg-[#d4af37] text-black font-black text-[14px] font-bold md:text-xs uppercase tracking-[0.2em] rounded-full hover:bg-yellow-400 transition-all shadow-lg active:scale-95"
           >
             Start Meeting
           </button>
@@ -167,7 +167,7 @@ export default function Controls({
       {/* Additional UI elements (Desktop Only) */}
       <div className="hidden lg:flex items-center gap-6">
         <div className="flex flex-col items-end">
-          <span className="text-white/40 text-[9px] font-black uppercase tracking-[0.2em]">Signal Strength</span>
+          <span className="text-white/40 text-[13px] font-bold font-black uppercase tracking-[0.2em]">Signal Strength</span>
           <div className="flex gap-0.5 mt-1">
             <div className="w-1 h-2 bg-[#d4af37] rounded-sm" />
             <div className="w-1 h-3 bg-[#d4af37] rounded-sm" />

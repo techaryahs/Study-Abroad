@@ -55,7 +55,7 @@ export default function CountriesPage() {
         className="max-w-[1440px] mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24 relative z-10"
       >
         <motion.div variants={itemVariants} className="text-center mb-20 space-y-6">
-          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px]">Strategic Hubs</span>
+          <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[14px] font-bold">Strategic Hubs</span>
           <h1 className="text-3xl md:text-5xl font-black leading-[1.1]">The Global <br /><span className="gradient-text-gold italic">Network</span></h1>
           <p className="text-white/30 text-base max-w-2xl mx-auto font-normal italic">
             Architecting admissions in major academic hubs across Ivy League and Global Tier-1 destinations.
@@ -100,7 +100,7 @@ export default function CountriesPage() {
                 </div>
 
                 <div className="mt-auto pt-6 border-t border-white/5 group-hover:border-black/10 w-full">
-                  <span className="text-[9px] uppercase font-black tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-all">Explore Hub</span>
+                  <span className="text-[13px] font-bold uppercase font-black tracking-[0.4em] opacity-40 group-hover:opacity-100 transition-all">Explore Hub</span>
                 </div>
               </motion.div>
             </Link>

@@ -159,7 +159,7 @@ const ConsultantEditProfile = () => {
     return (
       <div className="min-h-screen bg-[#05070a] flex flex-col items-center justify-center gap-4">
          <div className="w-10 h-10 border-2 border-[#c2a878] border-t-transparent rounded-full animate-spin"></div>
-         <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/50">Synchronizing Profile...</p>
+         <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/50">Synchronizing Profile...</p>
       </div>
     );
   }
@@ -173,7 +173,7 @@ const ConsultantEditProfile = () => {
         {/* Navigation */}
         <button 
           onClick={() => router.push("/consultant-dashboard")}
-          className="flex items-center gap-2 text-gray-700 hover:text-[#c2a878] transition-colors font-black text-[9px] uppercase tracking-widest mb-8"
+          className="flex items-center gap-2 text-gray-700 hover:text-[#c2a878] transition-colors font-black text-[13px] font-bold uppercase tracking-widest mb-8"
         >
           <ArrowLeft size={12} /> Return to Manager
         </button>
@@ -187,7 +187,7 @@ const ConsultantEditProfile = () => {
               
               <div className="mb-10 text-center md:text-left">
                  <h1 className="text-3xl font-black text-white uppercase italic font-serif tracking-tighter mb-2">Edit Profile</h1>
-                 <p className="text-[10px] font-black text-gray-600 uppercase tracking-[0.3em] leading-relaxed max-w-lg">
+                 <p className="text-[14px] font-bold font-black text-gray-600 uppercase tracking-[0.3em] leading-relaxed max-w-lg">
                    Securely manage your professional credentials within the <span className="text-[#c2a878]">Elite Network</span>.
                  </p>
               </div>
@@ -196,7 +196,7 @@ const ConsultantEditProfile = () => {
               {status && (
                 <div className={`mb-12 p-5 rounded-2xl flex items-center gap-4 border ${status.type === 'success' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-500' : 'bg-rose-500/10 border-rose-500/20 text-rose-500'} animate-in fade-in slide-in-from-top-4 duration-500`}>
                    {status.type === 'success' ? <CheckCircle size={20} /> : <XCircle size={20} />}
-                   <span className="text-[10px] font-black uppercase tracking-[0.2em]">{status.message}</span>
+                   <span className="text-[14px] font-bold font-black uppercase tracking-[0.2em]">{status.message}</span>
                 </div>
               )}
 
@@ -227,13 +227,13 @@ const ConsultantEditProfile = () => {
                        </div>
                     </div>
                     <input ref={fileInputRef} type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
-                    <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-700">Digital Signature / Profile Portrait</p>
+                    <p className="text-[13px] font-bold font-black uppercase tracking-[0.3em] text-gray-700">Digital Signature / Profile Portrait</p>
                  </div>
 
                  {/* Information Grid */}
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Full Name</label>
+                       <label className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Full Name</label>
                        <div className="relative">
                           <User className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-700" />
                           <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="w-full bg-transparent border-b border-white/10 py-4 pl-8 pr-4 text-sm focus:border-[#c2a878] outline-none transition-all placeholder:text-gray-800" placeholder="Full Name" />
@@ -241,7 +241,7 @@ const ConsultantEditProfile = () => {
                     </div>
 
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Email Address</label>
+                       <label className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Email Address</label>
                        <div className="relative">
                           <Mail className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-700" />
                           <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full bg-transparent border-b border-white/10 py-4 pl-8 pr-4 text-sm focus:border-[#c2a878] outline-none transition-all placeholder:text-gray-800" placeholder="Email" />
@@ -249,7 +249,7 @@ const ConsultantEditProfile = () => {
                     </div>
 
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Job Role</label>
+                       <label className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Job Role</label>
                        <div className="relative">
                           <Briefcase className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-700" />
                           <input type="text" name="role" value={formData.role} onChange={handleInputChange} className="w-full bg-transparent border-b border-white/10 py-4 pl-8 pr-4 text-sm focus:border-[#c2a878] outline-none transition-all placeholder:text-gray-900" placeholder="e.g. Senior Career Pathologist" />
@@ -257,7 +257,7 @@ const ConsultantEditProfile = () => {
                     </div>
 
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Expertise Area</label>
+                       <label className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Expertise Area</label>
                        <div className="relative">
                           <Award className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-700" />
                           <input type="text" name="expertise" value={formData.expertise} onChange={handleInputChange} className="w-full bg-transparent border-b border-white/10 py-4 pl-8 pr-4 text-sm focus:border-[#c2a878] outline-none transition-all placeholder:text-gray-900" placeholder="Expertise" />
@@ -265,7 +265,7 @@ const ConsultantEditProfile = () => {
                     </div>
 
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Experience</label>
+                       <label className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Experience</label>
                        <div className="relative">
                           <BookOpen className="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-700" />
                           <input type="text" name="experience" value={formData.experience} onChange={handleInputChange} className="w-full bg-transparent border-b border-white/10 py-4 pl-8 pr-4 text-sm focus:border-[#c2a878] outline-none transition-all placeholder:text-gray-900" placeholder="Years Experience" />
@@ -273,7 +273,7 @@ const ConsultantEditProfile = () => {
                     </div>
 
                     <div className="space-y-3">
-                       <label className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Consultation Price (INR)</label>
+                       <label className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Consultation Price (INR)</label>
                        <div className="relative text-[#c2a878]">
                           <span className="absolute left-0 top-1/2 -translate-y-1/2 font-bold text-sm">₹</span>
                           <input type="number" name="price" value={formData.price} onChange={handleInputChange} className="w-full bg-transparent border-b border-white/10 py-4 pl-8 pr-4 text-sm text-white focus:border-[#c2a878] outline-none transition-all" />
@@ -283,7 +283,7 @@ const ConsultantEditProfile = () => {
 
                  {/* Professional Bio */}
                  <div className="space-y-4 pt-4">
-                    <label className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Professional Narrative</label>
+                    <label className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/80">Professional Narrative</label>
                     <div className="relative">
                        <FileText className="absolute left-0 top-1 w-4 h-4 text-gray-800" />
                        <textarea name="bio" value={formData.bio} onChange={handleInputChange} rows={6} className="w-full bg-white/[0.02] border-b border-white/10 py-1 pl-8 pr-4 text-sm focus:border-[#c2a878] outline-none transition-all resize-none italic leading-relaxed" placeholder="Tell students about your journey and mentorship style..." />

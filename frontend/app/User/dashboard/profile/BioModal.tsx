@@ -27,7 +27,7 @@ export const BioModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: BioMo
         <div className="p-8">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-sm font-black text-[#3C2A21] uppercase tracking-widest italic">Update Narrative</h2>
-            <button onClick={onClose} className="text-[#6B5E51]/40 hover:text-[#C5A059] transition-colors p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-lg">
+            <button onClick={onClose} className="text-[#6B5E51]/70 hover:text-[#C5A059] transition-colors p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-lg">
               <X size={16} />
             </button>
           </div>
@@ -39,7 +39,7 @@ export const BioModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: BioMo
               placeholder="Awaiting narrative synchronization..."
               className="w-full h-40 p-6 text-xs text-[#3C2A21] bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl focus:outline-none focus:border-[#C5A059] transition-all resize-none placeholder:text-[#6B5E51]/20 font-bold leading-relaxed shadow-inner"
             />
-            <div className="absolute bottom-4 right-5 text-[8px] text-[#6B5E51]/30 font-black uppercase tracking-[0.2em]">
+            <div className="absolute bottom-4 right-5 text-[12px] font-black text-[#6B5E51]/30 font-black uppercase tracking-[0.2em]">
               {bio.length} CHARS
             </div>
           </div>
@@ -47,13 +47,13 @@ export const BioModal = ({ isOpen, onClose, onSubmit, initialValue = "" }: BioMo
           <div className="flex justify-end gap-3 mt-10">
             <button
               onClick={onClose}
-              className="px-8 py-3 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-xl transition-all uppercase tracking-widest text-[9px] hover:text-[#3C2A21]"
+              className="px-8 py-3 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-xl transition-all uppercase tracking-widest text-[13px] font-bold hover:text-[#3C2A21]"
             >
               Cancel
             </button>
             <button
               onClick={() => { onSubmit(bio); onClose(); }}
-              className="px-10 py-3 bg-[#C5A059] hover:bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all active:scale-95 uppercase tracking-widest text-[9px]"
+              className="px-10 py-3 bg-[#C5A059] hover:bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all active:scale-95 uppercase tracking-widest text-[13px] font-bold"
             >
               Save Bio
             </button>

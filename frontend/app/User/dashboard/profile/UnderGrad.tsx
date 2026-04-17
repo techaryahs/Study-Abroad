@@ -85,7 +85,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
       <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-3xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-3xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px] max-h-[95vh] border border-[#C5A059]/15 font-sans">
-        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/40 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
+        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/70 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
              <X size={18} className="md:w-5 md:h-5 group-hover:rotate-90 transition-transform" />
         </button>
 
@@ -96,7 +96,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
           </div>
           <div className="ml-4 md:ml-0 text-left md:text-center relative z-10 leading-tight">
             <h2 className="text-md md:text-xl font-black mb-0.5 md:mb-2 leading-tight tracking-widest uppercase italic">Degree Node</h2>
-            <p className="text-white/70 text-[9px] md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
+            <p className="text-white/70 text-[13px] font-bold md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
               {step === 0 && "Identify your alma mater."}
               {step === 1 && "Document scholastic standing."}
               {step === 2 && "Protocol Verified."}
@@ -108,7 +108,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
           <div className="mb-8">
             <div className="flex justify-between items-end mb-4">
               <h1 className="text-sm md:text-xl font-black uppercase tracking-widest italic">Scholastic Data</h1>
-              <span className="text-[10px] font-black text-[#C5A059] uppercase tracking-[0.3em]">Phase {step + 1} of 3</span>
+              <span className="text-[14px] font-bold font-black text-[#C5A059] uppercase tracking-[0.3em]">Phase {step + 1} of 3</span>
             </div>
             <div className="h-1.5 w-full bg-[#FDFBF7] rounded-full overflow-hidden border border-[#F1EDEA]">
               <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="h-full bg-[#C5A059]" />
@@ -120,7 +120,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
               {step === 0 && (
                 <motion.div key="step0" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Academic Institution</label>
+                    <label className="text-[14px] font-bold font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Academic Institution</label>
                     <div className="relative">
                       <School className="absolute left-6 top-1/2 -translate-y-1/2 text-[#C5A059]/40" size={18} />
                       <input
@@ -133,7 +133,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
                     </div>
                   </div>
                   <div className="space-y-3">
-                    <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Degree Nomenclature</label>
+                    <label className="text-[14px] font-bold font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Degree Nomenclature</label>
                     <input
                       type="text"
                       placeholder="e.g., B.Tech Computer Science"
@@ -149,7 +149,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
                 <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div className="space-y-3">
-                        <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Active Backlogs</label>
+                        <label className="text-[14px] font-bold font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Active Backlogs</label>
                         <input
                           type="number"
                           placeholder="0"
@@ -159,7 +159,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
                         />
                       </div>
                       <div className="space-y-3">
-                        <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">CGPA Metric</label>
+                        <label className="text-[14px] font-bold font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">CGPA Metric</label>
                         <input
                           type="text"
                           placeholder="0.00"
@@ -170,7 +170,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
                       </div>
                    </div>
                    <div className="space-y-3">
-                      <label className="text-[10px] font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Standardized Scale</label>
+                      <label className="text-[14px] font-bold font-black tracking-widest text-[#6B5E51]/60 uppercase ml-1">Standardized Scale</label>
                       <select
                         value={formData.outOf}
                         onChange={(e) => {setFormData({ ...formData, outOf: e.target.value }); setErrors({...errors, outOf: false})}}
@@ -192,7 +192,7 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
                   </div>
                   <h3 className="text-xl md:text-2xl font-black text-[#3C2A21] uppercase tracking-widest italic leading-tight">Verification Ready</h3>
                   <div className="p-6 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl w-full">
-                     <p className="text-[10px] md:text-[11px] font-black text-[#C5A059] uppercase tracking-widest">{formData.uniName}</p>
+                     <p className="text-[14px] font-bold md:text-[11px] font-black text-[#C5A059] uppercase tracking-widest">{formData.uniName}</p>
                      <p className="text-[12px] md:text-[13px] font-bold text-[#3C2A21] mt-1">{formData.degreeName}</p>
                   </div>
                 </motion.div>
@@ -202,11 +202,11 @@ export const UnderGradModal = ({ isOpen, onClose, onSubmit, initialData }: Under
 
           <div className="flex justify-between items-center gap-4 mt-8">
             {step > 0 && (
-              <button onClick={prevStep} className="flex-1 px-4 py-4 rounded-2xl border border-[#F1EDEA] text-[#6B5E51] font-black uppercase text-[10px] tracking-widest hover:bg-[#FDFBF7] transition-all">
+              <button onClick={prevStep} className="flex-1 px-4 py-4 rounded-2xl border border-[#F1EDEA] text-[#6B5E51] font-black uppercase text-[14px] font-bold tracking-widest hover:bg-[#FDFBF7] transition-all">
                 Reverse
               </button>
             )}
-            <button onClick={nextStep} className="flex-[2] bg-[#3C2A21] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-[#C5A059] transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2">
+            <button onClick={nextStep} className="flex-[2] bg-[#3C2A21] text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[14px] font-bold hover:bg-[#C5A059] transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2">
               {step === 2 ? 'Initialize Submission' : 'Proceed'} <ArrowRight size={16} />
             </button>
           </div>

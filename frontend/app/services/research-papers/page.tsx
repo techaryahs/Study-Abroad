@@ -169,7 +169,7 @@ export default function ResearchPaperPage() {
                 <div className="relative flex flex-col items-center justify-center gap-1 sm:gap-4 scale-[0.4] sm:scale-100">
                   {/* Paper mockup */}
                   <div className="bg-[#FFFFFF] border border-[#D4A848]/30 rounded-xl p-6 w-64 shadow-[0_10px_40px_rgba(212,168,72,0.15)] relative">
-                    <div className="text-[10px] text-[#D4A848] uppercase tracking-widest mb-3 font-bold">Research Publication</div>
+                    <div className="text-[14px] font-bold text-[#D4A848] uppercase tracking-widest mb-3 font-bold">Research Publication</div>
                     <div className="space-y-2">
                       {[100, 90, 95, 80, 70, 85, 60].map((w, i) => (
                         <div key={i} className={`h-1.5 rounded-full bg-[#362B25]/10`} style={{ width: `${w}%` }} />
@@ -179,7 +179,7 @@ export default function ResearchPaperPage() {
                   {/* Publisher logos */}
                   <div className="flex gap-2 sm:gap-4 items-center">
                     {["IEEE", "Springer"].map((pub) => (
-                      <span key={pub} className="text-[10px] font-black text-[#D4A848] border border-[#D4A848]/30 bg-[#FFFFFF] px-3 py-1.5 rounded-lg shadow-sm">{pub}</span>
+                      <span key={pub} className="text-[14px] font-bold font-black text-[#D4A848] border border-[#D4A848]/30 bg-[#FFFFFF] px-3 py-1.5 rounded-lg shadow-sm">{pub}</span>
                     ))}
                   </div>
                 </div>
@@ -282,7 +282,7 @@ export default function ResearchPaperPage() {
                   <span className="text-xs font-bold text-[#675F5B]">Admits without papers</span>
                 </div>
               </div>
-              <p className="text-center text-[10px] text-[#675F5B]/50 mt-4 font-bold">*Statistics based on data points from 2025–2026</p>
+              <p className="text-center text-[14px] font-bold text-[#675F5B]/50 mt-4 font-bold">*Statistics based on data points from 2025–2026</p>
             </div>
           </div>
 
@@ -425,18 +425,18 @@ export default function ResearchPaperPage() {
                 {researchGroups.map((g, idx) => (
                   <div key={idx} className="bg-[#F8F6F1] border border-[#D4A848]/10 rounded-xl overflow-hidden hover:border-[#D4A848]/30 transition-all shadow-sm">
                     <div className="bg-[#FFFFFF] px-4 py-3 flex justify-between items-center border-b border-[#D4A848]/5">
-                      <span className="text-[10px] text-[#675F5B] font-bold">Created on: {g.date}</span>
-                      <span className="text-[10px] text-[#D4A848] font-bold">👥 {g.slots}</span>
+                      <span className="text-[14px] font-bold text-[#675F5B] font-bold">Created on: {g.date}</span>
+                      <span className="text-[14px] font-bold text-[#D4A848] font-bold">👥 {g.slots}</span>
                     </div>
                     <div className="px-4 py-3">
                       <h4 className="text-xs font-black text-[#362B25] mb-2">{g.title}</h4>
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-6 h-6 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-[8px] font-bold text-[#D4A848]">{g.user}</div>
-                        <p className="text-[10px] text-[#675F5B] font-medium">{g.desc}</p>
+                        <div className="w-6 h-6 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-[12px] font-black font-bold text-[#D4A848]">{g.user}</div>
+                        <p className="text-[14px] font-bold text-[#675F5B] font-medium">{g.desc}</p>
                       </div>
                       <div className="flex gap-2 mt-3">
-                        <button className="flex-1 text-[10px] font-bold border border-[#D4A848]/20 py-1.5 rounded-lg text-[#362B25] hover:bg-[#D4A848]/10 transition-all">View Members</button>
-                        <button className="flex-1 text-[10px] font-black bg-[#D4A848] text-[#FFFFFF] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all">Join Group</button>
+                        <button className="flex-1 text-[14px] font-bold font-bold border border-[#D4A848]/20 py-1.5 rounded-lg text-[#362B25] hover:bg-[#D4A848]/10 transition-all">View Members</button>
+                        <button className="flex-1 text-[14px] font-bold font-black bg-[#D4A848] text-[#FFFFFF] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all">Join Group</button>
                       </div>
                     </div>
                   </div>

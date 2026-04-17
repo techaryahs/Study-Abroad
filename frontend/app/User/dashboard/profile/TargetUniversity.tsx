@@ -78,7 +78,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
       <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-3xl bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-3xl overflow-hidden flex flex-col md:flex-row h-auto md:h-[500px] max-h-[95vh] border border-[#C5A059]/15 font-sans">
-        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/40 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
+        <button onClick={onClose} className="absolute top-4 right-4 md:top-6 md:right-6 text-[#6B5E51]/70 hover:text-[#C5A059] z-20 transition-all p-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl group">
              <X size={18} className="md:w-5 md:h-5 group-hover:rotate-90 transition-transform" />
         </button>
 
@@ -89,7 +89,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
           </div>
           <div className="ml-4 md:ml-0 text-left md:text-center relative z-10 leading-tight">
             <h2 className="text-md md:text-xl font-black mb-0.5 md:mb-2 leading-tight tracking-widest uppercase italic">Strategy Node</h2>
-            <p className="text-white/70 text-[9px] md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
+            <p className="text-white/70 text-[13px] font-bold md:text-[11px] font-black leading-relaxed uppercase tracking-widest hidden sm:block">
               {step === 0 && "Define terminal objective."}
               {step === 1 && "Identify transition node."}
               {step === 2 && "Protocol Verified."}
@@ -101,7 +101,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
           <div className="mb-8">
             <div className="flex justify-between items-end mb-4">
               <h1 className="text-sm md:text-xl font-black uppercase tracking-widest italic">Target Params</h1>
-              <span className="text-[10px] font-black text-[#C5A059] uppercase tracking-[0.3em]">Step {step + 1} of 3</span>
+              <span className="text-[14px] font-bold font-black text-[#C5A059] uppercase tracking-[0.3em]">Step {step + 1} of 3</span>
             </div>
             <div className="h-1.5 w-full bg-[#FDFBF7] rounded-full border border-[#F1EDEA] overflow-hidden">
               <motion.div initial={{ width: 0 }} animate={{ width: `${progressPercent}%` }} className="bg-[#C5A059] h-full shadow-sm" />
@@ -112,7 +112,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
             <AnimatePresence mode="wait">
               {step === 0 && (
                 <motion.div key="step1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
-                  <label className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Terminal Objective</label>
+                  <label className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Terminal Objective</label>
                   <div className="grid grid-cols-1 gap-2">
                     {['Bachelors', 'Masters', 'PhD'].map((degree) => (
                       <button
@@ -123,7 +123,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
                         }}
                         className={`w-full px-6 py-4 rounded-2xl border text-[11px] font-black transition-all text-left flex items-center justify-between uppercase tracking-widest ${formData.degree === degree
                             ? 'border-[#C5A059] bg-[#C5A059]/5 text-[#C5A059]'
-                            : 'border-[#F1EDEA] text-[#6B5E51]/40 hover:border-[#C5A059]/20 hover:text-[#3C2A21]'
+                            : 'border-[#F1EDEA] text-[#6B5E51]/70 hover:border-[#C5A059]/20 hover:text-[#3C2A21]'
                           }`}
                       >
                         {degree}
@@ -138,7 +138,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
                 <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
                   <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">University Node</label>
+                       <label className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">University Node</label>
                        <input
                         type="text" placeholder="e.g. Stanford University" value={formData.uniName}
                         onChange={(e) => setFormData({ ...formData, uniName: e.target.value })}
@@ -146,7 +146,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
                        />
                     </div>
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Specialization</label>
+                       <label className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Specialization</label>
                        <input
                         type="text" placeholder="e.g. Computer Science" value={formData.major}
                         onChange={(e) => setFormData({ ...formData, major: e.target.value })}
@@ -155,10 +155,10 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                         <label className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Term</label>
+                         <label className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Term</label>
                          <select
                           value={formData.term} onChange={(e) => setFormData({ ...formData, term: e.target.value })}
-                          className={`w-full px-6 py-4 bg-[#FDFBF7] border rounded-2xl transition-all outline-none font-bold text-[#3C2A21] uppercase text-[10px] tracking-widest shadow-inner appearance-none cursor-pointer ${errors.term ? 'border-red-500/50' : 'border-[#F1EDEA] focus:border-[#C5A059]'}`}
+                          className={`w-full px-6 py-4 bg-[#FDFBF7] border rounded-2xl transition-all outline-none font-bold text-[#3C2A21] uppercase text-[14px] font-bold tracking-widest shadow-inner appearance-none cursor-pointer ${errors.term ? 'border-red-500/50' : 'border-[#F1EDEA] focus:border-[#C5A059]'}`}
                          >
                           <option value="">Term</option>
                           <option value="Fall">Fall</option>
@@ -166,10 +166,10 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
                          </select>
                       </div>
                       <div className="space-y-2">
-                         <label className="text-[10px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Year</label>
+                         <label className="text-[14px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Year</label>
                          <select
                           value={formData.year} onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-                          className={`w-full px-6 py-4 bg-[#FDFBF7] border rounded-2xl transition-all outline-none font-bold text-[#3C2A21] uppercase text-[10px] tracking-widest shadow-inner appearance-none cursor-pointer ${errors.year ? 'border-red-500/50' : 'border-[#F1EDEA] focus:border-[#C5A059]'}`}
+                          className={`w-full px-6 py-4 bg-[#FDFBF7] border rounded-2xl transition-all outline-none font-bold text-[#3C2A21] uppercase text-[14px] font-bold tracking-widest shadow-inner appearance-none cursor-pointer ${errors.year ? 'border-red-500/50' : 'border-[#F1EDEA] focus:border-[#C5A059]'}`}
                          >
                           <option value="">Year</option>
                           {[2024, 2025, 2026, 2027].map(y => <option key={y} value={y}>{y}</option>)}
@@ -187,7 +187,7 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
                   </div>
                   <h2 className="text-xl font-black text-[#3C2A21] uppercase tracking-widest italic leading-tight">Timeline Locked</h2>
                   <div className="p-5 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl w-full">
-                     <p className="text-[10px] font-black text-[#C5A059] uppercase tracking-widest">{formData.uniName}</p>
+                     <p className="text-[14px] font-bold font-black text-[#C5A059] uppercase tracking-widest">{formData.uniName}</p>
                      <p className="text-[12px] font-bold text-[#3C2A21] mt-1">{formData.major} • {formData.term} {formData.year}</p>
                   </div>
                 </motion.div>
@@ -197,9 +197,9 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({ is
 
           <div className="mt-8 flex gap-4">
             {step > 0 && (
-              <button onClick={prevStep} className="flex-1 py-4 text-[10px] font-black text-[#6B5E51]/60 border border-[#F1EDEA] rounded-2xl hover:bg-[#FDFBF7] transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>
+              <button onClick={prevStep} className="flex-1 py-4 text-[14px] font-bold font-black text-[#6B5E51]/60 border border-[#F1EDEA] rounded-2xl hover:bg-[#FDFBF7] transition-all uppercase tracking-[0.3em] flex items-center justify-center gap-2"><ArrowLeft size={16} /> Back</button>
             )}
-            <button onClick={nextStep} className="flex-[2] py-4 bg-[#3C2A21] text-white text-[10px] font-black rounded-2xl hover:bg-[#C5A059] transition-all shadow-xl uppercase tracking-[0.3em] flex items-center justify-center gap-2">
+            <button onClick={nextStep} className="flex-[2] py-4 bg-[#3C2A21] text-white text-[14px] font-bold font-black rounded-2xl hover:bg-[#C5A059] transition-all shadow-xl uppercase tracking-[0.3em] flex items-center justify-center gap-2">
               {step === totalSteps - 1 ? 'Integrate' : 'Continue'} <ArrowRight size={16} />
             </button>
           </div>

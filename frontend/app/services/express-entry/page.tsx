@@ -108,7 +108,7 @@ export default function ExpressEntryPage() {
                             <div className="absolute bottom-8 left-8 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                                 <div className="flex items-center gap-3 mb-2">
                                     <Globe className="text-[#C5A059]" size={20} />
-                                    <span className="text-[10px] text-white font-bold tracking-widest uppercase">Federal Skilled Worker Program</span>
+                                    <span className="text-[14px] font-bold text-white font-bold tracking-widest uppercase">Federal Skilled Worker Program</span>
                                 </div>
                                 <p className="text-white font-serif italic text-sm leading-relaxed">
                                     "Navigating the IRCC thresholds with surgical precision."
@@ -168,7 +168,7 @@ export default function ExpressEntryPage() {
                                         <div className="bg-[#FDFBF7] p-8 rounded-[32px] border border-[#F1EDEA] group-hover:border-[#C5A059]/20 group-hover:shadow-2xl transition-all">
                                             <div className="flex justify-between items-start mb-2">
                                                 <h4 className="fd text-2xl font-bold text-[#3C2A21]">{step.title}</h4>
-                                                <span className="text-[10px] font-bold text-[#C5A059] tracking-widest uppercase pb-1 border-b border-[#C5A059]/30">
+                                                <span className="text-[14px] font-bold font-bold text-[#C5A059] tracking-widest uppercase pb-1 border-b border-[#C5A059]/30">
                                                     ⏱ {step.duration}
                                                 </span>
                                             </div>

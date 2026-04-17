@@ -67,7 +67,7 @@ export default function Footer() {
                   <span className="font-serif font-bold text-lg text-white leading-tight">
                     Global Counsellor Centre
                   </span>
-                  <span className="text-[9px] text-[#B3985E] uppercase tracking-[0.3em] font-black">
+                  <span className="text-[13px] font-bold text-[#B3985E] uppercase tracking-[0.3em] font-black">
                     Global Admissions
                   </span>
                 </div>
@@ -79,7 +79,7 @@ export default function Footer() {
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]">Company</h3>
+              <h3 className="text-[14px] font-bold font-black uppercase tracking-[0.4em] text-[#B3985E]">Company</h3>
               <ul className="space-y-3">
                 {companyItems.map(item => (
                   <li key={item.name}>
@@ -93,7 +93,7 @@ export default function Footer() {
           {/* COLUMN 2: SERVICES & RESOURCES */}
           <div className="space-y-12">
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Services</h3>
+              <h3 className="text-[14px] font-bold font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Services</h3>
               <ul className="space-y-4">
                 {serviceItems.map(item => (
                   <li key={item.name}>
@@ -101,12 +101,12 @@ export default function Footer() {
                   </li>
                 ))}
                 <li>
-                  <Link href="/services" className="text-[10px] text-[#B3985E] font-bold underline decoration-[#B3985E]/30 underline-offset-4 hover:text-white transition-colors">See all services</Link>
+                  <Link href="/services" className="text-[14px] font-bold text-[#B3985E] font-bold underline decoration-[#B3985E]/30 underline-offset-4 hover:text-white transition-colors">See all services</Link>
                 </li>
               </ul>
             </div>
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Resources</h3>
+              <h3 className="text-[14px] font-bold font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Resources</h3>
               <ul className="space-y-4">
                 {resourceItems.map(item => (
                   <li key={item.name}>
@@ -120,7 +120,7 @@ export default function Footer() {
           {/* COLUMN 3: DISCIPLINES & COUNTRIES */}
           <div className="space-y-12">
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Disciplines</h3>
+              <h3 className="text-[14px] font-bold font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Disciplines</h3>
               <ul className="space-y-4">
                 {disciplineItems.map(item => (
                   <li key={item.name}>
@@ -130,7 +130,7 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Countries</h3>
+              <h3 className="text-[14px] font-bold font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Countries</h3>
               <ul className="space-y-4">
                 {countryItems.map(item => (
                   <li key={item.name}>
@@ -144,7 +144,7 @@ export default function Footer() {
           {/* COLUMN 4: CONTACT & TOOLS */}
           <div className="space-y-12">
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Contact</h3>
+              <h3 className="text-[14px] font-bold font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Contact</h3>
               <div className="space-y-6 text-white/40 text-xs font-medium">
                 <div className="flex items-start gap-4">
                   <MapPin size={16} className="text-[#B3985E] shrink-0 mt-0.5" />
@@ -161,11 +161,11 @@ export default function Footer() {
               </div>
             </div>
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Tools</h3>
+              <h3 className="text-[14px] font-bold font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Tools</h3>
               <ul className="space-y-4">
                 {toolItems.map(item => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-xs text-white/50 hover:text-[#B3985E] transition-colors leading-snug block uppercase tracking-widest font-black text-[9px]">{item.name}</Link>
+                    <Link href={item.href} className="text-xs text-white/50 hover:text-[#B3985E] transition-colors leading-snug block uppercase tracking-widest font-black text-[13px] font-bold">{item.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -178,10 +178,10 @@ export default function Footer() {
       {/* BOTTOM STRIP */}
       <div className="border-t border-[#B3985E]/10 bg-black/10 py-8">
         <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-white/10 text-[8px] uppercase tracking-[0.6em] font-black text-center md:text-left">
+          <div className="text-white/10 text-[12px] font-black uppercase tracking-[0.6em] font-black text-center md:text-left">
             GCC Success Portal — Excellence in Global Admissions
           </div>
-          <div className="flex gap-8 text-[8px] uppercase tracking-[0.3em] font-black text-white/20">
+          <div className="flex gap-8 text-[12px] font-black uppercase tracking-[0.3em] font-black text-white/20">
             <Link href="/privacy" className="hover:text-[#B3985E] transition-colors">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-[#B3985E] transition-colors">Terms of Service</Link>
           </div>

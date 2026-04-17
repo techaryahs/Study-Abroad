@@ -86,7 +86,7 @@ export default function LinkedInReviewPage() {
                      <div className="absolute bottom-8 left-8 right-8 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                         <div className="flex items-center gap-3 mb-2">
                            <ShieldCheck className="text-[#C5A059]" size={20} />
-                           <span className="text-[10px] text-white font-bold tracking-widest uppercase">Elite Audit node</span>
+                           <span className="text-[14px] font-bold text-white font-bold tracking-widest uppercase">Elite Audit node</span>
                         </div>
                         <p className="text-white font-serif italic text-sm leading-relaxed">
                            "Your LinkedIn is your 24/7 recruiter. We make it speak the language of success."
@@ -129,7 +129,7 @@ export default function LinkedInReviewPage() {
                   {/* Public Consensus Section (Discussion) */}
                   <div className="space-y-12 pt-20 border-t border-[#F1EDEA]">
                      <div className="space-y-4">
-                        <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.4em] uppercase">Community Insights</span>
+                        <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.4em] uppercase">Community Insights</span>
                         <h2 className="fd text-4xl font-bold text-[#2D2926]">Public Consensus</h2>
                      </div>
                      <div className="rounded-[40px] overflow-hidden border border-[#F1EDEA] bg-[#FDFBF7]/20 p-2">
@@ -143,7 +143,7 @@ export default function LinkedInReviewPage() {
                   <div className="bg-[#2D2926] p-10 rounded-[48px] text-white space-y-8 shadow-2xl relative overflow-hidden group border border-[#C5A059]/20">
                      <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-20 -mt-20 group-hover:scale-125 transition-transform duration-700" />
                      <div className="space-y-2 relative z-10">
-                        <p className="text-[#C5A059] text-[10px] font-bold uppercase tracking-widest">Pricing Protocol</p>
+                        <p className="text-[#C5A059] text-[14px] font-bold font-bold uppercase tracking-widest">Pricing Protocol</p>
                         <h3 className="fd text-4xl font-bold italic">Bespoke Revamp</h3>
                      </div>
                      <div className="relative z-10 w-full">
@@ -156,12 +156,12 @@ export default function LinkedInReviewPage() {
                      <div className="flex items-center gap-3">
                         <div className="flex -space-x-3">
                            {[1, 2, 3, 4].map(i => (
-                              <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-[#FDFBF7] flex items-center justify-center text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                              <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-[#FDFBF7] flex items-center justify-center text-[14px] font-bold font-bold uppercase tracking-widest shadow-sm">
                                  {String.fromCharCode(64 + i)}
                               </div>
                            ))}
                         </div>
-                        <span className="text-[10px] font-bold text-[#6B5E51] uppercase tracking-widest">99+ Profiles Revamped</span>
+                        <span className="text-[14px] font-bold font-bold text-[#6B5E51] uppercase tracking-widest">99+ Profiles Revamped</span>
                      </div>
                      <p className="text-xs italic text-[#6B5E51] leading-relaxed opacity-70">
                         "The LinkedIn transformation was the key to my Google internship. Amazing transparency and strategy."

@@ -140,10 +140,10 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
               <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #C5A059 1px, transparent 0)", backgroundSize: '16px 16px' }}></div>
               
               <div className="absolute top-4 left-4 flex gap-2 z-10">
-                <span className="bg-white/80 backdrop-blur-md text-[9px] px-2.5 py-1 rounded-md text-[#6B5E51] border border-[rgba(197,160,89,0.1)] uppercase tracking-wider font-bold shadow-sm flex items-center gap-1.5">
+                <span className="bg-white/80 backdrop-blur-md text-[13px] font-bold px-2.5 py-1 rounded-md text-[#6B5E51] border border-[rgba(197,160,89,0.1)] uppercase tracking-wider font-bold shadow-sm flex items-center gap-1.5">
                    <Calendar className="w-2.5 h-2.5" /> {group.date}
                 </span>
-                <span className="bg-white/80 backdrop-blur-md text-[9px] px-2.5 py-1 rounded-md text-[#C5A059] border border-[rgba(197,160,89,0.1)] flex items-center gap-1.5 uppercase tracking-wider font-bold shadow-sm">
+                <span className="bg-white/80 backdrop-blur-md text-[13px] font-bold px-2.5 py-1 rounded-md text-[#C5A059] border border-[rgba(197,160,89,0.1)] flex items-center gap-1.5 uppercase tracking-wider font-bold shadow-sm">
                   <Users className="w-3 h-3" /> {group.spots} Active
                 </span>
               </div>
@@ -215,7 +215,7 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
                 {group.initials}
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest leading-none mb-1">Principal Investigator</span>
+                <span className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest leading-none mb-1">Principal Investigator</span>
                 <span className="font-bold text-[#2D2926] text-xs">{group.author}</span>
               </div>
             </div>
@@ -238,7 +238,7 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
                         alert("This is a system group. Profile not available.");
                     }
                 }}
-                className={`flex-1 px-4 py-3 bg-[rgba(197,160,89,0.05)] text-[#C5A059] text-[10px] rounded-xl flex items-center justify-center gap-2 font-bold tracking-widest border border-[rgba(197,160,89,0.1)] hover:bg-[rgba(197,160,89,0.1)] transition-all uppercase ${(!group.creator?.profile?.isPublic && group.creator) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`flex-1 px-4 py-3 bg-[rgba(197,160,89,0.05)] text-[#C5A059] text-[14px] font-bold rounded-xl flex items-center justify-center gap-2 font-bold tracking-widest border border-[rgba(197,160,89,0.1)] hover:bg-[rgba(197,160,89,0.1)] transition-all uppercase ${(!group.creator?.profile?.isPublic && group.creator) ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <ExternalLink className="w-3.5 h-3.5" /> Profile
               </button>
@@ -247,7 +247,7 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
                     e.stopPropagation();
                     onJoinClick?.();
                 }}
-                className="flex-[1.5] bg-[#2D2926] hover:bg-[#C5A059] text-white py-3 px-6 text-[10px] rounded-xl flex items-center justify-center gap-2 font-bold uppercase tracking-[0.2em] transition-all shadow-lg active:scale-95"
+                className="flex-[1.5] bg-[#2D2926] hover:bg-[#C5A059] text-white py-3 px-6 text-[14px] font-bold rounded-xl flex items-center justify-center gap-2 font-bold uppercase tracking-[0.2em] transition-all shadow-lg active:scale-95"
               >
                 Join Cluster <ArrowRight className="w-3.5 h-3.5" />
               </button>

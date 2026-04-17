@@ -71,7 +71,7 @@ export default function ConfirmationModal({
                         
                         <button
                             onClick={onClose}
-                            className="w-full py-3 text-[#675F5B] hover:text-[#D4A848] text-[10px] font-black uppercase tracking-[0.3em] transition-colors"
+                            className="w-full py-3 text-[#675F5B] hover:text-[#D4A848] text-[14px] font-bold font-black uppercase tracking-[0.3em] transition-colors"
                         >
                             {cancelText}
                         </button>

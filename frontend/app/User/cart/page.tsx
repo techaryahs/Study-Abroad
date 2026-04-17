@@ -182,7 +182,7 @@ export default function CartPage() {
                                                 <div className="flex flex-col sm:flex-row justify-between gap-2 md:gap-4 lg:pr-4">
                                                     <h3 className="text-lg md:text-[20px] font-bold font-serif text-[#362B25] leading-snug flex-1">{item.title}</h3>
                                                     <div className="text-left sm:text-right shrink-0 mt-1 sm:mt-0">
-                                                        <p className="text-[10px] md:text-xs font-bold text-[#675F5B]/50 line-through mb-0.5">{currency} {formatPrice(item.actualPrice || (item.price / 0.8))}</p>
+                                                        <p className="text-[14px] font-bold md:text-xs font-bold text-[#675F5B]/50 line-through mb-0.5">{currency} {formatPrice(item.actualPrice || (item.price / 0.8))}</p>
                                                         <p className="text-[18px] md:text-[22px] font-black text-red-700 leading-none">{currency} {formatPrice(item.price)}</p>
                                                     </div>
                                                 </div>
@@ -194,7 +194,7 @@ export default function CartPage() {
                                                 {/* Options like CoAuthors if applicable */}
                                                 {(item.serviceId.includes('research') || item.title.toLowerCase().includes('research')) && (
                                                     <div className="flex items-center gap-3 mt-3 md:mt-4">
-                                                        <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-[#675F5B]">CoAuthors:</span>
+                                                        <span className="text-[13px] font-bold md:text-[14px] font-bold font-black uppercase tracking-widest text-[#675F5B]">CoAuthors:</span>
                                                         <select className="bg-[#F8F6F1] border border-[#D4A848]/20 rounded-md px-2 py-1 md:px-3 md:py-1 text-xs font-bold outline-none text-[#362B25] transition-all hover:border-[#D4A848]/50 cursor-pointer">
                                                             <option>0</option>
                                                             <option>1</option>
@@ -204,13 +204,13 @@ export default function CartPage() {
                                                 )}
 
                                                 <div className="flex justify-between items-end mt-4 md:mt-5 border-t border-[#D4A848]/10 pt-3 md:pt-4">
-                                                    <div className="flex flex-wrap gap-2 md:gap-4 text-[9px] md:text-[10px] font-black text-[#D4A848] uppercase tracking-widest">
+                                                    <div className="flex flex-wrap gap-2 md:gap-4 text-[13px] font-bold md:text-[14px] font-bold font-black text-[#D4A848] uppercase tracking-widest">
                                                         <span>{item.duration}</span>
                                                         {item.sessions && <span>• {item.sessions} Sessions</span>}
                                                     </div>
                                                     <button 
                                                         onClick={() => removeFromCart(item.itemId)}
-                                                        className="text-[10px] md:text-[11px] font-black text-blue-600 hover:text-blue-800 uppercase tracking-wider transition-colors shrink-0 pl-4"
+                                                        className="text-[14px] font-bold md:text-[11px] font-black text-blue-600 hover:text-blue-800 uppercase tracking-wider transition-colors shrink-0 pl-4"
                                                     >
                                                         Delete
                                                     </button>
@@ -266,7 +266,7 @@ export default function CartPage() {
                                     </div>
                                     <div>
                                         <h4 className="text-xs font-black text-[#362B25] uppercase tracking-tight mb-2 leading-tight group-hover:text-blue-600 transition-colors">Visa Application Help</h4>
-                                        <p className="text-[10px] text-[#675F5B] leading-relaxed font-semibold opacity-70">
+                                        <p className="text-[14px] font-bold text-[#675F5B] leading-relaxed font-semibold opacity-70">
                                             Ace the visa application through our help in paperwork, financial planning, and visa interview mock rounds.
                                         </p>
                                     </div>
@@ -277,7 +277,7 @@ export default function CartPage() {
                                     </div>
                                     <div>
                                         <h4 className="text-xs font-black text-[#362B25] uppercase tracking-tight mb-2 leading-tight group-hover:text-blue-600 transition-colors">Apply For An EB-1 Visa</h4>
-                                        <p className="text-[10px] text-[#675F5B] leading-relaxed font-semibold opacity-70">
+                                        <p className="text-[14px] font-bold text-[#675F5B] leading-relaxed font-semibold opacity-70">
                                             The EB-1 visa is a talent-based immigrant visa in the US for individuals with extraordinary abilities.
                                         </p>
                                     </div>
@@ -288,7 +288,7 @@ export default function CartPage() {
                                     </div>
                                     <div>
                                         <h4 className="text-xs font-black text-[#362B25] uppercase tracking-tight mb-2 leading-tight group-hover:text-blue-600 transition-colors">University Selection</h4>
-                                        <p className="text-[10px] text-[#675F5B] leading-relaxed font-semibold opacity-70">
+                                        <p className="text-[14px] font-bold text-[#675F5B] leading-relaxed font-semibold opacity-70">
                                             Identify the universities that match your profile and career goals with our expert vetting process.
                                         </p>
                                     </div>
@@ -299,7 +299,7 @@ export default function CartPage() {
                                     </div>
                                     <div>
                                         <h4 className="text-xs font-black text-[#362B25] uppercase tracking-tight mb-2 leading-tight group-hover:text-blue-600 transition-colors">Statement of Purpose</h4>
-                                        <p className="text-[10px] text-[#675F5B] leading-relaxed font-semibold opacity-70">
+                                        <p className="text-[14px] font-bold text-[#675F5B] leading-relaxed font-semibold opacity-70">
                                             Draft a compelling, admissions-driven narrative that highlights your unique journey to the committee.
                                         </p>
                                     </div>
@@ -310,7 +310,7 @@ export default function CartPage() {
                                     </div>
                                     <div>
                                         <h4 className="text-xs font-black text-[#362B25] uppercase tracking-tight mb-2 leading-tight group-hover:text-blue-600 transition-colors">Research Paper Publishing</h4>
-                                        <p className="text-[10px] text-[#675F5B] leading-relaxed font-semibold opacity-70">
+                                        <p className="text-[14px] font-bold text-[#675F5B] leading-relaxed font-semibold opacity-70">
                                             Publishing credible research papers can significantly boost your profile for MS/PhD applications.
                                         </p>
                                     </div>

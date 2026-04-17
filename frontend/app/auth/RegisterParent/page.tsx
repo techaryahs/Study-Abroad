@@ -150,7 +150,7 @@ export default function RegisterParent() {
               <h2 className="text-xl font-black text-white mb-1 uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Parent Registration</h2>
               <div className="flex items-center gap-3">
                 <div className="h-0.5 w-8 bg-gold-500 rounded-full" />
-                <p className="text-gray-500 text-[8px] font-black uppercase tracking-[2px]">Step {step} of 2</p>
+                <p className="text-gray-500 text-[12px] font-black font-black uppercase tracking-[2px]">Step {step} of 2</p>
               </div>
             </div>
 
@@ -161,7 +161,7 @@ export default function RegisterParent() {
                   className="space-y-3"
                 >
                   <div>
-                    <label className="block text-[8px] font-black text-gray-500 uppercase tracking-[2px] mb-1 ml-1">Full Name</label>
+                    <label className="block text-[12px] font-black font-black text-gray-500 uppercase tracking-[2px] mb-1 ml-1">Full Name</label>
                     <div className="relative group">
                       <User className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                       <input
@@ -174,7 +174,7 @@ export default function RegisterParent() {
                   </div>
 
                   <div>
-                    <label className="block text-[8px] font-black text-gray-500 uppercase tracking-[2px] mb-1 ml-1">Email Address</label>
+                    <label className="block text-[12px] font-black font-black text-gray-500 uppercase tracking-[2px] mb-1 ml-1">Email Address</label>
                     <div className="relative group">
                       <Mail className={`absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 ${isEmailVerified ? 'text-green-500' : 'text-gray-500 group-focus-within:text-gold-500'} transition-colors`} />
                       <input
@@ -186,7 +186,7 @@ export default function RegisterParent() {
                       {!isEmailVerified && formData.email && (
                         <button
                           onClick={sendEmailOtp}
-                          className="absolute right-1 top-1 bottom-1 bg-gold-500 text-black px-3 rounded-lg font-black text-[8px] uppercase tracking-wider hover:bg-gold-400 transition-all"
+                          className="absolute right-1 top-1 bottom-1 bg-gold-500 text-black px-3 rounded-lg font-black text-[12px] font-black uppercase tracking-wider hover:bg-gold-400 transition-all"
                         >Verify</button>
                       )}
                       {isEmailVerified && <ShieldCheck className="absolute right-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-green-500" />}
@@ -195,7 +195,7 @@ export default function RegisterParent() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[8px] font-black text-gray-500 uppercase tracking-[2px] mb-1 ml-1">Password</label>
+                      <label className="block text-[12px] font-black font-black text-gray-500 uppercase tracking-[2px] mb-1 ml-1">Password</label>
                       <div className="relative group">
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                         <input
@@ -208,7 +208,7 @@ export default function RegisterParent() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[8px] font-black text-gray-500 uppercase tracking-[2px] mb-1 ml-1">Confirm</label>
+                      <label className="block text-[12px] font-black font-black text-gray-500 uppercase tracking-[2px] mb-1 ml-1">Confirm</label>
                       <div className="relative group">
                         <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                         <input
@@ -226,7 +226,7 @@ export default function RegisterParent() {
                   <button
                     onClick={() => setStep(2)}
                     disabled={!isEmailVerified || !formData.name || !formData.password || formData.password !== formData.confirmPassword}
-                    className="w-full py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase rounded-xl text-[10px] tracking-[2px] mt-4 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                    className="w-full py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase rounded-xl text-[14px] font-bold tracking-[2px] mt-4 flex items-center justify-center gap-2 transition-all disabled:opacity-50"
                   >
                     Next: Link Student <ChevronRight className="w-3.5 h-3.5" />
                   </button>
@@ -239,7 +239,7 @@ export default function RegisterParent() {
                   className="space-y-4"
                 >
                   <div className="bg-white/[0.03] border border-[#d4af37]/20 p-4 rounded-2xl">
-                    <p className="text-[10px] font-black text-white uppercase tracking-wider mb-2">Search your child</p>
+                    <p className="text-[14px] font-bold font-black text-white uppercase tracking-wider mb-2">Search your child</p>
                     <div className="relative">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                       <input
@@ -250,7 +250,7 @@ export default function RegisterParent() {
                       <button
                         onClick={handleSearchStudent}
                         disabled={isSearching}
-                        className="absolute right-1 top-1 bottom-1 bg-white/10 hover:bg-white/20 text-white px-3 rounded-lg text-[8px] font-black uppercase transition-all flex items-center gap-1.5"
+                        className="absolute right-1 top-1 bottom-1 bg-white/10 hover:bg-white/20 text-white px-3 rounded-lg text-[12px] font-black font-black uppercase transition-all flex items-center gap-1.5"
                       >
                         {isSearching ? <Loader2 className="w-3 h-3 animate-spin" /> : <Search className="w-3 h-3" />} Search
                       </button>
@@ -271,9 +271,9 @@ export default function RegisterParent() {
                           <h3 className="font-black text-white text-sm uppercase tracking-tight">{foundStudent.name}</h3>
                           <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
                         </div>
-                        <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">{foundStudent.email}</p>
+                        <p className="text-[13px] font-bold font-bold text-gray-500 uppercase tracking-widest">{foundStudent.email}</p>
                         <div className="mt-1 flex gap-2">
-                          <span className="text-[7px] font-black bg-gold-500/10 text-gold-500 px-1.5 py-0.5 rounded border border-gold-500/20 uppercase tracking-tighter">{foundStudent.country}</span>
+                          <span className="text-[11px] font-black font-black bg-gold-500/10 text-gold-500 px-1.5 py-0.5 rounded border border-gold-500/20 uppercase tracking-tighter">{foundStudent.country}</span>
                         </div>
                       </div>
                       <LinkIcon className="w-5 h-5 text-gold-500 ml-auto" />
@@ -283,16 +283,16 @@ export default function RegisterParent() {
                   {!foundStudent && !isSearching && studentSearch && (
                     <div className="p-4 bg-rose-500/5 border border-rose-500/10 rounded-2xl flex items-center gap-3 text-rose-500">
                       <AlertCircle className="w-4 h-4" />
-                      <span className="text-[9px] font-black uppercase tracking-widest">No student found. Ensure the email is correct.</span>
+                      <span className="text-[13px] font-bold font-black uppercase tracking-widest">No student found. Ensure the email is correct.</span>
                     </div>
                   )}
 
                   <div className="flex gap-3 pt-4">
-                    <button onClick={() => setStep(1)} className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-black uppercase rounded-xl text-[9px] tracking-widest transition-all">Back</button>
+                    <button onClick={() => setStep(1)} className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-black uppercase rounded-xl text-[13px] font-bold tracking-widest transition-all">Back</button>
                     <button
                       onClick={handleSubmit}
                       disabled={!foundStudent || isSubmitting}
-                      className="flex-[2] py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase rounded-xl text-[9px] tracking-[2px] shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="flex-[2] py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase rounded-xl text-[13px] font-bold tracking-[2px] shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                       {isSubmitting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <LinkIcon className="w-3.5 h-3.5" />} Create Account
                     </button>
@@ -321,7 +321,7 @@ export default function RegisterParent() {
                 <ShieldCheck className="w-6 h-6 text-gold-500" />
               </div>
               <h3 className="text-lg font-black text-white italic mb-1 uppercase tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>Verify Identity</h3>
-              <p className="text-[9px] text-gray-500 mb-6 uppercase tracking-widest font-bold">Six digits sent to your inbox</p>
+              <p className="text-[13px] font-bold text-gray-500 mb-6 uppercase tracking-widest font-bold">Six digits sent to your inbox</p>
 
               <input
                 type="text" value={verifyModal.otp} onChange={(e) => setVerifyModal({ ...verifyModal, otp: e.target.value })}
@@ -333,7 +333,7 @@ export default function RegisterParent() {
               <button
                 onClick={verifyOtp}
                 disabled={isVerifying || verifyModal.otp.length !== 6}
-                className="w-full py-4 bg-gold-500 text-black rounded-xl font-black text-[10px] shadow-lg shadow-gold-500/10 hover:bg-gold-400 transition-all uppercase tracking-[2px] flex items-center justify-center gap-2 group"
+                className="w-full py-4 bg-gold-500 text-black rounded-xl font-black text-[14px] font-bold shadow-lg shadow-gold-500/10 hover:bg-gold-400 transition-all uppercase tracking-[2px] flex items-center justify-center gap-2 group"
               >
                 {isVerifying ? <Loader2 className="w-4 h-4 animate-spin" /> : "Authorize Access"}
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -341,7 +341,7 @@ export default function RegisterParent() {
 
               <button
                 onClick={() => setVerifyModal({ ...verifyModal, show: false })}
-                className="mt-4 text-[8px] font-black text-gray-600 uppercase tracking-widest hover:text-white transition-colors"
+                className="mt-4 text-[12px] font-black font-black text-gray-600 uppercase tracking-widest hover:text-white transition-colors"
               >I'll do it later</button>
             </motion.div>
           </div>

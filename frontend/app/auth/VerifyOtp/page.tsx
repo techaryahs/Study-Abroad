@@ -125,7 +125,7 @@ const VerifyOtpContent = () => {
             <ShieldCheck className="w-9 h-9 text-black" />
           </div>
           <h2 className="text-3xl font-black text-white mb-3 uppercase italic tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>Verify Identity</h2>
-          <p className="text-gray-400 text-[10px] font-bold uppercase tracking-widest leading-relaxed px-4">
+          <p className="text-gray-400 text-[14px] font-bold font-bold uppercase tracking-widest leading-relaxed px-4">
             We've sent a 6-digit verification code to <br />
             <span className="font-black text-gold-500">{displayValue}</span>
           </p>
@@ -163,13 +163,13 @@ const VerifyOtpContent = () => {
         </button>
 
         <div className="mt-10 pt-8 border-t border-white/5 space-y-4">
-          <p className="text-gray-600 text-[10px] font-black uppercase tracking-widest">
+          <p className="text-gray-600 text-[14px] font-bold font-black uppercase tracking-widest">
             Didn't receive the code?
           </p>
           <button 
             onClick={handleResendOtp} 
             disabled={timer > 0 || isResending}
-            className={`flex items-center justify-center gap-2 mx-auto font-black text-[10px] uppercase tracking-widest transition-all ${timer > 0 ? 'text-gray-700 cursor-not-allowed' : 'text-gold-500 hover:text-gold-400'}`}
+            className={`flex items-center justify-center gap-2 mx-auto font-black text-[14px] font-bold uppercase tracking-widest transition-all ${timer > 0 ? 'text-gray-700 cursor-not-allowed' : 'text-gold-500 hover:text-gold-400'}`}
           >
             {isResending ? (
               <div className="w-4 h-4 border-2 border-gold-500/30 border-t-gold-500 rounded-full animate-spin" />
@@ -182,7 +182,7 @@ const VerifyOtpContent = () => {
 
         {/* Small badge */}
         <div className="absolute top-6 right-6">
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-[#d4af37]/20 text-[9px] font-black text-gray-500 uppercase tracking-widest">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-[#d4af37]/20 text-[13px] font-bold font-black text-gray-500 uppercase tracking-widest">
             <Sparkles className="w-3 h-3 text-gold-500" /> Secure
           </div>
         </div>

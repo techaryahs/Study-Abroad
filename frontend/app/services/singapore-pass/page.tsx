@@ -126,7 +126,7 @@ export default function SingaporeOnePassPage() {
                                                 <Briefcase size={22} />
                                             </div>
                                             <h4 className="fd text-xl font-bold text-[#3C2A21]">{adv.title}</h4>
-                                            <p className="text-[10px] font-medium opacity-60 italic">{adv.desc}</p>
+                                            <p className="text-[14px] font-bold font-medium opacity-60 italic">{adv.desc}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -144,7 +144,7 @@ export default function SingaporeOnePassPage() {
                                     <div key={i} className="bg-white p-10 rounded-[40px] border border-[#F1EDEA] space-y-4 relative group hover:border-[#C5A059]/20 transition-all">
                                         <h4 className="fd text-2xl font-bold text-[#3C2A21]">{track.title}</h4>
                                         <p className="text-sm font-medium text-[#6B5E51] italic leading-relaxed">{track.desc}</p>
-                                        <div className="pt-4 flex items-center gap-2 text-[#C5A059] font-bold text-[10px] uppercase tracking-widest">
+                                        <div className="pt-4 flex items-center gap-2 text-[#C5A059] font-bold text-[14px] font-bold uppercase tracking-widest">
                                             <span>Learn Requirements</span> <Zap size={10} />
                                         </div>
                                     </div>

@@ -101,7 +101,7 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
           {/* Title */}
           <div className="text-center space-y-2">
             <h2 className="fd text-3xl font-bold text-[#2D2926]">Initiate Cluster</h2>
-            <p className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-[0.2em]">Deployment Protocol</p>
+            <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-[0.2em]">Deployment Protocol</p>
           </div>
 
           {/* Stepper */}
@@ -136,7 +136,7 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
 
                 {/* Field Search */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Academic Discipline</label>
+                  <label className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Academic Discipline</label>
                   <div className="relative">
                     <input 
                       type="text" 
@@ -166,7 +166,7 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
 
                 {/* Description */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Narrative Abstract</label>
+                  <label className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Narrative Abstract</label>
                   <textarea 
                     placeholder="Briefly synthesize your research objectives..."
                     rows={4}
@@ -177,7 +177,7 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Collaborative Personnel</label>
+                  <label className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest ml-1">Collaborative Personnel</label>
                   <select 
                     value={coAuthors}
                     onChange={(e) => setCoAuthors(Number(e.target.value))}
@@ -197,7 +197,7 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
                   </p>
                   <button 
                     onClick={() => setStep(2)}
-                    className="bg-[#C5A059] hover:bg-white hover:text-[#2D2926] text-white font-bold text-[10px] px-8 py-4 rounded-xl flex items-center gap-2 transition-all uppercase tracking-widest z-10"
+                    className="bg-[#C5A059] hover:bg-white hover:text-[#2D2926] text-white font-bold text-[14px] font-bold px-8 py-4 rounded-xl flex items-center gap-2 transition-all uppercase tracking-widest z-10"
                   >
                     Proceed <ArrowRight className="w-3.5 h-3.5" />
                   </button>
@@ -223,11 +223,11 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
 
                     <div className="flex items-center justify-between">
                       <div className="flex flex-col">
-                        <span className="text-[9px] font-bold text-red-500/60 uppercase line-through mb-1">INR 43,426.66</span>
-                        <span className="bg-red-500 text-white text-[8px] font-bold px-2 py-0.5 rounded tracking-tighter w-fit">SCHOLARSHIP DISCOUNT (-20%)</span>
+                        <span className="text-[13px] font-bold font-bold text-red-500/60 uppercase line-through mb-1">INR 43,426.66</span>
+                        <span className="bg-red-500 text-white text-[12px] font-black font-bold px-2 py-0.5 rounded tracking-tighter w-fit">SCHOLARSHIP DISCOUNT (-20%)</span>
                       </div>
                       <div className="text-right">
-                        <span className="text-[10px] font-bold text-[#A8A29E] uppercase block mb-1">Net Savings</span>
+                        <span className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase block mb-1">Net Savings</span>
                         <span className="text-lg font-bold text-emerald-600">INR 8,685.33</span>
                       </div>
                     </div>
@@ -241,29 +241,29 @@ export default function CreateGroupModal({ isOpen, onClose, initialStep = 1 }: C
                         <Wallet className="w-4 h-4 text-[#C5A059]" />
                     </div>
                     <div className="flex flex-col">
-                        <p className="text-[9px] font-bold text-[#A8A29E] uppercase tracking-[0.2em]">Institutional Balance</p>
+                        <p className="text-[13px] font-bold font-bold text-[#A8A29E] uppercase tracking-[0.2em]">Institutional Balance</p>
                         <p className="text-base font-bold text-white tracking-tight">INR 14,500.00</p>
                     </div>
                   </div>
-                  <button className="text-[10px] font-bold text-[#C5A059] hover:text-white uppercase tracking-widest bg-white/5 px-4 py-2 rounded-lg transition-all">Sustain Vault</button>
+                  <button className="text-[14px] font-bold font-bold text-[#C5A059] hover:text-white uppercase tracking-widest bg-white/5 px-4 py-2 rounded-lg transition-all">Sustain Vault</button>
                 </div>
 
                 {/* Payment Options */}
                 <div className="space-y-4">
-                  <p className="text-[10px] text-center text-[#A8A29E] font-bold uppercase tracking-[0.2em]">Transaction Gateway selection</p>
+                  <p className="text-[14px] font-bold text-center text-[#A8A29E] font-bold uppercase tracking-[0.2em]">Transaction Gateway selection</p>
                   <div className="grid grid-cols-2 gap-4">
                       <button className="flex flex-col items-center justify-center p-5 border border-[#F1EDEA] rounded-2xl hover:border-[#C5A059] hover:bg-[#F8F5F0] transition-all group shadow-sm bg-white">
-                         <span className="text-[10px] font-bold text-[#6B5E51] opacity-60">RAZORPAY</span>
+                         <span className="text-[14px] font-bold font-bold text-[#6B5E51] opacity-60">RAZORPAY</span>
                       </button>
                       <button className="flex flex-col items-center justify-center p-5 border border-[#F1EDEA] rounded-2xl hover:border-[#C5A059] hover:bg-[#F8F5F0] transition-all group shadow-sm bg-white">
-                         <span className="text-[10px] font-bold text-[#6B5E51] opacity-60">AMAZON PAY</span>
+                         <span className="text-[14px] font-bold font-bold text-[#6B5E51] opacity-60">AMAZON PAY</span>
                       </button>
                   </div>
                 </div>
 
                 <div className="flex gap-4 pt-4">
-                    <button onClick={() => setStep(1)} className="flex-1 bg-[#F8F5F0] text-[#6B5E51] font-bold text-[10px] py-4 rounded-xl uppercase tracking-widest transition-all">Return</button>
-                    <button onClick={handleSubmit} disabled={isSubmitting} className="flex-[2] bg-[#2D2926] hover:bg-[#C5A059] text-white font-bold text-[10px] py-4 rounded-xl shadow-2xl uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 disabled:opacity-50">
+                    <button onClick={() => setStep(1)} className="flex-1 bg-[#F8F5F0] text-[#6B5E51] font-bold text-[14px] font-bold py-4 rounded-xl uppercase tracking-widest transition-all">Return</button>
+                    <button onClick={handleSubmit} disabled={isSubmitting} className="flex-[2] bg-[#2D2926] hover:bg-[#C5A059] text-white font-bold text-[14px] font-bold py-4 rounded-xl shadow-2xl uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2 disabled:opacity-50">
                         {isSubmitting ? "Processing..." : "Deploy Cluster"} <ArrowRight className="w-4 h-4" />
                     </button>
                 </div>

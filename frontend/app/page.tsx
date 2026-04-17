@@ -126,7 +126,7 @@ export default function Home() {
 
               <button
                 onClick={() => setShowCounsellingModal(true)}
-                className="bg-[#D4A848] text-[#40332D] px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[10px] md:text-sm font-black uppercase tracking-wider md:tracking-widest shadow-xl hover:-translate-y-1 transition-all active:scale-95 flex-1 md:flex-none text-center"
+                className="bg-[#D4A848] text-[#40332D] px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[14px] font-bold md:text-sm font-black uppercase tracking-wider md:tracking-widest shadow-xl hover:-translate-y-1 transition-all active:scale-95 flex-1 md:flex-none text-center"
               >
                 Talk to an Expert
               </button>
@@ -134,7 +134,7 @@ export default function Home() {
                 const phone = (process.env.NEXT_PUBLIC_WTSP_PHONE || "+918657869659").replace(/\D/g, '');
                 window.open(`https://wa.me/${phone}`, '_blank');
               }}
-                className="border-[1.5px] border-[#40332D] px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[#40332D] text-[10px] md:text-[13px] font-black uppercase tracking-wider md:tracking-widest hover:bg-[#D4A848] hover:text-[#40332D] transition-all flex-1 md:flex-none text-center"
+                className="border-[1.5px] border-[#40332D] px-4 md:px-6 py-2 md:py-2.5 rounded-lg md:rounded-xl text-[#40332D] text-[14px] font-bold md:text-[13px] font-black uppercase tracking-wider md:tracking-widest hover:bg-[#D4A848] hover:text-[#40332D] transition-all flex-1 md:flex-none text-center"
               >
                 Whatsapp Us
               </button>
@@ -163,9 +163,9 @@ export default function Home() {
                   <div className="w-6 h-4 mx-auto mb-1 rounded-[2px] overflow-hidden border border-[#D4A848]/20">
                     <Flag code={d.code} className="w-full h-full object-cover" />
                   </div>
-                  <p className="text-[8px] font-black uppercase text-[#D4A848]">{d.name}</p>
+                  <p className="text-[12px] font-black font-black uppercase text-[#D4A848]">{d.name}</p>
                   <p className="text-[11px] font-black text-[#F8F6F1]">{d.stat}</p>
-                  <p className="text-[7px] text-[#F8F6F1]/50 font-bold uppercase tracking-widest">{d.sub}</p>
+                  <p className="text-[11px] font-black text-[#F8F6F1]/50 font-bold uppercase tracking-widest">{d.sub}</p>
                 </div>
               ))}
             </div>
@@ -199,7 +199,7 @@ export default function Home() {
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-[#D4A848] shadow-lg sm:shadow-xl">
                     <Flag code={f.code} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-[7px] sm:text-[10px] uppercase font-black tracking-[0.1em] sm:tracking-widest mt-2 text-[#362B25]/60 sm:text-[#362B25]/40 text-center">{f.name}</span>
+                  <span className="text-[11px] font-black sm:text-[14px] font-bold uppercase font-black tracking-[0.1em] sm:tracking-widest mt-2 text-[#362B25]/60 sm:text-[#362B25]/40 text-center">{f.name}</span>
                 </div>
               ))}
             </div>
@@ -233,9 +233,9 @@ export default function Home() {
                 <div className="w-8 h-5 mx-auto mb-2 rounded-sm overflow-hidden border border-[#D4A848]/20">
                   <Flag code={d.code} className="w-full h-full object-cover" />
                 </div>
-                <p className="text-[10px] font-black uppercase tracking-tighter text-[#D4A848]">{d.name}</p>
+                <p className="text-[14px] font-bold font-black uppercase tracking-tighter text-[#D4A848]">{d.name}</p>
                 <p className="text-sm font-black text-[#F8F6F1]">{d.stat}</p>
-                <p className="text-[8px] text-[#F8F6F1]/60 font-bold uppercase tracking-widest">{d.sub}</p>
+                <p className="text-[12px] font-black text-[#F8F6F1]/60 font-bold uppercase tracking-widest">{d.sub}</p>
               </div>
             ))}
           </div>
@@ -245,7 +245,7 @@ export default function Home() {
             {statsRow.map((stat, i) => (
               <div key={i} className="text-left">
                 <h2 className="text-[#362B25] text-[2.5rem] leading-none font-black tracking-tighter drop-shadow-sm">{stat.value}</h2>
-                <p className="text-[10px] text-[#675F5B]/60 font-black uppercase tracking-[0.25em] mt-2">{stat.label}</p>
+                <p className="text-[14px] font-bold text-[#675F5B]/60 font-black uppercase tracking-[0.25em] mt-2">{stat.label}</p>
               </div>
             ))}
           </div>

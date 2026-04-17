@@ -101,7 +101,7 @@ export default function RateMyChancesPage() {
                     <h1 className="text-5xl md:text-7xl font-black text-[#D4A848] tracking-tighter mb-1 font-serif">
                         RateMyChances
                     </h1>
-                    <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[#675F5B]/80 mt-2">
+                    <p className="text-[14px] font-bold sm:text-xs font-black uppercase tracking-[0.2em] text-[#675F5B]/80 mt-2">
                         Powered By Global Counsellor Centre
                     </p>
                 </motion.div>
@@ -135,7 +135,7 @@ export default function RateMyChancesPage() {
                     </div>
 
                     <div className="mb-6">
-                        <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[#25D366]">
+                        <span className="text-[14px] font-bold sm:text-xs font-black uppercase tracking-[0.2em] text-[#25D366]">
                             Try it out Free!
                         </span>
                     </div>
@@ -158,7 +158,7 @@ export default function RateMyChancesPage() {
                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 flex-[2] w-full mt-4 md:mt-0">
                             {uniData.stats.map((stat, idx) => (
                                 <div key={idx} className="text-left space-y-1">
-                                    <p className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#675F5B]/60">
+                                    <p className="text-[13px] font-bold sm:text-[14px] font-bold uppercase font-bold tracking-widest text-[#675F5B]/60">
                                         {stat.label}
                                     </p>
                                     <p className="text-sm sm:text-base font-black text-[#362B25]">
@@ -191,26 +191,26 @@ export default function RateMyChancesPage() {
                 <div className="bg-white border border-[#D4A848]/10 rounded-2xl sm:rounded-3xl shadow-sm overflow-hidden flex flex-col sm:flex-row text-center divide-y sm:divide-y-0 sm:divide-x divide-black/5">
 
                     <div className="flex-1 p-4 sm:p-6 bg-gradient-to-br from-red-50 to-transparent">
-                        <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-red-600 mb-1">Out of League</p>
-                        <p className="text-[10px] font-bold text-red-600/50 mb-2">&lt;70%</p>
+                        <p className="text-[14px] font-bold sm:text-xs font-black uppercase tracking-widest text-red-600 mb-1">Out of League</p>
+                        <p className="text-[14px] font-bold font-bold text-red-600/50 mb-2">&lt;70%</p>
                         <p className="text-xs font-semibold text-red-800">Best not to apply.</p>
                     </div>
 
                     <div className="flex-1 p-4 sm:p-6 bg-gradient-to-br from-orange-50 to-transparent">
-                        <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[#D4A848] mb-1">Ambitious</p>
-                        <p className="text-[10px] font-bold text-[#D4A848]/50 mb-2">&gt;70%</p>
+                        <p className="text-[14px] font-bold sm:text-xs font-black uppercase tracking-widest text-[#D4A848] mb-1">Ambitious</p>
+                        <p className="text-[14px] font-bold font-bold text-[#D4A848]/50 mb-2">&gt;70%</p>
                         <p className="text-xs font-semibold text-[#B38F3A]">May be worth applying.</p>
                     </div>
 
                     <div className="flex-1 p-4 sm:p-6 bg-gradient-to-br from-yellow-50 to-transparent">
-                        <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-yellow-600 mb-1">Moderate</p>
-                        <p className="text-[10px] font-bold text-yellow-600/50 mb-2">&gt;80%</p>
+                        <p className="text-[14px] font-bold sm:text-xs font-black uppercase tracking-widest text-yellow-600 mb-1">Moderate</p>
+                        <p className="text-[14px] font-bold font-bold text-yellow-600/50 mb-2">&gt;80%</p>
                         <p className="text-xs font-semibold text-yellow-800">Looking good!</p>
                     </div>
 
                     <div className="flex-1 p-4 sm:p-6 bg-gradient-to-br from-green-50 to-transparent">
-                        <p className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-green-600 mb-1">Safe</p>
-                        <p className="text-[10px] font-bold text-green-600/50 mb-2">&gt;90%</p>
+                        <p className="text-[14px] font-bold sm:text-xs font-black uppercase tracking-widest text-green-600 mb-1">Safe</p>
+                        <p className="text-[14px] font-bold font-bold text-green-600/50 mb-2">&gt;90%</p>
                         <p className="text-xs font-semibold text-green-800">We love your chances!</p>
                     </div>
 

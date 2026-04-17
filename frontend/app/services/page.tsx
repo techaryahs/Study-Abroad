@@ -89,12 +89,12 @@ function ServiceCard({
 
       {/* badges */}
       {service.badge === "fire" && (
-        <span className="absolute top-0 right-0 text-[8px] sm:text-[10px] font-black tracking-wider uppercase bg-[#D4A848] text-[#40332D] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[12px] font-black sm:text-[14px] font-bold font-black tracking-wider uppercase bg-[#D4A848] text-[#40332D] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-tr-2xl rounded-bl-xl">
           🔥 On Fire
         </span>
       )}
       {service.badge === "popular" && (
-        <span className="absolute top-0 right-0 text-[8px] sm:text-[10px] font-black tracking-wider uppercase bg-[#C0A045] text-[#40332D] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[12px] font-black sm:text-[14px] font-bold font-black tracking-wider uppercase bg-[#C0A045] text-[#40332D] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-tr-2xl rounded-bl-xl">
           Popular
         </span>
       )}
@@ -107,7 +107,7 @@ function ServiceCard({
         {service.title}
       </h3>
 
-      <p className="text-[#FDFBF7]/60 text-[10px] sm:text-[13px] leading-relaxed flex-1">
+      <p className="text-[#FDFBF7]/60 text-[14px] font-bold sm:text-[13px] leading-relaxed flex-1">
         {service.description}
       </p>
 
@@ -340,7 +340,7 @@ export default function ServicesPage() {
             </div>
             <div className="space-y-1">
               <h2 className="text-base sm:text-2xl font-black text-[#D4A848] uppercase tracking-normal">Questions? Start a chat with us.</h2>
-              <p className="text-[#FDFBF7]/50 text-[10px] sm:text-sm font-medium leading-relaxed">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
+              <p className="text-[#FDFBF7]/50 text-[14px] font-bold sm:text-sm font-medium leading-relaxed">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
             </div>
           </div>
 
@@ -349,7 +349,7 @@ export default function ServicesPage() {
               href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in your services. I would like to discuss...`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[#D4A848] text-[#40332D] font-black text-[10px] sm:text-sm px-6 py-3 sm:px-8 sm:py-4 rounded-xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#D4A848]/10 uppercase tracking-widest"
+              className="inline-flex items-center gap-3 bg-[#D4A848] text-[#40332D] font-black text-[14px] font-bold sm:text-sm px-6 py-3 sm:px-8 sm:py-4 rounded-xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#D4A848]/10 uppercase tracking-widest"
             >
               <ChatIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               Chat on Whatsapp
@@ -366,7 +366,7 @@ export default function ServicesPage() {
         <div className="max-w-3xl mx-auto relative z-10">
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 mb-2 bg-[#D4A848]/10 px-4 py-1 rounded-full border border-[#D4A848]/20">
-              <span className="text-[#D4A848] text-[8px] font-black uppercase tracking-[0.3em]">Custom Solutions</span>
+              <span className="text-[#D4A848] text-[12px] font-black font-black uppercase tracking-[0.3em]">Custom Solutions</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-[#362B25] tracking-tight uppercase leading-none mb-3">Request a <span className="text-[#D4A848]">Service</span></h2>
             <p className="text-[#675F5B]/60 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
@@ -384,7 +384,7 @@ export default function ServicesPage() {
                 </div>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-2 text-[#D4A848] font-black text-[10px] uppercase tracking-widest border-b border-[#D4A848] pb-0.5 hover:text-[#362B25] hover:border-[#362B25] transition-all"
+                  className="mt-2 text-[#D4A848] font-black text-[14px] font-bold uppercase tracking-widest border-b border-[#D4A848] pb-0.5 hover:text-[#362B25] hover:border-[#362B25] transition-all"
                 >
                   Submit Another request
                 </button>
@@ -398,7 +398,7 @@ export default function ServicesPage() {
                     { label: "Phone", name: "mobile", type: "tel", placeholder: "+91 90000 00000", colSpan: "sm:col-span-1" },
                   ].map((field) => (
                     <div key={field.name} className={`space-y-1 ${field.colSpan}`}>
-                      <label className="text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
+                      <label className="text-[13px] font-bold font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
                         {field.label}
                       </label>
                       <input
@@ -415,7 +415,7 @@ export default function ServicesPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
+                  <label className="text-[13px] font-bold font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
                     What can we do for you?
                   </label>
                   <textarea
@@ -430,7 +430,7 @@ export default function ServicesPage() {
                 </div>
 
                 {errorMessage && (
-                  <p className="text-red-500 text-[10px] font-bold text-center uppercase tracking-widest animate-pulse">
+                  <p className="text-red-500 text-[14px] font-bold font-bold text-center uppercase tracking-widest animate-pulse">
                     {errorMessage}
                   </p>
                 )}

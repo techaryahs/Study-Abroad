@@ -89,7 +89,7 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
     <div className="space-y-6 md:space-y-10 pt-4">
       {/* Core Nodes Header */}
       <div className="space-y-3 md:space-y-4">
-        <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#D4A848] italic">
+        <p className="text-[13px] font-bold md:text-[14px] font-bold font-black uppercase tracking-[0.3em] md:tracking-[0.4em] text-[#D4A848] italic">
           Includes Core Nodes:
         </p>
         <div className="flex flex-wrap gap-6 md:gap-10">
@@ -107,7 +107,7 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
                   {item.icon}
                 </div>
               </div>
-              <p className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-[#D4A848]/40 group-hover:text-[#D4A848] transition-colors">
+              <p className="text-[12px] font-black md:text-[13px] font-bold font-black uppercase tracking-widest text-[#D4A848]/40 group-hover:text-[#D4A848] transition-colors">
                 {item.label}
               </p>
             </button>
@@ -119,7 +119,7 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
       <div className="flex flex-col sm:flex-row gap-4 md:gap-6 pt-1 md:pt-2 items-center">
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-[#D4A848] text-[#40332D] shadow-xl hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(212,168,72,0.4)] transition-all px-6 py-3 md:px-10 md:py-4 text-[10px] md:text-[11px] font-black tracking-[0.15em] md:tracking-[0.2em] w-full sm:w-auto text-center !rounded-xl md:!rounded-[1.5rem] uppercase"
+          className="bg-[#D4A848] text-[#40332D] shadow-xl hover:-translate-y-1 hover:shadow-[0_10px_25px_rgba(212,168,72,0.4)] transition-all px-6 py-3 md:px-10 md:py-4 text-[14px] font-bold md:text-[11px] font-black tracking-[0.15em] md:tracking-[0.2em] w-full sm:w-auto text-center !rounded-xl md:!rounded-[1.5rem] uppercase"
         >
           Discuss Your Case
         </button>
@@ -153,7 +153,7 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
                   </button>
 
                   <div className="space-y-1">
-                    <span className="text-[#D4A848]/50 uppercase tracking-[0.5em] font-black text-[7px] sm:text-[8px]">Connect With Node</span>
+                    <span className="text-[#D4A848]/50 uppercase tracking-[0.5em] font-black text-[11px] font-black sm:text-[12px] font-black">Connect With Node</span>
                     <h2 className="text-lg sm:text-xl font-black uppercase tracking-tight text-white leading-none">Choose Channel</h2>
                   </div>
 
@@ -166,8 +166,8 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
                         <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4" strokeWidth={2.5} />
                       </div>
                       <div>
-                        <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-white mb-0.5">Send via Email</p>
-                        <p className="text-[9px] sm:text-[10px] font-medium text-white/40 group-hover:text-white/70 transition-colors leading-tight">We're just an email away.</p>
+                        <p className="text-[14px] font-bold sm:text-[11px] font-black uppercase tracking-widest text-white mb-0.5">Send via Email</p>
+                        <p className="text-[13px] font-bold sm:text-[14px] font-bold font-medium text-white/40 group-hover:text-white/70 transition-colors leading-tight">We're just an email away.</p>
                       </div>
                     </button>
 
@@ -181,13 +181,13 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
                         </svg>
                       </div>
                       <div>
-                        <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-white mb-0.5">Chat on WhatsApp</p>
-                        <p className="text-[9px] sm:text-[10px] font-medium text-white/40 group-hover:text-white/70 transition-colors leading-tight">Instant message with our team.</p>
+                        <p className="text-[14px] font-bold sm:text-[11px] font-black uppercase tracking-widest text-white mb-0.5">Chat on WhatsApp</p>
+                        <p className="text-[13px] font-bold sm:text-[14px] font-bold font-medium text-white/40 group-hover:text-white/70 transition-colors leading-tight">Instant message with our team.</p>
                       </div>
                     </button>
                   </div>
 
-                  <p className="text-[6px] sm:text-[7px] font-black uppercase tracking-[0.4em] text-[#D4A848]/20 border-t border-white/5 pt-3 sm:pt-4">Secure Node Connector</p>
+                  <p className="text-[6px] sm:text-[11px] font-black font-black uppercase tracking-[0.4em] text-[#D4A848]/20 border-t border-white/5 pt-3 sm:pt-4">Secure Node Connector</p>
                 </motion.div>
               </div>
             )}
@@ -226,7 +226,7 @@ export default function DiscussionSection({ serviceId }: DiscussionSectionProps)
                   <div className="pt-2">
                     <button 
                       onClick={() => setShowAudioPopup(false)}
-                      className="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]"
+                      className="text-[14px] font-bold font-bold uppercase tracking-widest text-[#C5A059]"
                     >
                       Close Window
                     </button>

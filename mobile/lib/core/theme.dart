@@ -119,13 +119,13 @@ class AppTheme {
         unselectedItemColor: Colors.white.withOpacity(0.4),
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: GoogleFonts.outfit(
-          fontSize: 10,
+          fontSize: 12,
           fontWeight: FontWeight.w700,
           letterSpacing: 0.5,
         ),
         unselectedLabelStyle: GoogleFonts.outfit(
-          fontSize: 10,
-          fontWeight: FontWeight.w500,
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
         ),
         elevation: 0,
       ),

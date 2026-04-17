@@ -204,7 +204,7 @@ export default function ResearchGroupsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <span className="inline-block px-4 py-1 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[10px] tracking-[0.2em] uppercase mb-6">
+            <span className="inline-block px-4 py-1 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[14px] font-bold tracking-[0.2em] uppercase mb-6">
               Global Collaboration Framework
             </span>
             <h1 className="fd text-4xl md:text-6xl lg:text-7xl font-bold text-[#2D2926] tracking-tight mb-6 leading-tight">
@@ -270,7 +270,7 @@ export default function ResearchGroupsPage() {
                       className="w-full bg-[#1A1817] border border-white/5 rounded-xl pl-11 pr-3 py-3 text-xs text-white focus:outline-none focus:border-[#C5A059]/30 transition-all font-medium"
                     />
                   </div>
-                  <button className="bg-[#C5A059] hover:bg-white hover:text-[#2D2926] w-full py-4 rounded-xl text-[10px] font-bold text-white uppercase tracking-widest transition-all">
+                  <button className="bg-[#C5A059] hover:bg-white hover:text-[#2D2926] w-full py-4 rounded-xl text-[14px] font-bold font-bold text-white uppercase tracking-widest transition-all">
                     Subscribe
                   </button>
                 </div>
@@ -335,7 +335,7 @@ export default function ResearchGroupsPage() {
                   <h3 className="fd text-3xl font-bold text-white leading-tight">Liaison Support</h3>
                   <p className="text-[#A8A29E] text-sm font-medium max-w-md uppercase tracking-wide">Our academic advisors can bridge the gap to your next collaboration.</p>
                 </div>
-                <button className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] font-bold px-10 py-4 rounded-xl flex items-center gap-3 transition-all shadow-2xl active:scale-95 shrink-0 uppercase text-[10px] tracking-widest relative z-10">
+                <button className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] font-bold px-10 py-4 rounded-xl flex items-center gap-3 transition-all shadow-2xl active:scale-95 shrink-0 uppercase text-[14px] font-bold tracking-widest relative z-10">
                   Secure Consultation <ArrowRight className="w-4 h-4" />
                 </button>
               </div>

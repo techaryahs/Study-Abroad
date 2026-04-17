@@ -61,7 +61,7 @@ export default function ChatPanel({
 
         {/* Warning Badge */}
         <div className="px-5 py-3 bg-white/[0.03] border-b border-white/[0.05]">
-          <p className="text-[10px] text-white/40 leading-relaxed">
+          <p className="text-[14px] font-bold text-white/40 leading-relaxed">
             Messages can only be seen by people in the call and are deleted when the call ends.
           </p>
         </div>
@@ -91,7 +91,7 @@ export default function ChatPanel({
                   <span className="text-white font-bold text-[11px] tracking-tight">
                     {isMe ? "You" : m.sender}
                   </span>
-                  <span className="text-white/30 text-[9px] font-medium">
+                  <span className="text-white/30 text-[13px] font-bold font-medium">
                     {m.at}
                   </span>
                 </div>

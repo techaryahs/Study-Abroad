@@ -43,7 +43,7 @@ export default function BlogLayout({ title, category, date, readTime, content, i
 
       {/* NAVIGATION BACK */}
       <div className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-8 md:pt-32">
-        <Link href="/blogs" className="inline-flex items-center gap-4 text-gold-500 font-black uppercase tracking-[0.4em] text-[10px] hover:gap-6 transition-all duration-500 group">
+        <Link href="/blogs" className="inline-flex items-center gap-4 text-gold-500 font-black uppercase tracking-[0.4em] text-[14px] font-bold hover:gap-6 transition-all duration-500 group">
           <svg className="w-4 h-4 transition-transform group-hover:-translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
           </svg>
@@ -60,9 +60,9 @@ export default function BlogLayout({ title, category, date, readTime, content, i
       >
         <motion.div variants={itemVariants} className="space-y-8">
           <div className="flex flex-wrap items-center gap-8">
-            <span className="text-gold-500 font-black uppercase tracking-[0.5em] text-[10px] bg-gold-500/5 border border-gold-500/20 px-6 py-2 rounded-full backdrop-blur-md italic shadow-2xl">{category}</span>
+            <span className="text-gold-500 font-black uppercase tracking-[0.5em] text-[14px] font-bold bg-gold-500/5 border border-gold-500/20 px-6 py-2 rounded-full backdrop-blur-md italic shadow-2xl">{category}</span>
             <div className="h-px w-12 bg-white/10 hidden md:block"></div>
-            <span className="text-white/20 text-[9px] font-black uppercase tracking-[0.4em]">{date} • {readTime} READ</span>
+            <span className="text-white/20 text-[13px] font-bold font-black uppercase tracking-[0.4em]">{date} • {readTime} READ</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-black tracking-tight leading-[1.1] uppercase italic gradient-text-gold drop-shadow-2xl max-w-4xl">
             {title}
@@ -70,7 +70,7 @@ export default function BlogLayout({ title, category, date, readTime, content, i
           <div className="flex items-center gap-6 pt-6 border-t border-white/5 max-w-fit">
             <div className="w-12 h-12 rounded-full bg-gold-500 flex items-center justify-center font-black text-black text-xl shadow-xl shadow-gold-500/20 transform-gpu animate-float">A</div>
             <div>
-              <p className="text-[9px] text-white/30 uppercase font-black tracking-[0.4em]">Authored By</p>
+              <p className="text-[13px] font-bold text-white/30 uppercase font-black tracking-[0.4em]">Authored By</p>
               <p className="text-base font-black text-white group-hover:text-gold-500 transition-colors uppercase tracking-[0.2em]">{author}</p>
             </div>
           </div>
@@ -120,7 +120,7 @@ export default function BlogLayout({ title, category, date, readTime, content, i
             </motion.div>
 
             <motion.div variants={itemVariants} className="p-10 border border-white/5 rounded-3xl space-y-6 bg-white/[0.01]">
-              <p className="text-[9px] text-white/20 uppercase font-black tracking-[0.4em]">Inside Insights</p>
+              <p className="text-[13px] font-bold text-white/20 uppercase font-black tracking-[0.4em]">Inside Insights</p>
               <ul className="space-y-4">
                 {["Core Authority", "Success Roadmap", "Expert Commentary", "Global Network"].map((item) => (
                   <li key={item} className="flex items-center gap-4 text-white/50 hover:text-gold-500 cursor-pointer transition-colors text-[11px] uppercase font-black tracking-widest">

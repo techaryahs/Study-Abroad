@@ -127,7 +127,7 @@ export default function GlobalTalentPage() {
                                                 {route.icon}
                                             </div>
                                             <h4 className="fd text-xl font-bold text-[#3C2A21]">{route.label}</h4>
-                                            <p className="text-[10px] font-medium opacity-60 italic">{route.desc}</p>
+                                            <p className="text-[14px] font-bold font-medium opacity-60 italic">{route.desc}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -143,7 +143,7 @@ export default function GlobalTalentPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                 {advantages.map((item, i) => (
                                     <div key={i} className="flex gap-5 p-4 items-start">
-                                        <div className="mt-1 w-6 h-6 rounded-full bg-[#C5A059] flex items-center justify-center text-white font-bold text-[10px] flex-shrink-0">
+                                        <div className="mt-1 w-6 h-6 rounded-full bg-[#C5A059] flex items-center justify-center text-white font-bold text-[14px] font-bold flex-shrink-0">
                                             {i + 1}
                                         </div>
                                         <div>

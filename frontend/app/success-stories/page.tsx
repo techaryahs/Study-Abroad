@@ -58,7 +58,7 @@ export default function SuccessStoriesPage() {
                   <p className="text-gold-500 font-bold uppercase tracking-widest text-xs">{story.uni}</p>
                   <p className="text-base text-white/30 font-medium leading-relaxed">{story.achievement}</p>
                   <div className="pt-6">
-                    <span className="bg-white/[0.03] text-white/50 border border-white/5 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.3em]">Class of {story.year}</span>
+                    <span className="bg-white/[0.03] text-white/50 border border-white/5 px-6 py-2 rounded-full text-[14px] font-bold font-black uppercase tracking-[0.3em]">Class of {story.year}</span>
                   </div>
                </div>
             </motion.div>

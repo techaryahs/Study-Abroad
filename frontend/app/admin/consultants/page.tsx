@@ -118,11 +118,11 @@ export default function AdminConsultantsPage() {
                   <h3 className="text-white font-bold text-sm">{consultant.name}</h3>
                   <p className="text-gray-500 text-xs">{consultant.email}</p>
                   <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-gray-600">
+                    <span className="text-[13px] font-bold font-black uppercase tracking-widest text-gray-600">
                       {consultant.expertise}
                     </span>
                     {consultant.isPremium && (
-                      <span className="text-[8px] px-2 py-0.5 bg-[#c2a878]/10 text-[#c2a878] font-black uppercase rounded-full">
+                      <span className="text-[12px] font-black px-2 py-0.5 bg-[#c2a878]/10 text-[#c2a878] font-black uppercase rounded-full">
                         Premium
                       </span>
                     )}
@@ -133,7 +133,7 @@ export default function AdminConsultantsPage() {
               <button
                 onClick={() => toggleVideoAccess(consultant._id)}
                 disabled={toggling === consultant._id}
-                className={`flex items-center gap-3 px-6 py-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all ${
+                className={`flex items-center gap-3 px-6 py-3 rounded-xl font-black text-[14px] font-bold uppercase tracking-[0.2em] transition-all ${
                   consultant.videoCallEnabled
                     ? "bg-[#c2a878] text-black hover:bg-yellow-100"
                     : "bg-white/5 border border-white/10 text-gray-500 hover:bg-white/10"

@@ -349,7 +349,7 @@ export default function AdminWeeklySchedulePage() {
         <div className="flex flex-wrap gap-4 mb-8">
           <button
             onClick={() => router.push("/admin-dashboard")}
-            className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-black text-[10px] uppercase tracking-wider hover:text-white transition-all"
+            className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-black text-[14px] font-bold uppercase tracking-wider hover:text-white transition-all"
           >
             ← Back to Dashboard
           </button>
@@ -377,7 +377,7 @@ export default function AdminWeeklySchedulePage() {
                     <span className="text-2xl">{day.emoji}</span>
                     <div>
                       <h3 className="text-lg font-black text-white">{day.label}</h3>
-                      <p className="text-[10px] text-gray-500 uppercase tracking-wider">
+                      <p className="text-[14px] font-bold text-gray-500 uppercase tracking-wider">
                         {timeSlots.filter(s => s.isActive).length} active slots
                       </p>
                     </div>
@@ -389,7 +389,7 @@ export default function AdminWeeklySchedulePage() {
                         setShowAddSlotModal(true);
                       }}
                       disabled={!isEnabled}
-                      className="flex items-center gap-2 px-4 py-2 bg-[#c2a878]/10 border border-[#c2a878]/20 text-[#c2a878] rounded-lg font-bold text-[10px] uppercase tracking-wider hover:bg-[#c2a878]/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="flex items-center gap-2 px-4 py-2 bg-[#c2a878]/10 border border-[#c2a878]/20 text-[#c2a878] rounded-lg font-bold text-[14px] font-bold uppercase tracking-wider hover:bg-[#c2a878]/20 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <Plus size={14} /> Add Slot
                     </button>
@@ -525,7 +525,7 @@ export default function AdminWeeklySchedulePage() {
                       <option value="PM">PM</option>
                     </select>
                   </div>
-                  <p className="text-[10px] text-[#c2a878] mt-1 text-center">
+                  <p className="text-[14px] font-bold text-[#c2a878] mt-1 text-center">
                     {newSlot.startHour}:{newSlot.startMinute} {newSlot.startPeriod}
                   </p>
                 </div>
@@ -564,7 +564,7 @@ export default function AdminWeeklySchedulePage() {
                       <option value="PM">PM</option>
                     </select>
                   </div>
-                  <p className="text-[10px] text-[#c2a878] mt-1 text-center">
+                  <p className="text-[14px] font-bold text-[#c2a878] mt-1 text-center">
                     {newSlot.endHour}:{newSlot.endMinute} {newSlot.endPeriod}
                   </p>
                 </div>
@@ -666,7 +666,7 @@ export default function AdminWeeklySchedulePage() {
                       <option value="PM">PM</option>
                     </select>
                   </div>
-                  <p className="text-[10px] text-[#c2a878] mt-1 text-center">
+                  <p className="text-[14px] font-bold text-[#c2a878] mt-1 text-center">
                     {newSlot.startHour}:{newSlot.startMinute} {newSlot.startPeriod}
                   </p>
                 </div>
@@ -705,7 +705,7 @@ export default function AdminWeeklySchedulePage() {
                       <option value="PM">PM</option>
                     </select>
                   </div>
-                  <p className="text-[10px] text-[#c2a878] mt-1 text-center">
+                  <p className="text-[14px] font-bold text-[#c2a878] mt-1 text-center">
                     {newSlot.endHour}:{newSlot.endMinute} {newSlot.endPeriod}
                   </p>
                 </div>

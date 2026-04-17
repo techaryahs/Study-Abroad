@@ -37,7 +37,7 @@ export default function GermanyWorkingPage() {
                   Once your degree is conferred, you can extend your residence permit for up to 18 months. This is a crucial window for field-specific role hunting.
                 </p>
               </div>
-              <div className="pt-6 italic text-gold-500/40 text-[9px] font-black uppercase tracking-widest">Advisory: Start networking early.</div>
+              <div className="pt-6 italic text-gold-500/40 text-[13px] font-bold font-black uppercase tracking-widest">Advisory: Start networking early.</div>
             </motion.div>
 
             <motion.div
@@ -51,7 +51,7 @@ export default function GermanyWorkingPage() {
                   The EU Blue Card is the "Gold Standard". If your job offer exceeds the threshold, you gain a direct path to permanent residency in as little as 21 months.
                 </p>
               </div>
-              <div className="pt-6 italic text-gold-500/40 text-[9px] font-black uppercase tracking-widest">Support: We map Blue Card documentation.</div>
+              <div className="pt-6 italic text-gold-500/40 text-[13px] font-bold font-black uppercase tracking-widest">Support: We map Blue Card documentation.</div>
             </motion.div>
           </div>
 

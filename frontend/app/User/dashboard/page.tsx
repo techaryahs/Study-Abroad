@@ -322,7 +322,7 @@ export default function DashboardPage() {
                 <h1 className="text-3xl font-bold text-[#3C2A21] uppercase tracking-widest font-serif italic">{userData?.name || "Student Member"}</h1>
 
                 <div className="flex items-center gap-3">
-                  <span className={`text-[10px] font-black uppercase tracking-wider transition-colors ${userData?.profile?.isPublic ? 'text-green-600' : 'text-[#6B5E51]'}`}>
+                  <span className={`text-[14px] font-bold font-black uppercase tracking-wider transition-colors ${userData?.profile?.isPublic ? 'text-green-600' : 'text-[#6B5E51]'}`}>
                     {userData?.profile?.isPublic ? "Public" : "Private"}
                   </span>
                   <button
@@ -342,7 +342,7 @@ export default function DashboardPage() {
                 </div>
               </div>
               {userData?.profile?.bio && (
-                <p className="text-[10px] font-black uppercase text-[#6B5E51] max-w-md tracking-widest leading-relaxed mb-2 italic">
+                <p className="text-[14px] font-bold font-black uppercase text-[#6B5E51] max-w-md tracking-widest leading-relaxed mb-2 italic">
                   "{userData.profile.bio}"
                 </p>
               )}
@@ -410,7 +410,7 @@ export default function DashboardPage() {
                 hasData: true
               })))
             ].filter(tab => (tab as any).hasData).map(tab => (
-              <button key={tab.id} onClick={() => setActiveProfileTab(tab.id)} className={`whitespace-nowrap md:whitespace-normal px-6 py-3 md:py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.25em] transition-all text-left ${activeProfileTab === tab.id ? 'bg-[#C5A059] text-white shadow-md' : 'text-[#6B5E51] hover:bg-white'}`}>
+              <button key={tab.id} onClick={() => setActiveProfileTab(tab.id)} className={`whitespace-nowrap md:whitespace-normal px-6 py-3 md:py-4 rounded-2xl text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all text-left ${activeProfileTab === tab.id ? 'bg-[#C5A059] text-white shadow-md' : 'text-[#6B5E51] hover:bg-white'}`}>
                 {tab.label}
               </button>
             ))}
@@ -420,10 +420,10 @@ export default function DashboardPage() {
             <AnimatePresence mode="wait">
               {activeProfileTab === 'about' && (
                 <motion.div key="about" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="grid grid-cols-1 md:grid-cols-2 gap-y-12">
-                  <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><User size={18} /></div><div><p className="text-[9px] text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Full Name</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.name || "Member"}</h3></div></div>
-                  <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><span className="text-xl">♀</span></div><div><p className="text-[9px] text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Gender</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.gender || "Female"}</h3></div></div>
-                  <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><MapPin size={18} /></div><div><p className="text-[9px] text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Location</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.country || userData?.profile?.location || "India"}</h3></div></div>
-                  <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><Calendar size={18} /></div><div><p className="text-[9px] text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Birth Date</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.dob || "Sep 03, 2005"}</h3></div></div>
+                  <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><User size={18} /></div><div><p className="text-[13px] font-bold text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Full Name</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.name || "Member"}</h3></div></div>
+                  <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><span className="text-xl">♀</span></div><div><p className="text-[13px] font-bold text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Gender</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.gender || "Female"}</h3></div></div>
+                  <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><MapPin size={18} /></div><div><p className="text-[13px] font-bold text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Location</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.country || userData?.profile?.location || "India"}</h3></div></div>
+                  <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><Calendar size={18} /></div><div><p className="text-[13px] font-bold text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Birth Date</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.dob || "Sep 03, 2005"}</h3></div></div>
                 </motion.div>
               )}
               {activeProfileTab === 'highSchool' && (
@@ -431,11 +431,11 @@ export default function DashboardPage() {
                   <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Education History</h2>
                   {userData?.profile?.highSchool?.map((hs: any, idx: number) => (
                     <div key={idx} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex justify-between items-center group/card hover:border-[#C5A059]/20 transition-all shadow-sm">
-                      <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><School size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{hs.schoolName}</h4><p className="text-[9px] text-[#6B5E51] font-bold uppercase tracking-widest mt-1">School Details</p></div></div>
+                      <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><School size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{hs.schoolName}</h4><p className="text-[13px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest mt-1">School Details</p></div></div>
                       <div className="text-right"><p className="text-2xl font-black text-[#3C2A21] italic">{hs.cgpa}<span className="text-sm text-[#6B5E51]"> / {hs.outOf}</span></p></div>
                     </div>
                   ))}
-                  {(!userData?.profile?.highSchool || userData.profile.highSchool.length === 0) && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No education records found.</p>}
+                  {(!userData?.profile?.highSchool || userData.profile.highSchool.length === 0) && <p className="text-center py-20 text-[14px] font-bold uppercase font-black text-[#6B5E51]/70 tracking-[0.5em]">No education records found.</p>}
                 </motion.div>
               )}
               {activeProfileTab === 'undergrad' && (
@@ -443,11 +443,11 @@ export default function DashboardPage() {
                   <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Bachelor's Credentials</h2>
                   {userData?.profile?.underGrad?.map((ug: any, idx: number) => (
                     <div key={idx} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex justify-between items-center hover:border-[#C5A059]/20 transition-all shadow-sm">
-                      <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><GraduationCap size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{ug.uniName}</h4><p className="text-[9px] text-[#6B5E51] font-bold uppercase tracking-widest mt-1">{ug.degreeName || "Undergraduate Degree"}</p></div></div>
+                      <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><GraduationCap size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{ug.uniName}</h4><p className="text-[13px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest mt-1">{ug.degreeName || "Undergraduate Degree"}</p></div></div>
                       <div className="text-right"><p className="text-2xl font-black text-[#3C2A21] italic">{ug.cgpa}<span className="text-sm text-[#6B5E51]"> / {ug.outOf}</span></p></div>
                     </div>
                   ))}
-                  {(!userData?.profile?.underGrad || userData.profile.underGrad.length === 0) && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No Degree protocols detected.</p>}
+                  {(!userData?.profile?.underGrad || userData.profile.underGrad.length === 0) && <p className="text-center py-20 text-[14px] font-bold uppercase font-black text-[#6B5E51]/70 tracking-[0.5em]">No Degree protocols detected.</p>}
                 </motion.div>
               )}
               {activeProfileTab === 'masters' && (
@@ -455,20 +455,20 @@ export default function DashboardPage() {
                   <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Postgraduate Credentials</h2>
                   {userData?.profile?.masters?.map((ms: any, idx: number) => (
                     <div key={idx} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex justify-between items-center hover:border-[#C5A059]/20 transition-all shadow-sm">
-                      <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><Trophy size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{ms.uniName}</h4><p className="text-[9px] text-[#6B5E51] font-bold uppercase tracking-widest mt-1">{ms.degreeName || "Master's Degree"}</p></div></div>
+                      <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><Trophy size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{ms.uniName}</h4><p className="text-[13px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest mt-1">{ms.degreeName || "Master's Degree"}</p></div></div>
                       <div className="text-right"><p className="text-2xl font-black text-[#3C2A21] italic">{ms.cgpa}<span className="text-sm text-[#6B5E51]"> / {ms.outOf}</span></p></div>
                     </div>
                   ))}
-                  {(!userData?.profile?.masters || userData.profile.masters.length === 0) && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No Masters degree added.</p>}
+                  {(!userData?.profile?.masters || userData.profile.masters.length === 0) && <p className="text-center py-20 text-[14px] font-bold uppercase font-black text-[#6B5E51]/70 tracking-[0.5em]">No Masters degree added.</p>}
                 </motion.div>
               )}
               {activeProfileTab === 'target' && (
                 <motion.div key="target" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Global Strategy</h2>
                   {userData?.profile?.targetUniversities?.map((uni: any, idx: number) => (
-                    <div key={idx} className="flex items-center justify-between p-6 rounded-[1.5rem] bg-[#FDFBF7] border border-[#F1EDEA] hover:border-[#C5A059]/20 transition-all shadow-sm"><div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] font-black text-xs"><Target size={20} /></div><div><p className="text-[#3C2A21] font-black text-[12px] uppercase tracking-widest">{uni.uniName}</p><p className="text-[9px] text-[#6B5E51] font-bold uppercase tracking-widest">{uni.major} • {uni.term} {uni.year}</p></div></div></div>
+                    <div key={idx} className="flex items-center justify-between p-6 rounded-[1.5rem] bg-[#FDFBF7] border border-[#F1EDEA] hover:border-[#C5A059]/20 transition-all shadow-sm"><div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] font-black text-xs"><Target size={20} /></div><div><p className="text-[#3C2A21] font-black text-[12px] uppercase tracking-widest">{uni.uniName}</p><p className="text-[13px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest">{uni.major} • {uni.term} {uni.year}</p></div></div></div>
                   ))}
-                  {(!userData?.profile?.targetUniversities || userData.profile.targetUniversities.length === 0) && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No target vectors locked.</p>}
+                  {(!userData?.profile?.targetUniversities || userData.profile.targetUniversities.length === 0) && <p className="text-center py-20 text-[14px] font-bold uppercase font-black text-[#6B5E51]/70 tracking-[0.5em]">No target vectors locked.</p>}
                 </motion.div>
               )}
 
@@ -504,7 +504,7 @@ export default function DashboardPage() {
 
               {activeProfileTab === 'scores' && (!userData?.profile?.testScores || userData.profile.testScores.length === 0) && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20 pb-12">
-                  <p className="text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-widest">No scores added yet.</p>
+                  <p className="text-[14px] font-bold uppercase font-black text-[#6B5E51]/70 tracking-widest">No scores added yet.</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -517,12 +517,12 @@ export default function DashboardPage() {
             <div className="flex items-center gap-3"><div className="w-8 h-8 rounded-lg bg-[#C5A059]/10 border border-[#C5A059]/20 flex items-center justify-center text-[#C5A059] shadow-sm"><Star size={16} /></div><h2 className="text-md font-black text-[#6B5E51] italic tracking-wide lowercase">Recommended for you</h2></div>
             <div className="flex gap-2"><button onClick={() => scroll('left')} className="p-2 rounded-full hover:bg-[#C5A059]/10 text-[#6B5E51] transition-all"><ChevronLeft size={16} /></button><button onClick={() => scroll('right')} className="p-2 rounded-full hover:bg-[#C5A059]/10 text-[#6B5E51] transition-all"><ChevronRight size={16} /></button></div>
           </div>
-          <div className="space-y-4 mb-10"><div className="flex justify-between items-end"><p className="text-[12px] font-black text-[#3C2A21] tracking-widest uppercase">Profile strength</p><p className="text-[10px] font-black text-[#C5A059]">{completedSteps}/{totalSteps}</p></div><div className="h-1 w-full bg-[#FDFBF7] rounded-full border border-[#F1EDEA] overflow-hidden"><motion.div animate={{ width: `${(completedSteps / totalSteps) * 100}%` }} className="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.3)]" /></div></div>
+          <div className="space-y-4 mb-10"><div className="flex justify-between items-end"><p className="text-[12px] font-black text-[#3C2A21] tracking-widest uppercase">Profile strength</p><p className="text-[14px] font-bold font-black text-[#C5A059]">{completedSteps}/{totalSteps}</p></div><div className="h-1 w-full bg-[#FDFBF7] rounded-full border border-[#F1EDEA] overflow-hidden"><motion.div animate={{ width: `${(completedSteps / totalSteps) * 100}%` }} className="h-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.3)]" /></div></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {visibleCards.map(card => (
               <motion.div key={card.id} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-4 md:p-6 flex flex-col items-center text-center gap-3 md:gap-5 group/c hover:border-[#C5A059]/20 transition-all shadow-sm">
-                <div className="text-4xl">{card.icon}</div><h3 className="font-black text-[13px] text-[#3C2A21] uppercase tracking-[0.2em]">{card.title}</h3><p className="text-[10px] text-[#6B5E51] font-bold leading-relaxed">{card.description}</p>
-                <div className="flex gap-3 w-full mt-2"><button className="flex-1 py-1.5 rounded-xl bg-white border border-[#F1EDEA] text-[#6B5E51] text-[9px] font-black uppercase hover:text-[#3C2A21] transition-colors shadow-sm">Skip</button><button onClick={() => setOpenModal(card.section)} className="flex-1 py-1.5 rounded-xl text-white text-[9px] font-black uppercase shadow-lg bg-green-600 hover:bg-green-500 transition-all">Submit</button></div>
+                <div className="text-4xl">{card.icon}</div><h3 className="font-black text-[13px] text-[#3C2A21] uppercase tracking-[0.2em]">{card.title}</h3><p className="text-[14px] font-bold text-[#6B5E51] font-bold leading-relaxed">{card.description}</p>
+                <div className="flex gap-3 w-full mt-2"><button className="flex-1 py-1.5 rounded-xl bg-white border border-[#F1EDEA] text-[#6B5E51] text-[13px] font-bold font-black uppercase hover:text-[#3C2A21] transition-colors shadow-sm">Skip</button><button onClick={() => setOpenModal(card.section)} className="flex-1 py-1.5 rounded-xl text-white text-[13px] font-bold font-black uppercase shadow-lg bg-green-600 hover:bg-green-500 transition-all">Submit</button></div>
               </motion.div>
             ))}
           </div>
@@ -533,7 +533,7 @@ export default function DashboardPage() {
           {[{ id: 'workExperience', label: "Work Experience", icon: <Briefcase size={18} /> }, { id: 'projects', label: "Projects", icon: <Star size={18} /> }, { id: 'research', label: "Research Papers", icon: <FileText size={18} /> }, { id: 'volunteering', label: "Volunteering", icon: <Heart size={18} /> }].map((sec) => (
             <div key={sec.id} className="bg-white border border-[#F1EDEA] rounded-2xl overflow-hidden shadow-sm group">
               <div className="p-4 flex items-center justify-between border-b border-[#F1EDEA] bg-[#FDFBF7]">
-                <div className="flex items-center gap-4"><div className="text-[#6B5E51] group-hover:text-[#C5A059] transition-colors uppercase font-black text-[9px] tracking-widest">{sec.icon}</div><h3 className="text-[11px] font-black text-[#6B5E51]/60 uppercase tracking-[0.2em]">{sec.label}</h3></div>
+                <div className="flex items-center gap-4"><div className="text-[#6B5E51] group-hover:text-[#C5A059] transition-colors uppercase font-black text-[13px] font-bold tracking-widest">{sec.icon}</div><h3 className="text-[11px] font-black text-[#6B5E51]/60 uppercase tracking-[0.2em]">{sec.label}</h3></div>
                 <button onClick={() => { setEditingItem(null); setOpenModal(sec.id); }} className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-90 transition-all cursor-pointer"><Plus size={18} /></button>
               </div>
               {userData?.profile?.[sec.id]?.length > 0 && (
@@ -553,13 +553,13 @@ export default function DashboardPage() {
                         </div>
                         <div className="pr-12 md:pr-16">
                           <h4 className="text-xs md:text-sm font-black text-[#3C2A21] uppercase tracking-widest leading-tight">{item.role || item.title || item.organization || item.institution}</h4>
-                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 text-[9px] text-[#6B5E51] font-black uppercase tracking-widest">
+                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 text-[13px] font-bold text-[#6B5E51] font-black uppercase tracking-widest">
                             <span className="flex items-center gap-1.5 bg-[#FDFBF7] px-2 py-0.5 rounded-md border border-[#F1EDEA]"><Calendar size={10} className="text-[#C5A059]" /> {item.startDate ? new Date(item.startDate).getFullYear() : '2024'} - {item.isOngoing ? "Present" : (item.endDate ? new Date(item.endDate).getFullYear() : '2025')}</span>
                             {item.organization && <span className="opacity-60">• {item.organization}</span>}
                           </div>
                         </div>
                       </div>
-                      <p className="text-[10px] md:text-[11px] text-[#6B5E51] font-bold leading-relaxed italic border-l-2 border-[#C5A059]/20 pl-4 py-1 line-clamp-3">"{item.description || "Incorporate narrative details to highlight your impact..."}"</p>
+                      <p className="text-[14px] font-bold md:text-[11px] text-[#6B5E51] font-bold leading-relaxed italic border-l-2 border-[#C5A059]/20 pl-4 py-1 line-clamp-3">"{item.description || "Incorporate narrative details to highlight your impact..."}"</p>
                     </div>
                   ))}
                 </div>
@@ -581,7 +581,7 @@ export default function DashboardPage() {
                 <div key={receipt._id} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 group/card hover:border-[#C5A059]/20 transition-all shadow-sm">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="text-[9px] font-black text-green-600 uppercase tracking-widest mb-1">Paid • {new Date(receipt.createdAt).toLocaleDateString()}</p>
+                      <p className="text-[13px] font-bold font-black text-green-600 uppercase tracking-widest mb-1">Paid • {new Date(receipt.createdAt).toLocaleDateString()}</p>
                       <h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">Order ID: {receipt.orderId}</h4>
                     </div>
                     <p className="text-xl font-black text-red-700 italic">{receipt.currency} {receipt.total.toLocaleString()}</p>
@@ -596,7 +596,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
               ))}
-              {receipts.length === 0 && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No service purchases found.</p>}
+              {receipts.length === 0 && <p className="text-center py-20 text-[14px] font-bold uppercase font-black text-[#6B5E51]/70 tracking-[0.5em]">No service purchases found.</p>}
             </div>
           </div>
         </div>
@@ -614,8 +614,8 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-8 border-b border-[#F1EDEA] pb-4">
             <h2 className="text-[14px] font-black uppercase tracking-[0.2em] text-[#3C2A21]">My Sessions</h2>
             <div className="flex gap-2">
-              <button onClick={() => setSessionFilter('upcoming')} className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sessionFilter === 'upcoming' ? 'bg-[#C5A059] text-white shadow-md' : 'bg-[#FDFBF7] text-[#6B5E51] border border-[#F1EDEA] hover:bg-[#F1EDEA]'}`}>Upcoming</button>
-              <button onClick={() => setSessionFilter('past')} className={`px-4 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${sessionFilter === 'past' ? 'bg-[#C5A059] text-white shadow-md' : 'bg-[#FDFBF7] text-[#6B5E51] border border-[#F1EDEA] hover:bg-[#F1EDEA]'}`}>Past</button>
+              <button onClick={() => setSessionFilter('upcoming')} className={`px-4 py-1.5 rounded-lg text-[13px] font-bold font-black uppercase tracking-widest transition-all ${sessionFilter === 'upcoming' ? 'bg-[#C5A059] text-white shadow-md' : 'bg-[#FDFBF7] text-[#6B5E51] border border-[#F1EDEA] hover:bg-[#F1EDEA]'}`}>Upcoming</button>
+              <button onClick={() => setSessionFilter('past')} className={`px-4 py-1.5 rounded-lg text-[13px] font-bold font-black uppercase tracking-widest transition-all ${sessionFilter === 'past' ? 'bg-[#C5A059] text-white shadow-md' : 'bg-[#FDFBF7] text-[#6B5E51] border border-[#F1EDEA] hover:bg-[#F1EDEA]'}`}>Past</button>
             </div>
           </div>
           {displayedSessions.map((s: any) => (
@@ -623,7 +623,7 @@ export default function DashboardPage() {
               <div className="flex-1 space-y-1">
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                    <h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest leading-none">{s.consultantName === 'Admin' ? 'Counselling Session' : (s.consultantName || "Counselling Session")}</h4>
-                   <span className="text-[8px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-2 py-0.5 rounded border border-[#C5A059]/20 uppercase">{sessionFilter === 'past' ? 'COMPLETED' : (s.status || "CONFIRMED")}</span>
+                   <span className="text-[12px] font-black font-bold bg-[#C5A059]/10 text-[#C5A059] px-2 py-0.5 rounded border border-[#C5A059]/20 uppercase">{sessionFilter === 'past' ? 'COMPLETED' : (s.status || "CONFIRMED")}</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-1">
                     <div className="flex items-center gap-2">
@@ -631,7 +631,7 @@ export default function DashboardPage() {
                       <span className="text-xs font-black text-[#C5A059] uppercase tracking-tighter">@{s.time}</span>
                     </div>
                     <div className="flex items-center gap-2 border-l border-[#F1EDEA] pl-6">
-                       <span className="text-[9px] font-black text-[#6B5E51]/40 uppercase tracking-widest">Meeting ID:</span>
+                       <span className="text-[13px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-widest">Meeting ID:</span>
                        <code className="text-xs font-mono font-bold text-[#3C2A21] tracking-wider">{s.meetingId}</code>
                     </div>
                 </div>
@@ -639,14 +639,14 @@ export default function DashboardPage() {
               {sessionFilter === 'upcoming' && (
                 <button 
                   onClick={() => router.push(`/meeting/${s.sessionId || s._id}`)} 
-                  className="px-6 py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-lg text-[10px] font-black uppercase tracking-widest shadow-lg shadow-green-600/10 transition-all active:scale-95 shrink-0 text-center"
+                  className="px-6 py-2.5 bg-green-600 hover:bg-green-500 text-white rounded-lg text-[14px] font-bold font-black uppercase tracking-widest shadow-lg shadow-green-600/10 transition-all active:scale-95 shrink-0 text-center"
                 >
                   Join Meeting
                 </button>
               )}
             </div>
           ))}
-          {displayedSessions.length === 0 && <p className="text-center py-20 text-[10px] uppercase font-black text-[#6B5E51]/40 tracking-[0.5em]">No {sessionFilter} sessions found.</p>}
+          {displayedSessions.length === 0 && <p className="text-center py-20 text-[14px] font-bold uppercase font-black text-[#6B5E51]/70 tracking-[0.5em]">No {sessionFilter} sessions found.</p>}
         </div>
         );
       })()}

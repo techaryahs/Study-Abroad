@@ -117,7 +117,7 @@ export default function EB1Page() {
                      className="flex-1 space-y-4"
                   >
                      <motion.div variants={itemVariants} className="space-y-2">
-                        <span className="text-[#D4A848] uppercase tracking-[0.5em] font-black text-[7px] sm:text-[9px] bg-[#FFFFFF] px-3 py-1 rounded-full border border-[#D4A848]/20 inline-block shadow-sm">
+                        <span className="text-[#D4A848] uppercase tracking-[0.5em] font-black text-[11px] font-black sm:text-[13px] font-bold bg-[#FFFFFF] px-3 py-1 rounded-full border border-[#D4A848]/20 inline-block shadow-sm">
                            Extraordinary Protocol
                         </span>
                         <h1 className="text-2xl text-[#362B25] md:text-5xl font-black leading-[1.1] uppercase italic tracking-tight">
@@ -168,7 +168,7 @@ export default function EB1Page() {
 
                   <DiscussionSection serviceId="eb1" />
                   <div className="pt-2 pl-2">
-                     <Link href="/checkout?service=eb1" className="text-[#675F5B] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] hover:text-[#D4A848] transition-colors border-b border-transparent hover:border-[#D4A848]/50 pb-1 italic">
+                     <Link href="/checkout?service=eb1" className="text-[#675F5B] text-[13px] font-bold sm:text-[14px] font-bold font-black uppercase tracking-[0.3em] hover:text-[#D4A848] transition-colors border-b border-transparent hover:border-[#D4A848]/50 pb-1 italic">
                         Start Settlement Node
                      </Link>
                   </div>
@@ -201,7 +201,7 @@ export default function EB1Page() {
             <div className="max-w-7xl mx-auto space-y-16">
                <div className="text-center space-y-4">
                   <h2 className="text-2xl md:text-4xl font-black uppercase italic text-[#362B25]">Why Choose Us for EB-1</h2>
-                  <p className="text-[#675F5B] text-[10px] uppercase tracking-[0.4em] max-w-2xl mx-auto font-black italic">Elite-Level End-to-End Petitioner Services</p>
+                  <p className="text-[#675F5B] text-[14px] font-bold uppercase tracking-[0.4em] max-w-2xl mx-auto font-black italic">Elite-Level End-to-End Petitioner Services</p>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-8">
@@ -228,7 +228,7 @@ export default function EB1Page() {
          <section className="py-24 px-8 md:px-20 bg-[#FFFFFF] border-y border-[#D4A848]/10 relative z-10">
             <div className="max-w-5xl mx-auto space-y-24">
                <div className="text-center space-y-4">
-                  <span className="text-[#D4A848] uppercase tracking-[0.5em] font-black text-[9px] block">Sequential Progress</span>
+                  <span className="text-[#D4A848] uppercase tracking-[0.5em] font-black text-[13px] font-bold block">Sequential Progress</span>
                   <h2 className="text-3xl md:text-5xl font-black uppercase italic text-[#362B25]">Service Roadmap</h2>
                </div>
 
@@ -279,7 +279,7 @@ export default function EB1Page() {
                         <div className="md:w-1/2 relative aspect-video w-full rounded-[2rem] overflow-hidden border border-[#D4A848]/20 group-hover:border-[#D4A848]/50 transition-all duration-700 shadow-2xl">
                            <Image src={phase.img} alt={phase.title} fill className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-1000" />
                            <div className="absolute inset-0 bg-[#D4A848]/5 mix-blend-overlay" />
-                           <div className="absolute top-4 left-4 bg-[#D4A848] text-[#FFFFFF] text-[8px] font-black px-3 py-1 rounded-full uppercase tracking-widest">{phase.step}</div>
+                           <div className="absolute top-4 left-4 bg-[#D4A848] text-[#FFFFFF] text-[12px] font-black font-black px-3 py-1 rounded-full uppercase tracking-widest">{phase.step}</div>
                         </div>
 
                         {/* CONTENT NODE */}
@@ -291,20 +291,20 @@ export default function EB1Page() {
                               <div className="space-y-3 pt-4">
                                  <div className="flex gap-4 items-center">
                                     <div className="bg-[#F8F6F1] border border-[#D4A848]/30 px-4 py-2 rounded-xl flex items-center justify-between gap-6 w-full">
-                                       <span className="text-[10px] font-black text-[#D4A848] uppercase tracking-widest">Premium Node</span>
-                                       <span className="text-[10px] font-bold text-[#675F5B] uppercase tracking-widest">15 Calendar Days</span>
+                                       <span className="text-[14px] font-bold font-black text-[#D4A848] uppercase tracking-widest">Premium Node</span>
+                                       <span className="text-[14px] font-bold font-bold text-[#675F5B] uppercase tracking-widest">15 Calendar Days</span>
                                     </div>
                                  </div>
                                  <div className="flex gap-4 items-center">
                                     <div className="bg-[#FFFFFF] border border-[#D4A848]/10 px-4 py-2 rounded-xl flex items-center justify-between gap-6 w-full shadow-sm">
-                                       <span className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest">Standard Node</span>
-                                       <span className="text-[10px] font-bold text-[#675F5B] uppercase tracking-widest">4-8 Months</span>
+                                       <span className="text-[14px] font-bold font-black text-[#675F5B] uppercase tracking-widest">Standard Node</span>
+                                       <span className="text-[14px] font-bold font-bold text-[#675F5B] uppercase tracking-widest">4-8 Months</span>
                                     </div>
                                  </div>
                               </div>
                            ) : (
                               <div className="flex items-center gap-4 pt-4">
-                                 <span className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest border border-[#D4A848]/30 px-4 py-1.5 rounded-full uppercase italic">Cycle: {phase.time}</span>
+                                 <span className="text-[14px] font-bold font-black text-[#675F5B] uppercase tracking-widest border border-[#D4A848]/30 px-4 py-1.5 rounded-full uppercase italic">Cycle: {phase.time}</span>
                               </div>
                            )}
                         </div>
@@ -320,7 +320,7 @@ export default function EB1Page() {
                <div className="lg:w-1/2 space-y-12">
                   <div className="space-y-4">
                      <h2 className="text-2xl md:text-3xl font-black uppercase italic text-[#362B25] leading-none">Success Analytics</h2>
-                     <p className="text-[#675F5B] text-[9px] font-bold uppercase tracking-[0.4em] italic">Validated Petitioner Node Output</p>
+                     <p className="text-[#675F5B] text-[13px] font-bold font-bold uppercase tracking-[0.4em] italic">Validated Petitioner Node Output</p>
                   </div>
 
                   <div className="space-y-8">
@@ -332,7 +332,7 @@ export default function EB1Page() {
                      ].map((stat, i) => (
                         <div key={i} className="space-y-4">
                            <div className="flex justify-between items-end px-1">
-                              <p className="text-[10px] font-black uppercase tracking-widest text-[#675F5B] italic">{stat.label}</p>
+                              <p className="text-[14px] font-bold font-black uppercase tracking-widest text-[#675F5B] italic">{stat.label}</p>
                               <p className="text-sm font-black text-[#D4A848] uppercase tracking-tighter">{stat.pct}%</p>
                            </div>
                            <div className="h-2 w-full bg-[#FFFFFF] rounded-full overflow-hidden border border-[#D4A848]/20 shadow-inner">
@@ -351,7 +351,7 @@ export default function EB1Page() {
                <div className="lg:w-1/2 space-y-12">
                   <div className="space-y-4 text-right md:text-left">
                      <h2 className="text-2xl md:text-3xl font-black uppercase italic text-[#362B25] leading-none">Alternate Nodes</h2>
-                     <p className="text-[#675F5B] text-[9px] font-bold uppercase tracking-[0.4em] italic">Global Talent Access</p>
+                     <p className="text-[#675F5B] text-[13px] font-bold font-bold uppercase tracking-[0.4em] italic">Global Talent Access</p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-4">
@@ -366,10 +366,10 @@ export default function EB1Page() {
                               className="bg-[#FFFFFF] shadow-sm p-6 flex items-center justify-between border border-[#D4A848]/20 hover:border-[#D4A848]/50 group transition-all duration-700 cursor-pointer rounded-full"
                            >
                               <div className="flex items-center gap-6">
-                                 <span className="text-[10px] font-black italic text-[#675F5B] group-hover:text-[#D4A848] transition-colors uppercase tracking-[0.4em]">{path.flag}</span>
+                                 <span className="text-[14px] font-bold font-black italic text-[#675F5B] group-hover:text-[#D4A848] transition-colors uppercase tracking-[0.4em]">{path.flag}</span>
                                  <div>
                                     <h4 className="text-sm font-black uppercase italic group-hover:text-[#D4A848] text-[#362B25] transition-colors tracking-tight">{path.name}</h4>
-                                    <p className="text-[#675F5B] text-[9px] font-bold uppercase tracking-widest pt-1 italic">{path.desc}</p>
+                                    <p className="text-[#675F5B] text-[13px] font-bold font-bold uppercase tracking-widest pt-1 italic">{path.desc}</p>
                                  </div>
                               </div>
                               <ChevronDown className="-rotate-90 text-[#675F5B] group-hover:text-[#D4A848] transition-colors" size={14} />
@@ -419,7 +419,7 @@ export default function EB1Page() {
                         className={`bg-[#FFFFFF] shadow-sm p-10 flex flex-col items-start gap-8 rounded-[2rem] border relative group ${cat.popular ? 'border-[#D4A848]/40 bg-[#D4A848]/[0.05]' : 'border-[#D4A848]/10'}`}
                      >
                         {cat.popular && (
-                           <div className="absolute top-4 right-4 bg-[#D4A848] text-[#FFFFFF] text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
+                           <div className="absolute top-4 right-4 bg-[#D4A848] text-[#FFFFFF] text-[12px] font-black font-black uppercase tracking-widest px-3 py-1 rounded-full">
                               Popular Node
                            </div>
                         )}
@@ -434,7 +434,7 @@ export default function EB1Page() {
                            {cat.highlights.map((h, j) => (
                               <li key={j} className="flex items-center gap-3">
                                  <div className="w-1 h-1 rounded-full bg-[#D4A848] flex-shrink-0" />
-                                 <span className="text-[10px] font-bold text-[#675F5B] uppercase tracking-widest">{h}</span>
+                                 <span className="text-[14px] font-bold font-bold text-[#675F5B] uppercase tracking-widest">{h}</span>
                               </li>
                            ))}
                         </ul>
@@ -489,10 +489,10 @@ export default function EB1Page() {
                      </div>
                   </div>
                   <div className="md:w-1/2 grid grid-cols-1 gap-4">
-                     <Link href="/contact?service=eb1" className="bg-[#D4A848] hover:bg-[#c2983d] text-[#FFFFFF] px-8 py-4 text-[10px] tracking-widest text-center uppercase font-black !rounded-xl transition-colors shadow-md">
+                     <Link href="/contact?service=eb1" className="bg-[#D4A848] hover:bg-[#c2983d] text-[#FFFFFF] px-8 py-4 text-[14px] font-bold tracking-widest text-center uppercase font-black !rounded-xl transition-colors shadow-md">
                         Initiate Case Review
                      </Link>
-                     <Link href="/checkout?service=eb1" className="border border-[#D4A848] text-[#D4A848] hover:bg-[#D4A848]/10 px-8 py-4 text-[10px] tracking-widest uppercase font-black text-center !rounded-xl transition-colors">
+                     <Link href="/checkout?service=eb1" className="border border-[#D4A848] text-[#D4A848] hover:bg-[#D4A848]/10 px-8 py-4 text-[14px] font-bold tracking-widest uppercase font-black text-center !rounded-xl transition-colors">
                         Secure Settlement
                      </Link>
                   </div>
@@ -504,7 +504,7 @@ export default function EB1Page() {
          <section className="py-24 px-8 md:px-20 bg-[#FFFFFF] border-y border-[#D4A848]/10 z-10 relative">
             <div className="max-w-4xl mx-auto space-y-12">
                <div className="text-center space-y-2">
-                  <span className="text-[#D4A848] uppercase tracking-[0.5em] font-black text-[8px] italic">Intellectual Node Query</span>
+                  <span className="text-[#D4A848] uppercase tracking-[0.5em] font-black text-[12px] font-black italic">Intellectual Node Query</span>
                   <h2 className="text-2xl md:text-4xl font-black uppercase italic text-[#362B25]">Frequently Asked</h2>
                </div>
 

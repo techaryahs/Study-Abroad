@@ -175,8 +175,8 @@ export default function AIHumanizerPage() {
                         {/* Input Area */}
                         <div className="flex-1 space-y-4">
                            <div className="flex justify-between items-center px-2">
-                              <span className="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">Source Draft</span>
-                              <span className="text-[10px] text-[#A8A29E] font-medium">{input.length} characters</span>
+                              <span className="text-[14px] font-bold font-bold uppercase tracking-widest text-[#C5A059]">Source Draft</span>
+                              <span className="text-[14px] font-bold text-[#A8A29E] font-medium">{input.length} characters</span>
                            </div>
                            <textarea 
                              value={input}
@@ -189,7 +189,7 @@ export default function AIHumanizerPage() {
                         {/* Controls & Output (Horizontal on mobile, small width on desktop) */}
                         <div className="md:w-80 flex flex-col gap-6">
                            <div className="bg-[#FAFAFA] rounded-[24px] p-6 border border-[#F1EDEA] space-y-6">
-                              <p className="text-[10px] font-bold uppercase tracking-widest text-[#2D2926]">Humanize Intensity</p>
+                              <p className="text-[14px] font-bold font-bold uppercase tracking-widest text-[#2D2926]">Humanize Intensity</p>
                               <div className="grid grid-cols-1 gap-2">
                                  {["Light", "Medium", "Max"].map((l) => (
                                    <button 
@@ -229,7 +229,7 @@ export default function AIHumanizerPage() {
                                   animate={{ opacity: 1 }}
                                   className="text-left space-y-4"
                                 >
-                                   <p className="text-[10px] font-bold uppercase tracking-widest text-[#2D2926]">Refined Content</p>
+                                   <p className="text-[14px] font-bold font-bold uppercase tracking-widest text-[#2D2926]">Refined Content</p>
                                    <p className="text-sm leading-relaxed text-[#6B5E51] font-medium italic">"{output}"</p>
                                 </motion.div>
                               )}
@@ -243,14 +243,14 @@ export default function AIHumanizerPage() {
             {/* ── DETECTORS SECTION ───────────────────────────────────────────────── */}
             <section className="bg-white border-y border-[#F1EDEA] py-12">
                <div className="max-w-7xl mx-auto px-6">
-                  <p className="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-[#A8A29E] mb-10">Verification Protocols Bypassed</p>
+                  <p className="text-center text-[14px] font-bold font-bold uppercase tracking-[0.3em] text-[#A8A29E] mb-10">Verification Protocols Bypassed</p>
                   <div className="flex flex-wrap justify-center gap-10 md:gap-20">
                      {detectors.map((d) => (
                        <div key={d.name} className="flex flex-col items-center gap-4 group cursor-default">
                           <div className="detector-circle group-hover:border-[#C5A059] transition-all">
                              {d.icon}
                           </div>
-                          <span className="text-[10px] font-bold text-[#6B5E51] tracking-widest uppercase">{d.name}</span>
+                          <span className="text-[14px] font-bold font-bold text-[#6B5E51] tracking-widest uppercase">{d.name}</span>
                        </div>
                      ))}
                   </div>
@@ -316,7 +316,7 @@ export default function AIHumanizerPage() {
                     {plans.map((plan, i) => (
                       <div key={i} className={`pricing-card p-12 flex flex-col text-[#2D2926] ${plan.highlight ? 'shadow-[0_40px_100px_rgba(197,160,89,0.2)] scale-105' : ''}`}>
                          {plan.badge && (
-                           <span className="self-start text-[9px] font-bold bg-[#C5A059] text-white px-3 py-1 rounded-full mb-6 tracking-widest">{plan.badge}</span>
+                           <span className="self-start text-[13px] font-bold font-bold bg-[#C5A059] text-white px-3 py-1 rounded-full mb-6 tracking-widest">{plan.badge}</span>
                          )}
                          <h3 className="fd text-3xl font-bold mb-4">{plan.name}</h3>
                          <div className="flex items-baseline gap-2 mb-8">

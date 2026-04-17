@@ -63,7 +63,7 @@ export default function IvyLeagueSecretsPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <span className="text-[9px] font-black uppercase tracking-[0.2em]">{item}</span>
+                  <span className="text-[13px] font-bold font-black uppercase tracking-[0.2em]">{item}</span>
                 </div>
               ))}
             </div>

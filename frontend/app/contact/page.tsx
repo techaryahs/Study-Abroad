@@ -68,7 +68,7 @@ function ContactContent() {
           className="space-y-12"
         >
           <motion.div variants={itemVariants} className="space-y-6">
-            <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[10px]">Get In Touch</span>
+            <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[14px] font-bold">Get In Touch</span>
             <h1 className="text-4xl md:text-6xl font-black leading-[1.0] tracking-tight uppercase">
               Craft Your <br /> <span className="gradient-text-gold italic">Global Future</span>.
             </h1>
@@ -85,7 +85,7 @@ function ContactContent() {
               </svg>
             </div>
             <div className="space-y-1">
-              <p className="text-[9px] text-white/20 uppercase tracking-[0.4em] font-black">Direct Line</p>
+              <p className="text-[13px] font-bold text-white/20 uppercase tracking-[0.4em] font-black">Direct Line</p>
               <p className="text-xl font-black text-white hover:text-gold-500 transition-colors">+91 89876 54321</p>
             </div>
           </div>
@@ -97,7 +97,7 @@ function ContactContent() {
               </svg>
             </div>
             <div className="space-y-1">
-              <p className="text-[9px] text-white/20 uppercase tracking-[0.4em] font-black">Mentorship Portal</p>
+              <p className="text-[13px] font-bold text-white/20 uppercase tracking-[0.4em] font-black">Mentorship Portal</p>
               <p className="text-xl font-black text-white hover:text-gold-500 transition-colors">admissions@dralam.com</p>
             </div>
           </div>
@@ -110,7 +110,7 @@ function ContactContent() {
               </svg>
             </div>
             <div className="space-y-1">
-              <p className="text-[9px] text-white/20 uppercase tracking-[0.4em] font-black">Global Hub</p>
+              <p className="text-[13px] font-bold text-white/20 uppercase tracking-[0.4em] font-black">Global Hub</p>
               <p className="text-xl font-black text-white leading-tight">Excellence Tower, Mumbai</p>
             </div>
           </div>
@@ -133,7 +133,7 @@ function ContactContent() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/5 blur-[100px] -z-10 pointer-events-none"></div>
 
           <div className="space-y-1.5">
-            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Phone Number</label>
+            <label className="text-[13px] font-bold font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Phone Number</label>
             <input 
               type="tel" 
               value={phone}
@@ -144,7 +144,7 @@ function ContactContent() {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-[9px] font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Inquiry or Message</label>
+            <label className="text-[13px] font-bold font-black uppercase tracking-[0.2em] text-white/40 group-hover:text-gold-500 transition-colors">Inquiry or Message</label>
             <textarea 
               value={inquiry}
               onChange={(e) => setInquiry(e.target.value)}
@@ -153,7 +153,7 @@ function ContactContent() {
             />
           </div>
           <div className="grid grid-cols-2 gap-3 pt-2">
-            <button className="btn-gold w-full text-center py-3.5 rounded-lg text-[10px] uppercase tracking-[0.2em] font-black shadow-lg shadow-gold-500/5 hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
+            <button className="btn-gold w-full text-center py-3.5 rounded-lg text-[14px] font-bold uppercase tracking-[0.2em] font-black shadow-lg shadow-gold-500/5 hover:shadow-gold-500/20 active:scale-95 transition-all duration-500">
               Submit Query
             </button>
 
@@ -162,7 +162,7 @@ function ContactContent() {
                 e.preventDefault();
                 handleEmail();
               }}
-              className="btn-outline-gold flex items-center justify-center w-full h-full rounded-lg text-center py-3.5 text-[10px] uppercase tracking-[0.2em] font-black shadow-lg active:scale-95 transition-all duration-500"
+              className="btn-outline-gold flex items-center justify-center w-full h-full rounded-lg text-center py-3.5 text-[14px] font-bold uppercase tracking-[0.2em] font-black shadow-lg active:scale-95 transition-all duration-500"
             >
               Send via Email
             </button>

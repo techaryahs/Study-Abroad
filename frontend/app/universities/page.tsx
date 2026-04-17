@@ -182,7 +182,7 @@ export default function UniversitiesPage() {
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 50% 50%, #C5A059 1px, transparent 1px)", backgroundSize: "30px 30px" }}></div>
         
         <div className="relative z-10 max-w-5xl mx-auto space-y-10">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[rgba(197,160,89,0.15)] text-[#C5A059] font-bold text-[10px] tracking-[0.3em] uppercase mb-4 border border-[rgba(197,160,89,0.2)]">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[rgba(197,160,89,0.15)] text-[#C5A059] font-bold text-[14px] font-bold tracking-[0.3em] uppercase mb-4 border border-[rgba(197,160,89,0.2)]">
             Consultancy Services
           </span>
           <h2 className="fd text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95]">Strategic Academic <br/><span className="gold-shimmer">Planning</span></h2>

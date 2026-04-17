@@ -147,7 +147,7 @@ const RegisterConsultant = () => {
                 <ShieldCheck className="w-5 h-5 text-gold-500" />
               </div>
               <h3 className="text-lg font-black text-white uppercase tracking-wider mb-1.5">Verify Identity</h3>
-              <p className="text-gray-400 text-[9px] font-bold uppercase tracking-widest mb-6 leading-relaxed">System Verification Required</p>
+              <p className="text-gray-400 text-[13px] font-bold font-bold uppercase tracking-widest mb-6 leading-relaxed">System Verification Required</p>
 
               {verifyModal.mode === 'confirm' && (
                 <div className="space-y-3">
@@ -155,17 +155,17 @@ const RegisterConsultant = () => {
                     <p className="text-white font-black text-[11px] truncate whitespace-nowrap overflow-hidden">{verifyModal.email}</p>
                   </div>
                   <div className="flex gap-2">
-                    <button onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white font-black uppercase tracking-widest rounded-lg text-[9px] transition-colors">Back</button>
-                    <button onClick={handleSendOtp} className="flex-[2] py-2.5 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase tracking-widest rounded-lg text-[9px] transition-colors shadow-lg">Send Code</button>
+                    <button onClick={() => setVerifyModal(p => ({ ...p, show: false }))} className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white font-black uppercase tracking-widest rounded-lg text-[13px] font-bold transition-colors">Back</button>
+                    <button onClick={handleSendOtp} className="flex-[2] py-2.5 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase tracking-widest rounded-lg text-[13px] font-bold transition-colors shadow-lg">Send Code</button>
                   </div>
                 </div>
               )}
 
               {verifyModal.mode === 'otp' && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  <p className="text-gray-500 text-[9px] uppercase font-bold tracking-widest mb-4">Code sent to your email</p>
+                  <p className="text-gray-500 text-[13px] font-bold uppercase font-bold tracking-widest mb-4">Code sent to your email</p>
                   <input type="text" maxLength={6} value={otpValue} onChange={(e) => setOtpValue(e.target.value)} className="w-full text-center text-2xl font-black tracking-[0.5em] py-3 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl mb-4 text-gold-500 outline-none focus:border-gold-500 transition-all shadow-[0_0_20px_rgba(234,179,8,0.05)]" placeholder="000000" />
-                  <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6 || isVerifyLoading} className="w-full py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase tracking-[2px] rounded-xl text-[10px] transition-colors shadow-lg shadow-gold-500/20 disabled:opacity-50">
+                  <button onClick={handleVerifyOtp} disabled={otpValue.length !== 6 || isVerifyLoading} className="w-full py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase tracking-[2px] rounded-xl text-[14px] font-bold transition-colors shadow-lg shadow-gold-500/20 disabled:opacity-50">
                     {isVerifyLoading ? 'Verifying...' : 'Verify Protocol'}
                   </button>
                 </motion.div>
@@ -199,7 +199,7 @@ const RegisterConsultant = () => {
               <h2 className="text-2xl font-black text-white mb-1 uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Counsellor Application</h2>
               <div className="flex items-center gap-3">
                 <div className="h-0.5 w-10 bg-gold-500 rounded-full" />
-                <p className="text-gray-500 text-[8px] font-black uppercase tracking-[3px]">Step {step} of 3</p>
+                <p className="text-gray-500 text-[12px] font-black font-black uppercase tracking-[3px]">Step {step} of 3</p>
               </div>
             </div>
 
@@ -208,32 +208,32 @@ const RegisterConsultant = () => {
                 <motion.div key="1" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2 md:col-span-1">
-                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Full Name</label>
+                      <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Full Name</label>
                       <div className="relative group">
                         <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                         <input name="name" value={form.name} onChange={handleChange} placeholder="Dr. John Doe" maxLength={50} className="w-full pl-10 pr-3 py-2.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white outline-none focus:border-gold-500 transition-colors" />
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1">
-                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Role Title</label>
+                      <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Role Title</label>
                       <div className="relative group">
                         <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                         <input name="role" value={form.role} onChange={handleChange} placeholder="Senior Admissions Counselor" maxLength={50} className="w-full pl-10 pr-3 py-2.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white outline-none focus:border-gold-500 transition-colors" />
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1">
-                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Email Address</label>
+                      <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Email Address</label>
                       <div className="relative group">
                         <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors ${isEmailVerified ? 'text-green-500' : 'text-gray-500 group-focus-within:text-gold-500'}`} />
                         <input name="email" value={form.email} onChange={handleChange} placeholder="email@address.com" className={`w-full pl-10 pr-20 py-2.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white outline-none transition-colors ${isEmailVerified ? 'border-green-500/50' : 'focus:border-gold-500'}`} />
                         {form.email && !isEmailVerified && (
-                          <button onClick={(e) => { e.preventDefault(); setVerifyModal({ show: true, email: form.email, otp: '', mode: 'confirm' }); }} className="absolute right-1.5 top-1.5 bottom-1.5 bg-gold-500 hover:bg-gold-400 text-black px-3 rounded-lg font-black text-[9px] uppercase transition-colors">Verify</button>
+                          <button onClick={(e) => { e.preventDefault(); setVerifyModal({ show: true, email: form.email, otp: '', mode: 'confirm' }); }} className="absolute right-1.5 top-1.5 bottom-1.5 bg-gold-500 hover:bg-gold-400 text-black px-3 rounded-lg font-black text-[13px] font-bold uppercase transition-colors">Verify</button>
                         )}
-                        {isEmailVerified && <div className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500 font-black text-[9px] uppercase flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" /></div>}
+                        {isEmailVerified && <div className="absolute right-3 top-1/2 -translate-y-1/2 text-green-500 font-black text-[13px] font-bold uppercase flex items-center gap-1"><ShieldCheck className="w-3.5 h-3.5" /></div>}
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1">
-                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Password</label>
+                      <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Password</label>
                       <div className="relative group">
                         <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-gold-500 transition-colors" />
                         <input type={showPassword ? "text" : "password"} name="password" value={form.password} onChange={handleChange} placeholder="••••••••" minLength={6} maxLength={32} className="w-full pl-10 pr-10 py-2.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white outline-none focus:border-gold-500 transition-colors" />
@@ -243,7 +243,7 @@ const RegisterConsultant = () => {
                       </div>
                     </div>
                   </div>
-                  <button onClick={(e) => { e.preventDefault(); nextStep(); }} className="w-full py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase tracking-[2px] shadow-xl rounded-xl text-[10px] mt-2 flex items-center justify-center gap-2 transition-colors">Proceed to Profile <ChevronRight className="w-3.5 h-3.5" /></button>
+                  <button onClick={(e) => { e.preventDefault(); nextStep(); }} className="w-full py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase tracking-[2px] shadow-xl rounded-xl text-[14px] font-bold mt-2 flex items-center justify-center gap-2 transition-colors">Proceed to Profile <ChevronRight className="w-3.5 h-3.5" /></button>
                 </motion.div>
               )}
 
@@ -251,11 +251,11 @@ const RegisterConsultant = () => {
                 <motion.div key="2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2 md:col-span-1">
-                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Expertise</label>
+                      <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Expertise</label>
                       <input name="expertise" value={form.expertise} onChange={handleChange} placeholder="e.g. Ivy League, MBA..." maxLength={100} className="w-full px-4 py-2.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white outline-none focus:border-gold-500 transition-colors" />
                     </div>
                     <div className="col-span-2 md:col-span-1">
-                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Experience</label>
+                      <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Experience</label>
                       <select name="experience" value={form.experience} onChange={handleChange as any} className="w-full px-4 py-2.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white outline-none focus:border-gold-500 appearance-none">
                         <option value="" className="bg-black">Select Experience</option>
                         <option value="1-3 years" className="bg-black">1-3 Years</option>
@@ -265,11 +265,11 @@ const RegisterConsultant = () => {
                       </select>
                     </div>
                     <div className="col-span-2">
-                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Professional Bio</label>
+                      <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Professional Bio</label>
                       <textarea name="bio" value={form.bio} onChange={handleChange} placeholder="Describe your methodology and success rate..." maxLength={500} className="w-full px-4 py-2.5 bg-white/[0.03] border border-[#d4af37]/20 rounded-xl text-xs text-white outline-none focus:border-gold-500 transition-colors min-h-[60px] resize-none" />
                     </div>
                     <div className="col-span-2">
-                      <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Profile Photo</label>
+                      <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Profile Photo</label>
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-full bg-white/5 border border-[#d4af37]/20 flex items-center justify-center overflow-hidden shrink-0">
                           {imageFile ? <img src={URL.createObjectURL(imageFile)} className="w-full h-full object-cover" alt="Preview" /> : <User className="w-3.5 h-3.5 text-gray-500" />}
@@ -278,15 +278,15 @@ const RegisterConsultant = () => {
                           <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files?.[0] || null)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
                           <div className="w-full px-3 py-2 bg-white/[0.03] border border-[#d4af37]/20 rounded-lg flex items-center gap-2 text-gray-400 hover:border-gold-500 transition-colors">
                             <ImageIcon className="w-3.5 h-3.5" />
-                            <span className="text-[9px] font-bold truncate tracking-widest uppercase">{imageFile ? imageFile.name : 'Upload HD Photo'}</span>
+                            <span className="text-[13px] font-bold font-bold truncate tracking-widest uppercase">{imageFile ? imageFile.name : 'Upload HD Photo'}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="flex gap-3 pt-1">
-                    <button onClick={(e) => { e.preventDefault(); prevStep(); }} className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white font-black uppercase rounded-lg text-[9px] transition-colors tracking-widest">Back</button>
-                    <button onClick={(e) => { e.preventDefault(); nextStep(); }} className="flex-[2] py-2.5 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase rounded-lg text-[9px] transition-colors tracking-widest shadow-lg">Configure Slots</button>
+                    <button onClick={(e) => { e.preventDefault(); prevStep(); }} className="flex-1 py-2.5 bg-white/5 hover:bg-white/10 text-white font-black uppercase rounded-lg text-[13px] font-bold transition-colors tracking-widest">Back</button>
+                    <button onClick={(e) => { e.preventDefault(); nextStep(); }} className="flex-[2] py-2.5 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase rounded-lg text-[13px] font-bold transition-colors tracking-widest shadow-lg">Configure Slots</button>
                   </div>
                 </motion.div>
               )}
@@ -299,7 +299,7 @@ const RegisterConsultant = () => {
                       {DAYS_OF_WEEK.map(day => (
                         <button
                           key={day} onClick={(e) => { e.preventDefault(); toggleDay(day); }}
-                          className={`px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider border transition-all ${selectedDays.includes(day) ? 'bg-gold-500 border-gold-500 text-black shadow-[0_0_10px_rgba(234,179,8,0.2)]' : 'bg-transparent border-[#d4af37]/20 text-gray-500 hover:border-white/30'}`}
+                          className={`px-3 py-1.5 rounded-lg text-[13px] font-bold font-black uppercase tracking-wider border transition-all ${selectedDays.includes(day) ? 'bg-gold-500 border-gold-500 text-black shadow-[0_0_10px_rgba(234,179,8,0.2)]' : 'bg-transparent border-[#d4af37]/20 text-gray-500 hover:border-white/30'}`}
                         >
                           {day.slice(0, 3)}
                         </button>
@@ -308,14 +308,14 @@ const RegisterConsultant = () => {
 
                     <div className="flex items-end gap-3 mb-4">
                       <div className="flex-1">
-                        <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Start Time</label>
+                        <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">Start Time</label>
                         <input type="time" value={startTime} onChange={e => setStartTime(e.target.value)} className="w-full px-3 py-2 bg-white/[0.05] border border-[#d4af37]/20 rounded-lg text-xs text-white outline-none focus:border-gold-500 [color-scheme:dark]" />
                       </div>
                       <div className="flex-1">
-                        <label className="block text-[9px] font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">End Time</label>
+                        <label className="block text-[13px] font-bold font-black text-gray-500 uppercase tracking-[2px] mb-1.5 ml-1">End Time</label>
                         <input type="time" value={endTime} onChange={e => setEndTime(e.target.value)} className="w-full px-3 py-2 bg-white/[0.05] border border-[#d4af37]/20 rounded-lg text-xs text-white outline-none focus:border-gold-500 [color-scheme:dark]" />
                       </div>
-                      <button onClick={(e) => { e.preventDefault(); addSlot(); }} className="px-4 py-2 bg-emerald-500/20 text-emerald-500 hover:bg-emerald-500 hover:text-white border border-emerald-500/50 rounded-lg font-black uppercase tracking-wider text-[10px] transition-all flex items-center gap-1.5"><Plus className="w-3.5 h-3.5" /> Add</button>
+                      <button onClick={(e) => { e.preventDefault(); addSlot(); }} className="px-4 py-2 bg-emerald-500/20 text-emerald-500 hover:bg-emerald-500 hover:text-white border border-emerald-500/50 rounded-lg font-black uppercase tracking-wider text-[14px] font-bold transition-all flex items-center gap-1.5"><Plus className="w-3.5 h-3.5" /> Add</button>
                     </div>
 
                     <div className="space-y-1.5 max-h-[100px] overflow-y-auto pr-2 custom-scrollbar">
@@ -324,8 +324,8 @@ const RegisterConsultant = () => {
                           <div className="flex items-center gap-3">
                             <div className="w-5 h-5 rounded bg-gold-500/10 flex items-center justify-center"><Calendar className="w-2.5 h-2.5 text-gold-500" /></div>
                             <div>
-                              <p className="text-[9px] font-black text-white uppercase tracking-wider">{slot.day}</p>
-                              <p className="text-[8px] text-gray-400 font-bold tracking-widest">{slot.startTime} - {slot.endTime}</p>
+                              <p className="text-[13px] font-bold font-black text-white uppercase tracking-wider">{slot.day}</p>
+                              <p className="text-[12px] font-black text-gray-400 font-bold tracking-widest">{slot.startTime} - {slot.endTime}</p>
                             </div>
                           </div>
                           <button onClick={(e) => { e.preventDefault(); removeSlot(idx); }} className="w-5 h-5 flex items-center justify-center rounded hover:bg-rose-500/20 text-gray-500 hover:text-rose-500 transition-colors"><X className="w-2.5 h-2.5" /></button>
@@ -335,8 +335,8 @@ const RegisterConsultant = () => {
                   </div>
 
                   <div className="flex gap-3 pt-2">
-                    <button onClick={(e) => { e.preventDefault(); prevStep(); }} className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-black uppercase tracking-widest rounded-xl text-[10px] transition-colors">Back</button>
-                    <button onClick={(e) => { e.preventDefault(); handleSubmit(); }} disabled={isSubmitting} className="flex-[2] py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase tracking-[2px] shadow-xl rounded-xl text-[10px] disabled:opacity-50 transition-colors">
+                    <button onClick={(e) => { e.preventDefault(); prevStep(); }} className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-white font-black uppercase tracking-widest rounded-xl text-[14px] font-bold transition-colors">Back</button>
+                    <button onClick={(e) => { e.preventDefault(); handleSubmit(); }} disabled={isSubmitting} className="flex-[2] py-3 bg-gold-500 hover:bg-gold-400 text-black font-black uppercase tracking-[2px] shadow-xl rounded-xl text-[14px] font-bold disabled:opacity-50 transition-colors">
                       {isSubmitting ? "Finalizing..." : "Complete"}
                     </button>
                   </div>
@@ -344,7 +344,7 @@ const RegisterConsultant = () => {
               )}
             </AnimatePresence>
 
-            <div className="mt-8 text-center text-[10px] font-black text-gray-600 uppercase tracking-widest">
+            <div className="mt-8 text-center text-[14px] font-bold font-black text-gray-600 uppercase tracking-widest">
               Step {step} Complete • Application Secure
             </div>
           </div>

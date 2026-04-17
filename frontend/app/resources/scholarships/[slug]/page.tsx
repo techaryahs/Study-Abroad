@@ -104,7 +104,7 @@ const ScholarshipDetail = () => {
                 </motion.div>
 
                 <div className="text-center">
-                    <span className="inline-block px-4 py-1.5 rounded-full bg-[rgba(197,160,89,0.1)] text-[#C5A059] font-bold text-[10px] tracking-[0.2em] uppercase mb-8 border border-[rgba(197,160,89,0.2)]">
+                    <span className="inline-block px-4 py-1.5 rounded-full bg-[rgba(197,160,89,0.1)] text-[#C5A059] font-bold text-[14px] font-bold tracking-[0.2em] uppercase mb-8 border border-[rgba(197,160,89,0.2)]">
                       Funding Opportunity
                     </span>
                     <h2 className="fd text-4xl font-bold text-white mb-6 leading-tight">Ready to <span className="gold-shimmer">Apply?</span></h2>
@@ -233,21 +233,21 @@ const ScholarshipDetail = () => {
                              <div className="space-y-4">
                                 <div className="flex items-center gap-3 text-[#C5A059]">
                                    <MapPin size={20} />
-                                   <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">Provider HQ</span>
+                                   <span className="text-[14px] font-bold font-bold uppercase tracking-widest opacity-80">Provider HQ</span>
                                 </div>
                                 <p className="text-sm font-medium text-[#A8A29E] leading-relaxed">{scholarship.contact.address}</p>
                              </div>
                              <div className="space-y-4">
                                 <div className="flex items-center gap-3 text-[#C5A059]">
                                    <Phone size={20} />
-                                   <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">Liaison</span>
+                                   <span className="text-[14px] font-bold font-bold uppercase tracking-widest opacity-80">Liaison</span>
                                 </div>
                                 <p className="text-sm font-medium text-[#A8A29E] leading-relaxed">{scholarship.contact.phone}</p>
                              </div>
                              <div className="space-y-4">
                                 <div className="flex items-center gap-3 text-[#C5A059]">
                                    <Mail size={20} />
-                                   <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">Inquiries</span>
+                                   <span className="text-[14px] font-bold font-bold uppercase tracking-widest opacity-80">Inquiries</span>
                                 </div>
                                 <p className="text-sm font-bold text-white tracking-wide truncate">{scholarship.contact.email}</p>
                              </div>

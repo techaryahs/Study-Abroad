@@ -135,7 +135,7 @@ export default function AdmissionGuidancePage() {
                 <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                   <div className="flex items-center gap-3 mb-2">
                     <ShieldCheck className="text-[#C5A059]" size={20} />
-                    <span className="text-[10px] text-white font-bold tracking-widest uppercase">Verified Expert node</span>
+                    <span className="text-[14px] font-bold text-white font-bold tracking-widest uppercase">Verified Expert node</span>
                   </div>
                   <p className="text-white font-serif italic text-sm leading-relaxed">
                     "We turn profile gaps into strategic advantages. Command the attention of admissions committees."
@@ -172,7 +172,7 @@ export default function AdmissionGuidancePage() {
             {/* Grid Features */}
             <div className="space-y-10">
               <div className="space-y-2">
-                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Guidance Pillars</span>
+                <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.2em] uppercase">Guidance Pillars</span>
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Strategic Advisory</h3>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -193,7 +193,7 @@ export default function AdmissionGuidancePage() {
             {/* Community Consensus */}
             <div className="space-y-10 pt-10 border-t border-[#F1EDEA]">
               <div className="space-y-2">
-                <span className="text-[#C5A059] text-[10px] font-bold tracking-[0.2em] uppercase">Public Consensus</span>
+                <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.2em] uppercase">Public Consensus</span>
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
               </div>
               <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">

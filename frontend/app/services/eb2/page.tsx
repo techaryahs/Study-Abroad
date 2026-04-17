@@ -188,7 +188,7 @@ export default function EB2NIWPage() {
                                         <div className="bg-[#FDFBF7] p-8 rounded-[32px] border border-[#F1EDEA] group-hover:border-[#C5A059]/20 group-hover:shadow-2xl transition-all">
                                             <div className="flex justify-between items-start mb-2">
                                                 <h4 className="fd text-2xl font-bold text-[#3C2A21]">{step.title}</h4>
-                                                <span className="text-[10px] font-bold text-[#C5A059] tracking-widest uppercase pb-1 border-b border-[#C5A059]/30">
+                                                <span className="text-[14px] font-bold font-bold text-[#C5A059] tracking-widest uppercase pb-1 border-b border-[#C5A059]/30">
                                                     {step.duration}
                                                 </span>
                                             </div>
@@ -262,8 +262,8 @@ export default function EB2NIWPage() {
                                         <Image src="/logo1.png" alt="Consultant" fill className="object-cover" />
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-bold text-[#3C2A21] uppercase tracking-widest">Audit Team</p>
-                                        <p className="text-[9px] text-[#C5A059] font-bold uppercase tracking-widest">United States Division</p>
+                                        <p className="text-[14px] font-bold font-bold text-[#3C2A21] uppercase tracking-widest">Audit Team</p>
+                                        <p className="text-[13px] font-bold text-[#C5A059] font-bold uppercase tracking-widest">United States Division</p>
                                     </div>
                                 </div>
                             </div>

@@ -127,7 +127,7 @@ const ConsultantDashboard = () => {
     return (
       <div className="min-h-screen bg-[#05070a] flex flex-col items-center justify-center gap-4">
         <div className="w-10 h-10 border-2 border-[#c2a878] border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#c2a878]/50">Synchronizing Manager...</p>
+        <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#c2a878]/50">Synchronizing Manager...</p>
       </div>
     );
   }
@@ -156,7 +156,7 @@ const ConsultantDashboard = () => {
               <div className="p-2 rounded-xl bg-[#c2a878]/10 text-[#c2a878] group-hover:scale-110 transition-transform">
                 <User size={18} />
               </div>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-300">Edit Professional Profile</span>
+              <span className="text-[14px] font-bold font-black uppercase tracking-[0.2em] text-gray-300">Edit Professional Profile</span>
               <ArrowRight size={14} className="text-gray-700 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
@@ -171,7 +171,7 @@ const ConsultantDashboard = () => {
           ].map((stat, idx) => (
             <div key={idx} className="relative overflow-hidden p-8 bg-white/[0.01] border border-white/[0.05] rounded-3xl group hover:border-[#c2a878]/20 transition-colors">
                <div className="absolute top-0 right-0 w-24 h-24 bg-[#c2a878]/5 blur-[60px] rounded-full translate-x-1/2 -translate-y-1/2" />
-               <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-600 mb-2">{stat.label}</p>
+               <p className="text-[13px] font-bold font-black uppercase tracking-[0.3em] text-gray-600 mb-2">{stat.label}</p>
                <p className={`text-4xl font-black ${stat.color}`}>{stat.value}</p>
             </div>
           ))}
@@ -194,7 +194,7 @@ const ConsultantDashboard = () => {
                     <div key={booking._id} className="group flex flex-col md:flex-row items-center justify-between gap-6 p-6 md:p-8 bg-white/[0.01] border border-white/[0.05] rounded-[2rem] hover:bg-white/[0.02] transition-colors">
                        <div className="flex flex-col gap-2 text-center md:text-left">
                           <span className="text-sm font-bold text-white tracking-tight">{booking.userEmail}</span>
-                          <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-gray-600 justify-center md:justify-start">
+                          <div className="flex items-center gap-3 text-[14px] font-bold font-black uppercase tracking-widest text-gray-600 justify-center md:justify-start">
                              <Clock size={12} className="text-amber-500" />
                              <span>{booking.date}</span>
                              <span className="w-1 h-1 bg-gray-800 rounded-full" />
@@ -204,13 +204,13 @@ const ConsultantDashboard = () => {
                        <div className="flex items-center gap-3">
                           <button 
                             onClick={() => updateBookingStatus(booking._id, "accept")}
-                            className="px-6 py-2.5 bg-[#c2a878] text-black rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-yellow-100 transition-colors active:scale-95"
+                            className="px-6 py-2.5 bg-[#c2a878] text-black rounded-xl font-black text-[14px] font-bold uppercase tracking-widest hover:bg-yellow-100 transition-colors active:scale-95"
                           >
                              Approve
                           </button>
                           <button 
                             onClick={() => updateBookingStatus(booking._id, "reject")}
-                            className="px-6 py-2.5 bg-white/5 border border-white/5 text-white/50 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-white/10 transition-colors active:scale-95"
+                            className="px-6 py-2.5 bg-white/5 border border-white/5 text-white/50 rounded-xl font-black text-[14px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors active:scale-95"
                           >
                              Decline
                           </button>
@@ -225,7 +225,7 @@ const ConsultantDashboard = () => {
                   ))
                 ) : (
                   <div className="py-20 text-center rounded-[2rem] border border-dashed border-white/5">
-                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-700">No pending approvals detected</p>
+                     <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-gray-700">No pending approvals detected</p>
                   </div>
                 )}
              </div>
@@ -246,9 +246,9 @@ const ConsultantDashboard = () => {
                        <div className="flex flex-col gap-2 text-center md:text-left">
                           <div className="flex items-center gap-3 justify-center md:justify-start">
                              <span className="text-sm font-bold text-white tracking-tight">{booking.userEmail}</span>
-                             <span className="text-[8px] px-2 py-0.5 bg-[#c2a878] text-black font-black uppercase rounded-full">Active</span>
+                             <span className="text-[12px] font-black px-2 py-0.5 bg-[#c2a878] text-black font-black uppercase rounded-full">Active</span>
                           </div>
-                          <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-gray-600 justify-center md:justify-start">
+                          <div className="flex items-center gap-3 text-[14px] font-bold font-black uppercase tracking-widest text-gray-600 justify-center md:justify-start">
                              <Clock size={12} className="text-[#c2a878]" />
                              <span>{booking.date}</span>
                              <span className="w-1 h-1 bg-gray-800 rounded-full" />
@@ -259,12 +259,12 @@ const ConsultantDashboard = () => {
                           {booking.consultantVideoEnabled ? (
                             <button 
                               onClick={() => router.push(`/video-call/${booking._id}`)}
-                              className="flex items-center gap-3 px-8 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(194,168,120,0.3)]"
+                              className="flex items-center gap-3 px-8 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[14px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(194,168,120,0.3)]"
                             >
                                <Video size={14} /> Start Call
                             </button>
                           ) : (
-                            <div className="flex items-center gap-2 px-8 py-3 bg-white/[0.02] border border-white/[0.05] rounded-xl text-gray-600 text-[10px] font-black uppercase tracking-[0.2em]">
+                            <div className="flex items-center gap-2 px-8 py-3 bg-white/[0.02] border border-white/[0.05] rounded-xl text-gray-600 text-[14px] font-bold font-black uppercase tracking-[0.2em]">
                                <span>No Video Call Available</span>
                             </div>
                           )}
@@ -279,7 +279,7 @@ const ConsultantDashboard = () => {
                   ))
                 ) : (
                   <div className="py-20 text-center rounded-[2rem] border border-dashed border-white/5">
-                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-700">No active admissions scheduled</p>
+                     <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-gray-700">No active admissions scheduled</p>
                   </div>
                 )}
              </div>
@@ -300,9 +300,9 @@ const ConsultantDashboard = () => {
                         <div className="flex flex-col gap-2 text-center md:text-left">
                            <div className="flex items-center gap-3 justify-center md:justify-start">
                               <span className="text-sm font-bold text-white tracking-tight">{booking.userEmail}</span>
-                              <span className="text-[8px] px-2 py-0.5 bg-emerald-500/20 text-emerald-400 font-black uppercase rounded-full">Completed</span>
+                              <span className="text-[12px] font-black px-2 py-0.5 bg-emerald-500/20 text-emerald-400 font-black uppercase rounded-full">Completed</span>
                            </div>
-                           <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-gray-600 justify-center md:justify-start">
+                           <div className="flex items-center gap-3 text-[14px] font-bold font-black uppercase tracking-widest text-gray-600 justify-center md:justify-start">
                               <Clock size={12} className="text-emerald-500" />
                               <span>{booking.date}</span>
                               <span className="w-1 h-1 bg-gray-800 rounded-full" />
@@ -310,7 +310,7 @@ const ConsultantDashboard = () => {
                            </div>
                         </div>
                         <div className="flex items-center gap-3">
-                           <div className="px-8 py-3 bg-emerald-500/5 border border-emerald-500/10 text-emerald-500/50 rounded-xl text-[10px] font-black uppercase tracking-[0.2em]">
+                           <div className="px-8 py-3 bg-emerald-500/5 border border-emerald-500/10 text-emerald-500/50 rounded-xl text-[14px] font-bold font-black uppercase tracking-[0.2em]">
                               Session Complete
                            </div>
                            <button 
@@ -330,7 +330,7 @@ const ConsultantDashboard = () => {
           {bookings.filter((b) => b.status === "rejected").length > 0 && (
              <section className="opacity-30 hover:opacity-60 transition-opacity duration-500">
                 <div className="flex items-center gap-4 mb-10">
-                   <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-500">Archive</h2>
+                   <h2 className="text-[14px] font-bold font-black uppercase tracking-[0.4em] text-gray-500">Archive</h2>
                    <div className="flex-1 h-[1px] bg-gray-900" />
                 </div>
                 
@@ -339,11 +339,11 @@ const ConsultantDashboard = () => {
                      <div key={booking._id} className="flex items-center justify-between p-4 bg-white/[0.01] border border-white/[0.05] rounded-2xl">
                         <div className="flex flex-col">
                            <span className="text-xs text-gray-400">{booking.userEmail}</span>
-                           <span className="text-[9px] font-bold uppercase text-gray-700">{booking.date} • Declined</span>
+                           <span className="text-[13px] font-bold font-bold uppercase text-gray-700">{booking.date} • Declined</span>
                         </div>
                         <button 
                           onClick={() => deleteBooking(booking._id)}
-                          className="text-[9px] font-black uppercase tracking-widest text-gray-600 hover:text-white transition-colors"
+                          className="text-[13px] font-bold font-black uppercase tracking-widest text-gray-600 hover:text-white transition-colors"
                         >
                            Clear Records
                         </button>

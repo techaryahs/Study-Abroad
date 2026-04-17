@@ -32,7 +32,7 @@ function InfoRow({
 }) {
   return (
     <div className="flex items-center justify-between py-2.5">
-      <div className="flex items-center gap-3 text-[#6B5E51] text-[10px] font-black uppercase tracking-[0.2em]">
+      <div className="flex items-center gap-3 text-[#6B5E51] text-[14px] font-bold font-black uppercase tracking-[0.2em]">
         <span className="text-base">{icon}</span>
         <span>{label}</span>
       </div>
@@ -73,10 +73,10 @@ export default function PreJoin({
             <span className="text-xl">🎥</span>
           </div>
           <div>
-            <span className="text-[#3C2A21] text-[10px] font-black tracking-[0.2em] uppercase block mb-1">
+            <span className="text-[#3C2A21] text-[14px] font-bold font-black tracking-[0.2em] uppercase block mb-1">
               {isHost ? "Host Portal" : "Join Session"}
             </span>
-            <span className="text-[#6B5E51] text-[9px] uppercase tracking-widest font-bold">
+            <span className="text-[#6B5E51] text-[13px] font-bold uppercase tracking-widest font-bold">
               Global Counselling Center
             </span>
           </div>
@@ -87,7 +87,7 @@ export default function PreJoin({
           <h1 className="text-2xl font-bold text-[#3C2A21] mb-2 uppercase tracking-widest font-serif italic">
             {isHost ? "Start Session" : "Ready to Join?"}
           </h1>
-          <p className="text-[#6B5E51] text-[10px] uppercase font-bold tracking-widest leading-relaxed">
+          <p className="text-[#6B5E51] text-[14px] font-bold uppercase font-bold tracking-widest leading-relaxed">
             {isHost
               ? "Students are waiting. Start the call when ready."
               : "Please configure your audio & video before entering."}
@@ -121,7 +121,7 @@ export default function PreJoin({
 
         {/* Name input */}
         <div>
-          <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-[0.3em] block mb-3 pl-1">
+          <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-[0.3em] block mb-3 pl-1">
             Your Display Name
           </label>
           <input
@@ -153,7 +153,7 @@ export default function PreJoin({
           {isHost ? "Allow Camera & Start" : "Allow Camera & Join"}
         </button>
 
-        <p className="text-center text-[#6B5E51] text-[9px] font-bold uppercase tracking-widest">
+        <p className="text-center text-[#6B5E51] text-[13px] font-bold font-bold uppercase tracking-widest">
           Your camera and microphone permission will be requested.
         </p>
       </motion.div>

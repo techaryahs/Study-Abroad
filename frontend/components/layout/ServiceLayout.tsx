@@ -89,7 +89,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
         variants={containerVariants}
         className="max-w-screen-2xl mx-auto px-8 md:px-20 pt-12 pb-16 md:pt-16 md:pb-24 relative z-10"
       >
-        <Link href="/services" className="inline-flex items-center gap-4 text-[#C5A059] font-black uppercase tracking-[0.4em] text-[10px] hover:gap-6 transition-all duration-500 mb-12 group">
+        <Link href="/services" className="inline-flex items-center gap-4 text-[#C5A059] font-black uppercase tracking-[0.4em] text-[14px] font-bold hover:gap-6 transition-all duration-500 mb-12 group">
           <svg className="w-4 h-4 transition-transform group-hover:-translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
           </svg>
@@ -107,7 +107,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
               </div>
               
               <div className="space-y-1 lg:space-y-3">
-                <span className="text-[#C5A059] uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black text-[8px] sm:text-[9px]">Strategic Expertise</span>
+                <span className="text-[#C5A059] uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black text-[12px] font-black sm:text-[13px] font-bold">Strategic Expertise</span>
                 <h1 className="fd text-[22px] sm:text-3xl md:text-5xl font-black tracking-tight leading-tight uppercase text-[#3C2A21] break-words">
                   {title.split(' ').slice(0, -1).join(' ')} <br className="hidden sm:block" />
                   <span className="gold-shimmer italic lowercase">{title.split(' ').slice(-1)}</span>

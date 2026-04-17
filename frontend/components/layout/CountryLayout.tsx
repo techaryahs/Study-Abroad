@@ -51,7 +51,7 @@ export default function CountryLayout({ name, code, description, benefits, unive
         variants={containerVariants}
         className="max-w-7xl mx-auto px-8 md:px-20 pt-24 pb-16 md:pt-32 md:pb-24 relative z-10"
       >
-        <Link href="/countries" className="inline-flex items-center gap-4 text-gold-500 font-black uppercase tracking-[0.4em] text-[10px] hover:gap-6 transition-all duration-500 mb-12 group">
+        <Link href="/countries" className="inline-flex items-center gap-4 text-gold-500 font-black uppercase tracking-[0.4em] text-[14px] font-bold hover:gap-6 transition-all duration-500 mb-12 group">
           <svg className="w-4 h-4 transition-transform group-hover:-translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
           </svg>
@@ -66,7 +66,7 @@ export default function CountryLayout({ name, code, description, benefits, unive
                 <Flag code={code} className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
-                <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[9px]">Destination Profile</span>
+                <span className="text-gold-500 uppercase tracking-[0.5em] font-black text-[13px] font-bold">Destination Profile</span>
                 <h1 className="text-3xl md:text-5xl font-black tracking-tighter uppercase leading-none mt-2 gradient-text-gold">
                   {name}
                 </h1>
@@ -86,7 +86,7 @@ export default function CountryLayout({ name, code, description, benefits, unive
                  { label: "Work Rights", value: essentials.work }
                ].map((fact, i) => (
                  <div key={i} className="p-5 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-gold-500/5 hover:border-gold-500/10 transition-all group">
-                    <span className="text-[9px] text-white/20 group-hover:text-gold-500 uppercase font-black tracking-[0.2em] transition-colors">{fact.label}</span>
+                    <span className="text-[13px] font-bold text-white/20 group-hover:text-gold-500 uppercase font-black tracking-[0.2em] transition-colors">{fact.label}</span>
                     <p className="text-[13px] font-bold text-white transition-colors">{fact.value}</p>
                  </div>
                ))}
@@ -127,7 +127,7 @@ export default function CountryLayout({ name, code, description, benefits, unive
                 <h3 className="text-xl font-black uppercase tracking-[0.3em] border-b border-white/5 pb-6">Top Institutions:</h3>
                 <div className="flex flex-wrap gap-3">
                   {universities.map((uni, i) => (
-                    <span key={i} className="px-5 py-2 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-[0.1em] text-white/30 hover:bg-gold-500 hover:text-black transition-all cursor-default translate-gpu hover:scale-105">
+                    <span key={i} className="px-5 py-2 bg-white/5 rounded-full text-[14px] font-bold font-black uppercase tracking-[0.1em] text-white/30 hover:bg-gold-500 hover:text-black transition-all cursor-default translate-gpu hover:scale-105">
                       {uni}
                     </span>
                   ))}
