@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import '../core/theme.dart';
+import '../features/auth/auth_provider.dart';
 
 class AppScaffold extends StatefulWidget {
   final Widget child;
@@ -158,8 +160,71 @@ class _MoreMenuSheet extends StatelessWidget {
                     mainAxisSpacing: 12,
                     childAspectRatio: 1.0,
                   ),
-                  itemCount: items.length,
+                  itemCount: items.length + 1,
                   itemBuilder: (context, i) {
+                    // Last tile = Sign Out (red)
+                    if (i == items.length) {
+                      return GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (dialogContext) => AlertDialog(
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              backgroundColor: Colors.white,
+                              title: const Text('Sign Out',
+                                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+                              content: const Text('Do you want to sign out?',
+                                  style: TextStyle(color: Colors.black54, fontSize: 13)),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(dialogContext),
+                                  child: const Text('CANCEL',
+                                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 11, color: Colors.black54)),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    Navigator.pop(dialogContext); // close dialog
+                                    Navigator.pop(context);       // close sheet
+                                    await context.read<AuthProvider>().logout();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.redAccent,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                  ),
+                                  child: const Text('SIGN OUT',
+                                      style: TextStyle(fontWeight: FontWeight.w900, fontSize: 11)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red.withOpacity(0.06),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.red.withOpacity(0.18)),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.logout_rounded, color: Colors.redAccent, size: 24),
+                              SizedBox(height: 6),
+                              Text(
+                                'Sign Out',
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.redAccent,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
                     final item = items[i];
                     return GestureDetector(
                       onTap: () {

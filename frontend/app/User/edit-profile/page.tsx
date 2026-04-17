@@ -27,7 +27,10 @@ import {
   Trophy,
   Star,
   Check,
-  Search
+  Search,
+  Eye,
+  EyeOff,
+  AlertCircle
 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -802,55 +805,69 @@ function TestUpdateModal({ testId, testDef, scores, onChange, onClose }: any) {
 }
 
 function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, onClose: () => void, BACKEND_URL: string }) {
-  const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [otp, setOtp] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
+  const [showPasswords, setShowPasswords] = useState({ current: false, new: false, confirm: false });
 
-  const handleTriggerOTP = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`${BACKEND_URL}/api/auth/forgot-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-      if (response.ok) {
-        setStep(2);
-        setMessage({ text: 'Check your email for the code.', type: 'success' });
-      } else {
-        const error = await response.json();
-        setMessage({ text: error.error || 'Failed to send code.', type: 'error' });
-      }
-    } catch (err) {
-      setMessage({ text: 'Failed to connect to server.', type: 'error' });
-    } finally {
-      setLoading(false);
-    }
+  const validatePassword = (password: string) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return regex.test(password);
   };
 
-  const handleResetPassword = async () => {
-    if (!otp || !newPassword) {
-      setMessage({ text: 'Please fill all fields.', type: 'error' });
+  const handleChangePassword = async () => {
+    setMessage({ text: '', type: '' });
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setMessage({ text: 'All fields are required', type: 'error' });
       return;
     }
+
+    if (newPassword !== confirmPassword) {
+      setMessage({ text: 'New passwords do not match', type: 'error' });
+      return;
+    }
+
+    if (!validatePassword(newPassword)) {
+      setMessage({ 
+        text: 'Password must be 8+ characters with uppercase, lowercase & numbers', 
+        type: 'error' 
+      });
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await fetch(`${BACKEND_URL}/api/auth/reset-password`, {
+      const token = localStorage.getItem('token') || localStorage.getItem('auth_token');
+      const response = await fetch(`${BACKEND_URL}/api/user/change-password`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp, newPassword })
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ 
+          currentPassword, 
+          newPassword, 
+          confirmPassword 
+        })
       });
+
+      const data = await response.json();
       if (response.ok) {
-        setMessage({ text: 'Password Updated Successfully.', type: 'success' });
-        setTimeout(onClose, 2000);
+        setMessage({ text: 'Password changed successfully! Logging you out...', type: 'success' });
+        setTimeout(() => {
+          localStorage.removeItem('token');
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('auth_user');
+          window.location.href = '/auth/login';
+        }, 2000);
       } else {
-        const error = await response.json();
-        setMessage({ text: error.error || 'Failed to update password.', type: 'error' });
+        setMessage({ text: data.message || 'Failed to change password', type: 'error' });
       }
     } catch (err) {
-      setMessage({ text: 'Failed to connect to server.', type: 'error' });
+      setMessage({ text: 'Server connection error', type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -859,31 +876,156 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
   return (
     <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-6">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md" />
-      <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} className="relative w-full max-w-md bg-white border border-[#C5A059]/20 rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
-        <h3 className="fd text-2xl font-bold text-[#3C2A21] uppercase mb-8 italic">Reset Password</h3>
+      <motion.div 
+        initial={{ scale: 0.95, opacity: 0, y: 20 }} 
+        animate={{ scale: 1, opacity: 1, y: 0 }} 
+        exit={{ scale: 0.95, opacity: 0, y: 20 }} 
+        className="relative w-full max-w-sm bg-white border border-[#C5A059]/20 rounded-[2rem] md:rounded-[2rem] p-6 md:p-8 overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar"
+      >
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent" />
+        
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="fd text-xl font-bold text-[#3C2A21] uppercase italic tracking-tight">Change Password</h3>
+          </div>
+          <button 
+            onClick={onClose} 
+            className="p-2 md:p-3 bg-white border border-[#C5A059]/10 rounded-2xl text-[#6B5E51]/40 hover:text-[#C5A059] transition-all"
+          >
+            <Plus size={20} className="rotate-45" />
+          </button>
+        </div>
+
         {message.text && (
-          <div className={`text-[10px] font-black uppercase mb-8 p-4 rounded-xl border ${message.type === 'success' ? 'bg-green-500/10 border-green-500/20 text-green-500' : 'bg-red-500/10 border-red-500/20 text-red-600'}`}>
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`text-[10px] font-black uppercase mb-6 p-4 rounded-xl border flex items-center gap-3 ${
+              message.type === 'success' 
+                ? 'bg-green-500/10 border-green-500/20 text-green-600' 
+                : 'bg-red-500/10 border-red-500/20 text-red-600'
+            }`}
+          >
+            {message.type === 'success' ? <CheckCircle size={14} /> : <AlertCircle size={14} />}
             {message.text}
-          </div>
+          </motion.div>
         )}
-        {step === 1 ? (
-          <div className="space-y-8">
-            <p className="text-[#6B5E51] text-[11px] font-bold uppercase tracking-widest italic opacity-60">Click below to send a code to {email}</p>
-            <button disabled={loading} onClick={handleTriggerOTP} className="w-full py-4 bg-[#C5A059] text-white rounded-xl font-black text-[10px] uppercase shadow-lg active:scale-95 transition-all">{loading ? 'Sending...' : 'Send OTP'}</button>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Enter Code</label>
-              <input type="text" value={otp} onChange={(e) => setOtp(e.target.value)} className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-black shadow-inner focus:border-[#C5A059]/50 outline-none" placeholder="000000" />
+
+        <div className="space-y-6">
+          {/* Current Password */}
+          <div className="space-y-2">
+            <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Current Password</label>
+            <div className="relative">
+              <input 
+                type={showPasswords.current ? 'text' : 'password'}
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="Enter current password"
+                className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-bold shadow-inner focus:border-[#C5A059]/50 outline-none transition-all pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/50 hover:text-[#C5A059] transition-colors"
+              >
+                {showPasswords.current ? <Eye size={16} /> : <EyeOff size={16} />}
+              </button>
             </div>
-            <div className="space-y-2">
-              <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">New Password</label>
-              <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-bold shadow-inner focus:border-[#C5A059]/50 outline-none" placeholder="Min 6 characters" />
-            </div>
-            <button disabled={loading} onClick={handleResetPassword} className="w-full py-4 bg-[#3C2A21] text-white rounded-xl font-black text-[10px] uppercase shadow-lg active:scale-95 transition-all">{loading ? 'Saving...' : 'Reset Password'}</button>
           </div>
-        )}
+
+          {/* New Password */}
+          <div className="space-y-2">
+            <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">New Password</label>
+            <div className="relative">
+              <input 
+                type={showPasswords.new ? 'text' : 'password'}
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Min 8 chars, uppercase, lowercase & number"
+                className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-bold shadow-inner focus:border-[#C5A059]/50 outline-none transition-all pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPasswords({ ...showPasswords, new: !showPasswords.new })}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/50 hover:text-[#C5A059] transition-colors"
+              >
+                {showPasswords.new ? <Eye size={16} /> : <EyeOff size={16} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Confirm Password */}
+          <div className="space-y-2">
+            <label className="text-[9px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">Confirm New Password</label>
+            <div className="relative">
+              <input 
+                type={showPasswords.confirm ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm new password"
+                className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-bold shadow-inner focus:border-[#C5A059]/50 outline-none transition-all pr-12"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPasswords({ ...showPasswords, confirm: !showPasswords.confirm })}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/50 hover:text-[#C5A059] transition-colors"
+              >
+                {showPasswords.confirm ? <Eye size={16} /> : <EyeOff size={16} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Password Requirements */}
+          <div className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl p-4 space-y-2">
+            <p className="text-[8px] font-black text-[#6B5E51] uppercase tracking-widest">Password Requirements:</p>
+            <div className="space-y-1 text-[9px] font-bold text-[#6B5E51]/70">
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${newPassword.length >= 8 ? 'bg-green-500' : 'bg-[#C5A059]/20'}`} />
+                At least 8 characters
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${/[A-Z]/.test(newPassword) ? 'bg-green-500' : 'bg-[#C5A059]/20'}`} />
+                One uppercase letter
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${/[a-z]/.test(newPassword) ? 'bg-green-500' : 'bg-[#C5A059]/20'}`} />
+                One lowercase letter
+              </div>
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${/\d/.test(newPassword) ? 'bg-green-500' : 'bg-[#C5A059]/20'}`} />
+                One number
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-4 pt-4">
+            <button 
+              onClick={onClose}
+              disabled={loading}
+              className="flex-1 py-4 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-[#FDFBF7] transition-all active:scale-95 disabled:opacity-50"
+            >
+              Cancel
+            </button>
+            <button 
+              onClick={handleChangePassword}
+              disabled={loading}
+              className="flex-1 py-4 bg-[#C5A059] text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg hover:bg-[#3C2A21] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={14} className="animate-spin" />
+                  Changing...
+                </>
+              ) : (
+                <>
+                  <ShieldCheck size={14} />
+                  Change Password
+                </>
+              )}
+            </button>
+          </div>
+        </div>
       </motion.div>
     </div>
   );

@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 const { findUserById, findUserByEmail } = require("../utils/userHelper");
 
 // @desc    Get user premium status
@@ -274,5 +275,81 @@ exports.clearCart = async (req, res) => {
 
   } catch (error) {
     res.status(500).json({ message: "Error clearing cart" });
+  }
+};
+
+// @desc    Change user password
+exports.changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    // 1. VALIDATION
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Current password, new password, and confirmation are required" 
+      });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ 
+        success: false,
+        message: "New password and confirmation do not match" 
+      });
+    }
+
+    // Password strength validation (minimum 8 characters, at least 1 uppercase, 1 lowercase, 1 number)
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      return res.status(400).json({ 
+        success: false,
+        message: "Password must be at least 8 characters with uppercase, lowercase, and numbers" 
+      });
+    }
+
+    // 2. FETCH USER
+    const result = await findUserById(req.user.id);
+    if (!result) {
+      return res.status(404).json({ 
+        success: false,
+        message: "User not found" 
+      });
+    }
+
+    const { user } = result;
+
+    // 3. VERIFY CURRENT PASSWORD
+    const isPasswordValid = await user.matchPassword(currentPassword);
+    if (!isPasswordValid) {
+      return res.status(401).json({ 
+        success: false,
+        message: "Current password is incorrect" 
+      });
+    }
+
+    // 4. CHECK IF NEW PASSWORD IS SAME AS OLD
+    const isSameAsOld = await bcrypt.compare(newPassword, user.password);
+    if (isSameAsOld) {
+      return res.status(400).json({ 
+        success: false,
+        message: "New password must be different from current password" 
+      });
+    }
+
+    // 5. UPDATE PASSWORD (will be hashed by pre-save hook)
+    user.password = newPassword;
+    await user.save();
+
+    res.status(200).json({ 
+      success: true,
+      message: "Password changed successfully" 
+    });
+
+  } catch (error) {
+    console.error("Change password error:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Server error changing password" 
+    });
   }
 };
