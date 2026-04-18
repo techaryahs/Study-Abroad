@@ -236,6 +236,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
         ..._errorAndButton('SEND VERIFICATION CODE', _sendEmailOtp),
+        const SizedBox(height: 20),
+
+Center(
+  child: Wrap(
+    alignment: WrapAlignment.center,
+    children: [
+      const Text(
+        "By continuing, you agree to our ",
+        style: TextStyle(
+          fontSize: 11,
+          color: Colors.grey,
+        ),
+      ),
+
+      GestureDetector(
+        onTap: () => context.go('/privacy'),
+        child: const Text(
+          "Privacy Policy",
+          style: TextStyle(
+            fontSize: 11,
+            color: AppTheme.gold,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+
+      const Text(
+        " and ",
+        style: TextStyle(fontSize: 11, color: Colors.grey),
+      ),
+
+      GestureDetector(
+        onTap: () => context.go('/terms'),
+        child: const Text(
+          "Terms of Service",
+          style: TextStyle(
+            fontSize: 11,
+            color: AppTheme.gold,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    ],
+  ),
+),
         const SizedBox(height: 32),
         Center(
           child: GestureDetector(
@@ -392,6 +437,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
 
         ..._errorAndButton('CREATE ACCOUNT', _register),
+        const SizedBox(height: 20),
+
+Center(
+  child: Wrap(
+    alignment: WrapAlignment.center,
+    children: [
+      const Text(
+        "By continuing, you agree to our ",
+        style: TextStyle(
+          fontSize: 11,
+          color: Colors.grey,
+        ),
+      ),
+
+      GestureDetector(
+        onTap: () => context.go('/privacy'),
+        child: const Text(
+          "Privacy Policy",
+          style: TextStyle(
+            fontSize: 11,
+            color: AppTheme.gold,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+
+      const Text(
+        " and ",
+        style: TextStyle(fontSize: 11, color: Colors.grey),
+      ),
+
+      GestureDetector(
+        onTap: () => context.go('/terms'),
+        child: const Text(
+          "Terms of Service",
+          style: TextStyle(
+            fontSize: 11,
+            color: AppTheme.gold,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    ],
+  ),
+),
       ],
     );
   }

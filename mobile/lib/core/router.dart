@@ -37,6 +37,9 @@ import '../features/consultant/consultant_dashboard_screen.dart';
 import '../features/admin/admin_dashboard_screen.dart';
 import '../features/meeting/meeting_screen.dart';
 import '../widgets/app_scaffold.dart';
+import 'package:study_abroad/screens/privacy_policy.dart';
+import 'package:study_abroad/screens/terms_conditions.dart';
+
 
 class AppRouter {
   static GoRouter create(AuthProvider auth) {
@@ -44,19 +47,57 @@ class AppRouter {
       initialLocation: '/',
       refreshListenable: auth,
       redirect: (context, state) {
-        final isLoggedIn = auth.isLoggedIn;
-        final isAuthRoute = state.uri.path == '/login' || state.uri.path == '/register';
+  final isLoggedIn = auth.isLoggedIn;
 
-        if (!isLoggedIn && !isAuthRoute) return '/login';
+  final isAuthRoute =
+      state.uri.path == '/login' ||
+      state.uri.path == '/register';
 
-        // ✅ Logged in → block auth pages
-        if (isLoggedIn && (isAuthRoute || (state.uri.path == '/' && auth.role != 'student'))) {
-          return _homeForRole(auth.role);
-        }
+  // ✅ Allow public routes
+  final isPublicRoute =
+      state.uri.path == '/privacy' ||
+      state.uri.path == '/terms';
 
-        return null;
-      },
+  if (!isLoggedIn && !isAuthRoute && !isPublicRoute) {
+    return '/login';
+  }
+
+  // Logged in → block auth pages
+  if (isLoggedIn && isAuthRoute) {
+    return _homeForRole(auth.role);
+  }
+
+  return null;
+},
+  //     redirect: (context, state) {
+  // final isLoggedIn = auth.isLoggedIn;
+  // final isGoingToLogin = state.uri.path == '/login';
+
+  // // ✅ Allow public routes
+  // final isPublicRoute = state.uri.path == '/privacy' || state.uri.path == '/terms';
+
+  // if (!isLoggedIn && !isGoingToLogin && !isPublicRoute) {
+  //   return '/login';
+  // }
+
+  // return null;
+
       routes: [
+
+        //terms and conditions
+
+        GoRoute(
+  path: '/terms',
+  builder: (context, state) => const TermsConditionsScreen(),
+),
+
+        //PrivacyPolicy
+
+     GoRoute(
+  path: '/privacy',
+  builder: (context, state) => const PrivacyPolicyScreen(),
+),
+
         // ── AUTH ──────────────────────────────────────────────
         GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
         GoRoute(path: '/register', builder: (_, __) => const RegisterScreen()),
