@@ -176,16 +176,28 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM STRIP */}
-      <div className="border-t border-[#B3985E]/10 bg-black/10 py-8">
-        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-white/10 text-[8px] uppercase tracking-[0.6em] font-black text-center md:text-left">
-            GCC Success Portal — Excellence in Global Admissions
-          </div>
-          <div className="flex gap-8 text-[8px] uppercase tracking-[0.3em] font-black text-white/20">
-            <Link href="/privacy" className="hover:text-[#B3985E] transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-[#B3985E] transition-colors">Terms of Service</Link>
-          </div>
+      <div className="max-w-7xl mx-auto px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
+
+        {/* Left Content */}
+        <div className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-semibold text-center md:text-left">
+          GCC Success Portal — Excellence in Global Admissions
         </div>
+
+        {/* Right Links */}
+        <div className="flex gap-6 text-[10px] uppercase tracking-[0.3em] font-semibold text-white/40">
+          <Link href="/privacy" className="hover:text-[#B3985E] transition-all duration-300">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="hover:text-[#B3985E] transition-all duration-300">
+            Terms of Service
+          </Link>
+        </div>
+
+      </div>
+
+      {/* Bottom Line */}
+      <div className="border-t border-[#B3985E]/20 py-4 text-center text-white text-[10px] tracking-[0.3em] uppercase font-bold">
+        <span className="text-[#B3985E]">© 2026</span> Aryahs World Infotech (OPC) Pvt. Ltd. All rights reserved.
       </div>
     </footer>
   );
