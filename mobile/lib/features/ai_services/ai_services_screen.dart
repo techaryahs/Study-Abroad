@@ -128,6 +128,42 @@ class AiServicesScreen extends StatelessWidget {
               ),
             ),
 
+            const SizedBox(height: 40),
+
+            // ✅ FAQ BUTTON
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: InkWell(
+                onTap: () => context.push('/faq'),
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  decoration: BoxDecoration(
+                    color: AppTheme.gold.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.help_outline_rounded, color: AppTheme.gold, size: 22),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Text(
+                          'Frequently Asked Questions',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            color: AppTheme.gold,
+                          ),
+                        ),
+                      ),
+                     Icon(Icons.arrow_forward_ios_rounded, color: AppTheme.gold, size: 12),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
             const SizedBox(height: 100),
           ],
         ),
