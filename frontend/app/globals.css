@@ -25,6 +25,7 @@
 }
 
 @layer base {
+    html,
     body {
         background-color: var(--color-dark-950);
         color: #ffffff;
@@ -33,6 +34,13 @@
         line-height: 1.6;
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+        display: none;
     }
 
     ::selection {
@@ -194,6 +202,14 @@
     /* FLOATING ANIMATION */
     .animate-float {
         animation: float 8s ease-in-out infinite;
+    }
+    /* FOOTER TYPOGRAPHY */
+    footer {
+        font-weight: 700;
+    }
+
+    footer a, footer p, footer span, footer h3 {
+        font-weight: 700;
     }
 }
 

@@ -39,7 +39,6 @@ export default function Header() {
           <Link href="/programs" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">Programs</Link>
           <Link href="/universities" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">Universities</Link>
           <Link href="/scholarships" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">Scholarships</Link>
-          <Link href="/about" className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors">About Us</Link>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -51,7 +50,7 @@ export default function Header() {
               >
                 Log in
               </Link>
-              
+
               {/* Sign Up Dropdown */}
               <div className="relative group">
                 <button
@@ -62,7 +61,7 @@ export default function Header() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
-                
+
                 {/* Dropdown Menu */}
                 <div className="absolute right-0 mt-2 w-52 origin-top-right rounded-2xl bg-[#1f2937] shadow-2xl ring-1 ring-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform scale-95 group-hover:scale-100 z-50 overflow-hidden border border-white/5">
                   <div className="px-4 pt-4 pb-2 border-b border-white/5">
@@ -96,19 +95,19 @@ export default function Header() {
             </>
           ) : (
             <div className="flex items-center gap-4">
-               <Link href="/User/dashboard" className="text-sm font-bold text-gray-600 hover:text-[#c2a878] transition-colors uppercase tracking-widest hidden sm:block">Dashboard</Link>
-               <Link href="/User/dashboard" className="relative group">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c2a878] to-[#9a855d] p-[1px] shadow-lg group-hover:scale-105 transition-transform">
-                     <div className="w-full h-full rounded-xl bg-black overflow-hidden flex items-center justify-center">
-                        <img 
-                           src={userData?.profile?.profileImage ? (userData.profile.profileImage.startsWith('http') ? userData.profile.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${userData.profile.profileImage}`) : `https://ui-avatars.com/api/?name=${userData?.name || 'User'}&background=c2a878&color=000&bold=true`} 
-                           alt="Profile"
-                           className="w-full h-full object-cover grayscale opacity-80"
-                        />
-                     </div>
+              <Link href="/User/dashboard" className="text-sm font-bold text-gray-600 hover:text-[#c2a878] transition-colors uppercase tracking-widest hidden sm:block">Dashboard</Link>
+              <Link href="/User/dashboard" className="relative group">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#c2a878] to-[#9a855d] p-[1px] shadow-lg group-hover:scale-105 transition-transform">
+                  <div className="w-full h-full rounded-xl bg-black overflow-hidden flex items-center justify-center">
+                    <img
+                      src={userData?.profile?.profileImage ? (userData.profile.profileImage.startsWith('http') ? userData.profile.profileImage : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}${userData.profile.profileImage}`) : `https://ui-avatars.com/api/?name=${userData?.name || 'User'}&background=c2a878&color=000&bold=true`}
+                      alt="Profile"
+                      className="w-full h-full object-cover grayscale opacity-80"
+                    />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-black" />
-               </Link>
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-black" />
+              </Link>
             </div>
           )}
         </div>

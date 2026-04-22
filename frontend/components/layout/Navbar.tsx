@@ -362,6 +362,7 @@ function DropdownPanel({
   browseLabel,
   align = "left",
   width = "340px",
+  compact = false,
   onMouseEnter,
   onMouseLeave,
 }: {
@@ -371,6 +372,7 @@ function DropdownPanel({
   browseLabel: string;
   align?: "left" | "center";
   width?: string;
+  compact?: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) {
@@ -406,7 +408,7 @@ function DropdownPanel({
             {/* Sub-menu trigger (Items with children) */}
             {(item.subItems || item.subAccordion) ? (
               <div
-                className="group flex items-start gap-3 px-4 py-2 hover:bg-white/5 transition-colors duration-150 cursor-default"
+                className={`group flex items-start gap-3 px-4 ${compact ? "py-1" : "py-2"} hover:bg-white/5 transition-colors duration-150 cursor-default`}
               >
                 <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
                 <div className="flex-1 min-w-0">
@@ -432,7 +434,7 @@ function DropdownPanel({
             ) : (
               <Link
                 href={item.href}
-                className="group flex items-start gap-3 px-4 py-2 hover:bg-white/5 transition-colors duration-150"
+                className={`group flex items-start gap-3 px-4 ${compact ? "py-1" : "py-2"} hover:bg-white/5 transition-colors duration-150`}
               >
                 <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
                 <div className="flex-1 min-w-0">
@@ -730,7 +732,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("universities")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-1.5 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-1.5 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white"}`}>
                   Universities
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "universities" ? "-rotate-90" : ""}`} />
                 </div>
@@ -741,15 +743,15 @@ export default function Navbar() {
                     browseHref="/universities"
                     browseLabel="Browse All Universities"
                     align="center"
+                    compact={true}
                     onMouseEnter={() => onEnter("universities")}
                     onMouseLeave={onLeave}
                   />
                 )}
               </div>
 
-              {/* Services (Static Link) */}
               <div className="h-full flex items-center">
-                <Link href="/services" className="text-[10px] font-black uppercase tracking-[0.25em] text-white/70 hover:text-[#B3985E] transition-all">
+                <Link href="/services" className="text-[10px] font-black uppercase tracking-[0.25em] text-white hover:text-[#B3985E] transition-all">
                   Services
                 </Link>
               </div>
@@ -760,7 +762,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("resources")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-2 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white"}`}>
                   Resources
                   <div className="w-1 h-1 rounded-full bg-[#B3985E] shadow-[0_0_8px_rgba(179,152,94,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "resources" ? "-rotate-90" : ""}`} />
@@ -784,7 +786,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("ai-services")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-default text-[10px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-2 cursor-default text-[10px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white"}`}>
                   AI Services
                   <div className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "ai-services" ? "-rotate-90" : ""}`} />
@@ -901,7 +903,7 @@ export default function Navbar() {
               onSubmit={handleSearch}
               className={`relative group w-[340px] search-glow transition-all duration-300 ${searchError ? "animate-shake border-red-500/50" : ""}`}
             >
-              <button type="submit" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
+              <button type="submit" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/70 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
                 <Search size={13} />
               </button>
               <input
@@ -909,7 +911,7 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={handleInputChange}
                 placeholder="Search your dream country..."
-                className={`w-full h-8 bg-white/[0.05] border rounded-full pl-10 pr-4 text-[10px] text-white/90 placeholder:text-white/30 outline-none transition-all tracking-wide ${searchError ? "border-red-500/40" : "border-white/40 focus:bg-white/[0.08] focus:border-[#B3985E]/40"}`}
+                className={`w-full h-8 bg-white/[0.1] border rounded-full pl-10 pr-4 text-[10px] text-white placeholder:text-white/60 outline-none transition-all tracking-wide ${searchError ? "border-red-500/60" : "border-white/50 focus:bg-white/[0.15] focus:border-[#B3985E]/60"}`}
               />
 
               {/* Suggestions Dropdown */}
@@ -941,7 +943,7 @@ export default function Navbar() {
             {[navItems[0], navItems[3], navItems[4], navItems[5], navItems[8]].map((item) => (
               <div key={item.path} className="relative group h-full flex items-center">
                 {item.badge === "Coming Soon" ? (
-                  <div className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white/50 group-hover:text-[#B3985E]`}>
+                  <div className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white group-hover:text-[#B3985E]`}>
                     {item.name}
                   </div>
                 ) : (
@@ -965,8 +967,8 @@ export default function Navbar() {
           {/* App Download CTA */}
           <div className="flex items-center h-full shrink-0 pl-4 border-l border-white/5">
             <div className="relative group/app flex items-center h-full gap-1.5 px-2 cursor-help">
-              <Smartphone size={12} className="text-white/40 group-hover/app:text-[#B3985E] transition-all" />
-              <span className="text-[8px] font-black text-white/40 group-hover/app:text-[#B3985E] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
+              <Smartphone size={12} className="text-white group-hover/app:text-[#B3985E] transition-all" />
+              <span className="text-[8px] font-black text-white group-hover/app:text-[#B3985E] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
               <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover/app:opacity-100 group-hover/app:visible transition-all duration-300 transform scale-90 group-hover/app:scale-100 -translate-y-1 group-hover/app:translate-y-0 pointer-events-none z-[60]">
                 <span className="text-[7px] text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
                 {/* Caret: Simulated Border Triangle */}

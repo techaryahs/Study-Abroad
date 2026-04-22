@@ -64,7 +64,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="relative min-h-screen bg-[#F8F6F1] text-[#675F5B] overflow-hidden pt-6 font-base selection:bg-[#D4A848]/10">
+    <main className="relative min-h-screen bg-[#F8F6F1] text-[#362B25] overflow-hidden pt-6 font-base selection:bg-[#D4A848]/10">
 
       {/* 🏙️ BACKGROUND */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -117,7 +117,7 @@ export default function Home() {
               </span>
             </motion.h1>
 
-            <motion.p variants={itemVariants} className="text-[#675F5B] text-xs sm:text-sm leading-relaxed max-w-xl italic font-medium">
+            <motion.p variants={itemVariants} className="text-[#362B25] text-xs sm:text-sm leading-relaxed max-w-xl italic font-semibold">
               Personalized higher study guidance for USA, UK, Germany,
               Australia, Ireland, and Dubai — powered by AI-driven support.
             </motion.p>
@@ -160,7 +160,7 @@ export default function Home() {
           </div>
 
           <div className="pt-4">
-            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#D4A848]">Why Students Trust Us</h3>
+            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#362B25]">Why Students Trust Us</h3>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {servicesRow.map((s, i) => (
@@ -177,7 +177,7 @@ export default function Home() {
           </div>
 
           <div className="pt-8 text-center sm:text-left">
-            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#D4A848]">Top Destinations</h3>
+            <h3 className="text-sm uppercase tracking-[0.2em] mb-6 font-black text-[#362B25]">Top Destinations</h3>
 
             <div className="flex justify-between md:justify-start md:gap-8 lg:gap-12 xl:gap-16 max-w-full lg:max-w-5xl relative overflow-x-auto pb-4 no-scrollbar">
               <div className="absolute top-4 sm:top-5 left-0 right-0 h-[1px] bg-[#D4A848]/20 hidden sm:block"></div>
@@ -187,7 +187,7 @@ export default function Home() {
                   <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border-2 border-[#D4A848] shadow-lg sm:shadow-xl">
                     <Flag code={f.code} className="w-full h-full object-cover" />
                   </div>
-                  <span className="text-[7px] sm:text-[10px] uppercase font-black tracking-[0.1em] sm:tracking-widest mt-2 text-[#362B25]/60 sm:text-[#362B25]/40 text-center">{f.name}</span>
+                  <span className="text-[7px] sm:text-[10px] uppercase font-black tracking-[0.1em] sm:tracking-widest mt-2 text-[#362B25] text-center">{f.name}</span>
                 </div>
               ))}
             </div>
@@ -218,7 +218,7 @@ export default function Home() {
             {statsRow.map((stat, i) => (
               <div key={i} className="text-left">
                 <h2 className="text-[#362B25] text-[2.5rem] leading-none font-black tracking-tighter drop-shadow-sm">{stat.value}</h2>
-                <p className="text-[10px] text-[#675F5B]/60 font-black uppercase tracking-[0.25em] mt-2">{stat.label}</p>
+                <p className="text-[10px] text-[#362B25]/80 font-black uppercase tracking-[0.25em] mt-2">{stat.label}</p>
               </div>
             ))}
           </div>

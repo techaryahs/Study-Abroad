@@ -103,11 +103,11 @@ function ServiceCard({
         {service.icon}
       </div>
 
-      <h3 className="font-bold text-[12px] sm:text-[15px] leading-tight text-[#D4A848] group-hover:text-white transition-colors duration-200">
+      <h3 className="font-bold text-[14px] sm:text-[16px] leading-tight text-[#D4A848] group-hover:text-white transition-colors duration-200 uppercase tracking-wide">
         {service.title}
       </h3>
 
-      <p className="text-[#FDFBF7]/60 text-[10px] sm:text-[13px] leading-relaxed flex-1">
+      <p className="text-[#FDFBF7]/85 text-[11px] sm:text-[14px] leading-relaxed flex-1">
         {service.description}
       </p>
 
@@ -232,7 +232,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FFFFFF] text-[#675F5B] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
+    <main className="min-h-screen bg-[#FFFFFF] text-[#362B25] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
       <section className="relative px-4 sm:px-8 md:px-14 lg:px-20 pt-14 pb-12 border-b border-white/10 overflow-hidden">
@@ -262,16 +262,16 @@ export default function ServicesPage() {
           transition={{ delay: 0.4, duration: 1 }}
           className="max-w-3xl space-y-3.5"
         >
-          <p className="text-[#675F5B]/70 text-sm sm:text-[15px] leading-relaxed">
+          <p className="text-[#362B25]/85 text-[15px] sm:text-[17px] leading-relaxed font-medium">
             Having worked with students from over{" "}
-            <strong className="text-[#362B25] font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
-            <strong className="text-[#362B25] font-semibold">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
+            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
+            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
           </p>
-          <p className="text-[#675F5B]/70 text-sm sm:text-[15px] leading-relaxed">
+          <p className="text-[#362B25]/85 text-[15px] sm:text-[17px] leading-relaxed font-medium">
             We support applications to most countries including but not limited to{" "}
-            <strong className="text-[#362B25] font-semibold">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
+            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
           </p>
-          <p className="text-[#D4A848] text-sm font-medium pt-1">
+          <p className="text-[#D4A848] text-sm sm:text-base font-black pt-1">
             ✦ To see the charges, you can click on the service, select the currency and other relevant options (if any). Crypto payments now accepted!
           </p>
         </motion.div>
@@ -398,7 +398,7 @@ export default function ServicesPage() {
                     { label: "Phone", name: "mobile", type: "tel", placeholder: "+91 90000 00000", colSpan: "sm:col-span-1" },
                   ].map((field) => (
                     <div key={field.name} className={`space-y-1 ${field.colSpan}`}>
-                      <label className="text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
+                      <label className="text-[10px] font-black text-[#362B25]/80 uppercase tracking-widest ml-1">
                         {field.label}
                       </label>
                       <input
@@ -408,14 +408,14 @@ export default function ServicesPage() {
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         required={field.name !== "mobile"}
-                        className="w-full bg-[#F8F6F1]/50 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#362B25] placeholder-[#362B25]/20 focus:outline-none focus:border-[#D4A848]/30 focus:bg-white transition-all"
+                        className="w-full bg-[#F8F6F1]/50 border border-[#D4A848]/20 rounded-xl px-4 py-3 text-sm text-[#362B25] placeholder-[#362B25]/40 focus:outline-none focus:border-[#D4A848]/60 focus:bg-white transition-all shadow-sm"
                       />
                     </div>
                   ))}
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-[9px] font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-black text-[#362B25]/80 uppercase tracking-widest ml-1">
                     What can we do for you?
                   </label>
                   <textarea
@@ -424,8 +424,8 @@ export default function ServicesPage() {
                     onChange={handleChange}
                     placeholder="Briefly describe your requirements..."
                     required
-                    rows={3}
-                    className="w-full bg-[#F8F6F1]/50 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#362B25] placeholder-[#362B25]/20 focus:outline-none focus:border-[#D4A848]/30 focus:bg-white transition-all resize-none"
+                    rows={4}
+                    className="w-full bg-[#F8F6F1]/50 border border-[#D4A848]/20 rounded-xl px-4 py-3 text-sm text-[#362B25] placeholder-[#362B25]/40 focus:outline-none focus:border-[#D4A848]/60 focus:bg-white transition-all resize-none shadow-sm"
                   />
                 </div>
 

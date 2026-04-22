@@ -72,7 +72,7 @@ export default function Footer() {
                   </span>
                 </div>
               </Link>
-              <p className="text-white/30 text-xs leading-relaxed font-normal max-w-xs">
+              <p className="text-white/30 text-xs leading-relaxed font-bold max-w-xs">
                 Your trusted principal-led partner for studying abroad. We guide students
                 to Ivy League and top global universities with personalized, academic-first mentorship.
               </p>
@@ -83,7 +83,7 @@ export default function Footer() {
               <ul className="space-y-3">
                 {companyItems.map(item => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-xs text-white/50 hover:text-[#B3985E] transition-colors">{item.name}</Link>
+                    <Link href={item.href} className="text-[10px] font-bold uppercase tracking-widest text-white hover:text-[#B3985E] transition-colors">{item.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -97,7 +97,7 @@ export default function Footer() {
               <ul className="space-y-4">
                 {serviceItems.map(item => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-xs text-white/50 hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
+                    <Link href={item.href} className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
                   </li>
                 ))}
                 <li>
@@ -110,7 +110,7 @@ export default function Footer() {
               <ul className="space-y-4">
                 {resourceItems.map(item => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-xs text-white/50 hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
+                    <Link href={item.href} className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -124,7 +124,7 @@ export default function Footer() {
               <ul className="space-y-4">
                 {disciplineItems.map(item => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-xs text-white/50 hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
+                    <Link href={item.href} className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -134,7 +134,7 @@ export default function Footer() {
               <ul className="space-y-4">
                 {countryItems.map(item => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-xs text-white/50 hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
+                    <Link href={item.href} className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -145,27 +145,27 @@ export default function Footer() {
           <div className="space-y-12">
             <div>
               <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Contact</h3>
-              <div className="space-y-6 text-white/40 text-xs font-medium">
+              <div className="space-y-6 text-white text-[10px] font-bold uppercase tracking-wider">
                 <div className="flex items-start gap-4">
                   <MapPin size={16} className="text-[#B3985E] shrink-0 mt-0.5" />
-                  <p className="leading-relaxed">Gauri Complex, 601, Sector 11, Belapur, Navi Mumbai</p>
+                  <p className="leading-relaxed font-bold">Gauri Complex, 601, Sector 11, Belapur, Navi Mumbai</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <Phone size={16} className="text-[#B3985E] shrink-0" />
-                  <p>+91 86578 69659</p>
+                  <p className="font-bold">+91 86578 69659</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <Mail size={16} className="text-[#B3985E] shrink-0" />
-                  <p className="truncate">tech.aryahs@gmail.com</p>
+                  <p className="truncate font-bold text-white hover:text-[#B3985E] transition-colors cursor-pointer">tech.aryahs@gmail.com</p>
                 </div>
               </div>
             </div>
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Tools</h3>
+              <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#B3985E] mb-8">Tools</h3>
               <ul className="space-y-4">
                 {toolItems.map(item => (
                   <li key={item.name}>
-                    <Link href={item.href} className="text-xs text-white/50 hover:text-[#B3985E] transition-colors leading-snug block uppercase tracking-widest font-black text-[9px]">{item.name}</Link>
+                    <Link href={item.href} className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors leading-snug block">{item.name}</Link>
                   </li>
                 ))}
               </ul>
@@ -179,12 +179,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
 
         {/* Left Content */}
-        <div className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-semibold text-center md:text-left">
+        <div className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-bold text-center md:text-left">
           GCC Success Portal — Excellence in Global Admissions
         </div>
 
         {/* Right Links */}
-        <div className="flex gap-6 text-[10px] uppercase tracking-[0.3em] font-semibold text-white/40">
+        <div className="flex gap-6 text-[10px] uppercase tracking-[0.3em] font-bold text-white/40">
           <Link href="/privacy" className="hover:text-[#B3985E] transition-all duration-300">
             Privacy Policy
           </Link>
@@ -197,7 +197,7 @@ export default function Footer() {
 
       {/* Bottom Line */}
       <div className="border-t border-[#B3985E]/20 py-4 text-center text-white text-[10px] tracking-[0.3em] uppercase font-bold">
-        <span className="text-[#B3985E]">© 2026</span> Aryahs World Infotech (OPC) Pvt. Ltd. All rights reserved.
+        <span className="text-[#B3985E] mr-1">© 2026</span> Aryahs World Infotech (OPC) Pvt. Ltd. All rights reserved.
       </div>
     </footer>
   );
