@@ -314,7 +314,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
     >
       <div className="bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 flex flex-col overflow-hidden">
         <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-[#B3985E] truncate">
+          <p className="text-[12px] font-semibold uppercase tracking-widest text-[#B3985E] truncate">
             {accordionItems[0]?.items[0]?.href.includes('program') ? 'Academic Categories' : 'Regions & States'}
           </p>
         </div>
@@ -326,7 +326,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
                   e.preventDefault();
                   setOpenCountry(openCountry === group.name ? null : group.name);
                 }}
-                className={`w-full flex items-center justify-between px-4 py-3 text-[11px] font-semibold transition-all duration-200 ${openCountry === group.name ? 'text-[#B3985E] bg-white/5' : 'text-gray-300 hover:text-[#B3985E] hover:bg-white/5'}`}
+                className={`w-full flex items-center justify-between px-4 py-3 text-[13px] font-semibold transition-all duration-200 ${openCountry === group.name ? 'text-[#B3985E] bg-white/5' : 'text-gray-300 hover:text-[#B3985E] hover:bg-white/5'}`}
               >
                 <span className="truncate pr-2">{group.name}</span>
                 {openCountry === group.name ? <Minus size={10} strokeWidth={3} /> : <Plus size={10} strokeWidth={3} />}
@@ -337,7 +337,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
                     <li key={subItem.name}>
                       <Link
                         href={subItem.href}
-                        className="block px-6 py-2.5 text-[10px] font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all border-l-2 border-transparent hover:border-[#B3985E]"
+                        className="block px-6 py-2.5 text-[12px] font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all border-l-2 border-transparent hover:border-[#B3985E]"
                       >
                         {subItem.name}
                       </Link>
@@ -466,7 +466,7 @@ function DropdownPanel({
                 style={{ animation: "dropIn 0.15s ease-out both" }}
               >
                 <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-[#B3985E]">
+                  <p className="text-[12px] font-semibold uppercase tracking-widest text-[#B3985E]">
                     Global Reach
                   </p>
                 </div>
@@ -717,8 +717,8 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
               <div className="flex flex-col">
-                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counsellor Centre</span>
-                <span className="text-[#B3985E] text-[7px] sm:text-[8px] font-black uppercase tracking-[0.4em] mt-2 opacity-70">GLOBAL ADMISSIONS</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">International Eduleader Council</span>
+                <span className="text-[#B3985E] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] mt-2 opacity-80">GLOBAL ADMISSIONS</span>
               </div>
             </Link>
           </div>
@@ -990,7 +990,7 @@ export default function Navbar() {
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
             <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">Global Counsellor Centre</span>
+              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">International Eduleader Council</span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}
@@ -1261,7 +1261,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Footer */}
           <div className="p-8 border-t border-white/5 bg-[#2D1F1D]/80 flex items-center justify-center text-white/10 shrink-0">
-            <span className="text-[8px] font-black uppercase tracking-[0.4em]">GCC Success Portal © 2026</span>
+            <span className="text-[8px] font-black uppercase tracking-[0.4em]">IEC Success Portal © 2026</span>
           </div>
         </div>
       )}

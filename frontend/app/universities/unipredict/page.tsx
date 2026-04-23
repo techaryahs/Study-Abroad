@@ -7,8 +7,10 @@ import {
     Globe, 
     BarChart3, 
     Sparkles,
+    ArrowRight
 } from "lucide-react";
 import Image from "next/image";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 
 const ChatIcon = ({ className }: { className?: string }) => (
@@ -30,6 +32,7 @@ export default function UniPredictPage() {
     const [budget, setBudget] = useState(5000000); // 50 Lakhs default
     const [isCalculating, setIsCalculating] = useState(false);
     const [showResult, setShowResult] = useState(false);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
 
     const handleCalculate = (e: React.FormEvent) => {
         e.preventDefault();
@@ -59,43 +62,44 @@ export default function UniPredictPage() {
             </div>
 
             {/* ── Sub-header / Branding ── */}
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 pt-8 md:pt-12 pb-4 md:pb-6 border-b border-[#D4A848]/10 flex justify-between items-end">
-                <div className="space-y-2">
-                    <div className="flex items-center gap-3">
-                        <span className="w-8 h-[2px] bg-[#D4A848]"></span>
-                        <span className="text-[10px] font-black first-letter:uppercase tracking-[0.4em] text-[#D4A848] uppercase">The Expert Algorithm</span>
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 pt-6 md:pt-8 pb-3 md:pb-4 border-b border-[#D4A848]/10 flex justify-between items-end">
+                <div className="space-y-1.5">
+                    <div className="flex items-center gap-2.5">
+                        <span className="w-6 h-[1.5px] bg-[#D4A848]"></span>
+                        <span className="text-[9px] font-black first-letter:uppercase tracking-[0.3em] text-[#D4A848] uppercase">The Expert Algorithm</span>
                     </div>
-                    <h1 className="text-4xl text-[#362B25] md:text-6xl font-black tracking-tighter uppercase leading-none italic">
+                    <h1 className="text-3xl text-[#362B25] md:text-4xl font-black tracking-tighter uppercase leading-none italic">
                         Uni<span className="text-[#D4A848]">Predict</span>
                     </h1>
                 </div>
             </div>
+
             {/* ── Top RateMyChances Ad Section ── */}
-            <section className="w-full bg-[#F8F6F1] pt-8 lg:pt-16 px-4 sm:px-6 lg:px-16 overflow-hidden border-b border-[#D4A848]/10 mb-8 sm:mb-16">
-                <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-                    <div className="space-y-6 lg:space-y-8 order-2 lg:order-1 pb-8 lg:pb-16 text-center lg:text-left z-10 relative">
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#362B25] leading-[1.1]">
-                            UniPredict By <span className="text-[#D4A848] italic pr-2">GCC</span>
+            <section className="w-full bg-[#F8F6F1] pt-4 lg:pt-10 px-4 sm:px-6 lg:px-16 overflow-hidden border-b border-[#D4A848]/10 mb-4 sm:mb-10">
+                <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+                    <div className="space-y-5 lg:space-y-6 order-2 lg:order-1 pb-6 lg:pb-12 text-center lg:text-left z-10 relative">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[#362B25] leading-[1.1]">
+                        UniPredict By <span className="text-[#D4A848] italic pr-2">IEC</span>
                         </h1>
-                        <p className="text-[#675F5B] text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 opacity-80">
+                        <p className="text-[#675F5B] text-[13px] sm:text-sm leading-relaxed max-w-xl mx-auto lg:mx-0 opacity-80">
                             We've spent years perfecting an algorithm that helps match you with the right universities—based on the same expertise we offer in our luxury services. While many students waste thousands on applications, we give you expert guidance for free. All we ask? Share it with someone who could use it!
                         </p>
-                        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-2">
+                        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-1">
                             <button 
                                 type="button"
                                 onClick={() => window.open('/universities/RateMyChances', '_self')}
-                                className="w-full sm:w-auto bg-[#D4A848] text-[#362B25] px-8 py-4 rounded-xl text-xs sm:text-sm uppercase font-black tracking-widest hover:bg-[#362B25] hover:text-[#D4A848] transition-all shadow-xl group flex items-center justify-center gap-3"
+                                className="w-full sm:w-auto bg-[#D4A848] text-[#362B25] px-7 py-3.5 rounded-xl text-[11px] sm:text-xs uppercase font-black tracking-widest hover:bg-[#362B25] hover:text-[#D4A848] transition-all shadow-xl group flex items-center justify-center gap-2.5"
                             >
-                                RateMyChances <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                                RateMyChances <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                             </button>
-                            <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[#675F5B]/50">
+                            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-[#675F5B]/50">
                                 We have now launched a much more advanced tool
                             </span>
                         </div>
                     </div>
-                    <div className="relative order-1 lg:order-2 flex justify-center mt-4 lg:mt-0">
-                        {/* Placeholder for the vector girl image */}
-                        <div className="w-full max-w-[500px] aspect-[4/3] bg-transparent relative">
+                    <div className="relative order-1 lg:order-2 flex justify-center mt-2 lg:mt-0">
+                        {/* Vector girl image */}
+                        <div className="w-full max-w-[440px] aspect-[4/3] bg-transparent relative">
                            <Image 
                                 src="/unipredict-hero.jpg"
                                 alt="Algorithm Analysis Graphic"
@@ -108,29 +112,29 @@ export default function UniPredictPage() {
             </section>
 
             {/* ── Main Section ── */}
-            <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 py-8 md:py-12 lg:py-20">
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+            <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 py-6 md:py-10 lg:py-16">
+                <div className="grid lg:grid-cols-12 gap-6 lg:gap-12 items-start">
                     
                     {/* Left Side: Info & Hero */}
-                    <div className="lg:col-span-5 space-y-10">
-                        <div className="space-y-6">
-                            <h2 className="text-3xl md:text-5xl font-black text-[#362B25] tracking-tight leading-[1.1]">
+                    <div className="lg:col-span-5 space-y-8">
+                        <div className="space-y-4">
+                            <h2 className="text-2xl md:text-4xl font-black text-[#362B25] tracking-tight leading-[1.1]">
                                 Discover Your <span className="text-[#D4A848]">Best University</span> Matches
                             </h2>
-                            <p className="text-[#675F5B] text-sm md:text-base leading-relaxed opacity-80 max-w-md">
+                            <p className="text-[#675F5B] text-xs md:text-sm leading-relaxed opacity-80 max-w-md">
                                 Our proprietary algorithm analyzes your academic background, test scores, and financial goals to predict your admission success at top institutions worldwide.
                             </p>
                         </div>
 
                         {/* Feature Points */}
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                             {[
-                                { icon: <Sparkles size={16} />, text: "Data-driven accuracy spanning 10 years of admits." },
-                                { icon: <BarChart3 size={16} />, text: "Detailed breakdown of safe, reach, and dream universities." },
-                                { icon: <Globe size={16} />, text: "Global coverage: USA, UK, Europe, Australia & Canada." },
+                                { icon: <Sparkles size={14} />, text: "Data-driven accuracy spanning 10 years of admits." },
+                                { icon: <BarChart3 size={14} />, text: "Detailed breakdown of safe, reach, and dream universities." },
+                                { icon: <Globe size={14} />, text: "Global coverage: USA, UK, Europe, Australia & Canada." },
                             ].map((item, i) => (
-                                <div key={i} className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-[#362B25]/60 hover:text-[#D4A848] transition-colors group">
-                                    <div className="w-10 h-10 rounded-full bg-white border border-[#D4A848]/10 flex items-center justify-center text-[#D4A848] group-hover:scale-110 transition-transform">
+                                <div key={i} className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-[#362B25]/60 hover:text-[#D4A848] transition-colors group">
+                                    <div className="w-9 h-9 rounded-full bg-white border border-[#D4A848]/10 flex items-center justify-center text-[#D4A848] group-hover:scale-110 transition-transform">
                                         {item.icon}
                                     </div>
                                     <span>{item.text}</span>
@@ -139,7 +143,7 @@ export default function UniPredictPage() {
                         </div>
 
                         {/* Content Image */}
-                        <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3] rounded-[1.5rem] sm:rounded-[2.5rem] overflow-hidden border border-[#D4A848]/20 shadow-2xl group">
+                        <div className="relative w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3] rounded-[1.2rem] sm:rounded-[2rem] overflow-hidden border border-[#D4A848]/20 shadow-2xl group">
                             <Image 
                                 src="/unipredict-students.jpg"
                                 alt="Students collaborating"
@@ -156,7 +160,7 @@ export default function UniPredictPage() {
                         <motion.div 
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="bg-white border border-[#D4A848]/20 p-5 sm:p-8 md:p-12 rounded-[2rem] sm:rounded-[3rem] shadow-xl relative"
+                            className="bg-white border border-[#D4A848]/20 p-5 sm:p-8 md:p-10 rounded-[1.5rem] sm:rounded-[2.5rem] shadow-xl relative"
                         >
                             {/* Decorative Corner */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4A848]/5 rounded-bl-[100%] border-l border-b border-[#D4A848]/10" />
@@ -367,35 +371,35 @@ export default function UniPredictPage() {
             </section>
 
             {/* ── UniPredict Algorithm Explanation ── */}
-            <section className="bg-[#362B25] py-24 relative overflow-hidden">
-                <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <section className="bg-[#362B25] py-16 relative overflow-hidden">
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
                     <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white transform -rotate-12" />
                     <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white transform rotate-12" />
                 </div>
 
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 flex flex-col items-center text-center">
-                    <div className="inline-flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8 bg-[#D4A848]/10 border border-[#D4A848]/20 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full">
-                        <Sparkles size={16} className="text-[#D4A848]" />
-                        <span className="text-[#D4A848] text-[10px] font-black uppercase tracking-[0.4em]">Proprietary Technology</span>
+                    <div className="inline-flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6 bg-[#D4A848]/10 border border-[#D4A848]/20 px-4 sm:px-5 py-1.5 rounded-full">
+                        <Sparkles size={14} className="text-[#D4A848]" />
+                        <span className="text-[#D4A848] text-[9px] font-black uppercase tracking-[0.3em]">Proprietary Technology</span>
                     </div>
 
-                    <h2 className="text-3xl md:text-5xl font-black text-white italic tracking-tight mb-8">
+                    <h2 className="text-2xl md:text-4xl font-black text-white italic tracking-tight mb-6">
                         The Master Predictor <span className="text-[#D4A848]">Algorithm</span>
                     </h2>
 
-                    <p className="text-[#FDFBF7]/60 text-sm md:text-lg max-w-3xl leading-relaxed mb-16">
+                    <p className="text-[#FDFBF7]/60 text-xs md:text-base max-w-2xl leading-relaxed mb-10">
                         We&apos;ve spent years perfecting an algorithm that matches you with top universities based on the same expertise we offer in our luxury institutional services. While others provide generic lists, we give you surgical precision for free. All we ask? Share it with a fellow applicant.
                     </p>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-12 w-full">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 w-full max-w-5xl">
                         {[
                             { title: "SAFE", color: "text-green-400", desc: "90%+ Approval Probability" },
                             { title: "REACH", color: "text-[#D4A848]", desc: "Highly Competitive Selection" },
                             { title: "DREAM", color: "text-blue-400", desc: "Elite Ivy League Territory" },
                         ].map((node, i) => (
-                            <div key={i} className="bg-white/5 border border-white/10 p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] group hover:border-[#D4A848]/40 transition-all">
-                                <h3 className={`text-4xl sm:text-5xl font-black tracking-tighter mb-4 ${node.color}`}>{node.title}</h3>
-                                <p className="text-white/40 text-[9px] sm:text-[10px] font-black uppercase tracking-widest leading-loose">{node.desc}</p>
+                            <div key={i} className="bg-white/5 border border-white/10 p-5 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] group hover:border-[#D4A848]/40 transition-all flex flex-col items-center justify-center">
+                                <h3 className={`text-3xl sm:text-4xl font-black tracking-tighter mb-3 ${node.color}`}>{node.title}</h3>
+                                <p className="text-white/40 text-[8px] sm:text-[9px] font-black uppercase tracking-widest leading-loose">{node.desc}</p>
                             </div>
                         ))}
                     </div>
@@ -444,10 +448,13 @@ export default function UniPredictPage() {
                                 </div>
                                 <div className="pt-4 border-t border-[#D4A848]/10 flex flex-col gap-4">
                                     <button 
-                                        onClick={() => window.open('/services/admission-guidance', '_self')}
-                                        className="bg-[#362B25] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-[#D4A848] transition-all"
+                                        onClick={() => {
+                                            setShowResult(false);
+                                            setIsBookingOpen(true);
+                                        }}
+                                        className="bg-[#362B25] text-white py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-[#D4A848] transition-all flex items-center justify-center gap-2"
                                     >
-                                        Discuss Your Case →
+                                        Discuss Your Case <ArrowRight size={14} />
                                     </button>
                                     <button 
                                         onClick={() => setShowResult(false)}
@@ -461,6 +468,11 @@ export default function UniPredictPage() {
                     </div>
                 )}
             </AnimatePresence>
+
+            <BookCounsellingModal 
+                isOpen={isBookingOpen}
+                onClose={() => setIsBookingOpen(false)}
+            />
         </main>
     );
 }

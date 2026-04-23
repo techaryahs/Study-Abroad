@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import usaData from "@/data/USA.json";
 import ausData from "@/data/AUS.json";
 import germanyData from "@/data/Germany.json";
@@ -182,6 +183,7 @@ export default function UniversityPage() {
     const [activeSection, setActiveSection] = useState("About");
     const [mounted, setMounted] = useState(false);
     const [degreeLevel, setDegreeLevel] = useState("Master's");
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
 
     const [aboutRef, aboutVisible] = useInView();
     const [statsRef, statsVisible] = useInView();
@@ -359,12 +361,12 @@ export default function UniversityPage() {
 
                                 {/* Actions */}
                                 <div className={`flex gap-4 flex-wrap ${mounted ? "afu d3" : "opacity-0"}`} style={{ alignItems: "center" }}>
-                                    <button className="btn-gold aglow">Request Evaluation</button>
-                                    <button className="btn-outline">Visa Guidance</button>
+                                    <button onClick={() => setIsBookingOpen(true)} className="btn-gold aglow">Request Evaluation</button>
+                                    <button onClick={() => setIsBookingOpen(true)} className="btn-outline">Visa Guidance</button>
                                 </div>
                             </div>
 
-                            {/* Quick stats - Global Counsellor Centre Style Stats Cards */}
+                            {/* Quick stats - International Eduleader Council Style Stats Cards */}
                             <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 ${mounted ? "afu d4" : "opacity-0"}`}
                                 style={{ marginTop: 40, borderTop: "1px solid rgba(197,160,89,.1)", paddingTop: 30 }}>
                                 {[
@@ -690,7 +692,7 @@ export default function UniversityPage() {
                         {/* ── RIGHT SIDEBAR ── */}
                         <div style={{ position: "sticky", top: 40, display: "flex", flexDirection: "column", gap: 24 }}>
 
-                            {/* Get help card - Global Counsellor Centre Notification Style */}
+                            {/* Get help card - International Eduleader Council Notification Style */}
                             <div style={{ background: "#2D2926", borderRadius: 32, padding: 30, color: "#FFFFFF", boxShadow: "0 20px 50px rgba(0,0,0,0.15)" }}>
                                 <div style={{ display: "flex", gap: 14, marginBottom: 20 }}>
                                     <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>💬</div>
@@ -700,8 +702,8 @@ export default function UniversityPage() {
                                     </div>
                                 </div>
                                 <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-                                    <button className="btn-gold" style={{ width: "100%", padding: "14px", borderRadius: 16, fontSize: 14 }}>Apply with Priority</button>
-                                    <button style={{ width: "100%", padding: "14px", borderRadius: 16, fontSize: 14, background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF" }}>Speak with Counsellor</button>
+                                    <button onClick={() => setIsBookingOpen(true)} className="btn-gold" style={{ width: "100%", padding: "14px", borderRadius: 16, fontSize: 14 }}>Apply with Priority</button>
+                                    <button onClick={() => setIsBookingOpen(true)} style={{ width: "100%", padding: "14px", borderRadius: 16, fontSize: 14, background: "transparent", border: "1px solid rgba(255,255,255,0.2)", color: "#FFFFFF" }}>Speak with Counsellor</button>
                                 </div>
                             </div>
 
@@ -725,7 +727,7 @@ export default function UniversityPage() {
                                 </div>
                             </div>
 
-                            {/* Stats Card - Global Counsellor Centre Style */}
+                            {/* Stats Card - International Eduleader Council Style */}
                             <div className="card" style={{ padding: 24, textAlign: "center", background: "#F8F5F0" }}>
                                 <p style={{ fontSize: 12, fontWeight: 700, color: "#C5A059", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 12 }}>Trust Index</p>
                                 <p className="fd" style={{ fontSize: 40, fontWeight: 700, color: "#2D2926", lineHeight: 1 }}>98.4%</p>
@@ -736,6 +738,11 @@ export default function UniversityPage() {
                     </div>
                 </div>
             </div>
+
+            <BookCounsellingModal 
+                isOpen={isBookingOpen}
+                onClose={() => setIsBookingOpen(false)}
+            />
         </div>
     );
 }

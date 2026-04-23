@@ -72,8 +72,8 @@ export default function UniversitiesPage() {
         .featured-badge {
           background: #C5A059;
           color: #FFFFFF;
-          font-size: 10px;
-          font-weight: 800;
+          font-size: 12px;
+          font-weight: 900;
           text-transform: uppercase;
           letter-spacing: 0.1em;
           padding: 6px 14px;
@@ -89,7 +89,7 @@ export default function UniversitiesPage() {
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.8 }}
           >
-            <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-xs tracking-[0.2em] uppercase mb-6 shadow-sm">
+            <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-black text-[13px] tracking-[0.2em] uppercase mb-6 shadow-sm">
               Global Education Index
             </span>
             <h1 className="fd text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 leading-[0.95] text-[#2D2926]">
@@ -129,7 +129,7 @@ export default function UniversitiesPage() {
           </div>
           <div className="flex gap-4">
              {["All", "Popular", "Recently Updated"].map((filter, i) => (
-               <button key={i} className={`px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase border ${i === 0 ? "bg-[#2D2926] text-white border-[#2D2926]" : "border-[rgba(197,160,89,0.3)] text-[#6B5E51]"}`}>
+               <button key={i} className={`px-6 py-2.5 rounded-full text-[12px] font-black tracking-wider uppercase border ${i === 0 ? "bg-[#2D2926] text-white border-[#2D2926]" : "border-[rgba(197,160,89,0.3)] text-[#6B5E51]"}`}>
                  {filter}
                </button>
              ))}
@@ -162,12 +162,12 @@ export default function UniversitiesPage() {
                     <h3 className="fd font-bold text-3xl text-[#2D2926] group-hover:text-[#C5A059] transition-colors leading-tight">
                       {dest.name}
                     </h3>
-                    <span className="text-sm font-bold text-[#C5A059] tracking-widest uppercase block">
+                    <span className="text-[13px] font-black text-[#C5A059] tracking-widest uppercase block">
                       {dest.count}
                     </span>
                   </div>
                   
-                  <div className="pt-4 flex items-center text-[#6B5E51] font-bold text-xs tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="pt-4 flex items-center text-[#6B5E51] font-black text-[12px] tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     VIEW CATALOGUE <span className="ml-2 text-lg">→</span>
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export default function UniversitiesPage() {
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 50% 50%, #C5A059 1px, transparent 1px)", backgroundSize: "30px 30px" }}></div>
         
         <div className="relative z-10 max-w-5xl mx-auto space-y-10">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[rgba(197,160,89,0.15)] text-[#C5A059] font-bold text-[10px] tracking-[0.3em] uppercase mb-4 border border-[rgba(197,160,89,0.2)]">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[rgba(197,160,89,0.15)] text-[#C5A059] font-black text-[12px] tracking-[0.3em] uppercase mb-4 border border-[rgba(197,160,89,0.2)]">
             Consultancy Services
           </span>
           <h2 className="fd text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95]">Strategic Academic <br/><span className="gold-shimmer">Planning</span></h2>

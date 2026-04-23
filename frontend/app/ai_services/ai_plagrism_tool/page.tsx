@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { 
   Wand2, 
   ShieldCheck, 
@@ -15,6 +16,7 @@ import {
   ArrowRight
 } from "lucide-react";
 import CheckoutModal from "@/app/User/cart/checkoutmodal";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 export default function AIHumanizerPage() {
     const [input, setInput] = useState("");
@@ -24,6 +26,8 @@ export default function AIHumanizerPage() {
     const [faqOpen, setFaqOpen] = useState<number | null>(0);
     const [currency, setCurrency] = useState("INR");
     const [checkoutPlan, setCheckoutPlan] = useState<{ actual: number; discounted: number; title: string } | null>(null);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const router = useRouter();
 
     const handleRewrite = () => {
         if (!input.trim()) return;
@@ -146,7 +150,7 @@ export default function AIHumanizerPage() {
             `}</style>
 
             {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
-            <section className="relative pt-32 pb-20 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.08) 0%, transparent 100%)" }}>
+            <section className="relative pt-12 pb-20 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.08) 0%, transparent 100%)" }}>
                <div className="max-w-5xl mx-auto text-center space-y-8">
                   <motion.div 
                     initial={{ opacity: 0, y: 20 }}
@@ -169,7 +173,7 @@ export default function AIHumanizerPage() {
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.2 }}
-                    className="editor-container p-4 md:p-8"
+                    className="editor-container p-4 md:p-6"
                   >
                      <div className="flex flex-col md:flex-row gap-6">
                         {/* Input Area */}
@@ -182,20 +186,20 @@ export default function AIHumanizerPage() {
                              value={input}
                              onChange={(e) => setInput(e.target.value)}
                              placeholder="Paste your content here to begin humanization..."
-                             className="textarea-luxury w-full p-8 min-h-[320px] text-lg leading-relaxed text-[#2D2926]"
+                             className="textarea-luxury w-full p-6 min-h-[220px] text-base leading-relaxed text-[#2D2926]"
                            />
                         </div>
 
                         {/* Controls & Output (Horizontal on mobile, small width on desktop) */}
-                        <div className="md:w-80 flex flex-col gap-6">
-                           <div className="bg-[#FAFAFA] rounded-[24px] p-6 border border-[#F1EDEA] space-y-6">
+                        <div className="md:w-72 flex flex-col gap-4">
+                           <div className="bg-[#FAFAFA] rounded-[24px] p-5 border border-[#F1EDEA] space-y-4">
                               <p className="text-[10px] font-bold uppercase tracking-widest text-[#2D2926]">Humanize Intensity</p>
                               <div className="grid grid-cols-1 gap-2">
                                  {["Light", "Medium", "Max"].map((l) => (
                                    <button 
                                      key={l}
                                      onClick={() => setLevel(l)}
-                                     className={`w-full py-3 rounded-xl text-xs font-bold transition-all border ${level === l ? 'bg-[#2D2926] text-white border-[#2D2926]' : 'bg-white text-[#6B5E51] border-[#F1EDEA] hover:border-[#C5A059]'}`}
+                                     className={`w-full py-2.5 rounded-xl text-[11px] font-bold transition-all border ${level === l ? 'bg-[#2D2926] text-white border-[#2D2926]' : 'bg-white text-[#6B5E51] border-[#F1EDEA] hover:border-[#C5A059]'}`}
                                    >
                                      {l}
                                    </button>
@@ -210,7 +214,7 @@ export default function AIHumanizerPage() {
                               </button>
                            </div>
 
-                           <div className="flex-1 bg-[rgba(197,160,89,0.03)] border border-dashed border-[#C5A059]/30 rounded-[24px] p-6 flex flex-col items-center justify-center text-center">
+                           <div className="flex-1 bg-[rgba(197,160,89,0.03)] border border-dashed border-[#C5A059]/30 rounded-[24px] p-4 flex flex-col items-center justify-center text-center">
                               {!output && !loading && (
                                 <div className="space-y-4 opacity-40">
                                    <BookOpen size={32} className="mx-auto text-[#C5A059]" />
@@ -345,7 +349,7 @@ export default function AIHumanizerPage() {
             {/* ── FAQ SECTION ────────────────────────────────────────────────────── */}
             <section className="max-w-3xl mx-auto px-6 py-32 space-y-12">
                <div className="text-center space-y-4">
-                  <h2 className="fd text-4xl font-bold italic underline decoration-[#C5A059]/30 underline-offset-8">Common Inquiries</h2>
+                  <h2 className="fd text-4xl font-bold text-[#2D2926] italic underline decoration-[#C5A059]/30 underline-offset-8">Common Inquiries</h2>
                </div>
                
                <div className="divide-y divide-[#F1EDEA]">
@@ -387,11 +391,17 @@ export default function AIHumanizerPage() {
                         Join 50,000+ researchers and students who trust our humanization engine for their most critical submissions.
                      </p>
                      <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                        <button className="bg-[#2D2926] text-white px-10 py-5 rounded-2xl font-bold hover:bg-[#C5A059] transition-all flex items-center justify-center gap-3 shadow-2xl tracking-widest text-xs uppercase">
+                        <button 
+                           onClick={() => setIsBookingOpen(true)}
+                           className="bg-[#2D2926] text-white px-10 py-5 rounded-2xl font-bold hover:bg-[#C5A059] transition-all flex items-center justify-center gap-3 shadow-2xl tracking-widest text-xs uppercase"
+                        >
                            Start Free Trial <ArrowRight size={16} />
                         </button>
-                        <button className="bg-[#FDFBF7] text-[#2D2926] border-2 border-[#F1EDEA] px-10 py-5 rounded-2xl font-bold hover:border-[#C5A059] transition-all tracking-widest text-xs uppercase">
-                           View Case Studies
+                        <button 
+                           onClick={() => router.push('/services')}
+                           className="bg-[#FDFBF7] text-[#2D2926] border-2 border-[#F1EDEA] px-10 py-5 rounded-2xl font-bold hover:border-[#C5A059] transition-all tracking-widest text-xs uppercase"
+                        >
+                           View Services
                         </button>
                      </div>
                   </div>
@@ -406,6 +416,11 @@ export default function AIHumanizerPage() {
                 discount={(checkoutPlan?.actual || 0) - (checkoutPlan?.discounted || 0)}
                 total={checkoutPlan?.discounted || 0}
                 currency="INR"
+            />
+
+            <BookCounsellingModal 
+               isOpen={isBookingOpen}
+               onClose={() => setIsBookingOpen(false)}
             />
         </main>
     );

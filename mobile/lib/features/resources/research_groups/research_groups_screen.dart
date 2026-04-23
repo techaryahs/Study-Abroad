@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/book_counselling_sheet.dart';
 
 // ─── Theme Colors ─────────────────────────────────────────────────────────────
 
@@ -75,12 +76,13 @@ class _ResearchGroupsScreenState extends State<ResearchGroupsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         _HeroHeader(),
-                        _MainContent(
-                          activeTab: _activeTab,
-                          searchController: _searchController,
-                          emailController: _emailController,
-                          onCreateTap: _openCreate,
-                        ),
+                          _MainContent(
+                            activeTab: _activeTab,
+                            searchController: _searchController,
+                            emailController: _emailController,
+                            onCreateTap: _openCreate,
+                            onConsultTap: () => BookCounsellingSheet.show(context),
+                          ),
                         const SizedBox(height: 40),
                       ],
                     ),
@@ -362,12 +364,14 @@ class _MainContent extends StatelessWidget {
   final TextEditingController searchController;
   final TextEditingController emailController;
   final VoidCallback onCreateTap;
+  final VoidCallback onConsultTap;
 
   const _MainContent({
     required this.activeTab,
     required this.searchController,
     required this.emailController,
     required this.onCreateTap,
+    required this.onConsultTap,
   });
 
   @override
@@ -399,7 +403,7 @@ class _MainContent extends StatelessWidget {
           // Bottom liaison banner (available tab only)
           if (activeTab == _Tab.available) ...[
             const SizedBox(height: 28),
-            _LiaisonBanner(),
+            _LiaisonBanner(onTap: onConsultTap),
           ],
         ],
       ),
@@ -752,6 +756,9 @@ class _GuidelineCard extends StatelessWidget {
 // ─── Liaison Banner ───────────────────────────────────────────────────────────
 
 class _LiaisonBanner extends StatelessWidget {
+  final VoidCallback onTap;
+  const _LiaisonBanner({required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -772,7 +779,7 @@ class _LiaisonBanner extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           GestureDetector(
-            onTap: () {},
+            onTap: onTap,
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 14),

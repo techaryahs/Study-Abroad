@@ -105,7 +105,7 @@ export default function CheckoutModal({
                 amount: order.amount,
                 currency: order.currency,
                 order_id: order.id,
-                name: "Global Counselling Centre",
+                name: "International Eduleader Council",
                 description: items.map((i: any) => i.name || i.title || "Service").join(", "),
                 handler: async (response: any) => {
                     const verifyRes = await fetch(

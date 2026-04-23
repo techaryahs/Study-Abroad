@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
+import '../widgets/book_counselling_sheet.dart';
 
 class UniPredictScreen extends StatelessWidget {
   const UniPredictScreen({super.key});
@@ -59,7 +60,7 @@ class UniPredictScreen extends StatelessWidget {
                       colors: [AppTheme.gold, Color(0xFFE6D5B8), AppTheme.gold],
                     ).createShader(bounds),
                     child: const Text(
-                      'GCC',
+                      'IEC',
                       style: TextStyle(
                         fontSize: 64,
                         fontWeight: FontWeight.w900,
@@ -137,27 +138,46 @@ class UniPredictScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: SizedBox(
-          width: double.infinity,
-          height: 64,
-          child: ElevatedButton(
-            onPressed: () => context.push('/universities/unipredict/calculator'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.gold,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              elevation: 0,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () => context.push('/universities/unipredict/calculator'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.gold,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  elevation: 0,
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('START ANALYSIS', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                    SizedBox(width: 8),
+                    Icon(LucideIcons.chevronRight, size: 18),
+                  ],
+                ),
+              ),
             ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('START ANALYSIS', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2)),
-                SizedBox(width: 8),
-                Icon(LucideIcons.chevronRight, size: 18),
-              ],
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: OutlinedButton(
+                onPressed: () => showBookCounsellingSheet(context),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: AppTheme.gold),
+                  foregroundColor: AppTheme.gold,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                child: const Text('TALK TO AN EXPERT', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2)),
+              ),
             ),
-          ),
-        ).animate().slideY(begin: 1, end: 0, duration: 400.ms),
+          ],
+        ),
       ),
     );
   }

@@ -21,6 +21,7 @@ import KnowMore from "../KnowMore";
 import CreateGroupModal from "../CreateGroup";
 import GroupDetailsModal from "../GroupDetailsModal";
 import { getToken } from "@/app/lib/token";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 type Tab = "available" | "your" | "know";
 
@@ -40,6 +41,7 @@ export default function ResearchGroupsPage() {
   const [modalInitialStep, setModalInitialStep] = useState(1);
   const [selectedGroup, setSelectedGroup] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   useEffect(() => {
     // Check search params first
@@ -92,7 +94,7 @@ export default function ResearchGroupsPage() {
       case "your":
         return <YourGroups key="your" onCreateClick={() => openModal(1)} />;
       case "know":
-        return <KnowMore key="know" />;
+        return <KnowMore key="know" onBookingClick={() => setIsBookingOpen(true)} />;
       default:
         return (
           <AvailableGroups 
@@ -194,6 +196,11 @@ export default function ResearchGroupsPage() {
         onClose={() => setIsDetailsOpen(false)}
         group={selectedGroup}
         onJoinClick={() => openModal(2)}
+      />
+
+      <BookCounsellingModal 
+        isOpen={isBookingOpen} 
+        onClose={() => setIsBookingOpen(false)} 
       />
 
       {/* ── HEADER ─────────────────────────────────────────────────────────────── */}
@@ -335,7 +342,10 @@ export default function ResearchGroupsPage() {
                   <h3 className="fd text-3xl font-bold text-white leading-tight">Liaison Support</h3>
                   <p className="text-[#A8A29E] text-sm font-medium max-w-md uppercase tracking-wide">Our academic advisors can bridge the gap to your next collaboration.</p>
                 </div>
-                <button className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] font-bold px-10 py-4 rounded-xl flex items-center gap-3 transition-all shadow-2xl active:scale-95 shrink-0 uppercase text-[10px] tracking-widest relative z-10">
+                <button 
+                  onClick={() => setIsBookingOpen(true)}
+                  className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] font-bold px-10 py-4 rounded-xl flex items-center gap-3 transition-all shadow-2xl active:scale-95 shrink-0 uppercase text-[10px] tracking-widest relative z-10"
+                >
                   Secure Consultation <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -343,6 +353,11 @@ export default function ResearchGroupsPage() {
           </div>
         </div>
       </div>
+      
+      <BookCounsellingModal 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </main>
   );
 }

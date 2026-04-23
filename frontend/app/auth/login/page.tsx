@@ -28,8 +28,8 @@ const Login: React.FC = () => {
   const [forgotLoading, setForgotLoading] = useState<boolean>(false);
   const [forgotMessage, setForgotMessage] = useState<{ text: string; type: "success" | "error" }>({ text: "", type: "error" });
 
-  const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') 
-    ? process.env.NEXT_PUBLIC_BACKEND_URL 
+  const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined')
+    ? process.env.NEXT_PUBLIC_BACKEND_URL
     : 'http://localhost:5001';
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
@@ -162,7 +162,7 @@ const Login: React.FC = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: forgotEmail.trim(), otp: forgotOtp.trim(), newPassword: forgotPassword.trim() }),
         });
-        
+
         const adminResetData = await adminResetRes.json();
         if (!adminResetRes.ok) {
           throw new Error(adminResetData.error || "Failed to reset password");
@@ -193,7 +193,7 @@ const Login: React.FC = () => {
         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-white blur-[100px] rounded-full" />
       </div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-white border border-[#C5A059]/15 rounded-[2rem] md:rounded-[2.5rem] shadow-3xl w-full max-w-4xl flex flex-col lg:flex-row h-auto lg:h-[500px] max-h-[90vh] overflow-hidden relative z-10 mx-auto"
@@ -201,7 +201,7 @@ const Login: React.FC = () => {
         {/* Left Side - Brand Promise */}
         <div className="hidden lg:flex lg:w-[38%] p-10 flex-col justify-between relative overflow-hidden group bg-gradient-to-b from-[#3C2A21] to-[#2D2926] text-white">
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
-          
+
           <div className="relative z-10">
             <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 border border-[#C5A059]/30 flex items-center justify-center mb-8 backdrop-blur-xl">
               <Sparkles className="w-6 h-6 text-[#C5A059]" />
@@ -268,8 +268,8 @@ const Login: React.FC = () => {
             </div>
 
             <div className="flex justify-end pt-1">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => setShowForgotModal(true)}
                 className="text-[9px] font-black text-[#6B5E51]/40 hover:text-[#C5A059] uppercase tracking-widest transition-all"
               >
@@ -294,13 +294,13 @@ const Login: React.FC = () => {
           </form>
 
           <div className="mt-8 pt-6 border-t border-[#F1EDEA] flex flex-col gap-4 items-center">
-             <p className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-widest">New Node Initialization?</p>
-             <button 
-                onClick={() => router.push("/auth/RegisterStudent")} 
-                className="text-[10px] font-black text-[#C5A059] hover:text-[#3C2A21] transition-all uppercase tracking-widest"
-             >
-                Initialize Student Account
-             </button>
+            <p className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-widest">New Node Initialization?</p>
+            <button
+              onClick={() => router.push("/auth/RegisterStudent")}
+              className="text-[10px] font-black text-[#C5A059] hover:text-[#3C2A21] transition-all uppercase tracking-widest"
+            >
+              Initialize Student Account
+            </button>
           </div>
         </div>
       </motion.div>
@@ -334,11 +334,10 @@ const Login: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`text-[10px] font-black uppercase mb-4 p-3 rounded-lg border flex items-center gap-2 ${
-                  forgotMessage.type === "success"
-                    ? "bg-green-500/10 border-green-500/20 text-green-600"
-                    : "bg-red-500/10 border-red-500/20 text-red-600"
-                }`}
+                className={`text-[10px] font-black uppercase mb-4 p-3 rounded-lg border flex items-center gap-2 ${forgotMessage.type === "success"
+                  ? "bg-green-500/10 border-green-500/20 text-green-600"
+                  : "bg-red-500/10 border-red-500/20 text-red-600"
+                  }`}
               >
                 <AlertCircle size={14} />
                 {forgotMessage.text}

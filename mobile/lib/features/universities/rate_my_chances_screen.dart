@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
+import '../widgets/book_counselling_sheet.dart';
 
 class RateMyChancesScreen extends StatelessWidget {
   const RateMyChancesScreen({super.key});
@@ -50,7 +51,7 @@ class RateMyChancesScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   const Text(
-                    'POWERED BY GLOBAL COUNSELLOR CENTRE',
+                    'POWERED BY INTERNATIONAL EDULEADER COUNCIL',
                     style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.textSecondary),
                   ),
                   
@@ -109,26 +110,45 @@ class RateMyChancesScreen extends StatelessWidget {
             ],
           ),
         ),
-        child: SizedBox(
-          width: double.infinity,
-          height: 64,
-          child: ElevatedButton(
-            onPressed: () => context.push('/universities/unipredict/calculator'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppTheme.darkBrown,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              elevation: 0,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton(
+                onPressed: () => context.push('/universities/unipredict/calculator'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.darkBrown,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  elevation: 0,
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('START EVALUATION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+                    SizedBox(width: 8),
+                    Icon(LucideIcons.sparkles, size: 16),
+                  ],
+                ),
+              ),
             ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('START EVALUATION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
-                SizedBox(width: 8),
-                Icon(LucideIcons.sparkles, size: 16),
-              ],
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: OutlinedButton(
+                onPressed: () => showBookCounsellingSheet(context),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: AppTheme.gold),
+                  foregroundColor: AppTheme.gold,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                child: const Text('TALK TO AN EXPERT', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

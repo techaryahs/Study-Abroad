@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useState, useEffect, useRef, useMemo } from "react";
 import UniversityCard from "../UniversityCard";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import singaporeData from "@/data/singapore.json";
 import newZealandData from "@/data/NewZealand Universities.json";
 import germanyData from "@/data/Germany.json";
@@ -161,6 +162,7 @@ export default function CountryPage() {
   const [acceptFilter, setAcceptFilter] = useState(0);
   const [tuitionFilter, setTuitionFilter] = useState(0);
   const [page, setPage] = useState(1);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const PER_PAGE = 10;
 
   const [heroRef, heroVisible] = useInView(0.05);
@@ -446,7 +448,11 @@ export default function CountryPage() {
                 </p>
               </div>
 
-              <div className={`card ${mounted ? "afu d3" : "opacity-0"}`} style={{ padding: "16px 24px", display: "flex", alignItems: "center", gap: 14, background: "#2D2926", color: "#FFFFFF" }}>
+              <div 
+                className={`card ${mounted ? "afu d3" : "opacity-0"}`} 
+                onClick={() => setIsBookingOpen(true)}
+                style={{ padding: "16px 24px", display: "flex", alignItems: "center", gap: 14, background: "#2D2926", color: "#FFFFFF", cursor: "pointer" }}
+              >
                 <span style={{ fontSize: 28 }}>✨</span>
                 <div>
                   <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>Admission Strategy</p>
@@ -589,6 +595,11 @@ export default function CountryPage() {
           </div>
         </div>
       </div>
+
+      <BookCounsellingModal 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </div>
   );
 }

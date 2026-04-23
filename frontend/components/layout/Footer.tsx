@@ -61,14 +61,14 @@ export default function Footer() {
             <div className="space-y-6">
               <Link href="/" className="flex items-center gap-4 group">
                 <div className="w-10 h-10 rounded-xl bg-[#B3985E] flex items-center justify-center font-bold text-[#2D1F1D] text-xl transition-transform">
-                  G
+                  I
                 </div>
                 <div className="flex flex-col">
                   <span className="font-serif font-bold text-lg text-white leading-tight">
-                    Global Counsellor Centre
+                    International Eduleader Council
                   </span>
                   <span className="text-[9px] text-[#B3985E] uppercase tracking-[0.3em] font-black">
-                    Global Admissions
+                    GLOBAL ADMISSIONS
                   </span>
                 </div>
               </Link>
@@ -79,7 +79,7 @@ export default function Footer() {
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]">Company</h3>
+              <h3 className="font-sans text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]">Company</h3>
               <ul className="space-y-3">
                 {companyItems.map(item => (
                   <li key={item.name}>
@@ -93,7 +93,7 @@ export default function Footer() {
           {/* COLUMN 2: SERVICES & RESOURCES */}
           <div className="space-y-12">
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Services</h3>
+              <h3 className="font-sans text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Services</h3>
               <ul className="space-y-4">
                 {serviceItems.map(item => (
                   <li key={item.name}>
@@ -106,7 +106,7 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Resources</h3>
+              <h3 className="font-sans text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Resources</h3>
               <ul className="space-y-4">
                 {resourceItems.map(item => (
                   <li key={item.name}>
@@ -120,7 +120,7 @@ export default function Footer() {
           {/* COLUMN 3: DISCIPLINES & COUNTRIES */}
           <div className="space-y-12">
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Disciplines</h3>
+              <h3 className="font-sans text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Disciplines</h3>
               <ul className="space-y-4">
                 {disciplineItems.map(item => (
                   <li key={item.name}>
@@ -130,7 +130,7 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E]/50 mb-8">Countries</h3>
+              <h3 className="font-sans text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Countries</h3>
               <ul className="space-y-4">
                 {countryItems.map(item => (
                   <li key={item.name}>
@@ -144,7 +144,7 @@ export default function Footer() {
           {/* COLUMN 4: CONTACT & TOOLS */}
           <div className="space-y-12">
             <div>
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Contact</h3>
+              <h3 className="font-sans text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Contact</h3>
               <div className="space-y-6 text-white text-[10px] font-bold uppercase tracking-wider">
                 <div className="flex items-start gap-4">
                   <MapPin size={16} className="text-[#B3985E] shrink-0 mt-0.5" />
@@ -161,7 +161,7 @@ export default function Footer() {
               </div>
             </div>
             <div>
-              <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#B3985E] mb-8">Tools</h3>
+              <h3 className="font-sans text-[10px] font-black uppercase tracking-[0.4em] text-[#B3985E] mb-8">Tools</h3>
               <ul className="space-y-4">
                 {toolItems.map(item => (
                   <li key={item.name}>
@@ -175,25 +175,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* BOTTOM STRIP */}
-      <div className="max-w-7xl mx-auto px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
 
-        {/* Left Content */}
-        <div className="text-white/30 text-[10px] uppercase tracking-[0.4em] font-bold text-center md:text-left">
-          GCC Success Portal — Excellence in Global Admissions
-        </div>
-
-        {/* Right Links */}
-        <div className="flex gap-6 text-[10px] uppercase tracking-[0.3em] font-bold text-white/40">
-          <Link href="/privacy" className="hover:text-[#B3985E] transition-all duration-300">
-            Privacy Policy
-          </Link>
-          <Link href="/terms" className="hover:text-[#B3985E] transition-all duration-300">
-            Terms of Service
-          </Link>
-        </div>
-
-      </div>
 
       {/* Bottom Line */}
       <div className="border-t border-[#B3985E]/20 py-4 text-center text-white text-[10px] tracking-[0.3em] uppercase font-bold">

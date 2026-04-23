@@ -4,15 +4,14 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
     ArrowLeft,
-    ArrowRight,
-    History
+    ArrowRight
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
 import AddToCart from "@/components/shared/AddToCart";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
-export default function PersonalHistoryStatementPage() {
+export default function CanadaSOPPage() {
     const [showBookingModal, setShowBookingModal] = useState(false);
 
     return (
@@ -47,7 +46,7 @@ export default function PersonalHistoryStatementPage() {
                    font-size: 11px;
                    transition: all 0.3s ease;
                    display: inline-flex;
-                   alignItems: center;
+                   align-items: center;
                    gap: 10px;
                 }
                 .btn-gold:hover {
@@ -74,12 +73,12 @@ export default function PersonalHistoryStatementPage() {
                                 <ArrowLeft size={14} /> Back to Services
                             </Link>
                             <h1 className="fd text-3xl md:text-5xl font-bold leading-tight text-[#3C2A21] uppercase break-words">
-                                Personal History <br /> <span className="gold-shimmer">Statement</span>
+                                Canada Visa SOP / <br /> <span className="gold-shimmer">Letter of Explanation</span>
                             </h1>
                         </div>
 
                         <p className="text-lg text-[#6B5E51] leading-relaxed italic max-w-xl font-medium">
-                            The <span className="font-semibold text-[#3C2A21]">Personal History Statement</span> (also known as a <span className="font-semibold text-[#3C2A21]">Diversity Statement</span>) reflects your ability to connect the barriers you have overcome in the past to your current interest in the program.
+                            Over 1000 students have been issued study permits with us. With our expertise in the most common reasons for rejection, we can help you ensure success.
                         </p>
 
                         <div className="pt-4">
@@ -91,7 +90,7 @@ export default function PersonalHistoryStatementPage() {
                             </button>
                         </div>
 
-                        <DiscussionSection serviceId="personal-history-statement" />
+                        <DiscussionSection serviceId="canada-sop" />
                     </motion.div>
                 </div>
             </section>
@@ -103,22 +102,22 @@ export default function PersonalHistoryStatementPage() {
                     {/* LEFT CONTENT */}
                     <div className="lg:col-span-2 space-y-10">
                         <div className="space-y-4">
-                            <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">The Diversity Advantage</span>
+                            <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Canadian Study Permit</span>
                             <h2 className="fd text-3xl font-bold leading-tight text-[#3C2A21]">About This <span className="gold-shimmer">Service</span></h2>
                         </div>
 
                         <div className="space-y-6 text-[#6B5E51] leading-relaxed text-lg font-medium">
                             <p>
-                                While a lot of universities are not interested in knowing about your past, a few prestigious institutions like <span className="font-semibold text-[#3C2A21]">The University of California</span> specifically require a Personal History Statement. Our main aim is to help you stand out by crafting a story that is unique to you and your profile.
+                                Applying for a Canadian Study Permit requires a highly specific approach. The <span className="font-semibold text-[#3C2A21]">Statement of Purpose (SOP)</span>, often referred to as a <span className="font-semibold text-[#3C2A21]">Letter of Explanation (LOE)</span>, is arguably the most critical component of your visa application.
                             </p>
 
                             <p>
-                                It is important to focus on the <span className="font-semibold text-[#3C2A21] italic">social, economic, familial, financial and cultural barriers</span> that you faced during your life. We help highlight your ability to overcome challenges and turn them into strengths.
+                                Unlike university admissions SOPs, a Canada Visa SOP must explicitly address the immigration officer's concerns: your ties to your home country, financial stability, study plan coherence, and the precise reasons for choosing Canada over your home country.
                             </p>
 
                             <div className="bg-[#3C2A21] text-white p-8 rounded-3xl shadow-xl border-l-8 border-[#C5A059]">
                                 <p className="font-bold fd text-xl italic leading-snug">
-                                    "This draft, when done right, has proved to be one of the biggest game-changers, both in fetching admits and securing significant funding."
+                                    "A generic SOP is the leading cause of Canadian visa refusals. A meticulously drafted LOE turns potential red flags into a compelling narrative of intent."
                                 </p>
                             </div>
                         </div>
@@ -127,13 +126,13 @@ export default function PersonalHistoryStatementPage() {
                     {/* RIGHT SIDEBAR */}
                     <div className="lg:sticky lg:top-32 space-y-8">
                         <div className="w-full">
-                            <AddToCart serviceId="history-draft" />
+                            <AddToCart serviceId="canada-sop" />
                         </div>
 
                         <div className="p-8 bg-white border border-[#C5A059]/10 rounded-[32px] shadow-lg space-y-4">
-                            <h4 className="text-xs font-bold text-[#C5A059] uppercase tracking-[0.2em]">Clinical Protocol</h4>
+                            <h4 className="text-xs font-bold text-[#C5A059] uppercase tracking-[0.2em]">IRCC Protocol</h4>
                             <p className="text-xs text-[#3C2A21]/60 leading-relaxed font-medium">
-                                Our narrative experts audit your diversity markers to ensure every challenge is framed as an institutional value.
+                                Our experts structure your LOE strictly adhering to IRCC guidelines, addressing common refusal reasons (like Section 216(1)) proactively.
                             </p>
                         </div>
                     </div>

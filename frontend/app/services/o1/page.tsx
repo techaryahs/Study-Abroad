@@ -23,12 +23,13 @@ import {
    Video,
    Beaker,
    Briefcase,
-   Star
+   Star,
+   Tv
 } from "lucide-react";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import CheckoutModal from "@/app/User/cart/checkoutmodal";
 
-export default function EB1Page() {
+export default function O1Page() {
    const [currency, setCurrency] = useState("IDR");
    const [skipQueue, setSkipQueue] = useState(false);
    const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -60,44 +61,42 @@ export default function EB1Page() {
       }
    };
 
-   const eb1Categories = [
+   const o1Categories = [
       {
-         title: "EB-1A Visa",
-         subtitle: "Extraordinary Ability",
-         description: "For individuals with extraordinary abilities in science, arts, education, business, or athletics.",
-         highlights: ["No Offer of Employment Needed", "No Labor Certification Needed"],
+         title: "O-1A Visa",
+         subtitle: "Sciences, Education, Business, Athletics",
+         description: "For individuals with extraordinary abilities in science, education, business, or athletics.",
+         highlights: ["Requires US Employer/Agent", "Sustained National/International Acclaim"],
          popular: true,
          icon: <Award className="text-[#D4A848]" size={24} />
       },
       {
-         title: "EB-1B Visa",
-         subtitle: "Outstanding Professors",
-         description: "For researchers and professors recognized internationally for their contributions.",
-         highlights: ["No Labor Certification Needed", "Employment Offer Needed"],
+         title: "O-1B Visa",
+         subtitle: "Arts, Motion Picture, Television",
+         description: "For individuals with extraordinary ability in the arts or extraordinary achievement in film/TV.",
+         highlights: ["Requires US Employer/Agent", "Distinction in the Field"],
          popular: false,
-         icon: <Beaker className="text-[#D4A848]" size={24} />
+         icon: <Tv className="text-[#D4A848]" size={24} />
       },
       {
-         title: "EB-1C Visa",
-         subtitle: "Multinational Managers",
-         description: "For managers or executives working for multinational companies moving to the US.",
-         highlights: ["No Labor Certification Needed", "Employment Offer Needed"],
+         title: "O-2 Visa",
+         subtitle: "Essential Support Personnel",
+         description: "For individuals who will accompany an O-1 artist or athlete to assist in a specific event.",
+         highlights: ["Must Accompany O-1 Holder", "Critical Skills & Experience"],
          popular: false,
          icon: <Briefcase className="text-[#D4A848]" size={24} />
       }
    ];
 
    const criteria = [
-      "Evidence of receipt of lesser nationally or internationally recognized prizes or awards for excellence.",
-      "Evidence of your membership in associations in the field which demand outstanding achievement.",
-      "Evidence of published material about you in professional or major trade publications.",
-      "Evidence that you have been asked to judge the work of others, individually or on a panel.",
-      "Evidence of your original scientific, scholarly, artistic, athletic, or business-related contributions.",
-      "Evidence of your authorship of scholarly articles in professional or major trade publications.",
-      "Evidence that your work has been displayed at artistic exhibitions or showcases.",
-      "Evidence of your performance of a leading or critical role in distinguished organizations.",
-      "Evidence that you command a high salary in relation to others in the field.",
-      "Evidence of your commercial successes in the performing arts."
+      "Evidence of receipt of nationally or internationally recognized prizes or awards for excellence.",
+      "Evidence of membership in associations requiring outstanding achievements.",
+      "Evidence of published material in professional/major trade publications about you.",
+      "Evidence of participation on a panel, or individually, as a judge of others' work.",
+      "Evidence of original scientific, scholarly, or business-related contributions of major significance.",
+      "Evidence of authorship of scholarly articles in professional journals.",
+      "Evidence of employment in a critical or essential capacity for distinguished organizations.",
+      "Evidence of commanding a high salary or other significant remuneration."
    ];
 
 
@@ -113,7 +112,7 @@ export default function EB1Page() {
          {/* ── HERO SECTION ── */}
          <section className="relative pt-8 pb-12 px-6 md:px-20 z-10 border-b border-[#D4A848]/10">
             <div className="max-w-screen-2xl mx-auto">
-               <div className="flex flex-row lg:flex-row items-center gap-4 lg:gap-12 mb-8">
+               <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-12 mb-8">
                   <motion.div
                      initial="hidden"
                      animate="visible"
@@ -126,13 +125,13 @@ export default function EB1Page() {
                         </span>
                         <h1 className="text-2xl text-[#362B25] md:text-5xl font-black leading-[1.1] uppercase italic tracking-tight">
                            APPLY FOR AN <br className="sm:hidden" />
-                           <span className="text-[#D4A848] block mt-1">EB-1 VISA NODE</span>
+                           <span className="text-[#D4A848] block mt-1">O-1 VISA NODE</span>
                         </h1>
                      </motion.div>
 
                      <motion.div variants={itemVariants} className="hidden sm:block max-w-xl">
                         <p className="text-base md:text-lg text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-6">
-                           The <span className="text-[#362B25] font-black">Highest Priority</span> employment-based visa in the US, architected for individuals with extraordinary global acclaim.
+                           The <span className="text-[#362B25] font-black">Elite Non-Immigrant</span> work visa in the US, architected for individuals with extraordinary global acclaim in their field.
                         </p>
                      </motion.div>
                   </motion.div>
@@ -148,7 +147,7 @@ export default function EB1Page() {
                         <div className="relative w-full h-full rounded-2xl sm:rounded-[3rem] overflow-hidden border border-[#D4A848]/20 shadow-xl sm:shadow-2xl">
                            <Image
                               src="/eb1-hero.png"
-                              alt="EB-1 hero"
+                              alt="O-1 hero"
                               fill
                               className="object-cover opacity-90"
                            />
@@ -166,11 +165,11 @@ export default function EB1Page() {
                >
                   <motion.div variants={itemVariants} className="sm:hidden">
                      <p className="text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
-                        The <span className="text-[#362B25] font-black">Highest Priority</span> US visa for extraordinary global talent.
+                        The <span className="text-[#362B25] font-black">Elite Non-Immigrant</span> work visa for extraordinary global talent.
                      </p>
                   </motion.div>
 
-                  <DiscussionSection serviceId="eb1" />
+                  <DiscussionSection serviceId="o1" />
                   <div className="pt-2 pl-2">
                      <button 
                         onClick={() => setShowCheckoutModal(true)}
@@ -195,19 +194,19 @@ export default function EB1Page() {
                   <Zap size={20} className="text-[#D4A848] group-hover:text-[#FFFFFF]" />
                </div>
                <div className="space-y-1">
-                  <h3 className="text-sm font-black uppercase tracking-widest text-[#D4A848] italic">Porting Protocol Activated</h3>
+                  <h3 className="text-sm font-black uppercase tracking-widest text-[#D4A848] italic">H-1B Alternative Activated</h3>
                   <p className="text-[#675F5B] text-[11px] font-medium italic leading-relaxed">
-                     Recycle priority dates from <span className="text-[#362B25] font-bold">EB-2 or EB-3</span> classes to significantly <span className="text-[#D4A848]">lower processing times</span>.
+                     Bypass the lottery constraints of <span className="text-[#362B25] font-bold">H-1B</span> with an <span className="text-[#D4A848]">uncapped, infinitely renewable</span> merit-based visa.
                   </p>
                </div>
             </motion.div>
          </section>
 
-         {/* ── WHY CHOOSE YMGRAD ── */}
+         {/* ── WHY CHOOSE US ── */}
          <section className="py-24 px-8 md:px-20 relative z-10">
             <div className="max-w-7xl mx-auto space-y-16">
                <div className="text-center space-y-4">
-                  <h2 className="text-2xl md:text-4xl font-black uppercase italic text-[#362B25]">Why Choose Us for EB-1</h2>
+                  <h2 className="text-2xl md:text-4xl font-black uppercase italic text-[#362B25]">Why Choose Us for O-1</h2>
                   <p className="text-[#675F5B] text-[10px] uppercase tracking-[0.4em] max-w-2xl mx-auto font-black italic">Elite-Level End-to-End Petitioner Services</p>
                </div>
 
@@ -215,7 +214,7 @@ export default function EB1Page() {
                   {[
                      { t: "Free Eligibility Check", d: "Deep portfolio audit to verify extraordinary ability benchmarks.", icon: <Search size={22} /> },
                      { t: "Build Your Profile", d: "Strategic development to hit high-conquest USCIS definitions.", icon: <GraduationCap size={22} /> },
-                     { t: "Success Rates Over 93%", d: "Elite-tier approval vectors for validated qualified candidacy.", icon: <Star size={22} /> }
+                     { t: "Success Rates Over 90%", d: "Elite-tier approval vectors for validated qualified candidacy.", icon: <Star size={22} /> }
                   ].map((box, i) => (
                      <motion.div key={i} whileHover={{ y: -5 }} className="space-y-6 group bg-[#FFFFFF] border border-[#D4A848]/20 rounded-3xl p-8 hover:border-[#D4A848]/50 shadow-sm transition-all">
                         <div className="w-12 h-12 rounded-xl bg-[#F8F6F1] border border-[#D4A848]/20 flex items-center justify-center mx-auto group-hover:bg-[#D4A848] group-hover:text-[#FFFFFF] text-[#D4A848] transition-all duration-700 shadow-sm">
@@ -245,7 +244,7 @@ export default function EB1Page() {
                         step: "Phase 01",
                         title: "Profile Building",
                         desc: "Advanced profile synthesis to meet Extraordinary benchmarks.",
-                        time: "6 Months",
+                        time: "3-6 Months",
                         img: "/eb1-step1.png",
                         align: "left"
                      },
@@ -259,7 +258,7 @@ export default function EB1Page() {
                      },
                      {
                         step: "Phase 03",
-                        title: "I-140 Filing Node",
+                        title: "I-129 Filing Node",
                         desc: "Direct filing protocol with USCIS authorities.",
                         time: "1-2 Months",
                         img: "/eb1-hero.png",
@@ -268,8 +267,8 @@ export default function EB1Page() {
                      {
                         step: "Phase 04",
                         title: "Decision Node",
-                        desc: "Receive your official I-797 approval notice.",
-                        time: "15 Days / 8 Mo",
+                        desc: "Receive your official approval notice.",
+                        time: "15 Days / 4 Mo",
                         img: "/eb1-step4.png",
                         align: "right",
                         premium: true
@@ -305,7 +304,7 @@ export default function EB1Page() {
                                  <div className="flex gap-4 items-center">
                                     <div className="bg-[#FFFFFF] border border-[#D4A848]/10 px-4 py-2 rounded-xl flex items-center justify-between gap-6 w-full shadow-sm">
                                        <span className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest">Standard Node</span>
-                                       <span className="text-[10px] font-bold text-[#675F5B] uppercase tracking-widest">4-8 Months</span>
+                                       <span className="text-[10px] font-bold text-[#675F5B] uppercase tracking-widest">2-4 Months</span>
                                     </div>
                                  </div>
                               </div>
@@ -332,10 +331,10 @@ export default function EB1Page() {
 
                   <div className="space-y-8">
                      {[
-                        { label: "6 Papers Node", pct: 70 },
-                        { label: "7 Papers Node", pct: 79 },
-                        { label: "8 Papers Node", pct: 85 },
-                        { label: "10+ Papers Node", pct: 97.5 }
+                        { label: "O-1A Science Node", pct: 85 },
+                        { label: "O-1A Business Node", pct: 79 },
+                        { label: "O-1B Arts Node", pct: 88 },
+                        { label: "Premium Processed", pct: 95 }
                      ].map((stat, i) => (
                         <div key={i} className="space-y-4">
                            <div className="flex justify-between items-end px-1">
@@ -363,7 +362,7 @@ export default function EB1Page() {
 
                   <div className="grid grid-cols-1 gap-4">
                      {[
-                        { name: "USA (O-1 Visa)", desc: "Priority Work Node.", flag: "US", path: "/services/o1" },
+                        { name: "USA (EB-1 Visa)", desc: "Immigrant Green Card Node.", flag: "US", path: "/services/eb1" },
                         { name: "UK (Global Talent)", desc: "Direct Global PR.", flag: "GB", path: "/services/uk-global-talent" },
                         { name: "Australia (National Innovation)", desc: "Priority Access Node.", flag: "AU", path: "/services/australia-national-innovation" }
                      ].map((path, i) => (
@@ -392,9 +391,9 @@ export default function EB1Page() {
          <section className="py-24 px-8 md:px-20 relative bg-[#FFFFFF] border-y border-[#D4A848]/10 z-10">
             <div className="max-w-7xl mx-auto space-y-20">
                <div className="text-center space-y-6">
-                  <h2 className="text-3xl md:text-5xl font-black uppercase italic text-[#362B25]">EB-1 Class Eligibility</h2>
+                  <h2 className="text-3xl md:text-5xl font-black uppercase italic text-[#362B25]">O-1 Class Eligibility</h2>
                   <p className="text-[#675F5B] text-[13px] font-medium italic max-w-4xl mx-auto border-t border-[#D4A848]/20 pt-10">
-                     Architecting success for high-conquest global talents. Proof of one major Node award or 3 out of 10 Criteria.
+                     Architecting success for high-conquest global talents. Proof of one major Node award or 3 out of 8 Criteria.
                   </p>
                </div>
 
@@ -417,7 +416,7 @@ export default function EB1Page() {
          <section className="py-24 px-8 md:px-20 relative bg-[#F8F6F1] z-10">
             <div className="max-w-7xl mx-auto space-y-24">
                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                  {eb1Categories.map((cat, i) => (
+                  {o1Categories.map((cat, i) => (
                      <motion.div
                         key={i}
                         initial={{ opacity: 0, scale: 0.95 }}
@@ -455,10 +454,10 @@ export default function EB1Page() {
                      <h2 className="text-3xl md:text-5xl font-black uppercase italic leading-none text-[#362B25]">Strategic <br />Advantages</h2>
                      <div className="space-y-8">
                         {[
-                           { t: "Merit-Based Node", d: "Exclusively for individuals proving extraordinary ability globally." },
-                           { t: "PR Gateway Pathway", d: "Direct and fastest pathway to a US Green Card." },
-                           { t: "PERM Protocol Bypass", d: "No Labor Certification Needed; bypass the PERM system entirely." },
-                           { t: "Priority Status Node", d: "Access the absolute fastest processing times in the US architecture." }
+                           { t: "Uncapped Quotas", d: "Unlike H-1B, there is no annual limit or lottery for O-1 visas." },
+                           { t: "Infinite Renewals", d: "Can be renewed indefinitely in 1-year increments." },
+                           { t: "J-1 Waiver Bypass", d: "Can be obtained even if subject to the 2-year home residency requirement." },
+                           { t: "Dual Intent Flexibility", d: "A clear pathway remains open to adjust status to EB-1 or EB-2 NIW." }
                         ].map((adv, i) => (
                            <div key={i} className="group relative pl-10">
                               <div className="absolute left-0 top-0 w-px h-full bg-[#D4A848]/20 group-hover:bg-[#D4A848] transition-colors" />
@@ -524,20 +523,20 @@ export default function EB1Page() {
                <div className="grid grid-cols-1 gap-3">
                   {[
                      {
-                        q: "Who qualifies for an EB-1A Extraordinary Ability Visa?",
-                        a: "Individuals who can demonstrate sustained national or international acclaim. Requires one-time major award or 3 out of 10 USCIS criteria."
+                        q: "Who qualifies for an O-1 Visa?",
+                        a: "Individuals who can demonstrate extraordinary ability by sustained national or international acclaim in sciences, arts, education, business, or athletics."
                      },
                      {
-                        q: "Do I need a job offer for EB-1A?",
-                        a: "No. The EB-1A sub-category allows for self-petitioning, meaning no employer sponsorship is required."
+                        q: "Do I need a job offer for O-1?",
+                        a: "Yes. The O-1 is an employer-sponsored visa, meaning you must have a US employer or agent to petition on your behalf."
                      },
                      {
-                        q: "What is the processing time for EB-1?",
-                        a: "EB-1 is significantly faster. Premium processing is available for EB-1A and EB-1B, providing results within 45 days."
+                        q: "What is the processing time for O-1?",
+                        a: "With premium processing, USCIS will process the petition within 15 calendar days."
                      },
                      {
-                        q: "Does success lead directly to a Green Card?",
-                        a: "Yes. The EB-1 is an immigrant visa node; success directly leads to permanent residency (Green Card) for you and immediate family."
+                        q: "Is there a limit on how long I can stay?",
+                        a: "The initial period of stay can be up to 3 years. After that, it can be extended indefinitely in 1-year increments as long as the work continues."
                      }
                   ].map((faq, i) => (
                      <div key={i} className="bg-[#F8F6F1] rounded-2xl border border-[#D4A848]/10 overflow-hidden group hover:border-[#D4A848]/50 transition-all duration-700">
@@ -593,7 +592,7 @@ export default function EB1Page() {
          <CheckoutModal 
             isOpen={showCheckoutModal}
             onClose={() => setShowCheckoutModal(false)}
-            items={[{ name: "Extraordinary Evaluation Protocol (EB-1)", price: discountedPrice }]}
+            items={[{ name: "Extraordinary Evaluation Protocol (O-1)", price: discountedPrice }]}
             subtotal={basePrice}
             discount={basePrice - discountedPrice}
             total={discountedPrice}

@@ -389,7 +389,7 @@ const Register = () => {
               <div className="w-10 h-10 bg-[#C5A059] rounded-xl flex items-center justify-center shadow-xl">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-black tracking-tighter uppercase italic">Global Counsellor Centre</span>
+              <span className="text-xl font-black tracking-tighter uppercase italic">International Eduleader Council</span>
             </div>
             <h1 className="text-4xl font-black leading-tight uppercase mb-6 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
               Architect <br /> <span className="text-[#C5A059]">Global</span> <br /> Careers.

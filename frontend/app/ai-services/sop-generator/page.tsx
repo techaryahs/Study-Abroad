@@ -2,17 +2,19 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Star, Play } from 'lucide-react';
+import { ArrowRight, Sparkles, Star, Play, Zap } from 'lucide-react';
 import CheckoutModal from '@/app/User/cart/checkoutmodal';
+import BookCounsellingModal from '@/components/shared/BookCounsellingModal';
 
 export default function AISOPGeneratorPage() {
     const [checkoutPlan, setCheckoutPlan] = useState<{ actual: number; discounted: number; title: string } | null>(null);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
 
     return (
         <div className="min-h-screen bg-[#FDFBF7] font-sans">
-            <div className="pb-24 px-6 max-w-7xl mx-auto">
+            <div className="pt-4 pb-12 px-6 max-w-7xl mx-auto">
                 {/* Hero Section */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     
                     {/* Left Content */}
                     <div className="space-y-8 relative z-10">
@@ -34,13 +36,13 @@ export default function AISOPGeneratorPage() {
                             >
                                 Buy Now <ArrowRight size={18} />
                             </Link>
-                            <Link 
-                                href="/ai-services/sop-generator/build" 
+                            <button 
+                                onClick={() => setIsBookingOpen(true)}
                                 className="px-8 py-4 rounded-xl bg-[#362B25] text-white font-bold text-[15px] tracking-wide hover:bg-[#241c18] transition-all text-center flex items-center justify-center gap-3 shadow-xl shadow-[#362B25]/20 group w-full sm:w-auto"
                             >
                                 <Sparkles size={18} className="text-[#D4A848] group-hover:scale-110 transition-transform" /> 
                                 Build Your SOP Today
-                            </Link>
+                            </button>
                         </div>
                         
                         <div className="flex items-center gap-4 pt-8">
@@ -67,8 +69,8 @@ export default function AISOPGeneratorPage() {
                 </div>
 
                 {/* Universities Strip */}
-                <div className="mt-32 pt-16 border-t border-[#D4A848]/10 max-w-5xl mx-auto">
-                    <p className="text-center text-[#675F5B] font-bold text-xs tracking-[0.2em] uppercase opacity-50 mb-12">Admissions Secured At Top Universities</p>
+                <div className="mt-16 pt-12 border-t border-[#D4A848]/10 max-w-5xl mx-auto">
+                    <p className="text-center text-[#675F5B] font-bold text-[11px] tracking-[0.2em] uppercase opacity-70 mb-12">Admissions Secured At Top Universities</p>
                     <div className="flex flex-wrap justify-center gap-10 md:gap-16 items-center transition-all duration-700">
                         {[
                             { name: 'Stanford', domain: 'stanford.edu' },
@@ -88,7 +90,7 @@ export default function AISOPGeneratorPage() {
                 </div>
 
                 {/* Key Features */}
-                <div className="mt-32 max-w-5xl mx-auto pt-10">
+                <div className="mt-16 max-w-5xl mx-auto pt-6">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#362B25] mb-4">Key Features</h2>
                         <p className="text-[#675F5B] text-lg font-medium">Your AI Partner for Original, Plagiarism-Free, and Polished Statements</p>
@@ -124,7 +126,7 @@ export default function AISOPGeneratorPage() {
                                 <div className="w-36 h-44 bg-gradient-to-br from-white/10 to-transparent rounded-[20px] border-[2px] border-[#362B25]/20 backdrop-blur-md relative flex items-center justify-center shadow-2xl">
                                     <div className="w-24 h-24 bg-gradient-to-tr from-[#c8922c] to-[#fce498] rounded-full shadow-[0_0_50px_rgba(212,168,72,0.3)] flex flex-col items-center justify-center text-[#362B25] font-black text-center p-2 border-[4px] border-dashed border-[#57442a]/30 leading-tight">
                                         <div className="text-3xl pt-1">100%</div>
-                                        <div className="text-[10px] tracking-wider mt-0.5">ORIGINAL</div>
+                                        <div className="text-[12px] tracking-wider mt-0.5">ORIGINAL</div>
                                     </div>
                                     <div className="absolute -right-2 top-8 text-green-400"><div className="flex justify-center items-center w-6 h-6 bg-green-500 rounded-full text-white">✓</div></div>
                                     <div className="absolute -left-4 bottom-12 text-green-400 scale-75"><div className="flex justify-center items-center w-6 h-6 bg-green-500 rounded-full text-white">✓</div></div>
@@ -137,7 +139,7 @@ export default function AISOPGeneratorPage() {
                 </div>
 
                 {/* How It Works */}
-                <div className="mt-32 max-w-5xl mx-auto border-t border-[#D4A848]/10 pt-24 pb-24">
+                <div className="mt-16 max-w-5xl mx-auto border-t border-[#D4A848]/10 pt-16 pb-16">
                     <div className="text-center mb-24">
                         <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#362B25] mb-4">How It Works</h2>
                         <p className="text-[#675F5B] text-lg font-medium">Turn Your input into impact, effortlessly!</p>
@@ -164,15 +166,15 @@ export default function AISOPGeneratorPage() {
                             </div>
                             
                             <div className="md:pl-8">
-                                <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-xs tracking-widest uppercase mb-4">Step 1</div>
-                                <div className="bg-[#362B25] text-white p-8 md:p-10 rounded-[28px] shadow-xl group hover:-translate-y-1 transition-transform">
+                                <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-[11px] tracking-widest uppercase mb-4">Step 1</div>
+                                <div className="bg-[#362B25] text-white p-6 md:p-8 rounded-[28px] shadow-xl group hover:-translate-y-1 transition-transform">
                                     <h3 className="text-2xl font-bold font-serif mb-3 flex items-center gap-4">
                                         <div className="w-10 h-10 bg-white/10 rounded-[10px] flex items-center justify-center shrink-0">
                                             <div className="w-5 h-5 border-[2px] border-white/80 border-t-[#D4A848] border-t-4 rounded-[4px]"></div>
                                         </div>
                                         Input Details
                                     </h3>
-                                    <p className="text-white/60 leading-relaxed text-[15px]">Provide your background and goals by filling out a simple form. It takes just 15-20 minutes.</p>
+                                    <p className="text-white/80 leading-relaxed text-[15px]">Provide your background and goals by filling out a simple form. It takes just 15-20 minutes.</p>
                                 </div>
                             </div>
                         </div>
@@ -189,15 +191,15 @@ export default function AISOPGeneratorPage() {
                                         {[...Array(9)].map((_, i) => <Star key={i} size={14} className="fill-white text-white"/>)}
                                     </div>
                                     <h4 className="text-white font-bold text-lg mb-1">Just a moment!</h4>
-                                    <p className="text-white/70 text-xs">Something special is brewing...</p>
+                                    <p className="text-white/85 text-[11px]">Something special is brewing...</p>
                                 </div>
                             </div>
                             
                             <div className="md:order-1 md:pr-8 md:text-right">
                                 <div className="flex md:justify-end mb-4">
-                                    <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-xs tracking-widest uppercase">Step 2</div>
+                                    <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-[11px] tracking-widest uppercase">Step 2</div>
                                 </div>
-                                <div className="bg-white border border-[#D4A848]/10 text-[#362B25] p-8 md:p-10 rounded-[28px] shadow-sm group hover:-translate-y-1 transition-transform">
+                                <div className="bg-white border border-[#D4A848]/10 text-[#362B25] p-6 md:p-8 rounded-[28px] shadow-sm group hover:-translate-y-1 transition-transform">
                                     <h3 className="text-2xl font-bold font-serif mb-3 flex items-center md:justify-end gap-4">
                                         <div className="w-10 h-10 bg-[#F8F6F1] rounded-[10px] flex items-center justify-center shrink-0 md:order-2">
                                             <Sparkles size={20} className="text-[#D4A848]" />
@@ -232,8 +234,8 @@ export default function AISOPGeneratorPage() {
                             </div>
                             
                             <div className="md:pl-8">
-                                <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-xs tracking-widest uppercase mb-4">Step 3</div>
-                                <div className="bg-[#362B25] text-white p-8 md:p-10 rounded-[28px] shadow-xl group hover:-translate-y-1 transition-transform">
+                                <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-[11px] tracking-widest uppercase mb-4">Step 3</div>
+                                <div className="bg-[#362B25] text-white p-6 md:p-8 rounded-[28px] shadow-xl group hover:-translate-y-1 transition-transform">
                                     <h3 className="text-2xl font-bold font-serif mb-3 flex items-center gap-4">
                                         <div className="w-10 h-10 bg-white/10 rounded-[10px] flex items-center justify-center shrink-0">
                                             <div className="w-5 h-5 border-[2px] border-white/80 rounded-[4px] border-b-[#e29348] border-b-[4px]"></div>
@@ -300,9 +302,9 @@ export default function AISOPGeneratorPage() {
                             
                             <div className="md:order-1 md:pr-8 md:text-right">
                                 <div className="flex md:justify-end mb-4">
-                                    <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-xs tracking-widest uppercase">Step 4</div>
+                                    <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-[11px] tracking-widest uppercase">Step 4</div>
                                 </div>
-                                <div className="bg-white border border-[#D4A848]/10 text-[#362B25] p-8 md:p-10 rounded-[28px] shadow-sm group hover:-translate-y-1 transition-transform">
+                                <div className="bg-white border border-[#D4A848]/10 text-[#362B25] p-6 md:p-8 rounded-[28px] shadow-sm group hover:-translate-y-1 transition-transform">
                                     <h3 className="text-2xl font-bold font-serif mb-3 flex items-center md:justify-end gap-4">
                                         <div className="w-10 h-10 bg-[#F8F6F1] rounded-[10px] flex items-center justify-center shrink-0 md:order-2">
                                             <div className="w-4 h-5 border-[2px] border-[#D4A848] rounded-[3px] shadow-sm relative"><div className="absolute -right-[6px] top-1 w-1 h-2 bg-[#362B25] rounded-r-[2px]"></div></div>
@@ -318,7 +320,7 @@ export default function AISOPGeneratorPage() {
                 </div>
 
                 {/* Go AI-Safe Section */}
-                <div className="mt-20 max-w-6xl mx-auto px-6 lg:px-10 pb-32">
+                <div className="mt-12 max-w-6xl mx-auto px-6 lg:px-10 pb-20">
                     <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
                         
                         {/* Left Side - Image */}
@@ -354,7 +356,7 @@ export default function AISOPGeneratorPage() {
                                 <div className="flex items-center gap-5">
                                     <div className="w-11 h-11 bg-[#D4A848] rounded-[10px] flex items-center justify-center shrink-0">
                                         <div className="w-[18px] h-[18px] border-[1.5px] border-white rounded-[10px] flex items-center justify-center">
-                                            <span className="text-white text-[10px] font-bold">✓</span>
+                                            <span className="text-white text-[11px] font-bold">✓</span>
                                         </div>
                                     </div>
                                     <span className="text-[#362B25] font-medium text-[16px]">Plagiarism-Free</span>
@@ -417,7 +419,7 @@ export default function AISOPGeneratorPage() {
                                         </div>
                                         <span className="font-bold text-[#10a37f] text-lg">ChatGPT</span>
                                     </div>
-                                    <div className="bg-[#f0f2f5] text-[#362B25] text-[9px] uppercase font-bold px-3 py-1.5 rounded tracking-widest">Generic AI Model</div>
+                                    <div className="bg-[#f0f2f5] text-[#362B25] text-[11px] uppercase font-bold px-3 py-1.5 rounded tracking-widest">Generic AI Model</div>
                                 </div>
                                 
                                 <ul className="space-y-6 flex-1">
@@ -444,17 +446,17 @@ export default function AISOPGeneratorPage() {
                                 </ul>
                             </div>
                             
-                            {/* Global Counsellor Card */}
+                            {/* International Eduleader Council Card */}
                             <div className="flex-1 border-[2px] border-[#D4A848] rounded-xl p-8 bg-white shadow-[0_10px_40px_rgba(235,192,62,0.15)] flex flex-col relative transform md:-translate-y-4">
                                 {/* Header */}
                                 <div className="flex justify-between items-center mb-8">
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 bg-[#362B25] rounded-full flex items-center justify-center text-[#D4A848] shrink-0 font-serif font-black text-xl leading-none">
-                                            G
+                                            I
                                         </div>
-                                        <span className="font-bold text-[#362B25] text-[17px] leading-tight">Global<br/>Counsellor</span>
+                                        <span className="font-bold text-[#362B25] text-[17px] leading-tight">International<br/>Eduleader Council</span>
                                     </div>
-                                    <div className="bg-[#D4A848] text-white text-[9px] uppercase font-bold px-3 py-1.5 rounded tracking-widest shadow-sm">University-Focused AI</div>
+                                    <div className="bg-[#D4A848] text-white text-[11px] uppercase font-bold px-3 py-1.5 rounded tracking-widest shadow-sm">Council-Verified AI</div>
                                 </div>
                                 
                                 <ul className="space-y-6 flex-1">
@@ -468,7 +470,7 @@ export default function AISOPGeneratorPage() {
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Comes with Global Counsellor AI Remover to ensure originality & AI-proofing.</span>
+                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Comes with IEC AI Remover to ensure originality & AI-proofing.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>
@@ -486,7 +488,7 @@ export default function AISOPGeneratorPage() {
                 </div>
 
                 {/* Pricing Section */}
-                <div className="mt-20 max-w-6xl mx-auto px-6 lg:px-10 pb-20">
+                <div id="pricing" className="mt-20 max-w-6xl mx-auto px-6 lg:px-10 pb-20">
                     <div className="text-center mb-16">
                         <h2 className="text-[36px] md:text-[44px] text-[#362B25] mb-6 tracking-tight leading-tight font-medium">
                             Small Investment <span className="font-light text-gray-400 mx-2">→</span> Great Impact
@@ -506,7 +508,7 @@ export default function AISOPGeneratorPage() {
                         
                         {/* Card 1 */}
                         <div className="bg-white border border-gray-100 rounded-2xl md:rounded-[24px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col h-full hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow">
-                            <div className="text-gray-400 text-[13px] mb-2">Price: <span className="line-through">INR 5,000</span></div>
+                            <div className="text-gray-500 text-[13px] mb-2">Price: <span className="line-through">INR 5,000</span></div>
                             <div className="flex items-baseline gap-2 mb-4">
                                 <span className="font-bold text-[#362B25] text-xl">INR</span>
                                 <span className="font-bold text-[#362B25] text-[38px] leading-none">3,999</span>
@@ -518,19 +520,19 @@ export default function AISOPGeneratorPage() {
                             <div className="text-[#362B25] font-semibold text-[15px] mb-6">What's included</div>
                             <ul className="space-y-5 flex-1 mb-10">
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[11px] font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Generate <strong className="font-semibold text-gray-800">1</strong> SOP</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[11px] font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">AI and Plagiarism Removal</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[11px] font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Fully Customized</span>
                                 </li>
                                 <li className="flex items-start gap-4">
-                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
+                                    <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[11px] font-bold">✓</span></div>
                                     <span className="text-[#362B25] text-[14px]">Perfect for a single high-stakes application</span>
                                 </li>
                             </ul>
@@ -572,7 +574,7 @@ export default function AISOPGeneratorPage() {
                         
                         {/* Card 3 (Value) */}
                         <div className="bg-[#362B25] rounded-2xl md:rounded-[24px] p-8 shadow-[0_20px_40px_rgb(0,0,0,0.15)] flex flex-col h-full relative transform md:-translate-y-4 border border-gray-700">
-                            <div className="absolute top-6 right-6 border border-[#D4A848] text-[#D4A848] text-[10px] font-bold tracking-widest uppercase px-3 py-1 rounded">Value</div>
+                            <div className="absolute top-6 right-6 border border-[#D4A848] text-[#D4A848] text-[11px] font-bold tracking-widest uppercase px-3 py-1 rounded">Value</div>
                             <div className="text-gray-400 text-[13px] mb-2">Price: <span className="line-through">INR 40,000</span></div>
                             <div className="flex items-baseline gap-2 mb-4">
                                 <span className="font-bold text-white text-xl">INR</span>
@@ -637,7 +639,40 @@ export default function AISOPGeneratorPage() {
                         ))}
                     </div>
                 </div>
-
+ 
+                {/* ── FINAL CTA SECTION ────────────────────────────────────────────────── */}
+                <div className="mt-12 mb-32 max-w-5xl mx-auto">
+                    <div className="bg-[#362B25] rounded-[48px] p-12 md:p-24 text-center space-y-10 relative overflow-hidden shadow-2xl border border-[#D4A848]/20">
+                        {/* Decorative background element */}
+                        <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#D4A848]/5 blur-[100px] rounded-full" />
+                        <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-[#D4A848]/5 blur-[100px] rounded-full" />
+                        
+                        <div className="space-y-4 relative z-10">
+                            <span className="text-[#D4A848] text-[11px] font-bold tracking-[0.3em] uppercase">Begin Your Legacy</span>
+                            <h2 className="font-serif text-5xl md:text-6xl font-bold text-white leading-tight">Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#D4A848] to-[#9c782b]">Future Protocol</span> Starts Here</h2>
+                            <p className="text-white/60 text-lg font-medium max-w-2xl mx-auto italic">
+                                "Secure your admissions with precision-drafted Statement of Purpose. Trained on successful Ivy League scripts."
+                            </p>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-6 justify-center relative z-10 pt-4">
+                            <button 
+                                onClick={() => setIsBookingOpen(true)}
+                                className="bg-[#D4A848] text-[#362B25] px-10 py-5 rounded-2xl font-bold hover:bg-white transition-all flex items-center justify-center gap-3 shadow-2xl tracking-widest text-xs uppercase"
+                            >
+                                Consult SOP Expert <Zap size={16} />
+                            </button>
+                            <button 
+                                onClick={() => {
+                                    const el = document.getElementById('pricing');
+                                    el?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                className="bg-white/5 text-white border-2 border-white/10 px-10 py-5 rounded-2xl font-bold hover:bg-white/10 transition-all tracking-widest text-xs uppercase"
+                            >
+                                View Protocols
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             
@@ -650,6 +685,11 @@ export default function AISOPGeneratorPage() {
                 discount={(checkoutPlan?.actual || 0) - (checkoutPlan?.discounted || 0)}
                 total={checkoutPlan?.discounted || 0}
                 currency="INR"
+            />
+
+            <BookCounsellingModal 
+               isOpen={isBookingOpen}
+               onClose={() => setIsBookingOpen(false)}
             />
         </div>
     );

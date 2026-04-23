@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../widgets/book_counselling_sheet.dart';
 
 // ─── Theme Colors ─────────────────────────────────────────────────────────────
 
@@ -91,9 +92,7 @@ class EducationLoanPage extends StatefulWidget {
 }
 
 class _EducationLoanPageState extends State<EducationLoanPage> {
-  bool _showBookingSheet = false;
-
-  void _openBooking() => setState(() => _showBookingSheet = true);
+  void _openBooking() => showBookCounsellingSheet(context);
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +116,6 @@ class _EducationLoanPageState extends State<EducationLoanPage> {
               ),
             ),
           ),
-          if (_showBookingSheet)
-            _BookingSheet(onClose: () => setState(() => _showBookingSheet = false)),
         ],
       ),
     );
@@ -607,7 +604,7 @@ class _WhyChooseSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(color: _dark, borderRadius: BorderRadius.circular(12)),
-                child: const Text('GCC', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: _gold)),
+                child: const Text('IEC', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: _gold)),
               ),
               const Text('?', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: _dark)),
             ],
@@ -725,73 +722,9 @@ class _CTABanner extends StatelessWidget {
 
 // ─── Booking Sheet (modal replacement) ───────────────────────────────────────
 
-class _BookingSheet extends StatelessWidget {
-  final VoidCallback onClose;
-  const _BookingSheet({required this.onClose});
+// Removed local _BookingSheet in favor of global widget
 
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onClose,
-      child: Container(
-        color: Colors.black54,
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: GestureDetector(
-            onTap: () {},
-            child: Container(
-              decoration: const BoxDecoration(
-                color: _white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-              ),
-              padding: const EdgeInsets.all(28),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(width: 40, height: 4, decoration: BoxDecoration(color: _border, borderRadius: BorderRadius.circular(2))),
-                  const SizedBox(height: 20),
-                  const Text('Book a Counselling Session', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: _dark)),
-                  const SizedBox(height: 8),
-                  const Text('Fill in your details and our team will get back to you shortly.', textAlign: TextAlign.center, style: TextStyle(fontSize: 13, color: _muted)),
-                  const SizedBox(height: 24),
-                  _BookingField(label: 'Full Name'),
-                  const SizedBox(height: 12),
-                  _BookingField(label: 'Email Address'),
-                  const SizedBox(height: 12),
-                  _BookingField(label: 'Phone Number'),
-                  const SizedBox(height: 24),
-                  _GoldButton(label: 'Submit', onTap: onClose),
-                  const SizedBox(height: 12),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _BookingField extends StatelessWidget {
-  final String label;
-  const _BookingField({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(fontSize: 13, color: _muted),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _border)),
-        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _border)),
-        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: _gold)),
-        filled: true,
-        fillColor: _bg,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      ),
-    );
-  }
-}
+// Removed local _BookingField in favor of global widget
 
 // ─── Shared Widgets ───────────────────────────────────────────────────────────
 

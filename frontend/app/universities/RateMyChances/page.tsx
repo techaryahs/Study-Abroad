@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
     ChevronRight,
@@ -16,6 +17,7 @@ import {
     Award
 } from "lucide-react";
 import Image from "next/image";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import usaData from "@/data/USA.json";
 
 const Globe = ({ className, ...props }: any) => (
@@ -60,6 +62,7 @@ const premiumFeatures = [
 export default function RateMyChancesPage() {
     const harvardInfo = usaData.find(u => u.slug === 'harvard-university') || usaData[0];
     const topBranch = harvardInfo.branches[0];
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
 
     const USD_TO_INR = 83; // Standard conversion rate
     const formatINR = (usdAmount: number | undefined) => {
@@ -102,7 +105,7 @@ export default function RateMyChancesPage() {
                         RateMyChances
                     </h1>
                     <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[#675F5B]/80 mt-2">
-                        Powered By Global Counsellor Centre
+                        Powered By International Eduleader Council
                     </p>
                 </motion.div>
 
@@ -272,13 +275,18 @@ export default function RateMyChancesPage() {
                 {/* Book Session CTA Footer */}
                 <div className="flex justify-center mt-20 pb-10">
                     <button
-                        onClick={() => window.open('/services/admission-guidance', '_self')}
+                        onClick={() => setIsBookingOpen(true)}
                         className="bg-[#362B25] text-white px-8 py-4 sm:px-12 sm:py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs sm:text-sm hover:bg-[#D4A848] transition-colors shadow-2xl flex items-center gap-3"
                     >
                         Contact Experts <ChevronRight size={18} />
                     </button>
                 </div>
             </section>
+
+            <BookCounsellingModal 
+                isOpen={isBookingOpen}
+                onClose={() => setIsBookingOpen(false)}
+            />
         </main>
     );
 }
