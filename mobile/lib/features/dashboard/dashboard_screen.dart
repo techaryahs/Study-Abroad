@@ -616,10 +616,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           margin: const EdgeInsets.only(right: 12),
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                           decoration: BoxDecoration(
-                            color: isSelected ? AppTheme.darkBrown : Colors.white,
+                            color: isSelected ? AppTheme.gold : Colors.white,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: isSelected ? AppTheme.darkBrown : AppTheme.borderLight),
-                            boxShadow: isSelected ? [BoxShadow(color: AppTheme.darkBrown.withOpacity(0.2), blurRadius: 15, offset: const Offset(0, 5))] : null,
+                            border: Border.all(color: isSelected ? AppTheme.gold : AppTheme.borderLight),
+                            boxShadow: isSelected ? [BoxShadow(color: AppTheme.gold.withOpacity(0.2), blurRadius: 15, offset: const Offset(0, 5))] : null,
                           ),
                           child: Text(
                             tab == 'profile' ? 'PROFILE' : tab == 'bookings' ? 'MY BOOKINGS' : 'MY SESSIONS',
@@ -627,7 +627,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               fontSize: 10,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.5,
-                              color: isSelected ? AppTheme.gold : AppTheme.textSecondary,
+                              color: isSelected ? Colors.white : AppTheme.textSecondary,
                             ),
                           ),
                         ),

@@ -712,10 +712,18 @@ export default function Navbar() {
       >
 
         {/* ── ROW 1: PRIMARY PILLARS & ACTIONS ── */}
-        <div className={`flex items-center justify-between px-4 sm:px-8 lg:px-16 h-16 relative z-20 transition-all duration-200 bg-transparent`}>
+        <div className={`flex items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-10 h-16 relative z-20 transition-all duration-200 bg-transparent`}>
           {/* Logo Section */}
           <div className="flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 relative rounded overflow-hidden bg-white/5 flex items-center justify-center p-1">
+                <Image
+                  src="/assets/logo_iec.png"
+                  alt="Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
               <div className="flex flex-col">
                 <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">International Eduleader Council</span>
                 <span className="text-[#B3985E] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] mt-2 opacity-80">GLOBAL ADMISSIONS</span>
@@ -989,7 +997,15 @@ export default function Navbar() {
 
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
-            <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
+            <Link href="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
+              <div className="w-8 h-8 relative rounded overflow-hidden bg-white/5 flex items-center justify-center p-1 shrink-0">
+                <Image
+                  src="/assets/logo_iec.png"
+                  alt="Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
               <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">International Eduleader Council</span>
             </Link>
             <button

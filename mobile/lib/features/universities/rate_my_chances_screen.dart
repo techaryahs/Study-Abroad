@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
-import '../widgets/book_counselling_sheet.dart';
+import '../../widgets/book_counselling_sheet.dart';
 
 class RateMyChancesScreen extends StatelessWidget {
   const RateMyChancesScreen({super.key});

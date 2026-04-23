@@ -72,7 +72,7 @@ export default function Footer() {
                   </span>
                 </div>
               </Link>
-              <p className="text-white/30 text-xs leading-relaxed font-bold max-w-xs">
+              <p className="text-white/80 text-xs leading-relaxed font-bold max-w-xs">
                 Your trusted principal-led partner for studying abroad. We guide students
                 to Ivy League and top global universities with personalized, academic-first mentorship.
               </p>
