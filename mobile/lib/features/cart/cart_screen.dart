@@ -59,7 +59,7 @@ class _CartScreenState extends State<CartScreen> {
           if (_cartItems.isNotEmpty)
             TextButton(
               onPressed: () => setState(() => _cartItems.clear()),
-              child: const Text('Clear', style: TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w700)),
+              child: const Text('Clear', style: TextStyle(color: Colors.red, fontSize: 14, fontWeight: FontWeight.w700)),
             ),
         ],
       ),
@@ -146,14 +146,15 @@ class _CartScreenState extends State<CartScreen> {
                               context,
                               items: _cartItems,
                               currency: 'INR',
-                              onCheckout: () {
-                                Navigator.pop(context);
-                                _showPaymentDialog();
+                              onPaymentSuccess: () {
+                                setState(() {
+                                  _cartItems.clear();
+                                });
                               },
                             ),
                             icon: const Icon(Icons.lock_rounded, size: 18),
-                            label: Text('PROCEED TO PAY  ₹$_total',
-                                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1)),
+                            label: const Text('PROCEED TO CHECKOUT',
+                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1)),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.darkBrown,
                               foregroundColor: Colors.white,
@@ -207,42 +208,4 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  void _showPaymentDialog() {
-    showDialog(
-      context: context,
-      builder: (_) => Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        child: Padding(
-          padding: const EdgeInsets.all(28),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.orange.shade50,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.info_outline_rounded, color: Colors.orange, size: 40),
-              ),
-              const SizedBox(height: 20),
-              const Text('Payment Info',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
-              const SizedBox(height: 12),
-              const Text(
-                'Online payment gateway integration requires a live deployment. Please contact us on WhatsApp to complete your purchase.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 13, color: AppTheme.textSecondary, height: 1.5),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text('GOT IT'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }

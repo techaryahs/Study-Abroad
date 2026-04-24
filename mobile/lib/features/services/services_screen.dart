@@ -56,7 +56,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     decoration: const BoxDecoration(color: AppTheme.gold, shape: BoxShape.circle),
                     child: Center(
                       child: Text('${_cart.length}',
-                          style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: AppTheme.darkBrown)),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.darkBrown)),
                     ),
                   ),
                 ),
@@ -81,7 +81,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900, height: 1.2)),
                 const SizedBox(height: 8),
                 Text('Trusted by 1000+ students worldwide',
-                    style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 12)),
+                    style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 14)),
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () => showBookCounsellingSheet(context),
@@ -155,7 +155,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           ),
                           const SizedBox(height: 14),
                           Text(s.description,
-                              style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary, height: 1.6)),
+                              style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.6)),
                           const SizedBox(height: 14),
                           Wrap(
                             spacing: 8, runSpacing: 8,
@@ -167,7 +167,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                 border: Border.all(color: AppTheme.borderLight),
                               ),
                               child: Text('✓ $f',
-                                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
                             )).toList(),
                           ),
                         ],
@@ -186,7 +186,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           child: GestureDetector(
                             onTap: () => showBookCounsellingSheet(context),
                             child: const Text('Get Free Advice →',
-                                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.gold)),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.gold)),
                           ),
                         ),
                         ElevatedButton(
@@ -198,7 +198,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                           ),
                           child: Text(inCart ? '✓ Added' : 'Add to Cart',
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800)),
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
                         ),
                       ],
                     ),
@@ -208,43 +208,40 @@ class _ServicesScreenState extends State<ServicesScreen> {
             )).animate().fadeIn(delay: Duration(milliseconds: i * 80)).slideY(begin: 0.1);
           }),
 
-          // ✅ FAQ BUTTON START
-          const SizedBox(height: 20),
+          // ✅ FAQ BUTTON
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: GestureDetector(
-               onTap: () {
-                context.push('/faq');
-              },
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: InkWell(
+              onTap: () => context.push('/faq'),
+              borderRadius: BorderRadius.circular(20),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppTheme.gold.withOpacity(0.08),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppTheme.gold.withOpacity(0.4)),
+                  border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.help_outline_rounded, color: AppTheme.gold),
-                    SizedBox(width: 12),
-                      Expanded(
-                       child: Text(
-                         "Frequently Asked Questions",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w800,
-                          ),
-                       ),
+                    Icon(Icons.help_outline_rounded, color: AppTheme.gold, size: 22),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Text(
+                        'Frequently Asked Questions',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w900,
+                          color: AppTheme.gold,
+                        ),
                       ),
-                    Icon(Icons.arrow_forward_ios_rounded, size: 14),
+                    ),
+                   Icon(Icons.arrow_forward_ios_rounded, color: AppTheme.gold, size: 12),
                   ],
                 ),
               ),
             ),
           ),
-
-        const SizedBox(height: 30),
-        // ✅ FAQ BUTTON END
+          const SizedBox(height: 30),
 
       ],
       ),

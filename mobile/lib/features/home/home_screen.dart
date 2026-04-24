@@ -56,28 +56,49 @@ class _HomeScreenState extends State<HomeScreen> {
           // ── APP BAR ──────────────────────────────────────────
           SliverAppBar(
             expandedHeight: 0,
+            toolbarHeight: 90,
             pinned: true,
             backgroundColor: Colors.white,
             elevation: 0,
-            title: Row(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  width: 32, height: 32,
-                  decoration: BoxDecoration(
-                    color: AppTheme.darkBrown,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(Icons.school_rounded, color: AppTheme.gold, size: 18),
+                Row(
+                  children: [
+                    Container(
+                      width: 30, height: 30,
+                      padding: const EdgeInsets.all(2),
+                      child: Image.asset('assets/images/logo_iec.png', fit: BoxFit.contain),
+                    ),
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'INTERNATIONAL EDULEADER COUNCIL',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 0.5),
+                        ),
+                        Text(
+                          'GLOBAL ADMISSIONS',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                const Text('Study Abroad',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
               ],
             ),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined, color: AppTheme.textPrimary),
-                onPressed: () => context.go('/cart'),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.shopping_cart_outlined, color: AppTheme.textPrimary),
+                    onPressed: () => context.go('/cart'),
+                  ),
+                ),
               ),
             ],
           ),
@@ -136,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     child: const Text('TALK TO EXPERT',
                                         style: TextStyle(
-                                            fontSize: 10,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.w800,
                                             letterSpacing: 1)),
                                   ),
@@ -148,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     icon: const Icon(Icons.chat_rounded, size: 13, color: AppTheme.darkBrown),
                                     label: const Text('WHATSAPP',
                                         style: TextStyle(
-                                            fontSize: 10,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.w800,
                                             letterSpacing: 1,
                                             color: AppTheme.darkBrown)),
@@ -171,9 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF40332D),
+                          color: const Color(0xFFF8F6F1), // Lighter background
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+                          border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
                           boxShadow: [
                             BoxShadow(
                               color: AppTheme.gold.withOpacity(0.1),
@@ -193,17 +214,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(height: 6),
                               Text(d['name']!,
                                   style: const TextStyle(
-                                      color: AppTheme.gold, fontSize: 8, fontWeight: FontWeight.w800, letterSpacing: 1)),
+                                      color: AppTheme.darkBrown, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1)),
                               const SizedBox(height: 2),
                               Text(d['stat']!,
                                   style: const TextStyle(
-                                      color: Color(0xFFF8F6F1), fontSize: 14, fontWeight: FontWeight.w900)),
+                                      color: AppTheme.gold, fontSize: 16, fontWeight: FontWeight.w900)),
                               Text(d['sub']!,
-                                  style: TextStyle(
-                                      color: const Color(0xFFF8F6F1).withOpacity(0.5),
-                                      fontSize: 7,
+                                  style: const TextStyle(
+                                      color: AppTheme.textSecondary,
+                                      fontSize: 9,
                                       fontWeight: FontWeight.w700,
-                                      letterSpacing: 0.8)),
+                                      letterSpacing: 0.5)),
                             ],
                           )).toList(),
                         ),
@@ -224,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (_, i) {
                       final s = _stats[i];
                       return Container(
-                        width: 110,
+                        width: 120,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(18),
@@ -242,11 +263,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )),
                             const SizedBox(height: 2),
                             Text(s['label']!.toUpperCase(),
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   color: AppTheme.gold,
-                                  fontSize: 8,
+                                  fontSize: 10,
                                   fontWeight: FontWeight.w800,
-                                  letterSpacing: 1.5,
+                                  letterSpacing: 1.2,
                                 )),
                           ],
                         ),
@@ -296,7 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   color: AppTheme.textPrimary,
-                                  fontSize: 10,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w800,
                                   height: 1.3,
                                 ),
@@ -348,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               c['name']!,
                               style: const TextStyle(
-                                fontSize: 9,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 1.2,
                                 color: AppTheme.textSecondary,
@@ -376,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Text(
         text.toUpperCase(),
         style: const TextStyle(
-          fontSize: 10,
+          fontSize: 14,
           fontWeight: FontWeight.w900,
           letterSpacing: 2.5,
           color: AppTheme.textPrimary,

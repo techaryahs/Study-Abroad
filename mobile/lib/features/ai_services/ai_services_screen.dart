@@ -66,7 +66,7 @@ class AiServicesScreen extends StatelessWidget {
                         Container(width: 6, height: 6, decoration: const BoxDecoration(color: AppTheme.gold, shape: BoxShape.circle)),
                         const SizedBox(width: 8),
                         const Text('AI RESEARCH PROTOCOLS', 
-                            style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5)),
+                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5)),
                       ],
                     ),
                   ).animate().fadeIn(duration: 500.ms),
@@ -100,7 +100,7 @@ class AiServicesScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Text('AI RESEARCH PROTOCOLS', 
-                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1)),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1)),
                       ],
                     ),
                   ),
@@ -117,7 +117,7 @@ class AiServicesScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Text('Begin AI Simulation', 
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                           const SizedBox(width: 8),
                           Icon(Icons.arrow_forward_ios_rounded, color: AppTheme.gold, size: 10),
                         ],
@@ -200,7 +200,7 @@ class AiServicesScreen extends StatelessWidget {
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white)),
                   const SizedBox(height: 4),
                   Text(tool['description'], 
-                      style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(0.5), height: 1.4)),
+                      style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.5), height: 1.4)),
                 ],
               ),
             ),

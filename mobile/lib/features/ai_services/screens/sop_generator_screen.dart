@@ -41,11 +41,13 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
   ];
 
   void _showCheckoutSheet(CheckoutItem plan) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Our advisors are ready to guide your SOP preparation. We will contact you shortly.'),
-        backgroundColor: Color(0xFF2D2926),
-      ),
+    CheckoutSheet.show(
+      context,
+      title: 'SOP Package',
+      items: [plan],
+      onPaymentSuccess: () {
+        // You could add logic here to redirect the user or show a success screen
+      },
     );
   }
 
@@ -62,7 +64,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
         ),
         title: const Text(
           'AI SOP GENERATOR',
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary),
         ),
       ),
       body: SingleChildScrollView(
@@ -189,7 +191,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               child: Text(
                 'Admissions Secured At Top Universities',
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.5,
                   color: AppTheme.textMuted.withValues(alpha: 179),
@@ -612,7 +614,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               color: isDark ? AppTheme.gold.withValues(alpha: 46) : AppTheme.goldDark.withValues(alpha: 31),
               borderRadius: BorderRadius.circular(999),
             ),
-            child: Text(step, style: TextStyle(color: isDark ? AppTheme.gold : AppTheme.goldDark, fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 0.8)),
+            child: Text(step, style: TextStyle(color: isDark ? AppTheme.gold : AppTheme.goldDark, fontWeight: FontWeight.w900, fontSize: 14, letterSpacing: 0.8)),
           ),
           const SizedBox(height: 18),
           Row(
@@ -715,7 +717,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                         color: tagColor.withValues(alpha: 38),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(tag, style: TextStyle(color: tagColor, fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
+                      child: Text(tag, style: TextStyle(color: tagColor, fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
                     ),
                   ],
                 ),

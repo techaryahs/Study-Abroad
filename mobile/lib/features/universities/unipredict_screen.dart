@@ -31,7 +31,7 @@ class UniPredictScreen extends StatelessWidget {
                   'THE EXPERT ALGORITHM',
                   style: TextStyle(
                     color: AppTheme.gold,
-                    fontSize: 9,
+                    fontSize: 14,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 2,
                   ),
@@ -201,7 +201,7 @@ class UniPredictScreen extends StatelessWidget {
             child: Text(
               text,
               style: const TextStyle(
-                fontSize: 11,
+                fontSize: 13,
                 fontWeight: FontWeight.w900,
                 color: AppTheme.textSecondary,
                 letterSpacing: 0.5,

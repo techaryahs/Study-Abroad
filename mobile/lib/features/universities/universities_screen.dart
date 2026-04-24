@@ -159,7 +159,7 @@ class UniversitiesScreen extends StatelessWidget {
                                           child: Text(
                                             item['badge'] as String,
                                             style: const TextStyle(
-                                              fontSize: 10,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w900,
                                               color: AppTheme.darkBrown,
                                             ),

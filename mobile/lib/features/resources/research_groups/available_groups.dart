@@ -68,7 +68,7 @@ class _AvailableGroupsState extends State<AvailableGroups> {
                     children: [
                       Text(
                         group["date"],
-                        style: const TextStyle(fontSize: 10),
+                        style: const TextStyle(fontSize: 14),
                       ),
                       PopupMenuButton<String>(
                         onSelected: (value) {

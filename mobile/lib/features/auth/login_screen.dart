@@ -251,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const Text(
                     'SIGN IN TO YOUR ACCOUNT',
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800,
                         letterSpacing: 2, color: AppTheme.gold),
                   ).animate().fadeIn(delay: 150.ms),
 
@@ -302,7 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () => setState(() => _showForgotModal = true),
                             child: const Text(
                               'Forgot Password?',
-                              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.gold),
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.gold),
                             ),
                           ),
                         ),
@@ -326,7 +326,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Expanded(
                                   child: Text(
                                     _error!,
-                                    style: TextStyle(color: Colors.red.shade700, fontSize: 12, fontWeight: FontWeight.w600),
+                                    style: TextStyle(color: Colors.red.shade700, fontSize: 14, fontWeight: FontWeight.w600),
                                   ),
                                 ),
                               ],
@@ -367,7 +367,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text('OR',
-                              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700,
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700,
                                   color: AppTheme.textSecondary.withValues(alpha: 0.4), letterSpacing: 2)),
                           ),
                           const Expanded(child: Divider(color: AppTheme.borderLight)),
@@ -380,11 +380,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text("Don't have an account? ",
-                                style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w500)),
+                                style: TextStyle(fontSize: 14, color: AppTheme.textSecondary, fontWeight: FontWeight.w500)),
                             GestureDetector(
                               onTap: () => context.go('/register'),
                               child: const Text('Register Now',
-                                  style: TextStyle(fontSize: 12, color: AppTheme.gold, fontWeight: FontWeight.w800)),
+                                  style: TextStyle(fontSize: 14, color: AppTheme.gold, fontWeight: FontWeight.w800)),
                             ),
                           ],
                         ),
@@ -435,7 +435,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             const SizedBox(height: 4),
                             const Text('Recover your account access',
-                              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
                             const SizedBox(height: 20),
 
                             // Error/Success Message
@@ -460,7 +460,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       child: Text(
                                         _forgotMessage,
                                         style: TextStyle(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: _forgotMessageIsSuccess ? Colors.green.shade700 : Colors.red.shade700,
                                         ),
@@ -474,7 +474,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             // Step 1: Email
                             if (_forgotStep == 1) ...[
-                              const Text('Email Address', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
+                              const Text('Email Address', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
                               const SizedBox(height: 8),
                               TextFormField(
                                 controller: _forgotEmailCtrl,
@@ -501,7 +501,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         side: const BorderSide(color: AppTheme.borderLight),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                       ),
-                                      child: const Text('Cancel', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textPrimary)),
+                                      child: const Text('Cancel', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textPrimary)),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -516,7 +516,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       child: _forgotLoading
                                         ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.gold))
-                                        : const Text('Send Code', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                                        : const Text('Send Code', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
                                     ),
                                   ),
                                 ],
@@ -525,7 +525,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             // Step 2: OTP & New Password
                             if (_forgotStep == 2) ...[
-                              const Text('Reset Code', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
+                              const Text('Reset Code', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
                               const SizedBox(height: 8),
                               TextFormField(
                                 controller: _forgotOtpCtrl,
@@ -534,7 +534,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: const InputDecoration(hintText: '000000', prefixIcon: Icon(Icons.confirmation_number_outlined, size: 18, color: AppTheme.textSecondary)),
                               ),
                               const SizedBox(height: 16),
-                              const Text('New Password', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
+                              const Text('New Password', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
                               const SizedBox(height: 8),
                               TextFormField(
                                 controller: _forgotPasswordCtrl,
@@ -543,7 +543,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: const InputDecoration(hintText: '••••••••', prefixIcon: Icon(Icons.lock_outline_rounded, size: 18, color: AppTheme.textSecondary)),
                               ),
                               const SizedBox(height: 16),
-                              const Text('Confirm Password', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
+                              const Text('Confirm Password', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
                               const SizedBox(height: 8),
                               TextFormField(
                                 controller: _forgotConfirmCtrl,
@@ -562,7 +562,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         side: const BorderSide(color: AppTheme.borderLight),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                                       ),
-                                      child: const Text('Back', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textPrimary)),
+                                      child: const Text('Back', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textPrimary)),
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -577,7 +577,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       child: _forgotLoading
                                         ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.gold))
-                                        : const Text('Reset Password', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                                        : const Text('Reset Password', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
                                     ),
                                   ),
                                 ],
@@ -610,7 +610,7 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label.toUpperCase(),
-            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800,
                 letterSpacing: 1.5, color: AppTheme.textSecondary)),
         const SizedBox(height: 8),
         TextFormField(

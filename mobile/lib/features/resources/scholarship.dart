@@ -169,7 +169,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                                 child: Text(
                                   s['category'],
                                   style: const TextStyle(
-                                      fontSize: 10,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xFFC5A059)),
                                 ),
@@ -193,7 +193,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                               Text(
                                 "Provider: ${s['sponsor']}",
                                 style: const TextStyle(
-                                    fontSize: 12,
+                                    fontSize: 14,
                                     color: Colors.grey),
                               ),
 
@@ -211,7 +211,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                                       const Text(
                                         "Deadline",
                                         style: TextStyle(
-                                            fontSize: 10,
+                                            fontSize: 14,
                                             color: Colors.grey),
                                       ),
                                       Text(
@@ -229,7 +229,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                                       const Text(
                                         "Amount",
                                         style: TextStyle(
-                                            fontSize: 10,
+                                            fontSize: 14,
                                             color: Colors.grey),
                                       ),
                                       Text(

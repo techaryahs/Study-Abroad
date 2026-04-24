@@ -152,7 +152,7 @@ class _ContactScreenState extends State<ContactScreen> {
         const Text(
           "SEND MESSAGE",
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 14,
             letterSpacing: 2,
             fontWeight: FontWeight.bold,
             color: AppTheme.gold,

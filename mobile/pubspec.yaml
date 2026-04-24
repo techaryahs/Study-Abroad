@@ -1,5 +1,5 @@
 name: study_abroad
-description: "Study Abroad - Premium Education Counselling App"
+description: "IEC - Premium Education Counselling App"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -57,6 +57,7 @@ dependencies:
 
   # Shimmer loading
   shimmer: ^3.0.0
+  razorpay_flutter: ^1.4.4
 
 dev_dependencies:
   flutter_test:

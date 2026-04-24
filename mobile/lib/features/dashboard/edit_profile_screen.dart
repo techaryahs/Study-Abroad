@@ -116,7 +116,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     alignment: Alignment.center,
                     decoration: BoxDecoration(border: active ? const Border(bottom: BorderSide(color: AppTheme.gold, width: 3)) : null),
-                    child: Text(_tabs[i], style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 2, color: active ? AppTheme.textPrimary : AppTheme.textMuted)),
+                    child: Text(_tabs[i], style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2, color: active ? AppTheme.textPrimary : AppTheme.textMuted)),
                   ),
                 );
               },
@@ -217,7 +217,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: const Icon(Icons.lock_outline, color: AppTheme.gold, size: 20),
                 ),
                 title: const Text('Change Password', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, letterSpacing: 0.5, color: Colors.white)),
-                subtitle: const Text('Update your security credentials', style: TextStyle(fontSize: 10, color: Colors.white70)),
+                subtitle: const Text('Update your security credentials', style: TextStyle(fontSize: 14, color: Colors.white70)),
                 trailing: const Icon(Icons.chevron_right, color: AppTheme.gold),
                 onTap: () => _showChangePasswordModal(),
               ),
@@ -279,7 +279,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(f['label']!.toUpperCase(), style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+                    Text(f['label']!.toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
                     const SizedBox(height: 10),
                     TextField(
                       controller: controllers[f['key']],
@@ -381,14 +381,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               children: [
                 const Text('Change Password', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary)),
                 const SizedBox(height: 8),
-                const Text('Update your password for better security', style: TextStyle(fontSize: 11, color: AppTheme.textMuted, fontWeight: FontWeight.w500)),
+                const Text('Update your password for better security', style: TextStyle(fontSize: 13, color: AppTheme.textMuted, fontWeight: FontWeight.w500)),
                 const SizedBox(height: 28),
 
                 // Current Password
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Current Password', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
+                    const Text('Current Password', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
                     const SizedBox(height: 8),
                     TextField(
                       controller: currentPasswordController,
@@ -414,7 +414,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('New Password', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
+                    const Text('New Password', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
                     const SizedBox(height: 8),
                     TextField(
                       controller: newPasswordController,
@@ -440,7 +440,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Confirm New Password', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
+                    const Text('Confirm New Password', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textPrimary)),
                     const SizedBox(height: 8),
                     TextField(
                       controller: confirmPasswordController,
@@ -473,7 +473,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Requirements:', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 0.5, color: AppTheme.textPrimary)),
+                      const Text('Requirements:', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 0.5, color: AppTheme.textPrimary)),
                       const SizedBox(height: 6),
                       _buildRequirementItem('At least 8 characters', newPasswordController.text.length >= 8),
                       _buildRequirementItem('Uppercase letter', newPasswordController.text.contains(RegExp(r'[A-Z]'))),
@@ -497,7 +497,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       children: [
                         const Icon(Icons.error_outline, color: Colors.red, size: 16),
                         const SizedBox(width: 8),
-                        Expanded(child: Text(errorMessage, style: const TextStyle(fontSize: 10, color: Colors.red, fontWeight: FontWeight.w600))),
+                        Expanded(child: Text(errorMessage, style: const TextStyle(fontSize: 14, color: Colors.red, fontWeight: FontWeight.w600))),
                       ],
                     ),
                   ),
@@ -513,7 +513,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       children: [
                         const Icon(Icons.check_circle_outline, color: Colors.green, size: 16),
                         const SizedBox(width: 8),
-                        Expanded(child: Text(successMessage, style: const TextStyle(fontSize: 10, color: Colors.green, fontWeight: FontWeight.w600))),
+                        Expanded(child: Text(successMessage, style: const TextStyle(fontSize: 14, color: Colors.green, fontWeight: FontWeight.w600))),
                       ],
                     ),
                   ),
@@ -530,7 +530,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           side: const BorderSide(color: AppTheme.borderLight),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         ),
-                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1, fontSize: 11, color: AppTheme.textPrimary)),
+                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1, fontSize: 13, color: AppTheme.textPrimary)),
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -566,7 +566,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         ),
                         child: isLoading
                           ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation(AppTheme.gold)))
-                          : const Text('Update Password', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1, fontSize: 11)),
+                          : const Text('Update Password', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1, fontSize: 13)),
                       ),
                     ),
                   ],
@@ -586,7 +586,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         children: [
           Icon(isValid ? Icons.check_circle : Icons.radio_button_unchecked, size: 12, color: isValid ? Colors.green : AppTheme.textMuted),
           const SizedBox(width: 6),
-          Text(text, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w500, color: isValid ? Colors.green : AppTheme.textMuted)),
+          Text(text, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: isValid ? Colors.green : AppTheme.textMuted)),
         ],
       ),
     );

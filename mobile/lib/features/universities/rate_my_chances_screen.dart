@@ -27,7 +27,7 @@ class RateMyChancesScreen extends StatelessWidget {
               'RATEMYCHANCES',
               style: TextStyle(
                 color: AppTheme.gold,
-                fontSize: 10,
+                fontSize: 14,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 3,
                 fontFamily: 'Cormorant Garamond',
@@ -52,7 +52,7 @@ class RateMyChancesScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Text(
                     'POWERED BY INTERNATIONAL EDULEADER COUNCIL',
-                    style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.textSecondary),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.textSecondary),
                   ),
                   
                   const SizedBox(height: 48),
@@ -127,7 +127,7 @@ class RateMyChancesScreen extends StatelessWidget {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('START EVALUATION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+                    Text('START EVALUATION', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
                     SizedBox(width: 8),
                     Icon(LucideIcons.sparkles, size: 16),
                   ],
@@ -145,7 +145,7 @@ class RateMyChancesScreen extends StatelessWidget {
                   foregroundColor: AppTheme.gold,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 ),
-                child: const Text('TALK TO AN EXPERT', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+                child: const Text('TALK TO AN EXPERT', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
               ),
             ),
           ],
@@ -196,7 +196,7 @@ class RateMyChancesScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               f['desc'] as String,
-              style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary, height: 1.4),
+              style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary, height: 1.4),
               textAlign: TextAlign.center,
             ),
           ],

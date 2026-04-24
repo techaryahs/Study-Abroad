@@ -27,7 +27,7 @@ class CareerExperienceSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        Text('Tap any entry to modify details.', style: TextStyle(fontSize: 9, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
+        Text('Tap any entry to modify details.', style: TextStyle(fontSize: 14, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
         const SizedBox(height: 24),
         
         // Work Experience
@@ -43,14 +43,14 @@ class CareerExperienceSection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(it['role']?.toString().toUpperCase() ?? 'ROLE', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+                  Text(it['role']?.toString().toUpperCase() ?? 'ROLE', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                   const Icon(Icons.edit, size: 12, color: AppTheme.gold),
                 ],
               ),
-              Text(it['organization'] ?? 'Company', style: const TextStyle(fontSize: 10, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
+              Text(it['organization'] ?? 'Company', style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
               if (it['description'] != null) ...[
                 const SizedBox(height: 8),
-                Text(it['description'], style: const TextStyle(fontSize: 9, color: AppTheme.textMuted, height: 1.4)),
+                Text(it['description'], style: const TextStyle(fontSize: 14, color: AppTheme.textMuted, height: 1.4)),
               ],
             ],
           ),
@@ -71,13 +71,13 @@ class CareerExperienceSection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(it['role']?.toString().toUpperCase() ?? 'VOLUNTEER', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+                  Text(it['role']?.toString().toUpperCase() ?? 'VOLUNTEER', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                   const Icon(Icons.edit, size: 12, color: AppTheme.gold),
                 ],
               ),
-              Text(it['organization'] ?? 'Org', style: const TextStyle(fontSize: 10, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
+              Text(it['organization'] ?? 'Org', style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
               if (it['cause'] != null)
-                Text('Cause: ${it['cause']}', style: const TextStyle(fontSize: 9, color: AppTheme.gold, fontWeight: FontWeight.w600)),
+                Text('Cause: ${it['cause']}', style: const TextStyle(fontSize: 14, color: AppTheme.gold, fontWeight: FontWeight.w600)),
             ],
           ),
         ),
@@ -120,7 +120,7 @@ class _SectionCard extends StatelessWidget {
             children: [
               Icon(icon, color: AppTheme.gold, size: 18),
               const SizedBox(width: 12),
-              Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+              Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
               const Spacer(),
               IconButton(onPressed: onAdd, icon: const Icon(Icons.add_circle_outline, color: Colors.green, size: 20)),
             ],
@@ -143,7 +143,7 @@ class _SectionCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
               child: Center(
-                child: Text('NO RECORDS ADDED', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppTheme.textMuted.withOpacity(0.5), letterSpacing: 1.5)),
+                child: Text('NO RECORDS ADDED', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textMuted.withOpacity(0.5), letterSpacing: 1.5)),
               ),
             ),
         ],

@@ -92,11 +92,26 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
   }
 
   void _showPlanSummary() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Our advisors are ready to guide your content refinement. We will contact you shortly.'),
-        backgroundColor: Color(0xFF2D2926),
-      ),
+    if (_selectedPlan == null) return;
+    final plan = _plans.firstWhere((p) => p['name'] == _selectedPlan);
+    
+    CheckoutSheet.show(
+      context,
+      title: 'Plagiarism Bypass',
+      items: [
+        CheckoutItem(
+          id: 'plagiarism-bypass-${plan['name'].toString().toLowerCase()}',
+          title: '${plan['name']} Plan',
+          icon: '🛡️',
+          price: plan['price'] as int,
+          actualPrice: plan['original'] as int,
+          currency: 'INR',
+          description: 'High-fidelity AI removal and plagiarism bypass subscription.',
+        )
+      ],
+      onPaymentSuccess: () {
+        // Success logic
+      },
     );
   }
 
@@ -109,7 +124,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
           border: Border.all(color: AppTheme.gold.withAlpha(77)),
         ),
         child: const Text('LINGUISTIC INTEGRITY PROTOCOL',
-            style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5)),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5)),
       ),
     );
   }
@@ -154,7 +169,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('SOURCE DRAFT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1)),
+          const Text('SOURCE DRAFT', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1)),
           const SizedBox(height: 12),
           TextField(
             controller: _inputController,
@@ -168,7 +183,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
             ),
           ),
           const SizedBox(height: 24),
-          const Text('HUMANIZE INTENSITY', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1)),
+          const Text('HUMANIZE INTENSITY', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1)),
           const SizedBox(height: 12),
           Row(
             children: ['Light', 'Medium', 'Max'].map((level) {
@@ -185,7 +200,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
                       border: Border.all(color: selected ? AppTheme.darkBrown : const Color(0xFFF1EDEA)),
                     ),
                     child: Center(
-                      child: Text(level, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: selected ? Colors.white : AppTheme.textSecondary)),
+                      child: Text(level, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: selected ? Colors.white : AppTheme.textSecondary)),
                     ),
                   ),
                 ),
@@ -211,7 +226,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
           ),
           if (_output.isNotEmpty) ...[
             const SizedBox(height: 32),
-            const Text('REFINED CONTENT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1)),
+            const Text('REFINED CONTENT', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1)),
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(20),
@@ -234,7 +249,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
       children: [
         const Center(
           child: Text('VERIFICATION PROTOCOLS BYPASSED',
-              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFFA8A29E), letterSpacing: 2)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Color(0xFFA8A29E), letterSpacing: 2)),
         ),
         const SizedBox(height: 24),
         Wrap(
@@ -255,7 +270,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
                 children: [
                   Icon(detector['icon'], size: 22, color: AppTheme.gold),
                   const SizedBox(height: 12),
-                  Text(detector['name'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: AppTheme.textSecondary)),
+                  Text(detector['name'], textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.textSecondary)),
                 ],
               ),
             );
@@ -291,8 +306,8 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(item['label']!, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, letterSpacing: 1)),
-                      Text(item['value']!, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+                      Text(item['label']!, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, letterSpacing: 1)),
+                      Text(item['value']!, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -345,7 +360,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
               const SizedBox(height: 14),
               Text(item['title'] as String, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 13)),
               const SizedBox(height: 8),
-              Text(item['description'] as String, style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary, height: 1.5)),
+              Text(item['description'] as String, style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.5)),
             ],
           ),
         );
@@ -384,7 +399,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(color: AppTheme.gold, borderRadius: BorderRadius.circular(12)),
-                        child: Text(plan['badge'] as String, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800)),
+                        child: Text(plan['badge'] as String, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w800)),
                       ),
                     if (plan['badge'] != null) const SizedBox(height: 14),
                     Text(plan['name'] as String, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: selected ? Colors.white : AppTheme.textPrimary)),
@@ -406,7 +421,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
                           children: [
                             Icon(Icons.check_circle, size: 18, color: selected ? Colors.white : AppTheme.gold),
                             const SizedBox(width: 10),
-                            Expanded(child: Text(feature, style: TextStyle(fontSize: 12, color: selected ? Colors.white70 : AppTheme.textSecondary))),
+                            Expanded(child: Text(feature, style: TextStyle(fontSize: 14, color: selected ? Colors.white70 : AppTheme.textSecondary))),
                           ],
                         ),
                       )).toList(),
@@ -514,7 +529,10 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
             alignment: WrapAlignment.center,
             children: [
               ElevatedButton(
-                onPressed: _showPlanSummary,
+                onPressed: () {
+                  setState(() => _selectedPlan = _plans[1]['name']); // Default to recommended
+                  _showPlanSummary();
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.darkBrown,
                   foregroundColor: Colors.white,
@@ -552,7 +570,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: const Text('AI REMOVER & BYPASS', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary)),
+        title: const Text('AI REMOVER & BYPASS', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

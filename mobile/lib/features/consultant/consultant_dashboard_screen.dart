@@ -96,7 +96,7 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
 
                   const Text('UPCOMING BOOKINGS',
                       style: TextStyle(
-                          fontSize: 10,
+                          fontSize: 14,
                           fontWeight: FontWeight.w800,
                           letterSpacing: 2,
                           color: AppTheme.gold)),
@@ -155,7 +155,7 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
                                           color: AppTheme.textPrimary)),
                                   Text(b['date'] ?? b['preferredDate'] ?? '—',
                                       style: const TextStyle(
-                                          fontSize: 11,
+                                          fontSize: 13,
                                           color: AppTheme.textSecondary)),
                                 ],
                               ),
@@ -170,7 +170,7 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
                                   boxShadow: [BoxShadow(color: AppTheme.gold.withOpacity(0.3), blurRadius: 8)],
                                 ),
                                 child: const Text('JOIN CALL',
-                                    style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: Colors.black)),
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.black)),
                               ),
                             ),
                           ],
@@ -211,7 +211,7 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
                         color: AppTheme.textPrimary)),
                 Text(label,
                     style: const TextStyle(
-                        fontSize: 9,
+                        fontSize: 14,
                         color: AppTheme.textSecondary,
                         fontWeight: FontWeight.w700)),
               ],

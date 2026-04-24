@@ -92,7 +92,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                               Text('Change Password',
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
                               Text('Update your admin credentials',
-                                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
                             ],
                           ),
                         ),
@@ -122,7 +122,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                               color: isSuccess ? Colors.green : Colors.red, size: 16),
                             const SizedBox(width: 8),
                             Expanded(child: Text(message, style: TextStyle(
-                              fontSize: 11, fontWeight: FontWeight.w600,
+                              fontSize: 13, fontWeight: FontWeight.w600,
                               color: isSuccess ? Colors.green.shade700 : Colors.red.shade700))),
                           ],
                         ),
@@ -177,7 +177,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                           _showAdminForgotPasswordSheet();
                         },
                         child: const Text('Forgot current password?',
-                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.gold)),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.gold)),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -194,7 +194,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             ),
                             child: const Text('CANCEL',
-                              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800,
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800,
                                 letterSpacing: 1.5, color: AppTheme.textPrimary)),
                           ),
                         ),
@@ -255,7 +255,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                               ? const SizedBox(width: 18, height: 18,
                                   child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.gold))
                               : const Text('UPDATE',
-                                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
                           ),
                         ),
                       ],
@@ -324,7 +324,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                               const Text('Forgot Password',
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
                               Text('Step $step of 2 — ${step == 1 ? "Verify Identity" : "Set New Password"}',
-                                style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
                             ],
                           ),
                         ),
@@ -366,7 +366,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                               color: isSuccess ? Colors.green : Colors.red, size: 16),
                             const SizedBox(width: 8),
                             Expanded(child: Text(message, style: TextStyle(
-                              fontSize: 11, fontWeight: FontWeight.w600,
+                              fontSize: 13, fontWeight: FontWeight.w600,
                               color: isSuccess ? Colors.green.shade700 : Colors.red.shade700))),
                           ],
                         ),
@@ -414,7 +414,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                             ? const SizedBox(width: 18, height: 18,
                                 child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.gold))
                             : const Text('SEND RESET CODE',
-                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
                         ),
                       ),
                     ],
@@ -463,7 +463,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                               ),
                               child: const Text('BACK',
-                                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800,
+                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800,
                                   letterSpacing: 1.5, color: AppTheme.textPrimary)),
                             ),
                           ),
@@ -529,7 +529,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                                 ? const SizedBox(width: 18, height: 18,
                                     child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.gold))
                                 : const Text('RESET PASSWORD',
-                                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
                             ),
                           ),
                         ],
@@ -559,7 +559,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label, style: const TextStyle(
-          fontSize: 10, fontWeight: FontWeight.w800,
+          fontSize: 14, fontWeight: FontWeight.w800,
           letterSpacing: 1.5, color: AppTheme.textSecondary)),
         const SizedBox(height: 8),
         TextFormField(
@@ -975,7 +975,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
               Text(
                 user['email'] ?? '',
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   color: AppTheme.textSecondary,
                 ),
               ),
@@ -991,7 +991,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 child: const Text(
                   "ADMIN",
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w800,
                     color: AppTheme.gold,
                   ),
@@ -1081,7 +1081,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
-                          Text(b['userEmail'] ?? '', style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                          Text(b['userEmail'] ?? '', style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
                         ],
                       ),
                     ),
@@ -1091,7 +1091,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                         color: AppTheme.gold.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text('ACTIVE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: AppTheme.gold)),
+                      child: const Text('ACTIVE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.gold)),
                     ),
                 ],
               ),
@@ -1103,11 +1103,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 children: [
                   const Icon(Icons.calendar_today_rounded, size: 14, color: AppTheme.textSecondary),
                   const SizedBox(width: 6),
-                  Text(b['date'] ?? '—', style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
+                  Text(b['date'] ?? '—', style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
                   const SizedBox(width: 16),
                   const Icon(Icons.access_time_rounded, size: 14, color: AppTheme.textSecondary),
                   const SizedBox(width: 6),
-                  Text('${b['time'] ?? '—'} - ${b['endTime'] ?? '—'}', style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
+                  Text('${b['time'] ?? '—'} - ${b['endTime'] ?? '—'}', style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
                 ],
               ),
               const SizedBox(height: 16),
@@ -1124,7 +1124,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                         elevation: 0,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         padding: const EdgeInsets.symmetric(vertical: 12),
-                        textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1),
+                        textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1),
                       ),
                     ),
                   ),
@@ -1189,7 +1189,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                         children: [
                           const Icon(Icons.calendar_today_rounded, size: 12, color: AppTheme.textSecondary),
                           const SizedBox(width: 4),
-                          Text('${b['date']} · ${b['time']}', style: const TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
+                          Text('${b['date']} · ${b['time']}', style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
                         ],
                       ),
                     ],
@@ -1202,7 +1202,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(isCancelled ? 'CANCELLED' : 'COMPLETED', 
-                      style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: isCancelled ? Colors.red : Colors.green)),
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: isCancelled ? Colors.red : Colors.green)),
                 ),
             ],
           ),
@@ -1274,7 +1274,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                     Text(
                       c['email'] ?? '',
                       style: const TextStyle(
-                        fontSize: 11,
+                        fontSize: 13,
                         color: AppTheme.textSecondary,
                       ),
                     ),
@@ -1287,7 +1287,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                               .toString()
                               .toUpperCase(),
                           style: const TextStyle(
-                            fontSize: 9,
+                            fontSize: 14,
                             fontWeight: FontWeight.w800,
                             color: AppTheme.textSecondary,
                           ),
@@ -1305,7 +1305,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                             child: const Text(
                               'PREMIUM',
                               style: TextStyle(
-                                fontSize: 8,
+                                fontSize: 13,
                                 fontWeight: FontWeight.w900,
                                 color: AppTheme.gold,
                               ),
@@ -1338,7 +1338,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 label: Text(
                   isEnabled ? 'ENABLED' : 'DISABLED',
                   style: const TextStyle(
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -1581,7 +1581,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
           Text(emoji, style: const TextStyle(fontSize: 24)),
           const SizedBox(height: 6),
           Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: -1)),
-          Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+          Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
         ],
       ),
     );

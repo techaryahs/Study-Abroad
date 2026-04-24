@@ -81,7 +81,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                       'FINANCIAL SUPPORT INDEX',
                       style: TextStyle(
                         color: AppTheme.gold,
-                        fontSize: 10,
+                        fontSize: 14,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 2,
                       ),
@@ -238,7 +238,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
           text.toUpperCase(),
           style: TextStyle(
             color: active ? AppTheme.textPrimary : AppTheme.textSecondary.withOpacity(0.5),
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: FontWeight.w900,
             letterSpacing: 1.5,
           ),
@@ -285,7 +285,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                     ),
                     child: Text(
                       s.category.toUpperCase(),
-                      style: const TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1),
+                      style: const TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1),
                     ),
                   ),
                   const Icon(LucideIcons.bookmark, size: 18, color: AppTheme.textSecondary),
@@ -305,7 +305,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
               const SizedBox(height: 8),
               RichText(
                 text: TextSpan(
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1),
                   children: [
                     const TextSpan(text: 'PROVIDER: '),
                     TextSpan(
@@ -324,7 +324,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('CLOSING DATE', style: TextStyle(color: AppTheme.textSecondary, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                        const Text('CLOSING DATE', style: TextStyle(color: AppTheme.textSecondary, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                         const SizedBox(height: 4),
                         Text(s.deadline, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.bold)),
                       ],
@@ -334,7 +334,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('AWARD VALUE', style: TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                        const Text('AWARD VALUE', style: TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                         const SizedBox(height: 4),
                         Text(s.amount, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.bold)),
                       ],
@@ -457,7 +457,7 @@ class _AdvisorCTA extends StatelessWidget {
             child: const Text(
               'SCHEDULE BRIEFING',
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 13,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 2,
               ),

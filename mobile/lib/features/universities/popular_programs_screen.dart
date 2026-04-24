@@ -204,7 +204,7 @@ class _PopularProgramsScreenState extends State<PopularProgramsScreen> {
                   children: [
                     Text(u.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
                     const SizedBox(height: 4),
-                    Text(u.fullLocation, style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                    Text(u.fullLocation, style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
                   ],
                 ),
               ),
@@ -228,9 +228,9 @@ class _PopularProgramsScreenState extends State<PopularProgramsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label.toUpperCase(), style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textSecondary)),
+        Text(label.toUpperCase(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textSecondary)),
         const SizedBox(height: 4),
-        Text(value, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: color)),
+        Text(value, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: color)),
       ],
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../widgets/book_counselling_sheet.dart';
 
 // ─── Theme Colors ─────────────────────────────────────────────────────────────
@@ -234,7 +235,7 @@ class _RoadmapStepRow extends StatelessWidget {
                         Text(step.title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: _dark)),
                         if (step.active) ...[
                           const SizedBox(height: 4),
-                          Text(step.description, style: const TextStyle(fontSize: 12, color: _gold, height: 1.4)),
+                          Text(step.description, style: const TextStyle(fontSize: 14, color: _gold, height: 1.4)),
                         ],
                       ],
                     ),
@@ -277,7 +278,7 @@ class _LoanPreviewCard extends StatelessWidget {
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(color: Colors.red[700], borderRadius: BorderRadius.circular(8)),
-                      child: const Center(child: Text('AXIS', style: TextStyle(color: _white, fontSize: 7, fontWeight: FontWeight.w900))),
+                      child: const Center(child: Text('AXIS', style: TextStyle(color: _white, fontSize: 14, fontWeight: FontWeight.w900))),
                     ),
                     const SizedBox(width: 8),
                     const Text('AXIS BANK', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: _dark)),
@@ -286,8 +287,8 @@ class _LoanPreviewCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: const [
-                    Text('TENURE', style: TextStyle(fontSize: 9, color: _subtleText, fontWeight: FontWeight.w700, letterSpacing: 1)),
-                    Text('14 Years ▾', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: _gold)),
+                    Text('TENURE', style: TextStyle(fontSize: 14, color: _subtleText, fontWeight: FontWeight.w700, letterSpacing: 1)),
+                    Text('14 Years ▾', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: _gold)),
                   ],
                 ),
               ],
@@ -302,7 +303,7 @@ class _LoanPreviewCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  Text('Monthly EMI', style: TextStyle(fontSize: 11, color: _muted)),
+                  Text('Monthly EMI', style: TextStyle(fontSize: 13, color: _muted)),
                   Text('₹1,73,969', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: _dark)),
                 ],
               ),
@@ -326,8 +327,8 @@ class _LoanRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontSize: 11, color: _muted)),
-          Text(value, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: _dark)),
+          Text(label, style: const TextStyle(fontSize: 13, color: _muted)),
+          Text(value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: _dark)),
         ],
       ),
     );
@@ -363,7 +364,7 @@ class _ComparisonSection extends StatelessWidget {
           const Text(
             '*Actual loan terms may vary based on individual profile and lender assessment.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10, color: _subtleText, fontStyle: FontStyle.italic),
+            style: TextStyle(fontSize: 14, color: _subtleText, fontStyle: FontStyle.italic),
           ),
         ],
       ),
@@ -427,9 +428,9 @@ class _CompRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: const TextStyle(fontSize: 9, color: _subtleText, fontWeight: FontWeight.w700, letterSpacing: 0.5)),
+          Text(label, style: const TextStyle(fontSize: 14, color: _subtleText, fontWeight: FontWeight.w700, letterSpacing: 0.5)),
           const SizedBox(height: 2),
-          Text(value, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: highlight ? _gold : _dark)),
+          Text(value, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: highlight ? _gold : _dark)),
         ],
       ),
     );
@@ -519,7 +520,7 @@ class _PartnerCard extends StatelessWidget {
                 color: _gold.withOpacity(0.1),
                 borderRadius: const BorderRadius.only(topRight: Radius.circular(28), bottomLeft: Radius.circular(20)),
               ),
-              child: Text(partner.type, style: const TextStyle(fontSize: 9, color: _gold, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+              child: Text(partner.type, style: const TextStyle(fontSize: 14, color: _gold, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
             ),
           ),
           Padding(
@@ -549,7 +550,7 @@ class _PartnerCard extends StatelessWidget {
                 const SizedBox(height: 12),
                 const Divider(color: _border),
                 const SizedBox(height: 10),
-                const Text('LOAN TYPE', style: TextStyle(fontSize: 9, color: _subtleText, fontWeight: FontWeight.w700, letterSpacing: 1.5)),
+                const Text('LOAN TYPE', style: TextStyle(fontSize: 14, color: _subtleText, fontWeight: FontWeight.w700, letterSpacing: 1.5)),
                 const SizedBox(height: 4),
                 Text(partner.loanType, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: _dark)),
               ],
@@ -573,9 +574,9 @@ class _PartnerRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label.toUpperCase(), style: const TextStyle(fontSize: 9, color: _subtleText, fontWeight: FontWeight.w700, letterSpacing: 1)),
+          Text(label.toUpperCase(), style: const TextStyle(fontSize: 14, color: _subtleText, fontWeight: FontWeight.w700, letterSpacing: 1)),
           const SizedBox(height: 2),
-          Text(value, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: _dark)),
+          Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: _dark)),
         ],
       ),
     );
@@ -698,7 +699,7 @@ class _CTABanner extends StatelessWidget {
             _GoldButton(label: 'Book Premium Consultation  →', onTap: onBooking),
             const SizedBox(height: 14),
             GestureDetector(
-              onTap: () {},
+              onTap: () => context.go('/services'),
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 16),
@@ -709,7 +710,7 @@ class _CTABanner extends StatelessWidget {
                 child: const Text(
                   'LEARN MORE',
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: _white, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 2),
+                  style: TextStyle(color: _white, fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2),
                 ),
               ),
             ),
@@ -771,7 +772,7 @@ class _DarkGoldButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(label, style: const TextStyle(color: _gold, fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+            Text(label, style: const TextStyle(color: _gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
           ],
         ),
       ),
@@ -795,7 +796,7 @@ class _GoldButton extends StatelessWidget {
         child: Text(
           label,
           textAlign: TextAlign.center,
-          style: const TextStyle(color: _dark, fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5),
+          style: const TextStyle(color: _dark, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5),
         ),
       ),
     );
