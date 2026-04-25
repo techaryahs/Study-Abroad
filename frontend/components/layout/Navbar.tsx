@@ -623,35 +623,46 @@ export default function Navbar() {
     fetchCartCount();
     window.addEventListener('cart-updated', fetchCartCount);
 
-    const storedUser = getUser();
-    if (storedUser && (storedUser._id || storedUser.id)) {
-      const fetchFullProfile = async () => {
-        const userId = storedUser._id || storedUser.id;
-        if (!userId) return;
-        try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
-          if (response.ok) {
-            const data = await response.json();
-            const fullUser = {
-              ...storedUser,
-              ...data,
-              ...(data.profile || {})
-            };
-            setUserState(fullUser);
-          } else if (response.status === 401 || response.status === 404) {
-            console.warn("Auth session node stale on navbar hook. Resetting...");
-            clearAuth();
-            setUserState(null);
-          }
-        } catch (error) {
-          console.error("Failed to fetch full user profile in Navbar:", error);
+    const fetchFullProfile = async () => {
+      const storedUser = getUser();
+      const userId = storedUser?._id || storedUser?.id;
+      if (!userId) return;
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
+        if (response.ok) {
+          const data = await response.json();
+          // Flatten profile data into the top-level user object for easier access in Navbar
+          const fullUser = {
+            ...storedUser,
+            ...data,
+            ...(data.profile || {})
+          };
+          setUserState(fullUser);
+        } else if (response.status === 404) {
+          // Only clear if the user definitely doesn't exist anymore
+          console.warn("User profile not found. Session may be stale.");
+          clearAuth();
+          setUserState(null);
         }
-      };
+      } catch (error) {
+        console.error("Failed to fetch full user profile in Navbar:", error);
+      }
+    };
+
+    const handleUserUpdate = () => {
+      refreshUser();
       fetchFullProfile();
-    }
+    };
+
+    refreshUser();
+    fetchFullProfile();
+
+    window.addEventListener('user-updated', handleUserUpdate);
+    window.addEventListener('cart-updated', fetchCartCount);
 
     return () => {
-      window.removeEventListener('user-updated', refreshUser);
+      window.removeEventListener('user-updated', handleUserUpdate);
       window.removeEventListener('cart-updated', fetchCartCount);
     };
   }, []);

@@ -293,10 +293,11 @@ exports.login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: role,
-        isVerified: profile.isVerified || user.isVerified || false,
+        // Robust isVerified check covering different model structures
+        isVerified: user.isVerified === true || (user.profile && user.profile.isVerified === true) || false,
         mobile: user.mobile,
-        profileImage: profile.profileImage || user.image || null,
-        isPremium: profile.isPremium || user.isPremium || false
+        profileImage: (user.profile && user.profile.profileImage) || user.image || null,
+        isPremium: (user.profile && user.profile.isPremium) || user.isPremium || false
       };
 
       // Add videoCallEnabled for consultants
@@ -610,7 +611,7 @@ exports.adminResetPassword = async (req, res) => {
     if (identified.role !== "admin") return res.status(403).json({ error: "Not an admin account" });
 
     const { user } = identified;
-    user.password = await bcrypt.hash(newPassword, 10);
+    user.password = newPassword; // Mongoose pre-save hook will handle hashing
     await user.save();
 
     otpStore.delete(emailLower);
@@ -662,8 +663,6 @@ exports.resetPassword = async (req, res) => {
     return res.status(400).json({ error: "Password must be 8+ characters with uppercase, lowercase & numbers" });
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-
   // Find the user first to identify the correct collection
   const identified = await findUserByEmail(emailLower);
   if (!identified) {
@@ -671,8 +670,8 @@ exports.resetPassword = async (req, res) => {
   }
 
   // Update ONLY the identified collection
-  const { user, model } = identified;
-  user.password = hashedPassword;
+  const { user } = identified;
+  user.password = newPassword; // Mongoose pre-save hook will handle hashing
   await user.save();
 
   otpStore.delete(emailLower);

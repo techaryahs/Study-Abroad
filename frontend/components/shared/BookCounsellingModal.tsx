@@ -185,7 +185,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     setSelectedDate(`${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`);
   };
 
-  const confirmBooking = async () => {
+  const confirmBooking = async (paymentId?: string) => {
     if (!selectedSlot || !selectedDate || !userEmail) {
       setError("Please fill in your name and email.");
       return;
@@ -193,7 +193,14 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     setBookingLoading(true);
     setError("");
     try {
-      const body = { date: selectedDate, time: selectedSlot.time, userEmail, userName };
+      const body = { 
+        date: selectedDate, 
+        time: selectedSlot.time, 
+        userEmail, 
+        userName,
+        paymentId: paymentId || null,
+        amount: 599 
+      };
       const res = await fetch(`${API_BASE}/api/bookings/book-session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

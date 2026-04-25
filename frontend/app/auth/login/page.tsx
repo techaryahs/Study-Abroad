@@ -53,13 +53,11 @@ const Login: React.FC = () => {
       const { token, user }: { token: string; user: User } = data;
       const role = user.role;
 
-      if (!user.isVerified) {
-        router.push(`/auth/RegisterStudent`);
-        return;
-      }
-
       setToken(token);
       setUser(user);
+      
+      // Notify components immediately
+      window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
         if (role === "admin") router.push("/admin-dashboard");

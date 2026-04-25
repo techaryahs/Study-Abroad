@@ -12,7 +12,7 @@ interface CheckoutModalProps {
     discount: number;
     total: number;
     currency: string;
-    onSuccess?: () => void;
+    onSuccess?: (paymentId: string) => void;
 }
 
 // Load Razorpay Script
@@ -80,7 +80,7 @@ export default function CheckoutModal({
             const order = await res.json();
 
             const options = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_live_RseCm2t4lFlfMC",
                 amount: order.amount,
                 currency: order.currency,
                 order_id: order.id,
@@ -113,7 +113,7 @@ export default function CheckoutModal({
                     if (verifyRes.ok) {
                         const verifyData = await verifyRes.json();
                         setReceiptData(verifyData.receipt);
-                        if (onSuccess) onSuccess();
+                        if (onSuccess) onSuccess(verifyData.receipt.paymentId);
                     } else {
                         setError("Payment verification failed. Please contact support.");
                         setIsProcessing(false);
@@ -171,7 +171,7 @@ export default function CheckoutModal({
     // Receipt View
     if (receiptData) {
         return (
-            <div className="fixed inset-0 z-[40] flex flex-col items-center p-4 pt-24 pb-10 bg-black/60 backdrop-blur-md animate-in fade-in duration-300 overflow-y-auto overflow-x-hidden">
+            <div className="fixed inset-0 z-[60] flex flex-col items-center p-4 pt-24 pb-10 bg-black/60 backdrop-blur-md animate-in fade-in duration-300 overflow-y-auto overflow-x-hidden">
                 <div className="bg-white w-full max-w-[500px] rounded-3xl shadow-2xl relative animate-in zoom-in-95 duration-500 font-sans overflow-hidden my-auto shrink-0 print:m-0 print:p-0 print:shadow-none print:w-full print:max-w-none">
                     {/* Success Ribbon */}
                     <div className="bg-[#10B981] py-4 text-center print:hidden">
@@ -248,7 +248,7 @@ export default function CheckoutModal({
     }
 
     return (
-        <div className="fixed inset-0 z-[40] flex flex-col items-center p-4 pt-24 pb-10 bg-black/50 backdrop-blur-[2px] animate-in fade-in duration-300 overflow-y-auto overflow-x-hidden">
+        <div className="fixed inset-0 z-[60] flex flex-col items-center p-4 pt-24 pb-10 bg-black/50 backdrop-blur-[2px] animate-in fade-in duration-300 overflow-y-auto overflow-x-hidden">
             <div className="bg-white w-full max-w-[480px] rounded-xl shadow-2xl relative animate-in zoom-in-95 duration-300 font-sans flex flex-col my-auto shrink-0">
                 {/* Header */}
                 <div className="pt-8 px-8 pb-6 relative">
