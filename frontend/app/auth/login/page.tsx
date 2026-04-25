@@ -207,7 +207,7 @@ const Login: React.FC = () => {
               <Sparkles className="w-6 h-6 text-[#C5A059]" />
             </div>
             <h1 className="text-4xl font-black mb-6 uppercase tracking-tighter italic leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-              Architect <br /> Your <br /> <span className="text-[#C5A059]">Global</span> <br /> Legacy.
+              Build <br /> Your <br /> <span className="text-[#C5A059]">Global</span> <br /> Legacy.
             </h1>
             <p className="text-white/60 text-[10px] font-black leading-relaxed max-w-xs uppercase tracking-widest pl-4 border-l-2 border-[#C5A059]/30">
               Elite academic mentorship for the Ivy League and beyond. Access your centralized dashboard.
@@ -225,13 +225,13 @@ const Login: React.FC = () => {
         {/* Right Form */}
         <div className="w-full lg:w-[62%] p-6 md:p-10 flex flex-col justify-center relative bg-white">
           <div className="mb-6">
-            <h2 className="text-2xl font-black text-[#3C2A21] mb-2 uppercase tracking-tight italic" style={{ fontFamily: 'Georgia, serif' }}>Member Sync</h2>
+            <h2 className="text-2xl font-black text-[#3C2A21] mb-2 uppercase tracking-tight italic" style={{ fontFamily: 'Georgia, serif' }}>Welcome Back</h2>
             <div className="h-1 w-12 bg-[#C5A059] rounded-full" />
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Terminal Node Address</label>
+              <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter your registered email</label>
               <div className="relative group">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/40 group-focus-within:text-[#C5A059] transition-all" />
                 <input
@@ -246,7 +246,7 @@ const Login: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-[10px] font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Access Passcode</label>
+              <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter Password</label>
               <div className="relative group">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/40 group-focus-within:text-[#C5A059] transition-all" />
                 <input
@@ -273,7 +273,7 @@ const Login: React.FC = () => {
                 onClick={() => setShowForgotModal(true)}
                 className="text-[9px] font-black text-[#6B5E51]/40 hover:text-[#C5A059] uppercase tracking-widest transition-all"
               >
-                Forgot Credentials?
+                Forgot Password?
               </button>
             </div>
 
@@ -294,13 +294,7 @@ const Login: React.FC = () => {
           </form>
 
           <div className="mt-8 pt-6 border-t border-[#F1EDEA] flex flex-col gap-4 items-center">
-            <p className="text-[10px] font-black text-[#6B5E51]/40 uppercase tracking-widest">New Node Initialization?</p>
-            <button
-              onClick={() => router.push("/auth/RegisterStudent")}
-              className="text-[10px] font-black text-[#C5A059] hover:text-[#3C2A21] transition-all uppercase tracking-widest"
-            >
-              Initialize Student Account
-            </button>
+            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>
           </div>
         </div>
       </motion.div>
