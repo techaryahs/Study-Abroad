@@ -55,14 +55,12 @@ const Login: React.FC = () => {
 
       setToken(token);
       setUser(user);
-      
+
       // Notify components immediately
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
         if (role === "admin") router.push("/admin-dashboard");
-        else if (role === "consultant") router.push("/consultant-dashboard");
-        else if (role === "parent") router.push("/parent-dashboard");
         else router.push("/User/dashboard");
       }, 500);
 
