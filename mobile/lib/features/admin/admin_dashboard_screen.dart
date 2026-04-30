@@ -33,6 +33,41 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     _fetchConsultants();
   }
 
+  void _showSignOutDialog() {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        title: const Text('Sign Out',
+            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16)),
+        content: const Text('Do you want to sign out?',
+            style: TextStyle(color: Colors.black54, fontSize: 13)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('CANCEL',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 11, color: Colors.black54)),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(dialogContext);
+              await context.read<AuthProvider>().logout();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.redAccent,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            ),
+            child: const Text('SIGN OUT',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 11)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   void dispose() {
     _tabController.dispose();
@@ -858,7 +893,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
             actions: [
               IconButton(
                 icon: const Icon(Icons.logout_rounded, color: Colors.white54),
-                onPressed: () async => await auth.logout(),
+                onPressed: _showSignOutDialog,
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(
@@ -1026,9 +1061,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
 
         /// LOGOUT BUTTON
         ElevatedButton.icon(
-          onPressed: () async {
-            await auth.logout();
-          },
+          onPressed: _showSignOutDialog,
           icon: const Icon(Icons.logout),
           label: const Text("LOGOUT"),
           style: ElevatedButton.styleFrom(
