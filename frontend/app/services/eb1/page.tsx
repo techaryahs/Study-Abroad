@@ -25,14 +25,18 @@ import {
    Briefcase,
    Star
 } from "lucide-react";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import CheckoutModal from "@/app/User/cart/checkoutmodal";
 
 export default function EB1Page() {
-   const [currency, setCurrency] = useState("INR");
+   const [currency, setCurrency] = useState("IDR");
    const [skipQueue, setSkipQueue] = useState(false);
    const [openFaq, setOpenFaq] = useState<number | null>(null);
+   const [showBookingModal, setShowBookingModal] = useState(false);
+   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
-   const basePrice = 49900.00;
-   const discountedPrice = 41500.00;
+   const basePrice = 49900000.00;
+   const discountedPrice = 41500000.00;
 
    const containerVariants: Variants = {
       hidden: { opacity: 0 },
@@ -168,9 +172,12 @@ export default function EB1Page() {
 
                   <DiscussionSection serviceId="eb1" />
                   <div className="pt-2 pl-2">
-                     <Link href="/checkout?service=eb1" className="text-[#675F5B] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] hover:text-[#D4A848] transition-colors border-b border-transparent hover:border-[#D4A848]/50 pb-1 italic">
+                     <button 
+                        onClick={() => setShowCheckoutModal(true)}
+                        className="text-[#675F5B] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] hover:text-[#D4A848] transition-colors border-b border-transparent hover:border-[#D4A848]/50 pb-1 italic"
+                     >
                         Start Settlement Node
-                     </Link>
+                     </button>
                   </div>
                </motion.div>
             </div>
@@ -489,12 +496,18 @@ export default function EB1Page() {
                      </div>
                   </div>
                   <div className="md:w-1/2 grid grid-cols-1 gap-4">
-                     <Link href="/contact?service=eb1" className="bg-[#D4A848] hover:bg-[#c2983d] text-[#FFFFFF] px-8 py-4 text-[10px] tracking-widest text-center uppercase font-black !rounded-xl transition-colors shadow-md">
+                     <button 
+                        onClick={() => setShowBookingModal(true)}
+                        className="bg-[#D4A848] hover:bg-[#c2983d] text-[#FFFFFF] px-8 py-4 text-[10px] tracking-widest text-center uppercase font-black !rounded-xl transition-colors shadow-md"
+                     >
                         Initiate Case Review
-                     </Link>
-                     <Link href="/checkout?service=eb1" className="border border-[#D4A848] text-[#D4A848] hover:bg-[#D4A848]/10 px-8 py-4 text-[10px] tracking-widest uppercase font-black text-center !rounded-xl transition-colors">
-                        Secure Settlement
-                     </Link>
+                     </button>
+                      <button 
+                         onClick={() => setShowCheckoutModal(true)}
+                         className="border border-[#D4A848] text-[#D4A848] hover:bg-[#D4A848]/10 px-8 py-4 text-[10px] tracking-widest uppercase font-black text-center !rounded-xl transition-colors"
+                      >
+                         Secure Settlement
+                      </button>
                   </div>
                </motion.div>
             </div>
@@ -562,15 +575,30 @@ export default function EB1Page() {
                   Partner with elite immigration architects to secure your future in the United States.
                </p>
                <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">
-                  <Link href="/contact?service=eb1" className="px-10 py-4 bg-[#D4A848] text-[#FFFFFF] font-black hover:bg-[#c2983d] rounded-xl text-[11px] w-full sm:w-auto text-center tracking-widest transition-colors shadow-md">
+                  <button 
+                     onClick={() => setShowBookingModal(true)}
+                     className="px-10 py-4 bg-[#D4A848] text-[#FFFFFF] font-black hover:bg-[#c2983d] rounded-xl text-[11px] w-full sm:w-auto text-center tracking-widest transition-colors shadow-md"
+                  >
                      Book Talent Scan
-                  </Link>
-                  <Link href="/success-stories" className="px-10 py-4 border border-[#D4A848] text-[#D4A848] font-black hover:bg-[#D4A848]/10 rounded-xl text-[11px] w-full sm:w-auto text-center tracking-widest uppercase italic transition-colors">
-                     Elite Statistics
-                  </Link>
+                  </button>
                </div>
             </div>
          </section>
+
+         <BookCounsellingModal 
+            isOpen={showBookingModal}
+            onClose={() => setShowBookingModal(false)}
+         />
+
+         <CheckoutModal 
+            isOpen={showCheckoutModal}
+            onClose={() => setShowCheckoutModal(false)}
+            items={[{ name: "Extraordinary Evaluation Protocol (EB-1)", price: discountedPrice }]}
+            subtotal={basePrice}
+            discount={basePrice - discountedPrice}
+            total={discountedPrice}
+            currency={currency}
+         />
       </main>
    );
 }

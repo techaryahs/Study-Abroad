@@ -27,7 +27,7 @@ class AcademicExtrasSection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        Text('Modify existing records by tapping on them.', style: TextStyle(fontSize: 9, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
+        Text('Modify existing records by tapping on them.', style: TextStyle(fontSize: 14, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
         const SizedBox(height: 24),
         
         // Projects
@@ -43,11 +43,11 @@ class AcademicExtrasSection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(it['title']?.toString().toUpperCase() ?? 'PROJECT', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+                  Text(it['title']?.toString().toUpperCase() ?? 'PROJECT', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                   const Icon(Icons.edit, size: 12, color: AppTheme.gold),
                 ],
               ),
-              Text(it['category'] ?? 'Tech', style: const TextStyle(fontSize: 10, color: AppTheme.gold, fontWeight: FontWeight.w700)),
+              Text(it['category'] ?? 'Tech', style: const TextStyle(fontSize: 14, color: AppTheme.gold, fontWeight: FontWeight.w700)),
             ],
           ),
         ),
@@ -67,11 +67,11 @@ class AcademicExtrasSection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(it['title']?.toString().toUpperCase() ?? 'RESEARCH', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+                  Text(it['title']?.toString().toUpperCase() ?? 'RESEARCH', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                   const Icon(Icons.edit, size: 12, color: AppTheme.gold),
                 ],
               ),
-              Text(it['publisher'] ?? 'Publisher', style: const TextStyle(fontSize: 10, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
+              Text(it['publisher'] ?? 'Publisher', style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
             ],
           ),
         ),
@@ -91,11 +91,11 @@ class AcademicExtrasSection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(it['testType']?.toString().toUpperCase() ?? 'TEST', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+                  Text(it['testType']?.toString().toUpperCase() ?? 'TEST', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                   const Icon(Icons.edit, size: 12, color: AppTheme.gold),
                 ],
               ),
-              Text('SCORE: ${it['score']}', style: const TextStyle(fontSize: 11, color: Colors.green, fontWeight: FontWeight.w900)),
+              Text('SCORE: ${it['score']}', style: const TextStyle(fontSize: 13, color: Colors.green, fontWeight: FontWeight.w900)),
             ],
           ),
         ),
@@ -138,7 +138,7 @@ class _PortfolioCard extends StatelessWidget {
             children: [
               Icon(icon, color: AppTheme.gold, size: 18),
               const SizedBox(width: 12),
-              Text(title, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+              Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
               const Spacer(),
               IconButton(onPressed: onAdd, icon: const Icon(Icons.add_circle_outline, color: Colors.green, size: 20)),
             ],

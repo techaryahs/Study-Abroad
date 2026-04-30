@@ -45,7 +45,7 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                 pinned: true,
                 backgroundColor: AppTheme.background,
                 elevation: 0,
-                title: const Text('SCHOLARSHIP PROFILE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.gold)),
+                title: const Text('SCHOLARSHIP PROFILE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.gold)),
                 iconTheme: const IconThemeData(color: AppTheme.textPrimary),
               ),
               
@@ -117,7 +117,7 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('INITIALIZE APPLICATION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                                  Text('INITIALIZE APPLICATION', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                                   SizedBox(width: 8),
                                   Icon(LucideIcons.externalLink, size: 16),
                                 ],
@@ -133,7 +133,7 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(s.sponsor, style: const TextStyle(color: AppTheme.gold, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                          Text(s.sponsor, style: const TextStyle(color: AppTheme.gold, fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2)),
                           const SizedBox(height: 12),
                           Text(
                             s.name,
@@ -160,7 +160,7 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                           const SizedBox(height: 48),
                           
                           // Narrative
-                          const Text('SCOPE & PURPOSE', style: TextStyle(color: AppTheme.gold, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                          const Text('SCOPE & PURPOSE', style: TextStyle(color: AppTheme.gold, fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2)),
                           const SizedBox(height: 20),
                           Text(
                             s.description,
@@ -180,7 +180,7 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('VALUE PROPOSITION', style: TextStyle(color: AppTheme.gold, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                                const Text('VALUE PROPOSITION', style: TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                                 const SizedBox(height: 16),
                                 Text(
                                   '"${s.perks}"',
@@ -223,7 +223,7 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
         children: [
           Icon(icon, size: 18, color: color),
           const SizedBox(height: 12),
-          Text(label, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1)),
+          Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1)),
           const SizedBox(height: 4),
           Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary), overflow: TextOverflow.ellipsis),
         ],
@@ -249,7 +249,7 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('LIAISON INFORMATION', style: TextStyle(color: AppTheme.gold, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+          const Text('LIAISON INFORMATION', style: TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
           const SizedBox(height: 32),
           _contactItem(LucideIcons.mapPin, 'Provider HQ', s.id.contains('1') ? 'Brooklyn, NY' : 'Global'),
           const SizedBox(height: 24),
@@ -268,7 +268,7 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 1)),
+              Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1)),
               const SizedBox(height: 2),
               Text(value, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.bold)),
             ],

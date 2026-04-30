@@ -80,7 +80,7 @@ class _AppScaffoldState extends State<AppScaffold> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 9,
+                              fontSize: 14,
                               fontWeight: isSelected ? FontWeight.w900 : FontWeight.w600,
                               color: isSelected ? AppTheme.gold : AppTheme.textSecondary.withOpacity(0.6),
                               letterSpacing: 0.1,
@@ -179,7 +179,7 @@ class _MoreMenuSheet extends StatelessWidget {
                                 TextButton(
                                   onPressed: () => Navigator.pop(dialogContext),
                                   child: const Text('CANCEL',
-                                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 11, color: Colors.black54)),
+                                      style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: Colors.black54)),
                                 ),
                                 ElevatedButton(
                                   onPressed: () async {
@@ -194,7 +194,7 @@ class _MoreMenuSheet extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                   ),
                                   child: const Text('SIGN OUT',
-                                      style: TextStyle(fontWeight: FontWeight.w900, fontSize: 11)),
+                                      style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13)),
                                 ),
                               ],
                             ),
@@ -214,7 +214,7 @@ class _MoreMenuSheet extends StatelessWidget {
                               Text(
                                 'Sign Out',
                                 style: TextStyle(
-                                  fontSize: 9,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.redAccent,
                                 ),
@@ -245,7 +245,7 @@ class _MoreMenuSheet extends StatelessWidget {
                             Text(
                               item.label,
                               style: const TextStyle(
-                                fontSize: 9,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: AppTheme.textPrimary,
                               ),

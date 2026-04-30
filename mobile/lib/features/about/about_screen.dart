@@ -109,7 +109,7 @@ class AboutScreen extends StatelessWidget {
             Text(value, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: -1)),
             const SizedBox(height: 4),
             Text(label.toUpperCase(),
-                style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.5, color: AppTheme.textSecondary)),
           ],
         ),
       ),
@@ -135,7 +135,7 @@ class AboutScreen extends StatelessWidget {
               children: [
                 Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
                 const SizedBox(height: 6),
-                Text(body, style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary, height: 1.6)),
+                Text(body, style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.6)),
               ],
             ),
           ),

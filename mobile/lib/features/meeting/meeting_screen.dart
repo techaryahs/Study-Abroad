@@ -604,17 +604,17 @@ class _MeetingScreenState extends State<MeetingScreen> {
               child: Column(
                 children: [
                    Text('${(_sessionData?['date'] == null || _sessionData?['date'] == "null") ? 'Scheduled' : _sessionData!['date']} | ${(_sessionData?['time'] == null || _sessionData?['time'] == "null") ? 'Live' : _sessionData!['time']}', 
-                     style: const TextStyle(color: AppTheme.gold, fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 0.5)),
+                     style: const TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 0.5)),
                    if (_sessionData?['meetingId'] != null) ...[
                      const SizedBox(height: 6),
-                     Text('ROOM ID: ${_sessionData!['meetingId']}', style: const TextStyle(color: AppTheme.textMuted, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                     Text('ROOM ID: ${_sessionData!['meetingId']}', style: const TextStyle(color: AppTheme.textMuted, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                    ]
                 ],
               ),
             ),
             const SizedBox(height: 20),
             Text('JOINING AS: ${auth.user?['name']?.toString().toUpperCase() ?? 'GUEST'}', 
-              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
+              style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.2)),
             const SizedBox(height: 80),
             SizedBox(
               width: double.infinity,
@@ -673,8 +673,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text('VIDEO SUSPENDED',
-                        style: TextStyle(color: Colors.white38, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 2)),
+                    const Text('VIDEO SUSPENDED', style: TextStyle(color: Colors.white38, fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 2)),
                   ],
                 ),
               ),
@@ -807,7 +806,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
               child: Center(child: Text(name[0].toUpperCase(), style: const TextStyle(color: AppTheme.gold, fontSize: 24, fontWeight: FontWeight.w900))),
             ),
             const SizedBox(height: 12),
-            const Text('VIDEO OFF', style: TextStyle(color: Colors.white24, fontSize: 8, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+            const Text('VIDEO OFF', style: TextStyle(color: Colors.white24, fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
           ],
         ),
       ),
@@ -842,7 +841,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
-        child: Text(name, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+        child: Text(name, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
       ),
     );
   }
@@ -872,11 +871,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
                 ),
                 const SizedBox(height: 4),
                 Text('${(_sessionData?['date'] == null || _sessionData?['date'] == "null") ? 'Session' : _sessionData!['date']} · ${(_sessionData?['time'] == null || _sessionData?['time'] == "null") ? 'Live' : _sessionData!['time']}', 
-                  style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.w600, fontSize: 10)),
+                  style: const TextStyle(color: AppTheme.textSecondary, fontWeight: FontWeight.w600, fontSize: 14)),
               ],
             ),
             Text(_sessionData?['meetingId']?.toString().toUpperCase() ?? 'LIVE ROOM', 
-              style: const TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.bold)),
+              style: const TextStyle(color: AppTheme.textMuted, fontSize: 14, fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -892,18 +891,15 @@ class _MeetingScreenState extends State<MeetingScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              Text('Session Room',
-                  style: TextStyle(color: Colors.white70, fontSize: 12, fontWeight: FontWeight.w900)),
+              Text('Session Room', style: TextStyle(color: AppTheme.textSecondary, fontSize: 14, fontWeight: FontWeight.w900)),
               SizedBox(height: 2),
-              Text('LIVE ENCRYPTION ACTIVE',
-                  style: TextStyle(color: Colors.white38, fontSize: 8, fontWeight: FontWeight.w800, letterSpacing: 1)),
+              Text('LIVE ENCRYPTION ACTIVE', style: TextStyle(color: AppTheme.textMuted, fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1)),
             ],
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const Text('SIGNAL',
-                  style: TextStyle(color: Colors.white38, fontSize: 7, fontWeight: FontWeight.w900, letterSpacing: 1)),
+              const Text('SIGNAL STRENGTH', style: TextStyle(color: AppTheme.textMuted, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
               const SizedBox(height: 4),
               Row(
                 children: [
@@ -1075,9 +1071,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                     child: Column(
                       crossAxisAlignment: isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                       children: [
-                        if (!isMe)
-                          Text(m['sender'] ?? 'User',
-                              style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
+                        if (!isMe) Text(m['sender'] ?? 'User', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textMuted)),
                         const SizedBox(height: 2),
                         Container(
                           padding: const EdgeInsets.all(12),

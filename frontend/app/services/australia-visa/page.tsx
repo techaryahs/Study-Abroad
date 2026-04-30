@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import AddToCart from "@/components/shared/AddToCart";
 
 /* ─────────────────────────────────────────
    DESIGN TOKENS  (from uploaded screenshot)
@@ -241,6 +243,7 @@ const otherPathways = [
 
 export default function AustraliaVisaPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   return (
     <main style={{ background: T.bg, color: T.ink, fontFamily: T.serif, minHeight: "100vh" }}>
@@ -341,14 +344,17 @@ export default function AustraliaVisaPage() {
 }}>
 
   {/* Button */}
-  <p style={{
+  <p 
+    onClick={() => setIsBookingOpen(true)}
+    style={{
     border: `1px solid ${T.gold}`,
     padding: "10px 16px",
     borderRadius: 6,
     fontFamily: T.serif,
     fontSize: "0.9rem",
     margin: 0,
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
+    cursor: "pointer"
   }}>
     Discuss Your Case
   </p>
@@ -411,6 +417,7 @@ export default function AustraliaVisaPage() {
                 </p>
               </div>
             </div>
+            <AddToCart serviceId="australia-visa" />
           </div>
         </div>
 
@@ -667,9 +674,9 @@ export default function AustraliaVisaPage() {
       <Sec bg={T.bg} py={72} topRule>
         <div style={{ maxWidth: 840, margin: "0 auto", textAlign: "center", marginBottom: 48 }}>
           
-          <H2 center>Why Choose Global Counsellor Centre for Your NIV Application?</H2>
+          <H2 center>Why Choose International Eduleader Council for Your NIV Application?</H2>
           <Rule center />
-          <Body center color={T.inkFade}>Our end-to-end NIV application services at Global Counsellor Centre — Global Admissions are unlike any other firm&apos;s.</Body>
+          <Body center color={T.inkFade}>Our end-to-end NIV application services at International Eduleader Council — Global Admissions are unlike any other firm&apos;s.</Body>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20 }}>
           {[
@@ -864,6 +871,11 @@ export default function AustraliaVisaPage() {
           </div>
         </div>
       </Sec>
+
+      <BookCounsellingModal 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
 </main>
   );
 }

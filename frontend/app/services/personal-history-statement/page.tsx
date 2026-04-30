@@ -58,9 +58,9 @@ export default function PersonalHistoryStatementPage() {
 
             {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
             <section className="relative pt-10 pb-24 px-6 md:px-16" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                <div className="max-w-4xl mx-auto flex flex-col gap-10 items-start">
 
-                    {/* LEFT CONTENT */}
+                    {/* CONTENT */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -92,26 +92,6 @@ export default function PersonalHistoryStatementPage() {
                         </div>
 
                         <DiscussionSection serviceId="personal-history-statement" />
-                    </motion.div>
-
-                    {/* RIGHT VIDEO */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="flex justify-center relative pt-10"
-                    >
-                        <div className="absolute inset-0 bg-[#C5A059]/5 blur-3xl rounded-full -z-10"></div>
-                        <div className="relative p-2 rounded-[2rem] bg-white border border-[#C5A059]/20 shadow-2xl overflow-hidden">
-                            <video
-                                className="rounded-[1.5rem] w-full max-w-md"
-                                controls
-                                autoPlay
-                                loop
-                                muted
-                            >
-                                <source src="/PersonalHistory.mp4" type="video/mp4" />
-                            </video>
-                        </div>
                     </motion.div>
                 </div>
             </section>

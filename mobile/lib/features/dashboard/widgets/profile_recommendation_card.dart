@@ -57,7 +57,7 @@ class ProfileRecommendationCard extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
-              fontSize: 10,
+              fontSize: 14,
               fontWeight: FontWeight.w900,
               letterSpacing: 1.2,
               height: 1.3,
@@ -89,7 +89,7 @@ class ProfileRecommendationCard extends StatelessWidget {
                   'COMPLETE',
                   style: TextStyle(
                     color: AppTheme.gold,
-                    fontSize: 8.5,
+                    fontSize: 13.5,
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1.5,
                   ),

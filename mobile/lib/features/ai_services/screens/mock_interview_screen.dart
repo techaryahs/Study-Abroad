@@ -74,7 +74,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
         ),
         title: const Text(
           'US VISA MOCK INTERVIEW',
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary),
         ),
       ),
       body: SingleChildScrollView(
@@ -96,7 +96,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
   // ── HERO SECTION ──────────────────────────────────────────────────────────
   Widget _buildHeroSection() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(24, 32, 24, 32),
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -116,7 +116,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
             ),
             child: const Text(
               'INSTITUTIONAL GRADE AI',
-              style: TextStyle(color: Color(0xFFC5A059), fontWeight: FontWeight.w800, fontSize: 10, letterSpacing: 2),
+              style: TextStyle(color: Color(0xFFC5A059), fontWeight: FontWeight.w800, fontSize: 14, letterSpacing: 2),
             ),
           ).animate().fadeIn(duration: 600.ms),
 
@@ -142,10 +142,10 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
 
           const Text(
             '"Precision-engineered AI simulations that replicate the exact psychological and technical protocols of US Visa Officers."',
-            style: TextStyle(fontSize: 14, color: Color(0xFF6B5E51), height: 1.7, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500),
+            style: TextStyle(fontSize: 13, color: Color(0xFF6B5E51), height: 1.6, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500),
           ).animate().fadeIn(delay: 300.ms),
 
-          const SizedBox(height: 28),
+          const SizedBox(height: 20),
 
           // Chat Preview Card
           _buildChatPreviewCard().animate().fadeIn(delay: 400.ms).scale(begin: const Offset(0.95, 0.95)),
@@ -157,8 +157,8 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
   Widget _buildChatPreviewCard() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: Colors.white, width: 3),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.white, width: 2),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 40, offset: const Offset(0, 20)),
         ],
@@ -170,7 +170,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
             // Title bar
             Container(
               color: const Color(0xFF3A3530),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               child: Row(
                 children: [
                   _dot(const Color(0xFFEF4444)),
@@ -179,7 +179,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                   const SizedBox(width: 6),
                   _dot(const Color(0xFF22C55E)),
                   const Spacer(),
-                  const Text('Encryption Active', style: TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 2)),
+                  const Text('Encryption Active', style: TextStyle(color: Colors.white38, fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 2)),
                 ],
               ),
             ),
@@ -187,7 +187,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
             // Chat content
             Container(
               color: const Color(0xFF2D2926),
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(12),
               child: Column(
                 children: [
                   // VO message
@@ -195,15 +195,15 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: 36, height: 36,
-                        decoration: BoxDecoration(color: const Color(0xFFC5A059), borderRadius: BorderRadius.circular(10)),
+                        width: 28, height: 28,
+                        decoration: BoxDecoration(color: const Color(0xFFC5A059), borderRadius: BorderRadius.circular(8)),
                         alignment: Alignment.center,
-                        child: const Text('VO', style: TextStyle(color: Color(0xFF2D2926), fontWeight: FontWeight.w900, fontSize: 10)),
+                        child: const Text('VO', style: TextStyle(color: Color(0xFF2D2926), fontWeight: FontWeight.w900, fontSize: 13)),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 10),
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(14),
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.07),
                             borderRadius: const BorderRadius.only(
@@ -214,14 +214,14 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                           ),
                           child: const Text(
                             '"Welcome. I see you\'re applying for an F-1 visa. Why did you choose this specific university?"',
-                            style: TextStyle(color: Colors.white70, fontSize: 12, height: 1.5),
+                            style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
                           ),
                         ),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
 
                   // YOU message
                   Row(
@@ -229,7 +229,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                     children: [
                       Expanded(
                         child: Container(
-                          padding: const EdgeInsets.all(14),
+                          padding: const EdgeInsets.all(10),
                           decoration: const BoxDecoration(
                             color: Color(0xFFC5A059),
                             borderRadius: BorderRadius.only(
@@ -240,25 +240,25 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                           ),
                           child: const Text(
                             '"I chose UC because of their advanced research in Neural Networks and the specific faculty mentorship program..."',
-                            style: TextStyle(color: Color(0xFF2D2926), fontSize: 12, height: 1.5, fontWeight: FontWeight.w600),
+                            style: TextStyle(color: Color(0xFF2D2926), fontSize: 13, height: 1.5, fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: 10),
                       Container(
-                        width: 36, height: 36,
-                        decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+                        width: 28, height: 28,
+                        decoration: BoxDecoration(color: Colors.white.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
                         alignment: Alignment.center,
-                        child: const Text('YOU', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 9)),
+                        child: const Text('YOU', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 13)),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 12),
 
                   // Feedback
                   Container(
-                    padding: const EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       border: Border(top: BorderSide(color: Colors.white.withOpacity(0.08))),
                     ),
@@ -269,13 +269,13 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                           children: [
                             const Icon(Icons.bolt_rounded, color: Color(0xFFC5A059), size: 14),
                             const SizedBox(width: 6),
-                            const Text('LIVE FEEDBACK ENGINE', style: TextStyle(color: Color(0xFFC5A059), fontSize: 8, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                            const Text('LIVE FEEDBACK ENGINE', style: TextStyle(color: Color(0xFFC5A059), fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2)),
                           ],
                         ),
                         const SizedBox(height: 8),
                         const Text(
                           '"Strong answer. Recommendation: Mention one specific professor\'s work to boost credibility."',
-                          style: TextStyle(color: Colors.white38, fontSize: 11, fontStyle: FontStyle.italic, height: 1.5),
+                          style: TextStyle(color: Colors.white38, fontSize: 13, fontStyle: FontStyle.italic, height: 1.5),
                         ),
                       ],
                     ),
@@ -332,7 +332,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                       children: [
                         Text(item['title'] as String, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF2D2926))),
                         const SizedBox(height: 4),
-                        Text(item['desc'] as String, style: const TextStyle(fontSize: 12, color: Color(0xFF6B5E51), height: 1.5)),
+                        Text(item['desc'] as String, style: const TextStyle(fontSize: 14, color: Color(0xFF6B5E51), height: 1.5)),
                       ],
                     ),
                   ),
@@ -381,7 +381,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                 const SizedBox(height: 4),
                 Text(
                   stat['label']!.toUpperCase(),
-                  style: const TextStyle(color: Colors.white38, fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 2),
+                  style: const TextStyle(color: Colors.white38, fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 2),
                 ),
               ],
             )).toList(),
@@ -400,7 +400,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
         children: [
           const Text(
             'LIMITED TIME ENROLLMENT',
-            style: TextStyle(color: Color(0xFFC5A059), fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 3),
+            style: TextStyle(color: Color(0xFFC5A059), fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 3),
           ),
           const SizedBox(height: 12),
           RichText(
@@ -439,7 +439,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                 child: Text(
                   c,
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w800,
                     color: selectedCurrency == c ? Colors.white : const Color(0xFF6B5E51),
                   ),
@@ -483,7 +483,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                           decoration: BoxDecoration(color: const Color(0xFFC5A059), borderRadius: BorderRadius.circular(8)),
                           child: Text(
                             plan['label'] as String,
-                            style: const TextStyle(color: Color(0xFF2D2926), fontSize: 8, fontWeight: FontWeight.w900, letterSpacing: 1.5),
+                            style: const TextStyle(color: Color(0xFF2D2926), fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5),
                           ),
                         ),
                     ],
@@ -535,27 +535,23 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                     height: 52,
                     child: ElevatedButton(
                       onPressed: () {
-                        final item = CheckoutItem(
-                          id: plan['rounds'] as String,
-                          title: plan['rounds'] as String,
-                          icon: '🎙️',
-                          price: plan['price'] as int,
-                          actualPrice: plan['original'] as int,
-                          currency: selectedCurrency,
-                          description: 'Mock interview package for visa preparation.',
-                          features: List<String>.from(plan['features'] as List<dynamic>),
-                        );
                         CheckoutSheet.show(
                           context,
-                          items: [item],
-                          currency: selectedCurrency,
-                          onCheckout: () {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Checking out ${item.title}')),
-                            );
+                          title: 'Interview Package',
+                          items: [
+                            CheckoutItem(
+                              id: 'mock-interview-${plan['rounds'].toString().toLowerCase().replaceAll(' ', '-')}',
+                              title: 'Mock Interview: ${plan['rounds']}',
+                              icon: '🎙️',
+                              price: plan['price'] as int,
+                              actualPrice: plan['original'] as int,
+                              currency: selectedCurrency,
+                              description: 'Professional AI-driven US Visa Mock Interview rounds with feedback.',
+                            )
+                          ],
+                          onPaymentSuccess: () {
+                            // Payment success logic
                           },
-                          title: 'Mock Interview Checkout',
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -564,7 +560,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                         elevation: 0,
                       ),
-                      child: const Text('INITIALIZE PROTOCOL', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 11)),
+                      child: const Text('CONSULT INTERVIEW EXPERT', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
                     ),
                   ),
                 ],

@@ -71,7 +71,7 @@ class ServiceDetailScreen extends StatelessWidget {
                           ),
                           child: const Text(
                             'PREMIUM SERVICE',
-                            style: TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 1.5),
+                            style: TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.5),
                           ),
                         ),
                         const SizedBox(height: 12),
@@ -115,7 +115,7 @@ class ServiceDetailScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Service Investment', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                            const Text('Service Investment', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
                             const SizedBox(height: 4),
                             Text('₹${service.price.toStringAsFixed(0)}', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                           ],
@@ -153,7 +153,7 @@ class ServiceDetailScreen extends StatelessWidget {
                             inCart ? 'IN CART' : 'ADD TO CART',
                             style: TextStyle(
                               fontWeight: FontWeight.w800,
-                              fontSize: 12,
+                              fontSize: 14,
                               letterSpacing: 1,
                               color: inCart ? Colors.grey.shade600 : Colors.white,
                             ),
@@ -166,7 +166,7 @@ class ServiceDetailScreen extends StatelessWidget {
                   const SizedBox(height: 32),
 
                   // ── DESCRIPTION ────────────────────────────
-                  const Text('OVERVIEW', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 2, color: AppTheme.gold)),
+                  const Text('OVERVIEW', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 2, color: AppTheme.gold)),
                   const SizedBox(height: 12),
                   Text(
                     service.longDescription ?? service.description,
@@ -176,7 +176,7 @@ class ServiceDetailScreen extends StatelessWidget {
                   const SizedBox(height: 40),
 
                   // ── FEATURES GRID ──────────────────────────
-                  const Text('KEY FEATURES', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 2, color: AppTheme.gold)),
+                  const Text('KEY FEATURES', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 2, color: AppTheme.gold)),
                   const SizedBox(height: 20),
                   GridView.builder(
                     shrinkWrap: true,
@@ -204,7 +204,7 @@ class ServiceDetailScreen extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(
                               service.features[i],
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
                             ),
                           ],
                         ),
@@ -229,7 +229,7 @@ class ServiceDetailScreen extends StatelessWidget {
                         const Text(
                           'Speak with our experts for personalized guidance on this service.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, color: AppTheme.textSecondary, fontWeight: FontWeight.w500),
+                          style: TextStyle(fontSize: 14, color: AppTheme.textSecondary, fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 20),
                         SizedBox(
@@ -242,7 +242,7 @@ class ServiceDetailScreen extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                             ),
-                            child: const Text('BOOK FREE COUNSELLING', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 11, letterSpacing: 1)),
+                            child: const Text('BOOK FREE COUNSELLING', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13, letterSpacing: 1)),
                           ),
                         ),
                       ],

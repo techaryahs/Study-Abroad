@@ -81,7 +81,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
             ),
             child: Text(
               review["service"],
-              style: const TextStyle(fontSize: 10),
+              style: const TextStyle(fontSize: 14),
             ),
           ),
 
@@ -98,7 +98,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
           /// Date
           Text(
             review["date"],
-            style: const TextStyle(fontSize: 10, color: Colors.grey),
+            style: const TextStyle(fontSize: 14, color: Colors.grey),
           ),
         ],
       ),
@@ -298,7 +298,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
                           color: selectedFilter == services[i]
                               ? Colors.white
                               : Colors.black,
-                          fontSize: 12,
+                          fontSize: 14,
                         ),
                       ),
                     ),

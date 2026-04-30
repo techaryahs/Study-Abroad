@@ -79,12 +79,12 @@ class SuccessStoriesScreen extends StatelessWidget {
                             Text(s['name']!,
                                 style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
                             Text('${s['country']} ${s['from']}',
-                                style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                                style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
                           ],
                         ),
                       ),
                       Text(s['year']!,
-                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
                     ],
                   ),
                   const SizedBox(height: 14),
@@ -115,9 +115,9 @@ class SuccessStoriesScreen extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(emoji, style: const TextStyle(fontSize: 11)),
+          Text(emoji, style: const TextStyle(fontSize: 13)),
           const SizedBox(width: 4),
-          Text(text, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.gold)),
+          Text(text, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.gold)),
         ],
       ),
     );

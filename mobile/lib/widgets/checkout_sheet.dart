@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../models/checkout_item.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import '../core/api_client.dart';
+import '../core/storage.dart';
 
-class CheckoutSheet extends StatelessWidget {
+class CheckoutSheet extends StatefulWidget {
   final List<CheckoutItem> items;
   final String currency;
-  final VoidCallback? onCheckout;
+  final VoidCallback? onPaymentSuccess;
   final String title;
 
   const CheckoutSheet({
     super.key,
     required this.items,
     this.currency = 'INR',
-    this.onCheckout,
+    this.onPaymentSuccess,
     this.title = 'Checkout Summary',
   });
 
@@ -20,7 +23,7 @@ class CheckoutSheet extends StatelessWidget {
     BuildContext context, {
     required List<CheckoutItem> items,
     String currency = 'INR',
-    VoidCallback? onCheckout,
+    VoidCallback? onPaymentSuccess,
     String title = 'Checkout Summary',
   }) {
     return showModalBottomSheet<T>(
@@ -33,7 +36,7 @@ class CheckoutSheet extends StatelessWidget {
           child: CheckoutSheet(
             items: items,
             currency: currency,
-            onCheckout: onCheckout,
+            onPaymentSuccess: onPaymentSuccess,
             title: title,
           ),
         );
@@ -41,8 +44,17 @@ class CheckoutSheet extends StatelessWidget {
     );
   }
 
-  int get subtotal => items.fold(0, (value, item) => value + item.price);
-  int get actualTotal => items.fold(0, (value, item) => value + item.actualPrice);
+  @override
+  State<CheckoutSheet> createState() => _CheckoutSheetState();
+}
+
+class _CheckoutSheetState extends State<CheckoutSheet> {
+  late Razorpay _razorpay;
+  bool _isProcessing = false;
+  Map<String, dynamic>? _receiptData;
+
+  int get subtotal => widget.items.fold(0, (value, item) => value + item.price);
+  int get actualTotal => widget.items.fold(0, (value, item) => value + item.actualPrice);
   int get discount => (actualTotal - subtotal).clamp(0, actualTotal);
 
   String formatPrice(int price) {
@@ -50,7 +62,122 @@ class CheckoutSheet extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    try {
+      final user = await AppStorage.getUser();
+      if (user == null) throw Exception("User not found");
+
+      final verifyRes = await ApiClient.instance.post('/api/payment/verify', data: {
+        'razorpay_order_id': response.orderId,
+        'razorpay_payment_id': response.paymentId,
+        'razorpay_signature': response.signature,
+        'userId': user['_id'] ?? user['id'],
+        'userEmail': user['email'],
+        'items': widget.items.map((i) => {
+          'title': i.title,
+          'price': i.price,
+          'currency': i.currency,
+          'serviceId': i.id
+        }).toList(),
+        'subtotal': subtotal,
+        'discount': discount,
+        'total': subtotal, // Payable
+        'currency': widget.currency
+      });
+      
+      if (mounted) {
+        setState(() {
+          _receiptData = verifyRes.data['receipt'] ?? {
+            'paymentId': response.paymentId,
+            'items': widget.items.map((e) => {'title': e.title, 'price': e.price}).toList(),
+            'currency': widget.currency,
+            'total': subtotal,
+            'subtotal': subtotal,
+            'discount': discount,
+            'userEmail': user['email']
+          };
+          _isProcessing = false;
+        });
+        widget.onPaymentSuccess?.call();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isProcessing = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Payment verification failed: ${extractErrorMessage(e)}'), backgroundColor: Colors.red)
+        );
+      }
+    }
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    setState(() => _isProcessing = false);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Payment Failed: ${response.message}')));
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    setState(() => _isProcessing = false);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('External Wallet: ${response.walletName}')));
+  }
+
+  Future<void> _initiatePayment() async {
+    setState(() => _isProcessing = true);
+    try {
+      final user = await AppStorage.getUser();
+      if (user == null) throw Exception("Please login first to make a payment.");
+
+      final res = await ApiClient.instance.post(
+        '/api/payment/create-order',
+        data: {
+          'amount': subtotal,
+          'currency': widget.currency,
+        },
+      );
+      
+      final data = res.data;
+      var options = {
+        'key': 'rzp_live_RseCm2t4lFlfMC',
+        'amount': data['amount'], 
+        'currency': data['currency'],
+        'order_id': data['id'],
+        'name': 'International Eduleader Council',
+        'description': widget.items.map((e) => e.title).join(', '),
+        'prefill': {
+          'contact': user['phone'] ?? user['mobile'] ?? '',
+          'email': user['email'] ?? ''
+        },
+        'theme': {
+          'color': '#C5A059'
+        }
+      };
+
+      _razorpay.open(options);
+    } catch (e) {
+      setState(() => _isProcessing = false);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(extractErrorMessage(e))));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_receiptData != null) {
+      return _buildReceiptView();
+    }
+
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -65,42 +192,31 @@ class CheckoutSheet extends StatelessWidget {
           children: [
             Center(
               child: Container(
-                width: 48,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: AppTheme.borderLight,
-                  borderRadius: BorderRadius.circular(2),
-                ),
+                width: 48, height: 4,
+                decoration: BoxDecoration(color: AppTheme.borderLight, borderRadius: BorderRadius.circular(2)),
               ),
             ),
             const SizedBox(height: 18),
-            Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900)),
+            Text(widget.title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900)),
             const SizedBox(height: 16),
-            if (items.isEmpty)
+            if (widget.items.isEmpty)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Text('No items available for checkout.', style: Theme.of(context).textTheme.bodyMedium),
               )
             else
               Column(
-                children: items.map((item) {
+                children: widget.items.map((item) {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppTheme.background,
-                      borderRadius: BorderRadius.circular(18),
-                    ),
+                    decoration: BoxDecoration(color: AppTheme.background, borderRadius: BorderRadius.circular(18)),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          width: 46,
-                          height: 46,
-                          decoration: BoxDecoration(
-                            color: AppTheme.darkBrown,
-                            borderRadius: BorderRadius.circular(14),
-                          ),
+                          width: 46, height: 46,
+                          decoration: BoxDecoration(color: AppTheme.darkBrown, borderRadius: BorderRadius.circular(14)),
                           alignment: Alignment.center,
                           child: Text(item.icon, style: const TextStyle(fontSize: 24)),
                         ),
@@ -120,12 +236,12 @@ class CheckoutSheet extends StatelessWidget {
                                 children: [
                                   if (item.actualPrice > item.price)
                                     Text(
-                                      '$currency ${formatPrice(item.actualPrice)}',
-                                      style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary, decoration: TextDecoration.lineThrough),
+                                      '${widget.currency} ${formatPrice(item.actualPrice)}',
+                                      style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, decoration: TextDecoration.lineThrough),
                                     ),
                                   if (item.actualPrice > item.price) const SizedBox(width: 8),
                                   Text(
-                                    '$currency ${formatPrice(item.price)}',
+                                    '${widget.currency} ${formatPrice(item.price)}',
                                     style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: AppTheme.gold),
                                   ),
                                 ],
@@ -133,7 +249,7 @@ class CheckoutSheet extends StatelessWidget {
                               if (item.description != null)
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
-                                  child: Text(item.description!, style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary, height: 1.5)),
+                                  child: Text(item.description!, style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.5)),
                                 ),
                             ],
                           ),
@@ -144,28 +260,31 @@ class CheckoutSheet extends StatelessWidget {
                 }).toList(),
               ),
             const SizedBox(height: 12),
-            if (items.isNotEmpty)
+            if (widget.items.isNotEmpty)
               Column(
                 children: [
-                  _buildSummaryRow('Subtotal', '$currency ${formatPrice(actualTotal)}'),
+                  _buildSummaryRow('Subtotal', '${widget.currency} ${formatPrice(actualTotal)}'),
                   const SizedBox(height: 6),
-                  _buildSummaryRow('Discount', '- $currency ${formatPrice(discount)}'),
+                  _buildSummaryRow('Discount', '- ${widget.currency} ${formatPrice(discount)}'),
                   const SizedBox(height: 6),
                   Divider(color: AppTheme.borderLight),
                   const SizedBox(height: 10),
-                  _buildSummaryRow('Payable', '$currency ${formatPrice(subtotal)}', isBold: true),
+                  _buildSummaryRow('Payable', '${widget.currency} ${formatPrice(subtotal)}', isBold: true),
                   const SizedBox(height: 18),
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: onCheckout,
+                    height: 56,
+                    child: ElevatedButton.icon(
+                      onPressed: _isProcessing ? null : _initiatePayment,
+                      icon: _isProcessing 
+                          ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                          : const Icon(Icons.lock_rounded, size: 18),
+                      label: Text(_isProcessing ? 'PROCESSING...' : 'PROCEED TO PAY ', style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.1)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.darkBrown,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                        padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      child: const Text('Proceed to Checkout', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.1)),
                     ),
                   ),
                 ],
@@ -183,6 +302,88 @@ class CheckoutSheet extends StatelessWidget {
         Text(label, style: TextStyle(fontSize: 13, fontWeight: isBold ? FontWeight.w800 : FontWeight.w600, color: AppTheme.textPrimary)),
         Text(value, style: TextStyle(fontSize: isBold ? 17 : 13, fontWeight: isBold ? FontWeight.w900 : FontWeight.w700, color: isBold ? AppTheme.gold : AppTheme.textPrimary)),
       ],
+    );
+  }
+
+  Widget _buildReceiptView() {
+    final r = _receiptData!;
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: const BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.check_circle_rounded, color: Colors.white, size: 20),
+                  SizedBox(width: 8),
+                  Text('PAYMENT SUCCESSFUL', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 13, letterSpacing: 1.5)),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                children: [
+                  const Text('Receipt', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: AppTheme.darkBrown)),
+                  const SizedBox(height: 4),
+                  Text('ID: ${r['paymentId']}', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: Colors.grey)),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('SERVICES', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: Colors.grey)),
+                      const Text('AMOUNT', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: Colors.grey)),
+                    ],
+                  ),
+                  const Divider(),
+                  ...(r['items'] as List).map((item) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text(item['title'], style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700))),
+                        Text('${r['currency']} ${formatPrice(item['price'])}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
+                      ],
+                    ),
+                  )),
+                  const Divider(),
+                  _buildSummaryRow('Subtotal', '${r['currency']} ${formatPrice(r['subtotal'])}'),
+                  const SizedBox(height: 6),
+                  _buildSummaryRow('Discount', '- ${r['currency']} ${formatPrice(r['discount'])}'),
+                  const SizedBox(height: 6),
+                  _buildSummaryRow('Total Paid', '${r['currency']} ${formatPrice(r['total'])}', isBold: true),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: AppTheme.borderLight),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                      child: const Text('DONE', style: TextStyle(fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

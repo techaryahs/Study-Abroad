@@ -386,7 +386,7 @@ export default function DashboardPage() {
           <button
             key={tab}
             onClick={() => setMainTab(tab as any)}
-            className={`px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all ${mainTab === tab ? 'bg-[#3C2A21] text-[#C5A059] shadow-lg' : 'bg-white border border-[#F1EDEA] text-[#6B5E51] hover:bg-[#FDFBF7]'}`}
+            className={`px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all ${mainTab === tab ? 'bg-[#C5A059] text-white shadow-lg' : 'bg-white border border-[#F1EDEA] text-[#6B5E51] hover:bg-[#FDFBF7]'}`}
           >
             {tab === 'profile' ? 'Profile' : tab === 'bookings' ? 'My Bookings' : 'My Sessions'}
           </button>

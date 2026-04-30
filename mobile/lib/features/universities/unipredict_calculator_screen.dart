@@ -51,7 +51,7 @@ class _UniPredictCalculatorScreenState extends State<UniPredictCalculatorScreen>
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: const Text('ADMISSION ANALYZER', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.gold)),
+        title: const Text('ADMISSION ANALYZER', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.gold)),
         centerTitle: true,
         backgroundColor: AppTheme.background,
         elevation: 0,
@@ -128,7 +128,7 @@ class _UniPredictCalculatorScreenState extends State<UniPredictCalculatorScreen>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('MAX BUDGET', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
+                        const Text('MAX BUDGET', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
                         Text(
                           NumberFormat.compactCurrency(locale: 'en_IN', symbol: '₹').format(_budget),
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.gold),
@@ -168,7 +168,7 @@ class _UniPredictCalculatorScreenState extends State<UniPredictCalculatorScreen>
                         children: [
                           SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)),
                           SizedBox(width: 16),
-                          Text('RUNNING ALGORITHM...', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                          Text('RUNNING ALGORITHM...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                         ],
                       )
                     : const Row(
@@ -201,10 +201,10 @@ class _UniPredictCalculatorScreenState extends State<UniPredictCalculatorScreen>
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(color: AppTheme.darkBrown, borderRadius: BorderRadius.circular(6)),
-                child: Center(child: Text(index.toString(), style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold))),
+                child: Center(child: Text(index.toString(), style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold))),
               ),
               const SizedBox(width: 12),
-              Text(label.toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.gold)),
+              Text(label.toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.gold)),
             ],
           ),
           const SizedBox(height: 20),
@@ -233,7 +233,7 @@ class _UniPredictCalculatorScreenState extends State<UniPredictCalculatorScreen>
                 child: Text(
                   opt.toUpperCase(),
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: active ? Colors.white : AppTheme.textPrimary.withOpacity(0.4),
                     letterSpacing: 1,
@@ -264,7 +264,7 @@ class _UniPredictCalculatorScreenState extends State<UniPredictCalculatorScreen>
           hintText: hint,
           hintStyle: TextStyle(color: AppTheme.textPrimary.withOpacity(0.2), fontSize: 13, fontWeight: FontWeight.normal),
           suffixText: suffix,
-          suffixStyle: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1),
+          suffixStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1),
         ),
       ),
     );
@@ -295,7 +295,7 @@ class _ResultModal extends StatelessWidget {
                 const SizedBox(height: 24),
                 const Text(
                   'EVALUATION COMPLETE',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 3, color: Colors.white70),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 3, color: Colors.white70),
                 ),
                 const SizedBox(height: 8),
                 const Text(
@@ -312,7 +312,7 @@ class _ResultModal extends StatelessWidget {
               children: [
                 const Text(
                   'MASTER PROFILE STRENGTH',
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textSecondary),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textSecondary),
                 ),
                 const SizedBox(height: 24),
                 
@@ -342,9 +342,9 @@ class _ResultModal extends StatelessWidget {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('AVERAGE', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
+                    Text('AVERAGE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
                     Text('78% CHANCE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold)),
-                    Text('EXCELLENT', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
+                    Text('EXCELLENT', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
                   ],
                 ),
                 
@@ -368,7 +368,7 @@ class _ResultModal extends StatelessWidget {
                   onPressed: () => Navigator.pop(context),
                   child: const Text(
                     'CLOSE RESULTS',
-                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textSecondary),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textSecondary),
                   ),
                 ),
               ],

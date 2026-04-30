@@ -109,7 +109,7 @@ class TopUniversitiesByStateScreen extends StatelessWidget {
                   ),
                   child: Text(
                     '${state['unis']} Universities',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.gold),
+                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.gold),
                   ),
                 ),
               ],

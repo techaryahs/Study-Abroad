@@ -241,7 +241,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: GestureDetector(
             onTap: () => context.go('/login'),
             child: const Text('Already have an account? Sign in',
-                style: TextStyle(fontSize: 12, color: AppTheme.gold, fontWeight: FontWeight.w700)),
+                style: TextStyle(fontSize: 14, color: AppTheme.gold, fontWeight: FontWeight.w700)),
           ),
         ),
       ],
@@ -271,7 +271,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: GestureDetector(
             onTap: _sendEmailOtp,
             child: const Text('Resend Code',
-                style: TextStyle(fontSize: 12, color: AppTheme.gold, fontWeight: FontWeight.w700)),
+                style: TextStyle(fontSize: 14, color: AppTheme.gold, fontWeight: FontWeight.w700)),
           ),
         ),
       ],
@@ -411,7 +411,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   );
 
   Widget _label(String text) => Text(text.toUpperCase(),
-      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800,
+      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800,
           letterSpacing: 1.5, color: AppTheme.textSecondary));
 
   List<Widget> _errorAndButton(String btnLabel, VoidCallback onPressed) => [
@@ -429,7 +429,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Icon(Icons.error_outline_rounded, color: Colors.red.shade600, size: 18),
           const SizedBox(width: 10),
           Expanded(child: Text(_error!,
-              style: TextStyle(color: Colors.red.shade700, fontSize: 12, fontWeight: FontWeight.w600))),
+              style: TextStyle(color: Colors.red.shade700, fontSize: 14, fontWeight: FontWeight.w600))),
         ]),
       ).animate().shake(),
       const SizedBox(height: 16),

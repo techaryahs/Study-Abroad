@@ -139,29 +139,7 @@ class ResourcesScreen extends StatelessWidget {
               
               const SizedBox(height: 30),
               
-              // Extra Section: Popular Guides
-              Text(
-                'POPULAR GUIDES',
-                style: GoogleFonts.outfit(
-                  color: AppTheme.textMuted,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 12,
-                  letterSpacing: 1.5,
-                ),
-              ).animate().fadeIn(delay: 400.ms),
-              const SizedBox(height: 16),
-              _buildGuideCard(
-                title: 'GRE Complete Strategy Guide',
-                tag: 'TEST PREP',
-                icon: '📘',
-              ).animate().fadeIn(delay: 500.ms).slideX(begin: 0.05),
-              _buildGuideCard(
-                title: 'SOP Writing: The Masterclass',
-                tag: 'DOCUMENTS',
-                icon: '📝',
-              ).animate().fadeIn(delay: 600.ms).slideX(begin: 0.05),
-              
-              const SizedBox(height: 40),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -234,7 +212,7 @@ class ResourcesScreen extends StatelessWidget {
                             'NEW',
                             style: GoogleFonts.outfit(
                               color: Colors.white,
-                              fontSize: 10,
+                              fontSize: 14,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 0.5,
                             ),
@@ -262,53 +240,6 @@ class ResourcesScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildGuideCard({
-    required String title,
-    required String tag,
-    required String icon,
-  }) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppTheme.cardBg,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppTheme.borderLight),
-      ),
-      child: Row(
-        children: [
-          Text(icon, style: const TextStyle(fontSize: 24)),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  tag,
-                  style: GoogleFonts.outfit(
-                    color: AppTheme.gold,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 10,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-                Text(
-                  title,
-                  style: GoogleFonts.outfit(
-                    color: AppTheme.textPrimary,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Icon(Icons.download_for_offline_rounded, color: AppTheme.gold, size: 24),
-        ],
       ),
     );
   }

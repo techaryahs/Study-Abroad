@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../features/auth/auth_provider.dart';
+import 'checkout_sheet.dart';
+import '../models/checkout_item.dart';
 
 void showBookCounsellingSheet(BuildContext context) {
   showModalBottomSheet(
@@ -163,9 +165,37 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       return;
     }
 
-    setState(() => _bookingLoading = true);
+    final selectedSlot = _slots[_selectedSlotIndex!];
+    
+    // Show Checkout Modal first
+    CheckoutSheet.show(
+      context,
+      title: 'Booking Payment',
+      items: [
+        CheckoutItem(
+          id: 'counselling-session',
+          title: 'Counselling Session',
+          subtitle: '${DateFormat('MMM d').format(DateTime.parse(_selectedDate))} @ ${selectedSlot['time']}',
+          icon: '📅',
+          price: 599,
+          actualPrice: 599,
+          currency: 'INR',
+          description: '1-hour private session with IEC Admin.',
+        )
+      ],
+      onPaymentSuccess: () {
+        // Once payment is successful, actually save the booking
+        _finalizeBooking();
+      },
+    );
+  }
+
+  Future<void> _finalizeBooking() async {
+    setState(() {
+      _bookingLoading = true;
+      _error = '';
+    });
     try {
-      // _selectedSlotIndex is always an index into _slots directly
       final slot = _slots[_selectedSlotIndex!];
       final res = await ApiClient.instance.post(
         '/api/bookings/book-session',
@@ -183,7 +213,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       });
     } catch (e) {
       setState(() {
-        _error = 'Booking failed. Try again.';
+        _error = 'Payment was successful but booking failed. Please contact support.';
         _bookingLoading = false;
       });
     }
@@ -247,7 +277,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                             ),
                             const SizedBox(width: 6),
                             const Text('BOOK SESSION',
-                                style: TextStyle(fontSize: 7, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 0.5)),
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 0.5)),
                           ],
                         ),
                       ),
@@ -255,7 +285,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                       const Text('Counselling Session',
                           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
                       const Text('1-hour private session',
-                          style: TextStyle(fontSize: 8, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
+                          style: TextStyle(fontSize: 13, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
                     ],
                   ),
                   IconButton(
@@ -308,7 +338,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text('👤 Counselling with Admin',
-                      style: TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.gold)),
+                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.gold)),
                 ),
               ),
 
@@ -344,7 +374,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           ),
                           child: const Text('BACK',
-                              style: TextStyle(color: AppTheme.textSecondary, fontSize: 10, fontWeight: FontWeight.w900)),
+                              style: TextStyle(color: AppTheme.textSecondary, fontSize: 14, fontWeight: FontWeight.w900)),
                         ),
                       ),
                     if (_step > 1) const SizedBox(width: 10),
@@ -359,7 +389,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                         ),
                         child: Text(
                           _bookingLoading ? '...' : _step == 3 ? 'CONFIRM & PAY' : 'CONTINUE',
-                          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 10, letterSpacing: 0.5),
+                          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14, letterSpacing: 0.5),
                         ),
                       ),
                     ),
@@ -396,13 +426,13 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                     style: TextStyle(
                       fontWeight: FontWeight.w900,
                       color: active ? AppTheme.gold : AppTheme.textSecondary,
-                      fontSize: 11,
+                      fontSize: 13,
                     ),
                   ),
           ),
         ),
         const SizedBox(height: 3),
-        Text(label, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
       ],
     );
   }
@@ -416,7 +446,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('SELECT DATE', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const Text('SELECT DATE', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
         const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(12),
@@ -444,7 +474,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                     constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
                   ),
                   Text('${monthNames[_calendarMonth - 1]} $_calendarYear',
-                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
                   IconButton(
                     onPressed: () => setState(() {
                       if (_calendarMonth == 12) {
@@ -468,7 +498,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                 itemCount: 7,
                 itemBuilder: (_, i) => Center(
                   child: Text(dayNames[i],
-                      style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
                 ),
               ),
               const SizedBox(height: 8),
@@ -500,7 +530,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                             child: Center(
                               child: Text(day.toString(),
                                   style: TextStyle(
-                                    fontSize: 11,
+                                    fontSize: 13,
                                     fontWeight: FontWeight.w700,
                                     color: isSelected
                                         ? AppTheme.darkBrown
@@ -529,7 +559,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('SELECT TIME', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const Text('SELECT TIME', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
         const SizedBox(height: 8),
         // Date info with emoji
         Container(
@@ -547,9 +577,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(DateFormat('EEE, MMM d, yyyy').format(DateTime.parse(_selectedDate)),
-                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
                   const Text('Select a preferred slot below',
-                      style: TextStyle(fontSize: 8, color: AppTheme.textSecondary)),
+                      style: TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
                 ],
               ),
             ],
@@ -561,7 +591,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         if (_error.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: Text(_error, style: const TextStyle(color: Colors.red, fontSize: 10)),
+            child: Text(_error, style: const TextStyle(color: Colors.red, fontSize: 14)),
           ),
         
         // Loading state
@@ -594,9 +624,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                   const Text('⏰', style: TextStyle(fontSize: 32)),
                   const SizedBox(height: 8),
                   const Text('No slots available',
-                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 11, fontWeight: FontWeight.w600)),
+                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 13, fontWeight: FontWeight.w600)),
                   const Text('Please select another date',
-                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 9)),
+                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 14)),
                 ],
               ),
             ),
@@ -678,7 +708,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                               Text(
                                 subLabel,
                                 style: TextStyle(
-                                  fontSize: 8,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: isSelected
                                       ? AppTheme.darkBrown.withOpacity(0.6)
@@ -719,7 +749,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('YOUR DETAILS', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const Text('YOUR DETAILS', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
         const SizedBox(height: 12),
         // Summary
         Container(
@@ -732,14 +762,14 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Summary', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+              const Text('Summary', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
               const SizedBox(height: 6),
               Text(DateFormat('EEE, MMM d, yyyy').format(DateTime.parse(_selectedDate)),
-                  style: const TextStyle(fontWeight: FontWeight.w900, color: AppTheme.textPrimary, fontSize: 10)),
+                  style: const TextStyle(fontWeight: FontWeight.w900, color: AppTheme.textPrimary, fontSize: 14)),
               const SizedBox(height: 2),
               if (selectedSlot != null)
                 Text('${selectedSlot['time']} – ${selectedSlot['endTime']}',
-                    style: const TextStyle(fontWeight: FontWeight.w700, color: AppTheme.gold, fontSize: 9)),
+                    style: const TextStyle(fontWeight: FontWeight.w700, color: AppTheme.gold, fontSize: 14)),
             ],
           ),
         ),
@@ -747,7 +777,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         // Name
         TextField(
           controller: _nameCtrl,
-          style: const TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 14),
           decoration: InputDecoration(
             hintText: 'Full Name',
             filled: true,
@@ -762,7 +792,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         TextField(
           controller: _emailCtrl,
           keyboardType: TextInputType.emailAddress,
-          style: const TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 14),
           decoration: InputDecoration(
             hintText: 'Email Address *',
             filled: true,
@@ -784,19 +814,19 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Session Charge', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
-              const Text('₹599', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+              const Text('Session Charge', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+              const Text('₹599', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.gold)),
             ],
           ),
         ),
         const SizedBox(height: 6),
         const Text(
           'Charges are fully adjustable in any service you opt for later.',
-          style: TextStyle(fontSize: 8, color: AppTheme.textSecondary),
+          style: TextStyle(fontSize: 13, color: AppTheme.textSecondary),
         ),
         if (_error.isNotEmpty) ...[
           const SizedBox(height: 10),
-          Text(_error, style: const TextStyle(color: Colors.red, fontSize: 10)),
+          Text(_error, style: const TextStyle(color: Colors.red, fontSize: 14)),
         ],
       ],
     );
@@ -823,7 +853,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         const Text('Confirmed!', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
         const SizedBox(height: 2),
         Text('Sent to ${_bookingResult?['userEmail'] ?? 'your email'}',
-            style: const TextStyle(fontSize: 8, color: AppTheme.textSecondary)),
+            style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
         const SizedBox(height: 14),
         Container(
           padding: const EdgeInsets.all(12),
@@ -851,10 +881,10 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Meeting ID', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                      const Text('Meeting ID', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
                       const SizedBox(height: 3),
                       Text(_bookingResult?['meetingId'] ?? '', 
-                          style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.gold, fontFamily: 'monospace')),
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, fontFamily: 'monospace')),
                     ],
                   ),
                 ),
@@ -873,7 +903,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               padding: const EdgeInsets.symmetric(vertical: 12),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             ),
-            child: const Text('DONE', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 10, letterSpacing: 0.5)),
+            child: const Text('DONE', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14, letterSpacing: 0.5)),
           ),
         ),
       ],
@@ -884,8 +914,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
-        Text(value, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+        Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
       ],
     );
   }

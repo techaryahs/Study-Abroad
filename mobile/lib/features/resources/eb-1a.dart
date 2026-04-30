@@ -122,7 +122,7 @@ class _BackNav extends StatelessWidget {
             'BACK TO SERVICES',
             style: TextStyle(
               color: _brown,
-              fontSize: 11,
+              fontSize: 13,
               letterSpacing: 2,
               fontWeight: FontWeight.w500,
             ),
@@ -262,7 +262,7 @@ class _KitCard extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             item.title,
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: titleColor),
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: titleColor),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -270,7 +270,7 @@ class _KitCard extends StatelessWidget {
           Expanded(
             child: Text(
               item.desc,
-              style: TextStyle(fontSize: 10, color: descColor, height: 1.4),
+              style: TextStyle(fontSize: 14, color: descColor, height: 1.4),
               overflow: TextOverflow.ellipsis,
               maxLines: 4,
             ),
@@ -404,7 +404,7 @@ class _WhyCard extends StatelessWidget {
           const SizedBox(height: 12),
           Text(item.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: _dark)),
           const SizedBox(height: 6),
-          Text(item.desc, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12, color: _mutedText, height: 1.5)),
+          Text(item.desc, textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, color: _mutedText, height: 1.5)),
         ],
       ),
     );
@@ -457,7 +457,7 @@ class _Built200Section extends StatelessWidget {
               color: _brown,
               child: const Text(
                 'GET THE KIT NOW',
-                style: TextStyle(color: _bg, fontSize: 11, letterSpacing: 2, fontWeight: FontWeight.w600),
+                style: TextStyle(color: _bg, fontSize: 13, letterSpacing: 2, fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -550,7 +550,7 @@ class _PricingSection extends StatelessWidget {
           const Text(
             'START YOUR EB-1A JOURNEY THE RIGHT WAY',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10, color: _tan, letterSpacing: 2),
+            style: TextStyle(fontSize: 14, color: _tan, letterSpacing: 2),
           ),
           const SizedBox(height: 32),
           // Price card
@@ -564,7 +564,7 @@ class _PricingSection extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
                   child: Column(
                     children: [
-                      const Text('BUY AT', style: TextStyle(fontSize: 10, color: _brown, letterSpacing: 2)),
+                      const Text('BUY AT', style: TextStyle(fontSize: 14, color: _brown, letterSpacing: 2)),
                       const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -578,7 +578,7 @@ class _PricingSection extends StatelessWidget {
                           Text('200', style: TextStyle(fontSize: 52, fontWeight: FontWeight.w800, color: _dark)),
                         ],
                       ),
-                      const Text('billed just once', style: TextStyle(fontSize: 11, color: _brown, letterSpacing: 1)),
+                      const Text('billed just once', style: TextStyle(fontSize: 13, color: _brown, letterSpacing: 1)),
                       const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {},
@@ -589,7 +589,7 @@ class _PricingSection extends StatelessWidget {
                           child: const Text(
                             'BUY NOW',
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: _bg, fontSize: 11, letterSpacing: 2, fontWeight: FontWeight.w600),
+                            style: TextStyle(color: _bg, fontSize: 13, letterSpacing: 2, fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
@@ -604,7 +604,7 @@ class _PricingSection extends StatelessWidget {
                     children: [
                       const Text(
                         'Just everything you need to create a winning EB-1A petition in one place.',
-                        style: TextStyle(fontSize: 12, color: _tan),
+                        style: TextStyle(fontSize: 14, color: _tan),
                       ),
                       const SizedBox(height: 16),
                       ..._pricingFeatures.map(
@@ -614,7 +614,7 @@ class _PricingSection extends StatelessWidget {
                             children: [
                               const Text('✓', style: TextStyle(color: _brown, fontSize: 14)),
                               const SizedBox(width: 10),
-                              Expanded(child: Text(f, style: const TextStyle(fontSize: 12, color: _tan))),
+                              Expanded(child: Text(f, style: const TextStyle(fontSize: 14, color: _tan))),
                             ],
                           ),
                         ),
@@ -624,9 +624,9 @@ class _PricingSection extends StatelessWidget {
                         spacing: 16,
                         runSpacing: 8,
                         children: const [
-                          Text('◎ Cost-effective kit', style: TextStyle(fontSize: 11, color: _brown)),
-                          Text('◎ 100% assisted', style: TextStyle(fontSize: 11, color: _brown)),
-                          Text('◎ Customizable', style: TextStyle(fontSize: 11, color: _brown)),
+                          Text('◎ Cost-effective kit', style: TextStyle(fontSize: 13, color: _brown)),
+                          Text('◎ 100% assisted', style: TextStyle(fontSize: 13, color: _brown)),
+                          Text('◎ Customizable', style: TextStyle(fontSize: 13, color: _brown)),
                         ],
                       ),
                     ],
@@ -741,7 +741,7 @@ class _SectionHeader extends StatelessWidget {
       children: [
         Text(title, textAlign: TextAlign.center, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: _dark)),
         const SizedBox(height: 8),
-        Text(subtitle, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12, color: _mutedText, height: 1.5)),
+        Text(subtitle, textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, color: _mutedText, height: 1.5)),
       ],
     );
   }

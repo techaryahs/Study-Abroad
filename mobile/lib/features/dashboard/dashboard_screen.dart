@@ -74,7 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ],
               ),
               const SizedBox(height: 30),
-              const Text('BIO / TAGLINE', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+              const Text('BIO / TAGLINE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
               const SizedBox(height: 12),
               TextField(
                 controller: bioController,
@@ -88,7 +88,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              const Text('LINKEDIN PROFILE URL', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+              const Text('LINKEDIN PROFILE URL', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
               const SizedBox(height: 12),
               TextField(
                 controller: linkedinController,
@@ -135,7 +135,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   child: saving 
                     ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.gold, strokeWidth: 2))
-                    : const Text('UPDATE PROFILE', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 11)),
+                    : const Text('UPDATE PROFILE', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
                 ),
               ),
             ],
@@ -188,7 +188,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(f['label']!.toUpperCase(), style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+                    Text(f['label']!.toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
                     const SizedBox(height: 10),
                     TextField(
                       controller: controllers[f['key']],
@@ -242,7 +242,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                   child: saving 
                     ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.gold, strokeWidth: 2))
-                    : const Text('SAVE RECORD', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 11)),
+                    : const Text('SAVE RECORD', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
                 ),
               ),
             ],
@@ -383,7 +383,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
             child: const Text('CANCEL',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 11, color: Colors.black54)),
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: Colors.black54)),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -397,7 +397,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             ),
             child: const Text('SIGN OUT',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 11)),
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13)),
           ),
         ],
       ),
@@ -520,7 +520,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     Text(
                                       (profile['isPublic'] ?? false) ? "PUBLIC" : "PRIVATE",
                                       style: TextStyle(
-                                        fontSize: 9,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.w900,
                                         letterSpacing: 2,
                                         color: (profile['isPublic'] ?? false) ? Colors.green : AppTheme.textSecondary,
@@ -616,18 +616,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           margin: const EdgeInsets.only(right: 12),
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                           decoration: BoxDecoration(
-                            color: isSelected ? AppTheme.darkBrown : Colors.white,
+                            color: isSelected ? AppTheme.gold : Colors.white,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: isSelected ? AppTheme.darkBrown : AppTheme.borderLight),
-                            boxShadow: isSelected ? [BoxShadow(color: AppTheme.darkBrown.withOpacity(0.2), blurRadius: 15, offset: const Offset(0, 5))] : null,
+                            border: Border.all(color: isSelected ? AppTheme.gold : AppTheme.borderLight),
+                            boxShadow: isSelected ? [BoxShadow(color: AppTheme.gold.withOpacity(0.2), blurRadius: 15, offset: const Offset(0, 5))] : null,
                           ),
                           child: Text(
                             tab == 'profile' ? 'PROFILE' : tab == 'bookings' ? 'MY BOOKINGS' : 'MY SESSIONS',
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 14,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.5,
-                              color: isSelected ? AppTheme.gold : AppTheme.textSecondary,
+                              color: isSelected ? Colors.white : AppTheme.textSecondary,
                             ),
                           ),
                         ),
@@ -679,7 +679,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
            children: [
              Icon(Icons.emoji_events, color: AppTheme.gold, size: 20),
              const SizedBox(width: 8),
-             Text("${score['testType']} RESULTS".toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary)),
+             Text("${score['testType']} RESULTS".toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary)),
            ],
         ),
         const SizedBox(height: 24),
@@ -688,8 +688,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(e.key.toUpperCase(), style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1.2)),
-              Text(e.value.toString(), style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+              Text(e.key.toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1.2)),
+              Text(e.value.toString(), style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
             ],
           ),
         )),
@@ -697,7 +697,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Row(
            mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: [
-             const Text("TOTAL SCORE", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 2)),
+             const Text("TOTAL SCORE", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 2)),
              Text(score['score'].toString(), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, color: AppTheme.textPrimary)),
            ],
         ),
@@ -712,7 +712,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('PURCHASE HISTORY',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.5)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.5)),
           const SizedBox(height: 20),
           ..._receipts.map((r) => Container(
             margin: const EdgeInsets.only(bottom: 16),
@@ -730,13 +730,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text((r['orderId'] ?? 'Order').toUpperCase(), 
-                        style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
                     Text('${r['currency']} ${r['total']}', 
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.redAccent, fontStyle: FontStyle.italic)),
                   ],
                 ),
                 const SizedBox(height: 12),
-                const Text('PAID', style: TextStyle(color: Colors.green, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                const Text('PAID', style: TextStyle(color: Colors.green, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2)),
                 const Divider(height: 32, color: AppTheme.borderLight),
                 ...((r['items'] as List? ?? []).map((item) => Padding(
                   padding: const EdgeInsets.only(bottom: 8),
@@ -744,7 +744,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       const Icon(Icons.check_circle_outline, color: AppTheme.gold, size: 14),
                       const SizedBox(width: 8),
-                      Expanded(child: Text(item['title'] ?? 'Service', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700))),
+                      Expanded(child: Text(item['title'] ?? 'Service', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700))),
                     ],
                   ),
                 ))),
@@ -754,7 +754,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           if (_receipts.isEmpty)
              Center(child: Padding(
                padding: const EdgeInsets.symmetric(vertical: 60),
-               child: Text("NO PURCHASES FOUND", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textMuted, letterSpacing: 2)),
+               child: Text("NO PURCHASES FOUND", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textMuted, letterSpacing: 2)),
              )),
         ],
       ),
@@ -787,7 +787,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('MY SESSIONS', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.5)),
+              const Text('MY SESSIONS', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.5)),
               Row(
                 children: ['upcoming', 'past'].map((f) => GestureDetector(
                   onTap: () => setState(() => _sessionFilter = f),
@@ -798,7 +798,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       color: _sessionFilter == f ? AppTheme.gold : AppTheme.background,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(f.toUpperCase(), style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: _sessionFilter == f ? Colors.white : AppTheme.textSecondary)),
+                    child: Text(f.toUpperCase(), style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: _sessionFilter == f ? Colors.white : AppTheme.textSecondary)),
                   ),
                 )).toList(),
               ),
@@ -820,17 +820,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text((s['consultantName']?.toString() ?? 'Counselling Session').toUpperCase(), 
-                          style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                       const SizedBox(height: 6),
                       Row(
                         children: [
                           const Icon(Icons.calendar_today, size: 10, color: AppTheme.gold),
                           const SizedBox(width: 4),
-                          Text((s['date'] == null || s['date'] == "null") ? 'Scheduled' : s['date'].toString(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900)),
+                          Text((s['date'] == null || s['date'] == "null") ? 'Scheduled' : s['date'].toString(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900)),
                           const SizedBox(width: 12),
                           const Icon(Icons.access_time, size: 10, color: AppTheme.gold),
                           const SizedBox(width: 4),
-                          Text((s['time'] == null || s['time'] == "null") ? 'Live' : s['time'].toString(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+                          Text((s['time'] == null || s['time'] == "null") ? 'Live' : s['time'].toString(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                         ],
                       ),
                     ],
@@ -848,7 +848,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                          borderRadius: BorderRadius.circular(12),
                          boxShadow: [BoxShadow(color: Colors.green.withOpacity(0.3), blurRadius: 10)],
                        ),
-                       child: const Text('JOIN', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900)),
+                       child: const Text('JOIN', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
                      ),
                    ),
               ],
@@ -861,11 +861,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                  children: [
                    Icon(Icons.event_busy, color: AppTheme.textMuted, size: 40),
                    const SizedBox(height: 16),
-                   Text("NO ${_sessionFilter.toUpperCase()} SESSIONS", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textMuted, letterSpacing: 2)),
+                   Text("NO ${_sessionFilter.toUpperCase()} SESSIONS", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textMuted, letterSpacing: 2)),
                    if (_sessionFilter == 'upcoming')
                      Padding(
                        padding: const EdgeInsets.only(top: 8),
-                       child: Text("Check the 'Past' tab for finished sessions.", style: TextStyle(fontSize: 9, color: AppTheme.textMuted)),
+                       child: Text("Check the 'Past' tab for finished sessions.", style: TextStyle(fontSize: 14, color: AppTheme.textMuted)),
                      ),
                  ],
                ),
@@ -921,7 +921,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       child: Text(t['label']!,
                           style: TextStyle(
-                            fontSize: 9,
+                            fontSize: 14,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.5,
                             color: isS ? Colors.white : AppTheme.textSecondary,
@@ -965,7 +965,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 'undergrad':
         return _buildEduList(profile['underGrad'] ?? [], 'uniName');
       default:
-        return Center(child: Text("NO CONTENT", style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textMuted)));
+        return Center(child: Text("NO CONTENT", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textMuted)));
     }
   }
 
@@ -986,10 +986,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(it[nameKey].toString().toUpperCase(), 
-                      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
                   const SizedBox(height: 4),
                   Text('CGPA: ${it['cgpa']} / ${it['outOf']}', 
-                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
                 ],
               ),
             ),
@@ -1024,7 +1024,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               const SizedBox(width: 12),
               const Text('RECOMMENDED FOR YOU',
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1.8)),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1.8)),
             ],
           ),
           const SizedBox(height: 30),
@@ -1056,8 +1056,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                  children: [
                    const Icon(Icons.verified, color: Colors.green, size: 40),
                    const SizedBox(height: 16),
-                   const Text("PROFILE 100% COMPLETE", style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.2)),
-                   Text("You are ready for applications.", style: TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
+                   const Text("PROFILE 100% COMPLETE", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.2)),
+                   Text("You are ready for applications.", style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
                  ],
                ),
              ),
@@ -1090,7 +1090,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   children: [
                     Icon(n['icon'] as IconData, color: AppTheme.gold, size: 16),
                     const SizedBox(width: 8),
-                    Text(n['label'] as String, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textMuted)),
+                    Text(n['label'] as String, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textMuted)),
                     const Spacer(),
                     GestureDetector(
                       onTap: () {
@@ -1111,7 +1111,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 child: Row(
                   children: [
-                    Expanded(child: Text(it['role'] ?? it['title'] ?? 'Record', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900))),
+                    Expanded(child: Text(it['role'] ?? it['title'] ?? 'Record', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900))),
                     const Icon(Icons.chevron_right, color: AppTheme.textMuted, size: 16),
                   ],
                 ),
@@ -1155,7 +1155,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Icon(icon, color: color ?? AppTheme.gold, size: 16),
         const SizedBox(width: 8),
         Text(text.toUpperCase(),
-            style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: color ?? AppTheme.textSecondary, letterSpacing: 1.5)),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: color ?? AppTheme.textSecondary, letterSpacing: 1.5)),
       ],
     );
   }
@@ -1173,7 +1173,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Icon(icon, color: Colors.white, size: 16),
           const SizedBox(width: 8),
-          Text(text, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+          Text(text, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
         ],
       ),
     );
@@ -1192,7 +1192,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Icon(icon, color: AppTheme.gold, size: 16),
           const SizedBox(width: 8),
-          Text(text, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+          Text(text, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
         ],
       ),
     );
@@ -1217,9 +1217,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(label, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+                Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
                 const SizedBox(height: 2),
-                Text(value.toUpperCase(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 0.5)),
+                Text(value.toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 0.5)),
               ],
             ),
           ),

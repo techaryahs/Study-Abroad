@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../auth/auth_provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class AdminDashboardScreen extends StatefulWidget {
   const AdminDashboardScreen({super.key});
@@ -38,62 +39,554 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     super.dispose();
   }
 
+  /// ─── PREMIUM CHANGE PASSWORD ────────────────────────────────────────────
   void _showChangePasswordDialog() {
-    final oldPass = TextEditingController();
-    final newPass = TextEditingController();
+    final oldPass   = TextEditingController();
+    final newPass   = TextEditingController();
+    final confPass  = TextEditingController();
+    bool showOld    = false;
+    bool showNew    = false;
+    bool showConf   = false;
+    bool loading    = false;
+    String message  = '';
+    bool isSuccess  = false;
 
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Change Password"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: oldPass,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: "Old Password"),
-            ),
-            TextField(
-              controller: newPass,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: "New Password"),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Cancel"),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              try {
-                await ApiClient.instance.put(
-                  '/api/auth/change-password',
-                  data: {
-                    "oldPassword": oldPass.text,
-                    "newPassword": newPass.text,
-                  },
-                );
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => StatefulBuilder(
+        builder: (ctx, setModal) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.12), blurRadius: 30)],
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ── Header ──────────────────────────────────────────
+                    Row(
+                      children: [
+                        Container(
+                          width: 40, height: 40,
+                          decoration: BoxDecoration(
+                            color: AppTheme.gold.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(Icons.lock_outline, color: AppTheme.gold, size: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Change Password',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                              Text('Update your admin credentials',
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.pop(ctx),
+                          child: const Icon(Icons.close_rounded, color: AppTheme.textSecondary),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
 
-                Navigator.pop(context);
+                    // ── Message Banner ───────────────────────────────────
+                    if (message.isNotEmpty)
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(12),
+                        margin: const EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          color: isSuccess ? Colors.green.shade50 : Colors.red.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: isSuccess ? Colors.green.shade100 : Colors.red.shade100),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(isSuccess ? Icons.check_circle_outline : Icons.error_outline,
+                              color: isSuccess ? Colors.green : Colors.red, size: 16),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text(message, style: TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.w600,
+                              color: isSuccess ? Colors.green.shade700 : Colors.red.shade700))),
+                          ],
+                        ),
+                      ),
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Password updated successfully")),
-                );
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(extractErrorMessage(e))),
-                );
-              }
-            },
-            child: const Text("Update"),
-          ),
-        ],
+                    // ── Current Password ─────────────────────────────────
+                    _buildSheetField(
+                      label: 'CURRENT PASSWORD',
+                      controller: oldPass,
+                      obscure: !showOld,
+                      suffix: IconButton(
+                        icon: Icon(showOld ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                          color: AppTheme.textSecondary, size: 18),
+                        onPressed: () => setModal(() => showOld = !showOld),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // ── New Password ─────────────────────────────────────
+                    _buildSheetField(
+                      label: 'NEW PASSWORD',
+                      controller: newPass,
+                      obscure: !showNew,
+                      hint: 'Min 8 chars, uppercase & number',
+                      suffix: IconButton(
+                        icon: Icon(showNew ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                          color: AppTheme.textSecondary, size: 18),
+                        onPressed: () => setModal(() => showNew = !showNew),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // ── Confirm Password ─────────────────────────────────
+                    _buildSheetField(
+                      label: 'CONFIRM NEW PASSWORD',
+                      controller: confPass,
+                      obscure: !showConf,
+                      suffix: IconButton(
+                        icon: Icon(showConf ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                          color: AppTheme.textSecondary, size: 18),
+                        onPressed: () => setModal(() => showConf = !showConf),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    // ── Forgot Password Link ─────────────────────────────
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(ctx);
+                          _showAdminForgotPasswordSheet();
+                        },
+                        child: const Text('Forgot current password?',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.gold)),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // ── Action Buttons ───────────────────────────────────
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.pop(ctx),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              side: const BorderSide(color: AppTheme.borderLight),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            ),
+                            child: const Text('CANCEL',
+                              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800,
+                                letterSpacing: 1.5, color: AppTheme.textPrimary)),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: loading ? null : () async {
+                              final old = oldPass.text.trim();
+                              final nw  = newPass.text.trim();
+                              final cn  = confPass.text.trim();
+
+                              if (old.isEmpty || nw.isEmpty || cn.isEmpty) {
+                                setModal(() { message = 'All fields are required'; isSuccess = false; });
+                                return;
+                              }
+                              if (nw != cn) {
+                                setModal(() { message = 'Passwords do not match'; isSuccess = false; });
+                                return;
+                              }
+                              final pwRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$');
+                              if (!pwRegex.hasMatch(nw)) {
+                                setModal(() {
+                                  message = 'Min 8 chars with uppercase, lowercase & number';
+                                  isSuccess = false;
+                                });
+                                return;
+                              }
+
+                              setModal(() => loading = true);
+                              try {
+                                await ApiClient.instance.post(
+                                  '/api/user/change-password',
+                                  data: {
+                                    'currentPassword': old,
+                                    'newPassword': nw,
+                                    'confirmPassword': cn,
+                                  },
+                                );
+                                setModal(() { message = 'Password updated successfully!'; isSuccess = true; });
+                                await Future.delayed(const Duration(seconds: 1));
+                                if (ctx.mounted) Navigator.pop(ctx);
+                              } catch (e) {
+                                setModal(() {
+                                  message = extractErrorMessage(e);
+                                  isSuccess = false;
+                                });
+                              } finally {
+                                setModal(() => loading = false);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              backgroundColor: AppTheme.darkBrown,
+                              foregroundColor: AppTheme.gold,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                            ),
+                            child: loading
+                              ? const SizedBox(width: 18, height: 18,
+                                  child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.gold))
+                              : const Text('UPDATE',
+                                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
+
+  /// ─── ADMIN FORGOT PASSWORD BOTTOM SHEET ──────────────────────────────────
+  void _showAdminForgotPasswordSheet() {
+    int step = 1;
+    final emailCtrl  = TextEditingController();
+    final otpCtrl    = TextEditingController();
+    final newPassCtrl = TextEditingController();
+    final confPassCtrl = TextEditingController();
+    bool loading     = false;
+    String message   = '';
+    bool isSuccess   = false;
+    bool showNew     = false;
+    bool showConf    = false;
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => StatefulBuilder(
+        builder: (ctx, setModal) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.12), blurRadius: 30)],
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // ── Header ──────────────────────────────────────────
+                    Row(
+                      children: [
+                        Container(
+                          width: 40, height: 40,
+                          decoration: BoxDecoration(
+                            color: AppTheme.gold.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(Icons.key_rounded, color: AppTheme.gold, size: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Forgot Password',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                              Text('Step $step of 2 — ${step == 1 ? "Verify Identity" : "Set New Password"}',
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                            ],
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () => Navigator.pop(ctx),
+                          child: const Icon(Icons.close_rounded, color: AppTheme.textSecondary),
+                        ),
+                      ],
+                    ),
+
+                    // ── Progress ─────────────────────────────────────────
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Expanded(child: Container(height: 3, decoration: BoxDecoration(
+                          color: AppTheme.gold, borderRadius: BorderRadius.circular(4)))),
+                        const SizedBox(width: 6),
+                        Expanded(child: Container(height: 3, decoration: BoxDecoration(
+                          color: step == 2 ? AppTheme.gold : AppTheme.borderLight,
+                          borderRadius: BorderRadius.circular(4)))),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+
+                    // ── Message ──────────────────────────────────────────
+                    if (message.isNotEmpty)
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(12),
+                        margin: const EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                          color: isSuccess ? Colors.green.shade50 : Colors.red.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: isSuccess ? Colors.green.shade100 : Colors.red.shade100),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(isSuccess ? Icons.check_circle_outline : Icons.error_outline,
+                              color: isSuccess ? Colors.green : Colors.red, size: 16),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text(message, style: TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.w600,
+                              color: isSuccess ? Colors.green.shade700 : Colors.red.shade700))),
+                          ],
+                        ),
+                      ),
+
+                    // ── Step 1: Email ────────────────────────────────────
+                    if (step == 1) ...[
+                      _buildSheetField(
+                        label: 'ADMIN EMAIL',
+                        controller: emailCtrl,
+                        keyboardType: TextInputType.emailAddress,
+                        hint: 'name@domain.com',
+                        prefixIcon: Icons.mail_outline_rounded,
+                      ),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity, height: 50,
+                        child: ElevatedButton(
+                          onPressed: loading ? null : () async {
+                            if (emailCtrl.text.trim().isEmpty) {
+                              setModal(() { message = 'Enter your admin email'; isSuccess = false; });
+                              return;
+                            }
+                            setModal(() { loading = true; message = ''; });
+                            try {
+                              await ApiClient.instance.post(
+                                '/api/auth/admin/forgot-password',
+                                data: { 'email': emailCtrl.text.trim() },
+                              );
+                              setModal(() { message = 'Reset code sent! Check your email.'; isSuccess = true; });
+                              await Future.delayed(const Duration(seconds: 1));
+                              setModal(() { step = 2; message = ''; isSuccess = false; });
+                            } catch (e) {
+                              setModal(() { message = extractErrorMessage(e); isSuccess = false; });
+                            } finally {
+                              setModal(() => loading = false);
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppTheme.darkBrown,
+                            foregroundColor: AppTheme.gold,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          ),
+                          child: loading
+                            ? const SizedBox(width: 18, height: 18,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.gold))
+                            : const Text('SEND RESET CODE',
+                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                        ),
+                      ),
+                    ],
+
+                    // ── Step 2: OTP + New Password ───────────────────────
+                    if (step == 2) ...[
+                      _buildSheetField(
+                        label: 'RESET CODE',
+                        controller: otpCtrl,
+                        keyboardType: TextInputType.number,
+                        hint: '6-digit code from email',
+                        prefixIcon: Icons.pin_outlined,
+                      ),
+                      const SizedBox(height: 14),
+                      _buildSheetField(
+                        label: 'NEW PASSWORD',
+                        controller: newPassCtrl,
+                        obscure: !showNew,
+                        hint: 'Min 8 chars, uppercase & number',
+                        suffix: IconButton(
+                          icon: Icon(showNew ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                            color: AppTheme.textSecondary, size: 18),
+                          onPressed: () => setModal(() => showNew = !showNew),
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      _buildSheetField(
+                        label: 'CONFIRM NEW PASSWORD',
+                        controller: confPassCtrl,
+                        obscure: !showConf,
+                        suffix: IconButton(
+                          icon: Icon(showConf ? Icons.visibility_off_rounded : Icons.visibility_rounded,
+                            color: AppTheme.textSecondary, size: 18),
+                          onPressed: () => setModal(() => showConf = !showConf),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () => setModal(() { step = 1; message = ''; }),
+                              style: OutlinedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                side: const BorderSide(color: AppTheme.borderLight),
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                              ),
+                              child: const Text('BACK',
+                                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800,
+                                  letterSpacing: 1.5, color: AppTheme.textPrimary)),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: loading ? null : () async {
+                                final otp  = otpCtrl.text.trim();
+                                final nw   = newPassCtrl.text.trim();
+                                final cn   = confPassCtrl.text.trim();
+                                if (otp.isEmpty || nw.isEmpty || cn.isEmpty) {
+                                  setModal(() { message = 'All fields are required'; isSuccess = false; });
+                                  return;
+                                }
+                                if (nw != cn) {
+                                  setModal(() { message = 'Passwords do not match'; isSuccess = false; });
+                                  return;
+                                }
+                                final pwRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$');
+                                if (!pwRegex.hasMatch(nw)) {
+                                  setModal(() {
+                                    message = 'Min 8 chars with uppercase, lowercase & number';
+                                    isSuccess = false;
+                                  });
+                                  return;
+                                }
+                                setModal(() { loading = true; message = ''; });
+                                try {
+                                  // Step 1: Verify OTP
+                                  await ApiClient.instance.post(
+                                    '/api/auth/admin/verify-otp',
+                                    data: {
+                                      'email': emailCtrl.text.trim(),
+                                      'otp': otp,
+                                    },
+                                  );
+                                  
+                                  // Step 2: Reset password
+                                  await ApiClient.instance.post(
+                                    '/api/auth/admin/reset-password',
+                                    data: {
+                                      'email': emailCtrl.text.trim(),
+                                      'otp': otp,
+                                      'newPassword': nw,
+                                    },
+                                  );
+                                  setModal(() { message = 'Password reset successfully!'; isSuccess = true; });
+                                  await Future.delayed(const Duration(seconds: 1));
+                                  if (ctx.mounted) Navigator.pop(ctx);
+                                } catch (e) {
+                                  setModal(() { message = extractErrorMessage(e); isSuccess = false; });
+                                } finally {
+                                  setModal(() => loading = false);
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(vertical: 14),
+                                backgroundColor: AppTheme.darkBrown,
+                                foregroundColor: AppTheme.gold,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                              ),
+                              child: loading
+                                ? const SizedBox(width: 18, height: 18,
+                                    child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.gold))
+                                : const Text('RESET PASSWORD',
+                                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /// ── Reusable form field for bottom sheets ─────────────────────────────────
+  Widget _buildSheetField({
+    required String label,
+    required TextEditingController controller,
+    bool obscure = false,
+    TextInputType? keyboardType,
+    String? hint,
+    IconData? prefixIcon,
+    Widget? suffix,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(
+          fontSize: 14, fontWeight: FontWeight.w800,
+          letterSpacing: 1.5, color: AppTheme.textSecondary)),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          obscureText: obscure,
+          keyboardType: keyboardType,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textPrimary),
+          decoration: InputDecoration(
+            hintText: hint ?? '••••••••',
+            prefixIcon: Icon(prefixIcon ?? Icons.lock_outline_rounded, size: 18, color: AppTheme.textSecondary),
+            suffixIcon: suffix,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+            hintStyle: TextStyle(color: AppTheme.textSecondary.withValues(alpha: 0.4), fontSize: 13),
+            filled: true,
+            fillColor: AppTheme.background,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.gold, width: 1.5),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
 
   void _showAddSlotDialog(String day) {
     final startController = TextEditingController();
@@ -482,7 +975,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
               Text(
                 user['email'] ?? '',
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   color: AppTheme.textSecondary,
                 ),
               ),
@@ -498,7 +991,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 child: const Text(
                   "ADMIN",
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w800,
                     color: AppTheme.gold,
                   ),
@@ -553,7 +1046,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
 
   Widget _buildActiveSessions(List<dynamic> activeSessions) {
     if (_loadingSessions) {
-      return const Center(child: CircularProgressIndicator(color: AppTheme.gold));
+      return _buildSessionSkeleton();
     }
     if (activeSessions.isEmpty) {
       return const Center(child: Text('No active sessions found.', style: TextStyle(color: AppTheme.textSecondary)));
@@ -588,7 +1081,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
-                          Text(b['userEmail'] ?? '', style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                          Text(b['userEmail'] ?? '', style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
                         ],
                       ),
                     ),
@@ -598,7 +1091,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                         color: AppTheme.gold.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: const Text('ACTIVE', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: AppTheme.gold)),
+                      child: const Text('ACTIVE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: AppTheme.gold)),
                     ),
                 ],
               ),
@@ -610,11 +1103,11 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 children: [
                   const Icon(Icons.calendar_today_rounded, size: 14, color: AppTheme.textSecondary),
                   const SizedBox(width: 6),
-                  Text(b['date'] ?? '—', style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
+                  Text(b['date'] ?? '—', style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
                   const SizedBox(width: 16),
                   const Icon(Icons.access_time_rounded, size: 14, color: AppTheme.textSecondary),
                   const SizedBox(width: 6),
-                  Text('${b['time'] ?? '—'} - ${b['endTime'] ?? '—'}', style: const TextStyle(fontSize: 12, color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
+                  Text('${b['time'] ?? '—'} - ${b['endTime'] ?? '—'}', style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary, fontWeight: FontWeight.w600)),
                 ],
               ),
               const SizedBox(height: 16),
@@ -631,7 +1124,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                         elevation: 0,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                         padding: const EdgeInsets.symmetric(vertical: 12),
-                        textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1),
+                        textStyle: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 1),
                       ),
                     ),
                   ),
@@ -657,7 +1150,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
 
   Widget _buildPastSessions(List<dynamic> pastSessions) {
     if (_loadingSessions) {
-      return const Center(child: CircularProgressIndicator(color: AppTheme.gold));
+      return _buildSessionSkeleton();
     }
     if (pastSessions.isEmpty) {
       return const Center(child: Text('No past sessions found.', style: TextStyle(color: AppTheme.textSecondary)));
@@ -696,7 +1189,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                         children: [
                           const Icon(Icons.calendar_today_rounded, size: 12, color: AppTheme.textSecondary),
                           const SizedBox(width: 4),
-                          Text('${b['date']} · ${b['time']}', style: const TextStyle(fontSize: 10, color: AppTheme.textSecondary)),
+                          Text('${b['date']} · ${b['time']}', style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
                         ],
                       ),
                     ],
@@ -709,7 +1202,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(isCancelled ? 'CANCELLED' : 'COMPLETED', 
-                      style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: isCancelled ? Colors.red : Colors.green)),
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: isCancelled ? Colors.red : Colors.green)),
                 ),
             ],
           ),
@@ -781,7 +1274,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                     Text(
                       c['email'] ?? '',
                       style: const TextStyle(
-                        fontSize: 11,
+                        fontSize: 13,
                         color: AppTheme.textSecondary,
                       ),
                     ),
@@ -794,7 +1287,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                               .toString()
                               .toUpperCase(),
                           style: const TextStyle(
-                            fontSize: 9,
+                            fontSize: 14,
                             fontWeight: FontWeight.w800,
                             color: AppTheme.textSecondary,
                           ),
@@ -812,7 +1305,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                             child: const Text(
                               'PREMIUM',
                               style: TextStyle(
-                                fontSize: 8,
+                                fontSize: 13,
                                 fontWeight: FontWeight.w900,
                                 color: AppTheme.gold,
                               ),
@@ -845,7 +1338,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
                 label: Text(
                   isEnabled ? 'ENABLED' : 'DISABLED',
                   style: const TextStyle(
-                    fontSize: 10,
+                    fontSize: 14,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -1015,6 +1508,65 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     );
   }
 
+  Widget _buildSessionSkeleton() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: 6,
+      itemBuilder: (_, index) {
+        return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppTheme.borderLight),
+          ),
+          child: Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(width: 44, height: 44, decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle)),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(height: 12, width: 120, color: Colors.white),
+                          const SizedBox(height: 6),
+                          Container(height: 10, width: 180, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 14),
+
+                Container(height: 10, width: double.infinity, color: Colors.white),
+                const SizedBox(height: 8),
+                Container(height: 10, width: 200, color: Colors.white),
+
+                const SizedBox(height: 16),
+
+                Row(
+                  children: [
+                    Expanded(child: Container(height: 36, color: Colors.white)),
+                    const SizedBox(width: 10),
+                    Container(height: 36, width: 40, color: Colors.white),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   Widget _adminStat(String emoji, String value, String label) {
     return Container(
       padding: const EdgeInsets.all(14),
@@ -1029,7 +1581,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
           Text(emoji, style: const TextStyle(fontSize: 24)),
           const SizedBox(height: 6),
           Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: -1)),
-          Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+          Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
         ],
       ),
     );

@@ -3,6 +3,7 @@
 import { useParams } from "next/navigation";
 import { useState, useEffect, useRef, useMemo } from "react";
 import UniversityCard from "../UniversityCard";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import singaporeData from "@/data/singapore.json";
 import newZealandData from "@/data/NewZealand Universities.json";
 import germanyData from "@/data/Germany.json";
@@ -35,37 +36,37 @@ function useInView(threshold = 0.08) {
 type CountryKey = "singapore" | "new zealand" | "germany" | "united states" | "usa" | "australia" | "united kingdom" | "uk";
 
 const COUNTRY_META: Record<string, { flag: string; color: string; label: string; hero: string }> = {
-  "singapore":      { flag: "🇸🇬", color: "#ef4444", label: "Singapore",     hero: "Finance & Tech Hub" },
-  "new zealand":    { flag: "🇳🇿", color: "#16a34a", label: "New Zealand",   hero: "World-Class Education" },
-  "germany":        { flag: "🇩🇪", color: "#60a5fa", label: "Germany",       hero: "Engineering Excellence" },
-  "united states":  { flag: "🇺🇸", color: "#3b82f6", label: "United States", hero: "Ivy League & Beyond" },
-  "usa":            { flag: "🇺🇸", color: "#3b82f6", label: "United States", hero: "Ivy League & Beyond" },
-  "australia":      { flag: "🇦🇺", color: "#fbbf24", label: "Australia",     hero: "Innovation & Excellence" },
+  "singapore": { flag: "🇸🇬", color: "#ef4444", label: "Singapore", hero: "Finance & Tech Hub" },
+  "new zealand": { flag: "🇳🇿", color: "#16a34a", label: "New Zealand", hero: "World-Class Education" },
+  "germany": { flag: "🇩🇪", color: "#60a5fa", label: "Germany", hero: "Engineering Excellence" },
+  "united states": { flag: "🇺🇸", color: "#3b82f6", label: "United States", hero: "Ivy League & Beyond" },
+  "usa": { flag: "🇺🇸", color: "#3b82f6", label: "United States", hero: "Ivy League & Beyond" },
+  "australia": { flag: "🇦🇺", color: "#fbbf24", label: "Australia", hero: "Innovation & Excellence" },
   "united kingdom": { flag: "🇬🇧", color: "#8b5cf6", label: "United Kingdom", hero: "Legacy of Excellence" },
-  "uk":             { flag: "🇬🇧", color: "#8b5cf6", label: "United Kingdom", hero: "Legacy of Excellence" },
-  "canada":         { flag: "🇨🇦", color: "#ef4444", label: "Canada",         hero: "Quality of Life & Education" },
-  "dubai":          { flag: "🇦🇪", color: "#10b981", label: "Dubai",          hero: "Innovation & Business Hub" },
-  "uae":            { flag: "🇦🇪", color: "#10b981", label: "Dubai",          hero: "Innovation & Business Hub" },
-  "ireland":        { flag: "🇮🇪", color: "#16a34a", label: "Ireland",        hero: "Emerald Isle of Excellence" },
-  "switzerland":    { flag: "🇨🇭", color: "#ef4444", label: "Switzerland",    hero: "Peak of Innovation & Research" },
-  "netherlands":    { flag: "🇳🇱", color: "#f97316", label: "Netherlands",    hero: "Gateway to Global Careers" },
-  "france":         { flag: "🇫🇷", color: "#3b82f6", label: "France",         hero: "Legacy of Elite Education" },
+  "uk": { flag: "🇬🇧", color: "#8b5cf6", label: "United Kingdom", hero: "Legacy of Excellence" },
+  "canada": { flag: "🇨🇦", color: "#ef4444", label: "Canada", hero: "Quality of Life & Education" },
+  "dubai": { flag: "🇦🇪", color: "#10b981", label: "Dubai", hero: "Innovation & Business Hub" },
+  "uae": { flag: "🇦🇪", color: "#10b981", label: "Dubai", hero: "Innovation & Business Hub" },
+  "ireland": { flag: "🇮🇪", color: "#16a34a", label: "Ireland", hero: "Emerald Isle of Excellence" },
+  "switzerland": { flag: "🇨🇭", color: "#ef4444", label: "Switzerland", hero: "Peak of Innovation & Research" },
+  "netherlands": { flag: "🇳🇱", color: "#f97316", label: "Netherlands", hero: "Gateway to Global Careers" },
+  "france": { flag: "🇫🇷", color: "#3b82f6", label: "France", hero: "Legacy of Elite Education" },
 };
 
 const FILTER_RANGES = {
   acceptance: [
-    { label: "Any",       min: 0,   max: 100 },
-    { label: "< 10%",     min: 0,   max: 10  },
-    { label: "10–30%",    min: 10,  max: 30  },
-    { label: "30–60%",    min: 30,  max: 60  },
-    { label: "> 60%",     min: 60,  max: 100 },
+    { label: "Any", min: 0, max: 100 },
+    { label: "< 10%", min: 0, max: 10 },
+    { label: "10–30%", min: 10, max: 30 },
+    { label: "30–60%", min: 30, max: 60 },
+    { label: "> 60%", min: 60, max: 100 },
   ],
   tuition: [
-    { label: "Any",       min: 0,        max: Infinity },
-    { label: "< $20K",    min: 0,        max: 20000    },
-    { label: "$20–40K",   min: 20000,    max: 40000    },
-    { label: "$40–60K",   min: 40000,    max: 60000    },
-    { label: "> $60K",    min: 60000,    max: Infinity },
+    { label: "Any", min: 0, max: Infinity },
+    { label: "< $20K", min: 0, max: 20000 },
+    { label: "$20–40K", min: 20000, max: 40000 },
+    { label: "$40–60K", min: 40000, max: 60000 },
+    { label: "> $60K", min: 60000, max: Infinity },
   ],
 };
 
@@ -161,6 +162,7 @@ export default function CountryPage() {
   const [acceptFilter, setAcceptFilter] = useState(0);
   const [tuitionFilter, setTuitionFilter] = useState(0);
   const [page, setPage] = useState(1);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
   const PER_PAGE = 10;
 
   const [heroRef, heroVisible] = useInView(0.05);
@@ -228,7 +230,7 @@ export default function CountryPage() {
     else if (uni.tuition_fees_eur) { tuition = `€${uni.tuition_fees_eur.toLocaleString()}`; tuitionRaw = uni.tuition_fees_eur; }
     else if (uni.tuition_eur) { tuition = `€${uni.tuition_eur.toLocaleString()}`; tuitionRaw = uni.tuition_eur; }
     else if (uni.tuition_fees_chf) { tuition = `CHF ${uni.tuition_fees_chf.toLocaleString()}`; tuitionRaw = uni.tuition_fees_chf; }
-    else if (uni.branches?.[0]?.stats?.tuition_fee) { 
+    else if (uni.branches?.[0]?.stats?.tuition_fee) {
       const amount = uni.branches[0].stats.tuition_fee;
       if (countryLower === "switzerland") tuition = `CHF ${amount.toLocaleString()}`;
       else if (countryLower === "uk" || countryLower === "united kingdom") tuition = `£${amount.toLocaleString()}`;
@@ -250,7 +252,7 @@ export default function CountryPage() {
     if (uni.branches && Array.isArray(uni.branches)) {
       // Robust multi-pass extraction
       const firstBranch = uni.branches[0];
-      
+
       // Pass 1: Try first branch for everything
       sat = firstBranch.stats?.avg_sat || null;
       toefl = firstBranch.admitted_profiles?.toefl_min || firstBranch.stats?.toefl_min || null;
@@ -286,20 +288,20 @@ export default function CountryPage() {
   const stats = useMemo(() => {
     const list = universities.filter(u => u.acceptanceRaw || u.tuitionRaw);
     if (!list.length) return { acc: "N/A", tuition: "N/A" };
-    
+
     const accPoints = universities.filter(u => u.acceptanceRaw).map(u => u.acceptanceRaw as number);
     const avgAcc = accPoints.length ? Math.round(accPoints.reduce((a, b) => a + b, 0) / accPoints.length) : null;
-    
+
     const tPoints = universities.filter(u => u.tuitionRaw).map(u => u.tuitionRaw as number);
     const avgT = tPoints.length ? Math.round(tPoints.reduce((a, b) => a + b, 0) / tPoints.length) : null;
 
     let tFormatted = "N/A";
     if (avgT) {
-      if (countryLower === "singapore") tFormatted = `S$${Math.round(avgT/1000)}K+`;
-      else if (["germany", "ireland", "netherlands", "france"].includes(countryLower)) tFormatted = `€${Math.round(avgT/1000)}K+`;
-      else if (countryLower === "switzerland") tFormatted = `CHF ${Math.round(avgT/1000)}K+`;
-      else if (countryLower === "uk" || countryLower === "united kingdom") tFormatted = `£${Math.round(avgT/1000)}K+`;
-      else tFormatted = `$${Math.round(avgT/1000)}K+`;
+      if (countryLower === "singapore") tFormatted = `S$${Math.round(avgT / 1000)}K+`;
+      else if (["germany", "ireland", "netherlands", "france"].includes(countryLower)) tFormatted = `€${Math.round(avgT / 1000)}K+`;
+      else if (countryLower === "switzerland") tFormatted = `CHF ${Math.round(avgT / 1000)}K+`;
+      else if (countryLower === "uk" || countryLower === "united kingdom") tFormatted = `£${Math.round(avgT / 1000)}K+`;
+      else tFormatted = `$${Math.round(avgT / 1000)}K+`;
     }
 
     return {
@@ -446,7 +448,11 @@ export default function CountryPage() {
                 </p>
               </div>
 
-              <div className={`card ${mounted ? "afu d3" : "opacity-0"}`} style={{ padding: "16px 24px", display: "flex", alignItems: "center", gap: 14, background: "#2D2926", color: "#FFFFFF" }}>
+              <div 
+                className={`card ${mounted ? "afu d3" : "opacity-0"}`} 
+                onClick={() => setIsBookingOpen(true)}
+                style={{ padding: "16px 24px", display: "flex", alignItems: "center", gap: 14, background: "#2D2926", color: "#FFFFFF", cursor: "pointer" }}
+              >
                 <span style={{ fontSize: 28 }}>✨</span>
                 <div>
                   <p style={{ fontSize: 14, fontWeight: 700, marginBottom: 2 }}>Admission Strategy</p>
@@ -589,6 +595,11 @@ export default function CountryPage() {
           </div>
         </div>
       </div>
+
+      <BookCounsellingModal 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </div>
   );
 }

@@ -28,7 +28,7 @@ class TargetStrategySection extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 8),
-        Text('Tap any university to update your strategy.', style: TextStyle(fontSize: 9, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
+        Text('Tap any university to update your strategy.', style: TextStyle(fontSize: 14, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
         const SizedBox(height: 24),
         
         Container(
@@ -46,7 +46,7 @@ class TargetStrategySection extends StatelessWidget {
                 children: [
                   const Icon(Icons.apartment_rounded, color: AppTheme.gold, size: 18),
                   const SizedBox(width: 12),
-                  const Text('TARGET UNIVERSITIES', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+                  const Text('TARGET UNIVERSITIES', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
                   const Spacer(),
                   IconButton(onPressed: () => onAddItem('targetUniversities', null), icon: const Icon(Icons.add_circle_outline, color: Colors.green, size: 20)),
                 ],
@@ -68,14 +68,14 @@ class TargetStrategySection extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(it['uniName']?.toString().toUpperCase() ?? 'UNIVERSITY', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+                            Text(it['uniName']?.toString().toUpperCase() ?? 'UNIVERSITY', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                             const Icon(Icons.edit, size: 12, color: AppTheme.gold),
                           ],
                         ),
                         const SizedBox(height: 4),
-                        Text('${it['degree']} | ${it['major']}', style: const TextStyle(fontSize: 10, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
+                        Text('${it['degree']} | ${it['major']}', style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
                         const SizedBox(height: 4),
-                        Text('INTAKE: ${it['term']} ${it['year']}', style: const TextStyle(fontSize: 9, color: AppTheme.gold, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                        Text('INTAKE: ${it['term']} ${it['year']}', style: const TextStyle(fontSize: 14, color: AppTheme.gold, fontWeight: FontWeight.w900, letterSpacing: 1)),
                       ],
                     ),
                   ),
@@ -83,7 +83,7 @@ class TargetStrategySection extends StatelessWidget {
               ] else
                 const Padding(
                   padding: EdgeInsets.symmetric(vertical: 40),
-                  child: Center(child: Text('NO TARGETS DEFINED', style: TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: AppTheme.textMuted, letterSpacing: 2))),
+                  child: Center(child: Text('NO TARGETS DEFINED', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textMuted, letterSpacing: 2))),
                 )
             ],
           ),

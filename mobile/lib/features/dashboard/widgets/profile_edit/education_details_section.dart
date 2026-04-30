@@ -20,7 +20,7 @@ class EducationDetailsSection extends StatelessWidget {
       children: [
         _sectionTitle('EDUCATION HISTORY'),
         const SizedBox(height: 16),
-        Text('Tap any record to modify it.', style: TextStyle(fontSize: 9, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
+        Text('Tap any record to modify it.', style: TextStyle(fontSize: 14, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
         const SizedBox(height: 24),
         
         // High School Card
@@ -131,7 +131,7 @@ class _EducationCard extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.5,
                   color: AppTheme.textPrimary,
@@ -181,7 +181,7 @@ class _EducationCard extends StatelessWidget {
         Text(
           label,
           style: const TextStyle(
-            fontSize: 8,
+            fontSize: 13,
             fontWeight: FontWeight.w900,
             color: AppTheme.textSecondary,
             letterSpacing: 1.5,
@@ -202,7 +202,7 @@ class _EducationCard extends StatelessWidget {
               Text(
                 value,
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: AppTheme.textPrimary,
                 ),

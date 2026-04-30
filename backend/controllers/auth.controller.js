@@ -119,11 +119,11 @@ exports.sendOtpSignup = async (req, res) => {
     // 3️⃣ Send Email
     await sendEmail(
       emailLower,
-      "Verify Your Email - StudyAbroad",
+      "Verify Your Email - International EduLeader Council",
       "",
       `<div style="font-family:serif;padding:30px;background:#090909;color:white;border-radius:20px;">
          <h2 style="color:#EAB308;font-style:italic;font-size:24px;">Confirm Your Identity</h2>
-         <p style="color:#9ca3af;">Use the code below to verify your email for StudyAbroad.</p>
+         <p style="color:#9ca3af;">Use the code below to verify your email for International EduLeader Council.</p>
          <div style="background:#1a1a1a;color:#EAB308;padding:25px;text-align:center;font-size:36px;letter-spacing:12px;font-weight:900;border-radius:15px;margin:25px 0;border:1px solid #EAB308/20;">
            ${otp}
          </div>
@@ -189,7 +189,7 @@ exports.sendOtpMobile = async (req, res) => {
     // 2️⃣ Send SMS
     const smsResult = await sendSMSOTP(mobile, otp);
     if (!smsResult.success) {
-        return res.status(500).json({ error: smsResult.message });
+      return res.status(500).json({ error: smsResult.message });
     }
 
     res.json({ message: "Verification code sent to your mobile successfully" });
@@ -293,10 +293,11 @@ exports.login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: role,
-        isVerified: profile.isVerified || user.isVerified || false,
+        // Robust isVerified check covering different model structures
+        isVerified: user.isVerified === true || (user.profile && user.profile.isVerified === true) || false,
         mobile: user.mobile,
-        profileImage: profile.profileImage || user.image || null,
-        isPremium: profile.isPremium || user.isPremium || false
+        profileImage: (user.profile && user.profile.profileImage) || user.image || null,
+        isPremium: (user.profile && user.profile.isPremium) || user.isPremium || false
       };
 
       // Add videoCallEnabled for consultants
@@ -507,6 +508,121 @@ exports.forgotPassword = async (req, res) => {
   res.json({ message: "OTP sent" });
 };
 
+/* =========================
+   ADMIN FORGOT PASSWORD
+   (validates admin role before sending OTP)
+========================= */
+exports.adminForgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: "Email is required" });
+    const emailLower = email.toLowerCase().trim();
+
+    const identified = await findUserByEmail(emailLower);
+    if (!identified) return res.status(404).json({ error: "No admin account found with this email" });
+
+    // Only allow admin role
+    if (identified.role !== "admin") {
+      return res.status(403).json({ error: "This email is not registered as an admin account" });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
+    otpStore.set(emailLower, { otp, expiresAt, verified: false });
+
+    console.log(`🔐 Admin Forgot Password OTP (${emailLower}): ${otp}`);
+
+    await sendEmail(
+      emailLower,
+      "Admin Password Reset — International EduLeader Council",
+      "",
+      `<div style="font-family:serif;padding:30px;background:#090909;color:white;border-radius:20px;">
+         <h2 style="color:#EAB308;font-style:italic;font-size:24px;">Admin Password Reset</h2>
+         <p style="color:#9ca3af;">You requested a password reset for your admin account.</p>
+         <div style="background:#1a1a1a;color:#EAB308;padding:25px;text-align:center;font-size:36px;letter-spacing:12px;font-weight:900;border-radius:15px;margin:25px 0;border:1px solid rgba(234,179,8,0.2);">
+           ${otp}
+         </div>
+         <p style="font-size:12px;color:#4b5563;">This code expires in 10 minutes. If you did not request this, secure your account immediately.</p>
+       </div>`
+    );
+
+    res.json({ message: "Reset code sent to your admin email" });
+  } catch (err) {
+    console.error("❌ adminForgotPassword Error:", err);
+    res.status(500).json({ error: "Failed to send reset code" });
+  }
+};
+
+/* =========================
+   ADMIN VERIFY FORGOT OTP
+========================= */
+exports.adminVerifyForgotOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const emailLower = email?.toLowerCase().trim();
+    const data = otpStore.get(emailLower);
+
+    if (!data) return res.status(400).json({ error: "No reset code found. Please request a new one." });
+    if (Date.now() > data.expiresAt) {
+      otpStore.delete(emailLower);
+      return res.status(400).json({ error: "Reset code has expired. Please request a new one." });
+    }
+    if (data.otp.toString() !== otp.toString()) {
+      return res.status(400).json({ error: "Invalid reset code" });
+    }
+
+    // Mark OTP as verified so reset step can proceed
+    data.verified = true;
+    otpStore.set(emailLower, data);
+
+    res.json({ message: "Code verified successfully", verified: true });
+  } catch (err) {
+    console.error("❌ adminVerifyForgotOtp Error:", err);
+    res.status(500).json({ error: "Verification failed" });
+  }
+};
+
+/* =========================
+   ADMIN RESET PASSWORD
+========================= */
+exports.adminResetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    const emailLower = email?.toLowerCase().trim();
+    const data = otpStore.get(emailLower);
+
+    if (!data) return res.status(400).json({ error: "No reset code found. Please restart the process." });
+    if (!data.verified) return res.status(400).json({ error: "OTP not yet verified" });
+    if (Date.now() > data.expiresAt) {
+      otpStore.delete(emailLower);
+      return res.status(400).json({ error: "Reset code expired" });
+    }
+    if (data.otp.toString() !== otp.toString()) {
+      return res.status(400).json({ error: "Invalid reset code" });
+    }
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      return res.status(400).json({ error: "Password must be 8+ characters with uppercase, lowercase & numbers" });
+    }
+
+    const identified = await findUserByEmail(emailLower);
+    if (!identified) return res.status(404).json({ error: "Admin account not found" });
+    if (identified.role !== "admin") return res.status(403).json({ error: "Not an admin account" });
+
+    const { user } = identified;
+    user.password = newPassword; // Mongoose pre-save hook will handle hashing
+    await user.save();
+
+    otpStore.delete(emailLower);
+    console.log(`✅ Admin password reset for: ${emailLower}`);
+    res.json({ message: "Admin password reset successfully" });
+  } catch (err) {
+    console.error("❌ adminResetPassword Error:", err);
+    res.status(500).json({ error: "Failed to reset password" });
+  }
+};
+
 exports.verifyForgotOtp = async (req, res) => {
   const { email, otp } = req.body;
   const emailLower = email?.toLowerCase().trim();
@@ -547,8 +663,6 @@ exports.resetPassword = async (req, res) => {
     return res.status(400).json({ error: "Password must be 8+ characters with uppercase, lowercase & numbers" });
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-
   // Find the user first to identify the correct collection
   const identified = await findUserByEmail(emailLower);
   if (!identified) {
@@ -556,8 +670,8 @@ exports.resetPassword = async (req, res) => {
   }
 
   // Update ONLY the identified collection
-  const { user, model } = identified;
-  user.password = hashedPassword;
+  const { user } = identified;
+  user.password = newPassword; // Mongoose pre-save hook will handle hashing
   await user.save();
 
   otpStore.delete(emailLower);

@@ -395,11 +395,11 @@ export default function EducationLoanPage() {
             </div>
           </div>
 
-          <div className="space-y-10">
-            <h2 className="fd text-5xl md:text-6xl font-bold text-[#2D2926] leading-tight">
-              Why choose <span className="bg-[#2D2926] text-[#C5A059] px-5 py-1 rounded-2xl inline-block -rotate-1">GCC</span>?
+          <div className="space-y-6">
+            <h2 className="fd text-3xl md:text-4xl font-bold text-[#2D2926] leading-tight">
+              Why choose <span className="bg-[#2D2926] text-[#C5A059] px-4 py-1 rounded-xl inline-block -rotate-1">IEC</span>?
             </h2>
-            <p className="text-[#6B5E51] text-lg font-medium leading-relaxed">
+            <p className="text-[#6B5E51] text-base font-medium leading-relaxed">
               At our core, we prioritize financial inclusivity by offering unbiased guidance so every student can get access to world-class education.
             </p>
 
@@ -428,18 +428,18 @@ export default function EducationLoanPage() {
       </section>
 
       {/* ── CALL TO ACTION BANNER ── */}
-      <section className="px-6 md:px-14 lg:px-20 py-24">
-        <div className="max-w-7xl mx-auto bg-[#2D2926] rounded-[48px] p-12 md:p-24 text-center space-y-10 shadow-[0_40px_100px_rgba(0,0,0,0.2)] relative overflow-hidden border border-white/5">
+      <section className="px-6 md:px-14 lg:px-20 py-16">
+        <div className="max-w-7xl mx-auto bg-[#2D2926] rounded-[40px] p-10 md:p-16 text-center space-y-8 shadow-[0_30px_80px_rgba(0,0,0,0.15)] relative overflow-hidden border border-white/5">
           {/* Subtle geometric pattern / glow */}
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#C5A059] opacity-[0.03] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#C5A059] opacity-[0.02] rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#C5A059] opacity-[0.02] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#C5A059] opacity-[0.01] rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
           
-          <div className="space-y-6 relative z-10">
-            <h2 className="fd text-5xl md:text-7xl font-bold text-white leading-[1.1]">
+          <div className="space-y-4 relative z-10">
+            <h2 className="fd text-4xl md:text-6xl font-bold text-white leading-tight">
               Ready to fund your <br />
               <span className="gold-shimmer italic">study abroad dream?</span>
             </h2>
-            <p className="dm text-white/50 text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+            <p className="dm text-white/50 text-lg font-medium max-w-xl mx-auto leading-relaxed">
               Our expert advisors are standing by to architect your financial roadmap to global success.
             </p>
           </div>

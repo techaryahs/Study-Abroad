@@ -14,16 +14,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final PageController _carouselCtrl = PageController();
-  int _carouselIndex = 0;
-
   final List<Map<String, String>> _services = [
-    {'title': 'Admission Guidance',      'icon': '📋', 'slug': 'application-help'},
-    {'title': 'University Shortlisting', 'icon': '🏛️', 'slug': 'shortlisting'},
-    {'title': 'SOP & LOR Support',       'icon': '✍️', 'slug': 'sop'},
-    {'title': 'Scholarship Assistance',  'icon': '🎓', 'slug': 'scholarship'},
-    {'title': 'Visa Guidance',           'icon': '🛂', 'slug': 'visa-application-help'},
-    {'title': 'Profile Building',        'icon': '📈', 'slug': 'profile-building'},
+    {'title': 'Admission Guidance', 'icon': '🏛️', 'route': '/services/application-help'},
+    {'title': 'University Shortlisting', 'icon': '📋', 'route': '/services/shortlisting'},
+    {'title': 'SOP & LOR Support', 'icon': '✍️', 'route': '/services/sop'},
+    {'title': 'Scholarship Assistance', 'icon': '🎓', 'route': '/services/scholarship'},
+    {'title': 'Visa Guidance', 'icon': '🛂', 'route': '/services/visa-application-help'},
+    {'title': 'Profile Building', 'icon': '📈', 'route': '/services/profile-building'},
   ];
 
   final List<Map<String, String>> _countries = [
@@ -50,39 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
     {'code': 'AU', 'name': 'AUS', 'stat': '50%', 'sub': 'Fee Waiver'},
   ];
 
-  final List<Color> _carouselColors = [
-    const Color(0xFFFAF9F6), // Alabaster
-    const Color(0xFFFDFBF7), // Cream
-    const Color(0xFFF5F1E9), // Champagne
-    const Color(0xFFFFFDF9), // Shell
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-    _startCarousel();
-  }
-
-  void _startCarousel() {
-    Future.delayed(const Duration(seconds: 3), () {
-      if (!mounted) return;
-      final next = (_carouselIndex + 1) % _carouselColors.length;
-      _carouselCtrl.animateToPage(
-        next,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeInOut,
-      );
-      setState(() => _carouselIndex = next);
-      _startCarousel();
-    });
-  }
-
-  @override
-  void dispose() {
-    _carouselCtrl.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,28 +56,49 @@ class _HomeScreenState extends State<HomeScreen> {
           // ── APP BAR ──────────────────────────────────────────
           SliverAppBar(
             expandedHeight: 0,
+            toolbarHeight: 90,
             pinned: true,
             backgroundColor: Colors.white,
             elevation: 0,
-            title: Row(
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  width: 32, height: 32,
-                  decoration: BoxDecoration(
-                    color: AppTheme.darkBrown,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Icon(Icons.school_rounded, color: AppTheme.gold, size: 18),
+                Row(
+                  children: [
+                    Container(
+                      width: 30, height: 30,
+                      padding: const EdgeInsets.all(2),
+                      child: Image.asset('assets/images/logo_iec.png', fit: BoxFit.contain),
+                    ),
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'INTERNATIONAL EDULEADER COUNCIL',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 0.5),
+                        ),
+                        Text(
+                          'GLOBAL ADMISSIONS',
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                const Text('Study Abroad',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
               ],
             ),
             actions: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined, color: AppTheme.textPrimary),
-                onPressed: () => context.go('/cart'),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.shopping_cart_outlined, color: AppTheme.textPrimary),
+                    onPressed: () => context.go('/cart'),
+                  ),
+                ),
               ),
             ],
           ),
@@ -123,132 +108,128 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
 
-                // ── HERO CARD ─────────────────────────────────
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  height: 260,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(28),
-                    border: Border.all(color: AppTheme.borderLight),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 30,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(28),
-                    child: Stack(
-                      children: [
-                        // Animated background
-                        PageView.builder(
-                          controller: _carouselCtrl,
-                          itemCount: _carouselColors.length,
-                          itemBuilder: (_, i) => Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [_carouselColors[i], Colors.white.withOpacity(0.9)],
+                // ── HERO CARD (Photo + Scholarship Strip) ──────
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // ── Photo card ────────────────────────────
+                      Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(32),
+                          border: Border.all(color: AppTheme.gold.withOpacity(0.4)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppTheme.gold.withOpacity(0.25),
+                              blurRadius: 40,
+                              offset: const Offset(0, 12),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Education Leader\nLed Path to\nIvy League &\nTop Global Universities',
+                              style: TextStyle(
+                                color: AppTheme.darkBrown,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w900,
+                                height: 1.15,
+                                letterSpacing: -0.5,
                               ),
                             ),
-                          ),
+                            const SizedBox(height: 16),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: () => showBookCounsellingSheet(context),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppTheme.gold,
+                                      foregroundColor: AppTheme.darkBrown,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12)),
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                    ),
+                                    child: const Text('TALK TO EXPERT',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 1)),
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: OutlinedButton.icon(
+                                    onPressed: () => launchUrl(Uri.parse('https://wa.me/918657869659')),
+                                    icon: const Icon(Icons.chat_rounded, size: 13, color: AppTheme.darkBrown),
+                                    label: const Text('WHATSAPP',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w800,
+                                            letterSpacing: 1,
+                                            color: AppTheme.darkBrown)),
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(color: AppTheme.darkBrown.withOpacity(0.35)),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(12)),
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
+                      ),
 
-                        // Gold pattern overlay
-                        Positioned.fill(
-                          child: CustomPaint(painter: _GoldPatternPainter()),
+                      // ── Scholarship strip ──────────────────────
+                      const SizedBox(height: 12),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8F6F1), // Lighter background
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppTheme.gold.withOpacity(0.1),
+                              blurRadius: 20,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
                         ),
-
-                        // Content
-                        Padding(
-                          padding: const EdgeInsets.all(24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: _dreams.map((d) => Column(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(
-                                  color: AppTheme.gold.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
-                                ),
-                                child: const Text(
-                                  '✦  EDUCATION LEADER',
-                                  style: TextStyle(
-                                    color: AppTheme.gold,
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 2,
-                                  ),
-                                ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(3),
+                                child: CountryFlag.fromCountryCode(d['code']!, height: 20, width: 30),
                               ),
-                              const SizedBox(height: 16),
-                              const Text(
-                                'Led Path to\nIvy League &\nTop Global\nUniversities',
-                                style: TextStyle(
-                                  color: AppTheme.textPrimary,
-                                  fontSize: 26,
-                                  fontWeight: FontWeight.w900,
-                                  height: 1.1,
-                                  letterSpacing: -0.5,
-                                ),
-                              ),
-                              const Spacer(),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: ElevatedButton(
-                                      onPressed: () => showBookCounsellingSheet(context),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppTheme.gold,
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
-                                        textStyle: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1),
-                                      ),
-                                      child: const Text('TALK TO EXPERT'),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                    child: OutlinedButton.icon(
-                                      onPressed: () => launchUrl(Uri.parse('https://wa.me/918657869659')),
-                                      icon: const Icon(Icons.chat_rounded, size: 14),
-                                      label: const Text('WHATSAPP', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 1)),
-                                      style: OutlinedButton.styleFrom(
-                                        foregroundColor: AppTheme.textPrimary,
-                                        side: const BorderSide(color: AppTheme.borderLight),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              const SizedBox(height: 6),
+                              Text(d['name']!,
+                                  style: const TextStyle(
+                                      color: AppTheme.darkBrown, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1)),
+                              const SizedBox(height: 2),
+                              Text(d['stat']!,
+                                  style: const TextStyle(
+                                      color: AppTheme.gold, fontSize: 16, fontWeight: FontWeight.w900)),
+                              Text(d['sub']!,
+                                  style: const TextStyle(
+                                      color: AppTheme.textSecondary,
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w700,
+                                      letterSpacing: 0.5)),
                             ],
-                          ),
+                          )).toList(),
                         ),
-
-                        // Dots
-                        Positioned(
-                          top: 20, right: 20,
-                          child: Row(
-                            children: List.generate(_carouselColors.length, (i) => Container(
-                              margin: const EdgeInsets.only(left: 4),
-                              width: i == _carouselIndex ? 16 : 4,
-                              height: 4,
-                              decoration: BoxDecoration(
-                                color: i == _carouselIndex ? AppTheme.gold : AppTheme.gold.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(2),
-                              ),
-                            )),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ).animate().fadeIn(duration: 500.ms).slideY(begin: 0.1),
 
@@ -264,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (_, i) {
                       final s = _stats[i];
                       return Container(
-                        width: 110,
+                        width: 120,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(18),
@@ -282,11 +263,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 )),
                             const SizedBox(height: 2),
                             Text(s['label']!.toUpperCase(),
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   color: AppTheme.gold,
-                                  fontSize: 8,
+                                  fontSize: 10,
                                   fontWeight: FontWeight.w800,
-                                  letterSpacing: 1.5,
+                                  letterSpacing: 1.2,
                                 )),
                           ],
                         ),
@@ -311,7 +293,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemBuilder: (_, i) {
                     final s = _services[i];
                     return GestureDetector(
-                      onTap: () => context.push('/services/${s['slug']}'),
+                      onTap: () {
+                        if (s['route'] == 'sheet') {
+                          showBookCounsellingSheet(context);
+                        } else {
+                          context.go(s['route']!);
+                        }
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -330,7 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   color: AppTheme.textPrimary,
-                                  fontSize: 10,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.w800,
                                   height: 1.3,
                                 ),
@@ -382,7 +370,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               c['name']!,
                               style: const TextStyle(
-                                fontSize: 9,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 1.2,
                                 color: AppTheme.textSecondary,
@@ -392,37 +380,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     },
-                  ),
-                ),
-
-                // ── DREAMS / SCHOLARSHIPS ─────────────────────
-                _sectionLabel('Scholarship Highlights'),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: AppTheme.borderLight),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: _dreams.map((d) => Column(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: CountryFlag.fromCountryCode(d['code']!, height: 28, width: 44),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(d['name']!,
-                            style: const TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w800, letterSpacing: 1)),
-                        const SizedBox(height: 4),
-                        Text(d['stat']!,
-                            style: const TextStyle(color: AppTheme.textPrimary, fontSize: 16, fontWeight: FontWeight.w900)),
-                        Text(d['sub']!,
-                            style: TextStyle(color: AppTheme.textSecondary.withOpacity(0.6), fontSize: 8, fontWeight: FontWeight.w600)),
-                      ],
-                    )).toList(),
                   ),
                 ),
 
@@ -441,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Text(
         text.toUpperCase(),
         style: const TextStyle(
-          fontSize: 10,
+          fontSize: 14,
           fontWeight: FontWeight.w900,
           letterSpacing: 2.5,
           color: AppTheme.textPrimary,
@@ -449,20 +406,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
-
-class _GoldPatternPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = AppTheme.gold.withOpacity(0.05)
-      ..strokeWidth = 1
-      ..style = PaintingStyle.stroke;
-    for (double r = 50; r < size.width * 1.5; r += 60) {
-      canvas.drawCircle(Offset(size.width, 0), r, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_) => false;
 }

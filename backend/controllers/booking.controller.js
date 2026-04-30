@@ -551,7 +551,7 @@ exports.getAvailableSlots = async (req, res) => {
  */
 exports.bookCounsellingSession = async (req, res) => {
   try {
-    const { date, time, userEmail, userName } = req.body;
+    const { date, time, userEmail, userName, paymentId, amount } = req.body;
 
     if (!date || !time || !userEmail) {
       return res.status(400).json({ message: "Missing required booking details (date, time, email)" });
@@ -590,7 +590,10 @@ exports.bookCounsellingSession = async (req, res) => {
       userName,
       status: "booked",
       sessionId,
-      meetingId
+      meetingId,
+      paymentId,
+      isPaid: !!paymentId,
+      amountPaid: amount || 599
     });
 
     await newBooking.save();

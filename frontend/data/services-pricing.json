@@ -629,6 +629,213 @@
       }
     }
   },
+  "profile-building": {
+    "title": "Profile Building Strategy",
+    "duration": "4-6 weeks",
+    "type": "complex",
+    "checkboxes": [
+      {
+        "id": "lightning",
+        "label": "Skip the queue - Priority Consultation for a 25% surcharge",
+        "type": "surcharge",
+        "value": 0.25,
+        "overrideDuration": "1 week"
+      }
+    ],
+    "pricing": {
+      "INR": {
+        "actual": "45,000",
+        "discounted": "36,000",
+        "save": "9,000",
+        "off": "20% off"
+      },
+      "USD": {
+        "actual": "550",
+        "discounted": "440",
+        "save": "110",
+        "off": "20% off"
+      },
+      "EUR": {
+        "actual": "510",
+        "discounted": "408",
+        "save": "102",
+        "off": "20% off"
+      },
+      "GBP": {
+        "actual": "425",
+        "discounted": "340",
+        "save": "85",
+        "off": "20% off"
+      },
+      "CAD": {
+        "actual": "740",
+        "discounted": "592",
+        "save": "148",
+        "off": "20% off"
+      },
+      "AUD": {
+        "actual": "830",
+        "discounted": "664",
+        "save": "166",
+        "off": "20% off"
+      },
+      "AED": {
+        "actual": "2,020",
+        "discounted": "1,616",
+        "save": "404",
+        "off": "20% off"
+      },
+      "SGD": {
+        "actual": "740",
+        "discounted": "592",
+        "save": "148",
+        "off": "20% off"
+      }
+    }
+  },
+  "australia-visa": {
+    "title": "Australia National Innovation Visa",
+    "duration": "3-6 months",
+    "type": "complex",
+    "checkboxes": [
+      {
+        "id": "priority",
+        "label": "Priority Processing Support",
+        "type": "surcharge",
+        "value": 0.15
+      }
+    ],
+    "pricing": {
+      "INR": {
+        "actual": "1,50,000",
+        "discounted": "1,20,000",
+        "save": "30,000",
+        "off": "20% off"
+      },
+      "USD": {
+        "actual": "1,800",
+        "discounted": "1,440",
+        "save": "360",
+        "off": "20% off"
+      },
+      "EUR": {
+        "actual": "1,700",
+        "discounted": "1,360",
+        "save": "340",
+        "off": "20% off"
+      },
+      "GBP": {
+        "actual": "1,400",
+        "discounted": "1,120",
+        "save": "280",
+        "off": "20% off"
+      },
+      "CAD": {
+        "actual": "2,400",
+        "discounted": "1,920",
+        "save": "480",
+        "off": "20% off"
+      },
+      "AUD": {
+        "actual": "2,700",
+        "discounted": "2,160",
+        "save": "540",
+        "off": "20% off"
+      },
+      "AED": {
+        "actual": "6,600",
+        "discounted": "5,280",
+        "save": "1,320",
+        "off": "20% off"
+      },
+      "SGD": {
+        "actual": "2,400",
+        "discounted": "1,920",
+        "save": "480",
+        "off": "20% off"
+      }
+    }
+  },
+  "canada-sop": {
+    "title": "Canada Visa SOP / Letter of Explanation",
+    "duration": "2-2.5 weeks",
+    "type": "complex",
+    "selections": [
+      {
+        "id": "custom",
+        "title": "Customizations",
+        "options": [
+          "Draft (0 Customization)",
+          "Draft (3 Customization)",
+          "Draft (5 Customization)",
+          "Draft (7 Customization)",
+          "Draft (10 Customization)",
+          "Draft (12 Customization)"
+        ],
+        "factor": 0.1,
+        "offset": 0
+      }
+    ],
+    "checkboxes": [
+      {
+        "id": "lightning",
+        "label": "Skip the queue - Delivered within 3-5 days for a 25% surcharge",
+        "type": "surcharge",
+        "value": 0.25,
+        "overrideDuration": "3-5 days"
+      }
+    ],
+    "pricing": {
+      "INR": {
+        "actual": "36,875",
+        "discounted": "29,500",
+        "save": "7,375",
+        "off": "20% off"
+      },
+      "USD": {
+        "actual": "445",
+        "discounted": "356",
+        "save": "89",
+        "off": "20% off"
+      },
+      "EUR": {
+        "actual": "420",
+        "discounted": "336",
+        "save": "84",
+        "off": "20% off"
+      },
+      "GBP": {
+        "actual": "350",
+        "discounted": "280",
+        "save": "70",
+        "off": "20% off"
+      },
+      "CAD": {
+        "actual": "600",
+        "discounted": "480",
+        "save": "120",
+        "off": "20% off"
+      },
+      "AUD": {
+        "actual": "670",
+        "discounted": "536",
+        "save": "134",
+        "off": "20% off"
+      },
+      "AED": {
+        "actual": "1,635",
+        "discounted": "1,308",
+        "save": "327",
+        "off": "20% off"
+      },
+      "SGD": {
+        "actual": "600",
+        "discounted": "480",
+        "save": "120",
+        "off": "20% off"
+      }
+    }
+  },
   "lor-drafting": {
     "title": "Letter of Recommendation Drafting",
     "duration": "2-2.5 weeks",
