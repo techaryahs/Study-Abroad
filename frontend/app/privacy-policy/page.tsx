@@ -56,48 +56,70 @@ export default function PrivacyPolicy() {
         <h1 className="section-h">Privacy Policy</h1>
 
         <div className="content-block">
+
           <p>
-            At International Eduleader Council, accessible from https://www.globalcounsellor.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by IEC and how we use it.
+            At Aryahs IEC Mumbai (International Eduleader Council), accessible from https://iec.aryahsworld.com, protecting your privacy is one of our main priorities. This Privacy Policy document outlines the types of information that is collected and how we use it.
           </p>
+
+          <h2 className="sub-h">Information We Collect</h2>
           <p>
-            If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
+            We may collect personal information such as your name, email address, and phone number when you fill out forms on our website.
           </p>
+
+          <h2 className="sub-h">How We Use Your Information</h2>
+          <ul>
+            <li>Provide study abroad consultation services</li>
+            <li>Contact you regarding your inquiry</li>
+            <li>Offer guidance related to university admissions</li>
+            <li>Improve our website and services</li>
+          </ul>
 
           <h2 className="sub-h">Log Files</h2>
           <p>
-            IEC follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics. The information collected by log files include internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.
+            Like many websites, we use log files. These include IP addresses, browser type, ISP, timestamps, and referring pages. This data is not linked to personally identifiable information.
           </p>
 
-          <h2 className="sub-h">Cookies and Web Beacons</h2>
+          <h2 className="sub-h">Cookies</h2>
           <p>
-            Like any other website, IEC uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
+            We use cookies to improve user experience and analyze website traffic.
           </p>
 
-          <h2 className="sub-h">Our Advertising Partners</h2>
+          <h2 className="sub-h">Google AdSense</h2>
           <p>
-            Some of advertisers on our site may use cookies and web beacons. Our advertising partners are listed below. Each of our advertising partners has their own Privacy Policy for their policies on user data. For easier access, we hyperlinked to their Privacy Policies below.
+            We may use Google AdSense to display advertisements. Google uses cookies, including the DoubleClick cookie, to serve ads based on users’ visits to this and other websites.
+          </p>
+          <p>
+            Users may opt out of personalized advertising by visiting{" "}
+            <a href="https://adssettings.google.com" target="_blank" className="text-[#C5A059] underline">
+              Google Ads Settings
+            </a>.
           </p>
 
-          <h2 className="sub-h">Privacy Policies</h2>
+          <h2 className="sub-h">Third-Party Privacy Policies</h2>
           <p>
-            You may consult this list to find the Privacy Policy for each of the advertising partners of IEC.
-          </p>
-          <p>
-            Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on IEC, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.
-          </p>
-          <p>
-            Note that IEC has no access to or control over these cookies that are used by third-party advertisers.
+            Our Privacy Policy does not apply to other advertisers or websites. We advise you to review their policies for more information.
           </p>
 
-          <h2 className="sub-h">Third Party Privacy Policies</h2>
+          <h2 className="sub-h">Data Protection Rights</h2>
           <p>
-            IEC's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options.
+            You have the right to access, update, or delete your personal information. Contact us if you wish to exercise these rights.
+          </p>
+
+          <h2 className="sub-h">Children’s Information</h2>
+          <p>
+            We do not knowingly collect personal information from children under the age of 13.
           </p>
 
           <h2 className="sub-h">Consent</h2>
           <p>
-            By using our website, you hereby consent to our Privacy Policy and agree to its Terms and Conditions.
+            By using our website, you consent to our Privacy Policy and agree to its terms.
           </p>
+
+          <h2 className="sub-h">Contact Us</h2>
+          <p>Email: info.aryahs@gmail.com</p>
+          <p>Phone: +91 86578 69659</p>
+          <p>Location: Navi Mumbai, India</p>
+
         </div>
       </motion.div>
     </main>

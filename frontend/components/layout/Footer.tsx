@@ -33,7 +33,7 @@ export default function Footer() {
 
   const companyItems = [
     { name: "Home", href: "/" },
-    { name: "Terms of service", href: "/terms" },
+    { name: "Terms & Conditions", href: "/terms-and-conditions" },
     { name: "Privacy & Policy", href: "/privacy-policy" },
   ];
 
