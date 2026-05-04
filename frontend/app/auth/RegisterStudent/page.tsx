@@ -519,7 +519,7 @@ const Register = () => {
                   <div className="flex items-center gap-2.5 pt-1">
                     <input type="checkbox" checked={acceptedPolicy} onChange={(e) => setAcceptedPolicy(e.target.checked)} className="w-3.5 h-3.5 rounded bg-[#FDFBF7] accent-[#C5A059] border-[#F1EDEA]" />
                     <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest">
-                      I accept the <Link href="/privacy-policy" className="text-[#C5A059] hover:underline">Privacy & Policy</Link> and <Link href="/terms-and-conditions" className="text-[#C5A059] hover:underline">Terms & Conditions</Link>
+                      I accept the <Link href="/privacy-policy" className="text-[#C5A059] hover:underline">Privacy Policy</Link> and <Link href="/terms-and-conditions" className="text-[#C5A059] hover:underline">Terms & Conditions</Link>
                     </p>
                   </div>
 
