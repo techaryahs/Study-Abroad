@@ -34,7 +34,7 @@ export default function Footer() {
   const companyItems = [
     { name: "Home", href: "/" },
     { name: "Terms of service", href: "/terms" },
-    { name: "Privacy Policy", href: "/privacy" },
+    { name: "Privacy & Policy", href: "/privacy-policy" },
   ];
 
   const resourceItems = [
@@ -156,7 +156,7 @@ export default function Footer() {
                 </div>
                 <div className="flex items-center gap-4">
                   <Mail size={16} className="text-[#B3985E] shrink-0" />
-                  <p className="truncate font-bold text-white hover:text-[#B3985E] transition-colors cursor-pointer">tech.aryahs@gmail.com</p>
+                  <p className="truncate font-bold text-white hover:text-[#B3985E] transition-colors cursor-pointer">info.aryahs@gmail.com</p>
                 </div>
               </div>
             </div>

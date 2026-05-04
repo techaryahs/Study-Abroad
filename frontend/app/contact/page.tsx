@@ -150,7 +150,7 @@ function ContactContent() {
               </div>
               <div className="space-y-1 overflow-hidden">
                 <span className="text-[10px] font-black uppercase tracking-widest text-[#B3985E]/60">Email Portal</span>
-                <p className="text-sm font-black text-[#362B25] truncate hover:text-[#D4A848] transition-colors cursor-pointer uppercase">TECH.ARYAHS@GMAIL.COM</p>
+                <p className="text-sm font-black text-[#362B25] truncate hover:text-[#D4A848] transition-colors cursor-pointer uppercase">INFO.ARYAHS@GMAIL.COM</p>
               </div>
             </div>
 

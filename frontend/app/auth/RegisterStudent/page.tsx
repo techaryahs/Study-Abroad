@@ -519,7 +519,7 @@ const Register = () => {
                   <div className="flex items-center gap-2.5 pt-1">
                     <input type="checkbox" checked={acceptedPolicy} onChange={(e) => setAcceptedPolicy(e.target.checked)} className="w-3.5 h-3.5 rounded bg-[#FDFBF7] accent-[#C5A059] border-[#F1EDEA]" />
                     <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest">
-                      I accept the <Link href="/privacy" className="text-[#C5A059] hover:underline">Privacy Policy</Link> and <Link href="/terms" className="text-[#C5A059] hover:underline">Terms of Service</Link>
+                      I accept the <Link href="/privacy-policy" className="text-[#C5A059] hover:underline">Privacy & Policy</Link> and <Link href="/terms" className="text-[#C5A059] hover:underline">Terms of Service</Link>
                     </p>
                   </div>
 
@@ -535,20 +535,32 @@ const Register = () => {
 
               {step === 2 && (
                 <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 ">
                     {["Admissions", "Scholarships", "Visa", "Research", "Jobs"].map(item => (
                       <button key={item} onClick={() => toggleLookUp(item)} className={`py-3 px-2 rounded-2xl border text-center transition-all shadow-sm ${formData.lookUpFor.includes(item) ? 'bg-[#C5A059] border-[#C5A059] text-white shadow-[#C5A059]/30' : 'bg-[#FDFBF7] border-[#F1EDEA] text-[#6B5E51]/40 hover:border-[#C5A059]/20'}`}>
-                        <span className="font-black uppercase tracking-widest text-[9px]">{item}</span>
+                        <span className="font-black uppercase tracking-widest text-[9px] text-[#3C2A21]">{item}</span>
                       </button>
                     ))}
                   </div>
 
                   {formData.lookUpFor.includes("Admissions") ? (
                     <div className="space-y-3 pt-4 border-t border-[#F1EDEA]">
-                      <p className="text-[9px] font-black text-[#6B5E51]/40 uppercase tracking-widest text-center">Objective Degree</p>
+                      <p className="text-[9px] font-black text-[#3C2A21] uppercase tracking-widest text-center">Objective Degree</p>
                       <div className="grid grid-cols-3 gap-2">
                         {["Bachelor's", "Master's", "Ph.D."].map(deg => (
-                          <button key={deg} onClick={() => setFormData(p => ({ ...p, degree: deg }))} className={`py-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-widest ${formData.degree.includes(deg) ? 'border-[#C5A059] bg-[#C5A059]/5 text-[#C5A059]' : 'border-[#F1EDEA] bg-[#FDFBF7] text-[#6B5E51]/40'}`}>
+                          <button
+                            key={deg}
+                            onClick={() =>
+                              setFormData(p => ({
+                                ...p,
+                                degree: deg
+                              }))
+                            }
+                            className={`py-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-widest ${formData.degree.includes(deg)
+                              ? 'border-[#C5A059] bg-[#C5A059]/5 text-[#3C2A21]'
+                              : 'border-[#F1EDEA] bg-[#FDFBF7] text-[#6B5E51]/40'
+                              }`}
+                          >
                             {deg}
                           </button>
                         ))}
@@ -560,15 +572,15 @@ const Register = () => {
                         <input type="checkbox" name="loanInterest" checked={formData.loanInterest} onChange={(e) => setFormData(p => ({ ...p, loanInterest: e.target.checked }))} className="w-4 h-4 accent-[#C5A059]" />
                         <div>
                           <div className="font-black text-[#3C2A21] text-[10px] uppercase tracking-tight">Financing Interest?</div>
-                          <p className="text-[8px] text-[#6B5E51]/60 font-bold uppercase tracking-widest">Access elite partner loan rates.</p>
+                          <p className="text-[8px] text-[#3C2A21] font-bold uppercase tracking-widest">Access elite partner loan rates.</p>
                         </div>
                       </label>
                     )
                   )}
 
                   <div className="pt-4 flex gap-4">
-                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-2xl text-[9px] uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
-                    <button onClick={nextStep} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[9px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all active:scale-95">Sync Timeline</button>
+                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#3C2A21] font-black rounded-2xl text-[9px] uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
+                    <button onClick={nextStep} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[9px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all active:scale-95">Next</button>
                   </div>
                 </motion.div>
               )}
