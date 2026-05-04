@@ -732,6 +732,7 @@ export default function Navbar() {
                   src="/assets/logo_iec.png"
                   alt="Logo"
                   fill
+                  sizes="40px"
                   className="object-contain"
                 />
               </div>
@@ -1014,6 +1015,7 @@ export default function Navbar() {
                   src="/assets/logo_iec.png"
                   alt="Logo"
                   fill
+                  sizes="40px"
                   className="object-contain"
                 />
               </div>

@@ -64,7 +64,7 @@ export default function TermsOfService() {
             By accessing this website we assume you accept these terms and conditions. Do not continue to use IEC if you do not agree to take all of the terms and conditions stated on this page.
           </p>
           <p>
-            The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company’s terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves.
+            The following terminology applies to these Terms and Conditions, Privacy & Policy Statement and Disclaimer Notice and all Agreements: "Client", "You" and "Your" refers to you, the person log on this website and compliant to the Company’s terms and conditions. "The Company", "Ourselves", "We", "Our" and "Us", refers to our Company. "Party", "Parties", or "Us", refers to both the Client and ourselves.
           </p>
 
           <h2 className="sub-h">Cookies</h2>

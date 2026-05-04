@@ -40,7 +40,7 @@ export default function Footer() {
 
               <li><Link href="/contact" className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors">Contact</Link></li>
               <li><Link href="/faq" className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors">FAQ</Link></li>
-              <li><Link href="/privacy" className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/privacy-policy" className="text-[10px] font-bold uppercase tracking-wider text-white hover:text-[#B3985E] transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
 
