@@ -115,7 +115,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
               </div>
             </div>
 
-            <p className="text-[#6B5E51] text-sm md:text-base font-normal leading-relaxed italic border-l border-[#C5A059]/20 pl-6 py-2">
+            <p className="text-[#000000] text-sm md:text-base font-normal leading-relaxed italic border-l border-[#C5A059]/20 pl-6 py-2">
               {description}
             </p>
 
@@ -147,7 +147,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
                     className="flex items-center gap-4 group/item"
                     >
                     <div className="w-3 h-[1px] bg-[#C5A059] group-hover/item:w-6 transition-all duration-500"></div>
-                    <span className="text-[#6B5E51] group-hover/item:text-[#C5A059] text-[13px] font-medium transition-colors uppercase tracking-[0.1em]">{detail}</span>
+                    <span className="text-[#000000] group-hover/item:text-[#C5A059] text-[13px] font-medium transition-colors uppercase tracking-[0.1em]">{detail}</span>
                     </motion.li>
                 ))}
                 </ul>

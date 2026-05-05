@@ -121,7 +121,7 @@ export default function ToeflHelpPage() {
                         <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
                             Bespoke <br /> <span className="gold-shimmer">TOEFL Coaching</span>
                         </h1>
-                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                        <p className="text-[#000000] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                             "Gateways to financial aid and assistantships open for those who master the 110+ threshold. Learn from a 119/120 mentor."
                         </p>
                         <div className="flex items-center gap-6">
@@ -209,7 +209,7 @@ export default function ToeflHelpPage() {
                     <div className="glass-panel p-10 bg-[#F8F5F0] border-none text-center space-y-6 max-w-4xl mx-auto">
                         <Activity className="mx-auto text-[#C5A059]" size={32} />
                         <h3 className="fd text-3xl font-bold italic text-[#3C2A21]">Institutional Grade results</h3>
-                        <p className="text-[#6B5E51] text-lg font-medium leading-relaxed max-w-2xl mx-auto italic">
+                        <p className="text-[#000000] text-lg font-medium leading-relaxed max-w-2xl mx-auto italic">
                             "A top-tier TOEFL score not only guarantees admission but often serves as the deciding factor for prestigious Teaching Assistantships."
                         </p>
                     </div>
@@ -232,7 +232,7 @@ export default function ToeflHelpPage() {
                                         <span className="text-4xl font-bold text-[#C5A059]/20 group-hover:text-[#C5A059] transition-colors">0{i + 1}</span>
                                         <div className="space-y-2">
                                             <h4 className="fd text-xl font-bold">{item.title}</h4>
-                                            <p className="text-[#6B5E51] text-sm font-medium">{item.desc}</p>
+                                            <p className="text-[#000000] text-sm font-medium">{item.desc}</p>
                                         </div>
                                     </div>
                                 ))}

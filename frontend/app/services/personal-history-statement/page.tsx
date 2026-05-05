@@ -78,7 +78,7 @@ export default function PersonalHistoryStatementPage() {
                             </h1>
                         </div>
 
-                        <p className="text-lg text-[#6B5E51] leading-relaxed italic max-w-xl font-medium">
+                        <p className="text-lg text-black leading-relaxed italic max-w-xl font-medium">
                             The <span className="font-semibold text-[#3C2A21]">Personal History Statement</span> (also known as a <span className="font-semibold text-[#3C2A21]">Diversity Statement</span>) reflects your ability to connect the barriers you have overcome in the past to your current interest in the program.
                         </p>
 
@@ -127,7 +127,7 @@ export default function PersonalHistoryStatementPage() {
                             <h2 className="fd text-3xl font-bold leading-tight text-[#3C2A21]">About This <span className="gold-shimmer">Service</span></h2>
                         </div>
 
-                        <div className="space-y-6 text-[#6B5E51] leading-relaxed text-lg font-medium">
+                        <div className="space-y-6 text-black leading-relaxed text-lg font-medium">
                             <p>
                                 While a lot of universities are not interested in knowing about your past, a few prestigious institutions like <span className="font-semibold text-[#3C2A21]">The University of California</span> specifically require a Personal History Statement. Our main aim is to help you stand out by crafting a story that is unique to you and your profile.
                             </p>
@@ -152,7 +152,7 @@ export default function PersonalHistoryStatementPage() {
 
                         <div className="p-8 bg-white border border-[#C5A059]/10 rounded-[32px] shadow-lg space-y-4">
                             <h4 className="text-xs font-bold text-[#C5A059] uppercase tracking-[0.2em]">Clinical Protocol</h4>
-                            <p className="text-xs text-[#3C2A21]/60 leading-relaxed font-medium">
+                            <p className="text-xs text-black leading-relaxed font-medium">
                                 Our narrative experts audit your diversity markers to ensure every challenge is framed as an institutional value.
                             </p>
                         </div>

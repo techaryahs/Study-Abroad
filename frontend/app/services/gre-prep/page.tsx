@@ -117,7 +117,7 @@ export default function GrePrepPage() {
                         <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
                             Bespoke <br /> <span className="gold-shimmer">GRE Prep-Plan</span>
                         </h1>
-                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                        <p className="text-[#000000] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                             "The secret to a 330+ score is NOT hard work; it's clinical strategy. Join the ranks of thousands who decoded the GRE with us."
                         </p>
                         <div className="flex flex-col sm:flex-row items-center gap-6">

@@ -127,7 +127,7 @@ export default function EB1Page() {
                      </motion.div>
 
                      <motion.div variants={itemVariants} className="hidden sm:block max-w-xl">
-                        <p className="text-base md:text-lg text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-6">
+                        <p className="text-base md:text-lg text-[#362B25] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-6">
                            The <span className="text-[#362B25] font-black">Highest Priority</span> employment-based visa in the US, architected for individuals with extraordinary global acclaim.
                         </p>
                      </motion.div>
@@ -161,14 +161,14 @@ export default function EB1Page() {
                   className="space-y-6"
                >
                   <motion.div variants={itemVariants} className="sm:hidden">
-                     <p className="text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
+                     <p className="text-sm text-[#362B25] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
                         The <span className="text-[#362B25] font-black">Highest Priority</span> US visa for extraordinary global talent.
                      </p>
                   </motion.div>
 
                   <DiscussionSection serviceId="eb1" />
                   <div className="pt-2 pl-2">
-                     <Link href="/checkout?service=eb1" className="text-[#675F5B] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] hover:text-[#D4A848] transition-colors border-b border-transparent hover:border-[#D4A848]/50 pb-1 italic">
+                     <Link href="/checkout?service=eb1" className="text-[#362B25] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] hover:text-[#D4A848] transition-colors border-b border-transparent hover:border-[#D4A848]/50 pb-1 italic">
                         Start Settlement Node
                      </Link>
                   </div>
@@ -189,7 +189,7 @@ export default function EB1Page() {
                </div>
                <div className="space-y-1">
                   <h3 className="text-sm font-black uppercase tracking-widest text-[#D4A848] italic">Porting Protocol Activated</h3>
-                  <p className="text-[#675F5B] text-[11px] font-medium italic leading-relaxed">
+                  <p className="text-[#362B25] text-[11px] font-medium italic leading-relaxed">
                      Recycle priority dates from <span className="text-[#362B25] font-bold">EB-2 or EB-3</span> classes to significantly <span className="text-[#D4A848]">lower processing times</span>.
                   </p>
                </div>
@@ -201,7 +201,7 @@ export default function EB1Page() {
             <div className="max-w-7xl mx-auto space-y-16">
                <div className="text-center space-y-4">
                   <h2 className="text-2xl md:text-4xl font-black uppercase italic text-[#362B25]">Why Choose Us for EB-1</h2>
-                  <p className="text-[#675F5B] text-[10px] uppercase tracking-[0.4em] max-w-2xl mx-auto font-black italic">Elite-Level End-to-End Petitioner Services</p>
+                  <p className="text-[#362B25] text-[10px] uppercase tracking-[0.4em] max-w-2xl mx-auto font-black italic">Elite-Level End-to-End Petitioner Services</p>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-8">
@@ -216,7 +216,7 @@ export default function EB1Page() {
                         </div>
                         <div className="space-y-2">
                            <h4 className="text-[13px] font-black uppercase italic tracking-widest text-[#362B25]">{box.t}</h4>
-                           <p className="text-[#675F5B] text-[11px] leading-relaxed italic px-4">{box.d}</p>
+                           <p className="text-[#362B25] text-[11px] leading-relaxed italic px-4">{box.d}</p>
                         </div>
                      </motion.div>
                   ))}
@@ -285,26 +285,26 @@ export default function EB1Page() {
                         {/* CONTENT NODE */}
                         <div className="md:w-1/2 space-y-4 px-6 text-left">
                            <h3 className="text-xl md:text-2xl font-black italic uppercase group-hover:text-[#D4A848] text-[#362B25] transition-colors">{phase.title}</h3>
-                           <p className="text-[#675F5B] text-[13px] font-medium italic leading-relaxed uppercase tracking-tight">{phase.desc}</p>
+                           <p className="text-[#362B25] text-[13px] font-medium italic leading-relaxed uppercase tracking-tight">{phase.desc}</p>
 
                            {phase.premium ? (
                               <div className="space-y-3 pt-4">
                                  <div className="flex gap-4 items-center">
                                     <div className="bg-[#F8F6F1] border border-[#D4A848]/30 px-4 py-2 rounded-xl flex items-center justify-between gap-6 w-full">
                                        <span className="text-[10px] font-black text-[#D4A848] uppercase tracking-widest">Premium Node</span>
-                                       <span className="text-[10px] font-bold text-[#675F5B] uppercase tracking-widest">15 Calendar Days</span>
+                                       <span className="text-[10px] font-bold text-[#362B25] uppercase tracking-widest">15 Calendar Days</span>
                                     </div>
                                  </div>
                                  <div className="flex gap-4 items-center">
                                     <div className="bg-[#FFFFFF] border border-[#D4A848]/10 px-4 py-2 rounded-xl flex items-center justify-between gap-6 w-full shadow-sm">
-                                       <span className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest">Standard Node</span>
-                                       <span className="text-[10px] font-bold text-[#675F5B] uppercase tracking-widest">4-8 Months</span>
+                                       <span className="text-[10px] font-black text-[#362B25] uppercase tracking-widest">Standard Node</span>
+                                       <span className="text-[10px] font-bold text-[#362B25] uppercase tracking-widest">4-8 Months</span>
                                     </div>
                                  </div>
                               </div>
                            ) : (
                               <div className="flex items-center gap-4 pt-4">
-                                 <span className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest border border-[#D4A848]/30 px-4 py-1.5 rounded-full uppercase italic">Cycle: {phase.time}</span>
+                                 <span className="text-[10px] font-black text-[#362B25] uppercase tracking-widest border border-[#D4A848]/30 px-4 py-1.5 rounded-full uppercase italic">Cycle: {phase.time}</span>
                               </div>
                            )}
                         </div>
@@ -320,7 +320,7 @@ export default function EB1Page() {
                <div className="lg:w-1/2 space-y-12">
                   <div className="space-y-4">
                      <h2 className="text-2xl md:text-3xl font-black uppercase italic text-[#362B25] leading-none">Success Analytics</h2>
-                     <p className="text-[#675F5B] text-[9px] font-bold uppercase tracking-[0.4em] italic">Validated Petitioner Node Output</p>
+                     <p className="text-[#362B25] text-[9px] font-bold uppercase tracking-[0.4em] italic">Validated Petitioner Node Output</p>
                   </div>
 
                   <div className="space-y-8">
@@ -332,7 +332,7 @@ export default function EB1Page() {
                      ].map((stat, i) => (
                         <div key={i} className="space-y-4">
                            <div className="flex justify-between items-end px-1">
-                              <p className="text-[10px] font-black uppercase tracking-widest text-[#675F5B] italic">{stat.label}</p>
+                              <p className="text-[10px] font-black uppercase tracking-widest text-[#362B25] italic">{stat.label}</p>
                               <p className="text-sm font-black text-[#D4A848] uppercase tracking-tighter">{stat.pct}%</p>
                            </div>
                            <div className="h-2 w-full bg-[#FFFFFF] rounded-full overflow-hidden border border-[#D4A848]/20 shadow-inner">
@@ -351,7 +351,7 @@ export default function EB1Page() {
                <div className="lg:w-1/2 space-y-12">
                   <div className="space-y-4 text-right md:text-left">
                      <h2 className="text-2xl md:text-3xl font-black uppercase italic text-[#362B25] leading-none">Alternate Nodes</h2>
-                     <p className="text-[#675F5B] text-[9px] font-bold uppercase tracking-[0.4em] italic">Global Talent Access</p>
+                     <p className="text-[#362B25] text-[9px] font-bold uppercase tracking-[0.4em] italic">Global Talent Access</p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-4">
@@ -366,13 +366,13 @@ export default function EB1Page() {
                               className="bg-[#FFFFFF] shadow-sm p-6 flex items-center justify-between border border-[#D4A848]/20 hover:border-[#D4A848]/50 group transition-all duration-700 cursor-pointer rounded-full"
                            >
                               <div className="flex items-center gap-6">
-                                 <span className="text-[10px] font-black italic text-[#675F5B] group-hover:text-[#D4A848] transition-colors uppercase tracking-[0.4em]">{path.flag}</span>
+                                 <span className="text-[10px] font-black italic text-[#362B25] group-hover:text-[#D4A848] transition-colors uppercase tracking-[0.4em]">{path.flag}</span>
                                  <div>
                                     <h4 className="text-sm font-black uppercase italic group-hover:text-[#D4A848] text-[#362B25] transition-colors tracking-tight">{path.name}</h4>
-                                    <p className="text-[#675F5B] text-[9px] font-bold uppercase tracking-widest pt-1 italic">{path.desc}</p>
+                                    <p className="text-[#362B25] text-[9px] font-bold uppercase tracking-widest pt-1 italic">{path.desc}</p>
                                  </div>
                               </div>
-                              <ChevronDown className="-rotate-90 text-[#675F5B] group-hover:text-[#D4A848] transition-colors" size={14} />
+                              <ChevronDown className="-rotate-90 text-[#362B25] group-hover:text-[#D4A848] transition-colors" size={14} />
                            </motion.div>
                         </Link>
                      ))}
@@ -386,7 +386,7 @@ export default function EB1Page() {
             <div className="max-w-7xl mx-auto space-y-20">
                <div className="text-center space-y-6">
                   <h2 className="text-3xl md:text-5xl font-black uppercase italic text-[#362B25]">EB-1 Class Eligibility</h2>
-                  <p className="text-[#675F5B] text-[13px] font-medium italic max-w-4xl mx-auto border-t border-[#D4A848]/20 pt-10">
+                  <p className="text-[#362B25] text-[13px] font-medium italic max-w-4xl mx-auto border-t border-[#D4A848]/20 pt-10">
                      Architecting success for high-conquest global talents. Proof of one major Node award or 3 out of 10 Criteria.
                   </p>
                </div>
@@ -428,13 +428,13 @@ export default function EB1Page() {
                         </div>
                         <div className="space-y-4">
                            <h3 className="text-lg font-black uppercase italic tracking-tight group-hover:text-[#D4A848] text-[#362B25] transition-colors">{cat.title}</h3>
-                           <p className="text-[#675F5B] text-[11px] font-medium italic leading-relaxed pt-1 group-hover:text-[#362B25] transition-colors uppercase">{cat.description}</p>
+                           <p className="text-[#362B25] text-[11px] font-medium italic leading-relaxed pt-1 group-hover:text-[#362B25] transition-colors uppercase">{cat.description}</p>
                         </div>
                         <ul className="space-y-3 pt-6 border-t border-[#D4A848]/20 w-full">
                            {cat.highlights.map((h, j) => (
                               <li key={j} className="flex items-center gap-3">
                                  <div className="w-1 h-1 rounded-full bg-[#D4A848] flex-shrink-0" />
-                                 <span className="text-[10px] font-bold text-[#675F5B] uppercase tracking-widest">{h}</span>
+                                 <span className="text-[10px] font-bold text-[#362B25] uppercase tracking-widest">{h}</span>
                               </li>
                            ))}
                         </ul>
@@ -457,7 +457,7 @@ export default function EB1Page() {
                               <div className="absolute left-0 top-0 w-px h-full bg-[#D4A848]/20 group-hover:bg-[#D4A848] transition-colors" />
                               <div className="space-y-1">
                                  <h4 className="text-base font-black uppercase italic text-[#362B25] group-hover:text-[#D4A848] transition-colors">{adv.t}</h4>
-                                 <p className="text-[#675F5B] text-[12px] font-medium italic transition-colors">{adv.d}</p>
+                                 <p className="text-[#362B25] text-[12px] font-medium italic transition-colors">{adv.d}</p>
                               </div>
                            </div>
                         ))}
@@ -532,7 +532,7 @@ export default function EB1Page() {
                            onClick={() => setOpenFaq(openFaq === i ? null : i)}
                            className="w-full px-6 py-4 flex items-center justify-between gap-6 text-left"
                         >
-                           <span className="text-[12px] font-black uppercase tracking-widest italic text-[#675F5B] group-hover:text-[#362B25] transition-colors">{faq.q}</span>
+                           <span className="text-[12px] font-black uppercase tracking-widest italic text-[#362B25] group-hover:text-[#362B25] transition-colors">{faq.q}</span>
                            <div className="w-5 h-5 rounded-full border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] flex-shrink-0 bg-[#FFFFFF]">
                               {openFaq === i ? <Minus size={8} /> : <Plus size={8} />}
                            </div>
@@ -543,7 +543,7 @@ export default function EB1Page() {
                            className="overflow-hidden"
                         >
                            <div className="px-6 pb-4 pt-1">
-                              <p className="text-[#675F5B] text-[11px] leading-relaxed italic border-l border-[#D4A848] pl-6 lowercase">{faq.a}</p>
+                              <p className="text-[#362B25] text-[11px] leading-relaxed italic border-l border-[#D4A848] pl-6 lowercase">{faq.a}</p>
                            </div>
                         </motion.div>
                      </div>
@@ -558,7 +558,7 @@ export default function EB1Page() {
                <h2 className="text-3xl md:text-5xl font-black italic uppercase text-[#362B25]">
                   CLAIM YOUR <br />EXTRAORDINARY STATUS.
                </h2>
-               <p className="text-[#675F5B] text-sm max-w-2xl mx-auto italic font-black pt-4">
+               <p className="text-[#362B25] text-sm max-w-2xl mx-auto italic font-black pt-4">
                   Partner with elite immigration architects to secure your future in the United States.
                </p>
                <div className="flex flex-col sm:flex-row justify-center gap-6 pt-8">

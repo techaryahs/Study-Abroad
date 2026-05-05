@@ -130,7 +130,7 @@ export default function AffordableUnisPage() {
                     <h1 className="text-4xl md:text-6xl font-black text-[#D4A848] tracking-tighter mb-4 text-center md:text-left font-serif">
                         High Ranked, Low Tuition
                     </h1>
-                    <p className="text-[#675F5B] text-base sm:text-lg max-w-2xl text-center md:text-left font-medium leading-relaxed">
+                    <p className="text-black text-base sm:text-lg max-w-2xl text-center md:text-left font-medium leading-relaxed">
                         Discover top-tier education optimized for your budget. These institutions provide exceptional academic value globally based on independent rankings and tuition.
                     </p>
                 </div>

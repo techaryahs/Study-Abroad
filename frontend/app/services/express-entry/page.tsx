@@ -76,7 +76,7 @@ export default function ExpressEntryPage() {
                         <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
                             Canada <br/> <span className="gold-shimmer italic">Express Entry</span>
                         </h1>
-                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#6B5E51] border-l-4 border-[#C5A059] pl-6 max-w-xl">
+                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#000000] border-l-4 border-[#C5A059] pl-6 max-w-xl">
                             "The world's most efficient point-based migration system. We decode the CRS matrix to secure your ITA."
                         </p>
                         

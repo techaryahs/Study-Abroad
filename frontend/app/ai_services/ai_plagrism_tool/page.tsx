@@ -159,7 +159,7 @@ export default function AIHumanizerPage() {
                     <h1 className="fd text-5xl md:text-7xl font-bold leading-[1.1] text-[#2D2926]">
                        AI Remover & <span className="gold-shimmer">Bypass Tool</span>
                     </h1>
-                    <p className="text-[#6B5E51] text-lg md:text-xl font-medium max-w-2xl mx-auto italic mt-6">
+                    <p className="text-black text-lg md:text-xl font-medium max-w-2xl mx-auto italic mt-6">
                        "Refine and humanize your academic drafts to ensure maximum credibility and zero detection flagging."
                     </p>
                   </motion.div>
@@ -186,7 +186,7 @@ export default function AIHumanizerPage() {
                            />
                         </div>
 
-                        {/* Controls & Output (Horizontal on mobile, small width on desktop) */}
+                        {/* Controls & Output */}
                         <div className="md:w-80 flex flex-col gap-6">
                            <div className="bg-[#FAFAFA] rounded-[24px] p-6 border border-[#F1EDEA] space-y-6">
                               <p className="text-[10px] font-bold uppercase tracking-widest text-[#2D2926]">Humanize Intensity</p>
@@ -195,7 +195,7 @@ export default function AIHumanizerPage() {
                                    <button 
                                      key={l}
                                      onClick={() => setLevel(l)}
-                                     className={`w-full py-3 rounded-xl text-xs font-bold transition-all border ${level === l ? 'bg-[#2D2926] text-white border-[#2D2926]' : 'bg-white text-[#6B5E51] border-[#F1EDEA] hover:border-[#C5A059]'}`}
+                                     className={`w-full py-3 rounded-xl text-xs font-bold transition-all border ${level === l ? 'bg-[#2D2926] text-white border-[#2D2926]' : 'bg-white text-black border-[#F1EDEA] hover:border-[#C5A059]'}`}
                                    >
                                      {l}
                                    </button>
@@ -230,7 +230,7 @@ export default function AIHumanizerPage() {
                                   className="text-left space-y-4"
                                 >
                                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#2D2926]">Refined Content</p>
-                                   <p className="text-sm leading-relaxed text-[#6B5E51] font-medium italic">"{output}"</p>
+                                   <p className="text-sm leading-relaxed text-black font-medium italic">"{output}"</p>
                                 </motion.div>
                               )}
                            </div>
@@ -250,7 +250,7 @@ export default function AIHumanizerPage() {
                           <div className="detector-circle group-hover:border-[#C5A059] transition-all">
                              {d.icon}
                           </div>
-                          <span className="text-[10px] font-bold text-[#6B5E51] tracking-widest uppercase">{d.name}</span>
+                          <span className="text-[10px] font-bold text-black tracking-widest uppercase">{d.name}</span>
                        </div>
                      ))}
                   </div>
@@ -261,7 +261,7 @@ export default function AIHumanizerPage() {
             <section className="max-w-7xl mx-auto px-6 py-24 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
                <div className="space-y-8">
                   <h2 className="fd text-4xl md:text-5xl font-bold leading-tight">Audited for <br/> <span className="gold-shimmer">Academic Zero-Detection</span></h2>
-                  <p className="text-[#6B5E51] text-lg font-medium leading-relaxed">
+                  <p className="text-black text-lg font-medium leading-relaxed">
                      Our humanizer uses state-of-the-art linguistic modeling to replicate human burstiness and perplexity markers that AI detectors use for classification.
                   </p>
                   <div className="space-y-6">
@@ -298,7 +298,7 @@ export default function AIHumanizerPage() {
                     <div key={i} className="feature-pill p-8 space-y-4">
                        <div className="text-[#C5A059]">{feat.icon}</div>
                        <h4 className="font-bold text-sm uppercase tracking-tight text-[#2D2926]">{feat.title}</h4>
-                       <p className="text-xs text-[#6B5E51] leading-relaxed font-medium">{feat.desc}</p>
+                       <p className="text-xs text-black leading-relaxed font-medium">{feat.desc}</p>
                     </div>
                   ))}
                </div>
@@ -321,11 +321,11 @@ export default function AIHumanizerPage() {
                          <h3 className="fd text-3xl font-bold mb-4">{plan.name}</h3>
                          <div className="flex items-baseline gap-2 mb-8">
                             <span className="text-4xl font-bold">₹{plan.price.toLocaleString('en-IN')}</span>
-                            <span className="text-sm text-[#A8A29E] line-through">₹{plan.original.toLocaleString('en-IN')}</span>
+                            <span className="text-sm text-black line-through">₹{plan.original.toLocaleString('en-IN')}</span>
                          </div>
                          <div className="space-y-4 mb-10 flex-1">
                             {plan.features.map((f, idx) => (
-                              <div key={idx} className="flex items-center gap-3 text-sm font-medium text-[#6B5E51]">
+                              <div key={idx} className="flex items-center gap-3 text-sm font-medium text-black">
                                  <CheckCircle2 size={16} className="text-[#C5A059] shrink-0" /> {f}
                               </div>
                             ))}
@@ -366,7 +366,7 @@ export default function AIHumanizerPage() {
                              exit={{ height: 0, opacity: 0 }}
                              className="overflow-hidden"
                            >
-                             <div className="pt-6 text-[#6B5E51] text-base leading-relaxed font-medium font-serif italic">
+                             <div className="pt-6 text-black text-base leading-relaxed font-medium font-serif italic">
                                 "{faq.a}"
                              </div>
                            </motion.div>
@@ -383,7 +383,7 @@ export default function AIHumanizerPage() {
                   <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/5 rounded-full blur-3xl -mr-32 -mt-32" />
                   <div className="relative z-10 space-y-6">
                      <h2 className="fd text-4xl md:text-5xl font-bold">Enhance Your Academic <br/> <span className="gold-shimmer">Credibility Today</span></h2>
-                     <p className="text-[#6B5E51] text-lg font-medium max-w-xl mx-auto">
+                     <p className="text-black text-lg font-medium max-w-xl mx-auto">
                         Join 50,000+ researchers and students who trust our humanization engine for their most critical submissions.
                      </p>
                      <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -409,4 +409,4 @@ export default function AIHumanizerPage() {
             />
         </main>
     );
-}
+}

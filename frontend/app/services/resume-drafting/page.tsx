@@ -116,7 +116,7 @@ export default function ResumeDraftingPage() {
                         <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
                             Bespoke <br /> <span className="gold-shimmer">Resume Drafting</span>
                         </h1>
-                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                        <p className="text-black text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                             "Recruiters look at a resume for less than 10 seconds. We architect your professional profile to bridge the gap between application and interview."
                         </p>
                         <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -176,14 +176,14 @@ export default function ResumeDraftingPage() {
                             <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Strategic Architecture</span>
                             <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">The Science of the <span className="gold-shimmer">Subject-Matter Expert</span></h2>
                         </div>
-                        <div className="space-y-6 text-[#6B5E51] font-medium leading-relaxed">
+                        <div className="space-y-6 text-black font-medium leading-relaxed">
                             <p>
                                 While your SOP tells your story, your resume proves your value. It must be an eye-catching, one-page surgical instrument that communicates your professional impact in seconds.
                             </p>
                             <p>
                                 We specialize in transforming generic lists of duties into high-impact achievement narratives. Our expert drafts are optimized for international standards, ensuring you resonate with admission committees and corporate recruiters alike.
                             </p>
-                            <div className="p-8 bg-[#FDFBF7] border-l-4 border-[#C5A059] italic text-lg text-[#3C2A21] fd">
+                            <div className="p-8 bg-[#FDFBF7] border-l-4 border-[#C5A059] italic text-lg text-black fd">
                                 "Our conciseness, organization, and pertinence sets you apart from any other applicant you compete with."
                             </div>
                         </div>
@@ -202,7 +202,7 @@ export default function ResumeDraftingPage() {
 
                         <div className="p-8 glass-panel space-y-4">
                             <h4 className="text-xs font-bold text-[#C5A059] uppercase tracking-[0.2em]">Clinical Audit</h4>
-                            <p className="text-xs text-[#3C2A21]/60 leading-relaxed font-medium">
+                            <p className="text-xs text-black leading-relaxed font-medium">
                                 Every resume we draft undergoes a rigorous quality protocol, ensuring that every word serves a strategic purpose in your admission or employment journey.
                             </p>
                         </div>
@@ -231,7 +231,7 @@ export default function ResumeDraftingPage() {
                                     {feat.icon}
                                 </div>
                                 <h3 className="fd text-2xl font-bold text-[#3C2A21]">{feat.title}</h3>
-                                <p className="text-[#6B5E51] text-xs leading-relaxed font-medium">{feat.desc}</p>
+                                <p className="text-black text-xs leading-relaxed font-medium">{feat.desc}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -251,7 +251,7 @@ export default function ResumeDraftingPage() {
                     </div>
                     <div className="space-y-4">
                         <h4 className="fd text-4xl font-bold text-[#3C2A21]">Ready for a Stellar Draft?</h4>
-                        <p className="text-[#6B5E51] text-lg font-medium italic max-w-2xl px-6">
+                        <p className="text-black text-lg font-medium italic max-w-2xl px-6">
                             Invest in a tool that secures more than just attention—it secures your future at the world's most prestigious institutions.
                         </p>
                     </div>

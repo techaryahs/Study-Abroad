@@ -68,7 +68,7 @@ export default function GlobalTalentPage() {
                         <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
                             UK <br/> <span className="gold-shimmer italic">Global Talent</span>
                         </h1>
-                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#6B5E51] border-l-4 border-[#C5A059] pl-6 max-w-xl">
+                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#000000] border-l-4 border-[#C5A059] pl-6 max-w-xl">
                             "The ultimate visa for world-class innovators. We bridge the gap between your achievements and Home Office recognition."
                         </p>
                         
@@ -115,7 +115,7 @@ export default function GlobalTalentPage() {
                                 <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Elite Distinction</span>
                                 <h2 className="fd text-4xl md:text-5xl font-bold text-[#3C2A21]">What is the <span className="gold-shimmer italic">Global Talent Visa?</span></h2>
                             </div>
-                            <div className="space-y-6 text-[#6B5E51] leading-relaxed text-lg">
+                            <div className="space-y-6 text-[#000000] leading-relaxed text-lg">
                                 <p>
                                     The Global Talent Visa is for individuals who are leaders, or potential leaders, in the fields of academia or research, arts and culture, or digital technology. This visa offers unprecedented flexibility, allowing you to work, switch jobs, or become an entrepreneur without Home Office restrictions.
                                 </p>

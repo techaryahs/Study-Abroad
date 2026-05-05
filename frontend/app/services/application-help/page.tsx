@@ -43,7 +43,7 @@ function IncludeItem({ icon, title }: { icon: string; title: string }) {
   return (
     <div className="flex items-start gap-4 p-5 rounded-xl border border-[#D4A848]/10 bg-[#FFFFFF] hover:border-[#D4A848]/30 hover:bg-[#F8F6F1] shadow-sm transition-all group">
       <div className="text-xl mt-0.5 opacity-60 group-hover:opacity-100 transition-opacity">{icon}</div>
-      <span className="text-sm font-medium text-[#675F5B] group-hover:text-[#362B25] leading-snug tracking-tight">{title}</span>
+      <span className="text-sm font-medium text-[#000000] group-hover:text-[#000000] leading-snug tracking-tight">{title}</span>
     </div>
   );
 }
@@ -83,9 +83,9 @@ export default function ApplicationHelpPage() {
               </div>
             </div>
 
-            <p className="text-base md:text-xl text-[#675F5B] italic leading-relaxed max-w-xl font-light">
+            <p className="text-base md:text-xl text-[#000000] italic leading-relaxed max-w-xl font-light">
               The only service in the market with an admissions and visa guarantee.
-              Top universities. <span className="text-[#362B25] font-black underline decoration-[#D4A848]/30">No BS.</span>
+              Top universities. <span className="text-[#000000] font-black underline decoration-[#D4A848]/30">No BS.</span>
             </p>
 
             <DiscussionSection serviceId="application-help" />

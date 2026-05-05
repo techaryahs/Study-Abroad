@@ -9,7 +9,6 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
   const queryProg = searchParams?.get('program');
   const router = useRouter();
 
-  // Find initial program
   const initialProg = queryProg && allPrograms.includes(queryProg) ? queryProg : allPrograms[0];
       
   const [selectedProgram, setSelectedProgram] = useState(initialProg || "");
@@ -58,6 +57,7 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
           justify-content: space-between;
           align-items: center;
           font-size: 13px;
+          color: #000000;
         }
         .prog-btn:hover { background: #fdfaf5; color: #C5A059; }
         .prog-btn.active { 
@@ -106,7 +106,7 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
                 <h1 className="fd text-4xl md:text-6xl font-bold text-[#2D2926] mb-4 tracking-tighter main-title">
                 Excellence in <span style={{ color: "#C5A059", display: "inline-block" }}>{selectedProgram}</span>
                 </h1>
-                <p className="text-[#6B5E51] font-medium text-lg max-w-2xl section-desc">
+                <p className="text-black font-medium text-lg max-w-2xl section-desc">
                 Curated selection of global institutions offering premier degrees in {selectedProgram}, categorized by academic rigor and performance.
                 </p>
             </div>
@@ -114,7 +114,7 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
             {/* ABOVE FILTERS */}
             <div className="flex gap-4 shrink-0 top-filters">
                 {["All", "Popular", "Recently Updated"].map((filter, i) => (
-                    <button key={i} className={`px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase border ${i === 0 ? "bg-[#2D2926] text-white border-[#2D2926]" : "border-[rgba(197,160,89,0.3)] text-[#6B5E51] bg-white"}`}>
+                    <button key={i} className={`px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase border ${i === 0 ? "bg-[#2D2926] text-white border-[#2D2926]" : "border-[rgba(197,160,89,0.3)] text-black bg-white"}`}>
                         {filter}
                     </button>
                 ))}
@@ -149,7 +149,7 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
             {/* CATEGORIZED PROGRAM SELECTOR */}
             <div className="card-shell max-h-[calc(100vh-140px)] overflow-y-auto cs-scroll">
                 <div className="flex justify-between items-center mb-6">
-                <h2 className="font-bold text-[#2D2926] tracking-tight uppercase text-xs">Categories</h2>
+                  <h2 className="font-bold text-[#2D2926] tracking-tight uppercase text-xs">Categories</h2>
                 </div>
 
                 <div className="space-y-6">
@@ -188,7 +188,7 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
             {unis.length > 0 ? unis.map((uni: any) => (
               <UniversityCard key={uni.slug} uni={uni} />
             )) : (
-              <div className="text-center py-20 text-[#6B5E51] font-medium text-lg">
+              <div className="text-center py-20 text-black font-medium text-lg">
                 No advanced institutions formally documented strictly for "{selectedProgram}" yet.
               </div>
             )}

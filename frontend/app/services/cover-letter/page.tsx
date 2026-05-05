@@ -117,7 +117,7 @@ export default function CoverLetterPage() {
                   <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
                      Architect Your <br /> <span className="gold-shimmer">Cover Letter</span>
                   </h1>
-                  <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                  <p className="text-[#000000] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                      "Beyond a summary—your cover letter is a strategic asset designed to bridge your experience with institutional vision."
                   </p>
                   <div className="flex items-center gap-6">
@@ -195,7 +195,7 @@ export default function CoverLetterPage() {
                            <CheckCircle size={24} />
                         </div>
                         <h3 className="fd text-2xl font-bold text-[#3C2A21]">{feat.title}</h3>
-                        <p className="text-[#6B5E51] text-sm leading-relaxed font-medium">{feat.desc}</p>
+                        <p className="text-[#000000] text-sm leading-relaxed font-medium">{feat.desc}</p>
                      </motion.div>
                   ))}
                </div>
@@ -203,7 +203,7 @@ export default function CoverLetterPage() {
                <div className="glass-panel p-10 bg-[#F8F5F0] border-none text-center space-y-6 max-w-4xl mx-auto">
                   <ShieldCheck className="mx-auto text-[#C5A059]" size={32} />
                   <h3 className="fd text-3xl font-bold italic text-[#3C2A21]">Academic & Professional Rigor</h3>
-                  <p className="text-[#6B5E51] text-lg font-medium leading-relaxed max-w-2xl mx-auto italic">
+                  <p className="text-[#000000] text-lg font-medium leading-relaxed max-w-2xl mx-auto italic">
                      "Every draft is cross-verified via Turnitin Instructor-level software and Grammarly Premium, ensuring flawless syntax and 100% original content."
                   </p>
                </div>
@@ -225,12 +225,13 @@ export default function CoverLetterPage() {
                            { step: "01", title: "Strategic Inputs", desc: "Submit your core experiences via our proprietary intelligence form." },
                            { step: "02", title: "Base Architecture", desc: "We craft a foundational draft written from scratch for your primary target role." },
                            { step: "03", title: "Niche Calibration", desc: "Optionally customize your draft for specific secondary job opportunities." }
+
                         ].map((item, i) => (
                            <div key={i} className="flex gap-6 group">
                               <span className="text-4xl font-bold text-[#C5A059]/20 group-hover:text-[#C5A059] transition-colors">{item.step}</span>
                               <div className="space-y-2">
                                  <h4 className="fd text-xl font-bold">{item.title}</h4>
-                                 <p className="text-[#6B5E51] text-sm font-medium">{item.desc}</p>
+                                 <p className="text-[#000000] text-sm font-medium">{item.desc}</p>
                               </div>
                            </div>
                         ))}

@@ -15,7 +15,6 @@ export default async function ByProgramPage() {
     const countryName = file.replace('.json', '');
     
     content.forEach((uni: any) => {
-      // Logic from by-country to normalize uni data for the card
       const branches = uni.branches || [];
       
       branches.forEach((branch: any) => {
@@ -25,11 +24,9 @@ export default async function ByProgramPage() {
           byProgram[programName] = [];
         }
 
-        // We only add the university once per program
         const alreadyAdded = byProgram[programName].some(u => u.slug === uni.slug);
         
         if (!alreadyAdded) {
-          // Normalize university data for UniversityCard
           const normalizedUni = {
             name: uni.name,
             slug: uni.slug || uni.name.toLowerCase().replace(/\s+/g, '-'),
@@ -37,7 +34,6 @@ export default async function ByProgramPage() {
             location: uni.location ? `${uni.location.city}, ${uni.location.country || countryName}` : countryName,
             address: uni.location?.city || "",
             ranking: uni.ranking || 999,
-            // Stats from this specific branch if available
             acceptance: branch.stats?.acceptance_rate ? `${branch.stats.acceptance_rate}%` : "Variable",
             acceptanceRaw: branch.stats?.acceptance_rate || null,
             tuition: branch.stats?.tuition_fee ? `$${branch.stats.tuition_fee.toLocaleString()}` : "Contact for fees",
@@ -53,10 +49,8 @@ export default async function ByProgramPage() {
     });
   });
 
-  // Sort programs by popularity (uni count)
   const sortedPrograms = Object.keys(byProgram).sort((a, b) => byProgram[b].length - byProgram[a].length);
 
-  // Group into categories for the UI
   const categories: Record<string, string[]> = {
     "Engineering & Tech": sortedPrograms.filter(p => p.toLowerCase().includes('engineer') || p.toLowerCase().includes('computer') || p.toLowerCase().includes('data science') || p.toLowerCase().includes('robotics')),
     "Business & Management": sortedPrograms.filter(p => p.toLowerCase().includes('business') || p.toLowerCase().includes('mba') || p.toLowerCase().includes('management') || p.toLowerCase().includes('finance') || p.toLowerCase().includes('economy')),
@@ -64,13 +58,12 @@ export default async function ByProgramPage() {
     "Sciences & Health": sortedPrograms.filter(p => p.toLowerCase().includes('science') || p.toLowerCase().includes('medicine') || p.toLowerCase().includes('bio') || p.toLowerCase().includes('psychology')),
   };
 
-  // Add "Other" for anything missed
   const categoricallyUsed = new Set(Object.values(categories).flat());
   const otherPrograms = sortedPrograms.filter(p => !categoricallyUsed.has(p));
   if (otherPrograms.length > 0) categories["Other Programs"] = otherPrograms;
 
   return (
-    <React.Suspense fallback={<div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">Loading academic data...</div>}>
+    <React.Suspense fallback={<div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center text-black">Loading academic data...</div>}>
       <ClientPage 
         categories={categories} 
         byProgram={byProgram} 

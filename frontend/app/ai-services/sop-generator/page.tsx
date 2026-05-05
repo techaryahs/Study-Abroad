@@ -16,21 +16,21 @@ export default function AISOPGeneratorPage() {
                     
                     {/* Left Content */}
                     <div className="space-y-8 relative z-10">
-                        <h1 className="text-4xl md:text-5xl lg:text-[54px] font-serif font-bold text-[#362B25] leading-[1.15] tracking-tight">
+                        <h1 className="text-4xl md:text-5xl lg:text-[54px] font-serif font-bold text-black leading-[1.15] tracking-tight">
                             AI SOP Generator - <br className="hidden lg:block"/>
                             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#D4A848] to-[#9c782b]">
                                 Original Writing Crafted to Bypass AI Detectors
                             </span>
                         </h1>
                         
-                        <p className="text-lg md:text-[20px] text-[#675F5B] leading-[1.6] max-w-lg font-medium">
+                        <p className="text-lg md:text-[20px] text-[#000000] leading-[1.6] max-w-lg font-semibold">
                             Get a plagiarism-free Statement of Purpose (SOP) in minutes - designed to reflect your story and meet top university standards for admissions and scholarships.
                         </p>
                         
                         <div className="flex flex-col sm:flex-row gap-5 pt-4">
                             <Link 
                                 href="#pricing" 
-                                className="px-8 py-4 rounded-xl border-2 border-[#D4A848]/20 text-[#362B25] font-bold text-[15px] tracking-wide hover:bg-[#D4A848]/5 transition-all text-center flex items-center justify-center gap-2 w-full sm:w-auto"
+                                className="px-8 py-4 rounded-xl border-2 border-[#D4A848]/20 text-black font-bold text-[15px] tracking-wide hover:bg-[#D4A848]/5 transition-all text-center flex items-center justify-center gap-2 w-full sm:w-auto"
                             >
                                 Buy Now <ArrowRight size={18} />
                             </Link>
@@ -81,7 +81,7 @@ export default function AISOPGeneratorPage() {
                                 <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-[10px] shadow-sm border border-[#D4A848]/20 flex items-center justify-center p-1.5 transition-transform duration-500 group-hover:-translate-y-1 group-hover:shadow-md">
                                     <img src={`https://www.google.com/s2/favicons?domain=${uni.domain}&sz=128`} alt={`${uni.name} logo`} className="w-full h-full object-contain" />
                                 </div>
-                                <span className="font-serif font-bold text-lg md:text-[22px] text-[#362B25] tracking-tight">{uni.name}</span>
+                                <span className="font-serif font-bold text-lg md:text-[22px] text-black tracking-tight">{uni.name}</span>
                             </div>
                         ))}
                     </div>
@@ -90,7 +90,7 @@ export default function AISOPGeneratorPage() {
                 {/* Key Features */}
                 <div className="mt-32 max-w-5xl mx-auto pt-10">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#362B25] mb-4">Key Features</h2>
+                        <h2 className="text-4xl md:text-5xl font-serif font-bold text-black mb-4">Key Features</h2>
                         <p className="text-[#675F5B] text-lg font-medium">Your AI Partner for Original, Plagiarism-Free, and Polished Statements</p>
                     </div>
 
@@ -113,7 +113,7 @@ export default function AISOPGeneratorPage() {
                                    <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-14 h-14 bg-gradient-to-br from-blue-700 to-indigo-800 rounded-xl shadow-[0_10px_30px_rgba(37,99,235,0.4)] flex items-center justify-center text-white font-bold text-xl border-[3px] border-white/20 backdrop-blur-md">AI</div>
                                 </div>
                             </div>
-                            <h3 className="text-2xl font-bold font-serif text-[#362B25] mb-3">AI-Powered Content Generation</h3>
+                            <h3 className="text-2xl font-bold font-serif text-black mb-3">AI-Powered Content Generation</h3>
                             <p className="text-[#675F5B] leading-[1.6]">Create a customized and impactful SOP that stands out without sounding like a generic, ChatGPT-generated content.</p>
                         </div>
                         
@@ -130,7 +130,7 @@ export default function AISOPGeneratorPage() {
                                     <div className="absolute -left-4 bottom-12 text-green-400 scale-75"><div className="flex justify-center items-center w-6 h-6 bg-green-500 rounded-full text-white">✓</div></div>
                                 </div>
                             </div>
-                            <h3 className="text-2xl font-bold font-serif text-[#362B25] mb-3">Authenticity Assured</h3>
+                            <h3 className="text-2xl font-bold font-serif text-black mb-3">Authenticity Assured</h3>
                             <p className="text-[#675F5B] leading-[1.6]">Receive plagiarism-free, unique content tailored to your profile and aspirations.</p>
                         </div>
                     </div>
@@ -139,7 +139,7 @@ export default function AISOPGeneratorPage() {
                 {/* How It Works */}
                 <div className="mt-32 max-w-5xl mx-auto border-t border-[#D4A848]/10 pt-24 pb-24">
                     <div className="text-center mb-24">
-                        <h2 className="text-4xl md:text-5xl font-serif font-bold text-[#362B25] mb-4">How It Works</h2>
+                        <h2 className="text-4xl md:text-5xl font-serif font-bold text-black mb-4">How It Works</h2>
                         <p className="text-[#675F5B] text-lg font-medium">Turn Your input into impact, effortlessly!</p>
                     </div>
 
@@ -197,7 +197,7 @@ export default function AISOPGeneratorPage() {
                                 <div className="flex md:justify-end mb-4">
                                     <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-xs tracking-widest uppercase">Step 2</div>
                                 </div>
-                                <div className="bg-white border border-[#D4A848]/10 text-[#362B25] p-8 md:p-10 rounded-[28px] shadow-sm group hover:-translate-y-1 transition-transform">
+                                <div className="bg-white border border-[#D4A848]/10 text-black p-8 md:p-10 rounded-[28px] shadow-sm group hover:-translate-y-1 transition-transform">
                                     <h3 className="text-2xl font-bold font-serif mb-3 flex items-center md:justify-end gap-4">
                                         <div className="w-10 h-10 bg-[#F8F6F1] rounded-[10px] flex items-center justify-center shrink-0 md:order-2">
                                             <Sparkles size={20} className="text-[#D4A848]" />
@@ -302,7 +302,7 @@ export default function AISOPGeneratorPage() {
                                 <div className="flex md:justify-end mb-4">
                                     <div className="inline-flex px-4 py-1.5 rounded-full bg-[#D4A848]/10 text-[#D4A848] font-black text-xs tracking-widest uppercase">Step 4</div>
                                 </div>
-                                <div className="bg-white border border-[#D4A848]/10 text-[#362B25] p-8 md:p-10 rounded-[28px] shadow-sm group hover:-translate-y-1 transition-transform">
+                                <div className="bg-white border border-[#D4A848]/10 text-black p-8 md:p-10 rounded-[28px] shadow-sm group hover:-translate-y-1 transition-transform">
                                     <h3 className="text-2xl font-bold font-serif mb-3 flex items-center md:justify-end gap-4">
                                         <div className="w-10 h-10 bg-[#F8F6F1] rounded-[10px] flex items-center justify-center shrink-0 md:order-2">
                                             <div className="w-4 h-5 border-[2px] border-[#D4A848] rounded-[3px] shadow-sm relative"><div className="absolute -right-[6px] top-1 w-1 h-2 bg-[#362B25] rounded-r-[2px]"></div></div>
@@ -336,7 +336,7 @@ export default function AISOPGeneratorPage() {
 
                         {/* Right Side - Content */}
                         <div className="w-full lg:w-1/2">
-                            <h2 className="text-[40px] md:text-[46px] text-[#362B25] mb-4 tracking-tight leading-tight">Go AI-Safe</h2>
+                            <h2 className="text-[40px] md:text-[46px] text-black mb-4 tracking-tight leading-tight">Go AI-Safe</h2>
                             <p className="text-[#675F5B] text-[18px] mb-10">Instantly create a flawless SOP that is affordable and AI-proof!</p>
                             
                             <div className="flex flex-col gap-6 mb-12">
@@ -348,7 +348,7 @@ export default function AISOPGeneratorPage() {
                                              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-[2px] bg-white rounded-full"></div>
                                         </div>
                                     </div>
-                                    <span className="text-[#362B25] font-medium text-[16px]">AI Detection & Removal</span>
+                                    <span className="text-black font-medium text-[16px]">AI Detection & Removal</span>
                                 </div>
                                 
                                 <div className="flex items-center gap-5">
@@ -357,7 +357,7 @@ export default function AISOPGeneratorPage() {
                                             <span className="text-white text-[10px] font-bold">✓</span>
                                         </div>
                                     </div>
-                                    <span className="text-[#362B25] font-medium text-[16px]">Plagiarism-Free</span>
+                                    <span className="text-black font-medium text-[16px]">Plagiarism-Free</span>
                                 </div>
                                 
                                 <div className="flex items-center gap-5">
@@ -368,7 +368,7 @@ export default function AISOPGeneratorPage() {
                                             <div className="w-4 h-[6px] border-[1.5px] border-white rounded-t-[10px] border-b-0"></div>
                                         </div>
                                     </div>
-                                    <span className="text-[#362B25] font-medium text-[16px]">Customized for You</span>
+                                    <span className="text-black font-medium text-[16px]">Customized for You</span>
                                 </div>
                             </div>
                             
@@ -388,7 +388,7 @@ export default function AISOPGeneratorPage() {
                         
                         {/* Left Side - Text */}
                         <div className="lg:col-span-5 text-center lg:text-left">
-                            <h2 className="text-[40px] md:text-[46px] font-sans font-medium text-[#362B25] mb-6 leading-[1.1] tracking-tight">
+                            <h2 className="text-[40px] md:text-[46px] font-sans font-medium text-black mb-6 leading-[1.1] tracking-tight">
                                 Why Our AI Beats Generic AI Like ChatGPT
                             </h2>
                             <p className="text-[#675F5B] text-[20px] mb-12 font-medium max-w-md mx-auto lg:mx-0">
@@ -417,29 +417,29 @@ export default function AISOPGeneratorPage() {
                                         </div>
                                         <span className="font-bold text-[#10a37f] text-lg">ChatGPT</span>
                                     </div>
-                                    <div className="bg-[#f0f2f5] text-[#362B25] text-[9px] uppercase font-bold px-3 py-1.5 rounded tracking-widest">Generic AI Model</div>
+                                    <div className="bg-[#f0f2f5] text-black text-[9px] uppercase font-bold px-3 py-1.5 rounded tracking-widest">Generic AI Model</div>
                                 </div>
                                 
                                 <ul className="space-y-6 flex-1">
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-gray-200 rounded shrink-0 flex items-center justify-center mt-0.5"><div className="w-2.5 h-[2px] bg-white rounded-full"></div></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">ChatGPT generates general content without specialized training.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">ChatGPT generates general content without specialized training.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-gray-200 rounded shrink-0 flex items-center justify-center mt-0.5"><div className="w-2.5 h-[2px] bg-white rounded-full"></div></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Often provides depthless, template-like outputs.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">Often provides depthless, template-like outputs.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-gray-200 rounded shrink-0 flex items-center justify-center mt-0.5"><div className="w-2.5 h-[2px] bg-white rounded-full"></div></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Easily detectable as AI-generated.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">Easily detectable as AI-generated.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-gray-200 rounded shrink-0 flex items-center justify-center mt-0.5"><div className="w-2.5 h-[2px] bg-white rounded-full"></div></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">May produce unchecked output that triggers plagiarism flags.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">May produce unchecked output that triggers plagiarism flags.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-gray-200 rounded shrink-0 flex items-center justify-center mt-0.5"><div className="w-2.5 h-[2px] bg-white rounded-full"></div></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Not specialized for university applications.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">Not specialized for university applications.</span>
                                     </li>
                                 </ul>
                             </div>
@@ -452,7 +452,7 @@ export default function AISOPGeneratorPage() {
                                         <div className="w-10 h-10 bg-[#362B25] rounded-full flex items-center justify-center text-[#D4A848] shrink-0 font-serif font-black text-xl leading-none">
                                             G
                                         </div>
-                                        <span className="font-bold text-[#362B25] text-[17px] leading-tight">Global<br/>Counsellor</span>
+                                        <span className="font-bold text-black text-[17px] leading-tight">Global<br/>Counsellor</span>
                                     </div>
                                     <div className="bg-[#D4A848] text-white text-[9px] uppercase font-bold px-3 py-1.5 rounded tracking-widest shadow-sm">University-Focused AI</div>
                                 </div>
@@ -460,23 +460,23 @@ export default function AISOPGeneratorPage() {
                                 <ul className="space-y-6 flex-1">
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Our AI is trained on SOPs from students admitted to the world's top universities.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">Our AI is trained on SOPs from students admitted to the world's top universities.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Generates personalized SOPs based on user inputs.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">Generates personalized SOPs based on user inputs.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Comes with Global Counsellor AI Remover to ensure originality & AI-proofing.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">Comes with Global Counsellor AI Remover to ensure originality & AI-proofing.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Ensures a unique, high-quality SOP that passes plagiarism checks.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">Ensures a unique, high-quality SOP that passes plagiarism checks.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Built specifically to generate SOPs that adhere to university admission standards.</span>
+                                        <span className="text-black text-[14px] leading-relaxed">Built specifically to generate SOPs that adhere to university admission standards.</span>
                                     </li>
                                 </ul>
                             </div>
@@ -488,7 +488,7 @@ export default function AISOPGeneratorPage() {
                 {/* Pricing Section */}
                 <div className="mt-20 max-w-6xl mx-auto px-6 lg:px-10 pb-20">
                     <div className="text-center mb-16">
-                        <h2 className="text-[36px] md:text-[44px] text-[#362B25] mb-6 tracking-tight leading-tight font-medium">
+                        <h2 className="text-[36px] md:text-[44px] text-black mb-6 tracking-tight leading-tight font-medium">
                             Small Investment <span className="font-light text-gray-400 mx-2">→</span> Great Impact
                         </h2>
                         <p className="text-[#675F5B] text-[16px] md:text-[18px] max-w-3xl mx-auto mb-8 leading-relaxed">
@@ -497,7 +497,7 @@ export default function AISOPGeneratorPage() {
                         
                         {/* Currency Selector Mockup */}
                         <div className="inline-flex items-center gap-3 border border-gray-200 rounded-md px-4 py-2 bg-white shadow-sm cursor-pointer hover:bg-gray-50 transition-colors">
-                            <span className="text-[#362B25] font-medium text-[15px]">INR</span>
+                            <span className="text-black font-medium text-[15px]">INR</span>
                             <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
                     </div>
@@ -508,66 +508,66 @@ export default function AISOPGeneratorPage() {
                         <div className="bg-white border border-gray-100 rounded-2xl md:rounded-[24px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col h-full hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow">
                             <div className="text-gray-400 text-[13px] mb-2">Price: <span className="line-through">INR 5,000</span></div>
                             <div className="flex items-baseline gap-2 mb-4">
-                                <span className="font-bold text-[#362B25] text-xl">INR</span>
-                                <span className="font-bold text-[#362B25] text-[38px] leading-none">3,999</span>
+                                <span className="font-bold text-black text-xl">INR</span>
+                                <span className="font-bold text-black text-[38px] leading-none">3,999</span>
                             </div>
                             <div className="inline-block border border-gray-200 rounded-lg px-4 py-2 text-gray-500 text-[13px] mb-8 bg-gray-50/50 self-start">
                                 1 SOP for INR 3,999
                             </div>
                             
-                            <div className="text-[#362B25] font-semibold text-[15px] mb-6">What's included</div>
+                            <div className="text-black font-semibold text-[15px] mb-6">What's included</div>
                             <ul className="space-y-5 flex-1 mb-10">
                                 <li className="flex items-start gap-4">
                                     <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
-                                    <span className="text-[#362B25] text-[14px]">Generate <strong className="font-semibold text-gray-800">1</strong> SOP</span>
+                                    <span className="text-black text-[14px]">Generate <strong className="font-semibold text-gray-800">1</strong> SOP</span>
                                 </li>
                                 <li className="flex items-start gap-4">
                                     <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
-                                    <span className="text-[#362B25] text-[14px]">AI and Plagiarism Removal</span>
+                                    <span className="text-black text-[14px]">AI and Plagiarism Removal</span>
                                 </li>
                                 <li className="flex items-start gap-4">
                                     <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
-                                    <span className="text-[#362B25] text-[14px]">Fully Customized</span>
+                                    <span className="text-black text-[14px]">Fully Customized</span>
                                 </li>
                                 <li className="flex items-start gap-4">
                                     <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
-                                    <span className="text-[#362B25] text-[14px]">Perfect for a single high-stakes application</span>
+                                    <span className="text-black text-[14px]">Perfect for a single high-stakes application</span>
                                 </li>
                             </ul>
-                            <button onClick={() => setCheckoutPlan({ actual: 5000, discounted: 3999, title: "1 SOP" })} className="w-full py-4 rounded-xl bg-[#f8f9fa] hover:bg-gray-100 text-[#362B25] font-medium text-[15px] text-center transition-colors">Upgrade Now</button>
+                            <button onClick={() => setCheckoutPlan({ actual: 5000, discounted: 3999, title: "1 SOP" })} className="w-full py-4 rounded-xl bg-[#f8f9fa] hover:bg-gray-100 text-black font-medium text-[15px] text-center transition-colors">Upgrade Now</button>
                         </div>
                         
                         {/* Card 2 */}
                         <div className="bg-white border border-gray-100 rounded-2xl md:rounded-[24px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col h-full hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow">
                             <div className="text-gray-400 text-[13px] mb-2">Price: <span className="line-through">INR 25,000</span></div>
                             <div className="flex items-baseline gap-2 mb-4">
-                                <span className="font-bold text-[#362B25] text-xl">INR</span>
-                                <span className="font-bold text-[#362B25] text-[38px] leading-none">14,999</span>
+                                <span className="font-bold text-black text-xl">INR</span>
+                                <span className="font-bold text-black text-[38px] leading-none">14,999</span>
                             </div>
                             <div className="inline-block border border-gray-200 rounded-lg px-4 py-2 text-gray-500 text-[13px] mb-8 bg-gray-50/50 self-start">
                                 1 SOP for INR 2,999
                             </div>
                             
-                            <div className="text-[#362B25] font-semibold text-[15px] mb-6">What's included</div>
+                            <div className="text-black font-semibold text-[15px] mb-6">What's included</div>
                             <ul className="space-y-5 flex-1 mb-10">
                                 <li className="flex items-start gap-4">
                                     <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
-                                    <span className="text-[#362B25] text-[14px]">Generate <strong className="font-semibold text-gray-800">5</strong> SOPs</span>
+                                    <span className="text-black text-[14px]">Generate <strong className="font-semibold text-gray-800">5</strong> SOPs</span>
                                 </li>
                                 <li className="flex items-start gap-4">
                                     <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
-                                    <span className="text-[#362B25] text-[14px]">5x AI and Plagiarism Removal</span>
+                                    <span className="text-black text-[14px]">5x AI and Plagiarism Removal</span>
                                 </li>
                                 <li className="flex items-start gap-4">
                                     <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
-                                    <span className="text-[#362B25] text-[14px]">Fully Customized</span>
+                                    <span className="text-black text-[14px]">Fully Customized</span>
                                 </li>
                                 <li className="flex items-start gap-4">
                                     <div className="bg-[#48bb78] rounded-full w-[18px] h-[18px] flex items-center justify-center shrink-0 mt-0.5"><span className="text-white text-[10px] font-bold">✓</span></div>
-                                    <span className="text-[#362B25] text-[14px]">Ideal for applying to multiple top schools</span>
+                                    <span className="text-black text-[14px]">Ideal for applying to multiple top schools</span>
                                 </li>
                             </ul>
-                            <button onClick={() => setCheckoutPlan({ actual: 25000, discounted: 14999, title: "5 SOPs" })} className="w-full py-4 rounded-xl bg-[#f8f9fa] hover:bg-gray-100 text-[#362B25] font-medium text-[15px] text-center transition-colors">Upgrade Now</button>
+                            <button onClick={() => setCheckoutPlan({ actual: 25000, discounted: 14999, title: "5 SOPs" })} className="w-full py-4 rounded-xl bg-[#f8f9fa] hover:bg-gray-100 text-black font-medium text-[15px] text-center transition-colors">Upgrade Now</button>
                         </div>
                         
                         {/* Card 3 (Value) */}
@@ -610,7 +610,7 @@ export default function AISOPGeneratorPage() {
                 {/* FAQ Section */}
                 <div className="max-w-4xl mx-auto px-6 lg:px-8 pb-32">
                     <div className="text-center mb-16">
-                        <h2 className="text-[34px] md:text-[42px] text-[#362B25] mb-3 tracking-tight font-medium">Frequently Asked Questions!</h2>
+                        <h2 className="text-[34px] md:text-[42px] text-black mb-3 tracking-tight font-medium">Frequently Asked Questions!</h2>
                         <p className="text-[#675F5B] text-[18px]">Helping you understand every step of the way.</p>
                     </div>
                     
@@ -624,7 +624,7 @@ export default function AISOPGeneratorPage() {
                         ].map((faq, index) => (
                             <details key={index} className="group bg-white border border-gray-100 rounded-xl shadow-[0_2px_15px_rgb(0,0,0,0.03)] marker:content-['']" open={index === 0}>
                                 <summary className="flex items-center justify-between p-6 md:p-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                                    <h3 className="font-bold text-[#362B25] pr-8 text-[16px] md:text-[18px]">{faq.q}</h3>
+                                    <h3 className="font-bold text-black pr-8 text-[16px] md:text-[18px]">{faq.q}</h3>
                                     <div className="bg-[#fdf6e3] w-8 h-8 rounded shrink-0 flex items-center justify-center text-[#D4A848] border border-[#f5e3aa]">
                                         <span className="font-bold text-[22px] leading-none group-open:hidden">+</span>
                                         <span className="font-bold text-[22px] leading-none hidden group-open:block -mt-1">-</span>

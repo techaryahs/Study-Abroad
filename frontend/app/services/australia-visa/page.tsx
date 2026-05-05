@@ -248,9 +248,6 @@ export default function AustraliaVisaPage() {
       {/* ══════════════ HERO ══════════════ */}
       <Sec bg={T.bg} py={80}>
 
-        {/* Back link */}
-      
-
         {/* Two-column grid */}
         <div className="hero-grid" style={{
           display: "grid",
@@ -261,8 +258,6 @@ export default function AustraliaVisaPage() {
 
           {/* ── LEFT: Headline + quote + CTA ── */}
           <div>
-            
-
             <h1 style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "clamp(2.6rem, 6.5vw, 5.2rem)", lineHeight: 1.05, color: T.ink, margin: 0 }}>
              Apply for Australia
             </h1>
@@ -271,7 +266,11 @@ export default function AustraliaVisaPage() {
             </h1>
 
             <div style={{ marginBottom: 40 }}>
-              <ItalicQuote text="Highlight your extraordinary abilities and take the next step in your professional journey with Australia's most prestigious permanent visa." />
+              {/* ── CHANGED: color set to #000000 (black) ── */}
+              <ItalicQuote
+                text="Highlight your extraordinary abilities and take the next step in your professional journey with Australia's most prestigious permanent visa."
+                color="#000000"
+              />
             </div>
 
             {/* Avatar + CTA button */}
@@ -283,9 +282,6 @@ export default function AustraliaVisaPage() {
               borderRadius: 8,
               padding: "22px 22px 18px",
             }}>
-              {/* Card header */}
-           
-
               <div style={{ height: 1, background: "rgba(201,168,76,0.18)", marginBottom: 16 }} />
 
               {/* Includes label */}
@@ -299,10 +295,10 @@ export default function AustraliaVisaPage() {
 
               {/* Contact rows */}
               <div style={{ 
-  display: "flex", 
-  flexDirection: "row", 
-  gap: 12 
-}}>
+                display: "flex", 
+                flexDirection: "row", 
+                gap: 12 
+              }}>
                 {[
                   { bg: T.navy,    icon: "📞", label: "Audio call",   sub: "Book a call with a consultant" },
                   { bg: "#25d366", icon: "💬", label: "Text Support", sub: "Chat with us on WhatsApp"       },
@@ -330,50 +326,43 @@ export default function AustraliaVisaPage() {
                     </div>
                     <span style={{ color: T.gold, fontSize: "0.85rem", flexShrink: 0 }}>→</span>
                   </div>
-                  
                 ))}
-
               </div>
-   <div style={{
-  display: "flex",
-  alignItems: "center",
-  gap: 12
-}}>
 
-  {/* Button */}
-  <p style={{
-    border: `1px solid ${T.gold}`,
-    padding: "10px 16px",
-    borderRadius: 6,
-    fontFamily: T.serif,
-    fontSize: "0.9rem",
-    margin: 0,
-    whiteSpace: "nowrap"
-  }}>
-    Discuss Your Case
-  </p>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 12
+              }}>
+                {/* Button */}
+                <p style={{
+                  border: `1px solid ${T.gold}`,
+                  padding: "10px 16px",
+                  borderRadius: 6,
+                  fontFamily: T.serif,
+                  fontSize: "0.9rem",
+                  margin: 0,
+                  whiteSpace: "nowrap"
+                }}>
+                  Discuss Your Case
+                </p>
 
-  {/* Text */}
-  <p style={{
-    fontFamily: T.serif,
-    fontSize: "0.8rem",
-    color: T.inkFade,
-    margin: 0,
-    lineHeight: 1.5
-  }}>
-    Have questions about this service? Let&apos;s chat.
-  </p>
-
-</div>
+                {/* ── CHANGED: color set to #000000 (black) ── */}
+                <p style={{
+                  fontFamily: T.serif,
+                  fontSize: "0.8rem",
+                  color: "#000000",
+                  margin: 0,
+                  lineHeight: 1.5
+                }}>
+                  Have questions about this service? Let&apos;s chat.
+                </p>
+              </div>
 
               <div style={{ height: 1, background: "rgba(201,168,76,0.18)", margin: "16px 0" }} />
-
-              {/* CTA inside card */}
-             
             </div>
             </div>
           </div>
-          
 
           {/* ── RIGHT: Image + Contact card ── */}
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -427,7 +416,8 @@ export default function AustraliaVisaPage() {
           <EyeBrow text="About Srvices" center />
           <H2 center>What is the Australia NIV?</H2>
           <Rule center />
-          <Body center>
+          {/* ── CHANGED: color set to #000000 (black) ── */}
+          <Body center color="#000000">
             The National Innovation Visa (subclass 858) is an Australian permanent visa designed for exceptionally talented migrants from around the world.
           </Body>
         </div>
@@ -451,85 +441,33 @@ export default function AustraliaVisaPage() {
       </Sec>
 
       {/* ══════════════ ADVANTAGES ══════════════ */}
- <Sec bg={T.navy} py={72}>
-  <EyeBrow text="Benefits" />
-  <H2 color="#fff">
-    The NIV has the following <span style={{ color: T.gold }}>advantages</span>
-  </H2>
+      <Sec bg={T.navy} py={72}>
+        <EyeBrow text="Benefits" />
+        <H2 color="#fff">
+          The NIV has the following <span style={{ color: T.gold }}>advantages</span>
+        </H2>
 
-  <div style={{ marginBottom: 36 }} />
+        <div style={{ marginBottom: 36 }} />
 
-  {/* Wrapper for left (content) + right (image) */}
-  <div
-    style={{
-      display: "flex",
-      gap: 40,
-      alignItems: "flex-start",
-      flexWrap: "wrap",
-    }}
-  >
-    {/* LEFT SIDE (advantages) */}
-    <div style={{ flex: 1, minWidth: 300 }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-          gap: 22,
-        }}
-      >
-        {advantages.map((a) => (
-          <div key={a.title} style={{ display: "flex", gap: 14 }}>
-            <span
-              style={{
-                marginTop: 3,
-                width: 20,
-                height: 20,
-                flexShrink: 0,
-                background: T.gold,
-                color: "#fff",
-                fontSize: "0.68rem",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              ✓
-            </span>
-            <div>
-              <p style={{ fontFamily: T.serif, fontWeight: "bold", color: "#fff" }}>
-                {a.title}
-              </p>
-              <p
-                style={{
-                  fontFamily: T.serif,
-                  fontSize: "0.86rem",
-                  color: "rgba(255,255,255,0.56)",
-                  marginTop: 3,
-                  lineHeight: 1.78,
-                }}
-              >
-                {a.desc}
-              </p>
+        <div style={{ display: "flex", gap: 40, alignItems: "flex-start", flexWrap: "wrap" }}>
+          <div style={{ flex: 1, minWidth: 300 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 22 }}>
+              {advantages.map((a) => (
+                <div key={a.title} style={{ display: "flex", gap: 14 }}>
+                  <span style={{ marginTop: 3, width: 20, height: 20, flexShrink: 0, background: T.gold, color: "#fff", fontSize: "0.68rem", display: "flex", alignItems: "center", justifyContent: "center" }}>✓</span>
+                  <div>
+                    <p style={{ fontFamily: T.serif, fontWeight: "bold", color: "#fff" }}>{a.title}</p>
+                    <p style={{ fontFamily: T.serif, fontSize: "0.86rem", color: "rgba(255,255,255,0.56)", marginTop: 3, lineHeight: 1.78 }}>{a.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-
-    {/* RIGHT SIDE (image) */}
-    <div style={{ flex: 1, minWidth: 280, textAlign: "center" }}>
-      <img
-        src="/pan.jpg" // replace with your image path
-        alt="Benefits illustration"
-        style={{
-          width: "100%",
-          maxWidth: 420,
-          borderRadius: 12,
-        }}
-      />
-    </div>
-  </div>
-</Sec>
+          <div style={{ flex: 1, minWidth: 280, textAlign: "center" }}>
+            <img src="/pan.jpg" alt="Benefits illustration" style={{ width: "100%", maxWidth: 420, borderRadius: 12 }} />
+          </div>
+        </div>
+      </Sec>
 
       {/* ══════════════ DISADVANTAGES ══════════════ */}
       <Sec bg={T.bg} py={56} topRule>
@@ -545,7 +483,8 @@ export default function AustraliaVisaPage() {
                 <span style={{ marginTop: 2, width: 20, height: 20, flexShrink: 0, background: T.red, color: "#fff", fontSize: "0.9rem", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>–</span>
                 <div>
                   <p style={{ fontFamily: T.serif, fontWeight: "bold" }}>{item.t}</p>
-                  <p style={{ fontFamily: T.serif, fontSize: "0.875rem", color: T.inkFade, marginTop: 3, lineHeight: 1.78 }}>{item.d}</p>
+                  {/* ── CHANGED: color set to #000000 (black) ── */}
+                  <p style={{ fontFamily: T.serif, fontSize: "0.875rem", color: "#000000", marginTop: 3, lineHeight: 1.78 }}>{item.d}</p>
                 </div>
               </div>
             ))}
@@ -555,79 +494,21 @@ export default function AustraliaVisaPage() {
 
       {/* ══════════════ ELIGIBILITY ══════════════ */}
       <Sec bg={T.bgAlt} py={72}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 64,
-          alignItems: "start",
-        }}
-          className="eligibility-grid"
-        >
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "start" }} className="eligibility-grid">
           {/* LEFT — Image */}
           <div style={{ position: "relative" }}>
-            {/* Main image */}
-            <div style={{
-              width: "100%",
-              aspectRatio: "3/4",
-              borderRadius: 4,
-              overflow: "hidden",
-              position: "relative",
-            }}>
-              <img
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
-                alt="Australia landscape"
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-              {/* Gold overlay tint */}
-              <div style={{
-                position: "absolute", inset: 0,
-                background: "linear-gradient(to bottom, transparent 40%, rgba(44,36,22,0.55) 100%)",
-              }} />
-              {/* Badge on image */}
-              <div style={{
-                position: "absolute", bottom: 28, left: 28, right: 28,
-                background: "rgba(201,168,76,0.92)",
-                padding: "16px 20px",
-                borderRadius: 3,
-              }}>
-                <p style={{ fontFamily: T.serif, fontWeight: "bold", color: "#fff", fontSize: "1.05rem", marginBottom: 2 }}>
-                  Subclass 858
-                </p>
-                <p style={{ fontFamily: T.serif, fontSize: "0.78rem", color: "rgba(255,255,255,0.85)" }}>
-                  National Innovation Visa · Permanent Residency
-                </p>
+            <div style={{ width: "100%", aspectRatio: "3/4", borderRadius: 4, overflow: "hidden", position: "relative" }}>
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80" alt="Australia landscape" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 40%, rgba(44,36,22,0.55) 100%)" }} />
+              <div style={{ position: "absolute", bottom: 28, left: 28, right: 28, background: "rgba(201,168,76,0.92)", padding: "16px 20px", borderRadius: 3 }}>
+                <p style={{ fontFamily: T.serif, fontWeight: "bold", color: "#fff", fontSize: "1.05rem", marginBottom: 2 }}>Subclass 858</p>
+                <p style={{ fontFamily: T.serif, fontSize: "0.78rem", color: "rgba(255,255,255,0.85)" }}>National Innovation Visa · Permanent Residency</p>
               </div>
             </div>
-
-            {/* Decorative gold border offset */}
-            <div style={{
-              position: "absolute",
-              top: 18, left: -18,
-              width: "60%", height: "40%",
-              border: `2px solid rgba(201,168,76,0.35)`,
-              borderRadius: 4,
-              zIndex: -1,
-            }} />
-
-            {/* Stat pill below image */}
-            <div style={{
-              display: "flex",
-              gap: 12,
-              marginTop: 20,
-            }}>
-              {[
-                { num: "92%+", label: "Success Rate" },
-                { num: "7",    label: "Key Criteria" },
-                { num: "6mo",  label: "Profile Build" },
-              ].map((s) => (
-                <div key={s.label} style={{
-                  flex: 1,
-                  background: "#fff",
-                  border: "1px solid rgba(201,168,76,0.22)",
-                  borderRadius: 3,
-                  padding: "12px 10px",
-                  textAlign: "center",
-                }}>
+            <div style={{ position: "absolute", top: 18, left: -18, width: "60%", height: "40%", border: `2px solid rgba(201,168,76,0.35)`, borderRadius: 4, zIndex: -1 }} />
+            <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
+              {[{ num: "92%+", label: "Success Rate" }, { num: "7", label: "Key Criteria" }, { num: "6mo", label: "Profile Build" }].map((s) => (
+                <div key={s.label} style={{ flex: 1, background: "#fff", border: "1px solid rgba(201,168,76,0.22)", borderRadius: 3, padding: "12px 10px", textAlign: "center" }}>
                   <p style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "1.15rem", color: T.gold }}>{s.num}</p>
                   <p style={{ fontFamily: T.serif, fontSize: "0.7rem", color: T.inkFade, marginTop: 2 }}>{s.label}</p>
                 </div>
@@ -637,28 +518,24 @@ export default function AustraliaVisaPage() {
 
           {/* RIGHT — Criteria */}
           <div>
-           
             <H2>Eligibility Criteria</H2>
             <Rule />
-            <Body color={T.inkFade}>To qualify for the National Innovation Visa, applicants must meet some of the following requirements</Body>
+            <Body color="#000000">To qualify for the National Innovation Visa, applicants must meet some of the following requirements</Body>
             <div style={{ position: "relative", borderLeft: "2px dashed rgba(201,168,76,0.36)", paddingLeft: 36, marginTop: 36 }}>
               {eligibility.map((e, i) => (
                 <div key={e.num} style={{ position: "relative", marginBottom: i < eligibility.length - 1 ? 26 : 0 }}>
                   <span style={{ position: "absolute", left: -47, top: 2, width: 28, height: 28, background: T.gold, color: "#fff", fontSize: "0.7rem", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: T.serif }}>{e.num}</span>
                   <p style={{ fontFamily: T.serif, fontWeight: "bold", marginBottom: 3 }}>{e.title}</p>
-                  <p style={{ fontFamily: T.serif, fontSize: "0.855rem", color: T.inkFade, lineHeight: 1.8 }}>{e.desc}</p>
+                  <p style={{ fontFamily: T.serif, fontSize: "0.855rem", color: "#000000", lineHeight: 1.8 }}>{e.desc}</p>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Responsive style */}
         <style>{`
           @media (max-width: 768px) {
-            .eligibility-grid {
-              grid-template-columns: 1fr !important;
-            }
+            .eligibility-grid { grid-template-columns: 1fr !important; }
           }
         `}</style>
       </Sec>
@@ -666,7 +543,6 @@ export default function AustraliaVisaPage() {
       {/* ══════════════ WHY US ══════════════ */}
       <Sec bg={T.bg} py={72} topRule>
         <div style={{ maxWidth: 840, margin: "0 auto", textAlign: "center", marginBottom: 48 }}>
-          
           <H2 center>Why Choose Global Counsellor Centre for Your NIV Application?</H2>
           <Rule center />
           <Body center color={T.inkFade}>Our end-to-end NIV application services at Global Counsellor Centre — Global Admissions are unlike any other firm&apos;s.</Body>
@@ -691,96 +567,33 @@ export default function AustraliaVisaPage() {
 
       {/* ══════════════ TIMELINE ══════════════ */}
       <Sec py={80} bg={T.bgAlt}>
-  <div className="flex flex-col lg:flex-row gap-12 items-start">
-
-          {/* LEFT IMAGE */}
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
           <div className="w-full lg:w-1/2">
-            <img
-              src="/timeline-image.jpg" // replace with your image
-              alt="Timeline"
-              className="w-full max-w-md rounded-xl"
-            />
+            <img src="/timeline-image.jpg" alt="Timeline" className="w-full max-w-md rounded-xl" />
           </div>
-
-          {/* RIGHT CONTENT */}
           <div className="w-full lg:w-1/2">
             <div className="max-w-xl">
-              
-              {/* HEADER */}
               <H2 center>Timeline</H2>
               <Rule center />
-
-        <div className="text-center mb-10">
-          <p className="text-sm" style={{ color: T.inkFade }}>
-            Here&apos;s how long it takes to get the Australia NIV.
-          </p>
-        </div>
-
-              {/* TIMELINE */}
-              <div
-                className="relative border-l-2 pl-10"
-                style={{ borderColor: T.gold }}
-              >
+              <div className="text-center mb-10">
+                <p className="text-sm" style={{ color: T.inkFade }}>Here&apos;s how long it takes to get the Australia NIV.</p>
+              </div>
+              <div className="relative border-l-2 pl-10" style={{ borderColor: T.gold }}>
                 {timelineSteps.map((t, i) => (
-                  <div
-                    key={t.step}
-                    className={`relative ${
-                      i < timelineSteps.length - 1 ? "mb-7" : ""
-                    }`}
-                  >
-                    {/* STEP NUMBER */}
-                    <span
-                      className="absolute -left-[44px] top-3 w-8 h-8 flex items-center justify-center text-xs font-bold text-white"
-                      style={{ background: T.gold }}
-                    >
-                      {t.step}
-                    </span>
-
-                    {/* CARD */}
-                    <div
-                      className="p-5 rounded"
-                      style={{
-                        background: t.dark ? T.navy : "#fff",
-                      }}
-                    >
-                      <p
-                        className="text-[10px] tracking-[0.24em] uppercase mb-1"
-                        style={{ color: T.gold }}
-                      >
-                        Step {t.step}
-                      </p>
-
-                      <p
-                        className="font-semibold mb-1"
-                        style={{ color: t.dark ? "#fff" : T.ink }}
-                      >
-                        {t.title}
-                      </p>
-
-                      <p
-                        className="text-sm leading-relaxed"
-                        style={{
-                          color: t.dark
-                            ? "rgba(255,255,255,0.56)"
-                            : T.inkFade,
-                        }}
-                      >
-                        {t.desc}
-                      </p>
-
+                  <div key={t.step} className={`relative ${i < timelineSteps.length - 1 ? "mb-7" : ""}`}>
+                    <span className="absolute -left-[44px] top-3 w-8 h-8 flex items-center justify-center text-xs font-bold text-white" style={{ background: T.gold }}>{t.step}</span>
+                    <div className="p-5 rounded" style={{ background: t.dark ? T.navy : "#fff" }}>
+                      <p className="text-[10px] tracking-[0.24em] uppercase mb-1" style={{ color: T.gold }}>Step {t.step}</p>
+                      <p className="font-semibold mb-1" style={{ color: t.dark ? "#fff" : T.ink }}>{t.title}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: t.dark ? "rgba(255,255,255,0.56)" : T.inkFade }}>{t.desc}</p>
                       {t.duration && (
-                        <span
-                          className="inline-block mt-3 px-3 py-1 text-xs text-white"
-                          style={{ background: T.gold }}
-                        >
-                          ⏱ {t.duration}
-                        </span>
+                        <span className="inline-block mt-3 px-3 py-1 text-xs text-white" style={{ background: T.gold }}>⏱ {t.duration}</span>
                       )}
                     </div>
                   </div>
                 ))}
               </div>
-          </div>
+            </div>
           </div>
         </div>
       </Sec>
@@ -793,16 +606,12 @@ export default function AustraliaVisaPage() {
           <Body center color={T.inkFade}>Understand what you need on your profile to get approved.</Body>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 40 }}>
-
-          {/* Bar chart */}
           <div style={{ background: T.navy, color: "#fff", padding: 32, borderRadius: 2 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
               <p style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "1rem" }}>NIV Australia Success Rates</p>
               <span style={{ fontSize: "1.4rem" }}>🇦🇺</span>
             </div>
-            <p style={{ fontFamily: T.serif, fontSize: "0.66rem", color: "rgba(255,255,255,0.42)", marginBottom: 24 }}>
-              Based on petition outputs of our clients (2025)
-            </p>
+            <p style={{ fontFamily: T.serif, fontSize: "0.66rem", color: "rgba(255,255,255,0.42)", marginBottom: 24 }}>Based on petition outputs of our clients (2025)</p>
             {successData.map((s) => (
               <div key={s.label} style={{ marginBottom: 16 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontFamily: T.serif, fontSize: "0.875rem", marginBottom: 5 }}>
@@ -814,12 +623,9 @@ export default function AustraliaVisaPage() {
                 </div>
               </div>
             ))}
-            <p style={{ fontFamily: T.serif, fontSize: "0.66rem", color: T.gold, marginTop: 24, textAlign: "center" }}>
-              Average 20–30 citations per paper (Total 150 to 250 citations)
-            </p>
+            <p style={{ fontFamily: T.serif, fontSize: "0.66rem", color: T.gold, marginTop: 24, textAlign: "center" }}>Average 20–30 citations per paper (Total 150 to 250 citations)</p>
           </div>
 
-          {/* Pathways */}
           <div>
             <p style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "1.1rem", marginBottom: 10 }}>Other Pathways for working overseas</p>
             <div style={{ width: 32, height: 2, background: T.gold, marginBottom: 22 }} />
@@ -864,6 +670,6 @@ export default function AustraliaVisaPage() {
           </div>
         </div>
       </Sec>
-</main>
+    </main>
   );
 }

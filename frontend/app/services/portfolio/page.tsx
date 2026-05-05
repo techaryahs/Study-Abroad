@@ -63,7 +63,7 @@ export default function PortfolioPage() {
                         <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
                             Portfolio <br/> <span className="gold-shimmer italic">Building & Mgmt</span>
                         </h1>
-                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#6B5E51] border-l-4 border-[#C5A059] pl-6 max-w-xl mx-auto lg:mx-0">
+                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#000000] border-l-4 border-[#C5A059] pl-6 max-w-xl mx-auto lg:mx-0">
                             "Highlight the best parts of your profile and shine to employers, universities, and clients worldwide."
                         </p>
                         
@@ -110,7 +110,7 @@ export default function PortfolioPage() {
                                 <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Digital Distinction</span>
                                 <h2 className="fd text-4xl md:text-5xl font-bold text-[#3C2A21]">More than a <span className="gold-shimmer italic">Website</span></h2>
                             </div>
-                            <div className="space-y-6 text-[#6B5E51] leading-relaxed text-lg">
+                            <div className="space-y-6 text-[#000000] leading-relaxed text-lg">
                                 <p>
                                     A portfolio website replaces your business card. It makes it easy for anyone with internet access to view your skills, projects, and demos. We build high-end, responsive portals using <strong className="text-[#3C2A21]">full-stack architecture</strong>, ensuring you aren't limited by static templates.
                                 </p>
@@ -122,7 +122,7 @@ export default function PortfolioPage() {
                                                 {feature.icon}
                                             </div>
                                             <h4 className="fd text-xl font-bold text-[#3C2A21]">{feature.title}</h4>
-                                            <p className="text-xs font-medium opacity-60 italic">{feature.desc}</p>
+                                            <p className="text-xs font-medium text-[#000000] italic">{feature.desc}</p>
                                         </div>
                                     ))}
                                 </div>

@@ -119,7 +119,7 @@ export default function UniversityFinalizationPage() {
                         <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
                             The Ultimate <br /> <span className="gold-shimmer">Decisive Choice</span>
                         </h1>
-                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                        <p className="text-[#000000] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                             "Leverage deep-tier data analytics and years of expertise to finalize the one university that perfectly aligns with your career trajectory."
                         </p>
                         <div className="flex flex-col sm:flex-row items-center gap-6">

@@ -42,13 +42,9 @@ export default function ResearchGroupsPage() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
   useEffect(() => {
-    // Check search params first
     const groupIdParam = searchParams.get("group");
-    
-    // Check path segments (e.g. /.../Title/ID/)
     const pathSegments = pathname.split('/').filter(Boolean);
     const groupIdFromPath = pathSegments[pathSegments.length - 1];
-    
     const finalGroupId = groupIdParam || groupIdFromPath;
 
     if (finalGroupId) {
@@ -65,9 +61,9 @@ export default function ResearchGroupsPage() {
 
   const openModal = (step: number = 1) => {
     if (!getToken()) {
-        alert("Please login to continue");
-        router.push("/auth/login");
-        return;
+      alert("Please login to continue");
+      router.push("/auth/login");
+      return;
     }
     setModalInitialStep(step);
     setIsModalOpen(true);
@@ -196,7 +192,7 @@ export default function ResearchGroupsPage() {
         onJoinClick={() => openModal(2)}
       />
 
-      {/* ── HEADER ─────────────────────────────────────────────────────────────── */}
+      {/* HEADER */}
       <section className="relative px-6 py-20 overflow-hidden text-center" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.06) 0%, transparent 100%)" }}>
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div 
@@ -210,14 +206,14 @@ export default function ResearchGroupsPage() {
             <h1 className="fd text-4xl md:text-6xl lg:text-7xl font-bold text-[#2D2926] tracking-tight mb-6 leading-tight">
               Scholarly <span className="gold-shimmer">Research Clusters</span>
             </h1>
-            <p className="text-[#6B5E51] text-lg font-medium px-4 max-w-2xl mx-auto">
+            <p className="text-black text-lg font-medium px-4 max-w-2xl mx-auto">
               Architecting the next generation of academic breakthrough through cross-institutional collaboration and data synthesis.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* ── CONTENT ───────────────────────────────────────────────────────────── */}
+      {/* CONTENT */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
           
@@ -256,11 +252,10 @@ export default function ResearchGroupsPage() {
                 <div className="flex flex-col gap-2">
                   <Bell className="w-6 h-6 text-[#C5A059] mb-2" />
                   <h3 className="fd text-xl font-bold leading-tight">Cluster Updates</h3>
-                  <p className="text-[11px] text-[#A8A29E] font-bold uppercase tracking-wider">
+                  <p className="text-[11px] text-white font-bold uppercase tracking-wider">
                     Receive briefings on emerging research opportunities.
                   </p>
                 </div>
-                
                 <div className="space-y-3">
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] opacity-50" />
@@ -281,15 +276,13 @@ export default function ResearchGroupsPage() {
           {/* Main Content Area */}
           <div className="lg:col-span-3 space-y-10">
             
-            {/* Banner/Helper text */}
             {activeTab === "available" && (
-              <div className="flex items-center gap-3 bg-white border border-[rgba(197,160,89,0.15)] rounded-2xl px-6 py-3.5 text-xs text-[#6B5E51] font-bold shadow-sm">
+              <div className="flex items-center gap-3 bg-white border border-[rgba(197,160,89,0.15)] rounded-2xl px-6 py-3.5 text-xs text-black font-bold shadow-sm">
                 <Info className="w-4 h-4 text-[#C5A059]" />
                 <span>Publishing without co-authors? <Link href="/services/research-paper" className="text-[#C5A059] hover:underline">Explore Paper Services</Link></span>
               </div>
             )}
 
-            {/* Search and Quick Action */}
             {activeTab === "available" && (
               <div className="flex flex-col md:flex-row items-center gap-4">
                 <div className="relative flex-1 w-full">
@@ -312,7 +305,6 @@ export default function ResearchGroupsPage() {
               </div>
             )}
 
-            {/* Dynamic Content */}
             <div className="min-h-[400px]">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -327,13 +319,14 @@ export default function ResearchGroupsPage() {
               </AnimatePresence>
             </div>
 
-            {/* Bottom Banner */}
             {activeTab === "available" && (
               <div className="sidebar-dark p-12 lg:p-16 rounded-[40px] mt-16 bg-[#2D2926] relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-10">
-                <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 10% 20%, #C5A059 1px, transparent 1px)", backgroundSize: '40px 40px' }}></div>
+                <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 10% 20%, #C5A059 1px, transparent 1px)", backgroundSize: "40px 40px" }}></div>
                 <div className="flex flex-col gap-4 text-center md:text-left relative z-10">
                   <h3 className="fd text-3xl font-bold text-white leading-tight">Liaison Support</h3>
-                  <p className="text-[#A8A29E] text-sm font-medium max-w-md uppercase tracking-wide">Our academic advisors can bridge the gap to your next collaboration.</p>
+                  <p className="text-white text-sm font-medium max-w-md uppercase tracking-wide">
+                    Our academic advisors can bridge the gap to your next collaboration.
+                  </p>
                 </div>
                 <button className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] font-bold px-10 py-4 rounded-xl flex items-center gap-3 transition-all shadow-2xl active:scale-95 shrink-0 uppercase text-[10px] tracking-widest relative z-10">
                   Secure Consultation <ArrowRight className="w-4 h-4" />

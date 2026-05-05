@@ -98,7 +98,7 @@ function FilterSection({ title, icon, options, active, onChange }: { title: stri
                 borderRadius: 10, border: "none", cursor: "pointer", textAlign: "left",
                 fontFamily: "'DM Sans', sans-serif", fontSize: 12,
                 background: active === i ? "rgba(197,160,89,.15)" : "transparent",
-                color: active === i ? "#C5A059" : "#6B5E51",
+                color: active === i ? "#C5A059" : "#000000",
                 transition: "all .2s ease",
               }}>
               <span style={{
@@ -128,7 +128,7 @@ function StatPill({ icon, value, label }: { icon: string, value: string | number
         fontFamily: "'Cormorant Garamond', serif",
         fontSize: 24, fontWeight: 700, color: "#2D2926",
       }}>{value}</span>
-      <span style={{ fontSize: 10, color: "#6B5E51", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>{label}</span>
+      <span style={{ fontSize: 10, color: "#000000", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>{label}</span>
     </div>
   );
 }
@@ -248,15 +248,12 @@ export default function CountryPage() {
     }
 
     if (uni.branches && Array.isArray(uni.branches)) {
-      // Robust multi-pass extraction
       const firstBranch = uni.branches[0];
       
-      // Pass 1: Try first branch for everything
       sat = firstBranch.stats?.avg_sat || null;
       toefl = firstBranch.admitted_profiles?.toefl_min || firstBranch.stats?.toefl_min || null;
       gpa = firstBranch.stats?.avg_gpa || null;
 
-      // Pass 2: If anything is missing, search all branches
       if (!sat) {
         const b = uni.branches.find((br: any) => br.stats?.avg_sat);
         if (b) sat = b.stats.avg_sat;
@@ -378,7 +375,7 @@ export default function CountryPage() {
         .sort-btn {
           padding:8px 20px; border-radius:999px; font-size:12px; font-weight:600;
           cursor:pointer; border:1px solid rgba(197,160,89, 0.3);
-          color:#6B5E51; background:transparent; transition:all .2s ease;
+          color:#000000; background:transparent; transition:all .2s ease;
           font-family:'DM Sans',sans-serif; white-space:nowrap;
         }
         .sort-btn:hover { border-color:rgba(197,160,89, 0.6); color:#2D2926; }
@@ -387,7 +384,7 @@ export default function CountryPage() {
         .search-box {
           width:100%; background:#FDFBF7;
           border:1px solid rgba(197,160,89, 0.3); border-radius:16px;
-          color:#2D2926; font-size:15px; padding:14px 50px 14px 20px;
+          color:#000000; font-size:15px; padding:14px 50px 14px 20px;
           outline:none; font-family:'DM Sans',sans-serif;
           transition:border-color .25s, box-shadow .25s;
         }
@@ -424,8 +421,8 @@ export default function CountryPage() {
           <div className="max-w-6xl mx-auto px-6">
             {/* Breadcrumb */}
             <div className={mounted ? "afu" : "opacity-0"} style={{ marginBottom: 20 }}>
-              <span style={{ fontSize: 13, color: "#6B5E51", fontWeight: 500 }}>Global Index</span>
-              <span style={{ fontSize: 13, color: "#6B5E51", margin: "0 10px" }}>›</span>
+              <span style={{ fontSize: 13, color: "#000000", fontWeight: 500 }}>Global Index</span>
+              <span style={{ fontSize: 13, color: "#000000", margin: "0 10px" }}>›</span>
               <span style={{ fontSize: 13, color: "#C5A059", fontWeight: 700 }}>{dataCountry} Institutions</span>
             </div>
 
@@ -441,7 +438,7 @@ export default function CountryPage() {
                   <span className="gold-shimmer">{dataCountry}</span>
                 </h1>
                 <p className={mounted ? "afu d2" : "opacity-0"}
-                  style={{ fontSize: 16, color: "#6B5E51", maxWidth: 520, lineHeight: 1.6, fontWeight: 500 }}>
+                  style={{ fontSize: 16, color: "#000000", maxWidth: 520, lineHeight: 1.6, fontWeight: 500 }}>
                   {meta.hero} — Curated excellence, admission benchmarks, and global career outcomes.
                 </p>
               </div>
@@ -465,7 +462,7 @@ export default function CountryPage() {
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, padding: "16px 24px", background: "#F8F5F0", borderRadius: 20 }}>
                 <span style={{ fontSize: 24 }}>🎓</span>
                 <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 24, fontWeight: 700, color: "#2D2926" }}>Global Tier</span>
-                <span style={{ fontSize: 10, color: "#6B5E51", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>Elite Hub</span>
+                <span style={{ fontSize: 10, color: "#000000", textTransform: "uppercase", letterSpacing: ".1em", fontWeight: 600 }}>Elite Hub</span>
               </div>
             </div>
           </div>
@@ -483,12 +480,12 @@ export default function CountryPage() {
                   <button
                     onClick={() => { setAcceptFilter(0); setTuitionFilter(0); setSearch(""); }}
                     style={{
-                      fontSize: 12, color: "#6B5E51", background: "none", border: "none",
+                      fontSize: 12, color: "#000000", background: "none", border: "none",
                       cursor: "pointer", fontFamily: "'DM Sans',sans-serif",
                       transition: "color .2s", fontWeight: 600
                     }}
                     onMouseOver={e => (e.target as HTMLElement).style.color = "#C5A059"}
-                    onMouseOut={e => (e.target as HTMLElement).style.color = "#6B5E51"}>
+                    onMouseOut={e => (e.target as HTMLElement).style.color = "#000000"}>
                     Reset
                   </button>
                 </div>
@@ -511,10 +508,10 @@ export default function CountryPage() {
                   marginTop: 10, padding: "20px", borderRadius: 20,
                   background: "#F8F5F0", border: "1px solid rgba(197,160,89, 0.2)",
                 }}>
-                  <p style={{ fontSize: 13, color: "#6B5E51", marginBottom: 6, fontWeight: 600 }}>Catalogue View</p>
+                  <p style={{ fontSize: 13, color: "#000000", marginBottom: 6, fontWeight: 600 }}>Catalogue View</p>
                   <p style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: 32, fontWeight: 700, color: "#2D2926" }}>
                     {filtered.length}
-                    <span style={{ fontSize: 15, color: "#6B5E51", fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}> / {universities.length}</span>
+                    <span style={{ fontSize: 15, color: "#000000", fontFamily: "'DM Sans',sans-serif", fontWeight: 500 }}> / {universities.length}</span>
                   </p>
                 </div>
               </div>
@@ -536,7 +533,7 @@ export default function CountryPage() {
                 </div>
 
                 <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
-                  <span style={{ fontSize: 13, color: "#6B5E51", marginRight: 6, fontWeight: 600 }}>Priority:</span>
+                  <span style={{ fontSize: 13, color: "#000000", marginRight: 6, fontWeight: 600 }}>Priority:</span>
                   {SORT_OPTIONS.map((opt, i) => (
                     <button key={i} className={`sort-btn ${sortIdx === i ? "active" : ""}`}
                       onClick={() => { setSortIdx(i); setPage(1); }}>
@@ -551,13 +548,13 @@ export default function CountryPage() {
                 <div className="card" style={{ padding: 60, textAlign: "center" }}>
                   <p style={{ fontSize: 40, marginBottom: 20 }}>🌐</p>
                   <p className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, color: "#2D2926" }}>Access Restricted</p>
-                  <p style={{ fontSize: 16, color: "#6B5E51" }}>Broadening our global database. Check back soon.</p>
+                  <p style={{ fontSize: 16, color: "#000000" }}>Broadening our global database. Check back soon.</p>
                 </div>
               ) : filtered.length === 0 ? (
                 <div className="card" style={{ padding: 60, textAlign: "center" }}>
                   <p style={{ fontSize: 40, marginBottom: 20 }}>🔍</p>
                   <p className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, color: "#2D2926" }}>Refining Results</p>
-                  <p style={{ fontSize: 16, color: "#6B5E51" }}>No institutions match your specific criteria. Try broader parameters.</p>
+                  <p style={{ fontSize: 16, color: "#000000" }}>No institutions match your specific criteria. Try broader parameters.</p>
                 </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -569,8 +566,6 @@ export default function CountryPage() {
                         transform: listVisible ? "translateY(0)" : "translateY(20px)",
                         transition: `opacity .55s ease ${Math.min(i, 5) * 60}ms, transform .55s ease ${Math.min(i, 5) * 60}ms`,
                       }}>
-
-                      {/* Card aesthetic is now handled by UniversityCard being upgraded */}
                       <UniversityCard key={uni.id} uni={uni} />
                     </div>
                   ))}

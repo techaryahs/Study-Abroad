@@ -61,7 +61,7 @@ export default function ApplicationReviewPage() {
                         <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
                             Application <br/> <span className="gold-shimmer italic">Review Protocol</span>
                         </h1>
-                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#6B5E51] border-l-4 border-[#C5A059] pl-6 max-w-xl">
+                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-black border-l-4 border-[#C5A059] pl-6 max-w-xl">
                             "Leverage years of consulting expertise to elevate every document that defines your application journey."
                         </p>
                         
@@ -71,7 +71,7 @@ export default function ApplicationReviewPage() {
                                     <div className="w-5 h-5 rounded-full bg-[#C5A059]/20 flex items-center justify-center">
                                         <CheckCircle2 size={12} className="text-[#C5A059]" />
                                     </div>
-                                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#6B5E51]">{feature}</span>
+                                    <span className="text-[11px] font-bold uppercase tracking-widest text-black">{feature}</span>
                                 </div>
                             ))}
                         </div>
@@ -95,8 +95,8 @@ export default function ApplicationReviewPage() {
                 </div>
             </section>
 
-             {/* --- MAIN CONTENT --- */}
-             <section className="py-24 px-6 md:px-16 border-y border-[#F1EDEA]">
+            {/* --- MAIN CONTENT --- */}
+            <section className="py-24 px-6 md:px-16 border-y border-[#F1EDEA]">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24">
                     
                     {/* LEFT COLUMN */}
@@ -108,7 +108,7 @@ export default function ApplicationReviewPage() {
                                 <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">The Expert Lens</span>
                                 <h2 className="fd text-4xl md:text-5xl font-bold text-[#3C2A21]">About the <span className="gold-shimmer italic">Review Service</span></h2>
                             </div>
-                            <div className="space-y-6 text-[#6B5E51] leading-relaxed text-lg">
+                            <div className="space-y-6 text-black leading-relaxed text-lg">
                                 <p>
                                     While most choose our drafting service, this review protocol is designed for those who have ready material but seek <strong className="text-[#3C2A21]">decisive validation</strong> from industry experts. We evaluate your profile, shortlist optimal universities, and provide unlimited feedback on your narratives.
                                 </p>
@@ -120,20 +120,23 @@ export default function ApplicationReviewPage() {
                                                 {feature.icon}
                                             </div>
                                             <h4 className="fd text-xl font-bold text-[#3C2A21]">{feature.title}</h4>
-                                            <p className="text-xs font-medium opacity-60 italic">{feature.desc}</p>
+                                            <p className="text-xs font-medium text-black italic">{feature.desc}</p>
                                         </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
 
-                         {/* COMMUNITY DISCUSSION */}
-                         <div className="pt-20 border-t border-[#F1EDEA]">
+                        {/* COMMUNITY DISCUSSION */}
+                        <div className="pt-20 border-t border-[#F1EDEA]">
                             <div className="space-y-8">
                                 <div className="space-y-2">
                                     <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Community Feedback</span>
                                     <h3 className="fd text-4xl font-bold text-[#3C2A21]">Review Insights</h3>
                                 </div>
+                                <p className="text-black text-base font-medium leading-relaxed">
+                                    Honest feedback from students who've used GCC's services to achieve their study-abroad dreams.
+                                </p>
                                 <div className="bg-white rounded-[40px] p-2 border border-[#F1EDEA] shadow-sm">
                                     <DiscussionSection serviceId="application-review" />
                                 </div>
@@ -149,7 +152,7 @@ export default function ApplicationReviewPage() {
                             <div className="p-10 bg-[#3C2A21] rounded-[40px] text-white space-y-6 shadow-2xl border border-[#C5A059]/20 text-center relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/20 blur-3xl rounded-full" />
                                 <h4 className="fd text-2xl font-bold uppercase gold-shimmer tracking-widest leading-tight">Decisive Audit</h4>
-                                <p className="text-xs font-medium text-white/50 italic leading-relaxed">
+                                <p className="text-xs font-medium text-white italic leading-relaxed">
                                     "We identify the consistent factors that lead to rejections and rectify them before you hit submit."
                                 </p>
                                 <div className="pt-4 flex items-center justify-center gap-4 border-t border-white/10">

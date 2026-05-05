@@ -118,7 +118,7 @@ export default function LORDraftingPage() {
                         <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
                             The Art of <br /> <span className="gold-shimmer">LOR Drafting</span>
                         </h1>
-                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                        <p className="text-black text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                             "Little known is the art of writing exactly what the admissions committee wants to see. A strong LOR can be more impactful than your SOP."
                         </p>
                         <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -172,14 +172,14 @@ export default function LORDraftingPage() {
                             <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Why LORs Are Your <br /> <span className="gold-shimmer">Most Potent Weapon</span></h2>
                         </div>
 
-                        <div className="space-y-6 text-[#6B5E51] font-medium leading-relaxed max-w-2xl text-lg">
+                        <div className="space-y-6 text-black font-medium leading-relaxed max-w-2xl text-lg">
                             <p>
                                 Letters of Recommendation (LORs) undeniably hold the most importance in your application. However, most LORs are generic, wasting the only chance you had at winning the committee's clinical support.
                             </p>
                             <p>
                                 Think about it: Would an admissions officer put faith in a random applicant, or rather believe a professor or industry leader they follow? It's that simple.
                             </p>
-                            <div className="p-8 bg-[#FDFBF7] border-l-4 border-[#C5A059] italic text-xl text-[#3C2A21] fd">
+                            <div className="p-8 bg-[#FDFBF7] border-l-4 border-[#C5A059] italic text-xl text-black fd">
                                 "Generic LORs are a load of crap. No one cares if you were 'the best student.' They care about your unique contribution logic."
                             </div>
                             <p>
@@ -201,7 +201,7 @@ export default function LORDraftingPage() {
                                         </div>
                                         <div className="space-y-1">
                                             <h4 className="fd text-lg font-bold text-[#3C2A21]">{feat.title}</h4>
-                                            <p className="text-[#6B5E51] text-xs leading-relaxed font-medium">{feat.desc}</p>
+                                            <p className="text-black text-xs leading-relaxed font-medium">{feat.desc}</p>
                                         </div>
                                     </div>
                                 ))}
@@ -230,7 +230,7 @@ export default function LORDraftingPage() {
                                 <ShieldCheck size={28} className="text-[#C5A059]" />
                                 <h4 className="fd text-2xl font-bold text-[#3C2A21]">Influence Audit</h4>
                             </div>
-                            <p className="text-sm text-[#3C2A21]/60 leading-relaxed font-medium">
+                            <p className="text-sm text-black leading-relaxed font-medium">
                                 We analyze your potential recommenders to determine who provides the highest ROI for your specific target universities.
                             </p>
                         </div>
@@ -242,7 +242,7 @@ export default function LORDraftingPage() {
                                 </div>
                                 <h4 className="fd text-xl font-bold text-[#3C2A21]">Confirmor Consult</h4>
                             </div>
-                            <p className="text-xs text-[#3C2A21]/60 font-medium leading-relaxed">
+                            <p className="text-xs text-black font-medium leading-relaxed">
                                 Not sure who to ask? Connect with our team to map out your recommendation strategy before drafting begins.
                             </p>
                             <Link href="/contact" className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[10px] tracking-widest uppercase hover:gap-3 transition-all">
@@ -268,7 +268,7 @@ export default function LORDraftingPage() {
                     </div>
                     <div className="space-y-4">
                         <h4 className="fd text-4xl font-bold text-[#3C2A21]">Stop Writing Generic LORs</h4>
-                        <p className="text-[#6B5E51] text-lg font-medium italic max-w-2xl px-6">
+                        <p className="text-black text-lg font-medium italic max-w-2xl px-6">
                             Secure the committee's faith with third-party validation that actually impacts their decision.
                         </p>
                     </div>

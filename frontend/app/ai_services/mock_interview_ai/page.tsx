@@ -145,10 +145,10 @@ export default function USVisaMockInterview() {
                     <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#2D2926]">
                        Master Your <br/> <span className="gold-shimmer">Visa Interview</span>
                     </h1>
-                    <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                    <p className="text-black text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                        "Precision-engineered AI simulations that replicate the exact psychological and technical protocols of US Visa Officers."
                     </p>
-                     </motion.div>
+                  </motion.div>
 
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -191,7 +191,6 @@ export default function USVisaMockInterview() {
                            </div>
                         </div>
                      </div>
-                     {/* Decorative Elements */}
                      <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#C5A059]/10 blur-3xl rounded-full -z-10" />
                      <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-[#C5A059]/5 blur-3xl rounded-full -z-10" />
                   </motion.div>
@@ -224,7 +223,7 @@ export default function USVisaMockInterview() {
                                  {item.icon}
                               </div>
                               <h3 className="fd text-2xl font-bold">{item.title}</h3>
-                              <p className="text-[#6B5E51] text-base leading-relaxed">{item.desc}</p>
+                              <p className="text-black text-base leading-relaxed">{item.desc}</p>
                            </div>
                         ))}
                     </div>
@@ -256,7 +255,7 @@ export default function USVisaMockInterview() {
                   <div className="text-center mb-20 space-y-6">
                      <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Limited Time Enrollment</span>
                      <h2 className="fd text-5xl md:text-6xl font-bold leading-tight">Elite <span className="gold-shimmer">Access Protocols</span></h2>
-                     <p className="text-[#6B5E51] text-lg font-medium max-w-2xl mx-auto italic">
+                     <p className="text-black text-lg font-medium max-w-2xl mx-auto italic">
                         "Secure your visa first attempt. Avoid the $185 re-application fee and months of delay."
                      </p>
                      
@@ -265,7 +264,7 @@ export default function USVisaMockInterview() {
                            <button 
                              key={c}
                              onClick={() => setCurrency(c)}
-                             className={`px-4 py-1.5 rounded-full text-[10px] font-bold transition-all border ${currency === c ? 'bg-[#2D2926] text-white border-[#2D2926]' : 'text-[#6B5E51] border-[#F1EDEA] hover:border-[#C5A059]'}`}
+                             className={`px-4 py-1.5 rounded-full text-[10px] font-bold transition-all border ${currency === c ? 'bg-[#2D2926] text-white border-[#2D2926]' : 'text-black border-[#F1EDEA] hover:border-[#C5A059]'}`}
                            >
                               {c}
                            </button>
@@ -284,7 +283,7 @@ export default function USVisaMockInterview() {
                            <div className="space-y-4">
                               <h3 className="fd text-3xl font-bold">{plan.rounds}</h3>
                               <div className="flex items-baseline gap-2">
-                                 <span className={plan.highlight ? 'text-white/40 text-sm line-through' : 'text-[#6B5E51] text-sm line-through'}>{currency} {plan.original.toLocaleString('en-IN')}</span>
+                                 <span className={plan.highlight ? 'text-white/40 text-sm line-through' : 'text-black text-sm line-through'}>{currency} {plan.original.toLocaleString('en-IN')}</span>
                                  <span className={plan.highlight ? 'text-[#C5A059] text-5xl font-bold' : 'text-[#2D2926] text-5xl font-bold'}>
                                     {currency} {plan.price.toLocaleString('en-IN')}
                                  </span>
@@ -294,7 +293,7 @@ export default function USVisaMockInterview() {
                               {plan.features.map((f, j) => (
                                  <div key={j} className="flex gap-3 items-center">
                                     <CheckCircle2 size={16} className="text-[#C5A059]" />
-                                    <span className={`text-sm font-medium ${plan.highlight ? 'text-white/60' : 'text-[#6B5E51]'}`}>{f}</span>
+                                    <span className={`text-sm font-medium ${plan.highlight ? 'text-white/60' : 'text-black'}`}>{f}</span>
                                  </div>
                               ))}
                            </div>
@@ -315,7 +314,7 @@ export default function USVisaMockInterview() {
                <div className="max-w-4xl mx-auto space-y-16">
                   <div className="text-center space-y-4">
                      <h2 className="fd text-4xl font-bold">Protocol <span className="gold-shimmer">Inquiries</span></h2>
-                     <p className="text-[#6B5E51] font-medium italic">Everything you need to know about our institutional AI</p>
+                     <p className="text-black font-medium italic">Everything you need to know about our institutional AI</p>
                   </div>
                   <div className="space-y-4">
                       {faqs.map((faq, i) => (
@@ -335,7 +334,7 @@ export default function USVisaMockInterview() {
                                    exit={{ height: 0, opacity: 0 }}
                                    className="overflow-hidden"
                                  >
-                                    <div className="pt-6 text-[#6B5E51] text-base leading-relaxed font-serif italic">
+                                    <div className="pt-6 text-black text-base leading-relaxed font-serif italic">
                                        "{faq.a}"
                                     </div>
                                  </motion.div>
@@ -347,10 +346,6 @@ export default function USVisaMockInterview() {
                </div>
             </section>
 
-
-
-
-            
             <CheckoutModal 
                 isOpen={checkoutPlan !== null}
                 onClose={() => setCheckoutPlan(null)}
@@ -362,4 +357,4 @@ export default function USVisaMockInterview() {
             />
         </main>
     );
-}
+}

@@ -112,7 +112,7 @@ export default function ScholarshipHelpPage() {
             <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
               Premium <br /> <span className="gold-shimmer lowercase">Scholarship Help</span>
             </h1>
-            <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+            <p className="text-[#000000] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
               "Funding your education should not be a matter of luck. We turn it into a clinical strategy through merit positioning and global dataset mapping."
             </p>
           </motion.div>

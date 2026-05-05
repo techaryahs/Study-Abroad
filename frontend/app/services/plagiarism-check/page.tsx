@@ -116,7 +116,7 @@ export default function PlagiarismCheckPage() {
                         <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
                             Precision <br /> <span className="gold-shimmer">Plagiarism Check</span>
                         </h1>
-                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                        <p className="text-[#000000] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                             "Undisputedly, plagiarism is the greatest single cause of institutional rejection. We deploy Turnitin-grade logic to secure your future."
                         </p>
                         <div className="flex items-center gap-6">

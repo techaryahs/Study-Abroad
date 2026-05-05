@@ -25,7 +25,7 @@ function Accordion({ title, children }: AccordionProps) {
         <span className="text-[#D4A848] text-2xl leading-none">{isOpen ? "−" : "+"}</span>
       </button>
       {isOpen && children && (
-        <div className="p-5 pt-0 text-sm text-[#675F5B] border-t border-[#D4A848]/10 leading-relaxed">
+        <div className="p-5 pt-0 text-sm text-[#362B25] border-t border-[#D4A848]/10 leading-relaxed">
           {children}
         </div>
       )}
@@ -38,7 +38,7 @@ function Accordion({ title, children }: AccordionProps) {
 function StatBar({ label, value }: { label: string; value: number }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-      <span className="text-xs text-[#675F5B] font-semibold w-full sm:w-28 shrink-0">{label}</span>
+      <span className="text-xs text-[#362B25] font-semibold w-full sm:w-28 shrink-0">{label}</span>
       <div className="flex items-center gap-4 flex-1">
         <div className="flex-1 bg-[#D4A848]/10 rounded-full h-6 overflow-hidden relative border border-[#D4A848]/20">
           <div
@@ -155,7 +155,7 @@ export default function ResearchPaperPage() {
               <h1 className="text-2xl md:text-7xl font-black mb-4 tracking-tighter uppercase leading-[0.9] break-words">
                 <span className="text-[#362B25]">Research Paper Drafting &amp;</span><br className="sm:hidden" /><span className="text-[#D4A848]"> Publishing</span>
               </h1>
-              <p className="hidden sm:block text-lg text-[#675F5B] mb-10 max-w-xl leading-relaxed font-medium">
+              <p className="hidden sm:block text-lg text-[#362B25] mb-10 max-w-xl leading-relaxed font-medium">
                 Publishing credible research papers with your name on them can help boost your profile!{" "}
                 <span className="text-[#D4A848] font-black">Extremely crucial</span> for MS/PhD and O-1/EB-1 visa applicants.
               </p>
@@ -188,7 +188,7 @@ export default function ResearchPaperPage() {
           </div>
 
           <div className="space-y-8">
-            <p className="sm:hidden text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
+            <p className="sm:hidden text-sm text-[#362B25] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
               Publish credible papers to boost profile for <span className="text-[#D4A848] font-black">MS/PhD &amp; EB-1</span>.
             </p>
             <DiscussionSection serviceId="research-papers" />
@@ -212,7 +212,7 @@ export default function ResearchPaperPage() {
             {/* Advantages grid */}
             <div className="mb-8">
               <h3 className="text-sm font-bold text-[#362B25] uppercase tracking-[0.3em] mb-6">Advantages of research papers</h3>
-              <p className="text-[#675F5B] text-sm mb-6">Unlock a world of opportunities.</p>
+              <p className="text-[#362B25] text-sm mb-6">Unlock a world of opportunities.</p>
               <div className="grid sm:grid-cols-2 gap-4">
                 {advantages.map((item, idx) => (
                   <div key={idx} className="bg-[#FFFFFF] border border-[#D4A848]/20 shadow-sm p-5 rounded-xl flex gap-4 items-start hover:border-[#D4A848]/60 transition-all">
@@ -226,7 +226,7 @@ export default function ResearchPaperPage() {
             {/* High-Impact banner */}
             <div className="border border-[#D4A848]/30 rounded-2xl p-8 bg-[#FFFFFF] shadow-sm text-center">
               <h3 className="text-lg font-black text-[#362B25] mb-3 uppercase tracking-widest">High-Impact Research Publications</h3>
-              <p className="text-sm text-[#675F5B] max-w-lg mx-auto mb-6 leading-relaxed">
+              <p className="text-sm text-[#362B25] max-w-lg mx-auto mb-6 leading-relaxed">
                 The research work under this program is highly valuable and is guaranteed to be published in IEEE, Springer, or Elsevier or Taylor &amp; Francis.
               </p>
               <div className="flex flex-wrap justify-center gap-6 items-center">
@@ -242,7 +242,7 @@ export default function ResearchPaperPage() {
             <h3 className="text-2xl font-black border-l-4 border-[#D4A848] pl-6 uppercase tracking-tight text-[#362B25] mb-3">
               The Impact of Research Papers on Your Application
             </h3>
-            <p className="text-[#675F5B] text-sm mb-8 pl-6">
+            <p className="text-[#362B25] text-sm mb-8 pl-6">
               The graph below shows a clear distinction between applicants who utilized our research paper service and those who didn't.
             </p>
 
@@ -253,7 +253,7 @@ export default function ResearchPaperPage() {
               <div className="space-y-6">
                 {harvardAdmits.map((uni) => (
                   <div key={uni.label} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                    <div className="text-xs font-bold text-[#675F5B] w-full sm:w-36 shrink-0 sm:text-right">{uni.label}</div>
+                    <div className="text-xs font-bold text-[#362B25] w-full sm:w-36 shrink-0 sm:text-right">{uni.label}</div>
                     <div className="flex-1 space-y-1.5 min-w-0">
                       <div className="flex items-center gap-2">
                         <div className="flex-1 bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-full h-5 overflow-hidden">
@@ -265,7 +265,7 @@ export default function ResearchPaperPage() {
                         <div className="flex-1 bg-[#F8F6F1] border border-[#362B25]/20 rounded-full h-5 overflow-hidden">
                           <div className="h-full bg-[#40332D]/40 rounded-full" style={{ width: `${(uni.without / 55) * 100}%` }} />
                         </div>
-                        <span className="text-xs font-bold text-[#675F5B] w-20">{uni.without}+ admits</span>
+                        <span className="text-xs font-bold text-[#362B25] w-20">{uni.without}+ admits</span>
                       </div>
                     </div>
                   </div>
@@ -275,14 +275,14 @@ export default function ResearchPaperPage() {
               <div className="flex gap-6 mt-8 justify-center">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-sm bg-[#D4A848]" />
-                  <span className="text-xs font-bold text-[#675F5B]">Admits with papers</span>
+                  <span className="text-xs font-bold text-[#362B25]">Admits with papers</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-sm bg-[#40332D]/40" />
-                  <span className="text-xs font-bold text-[#675F5B]">Admits without papers</span>
+                  <span className="text-xs font-bold text-[#362B25]">Admits without papers</span>
                 </div>
               </div>
-              <p className="text-center text-[10px] text-[#675F5B]/50 mt-4 font-bold">*Statistics based on data points from 2025–2026</p>
+              <p className="text-center text-[10px] text-[#362B25]/50 mt-4 font-bold">*Statistics based on data points from 2025–2026</p>
             </div>
           </div>
 
@@ -297,7 +297,7 @@ export default function ResearchPaperPage() {
                     <span className="text-3xl shrink-0">{p.flag}</span>
                     <div>
                       <h4 className="font-bold text-[#362B25] text-sm mb-1">{p.country}</h4>
-                      <p className="text-xs text-[#675F5B] leading-relaxed">{p.desc}</p>
+                      <p className="text-xs text-[#362B25] leading-relaxed">{p.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -310,7 +310,7 @@ export default function ResearchPaperPage() {
             <h3 className="text-2xl font-black border-l-4 border-[#D4A848] pl-6 uppercase tracking-tight text-[#362B25] mb-3">
               Easier pathway to the green card (through the O-1/EB-1 Visa)
             </h3>
-            <p className="text-[#675F5B] text-sm mb-8 pl-6">
+            <p className="text-[#362B25] text-sm mb-8 pl-6">
               Success rates for O-1/EB-1 visa applications significantly increase when applicants have published research papers, as shown by recent studies.
             </p>
 
@@ -319,7 +319,7 @@ export default function ResearchPaperPage() {
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h4 className="font-black text-[#362B25] text-lg">O-1 Visa Success Rate</h4>
-                  <p className="text-xs text-[#675F5B] font-semibold mt-1">Based on petition outputs of our clients (Jul 2025 to Dec 2025)</p>
+                  <p className="text-xs text-[#362B25] font-semibold mt-1">Based on petition outputs of our clients (Jul 2025 to Dec 2025)</p>
                 </div>
                 <span className="text-2xl">🇺🇸</span>
               </div>
@@ -336,7 +336,7 @@ export default function ResearchPaperPage() {
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h4 className="font-black text-[#362B25] text-lg">EB-1 Visa Success Rate</h4>
-                  <p className="text-xs text-[#675F5B] font-semibold mt-1">Based on petition outputs of our clients (Jul 2025 to Dec 2025)</p>
+                  <p className="text-xs text-[#362B25] font-semibold mt-1">Based on petition outputs of our clients (Jul 2025 to Dec 2025)</p>
                 </div>
                 <span className="text-2xl">🇺🇸</span>
               </div>
@@ -354,7 +354,7 @@ export default function ResearchPaperPage() {
             <h3 className="text-2xl font-black border-l-4 border-[#D4A848] pl-6 uppercase tracking-tight text-[#362B25] mb-3">
               Proven Success with Global Talent Visas
             </h3>
-            <p className="text-[#675F5B] text-sm mb-8 pl-6">
+            <p className="text-[#362B25] text-sm mb-8 pl-6">
               Our expertise ensures high success rates for Global Talent Visas in the UK and Australia, helping applicants achieve their goals with tailored strategies.
             </p>
 
@@ -363,7 +363,7 @@ export default function ResearchPaperPage() {
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h4 className="font-black text-[#362B25] text-lg">Global Talent Visa Success Rate</h4>
-                  <p className="text-xs text-[#675F5B] font-semibold mt-1">Based on petition outputs of our clients (2025)</p>
+                  <p className="text-xs text-[#362B25] font-semibold mt-1">Based on petition outputs of our clients (2025)</p>
                 </div>
                 <span className="text-2xl">🇬🇧</span>
               </div>
@@ -380,7 +380,7 @@ export default function ResearchPaperPage() {
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h4 className="font-black text-[#362B25] text-lg">NIV Australia Success Rates</h4>
-                  <p className="text-xs text-[#675F5B] font-semibold mt-1">Based on petition outputs of our clients (2025)</p>
+                  <p className="text-xs text-[#362B25] font-semibold mt-1">Based on petition outputs of our clients (2025)</p>
                 </div>
                 <span className="text-2xl">🇦🇺</span>
               </div>
@@ -398,7 +398,7 @@ export default function ResearchPaperPage() {
             <h3 className="text-2xl font-black text-center text-[#362B25] mb-2 uppercase tracking-tight">The Help YOU Need</h3>
             <div className="w-16 h-[2px] bg-[#D4A848] mx-auto mb-8 rounded-full" />
             <div className="grid md:grid-cols-2 gap-8 items-center">
-              <p className="text-[#675F5B] font-medium text-base leading-relaxed">
+              <p className="text-[#362B25] font-medium text-base leading-relaxed">
                 Understand what's in the service after your purchase.
               </p>
               <div className="bg-[#F8F6F1] border border-[#D4A848]/20 rounded-2xl p-6 flex items-center gap-4 hover:border-[#D4A848]/50 shadow-sm transition-all cursor-pointer group">
@@ -406,7 +406,7 @@ export default function ResearchPaperPage() {
                 <div>
                   <p className="text-xs font-black text-[#D4A848] uppercase tracking-widest mb-1">Watch on YouTube</p>
                   <p className="text-sm font-bold text-[#362B25]">How do services work?</p>
-                  <p className="text-xs text-[#675F5B] font-semibold">SAM</p>
+                  <p className="text-xs text-[#362B25] font-semibold">SAM</p>
                 </div>
               </div>
             </div>
@@ -425,14 +425,14 @@ export default function ResearchPaperPage() {
                 {researchGroups.map((g, idx) => (
                   <div key={idx} className="bg-[#F8F6F1] border border-[#D4A848]/10 rounded-xl overflow-hidden hover:border-[#D4A848]/30 transition-all shadow-sm">
                     <div className="bg-[#FFFFFF] px-4 py-3 flex justify-between items-center border-b border-[#D4A848]/5">
-                      <span className="text-[10px] text-[#675F5B] font-bold">Created on: {g.date}</span>
+                      <span className="text-[10px] text-[#362B25] font-bold">Created on: {g.date}</span>
                       <span className="text-[10px] text-[#D4A848] font-bold">👥 {g.slots}</span>
                     </div>
                     <div className="px-4 py-3">
                       <h4 className="text-xs font-black text-[#362B25] mb-2">{g.title}</h4>
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-6 h-6 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-[8px] font-bold text-[#D4A848]">{g.user}</div>
-                        <p className="text-[10px] text-[#675F5B] font-medium">{g.desc}</p>
+                        <p className="text-[10px] text-[#362B25] font-medium">{g.desc}</p>
                       </div>
                       <div className="flex gap-2 mt-3">
                         <button className="flex-1 text-[10px] font-bold border border-[#D4A848]/20 py-1.5 rounded-lg text-[#362B25] hover:bg-[#D4A848]/10 transition-all">View Members</button>
@@ -443,7 +443,7 @@ export default function ResearchPaperPage() {
                 ))}
               </div>
               <div className="mt-6 text-center space-y-2">
-                <p className="text-xs text-[#675F5B] font-medium">Didn't find what you were looking for?</p>
+                <p className="text-xs text-[#362B25] font-medium">Didn't find what you were looking for?</p>
                 <button className="w-full border border-[#D4A848]/30 text-[#362B25] font-bold py-3 rounded-xl text-xs hover:bg-[#D4A848]/5 transition-all">
                   + Create Research Group
                 </button>

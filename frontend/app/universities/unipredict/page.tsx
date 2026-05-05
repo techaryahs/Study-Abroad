@@ -27,14 +27,13 @@ export default function UniPredictPage() {
     const [gmatScore, setGmatScore] = useState("");
     const [englishTest, setEnglishTest] = useState<"TOEFL" | "IELTS">("TOEFL");
     const [englishScore, setEnglishScore] = useState("");
-    const [budget, setBudget] = useState(5000000); // 50 Lakhs default
+    const [budget, setBudget] = useState(5000000);
     const [isCalculating, setIsCalculating] = useState(false);
     const [showResult, setShowResult] = useState(false);
 
     const handleCalculate = (e: React.FormEvent) => {
         e.preventDefault();
         setIsCalculating(true);
-        // Simulate algorithm thinking
         setTimeout(() => {
             setIsCalculating(false);
             setShowResult(true);
@@ -52,32 +51,34 @@ export default function UniPredictPage() {
     return (
         <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
             
-            {/* ── Background Elements ── */}
+            {/* Background Elements */}
             <div className="fixed inset-0 pointer-events-none -z-10">
                 <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-[#D4A848]/5 rounded-full blur-[120px]" />
                 <div className="absolute bottom-[5%] left-[-10%] w-[500px] h-[500px] bg-[#D4A848]/3 rounded-full blur-[100px]" />
             </div>
 
-            {/* ── Sub-header / Branding ── */}
+            {/* Sub-header / Branding */}
             <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 pt-8 md:pt-12 pb-4 md:pb-6 border-b border-[#D4A848]/10 flex justify-between items-end">
                 <div className="space-y-2">
                     <div className="flex items-center gap-3">
                         <span className="w-8 h-[2px] bg-[#D4A848]"></span>
-                        <span className="text-[10px] font-black first-letter:uppercase tracking-[0.4em] text-[#D4A848] uppercase">The Expert Algorithm</span>
+                        <span className="text-[10px] font-black tracking-[0.4em] text-[#D4A848] uppercase">The Expert Algorithm</span>
                     </div>
                     <h1 className="text-4xl text-[#362B25] md:text-6xl font-black tracking-tighter uppercase leading-none italic">
                         Uni<span className="text-[#D4A848]">Predict</span>
                     </h1>
                 </div>
             </div>
-            {/* ── Top RateMyChances Ad Section ── */}
+
+            {/* Top RateMyChances Section */}
             <section className="w-full bg-[#F8F6F1] pt-8 lg:pt-16 px-4 sm:px-6 lg:px-16 overflow-hidden border-b border-[#D4A848]/10 mb-8 sm:mb-16">
                 <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                     <div className="space-y-6 lg:space-y-8 order-2 lg:order-1 pb-8 lg:pb-16 text-center lg:text-left z-10 relative">
                         <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-[#362B25] leading-[1.1]">
                             UniPredict By <span className="text-[#D4A848] italic pr-2">GCC</span>
                         </h1>
-                        <p className="text-[#675F5B] text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 opacity-80">
+                        {/* PARAGRAPH → text-black */}
+                        <p className="text-black text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0">
                             We've spent years perfecting an algorithm that helps match you with the right universities—based on the same expertise we offer in our luxury services. While many students waste thousands on applications, we give you expert guidance for free. All we ask? Share it with someone who could use it!
                         </p>
                         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 pt-2">
@@ -88,13 +89,13 @@ export default function UniPredictPage() {
                             >
                                 RateMyChances <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
                             </button>
-                            <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-[#675F5B]/50">
+                            {/* PARAGRAPH → text-black */}
+                            <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-black">
                                 We have now launched a much more advanced tool
                             </span>
                         </div>
                     </div>
                     <div className="relative order-1 lg:order-2 flex justify-center mt-4 lg:mt-0">
-                        {/* Placeholder for the vector girl image */}
                         <div className="w-full max-w-[500px] aspect-[4/3] bg-transparent relative">
                            <Image 
                                 src="/unipredict-hero.jpg"
@@ -107,17 +108,18 @@ export default function UniPredictPage() {
                 </div>
             </section>
 
-            {/* ── Main Section ── */}
+            {/* Main Section */}
             <section className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 py-8 md:py-12 lg:py-20">
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
                     
-                    {/* Left Side: Info & Hero */}
+                    {/* Left Side */}
                     <div className="lg:col-span-5 space-y-10">
                         <div className="space-y-6">
                             <h2 className="text-3xl md:text-5xl font-black text-[#362B25] tracking-tight leading-[1.1]">
                                 Discover Your <span className="text-[#D4A848]">Best University</span> Matches
                             </h2>
-                            <p className="text-[#675F5B] text-sm md:text-base leading-relaxed opacity-80 max-w-md">
+                            {/* PARAGRAPH → text-black */}
+                            <p className="text-black text-sm md:text-base leading-relaxed max-w-md">
                                 Our proprietary algorithm analyzes your academic background, test scores, and financial goals to predict your admission success at top institutions worldwide.
                             </p>
                         </div>
@@ -129,7 +131,7 @@ export default function UniPredictPage() {
                                 { icon: <BarChart3 size={16} />, text: "Detailed breakdown of safe, reach, and dream universities." },
                                 { icon: <Globe size={16} />, text: "Global coverage: USA, UK, Europe, Australia & Canada." },
                             ].map((item, i) => (
-                                <div key={i} className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-[#362B25]/60 hover:text-[#D4A848] transition-colors group">
+                                <div key={i} className="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-black hover:text-[#D4A848] transition-colors group">
                                     <div className="w-10 h-10 rounded-full bg-white border border-[#D4A848]/10 flex items-center justify-center text-[#D4A848] group-hover:scale-110 transition-transform">
                                         {item.icon}
                                     </div>
@@ -158,7 +160,6 @@ export default function UniPredictPage() {
                             animate={{ opacity: 1, y: 0 }}
                             className="bg-white border border-[#D4A848]/20 p-5 sm:p-8 md:p-12 rounded-[2rem] sm:rounded-[3rem] shadow-xl relative"
                         >
-                            {/* Decorative Corner */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-[#D4A848]/5 rounded-bl-[100%] border-l border-b border-[#D4A848]/10" />
 
                             <form onSubmit={handleCalculate} className="space-y-8 relative z-10">
@@ -169,7 +170,6 @@ export default function UniPredictPage() {
                                         <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[10px] font-black">1</div>
                                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4A848]">Academic Foundation</label>
                                     </div>
-
                                     <div className="flex gap-4">
                                         {["Percentage", "CGPA"].map((type) => (
                                             <button
@@ -186,7 +186,6 @@ export default function UniPredictPage() {
                                             </button>
                                         ))}
                                     </div>
-
                                     {academicType === "Percentage" ? (
                                         <div className="relative">
                                             <input
@@ -224,7 +223,6 @@ export default function UniPredictPage() {
                                         <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[10px] font-black">2</div>
                                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4A848]">Aptitude Assessment</label>
                                     </div>
-                                    
                                     <div className="flex gap-4">
                                         {["GRE", "GMAT"].map((type) => (
                                             <button
@@ -241,7 +239,6 @@ export default function UniPredictPage() {
                                             </button>
                                         ))}
                                     </div>
-
                                     <div className="grid grid-cols-2 gap-4">
                                         {testType === "GRE" ? (
                                             <>
@@ -284,7 +281,6 @@ export default function UniPredictPage() {
                                         <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[10px] font-black">3</div>
                                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4A848]">English Proficiency</label>
                                     </div>
-                                    
                                     <div className="flex gap-4">
                                         {["TOEFL", "IELTS"].map((type) => (
                                             <button
@@ -301,7 +297,6 @@ export default function UniPredictPage() {
                                             </button>
                                         ))}
                                     </div>
-
                                     <input 
                                         type="text"
                                         inputMode="decimal"
@@ -312,16 +307,16 @@ export default function UniPredictPage() {
                                     />
                                 </div>
 
-                                {/* 4. Tuition Expenses */}
+                                {/* 4. Financial Planning */}
                                 <div className="space-y-6">
                                     <div className="flex items-center gap-2">
                                         <div className="w-6 h-6 rounded-lg bg-[#362B25] text-white flex items-center justify-center text-[10px] font-black">4</div>
                                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D4A848]">Financial Planning</label>
                                     </div>
-                                    
                                     <div className="bg-[#F8F6F1]/80 p-6 rounded-2xl border border-[#D4A848]/10">
                                         <div className="flex justify-between items-end mb-4">
-                                            <span className="text-[9px] font-black uppercase tracking-widest text-[#362B25]/40">Tuition Budget (Max)</span>
+                                            {/* PARAGRAPH → text-black */}
+                                            <span className="text-[9px] font-black uppercase tracking-widest text-black">Tuition Budget (Max)</span>
                                             <span className="text-xl font-black text-[#D4A848] tracking-tight">{formatCurrency(budget)}</span>
                                         </div>
                                         <input 
@@ -333,7 +328,7 @@ export default function UniPredictPage() {
                                             onChange={(e) => setBudget(Number(e.target.value))}
                                             className="w-full accent-[#D4A848] h-1 bg-[#D4A848]/20 rounded-lg appearance-none cursor-pointer"
                                         />
-                                        <div className="flex justify-between mt-2 text-[8px] font-bold text-[#362B25]/20 uppercase">
+                                        <div className="flex justify-between mt-2 text-[8px] font-bold text-black uppercase">
                                             <span>₹10L</span>
                                             <span>₹1.5Cr</span>
                                         </div>
@@ -366,27 +361,24 @@ export default function UniPredictPage() {
                 </div>
             </section>
 
-            {/* ── UniPredict Algorithm Explanation ── */}
+            {/* Algorithm Explanation */}
             <section className="bg-[#362B25] py-24 relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10 pointer-events-none">
                     <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white transform -rotate-12" />
                     <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white transform rotate-12" />
                 </div>
-
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-16 flex flex-col items-center text-center">
                     <div className="inline-flex items-center gap-2 sm:gap-4 mb-6 sm:mb-8 bg-[#D4A848]/10 border border-[#D4A848]/20 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full">
                         <Sparkles size={16} className="text-[#D4A848]" />
                         <span className="text-[#D4A848] text-[10px] font-black uppercase tracking-[0.4em]">Proprietary Technology</span>
                     </div>
-
                     <h2 className="text-3xl md:text-5xl font-black text-white italic tracking-tight mb-8">
                         The Master Predictor <span className="text-[#D4A848]">Algorithm</span>
                     </h2>
-
-                    <p className="text-[#FDFBF7]/60 text-sm md:text-lg max-w-3xl leading-relaxed mb-16">
+                    {/* PARAGRAPH on dark bg → text-white */}
+                    <p className="text-white text-sm md:text-lg max-w-3xl leading-relaxed mb-16">
                         We&apos;ve spent years perfecting an algorithm that matches you with top universities based on the same expertise we offer in our luxury institutional services. While others provide generic lists, we give you surgical precision for free. All we ask? Share it with a fellow applicant.
                     </p>
-
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-12 w-full">
                         {[
                             { title: "SAFE", color: "text-green-400", desc: "90%+ Approval Probability" },
@@ -395,15 +387,15 @@ export default function UniPredictPage() {
                         ].map((node, i) => (
                             <div key={i} className="bg-white/5 border border-white/10 p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] group hover:border-[#D4A848]/40 transition-all">
                                 <h3 className={`text-4xl sm:text-5xl font-black tracking-tighter mb-4 ${node.color}`}>{node.title}</h3>
-                                <p className="text-white/40 text-[9px] sm:text-[10px] font-black uppercase tracking-widest leading-loose">{node.desc}</p>
+                                {/* PARAGRAPH on dark bg → text-white */}
+                                <p className="text-white text-[9px] sm:text-[10px] font-black uppercase tracking-widest leading-loose">{node.desc}</p>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-
-            {/* ── Result Modal (Simulated) ── */}
+            {/* Result Modal */}
             <AnimatePresence>
                 {showResult && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12">
@@ -424,11 +416,12 @@ export default function UniPredictPage() {
                                 <Sparkles className="absolute top-8 left-8 text-white/40" />
                                 <BarChart3 className="absolute bottom-8 right-8 text-white/40" />
                                 <h2 className="text-4xl font-black text-white italic tracking-tighter uppercase mb-4">Evaluation Complete</h2>
-                                <p className="text-white/80 font-bold uppercase tracking-widest text-[10px]">Your admission landscape is ready</p>
+                                <p className="text-white font-bold uppercase tracking-widest text-[10px]">Your admission landscape is ready</p>
                             </div>
                             <div className="p-12 space-y-8 flex-1">
                                 <div className="space-y-4 text-center">
-                                    <p className="text-xs font-black text-[#675F5B] uppercase tracking-widest">Master Profile Strength</p>
+                                    {/* PARAGRAPH → text-black */}
+                                    <p className="text-xs font-black text-black uppercase tracking-widest">Master Profile Strength</p>
                                     <div className="relative h-4 bg-[#F8F6F1] rounded-full overflow-hidden border border-[#D4A848]/10">
                                         <motion.div 
                                             initial={{ width: 0 }}
@@ -437,9 +430,10 @@ export default function UniPredictPage() {
                                         />
                                     </div>
                                     <div className="flex justify-between items-center px-1">
-                                      <p className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest">Average</p>
-                                      <p className="text-[14px] font-black text-[#D4A848] uppercase tracking-widest">78% Chance</p>
-                                      <p className="text-[10px] font-black text-[#675F5B] uppercase tracking-widest">Excellent</p>
+                                        {/* PARAGRAPH → text-black */}
+                                        <p className="text-[10px] font-black text-black uppercase tracking-widest">Average</p>
+                                        <p className="text-[14px] font-black text-[#D4A848] uppercase tracking-widest">78% Chance</p>
+                                        <p className="text-[10px] font-black text-black uppercase tracking-widest">Excellent</p>
                                     </div>
                                 </div>
                                 <div className="pt-4 border-t border-[#D4A848]/10 flex flex-col gap-4">
@@ -451,7 +445,7 @@ export default function UniPredictPage() {
                                     </button>
                                     <button 
                                         onClick={() => setShowResult(false)}
-                                        className="text-[#675F5B] py-2 font-black text-[10px] uppercase tracking-widest border-b border-transparent hover:border-[#D4A848] transition-all"
+                                        className="text-black py-2 font-black text-[10px] uppercase tracking-widest border-b border-transparent hover:border-[#D4A848] transition-all"
                                     >
                                         Close Results
                                     </button>

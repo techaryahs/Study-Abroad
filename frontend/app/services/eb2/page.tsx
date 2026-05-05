@@ -102,7 +102,8 @@ export default function EB2NIWPage() {
                         <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
                             The Art of <br/> <span className="gold-shimmer italic">EB-2 NIW Visa</span>
                         </h1>
-                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#6B5E51] border-l-4 border-[#C5A059] pl-6 max-w-xl">
+                        {/* CHANGED: text-[#6B5E51] → text-black */}
+                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-black border-l-4 border-[#C5A059] pl-6 max-w-xl">
                             "Little known is the art of writing exactly what USCIS wants to see. A strong petition can be more impactful than credentials alone."
                         </p>
                         
@@ -152,7 +153,8 @@ export default function EB2NIWPage() {
                                 <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Strategic Perspective</span>
                                 <h2 className="fd text-4xl md:text-5xl font-bold text-[#3C2A21]">About the <span className="gold-shimmer">National Interest Waiver</span></h2>
                             </div>
-                            <div className="space-y-6 text-[#6B5E51] leading-relaxed text-lg">
+                            {/* CHANGED: text-[#6B5E51] → text-black */}
+                            <div className="space-y-6 text-black leading-relaxed text-lg">
                                 <p>
                                     The EB-2 National Interest Waiver is an elite category for professionals who can prove that their work benefits the United States on a national level. Unlike standard employment-based visas, the NIW allows you to <strong className="text-[#3C2A21]">self-petition</strong> and bypass the labor certification process.
                                 </p>
@@ -160,7 +162,8 @@ export default function EB2NIWPage() {
                                     {eligibilityCriteria.map((item, i) => (
                                         <div key={i} className="p-6 bg-white border border-[#C5A059]/10 rounded-3xl hover:border-[#C5A059]/40 transition-all hover:shadow-xl group">
                                             <h4 className="fd text-xl font-bold text-[#3C2A21] mb-2">{item.title}</h4>
-                                            <p className="text-xs font-medium opacity-70 group-hover:opacity-100">{item.desc}</p>
+                                            {/* CHANGED: opacity-70 → text-black */}
+                                            <p className="text-xs font-medium text-black group-hover:opacity-100">{item.desc}</p>
                                         </div>
                                     ))}
                                 </div>
@@ -192,7 +195,8 @@ export default function EB2NIWPage() {
                                                     {step.duration}
                                                 </span>
                                             </div>
-                                            <p className="text-sm font-medium text-[#6B5E51] leading-relaxed italic">{step.description}</p>
+                                            {/* CHANGED: text-[#6B5E51] → text-black */}
+                                            <p className="text-sm font-medium text-black leading-relaxed italic">{step.description}</p>
                                         </div>
                                     </motion.div>
                                 ))}
@@ -254,7 +258,7 @@ export default function EB2NIWPage() {
                                     <ShieldCheck size={24} />
                                 </div>
                                 <h4 className="fd text-2xl font-bold text-[#3C2A21]">Regulatory Assurance</h4>
-                                <p className="text-xs font-medium text-[#6B5E51] italic leading-relaxed">
+                                <p className="text-xs font-medium text-black italic leading-relaxed">
                                     "Our petitions are audited by senior consultants before final drafting to ensure 100% USCIS compliance."
                                 </p>
                                 <div className="pt-4 flex items-center gap-4 border-t border-[#F1EDEA]">

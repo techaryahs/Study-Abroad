@@ -79,14 +79,14 @@ export default function VisaMockInterviewPage() {
               <div className="pb-2">
                 <Link
                   href="/services"
-                  className="inline-flex items-center gap-2 text-[#675F5B]/50 hover:text-[#D4A848] transition-colors group relative z-20"
+                  className="inline-flex items-center gap-2 text-black hover:text-[#D4A848] transition-colors group relative z-20"
                 >
                   <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                   <span className="text-xs font-bold uppercase tracking-widest leading-none">Back to Services</span>
                 </Link>
               </div>
 
-              <p className="text-[#675F5B]/70 text-base leading-relaxed max-w-md italic font-normal">
+              <p className="text-black text-base leading-relaxed max-w-md italic font-normal">
                 The final step to your US visa is a Visa interview with an officer from the US consulate.
                 Ace the interview with proven tricks and techniques.
               </p>
@@ -140,7 +140,7 @@ export default function VisaMockInterviewPage() {
                   <div className="w-10 h-[1px] bg-[#D4A848]" />
                   About Service
                 </h2>
-                <p className="text-lg text-[#675F5B]/60 font-medium italic leading-relaxed max-w-xl">
+                <p className="text-lg text-black font-medium italic leading-relaxed max-w-xl">
                   "The last step before your flight to the USA."
                 </p>
               </div>

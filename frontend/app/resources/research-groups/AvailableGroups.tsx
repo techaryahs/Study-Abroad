@@ -135,73 +135,73 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
           onClick={() => onCardClick?.(group)}
           className="group/card relative bg-white border border-[rgba(197,160,89,0.15)] rounded-[24px] overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 cursor-pointer shadow-sm"
         >
-          {/* Card Header Illustration Area */}
+          {/* Card Header */}
           <div className="relative h-28 bg-[rgba(197,160,89,0.03)] flex items-center justify-center p-6 border-b border-[#F1EDEA]">
-              <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #C5A059 1px, transparent 0)", backgroundSize: '16px 16px' }}></div>
-              
-              <div className="absolute top-4 left-4 flex gap-2 z-10">
-                <span className="bg-white/80 backdrop-blur-md text-[9px] px-2.5 py-1 rounded-md text-[#6B5E51] border border-[rgba(197,160,89,0.1)] uppercase tracking-wider font-bold shadow-sm flex items-center gap-1.5">
-                   <Calendar className="w-2.5 h-2.5" /> {group.date}
-                </span>
-                <span className="bg-white/80 backdrop-blur-md text-[9px] px-2.5 py-1 rounded-md text-[#C5A059] border border-[rgba(197,160,89,0.1)] flex items-center gap-1.5 uppercase tracking-wider font-bold shadow-sm">
-                  <Users className="w-3 h-3" /> {group.spots} Active
-                </span>
-              </div>
+            <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #C5A059 1px, transparent 0)", backgroundSize: '16px 16px' }}></div>
+            
+            <div className="absolute top-4 left-4 flex gap-2 z-10">
+              <span className="bg-white/80 backdrop-blur-md text-[9px] px-2.5 py-1 rounded-md text-black border border-[rgba(197,160,89,0.1)] uppercase tracking-wider font-bold shadow-sm flex items-center gap-1.5">
+                <Calendar className="w-2.5 h-2.5" /> {group.date}
+              </span>
+              <span className="bg-white/80 backdrop-blur-md text-[9px] px-2.5 py-1 rounded-md text-[#C5A059] border border-[rgba(197,160,89,0.1)] flex items-center gap-1.5 uppercase tracking-wider font-bold shadow-sm">
+                <Users className="w-3 h-3" /> {group.spots} Active
+              </span>
+            </div>
 
             {/* Share Menu */}
             <div className="absolute top-4 right-4 share-menu-container z-20">
-                <button 
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setOpenShareId(openShareId === group.id ? null : group.id);
-                    }}
-                    className="p-2 rounded-full bg-white/50 backdrop-blur-sm hover:bg-white border border-transparent hover:border-[rgba(197,160,89,0.2)] transition-all text-[#A8A29E] hover:text-[#C5A059]"
-                >
-                    <MoreHorizontal className="w-5 h-5" />
-                </button>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpenShareId(openShareId === group.id ? null : group.id);
+                }}
+                className="p-2 rounded-full bg-white/50 backdrop-blur-sm hover:bg-white border border-transparent hover:border-[rgba(197,160,89,0.2)] transition-all text-[#A8A29E] hover:text-[#C5A059]"
+              >
+                <MoreHorizontal className="w-5 h-5" />
+              </button>
 
-                <AnimatePresence>
-                    {openShareId === group.id && (
-                        <motion.div 
-                            initial={{ opacity: 0, scale: 0.9, y: -10 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: -10 }}
-                            className="absolute right-0 top-full mt-2 w-52 bg-white rounded-2xl shadow-2xl z-[60] overflow-hidden p-2 border border-[rgba(197,160,89,0.1)]"
-                        >
-                            <button 
-                                onClick={(e) => handleShareWhatsApp(e, group)}
-                                className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-[#F8F5F0] rounded-xl transition-all group/item"
-                            >
-                                <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-600">
-                                    <MessageCircle className="w-4 h-4 fill-green-600" />
-                                </div>
-                                <span className="text-xs font-bold text-[#2D2926]">Liaison via WhatsApp</span>
-                            </button>
-                            <button 
-                                onClick={(e) => handleShareTelegram(e, group)}
-                                className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-[#F8F5F0] rounded-xl transition-all group/item"
-                            >
-                                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
-                                    <Send className="w-4 h-4 fill-blue-500" />
-                                </div>
-                                <span className="text-xs font-bold text-[#2D2926]">Dispatch to Telegram</span>
-                            </button>
-                            <div className="h-px bg-[#F1EDEA] my-2 mx-2" />
-                            <button 
-                                onClick={(e) => handleCopyLink(e, group)}
-                                className="w-full flex items-center justify-between px-3 py-3 text-left hover:bg-[#F8F5F0] rounded-xl transition-all"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-[#6B5E51]">
-                                        <Copy className="w-4 h-4" />
-                                    </div>
-                                    <span className="text-xs font-bold text-[#2D2926]">Copy Access URL</span>
-                                </div>
-                                {copiedId === group.id && <Check className="w-4 h-4 text-emerald-500" />}
-                            </button>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+              <AnimatePresence>
+                {openShareId === group.id && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9, y: -10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: -10 }}
+                    className="absolute right-0 top-full mt-2 w-52 bg-white rounded-2xl shadow-2xl z-[60] overflow-hidden p-2 border border-[rgba(197,160,89,0.1)]"
+                  >
+                    <button 
+                      onClick={(e) => handleShareWhatsApp(e, group)}
+                      className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-[#F8F5F0] rounded-xl transition-all group/item"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center text-green-600">
+                        <MessageCircle className="w-4 h-4 fill-green-600" />
+                      </div>
+                      <span className="text-xs font-bold text-[#2D2926]">Liaison via WhatsApp</span>
+                    </button>
+                    <button 
+                      onClick={(e) => handleShareTelegram(e, group)}
+                      className="w-full flex items-center gap-3 px-3 py-3 text-left hover:bg-[#F8F5F0] rounded-xl transition-all group/item"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-500">
+                        <Send className="w-4 h-4 fill-blue-500" />
+                      </div>
+                      <span className="text-xs font-bold text-[#2D2926]">Dispatch to Telegram</span>
+                    </button>
+                    <div className="h-px bg-[#F1EDEA] my-2 mx-2" />
+                    <button 
+                      onClick={(e) => handleCopyLink(e, group)}
+                      className="w-full flex items-center justify-between px-3 py-3 text-left hover:bg-[#F8F5F0] rounded-xl transition-all"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-[#6B5E51]">
+                          <Copy className="w-4 h-4" />
+                        </div>
+                        <span className="text-xs font-bold text-[#2D2926]">Copy Access URL</span>
+                      </div>
+                      {copiedId === group.id && <Check className="w-4 h-4 text-emerald-500" />}
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <h3 className="fd text-center text-lg md:text-xl font-bold text-[#2D2926] tracking-tight mt-4 max-w-[90%] line-clamp-1 leading-tight z-10">
@@ -215,28 +215,30 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
                 {group.initials}
               </div>
               <div className="flex flex-col">
-                <span className="text-[10px] font-bold text-[#A8A29E] uppercase tracking-widest leading-none mb-1">Principal Investigator</span>
+                {/* CHANGED: text-[#A8A29E] → text-black */}
+                <span className="text-[10px] font-bold text-black uppercase tracking-widest leading-none mb-1">Principal Investigator</span>
                 <span className="font-bold text-[#2D2926] text-xs">{group.author}</span>
               </div>
             </div>
             
-            <p className="text-sm text-[#6B5E51] leading-relaxed line-clamp-3 font-medium opacity-90">
+            {/* CHANGED: text-[#6B5E51] → text-black */}
+            <p className="text-sm text-black leading-relaxed line-clamp-3 font-medium">
               {group.description}
             </p>
             
             <div className="flex gap-4 mt-2">
               <button 
                 onClick={(e) => {
-                    e.stopPropagation();
-                    if (!group.creator?.profile?.isPublic && group.creator) {
-                        alert("This profile is private.");
-                        return;
-                    }
-                    if (group.creator?._id) {
-                        window.location.href = `/profile/${group.creator._id}`;
-                    } else {
-                        alert("This is a system group. Profile not available.");
-                    }
+                  e.stopPropagation();
+                  if (!group.creator?.profile?.isPublic && group.creator) {
+                    alert("This profile is private.");
+                    return;
+                  }
+                  if (group.creator?._id) {
+                    window.location.href = `/profile/${group.creator._id}`;
+                  } else {
+                    alert("This is a system group. Profile not available.");
+                  }
                 }}
                 className={`flex-1 px-4 py-3 bg-[rgba(197,160,89,0.05)] text-[#C5A059] text-[10px] rounded-xl flex items-center justify-center gap-2 font-bold tracking-widest border border-[rgba(197,160,89,0.1)] hover:bg-[rgba(197,160,89,0.1)] transition-all uppercase ${(!group.creator?.profile?.isPublic && group.creator) ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
@@ -244,8 +246,8 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
               </button>
               <button 
                 onClick={(e) => {
-                    e.stopPropagation();
-                    onJoinClick?.();
+                  e.stopPropagation();
+                  onJoinClick?.();
                 }}
                 className="flex-[1.5] bg-[#2D2926] hover:bg-[#C5A059] text-white py-3 px-6 text-[10px] rounded-xl flex items-center justify-center gap-2 font-bold uppercase tracking-[0.2em] transition-all shadow-lg active:scale-95"
               >
@@ -257,10 +259,11 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
       )) : (
         <div className="col-span-full py-32 text-center">
           <div className="w-20 h-20 bg-[rgba(197,160,89,0.05)] rounded-full flex items-center justify-center mx-auto mb-6 text-[#A8A29E]">
-             <Users size={32} />
+            <Users size={32} />
           </div>
           <h2 className="fd text-2xl font-bold text-[#2D2926]">No Clusters Identified</h2>
-          <p className="text-[#6B5E51] mt-2 font-medium">Reset your parameters to identify active research groups.</p>
+          {/* CHANGED: text-[#6B5E51] → text-black */}
+          <p className="text-black mt-2 font-medium">Reset your parameters to identify active research groups.</p>
         </div>
       )}
     </div>

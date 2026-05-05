@@ -67,7 +67,7 @@ export default function SingaporeOnePassPage() {
                         <h1 className="fd text-5xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21]">
                             Singapore <br/> <span className="gold-shimmer italic">ONE Pass</span>
                         </h1>
-                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-[#6B5E51] border-l-4 border-[#C5A059] pl-6 max-w-xl">
+                        <p className="fd text-xl md:text-2xl font-medium leading-relaxed italic text-black border-l-4 border-[#C5A059] pl-6 max-w-xl">
                             "The Overseas Networks & Expertise Pass for top achievers. Precision guidance for Singapore's most exclusive work pass."
                         </p>
                         
@@ -114,7 +114,7 @@ export default function SingaporeOnePassPage() {
                                 <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Strategic Network</span>
                                 <h2 className="fd text-4xl md:text-5xl font-bold text-[#3C2A21]">About the <span className="gold-shimmer italic">ONE Pass</span></h2>
                             </div>
-                            <div className="space-y-6 text-[#6B5E51] leading-relaxed text-lg">
+                            <div className="space-y-6 text-black leading-relaxed text-lg">
                                 <p>
                                     Designed to attract "big-thinkers," the ONE Pass gives applicants the freedom to change jobs without reapplying, launch companies, and bring their family along. It is Singapore's response to the global hunt for top-tier professional talent.
                                 </p>
@@ -126,7 +126,7 @@ export default function SingaporeOnePassPage() {
                                                 <Briefcase size={22} />
                                             </div>
                                             <h4 className="fd text-xl font-bold text-[#3C2A21]">{adv.title}</h4>
-                                            <p className="text-[10px] font-medium opacity-60 italic">{adv.desc}</p>
+                                            <p className="text-[10px] font-medium text-black italic">{adv.desc}</p>
                                         </div>
                                     ))}
                                 </div>

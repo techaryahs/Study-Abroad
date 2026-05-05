@@ -115,7 +115,7 @@ export default function RateMyChancesPage() {
                     <div className="absolute -left-10 lg:-left-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#F8F6F1] rounded-full items-center justify-center text-[#D4A848] shadow-sm hidden sm:flex">
                         <Sparkles size={20} />
                     </div>
-                    <p className="text-[#675F5B] text-[13px] sm:text-sm md:text-base leading-relaxed max-w-2xl text-left z-10 relative bg-white p-5 sm:p-6 rounded-2xl border border-[#D4A848]/10 shadow-sm font-medium">
+                    <p className="text-black text-[13px] sm:text-sm md:text-base leading-relaxed max-w-2xl text-left z-10 relative bg-white p-5 sm:p-6 rounded-2xl border border-[#D4A848]/10 shadow-sm font-medium">
                         Rate My Chances, a unique algorithm, evaluates GPA, research, work experience, GRE/GMAT scores, and acceptance rates, providing accurate admission probabilities and profile improvement guidance. Highly relied upon!
                     </p>
                 </motion.div>
@@ -148,7 +148,7 @@ export default function RateMyChancesPage() {
                             </div>
                             <div>
                                 <h2 className="text-xl sm:text-2xl font-black text-[#362B25] tracking-tight">{uniData.name}</h2>
-                                <p className="text-xs sm:text-sm text-[#675F5B]/70 flex items-center gap-1 mt-1 font-medium">
+                                <p className="text-xs sm:text-sm text-black flex items-center gap-1 mt-1 font-medium">
                                     <Building2 size={12} /> {uniData.location}
                                 </p>
                             </div>
@@ -158,7 +158,7 @@ export default function RateMyChancesPage() {
                         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 flex-[2] w-full mt-4 md:mt-0">
                             {uniData.stats.map((stat, idx) => (
                                 <div key={idx} className="text-left space-y-1">
-                                    <p className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-[#675F5B]/60">
+                                    <p className="text-[9px] sm:text-[10px] uppercase font-bold tracking-widest text-black">
                                         {stat.label}
                                     </p>
                                     <p className="text-sm sm:text-base font-black text-[#362B25]">
@@ -262,7 +262,7 @@ export default function RateMyChancesPage() {
                             <h3 className="text-lg md:text-xl font-black text-[#362B25] tracking-tight mt-4">
                                 {feature.title}
                             </h3>
-                            <p className="text-sm text-[#675F5B]/80 font-medium leading-relaxed max-w-[250px]">
+                            <p className="text-sm text-black font-medium leading-relaxed max-w-[250px]">
                                 {feature.description}
                             </p>
                         </motion.div>
