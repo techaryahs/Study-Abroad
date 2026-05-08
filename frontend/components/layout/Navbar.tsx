@@ -930,7 +930,7 @@ export default function Navbar() {
                 type="text"
                 value={searchQuery}
                 onChange={handleInputChange}
-                placeholder="Search your dream country..."
+                placeholder="Search your dream Country..."
                 className={`w-full h-8 bg-white/[0.1] border rounded-full pl-10 pr-4 text-[10px] text-white placeholder:text-white/60 outline-none transition-all tracking-wide ${searchError ? "border-red-500/60" : "border-white/50 focus:bg-white/[0.15] focus:border-[#B3985E]/60"}`}
               />
 
