@@ -16,8 +16,8 @@ const sendSMSOTP = async (phone, otp) => {
         return { success: false, message: "SMS provider configuration missing" };
     }
 
-    // Ensure 10-digit phone number is prepended with +91
-    const formattedPhone = phone.startsWith("+91") ? phone : `+91${phone}`;
+    const cleanedPhone = String(phone).trim().replace(/[\s().-]/g, "");
+    const formattedPhone = cleanedPhone.startsWith("+") ? cleanedPhone : `+91${cleanedPhone}`;
 
     console.log("OTP Generated:", otp);
     console.log("Sending OTP to:", formattedPhone);

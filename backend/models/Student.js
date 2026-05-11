@@ -48,6 +48,9 @@ const StudentSchema = new mongoose.Schema(
       isVerified: { type: Boolean, default: false },
       isPremium: { type: Boolean, default: false },
       isPublic: { type: Boolean, default: false },
+      hasUsedFreeBooking: { type: Boolean, default: false },
+      freeBookingUsedAt: { type: Date },
+      isBasicAccount: { type: Boolean, default: false },
 
       profileImage: { type: String, default: null },
       resumeUrl: { type: String, default: null },

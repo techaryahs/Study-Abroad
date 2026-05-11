@@ -2,11 +2,12 @@ const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const sendEmail = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const User = require("../models/User");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
 const { getEmailSearchRegex } = require("../utils/emailUtils");
-const { findUserByEmail } = require("../utils/userHelper");
+const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
 const { sendSMSOTP } = require("../utils/otpsms");
 
 
@@ -297,7 +298,9 @@ exports.login = async (req, res) => {
         isVerified: user.isVerified === true || (user.profile && user.profile.isVerified === true) || false,
         mobile: user.mobile,
         profileImage: (user.profile && user.profile.profileImage) || user.image || null,
-        isPremium: (user.profile && user.profile.isPremium) || user.isPremium || false
+        isPremium: (user.profile && user.profile.isPremium) || user.isPremium || false,
+        isBasicAccount: (user.profile && user.profile.isBasicAccount) || false,
+        hasUsedFreeBooking: (user.profile && user.profile.hasUsedFreeBooking) || false
       };
 
       // Add videoCallEnabled for consultants
@@ -676,6 +679,86 @@ exports.resetPassword = async (req, res) => {
 
   otpStore.delete(emailLower);
   res.json({ message: "Password reset" });
+};
+
+/* =========================
+   CREATE BASIC ACCOUNT
+   For non-registered users booking their first session
+========================= */
+exports.createBasicAccount = async (req, res) => {
+  try {
+    const { name, email, phone } = req.body;
+
+    if (!email || !phone) {
+      return res.status(400).json({ error: "Email and phone are required" });
+    }
+
+    const emailLower = email.toLowerCase().trim();
+    const phoneClean = phone.trim();
+
+    const existing = await findUserByEmail(emailLower);
+    const existingMobile = await findUserByMobile(phoneClean);
+
+    if (existing || existingMobile) {
+      return res.status(409).json({
+        code: "LOGIN_REQUIRED",
+        error: "An account already exists with this email or phone number. Please log in instead."
+      });
+    }
+
+    const { getBookingOtpStore } = require("../utils/otpStore");
+    const bookingOtpStore = getBookingOtpStore();
+    const otpData = bookingOtpStore.get(phoneClean);
+
+    if (!otpData || !otpData.verified) {
+      return res.status(400).json({
+        error: "Mobile number not verified. Please verify your phone number first."
+      });
+    }
+
+    bookingOtpStore.delete(phoneClean);
+
+    const randomPassword = crypto.randomBytes(12).toString("base64").slice(0, 16);
+
+    const newStudent = new Student({
+      name: name || "Guest User",
+      email: emailLower,
+      mobile: phoneClean,
+      password: randomPassword,
+      role: "student",
+      profile: {
+        isVerified: true,
+        isPremium: false,
+        isBasicAccount: true,
+        hasUsedFreeBooking: false
+      }
+    });
+
+    await newStudent.save();
+
+    const token = generateToken(newStudent._id, "student");
+
+    console.log(`Basic account created for: ${emailLower}`);
+
+    res.status(201).json({
+      message: "Basic account created successfully",
+      token,
+      user: {
+        _id: newStudent._id,
+        name: newStudent.name,
+        email: newStudent.email,
+        mobile: newStudent.mobile,
+        role: "student",
+        isBasicAccount: true,
+        hasUsedFreeBooking: false,
+        profileImage: null
+      },
+      isNewUser: true
+    });
+  } catch (err) {
+    console.error("createBasicAccount Error:", err);
+    res.status(500).json({ error: "Failed to create account" });
+  }
 };
 
 

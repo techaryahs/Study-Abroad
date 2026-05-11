@@ -6,6 +6,7 @@ const Student = require("../models/Student");
 const sendEmail = require("../utils/sendEmail");     // used in bookConsultant
 const crypto = require('crypto');
 const { randomUUID } = require('crypto');
+const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
 
 const SECRET_KEY = process.env.MEETING_SECRET_KEY || 'careergenai-meeting-secret-2024';
 
@@ -551,11 +552,14 @@ exports.getAvailableSlots = async (req, res) => {
  */
 exports.bookCounsellingSession = async (req, res) => {
   try {
-    const { date, time, userEmail, userName, paymentId, amount } = req.body;
+    const { date, time, userEmail, userName, userPhone, paymentId, amount, isFreeBooking } = req.body;
 
-    if (!date || !time || !userEmail) {
-      return res.status(400).json({ message: "Missing required booking details (date, time, email)" });
+    if (!date || !time || !userEmail || !userPhone) {
+      return res.status(400).json({ message: "Missing required booking details (date, time, email, phone)" });
     }
+
+    const emailLower = userEmail.toLowerCase().trim();
+    const phoneClean = userPhone.trim();
 
     // Check if slot already taken (counselling sessions only)
     const existing = await Booking.findOne({ 
@@ -568,13 +572,40 @@ exports.bookCounsellingSession = async (req, res) => {
       return res.status(400).json({ message: "This slot has already been booked. Please pick another one." });
     }
 
+    let student = await Student.findOne({ email: emailLower });
+    let isActuallyFree = false;
+
+    if (isFreeBooking) {
+      const existingAccount = await findUserByEmail(emailLower);
+
+      if (existingAccount && existingAccount.role !== "student") {
+        return res.status(403).json({
+          message: "Free sessions are available for student accounts."
+        });
+      }
+
+      if (!student) {
+        return res.status(400).json({
+          message: "Please verify your phone number before booking a free session."
+        });
+      }
+
+      if (student.profile?.hasUsedFreeBooking) {
+        return res.status(403).json({
+          message: "You've already used your free session. Please proceed with payment."
+        });
+      }
+
+      isActuallyFree = true;
+    }
+
     // Hardcode admin as session counsellor
     const finalConsultantName = "Admin";
     const finalConsultantEmail = process.env.ADMIN_EMAIL || "admin@careergenai.com";
 
     // Generate session & meeting identifiers
     const sessionId = randomUUID();
-    const meetingId = generateMeetingId(`${sessionId}-${userEmail}`);
+    const meetingId = generateMeetingId(`${sessionId}-${emailLower}`);
     const endH = parseInt(time.split(":")[0]) + 1;
     const endTime = `${String(endH).padStart(2, "0")}:00`;
 
@@ -586,24 +617,30 @@ exports.bookCounsellingSession = async (req, res) => {
       date,
       time,
       endTime,
-      userEmail,
+      userEmail: emailLower,
       userName,
+      userPhone: phoneClean,
       status: "booked",
       sessionId,
       meetingId,
-      paymentId,
-      isPaid: !!paymentId,
-      amountPaid: amount || 599
+      paymentId: isActuallyFree ? null : paymentId,
+      isPaid: isActuallyFree ? true : !!paymentId,
+      isFreeBooking: isActuallyFree,
+      amountPaid: isActuallyFree ? 0 : (amount || 599)
     });
 
     await newBooking.save();
 
     try {
-      const student = await Student.findOne({ email: userEmail });
       if (student) {
         if (!student.profile) student.profile = {};
         if (!student.profile.mySessions) student.profile.mySessions = [];
         student.profile.mySessions.push(newBooking._id);
+        if (isActuallyFree) {
+          student.profile.hasUsedFreeBooking = true;
+          student.profile.freeBookingUsedAt = new Date();
+          console.log(`Free booking marked for: ${emailLower}`);
+        }
         await student.save();
       }
     } catch (err) {
@@ -613,7 +650,7 @@ exports.bookCounsellingSession = async (req, res) => {
     // Notify student
     try {
         await sendEmail(
-            userEmail,
+            emailLower,
             "✅ Counselling Session Confirmed",
             "",
             `<p>Hi ${userName || "Student"},</p>
@@ -631,7 +668,7 @@ exports.bookCounsellingSession = async (req, res) => {
             finalConsultantEmail,
             "🔔 New Counselling Session Booked",
             "",
-            `<p>New counselling session booked by <b>${userName || userEmail}</b>.</p>
+            `<p>New counselling session booked by <b>${userName || emailLower}</b>.</p>
              <p>Date: <b>${date}</b> at <b>${time}</b></p>
              <p>Meeting ID: <b>${meetingId}</b></p>`
         );
@@ -642,13 +679,18 @@ exports.bookCounsellingSession = async (req, res) => {
     res.status(201).json({
       message: "Session booked successfully",
       booking: {
+        _id: newBooking._id,
         sessionId,
         meetingId,
         date,
         time,
         endTime,
         consultantName: finalConsultantName,
-        userEmail
+        userEmail: emailLower,
+        userPhone: phoneClean,
+        isFreeBooking: isActuallyFree,
+        isPaid: newBooking.isPaid,
+        amountPaid: newBooking.amountPaid
       }
     });
 
@@ -769,5 +811,154 @@ exports.getAllBookings = async (req, res) => {
   } catch (err) {
     console.error('❌ getAllBookings error:', err.message);
     res.status(500).json({ message: 'Server error' });
+  }
+};
+
+/* =========================
+   CHECK FREE BOOKING ELIGIBILITY
+   GET /api/bookings/free-eligibility?email=user@example.com
+========================= */
+exports.checkFreeBookingEligibility = async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    const emailLower = email.toLowerCase().trim();
+    const existing = await findUserByEmail(emailLower);
+
+    if (!existing) {
+      return res.json({
+        eligible: true,
+        isNewUser: true,
+        message: "New users get their first session FREE!"
+      });
+    }
+
+    if (existing.role !== "student") {
+      return res.json({
+        eligible: false,
+        isNewUser: false,
+        hasUsedFreeBooking: true,
+        message: "Free sessions are available for student accounts."
+      });
+    }
+
+    const hasUsedFree = existing.user.profile?.hasUsedFreeBooking || false;
+
+    res.json({
+      eligible: !hasUsedFree,
+      isNewUser: false,
+      hasUsedFreeBooking: hasUsedFree,
+      message: hasUsedFree
+        ? "You've already used your free session"
+        : "You're eligible for one FREE session!"
+    });
+  } catch (err) {
+    console.error("checkFreeBookingEligibility Error:", err);
+    res.status(500).json({ error: "Failed to check eligibility" });
+  }
+};
+
+/* =========================
+   SEND OTP FOR BOOKING (Mobile Verification)
+   POST /api/bookings/send-booking-otp
+========================= */
+exports.sendBookingOtp = async (req, res) => {
+  try {
+    const { email, mobile } = req.body;
+
+    if (!mobile) {
+      return res.status(400).json({ error: "Mobile number is required" });
+    }
+
+    const emailLower = email ? String(email).toLowerCase().trim() : "";
+    const mobileClean = String(mobile).trim();
+
+    if (!mobileClean) {
+      return res.status(400).json({ error: "Mobile number is required" });
+    }
+
+    const existingEmail = emailLower ? await findUserByEmail(emailLower) : null;
+    const existingMobile = await findUserByMobile(mobileClean);
+
+    if (existingEmail || existingMobile) {
+      return res.status(409).json({
+        code: "LOGIN_REQUIRED",
+        error: "An account already exists with this email or phone number. Please log in instead."
+      });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = Date.now() + 10 * 60 * 1000;
+
+    const { getBookingOtpStore } = require("../utils/otpStore");
+    const bookingOtpStore = getBookingOtpStore();
+
+    bookingOtpStore.set(mobileClean, { otp, expiresAt, verified: false });
+
+    console.log(`Booking OTP for ${mobileClean}: ${otp}`);
+
+    const { sendSMSOTP } = require("../utils/otpsms");
+    const smsResult = await sendSMSOTP(mobileClean, otp);
+
+    if (!smsResult.success) {
+      bookingOtpStore.delete(mobileClean);
+      return res.status(500).json({ error: smsResult.message || "Failed to send OTP" });
+    }
+
+    res.json({
+      message: "OTP sent successfully to your mobile",
+      expiresIn: 600
+    });
+  } catch (err) {
+    console.error("sendBookingOtp Error:", err);
+    res.status(500).json({ error: "Failed to send OTP" });
+  }
+};
+
+/* =========================
+   VERIFY OTP FOR BOOKING
+   POST /api/bookings/verify-booking-otp
+========================= */
+exports.verifyBookingOtp = async (req, res) => {
+  try {
+    const { mobile, otp } = req.body;
+
+    if (!mobile || !otp) {
+      return res.status(400).json({ error: "Mobile and OTP are required" });
+    }
+
+    const mobileClean = String(mobile).trim();
+    const { getBookingOtpStore } = require("../utils/otpStore");
+    const bookingOtpStore = getBookingOtpStore();
+
+    const storedData = bookingOtpStore.get(mobileClean);
+
+    if (!storedData) {
+      return res.status(400).json({ error: "OTP not found. Please request a new one." });
+    }
+
+    if (storedData.otp.toString() !== otp.toString()) {
+      return res.status(400).json({ error: "Invalid OTP. Please try again." });
+    }
+
+    if (Date.now() > storedData.expiresAt) {
+      bookingOtpStore.delete(mobileClean);
+      return res.status(400).json({ error: "OTP has expired. Please request a new one." });
+    }
+
+    storedData.verified = true;
+    bookingOtpStore.set(mobileClean, storedData);
+
+    res.json({
+      message: "Mobile number verified successfully",
+      verified: true
+    });
+  } catch (err) {
+    console.error("verifyBookingOtp Error:", err);
+    res.status(500).json({ error: "Verification failed" });
   }
 };

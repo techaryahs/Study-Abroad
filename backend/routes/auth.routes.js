@@ -19,6 +19,7 @@ router.post("/send-otp-mobile", authCtrl.sendOtpMobile);
 router.post("/verify-otp-mobile", authCtrl.verifyOtpMobile);
 
 router.post("/login", authCtrl.login);
+router.post("/create-basic-account", authCtrl.createBasicAccount);
 
 router.post("/forgot-password", authCtrl.forgotPassword);
 router.post("/verifyfp-otp", authCtrl.verifyForgotOtp);

@@ -35,8 +35,7 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  outputFileTracingRoot: __dirname,
+  }
 };
 
 export default nextConfig;

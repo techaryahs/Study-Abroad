@@ -8,6 +8,9 @@ router.get("/booked-slots", bookingCtrl.getBookedSlots);
 router.get("/counselling/:email", bookingCtrl.getUserCounselling);
 router.get("/user/:email", bookingCtrl.getUserBookings);
 router.get("/consultants", bookingCtrl.getAllConsultants);
+router.get("/free-eligibility", bookingCtrl.checkFreeBookingEligibility);
+router.post("/send-booking-otp", bookingCtrl.sendBookingOtp);
+router.post("/verify-booking-otp", bookingCtrl.verifyBookingOtp);
 
 // ── Consultant booking lookup ──────────────────────────────────────────────
 // By email (used by consultant-dashboard when _id is unavailable)

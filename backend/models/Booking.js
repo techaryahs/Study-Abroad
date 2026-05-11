@@ -40,6 +40,7 @@ const bookingSchema = new mongoose.Schema(
     // Payment info
     paymentId: { type: String },
     isPaid: { type: Boolean, default: false },
+    isFreeBooking: { type: Boolean, default: false },
     amountPaid: { type: Number },
   },
   { timestamps: true, autoCreate: false, autoIndex: false }
