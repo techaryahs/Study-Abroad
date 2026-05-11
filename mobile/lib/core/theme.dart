@@ -10,8 +10,8 @@ class AppTheme {
   static const Color darkBrown = Color(0xFF3C2A21);
   static const Color darkBrownAlt = Color(0xFF40332D);
   static const Color textPrimary = Color(0xFF3C2A21);
-  static const Color textSecondary = Color(0xFF6B5E51);
-  static const Color textMuted = Color(0xFF675F5B);
+  static const Color textSecondary = Color(0xFF4A3F35);
+  static const Color textMuted = Color(0xFF5A4D41);
   static const Color borderLight = Color(0xFFF1EDEA);
   static const Color cardBg = Color(0xFFFFFFFF);
   static const Color cream = Color(0xFFFDFBF7);
@@ -119,13 +119,13 @@ class AppTheme {
         unselectedItemColor: Colors.white.withOpacity(0.4),
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: GoogleFonts.outfit(
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: FontWeight.w700,
           letterSpacing: 0.5,
         ),
         unselectedLabelStyle: GoogleFonts.outfit(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
         ),
         elevation: 0,
       ),

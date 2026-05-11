@@ -20,7 +20,7 @@ class _ContactScreenState extends State<ContactScreen> {
   bool _sent = false;
 
   bool _isValidEmail(String email) {
-    return RegExp(r'^[^@]+@[^@]+\\.[^@]+').hasMatch(email);
+    return RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(email);
   }
 
   Future<void> _send() async {
@@ -152,7 +152,7 @@ class _ContactScreenState extends State<ContactScreen> {
         const Text(
           "SEND MESSAGE",
           style: TextStyle(
-            fontSize: 12,
+            fontSize: 14,
             letterSpacing: 2,
             fontWeight: FontWeight.bold,
             color: AppTheme.gold,
@@ -201,7 +201,7 @@ class _ContactScreenState extends State<ContactScreen> {
         ),
         child: _isLoading
             ? const CircularProgressIndicator(color: Colors.white)
-            : const Text("SEND MESSAGE"),
+            : const Text("SEND MESSAGE", style: TextStyle(color: Colors.white)),
       ),
     );
   }

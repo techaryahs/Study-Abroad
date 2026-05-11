@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../widgets/book_counselling_sheet.dart';
 import '../../core/theme.dart';
 import '../../data/scholarship_repository.dart';
 
@@ -80,7 +81,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                       'FINANCIAL SUPPORT INDEX',
                       style: TextStyle(
                         color: AppTheme.gold,
-                        fontSize: 10,
+                        fontSize: 14,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 2,
                       ),
@@ -219,7 +220,11 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                       ),
                     ),
           
-          const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          SliverToBoxAdapter(
+            child: _AdvisorCTA(onBooking: () => showBookCounsellingSheet(context)),
+          ),
+          
+          const SliverToBoxAdapter(child: SizedBox(height: 60)),
         ],
       ),
     );
@@ -233,7 +238,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
           text.toUpperCase(),
           style: TextStyle(
             color: active ? AppTheme.textPrimary : AppTheme.textSecondary.withOpacity(0.5),
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: FontWeight.w900,
             letterSpacing: 1.5,
           ),
@@ -280,7 +285,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                     ),
                     child: Text(
                       s.category.toUpperCase(),
-                      style: const TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1),
+                      style: const TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1),
                     ),
                   ),
                   const Icon(LucideIcons.bookmark, size: 18, color: AppTheme.textSecondary),
@@ -300,7 +305,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
               const SizedBox(height: 8),
               RichText(
                 text: TextSpan(
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1),
                   children: [
                     const TextSpan(text: 'PROVIDER: '),
                     TextSpan(
@@ -319,7 +324,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('CLOSING DATE', style: TextStyle(color: AppTheme.textSecondary, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                        const Text('CLOSING DATE', style: TextStyle(color: AppTheme.textSecondary, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                         const SizedBox(height: 4),
                         Text(s.deadline, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.bold)),
                       ],
@@ -329,7 +334,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('AWARD VALUE', style: TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                        const Text('AWARD VALUE', style: TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                         const SizedBox(height: 4),
                         Text(s.amount, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.bold)),
                       ],
@@ -379,5 +384,87 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return maxHeight != oldDelegate.maxHeight ||
         minHeight != oldDelegate.minHeight ||
         child != oldDelegate.child;
+  }
+}
+class _AdvisorCTA extends StatelessWidget {
+  final VoidCallback onBooking;
+  const _AdvisorCTA({required this.onBooking});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.all(32),
+      decoration: BoxDecoration(
+        color: AppTheme.darkBrown,
+        borderRadius: BorderRadius.circular(32),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 30,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          const Text(
+            'Expert Financial',
+            style: TextStyle(
+              fontFamily: 'Cormorant Garamond',
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          ShaderMask(
+            shaderCallback: (bounds) => const LinearGradient(
+              colors: [Color(0xFFC5A059), Color(0xFFE6D5B8), Color(0xFFC5A059)],
+            ).createShader(bounds),
+            child: const Text(
+              'Guidance',
+              style: TextStyle(
+                fontFamily: 'Cormorant Garamond',
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                height: 0.9,
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Connect with our dedicated funding specialists to maximize your chances of securing institutional support.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.5),
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              height: 1.5,
+            ),
+          ),
+          const SizedBox(height: 28),
+          ElevatedButton(
+            onPressed: onBooking,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.gold,
+              foregroundColor: AppTheme.darkBrown,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              elevation: 10,
+              shadowColor: AppTheme.gold.withOpacity(0.3),
+            ),
+            child: const Text(
+              'SCHEDULE BRIEFING',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 2,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

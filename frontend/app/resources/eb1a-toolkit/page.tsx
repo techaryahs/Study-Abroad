@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import CheckoutModal from "@/app/User/cart/checkoutmodal";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import { CheckCircle2, Zap, ArrowRight } from "lucide-react";
 
 const faqs = [
   {
@@ -77,6 +80,8 @@ const kitItems = [
 
 export default function EB1AToolkitPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   return (
     <main className="min-h-screen bg-[#F5F0E8] text-[#1a1a1a] font-serif">
@@ -114,18 +119,19 @@ export default function EB1AToolkitPage() {
         Petition Yourself with Ease.
       </p>
 
-      <div className="mt-10">
+      <div className="mt-10 flex flex-col sm:flex-row gap-4">
         <a
           href="#pricing"
           className="inline-flex items-center gap-2 bg-[#F4B400] text-black px-8 py-3 rounded-md font-medium hover:opacity-90"
         >
           Get the Kit Now →
         </a>
-
-        <p className="mt-4 text-sm text-[#4a4a4a] flex items-center gap-2">
-          <span className="text-green-600">✔</span>
-          Based on <strong>200+</strong> EB-1A approvals
-        </p>
+        <button
+          onClick={() => setIsBookingOpen(true)}
+          className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white px-8 py-3 rounded-md font-medium hover:bg-[#8B7355] transition-all"
+        >
+          Consult EB-1A Expert <ArrowRight size={16} />
+        </button>
       </div>
     </div>
 
@@ -392,60 +398,62 @@ export default function EB1AToolkitPage() {
       </section>
 
       {/* Pricing */}
-      <section
-        id="pricing"
-        className="px-8 py-20 bg-[#1a1a1a] text-[#F5F0E8]"
-      >
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-            The Only EB-1A Toolkit
-            <br />
-            <span className="text-[#8B7355]">You&apos;ll Ever Need</span>
-          </h2>
-          <p className="mt-4 text-sm font-sans text-[#D4C4A8] tracking-widest uppercase">
-            Start Your EB-1A Journey the Right Way
-          </p>
-        </div>
-        <div className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 border border-[#8B7355]/30 overflow-hidden">
-          <div className="bg-[#F5F0E8] text-[#1a1a1a] p-10 flex flex-col items-center justify-center">
-            <p className="text-xs font-sans tracking-widest uppercase text-[#8B7355] mb-4">
-              Buy at
-            </p>
-            <p className="text-5xl font-bold text-[#1a1a1a]">
-              <span className="text-lg font-sans font-normal">USD</span> 200
-            </p>
-            <p className="text-xs font-sans text-[#8B7355] mt-2 tracking-wider">
-              billed just once
-            </p>
-            <a
-              href="#"
-              className="mt-8 w-full text-center bg-[#8B7355] text-[#F5F0E8] py-4 text-xs tracking-[0.2em] uppercase hover:bg-[#1a1a1a] transition-colors duration-300"
-            >
-              Buy Now
-            </a>
+      <section id="pricing" className="py-32 bg-[#2D2926]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20 space-y-4">
+             <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Professional Petition Protocol</span>
+             <h2 className="text-4xl md:text-5xl font-bold text-white font-serif italic">Your EB-1A <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#C5A059] to-[#E6D5B8]">Command Center</span></h2>
+             <p className="text-white/40 text-sm font-medium tracking-widest uppercase">Everything you need to secure your future.</p>
           </div>
-          <div className="p-10 space-y-4">
-            <p className="text-xs font-sans text-[#D4C4A8] mb-6">
-              Just everything you need to create a winning EB-1A petition in
-              one place.
-            </p>
-            {[
-              "Full Petition Kit (used in 200+ approvals)",
-              "Step-by-Step Video Guide",
-              "Templates, Forms & Writing Frameworks",
-              "Lifetime Access",
-            ].map((feature, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <span className="text-[#8B7355] text-sm">✓</span>
-                <span className="text-xs font-sans text-[#D4C4A8]">
-                  {feature}
-                </span>
+
+          <div className="max-w-4xl mx-auto bg-white/5 border border-white/10 rounded-[48px] overflow-hidden flex flex-col md:flex-row shadow-2xl backdrop-blur-xl">
+            {/* Left: Price & CTA */}
+            <div className="md:w-2/5 p-12 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-white/10 bg-white/[0.02]">
+              <span className="text-[#C5A059] text-[10px] font-black tracking-widest uppercase mb-4">Lifetime Access</span>
+              <div className="flex items-baseline gap-2">
+                <span className="text-white/40 text-lg font-medium">$</span>
+                <span className="text-6xl font-bold text-white tracking-tighter">200</span>
               </div>
-            ))}
-            <div className="pt-4 flex flex-wrap gap-4 text-xs font-sans text-[#8B7355]">
-              <span>◎ Cost-effective kit</span>
-              <span>◎ 100% assisted</span>
-              <span>◎ Customizable</span>
+              <p className="text-white/40 text-[10px] font-bold mt-4 tracking-widest uppercase">Billed once. Use forever.</p>
+              
+              <button 
+                onClick={() => setIsCheckoutOpen(true)}
+                className="mt-10 w-full py-5 rounded-2xl bg-[#C5A059] text-[#2D2926] font-bold text-xs uppercase tracking-[0.2em] hover:bg-white transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2"
+              >
+                Initialize Toolkit <Zap size={14} />
+              </button>
+            </div>
+
+            {/* Right: Features */}
+            <div className="md:w-3/5 p-12 space-y-6">
+              <p className="text-white/60 text-sm italic font-medium leading-relaxed mb-4">
+                "Our proprietary DIY template has been reverse-engineered from 200+ successful approvals to guarantee technical precision."
+              </p>
+              {[
+                "Full Petition Kit (Used in 200+ approvals)",
+                "Step-by-Step Institutional Video Guide",
+                "Templates, Forms & Writing Frameworks",
+                "USCIS Officer Decisions & AAO Reviews",
+                "RFE Sample & Response Protocols"
+              ].map((f, i) => (
+                <div key={i} className="flex items-center gap-4 group">
+                  <div className="w-6 h-6 rounded-lg bg-[#C5A059]/10 border border-[#C5A059]/20 flex items-center justify-center group-hover:bg-[#C5A059] transition-all">
+                    <CheckCircle2 size={12} className="text-[#C5A059] group-hover:text-[#2D2926] transition-all" />
+                  </div>
+                  <span className="text-white/80 text-sm font-medium tracking-tight">{f}</span>
+                </div>
+              ))}
+
+              <div className="pt-6 grid grid-cols-2 gap-4">
+                <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+                  <div className="w-1 h-1 rounded-full bg-[#C5A059]" />
+                  100% Assisted
+                </div>
+                <div className="flex items-center gap-2 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+                  <div className="w-1 h-1 rounded-full bg-[#C5A059]" />
+                  Customizable
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -498,6 +506,20 @@ export default function EB1AToolkitPage() {
 
       
       
+      <CheckoutModal 
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        items={[{ name: "EB-1A DIY Toolkit", price: 200 }]}
+        subtotal={200}
+        discount={0}
+        total={200}
+        currency="USD"
+      />
+
+      <BookCounsellingModal 
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </main>
   );
 }

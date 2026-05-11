@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { 
-  Users, 
-  UserCircle, 
-  Info, 
-  PlusCircle, 
-  Search, 
-  Bell, 
+import {
+  Users,
+  UserCircle,
+  Info,
+  PlusCircle,
+  Search,
+  Bell,
   ChevronRight,
   Mail,
   ArrowRight
@@ -21,6 +21,7 @@ import KnowMore from "../KnowMore";
 import CreateGroupModal from "../CreateGroup";
 import GroupDetailsModal from "../GroupDetailsModal";
 import { getToken } from "@/app/lib/token";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 type Tab = "available" | "your" | "know";
 
@@ -40,15 +41,16 @@ export default function ResearchGroupsPage() {
   const [modalInitialStep, setModalInitialStep] = useState(1);
   const [selectedGroup, setSelectedGroup] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   useEffect(() => {
     // Check search params first
     const groupIdParam = searchParams.get("group");
-    
+
     // Check path segments (e.g. /.../Title/ID/)
     const pathSegments = pathname.split('/').filter(Boolean);
     const groupIdFromPath = pathSegments[pathSegments.length - 1];
-    
+
     const finalGroupId = groupIdParam || groupIdFromPath;
 
     if (finalGroupId) {
@@ -65,9 +67,9 @@ export default function ResearchGroupsPage() {
 
   const openModal = (step: number = 1) => {
     if (!getToken()) {
-        alert("Please login to continue");
-        router.push("/auth/login");
-        return;
+      alert("Please login to continue");
+      router.push("/auth/login");
+      return;
     }
     setModalInitialStep(step);
     setIsModalOpen(true);
@@ -82,23 +84,23 @@ export default function ResearchGroupsPage() {
     switch (activeTab) {
       case "available":
         return (
-          <AvailableGroups 
-            key="available" 
-            searchQuery={searchQuery} 
-            onJoinClick={() => openModal(2)} 
+          <AvailableGroups
+            key="available"
+            searchQuery={searchQuery}
+            onJoinClick={() => openModal(2)}
             onCardClick={handleCardClick}
           />
         );
       case "your":
         return <YourGroups key="your" onCreateClick={() => openModal(1)} />;
       case "know":
-        return <KnowMore key="know" />;
+        return <KnowMore key="know" onBookingClick={() => setIsBookingOpen(true)} />;
       default:
         return (
-          <AvailableGroups 
-            key="available" 
-            searchQuery={searchQuery} 
-            onJoinClick={() => openModal(2)} 
+          <AvailableGroups
+            key="available"
+            searchQuery={searchQuery}
+            onJoinClick={() => openModal(2)}
             onCardClick={handleCardClick}
           />
         );
@@ -107,7 +109,7 @@ export default function ResearchGroupsPage() {
 
   return (
     <main className="min-h-screen pb-32" style={{ background: "#FDFBF7", color: "#2D2926", fontFamily: "'DM Sans', sans-serif" }}>
-      
+
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
         .fd { font-family: 'Cormorant Garamond', serif; }
@@ -183,9 +185,9 @@ export default function ResearchGroupsPage() {
         }
       `}</style>
 
-      <CreateGroupModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+      <CreateGroupModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
         initialStep={modalInitialStep}
       />
 
@@ -196,10 +198,15 @@ export default function ResearchGroupsPage() {
         onJoinClick={() => openModal(2)}
       />
 
+      <BookCounsellingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
+
       {/* ── HEADER ─────────────────────────────────────────────────────────────── */}
       <section className="relative px-6 py-20 overflow-hidden text-center" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.06) 0%, transparent 100%)" }}>
         <div className="max-w-4xl mx-auto relative z-10">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -220,7 +227,7 @@ export default function ResearchGroupsPage() {
       {/* ── CONTENT ───────────────────────────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
-          
+
           {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-8 sticky top-32">
             <div className="sidebar-card p-4 space-y-2">
@@ -237,7 +244,7 @@ export default function ResearchGroupsPage() {
                   {activeTab === item.id && <ArrowRight className="ml-auto w-3 h-3 opacity-60" />}
                 </button>
               ))}
-              
+
               <div className="pt-4 mt-4 border-t border-[#F1EDEA]">
                 <button
                   onClick={() => openModal(1)}
@@ -260,13 +267,13 @@ export default function ResearchGroupsPage() {
                     Receive briefings on emerging research opportunities.
                   </p>
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E] opacity-50" />
-                    <input 
-                      type="email" 
-                      placeholder="Academic Email" 
+                    <input
+                      type="email"
+                      placeholder="Academic Email"
                       className="w-full bg-[#1A1817] border border-white/5 rounded-xl pl-11 pr-3 py-3 text-xs text-white focus:outline-none focus:border-[#C5A059]/30 transition-all font-medium"
                     />
                   </div>
@@ -280,7 +287,7 @@ export default function ResearchGroupsPage() {
 
           {/* Main Content Area */}
           <div className="lg:col-span-3 space-y-10">
-            
+
             {/* Banner/Helper text */}
             {activeTab === "available" && (
               <div className="flex items-center gap-3 bg-white border border-[rgba(197,160,89,0.15)] rounded-2xl px-6 py-3.5 text-xs text-[#6B5E51] font-bold shadow-sm">
@@ -294,15 +301,15 @@ export default function ResearchGroupsPage() {
               <div className="flex flex-col md:flex-row items-center gap-4">
                 <div className="relative flex-1 w-full">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A8A29E]" />
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Locate clusters by field, topic, or investigator..." 
+                    placeholder="Locate clusters by field, topic, or investigator..."
                     className="search-field font-medium shadow-sm"
                   />
                 </div>
-                <button 
+                <button
                   onClick={() => openModal(1)}
                   className="bg-[#2D2926] text-white hover:bg-[#C5A059] font-bold px-8 py-3.5 rounded-xl flex items-center gap-3 transition-all shadow-xl active:scale-95 shrink-0 uppercase text-[11px] tracking-widest"
                 >
@@ -335,7 +342,10 @@ export default function ResearchGroupsPage() {
                   <h3 className="fd text-3xl font-bold text-white leading-tight">Liaison Support</h3>
                   <p className="text-[#A8A29E] text-sm font-medium max-w-md uppercase tracking-wide">Our academic advisors can bridge the gap to your next collaboration.</p>
                 </div>
-                <button className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] font-bold px-10 py-4 rounded-xl flex items-center gap-3 transition-all shadow-2xl active:scale-95 shrink-0 uppercase text-[14px] font-bold tracking-widest relative z-10">
+                <button
+                  onClick={() => setIsBookingOpen(true)}
+                  className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] font-bold px-10 py-4 rounded-xl flex items-center gap-3 transition-all shadow-2xl active:scale-95 shrink-0 uppercase text-[10px] tracking-widest relative z-10"
+                >
                   Secure Consultation <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -343,6 +353,11 @@ export default function ResearchGroupsPage() {
           </div>
         </div>
       </div>
+
+      <BookCounsellingModal
+        isOpen={isBookingOpen}
+        onClose={() => setIsBookingOpen(false)}
+      />
     </main>
   );
 }

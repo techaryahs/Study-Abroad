@@ -104,7 +104,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                           style: GoogleFonts.outfit(
                             color: AppTheme.gold,
                             fontWeight: FontWeight.w800,
-                            fontSize: 10,
+                            fontSize: 14,
                             letterSpacing: 2,
                           ),
                         ),
@@ -135,7 +135,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                           Text(
                             'HONEST FEEDBACKS',
                             style: GoogleFonts.outfit(
-                              fontSize: 10,
+                              fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: AppTheme.textMuted,
                               letterSpacing: 1,
@@ -164,7 +164,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                       label: Text(
                         f == 'all' ? 'ALL REVIEWS' : f.toUpperCase(),
                         style: GoogleFonts.outfit(
-                          fontSize: 10,
+                          fontSize: 14,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.5,
                           color: isActive ? AppTheme.gold : AppTheme.textSecondary,
@@ -355,7 +355,7 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
                 style: GoogleFonts.outfit(
                   color: AppTheme.gold,
                   fontWeight: FontWeight.w800,
-                  fontSize: 10,
+                  fontSize: 14,
                   letterSpacing: 2,
                 ),
               ),
@@ -457,7 +457,7 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
       child: Text(
         text,
         style: GoogleFonts.outfit(
-          fontSize: 10,
+          fontSize: 14,
           fontWeight: FontWeight.w900,
           color: AppTheme.gold,
           letterSpacing: 1.5,
@@ -567,7 +567,7 @@ class _ReviewCard extends StatelessWidget {
                             child: Text(
                               'VERIFIED',
                               style: GoogleFonts.outfit(
-                                fontSize: 6,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w900,
                                 color: AppTheme.gold,
                                 letterSpacing: 0.5,
@@ -601,7 +601,7 @@ class _ReviewCard extends StatelessWidget {
             child: Text(
               (review['service'] ?? 'General').toUpperCase(),
               style: GoogleFonts.outfit(
-                fontSize: 8,
+                fontSize: 13,
                 fontWeight: FontWeight.w900,
                 color: AppTheme.textSecondary,
                 letterSpacing: 0.5,
@@ -633,7 +633,7 @@ class _ReviewCard extends StatelessWidget {
           Text(
             date,
             style: GoogleFonts.outfit(
-              fontSize: 10,
+              fontSize: 14,
               fontWeight: FontWeight.w600,
               color: AppTheme.textMuted,
             ),

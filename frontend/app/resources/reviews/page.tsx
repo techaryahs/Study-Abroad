@@ -276,7 +276,7 @@ export default function ReviewsPage() {
             Real <span className="gold-shimmer">Reviews</span>
           </h1>
           <p className="text-[#6B5E51] text-lg font-medium max-w-xl mx-auto leading-relaxed">
-            Honest feedback from students who&apos;ve used GCC&apos;s services to achieve their study-abroad dreams.
+            Honest feedback from students who&apos;ve used IEC&apos;s services to achieve their study-abroad dreams.
           </p>
 
           <div className="flex items-center justify-center gap-4 pt-4">

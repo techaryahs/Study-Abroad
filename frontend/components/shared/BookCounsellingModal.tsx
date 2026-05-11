@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { getUser } from "@/app/lib/token";
 import CheckoutModal from "@/app/User/cart/checkoutmodal";
+import { UserX, Clock } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Slot {
@@ -50,6 +51,31 @@ function buildCalendarGrid(year: number, month: number): (number | null)[] {
   for (let d = 1; d <= daysInMonth; d++) cells.push(d);
   while (cells.length % 7 !== 0) cells.push(null);
   return cells;
+}
+
+// ─── Helper: Parse Time and Check Blocked ──────────────────────────────────────
+function parseTime(timeStr: string) {
+  const match = timeStr.trim().match(/(\d+):(\d+)\s*(AM|PM|am|pm)/i);
+  if (!match) return null;
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const period = match[3].toUpperCase();
+  if (period === "PM" && hours !== 12) hours += 12;
+  if (period === "AM" && hours === 12) hours = 0;
+  return { hours, minutes };
+}
+
+function isSlotBlocked(slot: Slot, isToday: boolean) {
+  if (!slot.available) return true;
+  if (isToday && slot.time) {
+    const parsed = parseTime(slot.time);
+    if (!parsed) return false;
+    const now = new Date();
+    // Device local time check
+    const slotDt = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parsed.hours, parsed.minutes);
+    return slotDt <= now;
+  }
+  return false;
 }
 
 // ─── Step Indicator ───────────────────────────────────────────────────────────
@@ -159,7 +185,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     setSelectedDate(`${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`);
   };
 
-  const confirmBooking = async () => {
+  const confirmBooking = async (paymentId?: string) => {
     if (!selectedSlot || !selectedDate || !userEmail) {
       setError("Please fill in your name and email.");
       return;
@@ -167,7 +193,14 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     setBookingLoading(true);
     setError("");
     try {
-      const body = { date: selectedDate, time: selectedSlot.time, userEmail, userName };
+      const body = {
+        date: selectedDate,
+        time: selectedSlot.time,
+        userEmail,
+        userName,
+        paymentId: paymentId || null,
+        amount: 599
+      };
       const res = await fetch(`${API_BASE}/api/bookings/book-session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -314,19 +347,43 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                         <div className="grid grid-cols-3 gap-2">{Array.from({ length: 9 }).map((_, i) => <div key={i} className="h-12 bg-white/5 rounded-lg animate-pulse" />)}</div>
                       ) : (
                         <div className="grid grid-cols-3 gap-2">
-                          {slots.map((slot) => {
-                            const isSelected = selectedSlot?.time === slot.time;
+                          {slots.length === 0 ? (
+                            <div className="col-span-3 text-center py-6">
+                              <div className="text-3xl mb-2">⏰</div>
+                              <div className="text-white/70 text-xs font-bold">No slots available</div>
+                              <div className="text-white/40 text-[10px]">Please select another date</div>
+                            </div>
+                          ) : slots.map((slot) => {
+                            const isToday = selectedDate === todayStr;
+                            const blocked = isSlotBlocked(slot, isToday);
+                            const isSelected = selectedSlot?.time === slot.time && !blocked;
+                            const isBooked = !slot.available;
+                            const isPast = !isBooked && blocked;
+
+                            let subLabel = slot.endTime;
+                            if (isBooked) subLabel = "Booked";
+                            else if (isPast) subLabel = "Past";
+
                             return (
-                              <button key={slot.time} disabled={!slot.available} onClick={() => setSelectedSlot(slot)}
-                                className={`h-12 rounded-lg text-[11px] font-bold border flex flex-col items-center justify-center transition-all
+                              <button key={slot.time} disabled={blocked} onClick={() => setSelectedSlot(slot)}
+                                className={`h-12 rounded-lg text-[11px] font-bold border flex flex-col items-center justify-center transition-all relative overflow-hidden
                                   ${isSelected
                                     ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D]"
-                                    : slot.available ? "bg-[#362B25]/40 border-white/5 text-white/70 hover:border-[#D4A848]/30" : "opacity-20 cursor-not-allowed"
+                                    : blocked ? "bg-[#362B25]/20 border-white/5 opacity-50 cursor-not-allowed" : "bg-[#362B25]/40 border-white/5 text-white/70 hover:border-[#D4A848]/30"
                                   }
                                 `}
                               >
-                                <span>{slot.time}</span>
-                                <span className={`text-[12px] font-black ${isSelected ? "text-[#2D1F1D]/60" : "text-white/30"}`}>{slot.available ? slot.endTime : "NA"}</span>
+                                <span className={blocked ? "line-through text-white/40" : ""}>{slot.time}</span>
+                                <span className={`text-[8px] ${isSelected ? "text-[#2D1F1D]/60" : blocked ? "text-red-400/70" : "text-white/30"}`}>{subLabel}</span>
+                                {blocked && (
+                                  <div className="absolute top-1 right-1 opacity-40">
+                                    {isBooked ? (
+                                      <UserX size={10} className="text-red-400" />
+                                    ) : (
+                                      <Clock size={10} className="text-white/50" />
+                                    )}
+                                  </div>
+                                )}
                               </button>
                             );
                           })}

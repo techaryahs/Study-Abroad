@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../../core/theme.dart';
 import '../../../models/checkout_item.dart';
@@ -43,15 +43,11 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
   void _showCheckoutSheet(CheckoutItem plan) {
     CheckoutSheet.show(
       context,
+      title: 'SOP Package',
       items: [plan],
-      currency: plan.currency,
-      onCheckout: () {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${plan.title} checkout initiated!')),
-        );
+      onPaymentSuccess: () {
+        // You could add logic here to redirect the user or show a success screen
       },
-      title: 'Checkout Plan',
     );
   }
 
@@ -68,7 +64,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
         ),
         title: const Text(
           'AI SOP GENERATOR',
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary),
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary),
         ),
       ),
       body: SingleChildScrollView(
@@ -120,17 +116,11 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () => _showCheckoutSheet(
-                            CheckoutItem(
-                              id: 'sop-1',
-                              title: '1 SOP',
-                              icon: '✍️',
-                              price: 3999,
-                              actualPrice: 5000,
-                              currency: 'INR',
-                              description: 'Single SOP generation with AI-assisted editing and human review.',
-                            ),
-                          ),
+                          onPressed: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Expert Consultation request initiated!')),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.darkBrown,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
@@ -142,7 +132,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                             children: const [
                               Icon(Icons.auto_awesome_rounded, size: 18, color: AppTheme.gold),
                               SizedBox(width: 10),
-                              Text('Build Your SOP Today', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14)),
+                              Text('Consult SOP Expert', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14)),
                             ],
                           ),
                         ),
@@ -201,7 +191,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               child: Text(
                 'Admissions Secured At Top Universities',
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 13,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 1.5,
                   color: AppTheme.textMuted.withValues(alpha: 179),
@@ -357,24 +347,18 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: () => _showCheckoutSheet(
-                                CheckoutItem(
-                                  id: 'sop-1',
-                                  title: '1 SOP',
-                                  icon: '✍️',
-                                  price: 3999,
-                                  actualPrice: 5000,
-                                  currency: 'INR',
-                                  description: 'Single SOP generation with AI-assisted editing and human review.',
-                                ),
-                              ),
+                              onPressed: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Expert Consultation request initiated!')),
+                                );
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppTheme.darkBrown,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
                                 minimumSize: const Size.fromHeight(52),
                               ),
-                              child: const Text('Build Your SOP →', style: TextStyle(fontWeight: FontWeight.w900)),
+                              child: const Text('CONSULT SOP EXPERT →', style: TextStyle(fontWeight: FontWeight.w900)),
                             ),
                           ),
                         ],
@@ -407,13 +391,13 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   ),
                   const SizedBox(height: 16),
                   _buildComparisonCard(
-                    title: 'Global Counsellor',
-                    tag: 'University-Focused AI',
+                    title: 'International Eduleader Council',
+                    tag: 'Council-Verified AI',
                     tagColor: AppTheme.goldDark,
                     bullets: [
                       'Our AI is trained on SOPs from students admitted to top universities.',
                       'Generates personalized SOPs based on your inputs.',
-                      'Comes with AI remover to ensure originality and AI-proofing.',
+                      'Comes with IEC AI remover to ensure originality and AI-proofing.',
                       'Ensures a unique, high-quality SOP that passes plagiarism checks.',
                       'Built specifically for university admission standards.',
                     ],
@@ -630,7 +614,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               color: isDark ? AppTheme.gold.withValues(alpha: 46) : AppTheme.goldDark.withValues(alpha: 31),
               borderRadius: BorderRadius.circular(999),
             ),
-            child: Text(step, style: TextStyle(color: isDark ? AppTheme.gold : AppTheme.goldDark, fontWeight: FontWeight.w900, fontSize: 12, letterSpacing: 0.8)),
+            child: Text(step, style: TextStyle(color: isDark ? AppTheme.gold : AppTheme.goldDark, fontWeight: FontWeight.w900, fontSize: 14, letterSpacing: 0.8)),
           ),
           const SizedBox(height: 18),
           Row(
@@ -733,7 +717,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                         color: tagColor.withValues(alpha: 38),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(tag, style: TextStyle(color: tagColor, fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
+                      child: Text(tag, style: TextStyle(color: tagColor, fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
                     ),
                   ],
                 ),

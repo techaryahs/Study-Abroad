@@ -91,7 +91,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Si
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                             decoration: BoxDecoration(color: AppTheme.gold.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
-                            child: Text('#${u.rank}', style: const TextStyle(color: AppTheme.gold, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                            child: Text('#${u.rank}', style: const TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                           ),
                           const Icon(LucideIcons.share2, size: 20, color: AppTheme.textSecondary),
                         ],
@@ -115,7 +115,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Si
                         unselectedLabelColor: AppTheme.textSecondary,
                         indicatorColor: AppTheme.gold,
                         indicatorSize: TabBarIndicatorSize.label,
-                        labelStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1),
+                        labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1),
                         tabs: const [
                           Tab(text: 'OVERVIEW'),
                           Tab(text: 'ACADEMICS'),
@@ -185,7 +185,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Si
           
           const SizedBox(height: 48),
           
-          const Text('Academic Benchmarks', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textSecondary)),
+          const Text('Academic Benchmarks', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textSecondary)),
           const SizedBox(height: 24),
           _metricRow('Avg. CGPA', '8.5 / 10'),
           _divider(),
@@ -250,7 +250,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Si
           ],
         ),
         const SizedBox(height: 16),
-        Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
       ],
     );
   }
@@ -270,7 +270,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Si
             children: [
               Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
               const SizedBox(height: 4),
-              Text(desc, style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
+              Text(desc, style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
             ],
           ),
         ),
@@ -306,19 +306,19 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Si
       ),
       child: Column(
         children: [
-          const Text('Exclusive Offer', style: TextStyle(color: Colors.white54, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 2)),
+          const Text('Exclusive Offer', style: TextStyle(color: Colors.white54, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2)),
           const SizedBox(height: 12),
           const Text('Secure your spot today', textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900)),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(backgroundColor: AppTheme.gold, foregroundColor: Colors.white, minimumSize: const Size(double.infinity, 56), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16))),
-            child: const Text('APPLY WITH PRIORITY', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1)),
+            child: const Text('APPLY WITH PRIORITY', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
           ),
           const SizedBox(height: 12),
           TextButton(
             onPressed: () {},
-            child: const Text('Speak with Counsellor', style: TextStyle(color: Colors.white70, fontSize: 12)),
+            child: const Text('Speak with Counsellor', style: TextStyle(color: Colors.white70, fontSize: 14)),
           ),
         ],
       ),
@@ -336,13 +336,13 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Si
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('ESTIMATED CHANCE', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
+                const Text('ESTIMATED CHANCE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
                 const SizedBox(height: 4),
                 Row(
                   children: [
                     const Text('78%', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                     const SizedBox(width: 8),
-                    Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: const Color(0xFF10B981).withOpacity(0.1), borderRadius: BorderRadius.circular(4)), child: const Text('EXCELLENT', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: Color(0xFF10B981)))),
+                    Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2), decoration: BoxDecoration(color: const Color(0xFF10B981).withOpacity(0.1), borderRadius: BorderRadius.circular(4)), child: const Text('EXCELLENT', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: Color(0xFF10B981)))),
                   ],
                 ),
               ],
@@ -351,7 +351,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen> with Si
           ElevatedButton(
             onPressed: () => context.push('/universities/unipredict'),
             style: ElevatedButton.styleFrom(backgroundColor: AppTheme.darkBrown, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16)),
-            child: const Text('RELOAD DATA', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900)),
+            child: const Text('RELOAD DATA', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
           ),
         ],
       ),

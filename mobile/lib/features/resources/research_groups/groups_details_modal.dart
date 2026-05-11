@@ -30,7 +30,7 @@ class GroupDetailsModal {
                     const Text(
                       "CLUSTER SPECIFICATIONS",
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 14,
                         letterSpacing: 2,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey,
@@ -84,7 +84,7 @@ class GroupDetailsModal {
                                   Text(
                                     '"${group["description"]}"',
                                     style: const TextStyle(
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       color: Colors.grey,
                                       fontStyle: FontStyle.italic,
                                     ),
@@ -126,7 +126,7 @@ class GroupDetailsModal {
                             Text(
                               "Scientific Personnel",
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -211,7 +211,7 @@ class GroupDetailsModal {
                             },
                             child: const Text(
                               "Apply for Cluster Membership",
-                              style: TextStyle(fontSize: 12),
+                              style: TextStyle(fontSize: 14),
                             ),
                           ),
                         ),
@@ -239,7 +239,7 @@ class GroupDetailsModal {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title,
-              style: const TextStyle(fontSize: 10, color: Colors.grey)),
+              style: const TextStyle(fontSize: 14, color: Colors.grey)),
           const SizedBox(height: 5),
           Text(value,
               style: const TextStyle(

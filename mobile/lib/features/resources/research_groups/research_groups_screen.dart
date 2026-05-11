@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../widgets/book_counselling_sheet.dart';
 
 // ─── Theme Colors ─────────────────────────────────────────────────────────────
 
@@ -75,12 +76,13 @@ class _ResearchGroupsScreenState extends State<ResearchGroupsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         _HeroHeader(),
-                        _MainContent(
-                          activeTab: _activeTab,
-                          searchController: _searchController,
-                          emailController: _emailController,
-                          onCreateTap: _openCreate,
-                        ),
+                          _MainContent(
+                            activeTab: _activeTab,
+                            searchController: _searchController,
+                            emailController: _emailController,
+                            onCreateTap: _openCreate,
+                            onConsultTap: () => BookCounsellingSheet.show(context),
+                          ),
                         const SizedBox(height: 40),
                       ],
                     ),
@@ -242,7 +244,7 @@ class _NavDrawer extends StatelessWidget {
                                       child: Text(
                                         item.label.toUpperCase(),
                                         style: TextStyle(
-                                          fontSize: 11,
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w800,
                                           color: isActive ? _white : _muted,
                                           letterSpacing: 0.8,
@@ -264,7 +266,7 @@ class _NavDrawer extends StatelessWidget {
                                 children: const [
                                   Icon(Icons.add_circle_outline, color: _gold, size: 20),
                                   SizedBox(width: 12),
-                                  Text('INITIATE NEW GROUP', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: _gold, letterSpacing: 0.8)),
+                                  Text('INITIATE NEW GROUP', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: _gold, letterSpacing: 0.8)),
                                 ],
                               ),
                             ),
@@ -288,7 +290,7 @@ class _NavDrawer extends StatelessWidget {
                             const SizedBox(height: 8),
                             const Text('Cluster Updates', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: _white)),
                             const SizedBox(height: 4),
-                            const Text('Briefings on emerging research opportunities.', style: TextStyle(fontSize: 11, color: _subtle)),
+                            const Text('Briefings on emerging research opportunities.', style: TextStyle(fontSize: 13, color: _subtle)),
                             const SizedBox(height: 14),
                             _DarkEmailField(),
                             const SizedBox(height: 10),
@@ -332,7 +334,7 @@ class _HeroHeader extends StatelessWidget {
             ),
             child: const Text(
               'GLOBAL COLLABORATION FRAMEWORK',
-              style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: _gold, letterSpacing: 1.5),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: _gold, letterSpacing: 1.5),
             ),
           ),
           const SizedBox(height: 16),
@@ -362,12 +364,14 @@ class _MainContent extends StatelessWidget {
   final TextEditingController searchController;
   final TextEditingController emailController;
   final VoidCallback onCreateTap;
+  final VoidCallback onConsultTap;
 
   const _MainContent({
     required this.activeTab,
     required this.searchController,
     required this.emailController,
     required this.onCreateTap,
+    required this.onConsultTap,
   });
 
   @override
@@ -399,7 +403,7 @@ class _MainContent extends StatelessWidget {
           // Bottom liaison banner (available tab only)
           if (activeTab == _Tab.available) ...[
             const SizedBox(height: 28),
-            _LiaisonBanner(),
+            _LiaisonBanner(onTap: onConsultTap),
           ],
         ],
       ),
@@ -438,7 +442,7 @@ class _TabPillStrip extends StatelessWidget {
                 Text(
                   item.label,
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 13,
                     fontWeight: FontWeight.w800,
                     color: isActive ? _white : _muted,
                     letterSpacing: 0.5,
@@ -473,7 +477,7 @@ class _InfoBanner extends StatelessWidget {
           Expanded(
             child: RichText(
               text: const TextSpan(
-                style: TextStyle(fontSize: 12, color: _muted, fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 14, color: _muted, fontWeight: FontWeight.w600),
                 children: [
                   TextSpan(text: 'Publishing without co-authors? '),
                   TextSpan(text: 'Explore Paper Services', style: TextStyle(color: _gold, decoration: TextDecoration.underline)),
@@ -511,7 +515,7 @@ class _SearchRow extends StatelessWidget {
             style: const TextStyle(fontSize: 13, color: _dark),
             decoration: const InputDecoration(
               hintText: 'Locate clusters by field, topic, or investigator...',
-              hintStyle: TextStyle(fontSize: 12, color: _subtle),
+              hintStyle: TextStyle(fontSize: 14, color: _subtle),
               prefixIcon: Icon(Icons.search, color: _subtle, size: 18),
               border: InputBorder.none,
               contentPadding: EdgeInsets.symmetric(vertical: 14),
@@ -531,7 +535,7 @@ class _SearchRow extends StatelessWidget {
               children: const [
                 Icon(Icons.add_circle_outline, color: _white, size: 16),
                 SizedBox(width: 8),
-                Text('CREATE CLUSTER', style: TextStyle(color: _white, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+                Text('CREATE CLUSTER', style: TextStyle(color: _white, fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
               ],
             ),
           ),
@@ -619,19 +623,19 @@ class _GroupCard extends StatelessWidget {
                 ),
                 child: Text(
                   group.status,
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: isOpen ? Colors.green[700] : Colors.red[400]),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: isOpen ? Colors.green[700] : Colors.red[400]),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 6),
-          Text(group.field, style: const TextStyle(fontSize: 12, color: _muted)),
+          Text(group.field, style: const TextStyle(fontSize: 14, color: _muted)),
           const SizedBox(height: 12),
           Row(
             children: [
               const Icon(Icons.group_outlined, color: _subtle, size: 14),
               const SizedBox(width: 4),
-              Text('${group.members} members', style: const TextStyle(fontSize: 11, color: _subtle)),
+              Text('${group.members} members', style: const TextStyle(fontSize: 13, color: _subtle)),
               const Spacer(),
               GestureDetector(
                 onTap: () {},
@@ -643,7 +647,7 @@ class _GroupCard extends StatelessWidget {
                   ),
                   child: Text(
                     isOpen ? 'Join' : 'View',
-                    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: isOpen ? _gold : _subtle),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: isOpen ? _gold : _subtle),
                   ),
                 ),
               ),
@@ -739,7 +743,7 @@ class _GuidelineCard extends StatelessWidget {
               children: [
                 Text(guideline.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: _dark)),
                 const SizedBox(height: 4),
-                Text(guideline.desc, style: const TextStyle(fontSize: 12, color: _muted, height: 1.5)),
+                Text(guideline.desc, style: const TextStyle(fontSize: 14, color: _muted, height: 1.5)),
               ],
             ),
           ),
@@ -752,6 +756,9 @@ class _GuidelineCard extends StatelessWidget {
 // ─── Liaison Banner ───────────────────────────────────────────────────────────
 
 class _LiaisonBanner extends StatelessWidget {
+  final VoidCallback onTap;
+  const _LiaisonBanner({required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -768,11 +775,11 @@ class _LiaisonBanner extends StatelessWidget {
           const SizedBox(height: 8),
           const Text(
             'OUR ACADEMIC ADVISORS CAN BRIDGE THE GAP TO YOUR NEXT COLLABORATION.',
-            style: TextStyle(fontSize: 10, color: _subtle, letterSpacing: 1, height: 1.5),
+            style: TextStyle(fontSize: 14, color: _subtle, letterSpacing: 1, height: 1.5),
           ),
           const SizedBox(height: 20),
           GestureDetector(
-            onTap: () {},
+            onTap: onTap,
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 14),
@@ -780,7 +787,7 @@ class _LiaisonBanner extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  Text('SECURE CONSULTATION', style: TextStyle(color: _white, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+                  Text('SECURE CONSULTATION', style: TextStyle(color: _white, fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
                   SizedBox(width: 8),
                   Icon(Icons.arrow_forward, color: _white, size: 14),
                 ],
@@ -906,7 +913,7 @@ class _CreateGroupSheetState extends State<_CreateGroupSheet> {
                             child: Text(
                               _step < 3 ? 'CONTINUE' : 'SUBMIT',
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: _gold, letterSpacing: 1.5),
+                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: _gold, letterSpacing: 1.5),
                             ),
                           ),
                         ),
@@ -982,7 +989,7 @@ class _GoldButton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(color: _gold, borderRadius: BorderRadius.circular(12)),
-        child: Text(label, textAlign: TextAlign.center, style: const TextStyle(color: _white, fontSize: 12, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+        child: Text(label, textAlign: TextAlign.center, style: const TextStyle(color: _white, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
       ),
     );
   }
@@ -992,10 +999,10 @@ class _DarkEmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      style: const TextStyle(fontSize: 12, color: _white),
+      style: const TextStyle(fontSize: 14, color: _white),
       decoration: InputDecoration(
         hintText: 'Academic Email',
-        hintStyle: const TextStyle(fontSize: 12, color: _subtle),
+        hintStyle: const TextStyle(fontSize: 14, color: _subtle),
         prefixIcon: const Icon(Icons.mail_outline, color: _subtle, size: 16),
         filled: true,
         fillColor: const Color(0xFF1A1817),

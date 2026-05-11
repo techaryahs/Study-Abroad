@@ -24,7 +24,7 @@ class ProfileProgressBar extends StatelessWidget {
             const Text(
               'PROFILE COMPLETION',
               style: TextStyle(
-                fontSize: 10,
+                fontSize: 14,
                 fontWeight: FontWeight.w900,
                 color: AppTheme.textPrimary,
                 letterSpacing: 0.5,
@@ -33,7 +33,7 @@ class ProfileProgressBar extends StatelessWidget {
             Text(
               '$completed/$total',
               style: const TextStyle(
-                fontSize: 11,
+                fontSize: 13,
                 fontWeight: FontWeight.w900,
                 color: AppTheme.gold,
                 fontStyle: FontStyle.italic,

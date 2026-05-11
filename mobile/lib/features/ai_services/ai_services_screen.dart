@@ -66,7 +66,7 @@ class AiServicesScreen extends StatelessWidget {
                         Container(width: 6, height: 6, decoration: const BoxDecoration(color: AppTheme.gold, shape: BoxShape.circle)),
                         const SizedBox(width: 8),
                         const Text('AI RESEARCH PROTOCOLS', 
-                            style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5)),
+                            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5)),
                       ],
                     ),
                   ).animate().fadeIn(duration: 500.ms),
@@ -100,7 +100,7 @@ class AiServicesScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Text('AI RESEARCH PROTOCOLS', 
-                            style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1)),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1)),
                       ],
                     ),
                   ),
@@ -117,7 +117,7 @@ class AiServicesScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           Text('Begin AI Simulation', 
-                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                           const SizedBox(width: 8),
                           Icon(Icons.arrow_forward_ios_rounded, color: AppTheme.gold, size: 10),
                         ],
@@ -125,6 +125,42 @@ class AiServicesScreen extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            // ✅ FAQ BUTTON
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: InkWell(
+                onTap: () => context.push('/faq'),
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  decoration: BoxDecoration(
+                    color: AppTheme.gold.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.help_outline_rounded, color: AppTheme.gold, size: 22),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Text(
+                          'Frequently Asked Questions',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900,
+                            color: AppTheme.gold,
+                          ),
+                        ),
+                      ),
+                     Icon(Icons.arrow_forward_ios_rounded, color: AppTheme.gold, size: 12),
+                    ],
+                  ),
+                ),
               ),
             ),
 
@@ -164,7 +200,7 @@ class AiServicesScreen extends StatelessWidget {
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.white)),
                   const SizedBox(height: 4),
                   Text(tool['description'], 
-                      style: TextStyle(fontSize: 11, color: Colors.white.withOpacity(0.5), height: 1.4)),
+                      style: TextStyle(fontSize: 13, color: Colors.white.withOpacity(0.5), height: 1.4)),
                 ],
               ),
             ),

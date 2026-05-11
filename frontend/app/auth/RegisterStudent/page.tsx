@@ -389,10 +389,10 @@ const Register = () => {
               <div className="w-10 h-10 bg-[#C5A059] rounded-xl flex items-center justify-center shadow-xl">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-black tracking-tighter uppercase italic">Global Counsellor Centre</span>
+              <span className="text-xl font-black tracking-tighter uppercase italic">International Eduleader Council</span>
             </div>
             <h1 className="text-4xl font-black leading-tight uppercase mb-6 tracking-tighter" style={{ fontFamily: 'Georgia, serif' }}>
-              Architect <br /> <span className="text-[#C5A059]">Global</span> <br /> Careers.
+              Build <br /> <span className="text-[#C5A059]">Global</span> <br /> Careers.
             </h1>
             <p className="text-white/40 text-[14px] font-bold leading-relaxed uppercase tracking-[0.2em] italic border-l-2 border-[#C5A059]/30 pl-4">
               Elite academic mentorship for the Ivy League and beyond. Start your journey here.
@@ -426,14 +426,14 @@ const Register = () => {
                 <motion.div key="step1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Identity Name</label>
+                      <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter Student Name</label>
                       <div className="relative group">
                         <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#6B5E51]/30 group-focus-within:text-[#C5A059]" />
                         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="e.g. John Doe" maxLength={50} className="w-full pl-10 pr-4 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner" />
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Sync Email</label>
+                      <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter Email</label>
                       <div className="relative">
                         <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 ${isEmailVerified ? 'text-green-500' : 'text-[#6B5E51]/30'}`} />
                         <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="name@university.com" className={`w-full pl-10 pr-16 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner ${isEmailVerified ? 'border-green-500/50' : 'focus:border-[#C5A059]'}`} />
@@ -446,12 +446,12 @@ const Register = () => {
 
                     <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">DOB</label>
-                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2.5 py-2 bg-[#FDFBF7] border rounded-xl text-[14px] font-bold font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.dob ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
+                        <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">DOB</label>
+                        <input type="date" name="dob" value={formData.dob} onChange={handleChange} max={maxDobString} className={`w-full px-2.5 py-2 bg-[#FDFBF7] border rounded-xl text-[10px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.dob ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Gender</label>
-                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2.5 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[14px] font-bold font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
+                        <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Gender</label>
+                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full px-2.5 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[10px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
                           <option value="">Select</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
@@ -461,7 +461,7 @@ const Register = () => {
 
                     <div className="md:col-span-1 col-span-2 grid grid-cols-2 gap-3">
                       <div className="space-y-1">
-                        <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Country</label>
+                        <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Country</label>
                         <Select
                           instanceId="country-select"
                           options={Country.getAllCountries().map((c: any) => ({ value: c.isoCode, label: c.name }))}
@@ -470,7 +470,7 @@ const Register = () => {
                         />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">State</label>
+                        <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">State</label>
                         <Select
                           instanceId="state-select"
                           options={formData.country ? State.getStatesOfCountry(formData.country.value).map((s: any) => ({ value: s.isoCode, label: s.name })) : []}
@@ -481,7 +481,7 @@ const Register = () => {
                     </div>
 
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Mobile Access</label>
+                      <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Mobile Access</label>
                       <div className="flex gap-2">
                         <div className="w-14 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[#3C2A21] font-black text-[14px] font-bold text-center shadow-inner">{formData.mobilePrefix}</div>
                         <div className="relative flex-1">
@@ -494,7 +494,7 @@ const Register = () => {
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Inquiry Source</label>
+                      <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Inquiry Source</label>
                       <select name="source" value={formData.source} onChange={handleChange} className="w-full px-4 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none appearance-none shadow-inner">
                         <option value="">Select Source</option>
                         <option value="Google">Google search</option>
@@ -504,22 +504,22 @@ const Register = () => {
                     </div>
 
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Define Passcode</label>
+                      <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter Password</label>
                       <div className="relative">
                         <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} minLength={6} maxLength={32} className={`w-full px-4 pr-10 py-2 bg-[#FDFBF7] border rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.password ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
                         <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B5E51]/30"><Eye className="w-3.5 h-3.5" /></button>
                       </div>
                     </div>
                     <div className="col-span-2 md:col-span-1 space-y-1">
-                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Confirm Sync</label>
+                      <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Confirm Password</label>
                       <input type={showPassword ? "text" : "password"} name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} className={`w-full px-4 py-2 bg-[#FDFBF7] border rounded-xl text-[11px] font-bold text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner ${errors.confirmPassword ? 'border-red-500' : 'border-[#F1EDEA]'}`} />
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2.5 pt-1">
                     <input type="checkbox" checked={acceptedPolicy} onChange={(e) => setAcceptedPolicy(e.target.checked)} className="w-3.5 h-3.5 rounded bg-[#FDFBF7] accent-[#C5A059] border-[#F1EDEA]" />
-                    <p className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest">
-                      I accept the <Link href="/privacy" className="text-[#C5A059] hover:underline">Privacy Policy</Link> and <Link href="/terms" className="text-[#C5A059] hover:underline">Terms of Service</Link>
+                    <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest">
+                      I accept the <Link href="/privacy-policy" className="text-[#C5A059] hover:underline">Privacy Policy</Link> and <Link href="/terms-and-conditions" className="text-[#C5A059] hover:underline">Terms & Conditions</Link>
                     </p>
                   </div>
 
@@ -535,20 +535,32 @@ const Register = () => {
 
               {step === 2 && (
                 <motion.div key="step2" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 ">
                     {["Admissions", "Scholarships", "Visa", "Research", "Jobs"].map(item => (
-                      <button key={item} onClick={() => toggleLookUp(item)} className={`py-3 px-2 rounded-2xl border text-center transition-all shadow-sm ${formData.lookUpFor.includes(item) ? 'bg-[#C5A059] border-[#C5A059] text-white shadow-[#C5A059]/30' : 'bg-[#FDFBF7] border-[#F1EDEA] text-[#6B5E51]/70 hover:border-[#C5A059]/20'}`}>
-                        <span className="font-black uppercase tracking-widest text-[13px] font-bold">{item}</span>
+                      <button key={item} onClick={() => toggleLookUp(item)} className={`py-3 px-2 rounded-2xl border text-center transition-all shadow-sm ${formData.lookUpFor.includes(item) ? 'bg-[#C5A059] border-[#C5A059] text-white shadow-[#C5A059]/30' : 'bg-[#FDFBF7] border-[#F1EDEA] text-[#6B5E51]/40 hover:border-[#C5A059]/20'}`}>
+                        <span className="font-black uppercase tracking-widest text-[9px] text-[#3C2A21]">{item}</span>
                       </button>
                     ))}
                   </div>
 
                   {formData.lookUpFor.includes("Admissions") ? (
                     <div className="space-y-3 pt-4 border-t border-[#F1EDEA]">
-                      <p className="text-[13px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-widest text-center">Objective Degree</p>
+                      <p className="text-[9px] font-black text-[#3C2A21] uppercase tracking-widest text-center">Objective Degree</p>
                       <div className="grid grid-cols-3 gap-2">
                         {["Bachelor's", "Master's", "Ph.D."].map(deg => (
-                          <button key={deg} onClick={() => setFormData(p => ({ ...p, degree: deg }))} className={`py-3 rounded-2xl border transition-all text-[13px] font-bold font-black uppercase tracking-widest ${formData.degree.includes(deg) ? 'border-[#C5A059] bg-[#C5A059]/5 text-[#C5A059]' : 'border-[#F1EDEA] bg-[#FDFBF7] text-[#6B5E51]/70'}`}>
+                          <button
+                            key={deg}
+                            onClick={() =>
+                              setFormData(p => ({
+                                ...p,
+                                degree: deg
+                              }))
+                            }
+                            className={`py-3 rounded-2xl border transition-all text-[9px] font-black uppercase tracking-widest ${formData.degree.includes(deg)
+                              ? 'border-[#C5A059] bg-[#C5A059]/5 text-[#3C2A21]'
+                              : 'border-[#F1EDEA] bg-[#FDFBF7] text-[#6B5E51]/40'
+                              }`}
+                          >
                             {deg}
                           </button>
                         ))}
@@ -559,16 +571,16 @@ const Register = () => {
                       <label className="flex items-center gap-4 p-4 rounded-2xl border border-[#C5A059]/20 bg-[#C5A059]/5 cursor-pointer shadow-inner">
                         <input type="checkbox" name="loanInterest" checked={formData.loanInterest} onChange={(e) => setFormData(p => ({ ...p, loanInterest: e.target.checked }))} className="w-4 h-4 accent-[#C5A059]" />
                         <div>
-                          <div className="font-black text-[#3C2A21] text-[14px] font-bold uppercase tracking-tight">Financing Interest?</div>
-                          <p className="text-[12px] font-black text-[#6B5E51]/60 font-bold uppercase tracking-widest">Access elite partner loan rates.</p>
+                          <div className="font-black text-[#3C2A21] text-[10px] uppercase tracking-tight">Financing Interest?</div>
+                          <p className="text-[8px] text-[#3C2A21] font-bold uppercase tracking-widest">Access elite partner loan rates.</p>
                         </div>
                       </label>
                     )
                   )}
 
                   <div className="pt-4 flex gap-4">
-                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] font-black rounded-2xl text-[13px] font-bold uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
-                    <button onClick={nextStep} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[13px] font-bold uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all active:scale-95">Sync Timeline</button>
+                    <button onClick={prevStep} className="flex-1 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] text-[#3C2A21] font-black rounded-2xl text-[9px] uppercase tracking-widest hover:text-[#C5A059] transition-all">Back</button>
+                    <button onClick={nextStep} className="flex-[2] py-3.5 bg-[#C5A059] text-white font-black rounded-2xl text-[9px] uppercase tracking-widest shadow-xl shadow-[#C5A059]/10 hover:bg-[#3C2A21] transition-all active:scale-95">Next</button>
                   </div>
                 </motion.div>
               )}
@@ -576,7 +588,7 @@ const Register = () => {
               {step === 3 && (
                 <motion.div key="step3" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
                   <div className="space-y-1">
-                    <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Target University Node</label>
+                    <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Target University Node</label>
                     <Select
                       instanceId="target-univ-select"
                       options={universities} onChange={(s: any) => setFormData(p => ({ ...p, targetUniv: s }))} value={formData.targetUniv} placeholder="Search Node..."
@@ -586,14 +598,14 @@ const Register = () => {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Terminal Term</label>
+                      <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Terminal Term</label>
                       <select name="targetTerm" value={formData.targetTerm} onChange={handleChange} className="w-full px-3 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner">
                         <option value="">Select Term</option>
                         {terms.map(t => <option key={t} value={t}>{t}</option>)}
                       </select>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Academic Year</label>
+                      <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Academic Year</label>
                       <select name="targetYear" value={formData.targetYear} onChange={handleChange} className="w-full px-3 py-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl text-[11px] font-bold text-[#3C2A21] outline-none shadow-inner">
                         {years.map(y => <option key={y} value={y}>{y}</option>)}
                       </select>
@@ -601,7 +613,7 @@ const Register = () => {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[12px] font-black font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Target Specialization</label>
+                    <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Target Specialization</label>
                     <Select
                       instanceId="target-major-select"
                       options={majors} onChange={(s: any) => setFormData(p => ({ ...p, targetMajor: s }))} value={formData.targetMajor} placeholder="Search Major..."

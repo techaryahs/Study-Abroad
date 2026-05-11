@@ -89,7 +89,7 @@ class YourGroups extends StatelessWidget {
           const Text(
             "Initiate a new research cluster to begin your journey.",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            style: TextStyle(fontSize: 14, color: Colors.grey),
           ),
 
           const SizedBox(height: 25),
@@ -110,7 +110,7 @@ class YourGroups extends StatelessWidget {
             icon: const Icon(Icons.arrow_forward, size: 18),
             label: const Text(
               "Initiate Cluster",
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 14),
             ),
           )
         ],

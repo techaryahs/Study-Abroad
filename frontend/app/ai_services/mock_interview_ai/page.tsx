@@ -16,11 +16,13 @@ import {
   CreditCard
 } from "lucide-react";
 import CheckoutModal from "@/app/User/cart/checkoutmodal";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 export default function USVisaMockInterview() {
     const [openFaq, setOpenFaq] = useState<number | null>(0);
     const [currency, setCurrency] = useState("INR");
     const [checkoutPlan, setCheckoutPlan] = useState<{ actual: number; discounted: number; title: string } | null>(null);
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
 
     const faqs = [
         {
@@ -131,7 +133,7 @@ export default function USVisaMockInterview() {
             `}</style>
 
             {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
-            <section className="relative pt-32 pb-24 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.08) 0%, transparent 100%)" }}>
+            <section className="relative pt-8 pb-12 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.08) 0%, transparent 100%)" }}>
                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                   <motion.div 
                     initial={{ opacity: 0, x: -30 }}
@@ -166,25 +168,25 @@ export default function USVisaMockInterview() {
                               </div>
                               <span className="text-[14px] font-bold text-white/40 font-bold tracking-widest uppercase">Encryption Active</span>
                            </div>
-                           <div className="p-10 space-y-8">
-                              <div className="flex gap-4 items-start">
-                                 <div className="w-10 h-10 rounded-xl bg-[#C5A059] flex items-center justify-center font-bold text-[#2D2926] text-xs">VO</div>
-                                 <div className="bg-white/5 rounded-2xl rounded-tl-none p-5 text-sm text-white/80 leading-relaxed max-w-[80%]">
+                           <div className="p-6 space-y-4">
+                              <div className="flex gap-3 items-start">
+                                 <div className="w-8 h-8 rounded-lg bg-[#C5A059] flex items-center justify-center font-bold text-[#2D2926] text-[10px] shrink-0">VO</div>
+                                 <div className="bg-white/5 rounded-2xl rounded-tl-none p-4 text-xs text-white/80 leading-relaxed max-w-[85%]">
                                     "Welcome. I see you're applying for an F-1 visa. Why did you choose this specific university for your Masters?"
                                  </div>
                               </div>
-                              <div className="flex gap-4 items-start flex-row-reverse">
-                                 <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center font-bold text-white text-xs">YOU</div>
-                                 <div className="bg-[#C5A059] rounded-2xl rounded-tr-none p-5 text-sm text-[#2D2926] font-medium leading-relaxed max-w-[80%]">
+                              <div className="flex gap-3 items-start flex-row-reverse">
+                                 <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center font-bold text-white text-[10px] shrink-0">YOU</div>
+                                 <div className="bg-[#C5A059] rounded-2xl rounded-tr-none p-4 text-xs text-[#2D2926] font-medium leading-relaxed max-w-[85%]">
                                     "I chose University of California because of their advanced research in Neural Networks and the specific faculty mentorship program..."
                                  </div>
                               </div>
-                              <div className="pt-6 border-t border-white/5">
-                                 <div className="flex items-center gap-3 text-[#C5A059] mb-4">
+                              <div className="pt-4 border-t border-white/5">
+                                 <div className="flex items-center gap-3 text-[#C5A059] mb-2">
                                     <Zap size={16} />
                                     <span className="text-[14px] font-bold font-bold tracking-widest uppercase">Live Feedback Engine</span>
                                  </div>
-                                 <div className="text-white/40 text-xs italic font-medium leading-relaxed">
+                                 <div className="text-white/40 text-[11px] italic font-medium leading-relaxed">
                                     "Strong answer. You successfully linked your academic interests to specific university offerings. Recommendation: Mention one specific professor's work to boost credibility."
                                  </div>
                               </div>
@@ -199,7 +201,7 @@ export default function USVisaMockInterview() {
             </section>
 
             {/* ── CORE CAPABILITIES ──────────────────────────────────────────────── */}
-            <section className="py-32 px-6">
+            <section className="py-16 px-6">
                 <div className="max-w-7xl mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                         {[
@@ -251,11 +253,11 @@ export default function USVisaMockInterview() {
             </section>
 
             {/* ── PRICING SECTION ─────────────────────────────────────────────────── */}
-            <section className="py-32 px-6">
+            <section id="pricing" className="py-32 px-6">
                <div className="max-w-7xl mx-auto">
                   <div className="text-center mb-20 space-y-6">
                      <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Limited Time Enrollment</span>
-                     <h2 className="fd text-5xl md:text-6xl font-bold leading-tight">Elite <span className="gold-shimmer">Access Protocols</span></h2>
+                     <h2 className="fd text-5xl md:text-6xl font-bold leading-tight text-[#2D2926]">Elite <span className="gold-shimmer">Access Protocols</span></h2>
                      <p className="text-[#6B5E51] text-lg font-medium max-w-2xl mx-auto italic">
                         "Secure your visa first attempt. Avoid the $185 re-application fee and months of delay."
                      </p>
@@ -314,7 +316,7 @@ export default function USVisaMockInterview() {
             <section className="py-24 px-6 bg-[#F8F5F0]">
                <div className="max-w-4xl mx-auto space-y-16">
                   <div className="text-center space-y-4">
-                     <h2 className="fd text-4xl font-bold">Protocol <span className="gold-shimmer">Inquiries</span></h2>
+                     <h2 className="fd text-4xl font-bold text-[#2D2926]">Protocol <span className="gold-shimmer">Inquiries</span></h2>
                      <p className="text-[#6B5E51] font-medium italic">Everything you need to know about our institutional AI</p>
                   </div>
                   <div className="space-y-4">
@@ -346,11 +348,39 @@ export default function USVisaMockInterview() {
                   </div>
                </div>
             </section>
-
-
-
-
-            
+ 
+            {/* ── FINAL CTA SECTION ────────────────────────────────────────────────── */}
+            <section className="py-32 px-6">
+               <div className="max-w-5xl mx-auto">
+                  <div className="bg-white border border-[#C5A059]/20 rounded-[48px] p-12 md:p-24 text-center space-y-10 relative overflow-hidden shadow-2xl">
+                     <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent" />
+                     <div className="space-y-4 relative z-10">
+                        <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Ready for Approval?</span>
+                        <h2 className="fd text-5xl md:text-6xl font-bold text-[#2D2926]">Claim Your <span className="gold-shimmer">Status Today</span></h2>
+                        <p className="text-[#6B5E51] text-lg font-medium max-w-2xl mx-auto italic">
+                           "Join 50,000+ applicants who secured their visas using our institutional-grade simulation protocols."
+                        </p>
+                     </div>
+                     <div className="flex flex-col sm:flex-row gap-6 justify-center relative z-10 pt-4">
+                        <button 
+                           onClick={() => setIsBookingOpen(true)}
+                           className="bg-[#2D2926] text-white px-10 py-5 rounded-2xl font-bold hover:bg-[#C5A059] transition-all flex items-center justify-center gap-3 shadow-2xl tracking-widest text-xs uppercase"
+                        >
+                           Consult Advisor <Zap size={16} />
+                        </button>
+                        <button 
+                           onClick={() => {
+                              const el = document.getElementById('pricing');
+                              el?.scrollIntoView({ behavior: 'smooth' });
+                           }}
+                           className="bg-[#FDFBF7] text-[#2D2926] border-2 border-[#F1EDEA] px-10 py-5 rounded-2xl font-bold hover:border-[#C5A059] transition-all tracking-widest text-xs uppercase"
+                        >
+                           View Protocols
+                        </button>
+                     </div>
+                  </div>
+               </div>
+            </section>
             <CheckoutModal 
                 isOpen={checkoutPlan !== null}
                 onClose={() => setCheckoutPlan(null)}
@@ -359,6 +389,11 @@ export default function USVisaMockInterview() {
                 discount={(checkoutPlan?.actual || 0) - (checkoutPlan?.discounted || 0)}
                 total={checkoutPlan?.discounted || 0}
                 currency="INR"
+            />
+
+            <BookCounsellingModal 
+               isOpen={isBookingOpen}
+               onClose={() => setIsBookingOpen(false)}
             />
         </main>
     );

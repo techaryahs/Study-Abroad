@@ -26,6 +26,7 @@ import '../features/ai_services/ai_services_screen.dart';
 import '../features/ai_services/screens/sop_generator_screen.dart';
 import '../features/ai_services/screens/mock_interview_screen.dart';
 import '../features/ai_services/screens/plagiarism_remover_screen.dart';
+import '../features/faq/faq_screen.dart';
 import '../features/resources/resources_screen.dart';
 import '../features/resources/eb-1a.dart';
 import '../features/resources/education-loan.dart';
@@ -115,6 +116,8 @@ class AppRouter {
             GoRoute(path: '/ai-services/sop-generator', builder: (_, __) => const SopGeneratorScreen()),
             GoRoute(path: '/ai-services/mock-interview', builder: (_, __) => const MockInterviewScreen()),
             GoRoute(path: '/ai-services/plagiarism-remover', builder: (_, __) => const PlagiarismRemoverScreen()),
+            // FAQ
+            GoRoute(path: '/faq', builder: (_, __) => const FAQScreen()),
             GoRoute(
               path: '/university/:slug',
               builder: (_, state) => UniversityDetailScreen(

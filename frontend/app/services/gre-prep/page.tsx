@@ -239,9 +239,12 @@ export default function GrePrepPage() {
                             <p className="text-sm text-[#3C2A21]/60 font-medium leading-relaxed">
                                 Not sure if you're ready for the deep dive? Connect with a team member to legacy-check your current progress.
                             </p>
-                            <Link href="/contact" className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[14px] font-bold tracking-widest uppercase hover:gap-3 transition-all">
+                            <button
+                                onClick={() => setShowBookingModal(true)}
+                                className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[10px] tracking-widest uppercase hover:gap-3 transition-all"
+                            >
                                 Message now <ArrowRight size={14} />
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </div>

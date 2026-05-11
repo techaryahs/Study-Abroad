@@ -22,6 +22,7 @@ export const removeToken = () => {
   if (typeof window !== "undefined") {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    window.dispatchEvent(new Event('user-updated'));
   }
 };
 
@@ -29,6 +30,7 @@ export const clearAuth = () => {
   if (typeof window !== "undefined") {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    window.dispatchEvent(new Event('user-updated'));
   }
 };
 

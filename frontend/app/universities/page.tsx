@@ -72,8 +72,8 @@ export default function UniversitiesPage() {
         .featured-badge {
           background: #C5A059;
           color: #FFFFFF;
-          font-size: 10px;
-          font-weight: 800;
+          font-size: 12px;
+          font-weight: 900;
           text-transform: uppercase;
           letter-spacing: 0.1em;
           padding: 6px 14px;
@@ -85,11 +85,11 @@ export default function UniversitiesPage() {
       <section className="relative px-6 md:px-16 pt-32 pb-20 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.08) 0%, transparent 100%)" }}>
         <div className="relative z-10 max-w-6xl mx-auto text-center space-y-8">
           <motion.div
-             initial={{ opacity: 0, y: -20 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-xs tracking-[0.2em] uppercase mb-6 shadow-sm">
+            <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-black text-[13px] tracking-[0.2em] uppercase mb-6 shadow-sm">
               Global Education Index
             </span>
             <h1 className="fd text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 leading-[0.95] text-[#2D2926]">
@@ -100,16 +100,16 @@ export default function UniversitiesPage() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="pt-10 max-w-3xl mx-auto"
           >
             <div className="relative flex items-center">
-              <input 
-                type="text" 
-                placeholder="Locate a country or specific institution..." 
+              <input
+                type="text"
+                placeholder="Locate a country or specific institution..."
                 className="w-full bg-[#FFFFFF] border border-[rgba(197,160,89,0.25)] rounded-2xl py-5 pl-7 pr-40 text-[#2D2926] shadow-xl focus:outline-none focus:ring-4 focus:ring-[rgba(197,160,89,0.1)] transition-all font-medium text-lg placeholder:text-[#A8A29E]"
               />
               <button className="absolute right-2 bg-[#2D2926] text-[#FFFFFF] px-10 py-3.5 rounded-xl font-bold hover:bg-[#C5A059] transition-all shadow-lg text-sm tracking-wide">
@@ -128,15 +128,15 @@ export default function UniversitiesPage() {
             <p className="text-[#6B5E51] text-lg mt-3 font-medium">Select a territory to access verified institutional performance metrics</p>
           </div>
           <div className="flex gap-4">
-             {["All", "Popular", "Recently Updated"].map((filter, i) => (
-               <button key={i} className={`px-6 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase border ${i === 0 ? "bg-[#2D2926] text-white border-[#2D2926]" : "border-[rgba(197,160,89,0.3)] text-[#6B5E51]"}`}>
-                 {filter}
-               </button>
-             ))}
+            {["All", "Popular", "Recently Updated"].map((filter, i) => (
+              <button key={i} className={`px-6 py-2.5 rounded-full text-[12px] font-black tracking-wider uppercase border ${i === 0 ? "bg-[#2D2926] text-white border-[#2D2926]" : "border-[rgba(197,160,89,0.3)] text-[#6B5E51]"}`}>
+                {filter}
+              </button>
+            ))}
           </div>
         </div>
 
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -144,7 +144,7 @@ export default function UniversitiesPage() {
         >
           {destinations.map((dest) => (
             <Link key={dest.code} href={`/universities/by-country/${dest.slug}`}>
-              <motion.div 
+              <motion.div
                 variants={itemVariants}
                 className="destination-card group relative p-8 cursor-pointer"
               >
@@ -153,7 +153,7 @@ export default function UniversitiesPage() {
                     Featured Tier
                   </div>
                 )}
-                
+
                 <div className="flex flex-col items-center text-center space-y-6">
                   <div className="w-24 h-16 relative overflow-hidden rounded-xl shadow-lg border-2 border-[#FDFBF7] group-hover:scale-110 transition-transform duration-500">
                     <Flag code={dest.code} className="w-full h-full object-cover" />
@@ -162,12 +162,12 @@ export default function UniversitiesPage() {
                     <h3 className="fd font-bold text-3xl text-[#2D2926] group-hover:text-[#C5A059] transition-colors leading-tight">
                       {dest.name}
                     </h3>
-                    <span className="text-sm font-bold text-[#C5A059] tracking-widest uppercase block">
+                    <span className="text-[13px] font-black text-[#C5A059] tracking-widest uppercase block">
                       {dest.count}
                     </span>
                   </div>
-                  
-                  <div className="pt-4 flex items-center text-[#6B5E51] font-bold text-xs tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+                  <div className="pt-4 flex items-center text-[#6B5E51] font-black text-[12px] tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     VIEW CATALOGUE <span className="ml-2 text-lg">→</span>
                   </div>
                 </div>
@@ -180,12 +180,12 @@ export default function UniversitiesPage() {
       {/* CTA section */}
       <section className="px-6 md:px-16 py-32 mt-20 bg-[#2D2926] text-white text-center relative overflow-hidden rounded-[40px] mx-6 mb-20">
         <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 50% 50%, #C5A059 1px, transparent 1px)", backgroundSize: "30px 30px" }}></div>
-        
+
         <div className="relative z-10 max-w-5xl mx-auto space-y-10">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-[rgba(197,160,89,0.15)] text-[#C5A059] font-bold text-[14px] font-bold tracking-[0.3em] uppercase mb-4 border border-[rgba(197,160,89,0.2)]">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-[rgba(197,160,89,0.15)] text-[#C5A059] font-black text-[12px] tracking-[0.3em] uppercase mb-4 border border-[rgba(197,160,89,0.2)]">
             Consultancy Services
           </span>
-          <h2 className="fd text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95]">Strategic Academic <br/><span className="gold-shimmer">Planning</span></h2>
+          <h2 className="fd text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[0.95]">Strategic Academic <br /><span className="gold-shimmer">Planning</span></h2>
           <p className="text-[#A8A29E] text-lg md:text-2xl font-medium max-w-3xl mx-auto leading-relaxed">
             Connect with our global advisors to architect a bespoke institutional roadmap tailored to your professional trajectory.
           </p>

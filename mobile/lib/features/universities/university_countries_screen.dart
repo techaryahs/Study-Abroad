@@ -79,7 +79,7 @@ class UniversityCountriesScreen extends StatelessWidget {
                                   Text('${country.universities.length}',
                                       style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                                   const SizedBox(height: 4),
-                                  const Text('Universities', style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                                  const Text('Universities', style: TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
                                 ],
                               ),
                             ],
@@ -96,14 +96,14 @@ class UniversityCountriesScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(14),
                                       ),
                                       child: Text(university.slug,
-                                          style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
+                                          style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
                                     ))
                                 .toList(),
                           ),
                           const SizedBox(height: 10),
                           Row(
                             children: const [
-                              Text('Tap to view country universities', style: TextStyle(fontSize: 11, color: AppTheme.textSecondary)),
+                              Text('Tap to view country universities', style: TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
                               Spacer(),
                               Icon(Icons.arrow_forward_ios_rounded, size: 14, color: AppTheme.textSecondary),
                             ],

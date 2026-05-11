@@ -27,7 +27,7 @@ const infoCards = [
   }
 ];
 
-export default function KnowMore() {
+export default function KnowMore({ onBookingClick }: { onBookingClick?: () => void }) {
   return (
     <div className="flex flex-col gap-12">
       <div className="flex flex-col gap-4 max-w-2xl">
@@ -36,7 +36,7 @@ export default function KnowMore() {
           Participating in research clusters is a cornerstone of professional academic development. Secure your legacy through collaborative publishing.
         </p>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {infoCards.map((card, idx) => (
           <div key={idx} className="bg-white p-8 rounded-[30px] flex flex-col gap-4 border border-[rgba(197,160,89,0.1)] hover:border-[#C5A059] transition-all shadow-sm">
@@ -50,16 +50,19 @@ export default function KnowMore() {
           </div>
         ))}
       </div>
-      
+
       <div className="bg-[#2D2926] p-12 rounded-[40px] flex flex-col items-center text-center gap-8 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 10% 20%, #C5A059 1px, transparent 1px)", backgroundSize: '40px 40px' }}></div>
         <div className="relative z-10 flex flex-col gap-4">
-            <h3 className="fd text-3xl font-bold text-white leading-tight">Complex Inquiries?</h3>
-            <p className="text-[#A8A29E] text-xs max-w-sm font-medium uppercase tracking-[0.1em] text-center leading-loose">Our advisors are equipped to guide you through the intricacies of international research paradigms.</p>
+          <h3 className="fd text-3xl font-bold text-white leading-tight">Complex Inquiries?</h3>
+          <p className="text-[#A8A29E] text-xs max-w-sm font-medium uppercase tracking-[0.1em] text-center leading-loose">Our advisors are equipped to guide you through the intricacies of international research paradigms.</p>
         </div>
-        <Link href="/contact" className="relative z-10">
-          <button className="bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] px-10 py-4 text-[14px] font-bold font-bold rounded-xl border border-transparent transition-all uppercase tracking-widest">Speak With a Specialist</button>
-        </Link>
+        <button
+          onClick={onBookingClick}
+          className="relative z-10 bg-[#C5A059] text-white hover:bg-white hover:text-[#2D2926] px-10 py-4 text-[10px] font-bold rounded-xl border border-transparent transition-all uppercase tracking-widest"
+        >
+          Speak With a Specialist
+        </button>
       </div>
     </div>
   );

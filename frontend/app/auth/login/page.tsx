@@ -28,8 +28,8 @@ const Login: React.FC = () => {
   const [forgotLoading, setForgotLoading] = useState<boolean>(false);
   const [forgotMessage, setForgotMessage] = useState<{ text: string; type: "success" | "error" }>({ text: "", type: "error" });
 
-  const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') 
-    ? process.env.NEXT_PUBLIC_BACKEND_URL 
+  const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined')
+    ? process.env.NEXT_PUBLIC_BACKEND_URL
     : 'http://localhost:5001';
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
@@ -53,18 +53,14 @@ const Login: React.FC = () => {
       const { token, user }: { token: string; user: User } = data;
       const role = user.role;
 
-      if (!user.isVerified) {
-        router.push(`/auth/RegisterStudent`);
-        return;
-      }
-
       setToken(token);
       setUser(user);
 
+      // Notify components immediately
+      window.dispatchEvent(new Event('user-updated'));
+
       setTimeout(() => {
         if (role === "admin") router.push("/admin-dashboard");
-        else if (role === "consultant") router.push("/consultant-dashboard");
-        else if (role === "parent") router.push("/parent-dashboard");
         else router.push("/User/dashboard");
       }, 500);
 
@@ -162,7 +158,7 @@ const Login: React.FC = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: forgotEmail.trim(), otp: forgotOtp.trim(), newPassword: forgotPassword.trim() }),
         });
-        
+
         const adminResetData = await adminResetRes.json();
         if (!adminResetRes.ok) {
           throw new Error(adminResetData.error || "Failed to reset password");
@@ -193,7 +189,7 @@ const Login: React.FC = () => {
         <div className="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-white blur-[100px] rounded-full" />
       </div>
 
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="bg-white border border-[#C5A059]/15 rounded-[2rem] md:rounded-[2.5rem] shadow-3xl w-full max-w-4xl flex flex-col lg:flex-row h-auto lg:h-[500px] max-h-[90vh] overflow-hidden relative z-10 mx-auto"
@@ -201,13 +197,13 @@ const Login: React.FC = () => {
         {/* Left Side - Brand Promise */}
         <div className="hidden lg:flex lg:w-[38%] p-10 flex-col justify-between relative overflow-hidden group bg-gradient-to-b from-[#3C2A21] to-[#2D2926] text-white">
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
-          
+
           <div className="relative z-10">
             <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 border border-[#C5A059]/30 flex items-center justify-center mb-8 backdrop-blur-xl">
               <Sparkles className="w-6 h-6 text-[#C5A059]" />
             </div>
             <h1 className="text-4xl font-black mb-6 uppercase tracking-tighter italic leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
-              Architect <br /> Your <br /> <span className="text-[#C5A059]">Global</span> <br /> Legacy.
+              Build <br /> Your <br /> <span className="text-[#C5A059]">Global</span> <br /> Legacy.
             </h1>
             <p className="text-white/60 text-[14px] font-bold font-black leading-relaxed max-w-xs uppercase tracking-widest pl-4 border-l-2 border-[#C5A059]/30">
               Elite academic mentorship for the Ivy League and beyond. Access your centralized dashboard.
@@ -225,13 +221,13 @@ const Login: React.FC = () => {
         {/* Right Form */}
         <div className="w-full lg:w-[62%] p-6 md:p-10 flex flex-col justify-center relative bg-white">
           <div className="mb-6">
-            <h2 className="text-2xl font-black text-[#3C2A21] mb-2 uppercase tracking-tight italic" style={{ fontFamily: 'Georgia, serif' }}>Member Sync</h2>
+            <h2 className="text-2xl font-black text-[#3C2A21] mb-2 uppercase tracking-tight italic" style={{ fontFamily: 'Georgia, serif' }}>Welcome Back</h2>
             <div className="h-1 w-12 bg-[#C5A059] rounded-full" />
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <label className="block text-[14px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Terminal Node Address</label>
+              <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter your registered email</label>
               <div className="relative group">
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
                 <input
@@ -246,7 +242,7 @@ const Login: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-[14px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Access Passcode</label>
+              <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter Password</label>
               <div className="relative group">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
                 <input
@@ -268,12 +264,12 @@ const Login: React.FC = () => {
             </div>
 
             <div className="flex justify-end pt-1">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={() => setShowForgotModal(true)}
                 className="text-[13px] font-bold font-black text-[#6B5E51]/70 hover:text-[#C5A059] uppercase tracking-widest transition-all"
               >
-                Forgot Credentials?
+                Forgot Password?
               </button>
             </div>
 
@@ -294,13 +290,7 @@ const Login: React.FC = () => {
           </form>
 
           <div className="mt-8 pt-6 border-t border-[#F1EDEA] flex flex-col gap-4 items-center">
-             <p className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-widest">New Node Initialization?</p>
-             <button 
-                onClick={() => router.push("/auth/RegisterStudent")} 
-                className="text-[14px] font-bold font-black text-[#C5A059] hover:text-[#3C2A21] transition-all uppercase tracking-widest"
-             >
-                Initialize Student Account
-             </button>
+            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>
           </div>
         </div>
       </motion.div>
@@ -334,11 +324,10 @@ const Login: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`text-[14px] font-bold font-black uppercase mb-4 p-3 rounded-lg border flex items-center gap-2 ${
-                  forgotMessage.type === "success"
-                    ? "bg-green-500/10 border-green-500/20 text-green-600"
-                    : "bg-red-500/10 border-red-500/20 text-red-600"
-                }`}
+                className={`text-[10px] font-black uppercase mb-4 p-3 rounded-lg border flex items-center gap-2 ${forgotMessage.type === "success"
+                  ? "bg-green-500/10 border-green-500/20 text-green-600"
+                  : "bg-red-500/10 border-red-500/20 text-red-600"
+                  }`}
               >
                 <AlertCircle size={14} />
                 {forgotMessage.text}

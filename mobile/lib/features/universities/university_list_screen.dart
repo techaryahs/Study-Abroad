@@ -106,7 +106,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                               ),
                               const SizedBox(height: 4),
                               Text('${universities.length} TOP INSTITUTIONS DOCUMENTED',
-                                  style: const TextStyle(color: AppTheme.gold, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                                  style: const TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
                             ],
                           ),
                         ),
@@ -135,7 +135,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                       decoration: const InputDecoration(
                         hintText: 'FILTER INSTITUTIONS...',
-                        hintStyle: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textSecondary),
+                        hintStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1, color: AppTheme.textSecondary),
                         prefixIcon: Icon(LucideIcons.search, size: 18, color: AppTheme.gold),
                         border: InputBorder.none,
                         contentPadding: EdgeInsets.symmetric(vertical: 16),
@@ -203,7 +203,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(color: AppTheme.gold.withOpacity(0.1), borderRadius: BorderRadius.circular(4)),
-                              child: Text('#${u.rank}', style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+                              child: Text('#${u.rank}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.gold)),
                             ),
                           ],
                         ),
@@ -212,7 +212,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                           children: [
                             const Icon(LucideIcons.mapPin, size: 10, color: AppTheme.gold),
                             const SizedBox(width: 4),
-                            Expanded(child: Text(u.fullLocation, style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary), overflow: TextOverflow.ellipsis)),
+                            Expanded(child: Text(u.fullLocation, style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary), overflow: TextOverflow.ellipsis)),
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -247,7 +247,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
         children: [
           Icon(icon, size: 10, color: text),
           const SizedBox(width: 4),
-          Text(label, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: text)),
+          Text(label, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: text)),
         ],
       ),
     );

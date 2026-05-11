@@ -314,7 +314,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
     >
       <div className="bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 flex flex-col overflow-hidden">
         <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
-          <p className="text-[14px] font-bold font-semibold uppercase tracking-widest text-[#B3985E] truncate">
+          <p className="text-[12px] font-semibold uppercase tracking-widest text-[#B3985E] truncate">
             {accordionItems[0]?.items[0]?.href.includes('program') ? 'Academic Categories' : 'Regions & States'}
           </p>
         </div>
@@ -326,7 +326,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
                   e.preventDefault();
                   setOpenCountry(openCountry === group.name ? null : group.name);
                 }}
-                className={`w-full flex items-center justify-between px-4 py-3 text-[11px] font-semibold transition-all duration-200 ${openCountry === group.name ? 'text-[#B3985E] bg-white/5' : 'text-gray-300 hover:text-[#B3985E] hover:bg-white/5'}`}
+                className={`w-full flex items-center justify-between px-4 py-3 text-[13px] font-semibold transition-all duration-200 ${openCountry === group.name ? 'text-[#B3985E] bg-white/5' : 'text-gray-300 hover:text-[#B3985E] hover:bg-white/5'}`}
               >
                 <span className="truncate pr-2">{group.name}</span>
                 {openCountry === group.name ? <Minus size={10} strokeWidth={3} /> : <Plus size={10} strokeWidth={3} />}
@@ -337,7 +337,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
                     <li key={subItem.name}>
                       <Link
                         href={subItem.href}
-                        className="block px-6 py-2.5 text-[14px] font-bold font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all border-l-2 border-transparent hover:border-[#B3985E]"
+                        className="block px-6 py-2.5 text-[12px] font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all border-l-2 border-transparent hover:border-[#B3985E]"
                       >
                         {subItem.name}
                       </Link>
@@ -362,6 +362,7 @@ function DropdownPanel({
   browseLabel,
   align = "left",
   width = "340px",
+  compact = false,
   onMouseEnter,
   onMouseLeave,
 }: {
@@ -371,6 +372,7 @@ function DropdownPanel({
   browseLabel: string;
   align?: "left" | "center";
   width?: string;
+  compact?: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
 }) {
@@ -406,7 +408,7 @@ function DropdownPanel({
             {/* Sub-menu trigger (Items with children) */}
             {(item.subItems || item.subAccordion) ? (
               <div
-                className="group flex items-start gap-3 px-4 py-2 hover:bg-white/5 transition-colors duration-150 cursor-default"
+                className={`group flex items-start gap-3 px-4 ${compact ? "py-1" : "py-2"} hover:bg-white/5 transition-colors duration-150 cursor-default`}
               >
                 <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
                 <div className="flex-1 min-w-0">
@@ -432,7 +434,7 @@ function DropdownPanel({
             ) : (
               <Link
                 href={item.href}
-                className="group flex items-start gap-3 px-4 py-2 hover:bg-white/5 transition-colors duration-150"
+                className={`group flex items-start gap-3 px-4 ${compact ? "py-1" : "py-2"} hover:bg-white/5 transition-colors duration-150`}
               >
                 <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
                 <div className="flex-1 min-w-0">
@@ -464,7 +466,7 @@ function DropdownPanel({
                 style={{ animation: "dropIn 0.15s ease-out both" }}
               >
                 <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
-                  <p className="text-[14px] font-bold font-semibold uppercase tracking-widest text-[#B3985E]">
+                  <p className="text-[12px] font-semibold uppercase tracking-widest text-[#B3985E]">
                     Global Reach
                   </p>
                 </div>
@@ -621,35 +623,46 @@ export default function Navbar() {
     fetchCartCount();
     window.addEventListener('cart-updated', fetchCartCount);
 
-    const storedUser = getUser();
-    if (storedUser && (storedUser._id || storedUser.id)) {
-      const fetchFullProfile = async () => {
-        const userId = storedUser._id || storedUser.id;
-        if (!userId) return;
-        try {
-          const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
-          if (response.ok) {
-            const data = await response.json();
-            const fullUser = {
-              ...storedUser,
-              ...data,
-              ...(data.profile || {})
-            };
-            setUserState(fullUser);
-          } else if (response.status === 401 || response.status === 404) {
-            console.warn("Auth session node stale on navbar hook. Resetting...");
-            clearAuth();
-            setUserState(null);
-          }
-        } catch (error) {
-          console.error("Failed to fetch full user profile in Navbar:", error);
+    const fetchFullProfile = async () => {
+      const storedUser = getUser();
+      const userId = storedUser?._id || storedUser?.id;
+      if (!userId) return;
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
+        if (response.ok) {
+          const data = await response.json();
+          // Flatten profile data into the top-level user object for easier access in Navbar
+          const fullUser = {
+            ...storedUser,
+            ...data,
+            ...(data.profile || {})
+          };
+          setUserState(fullUser);
+        } else if (response.status === 404) {
+          // Only clear if the user definitely doesn't exist anymore
+          console.warn("User profile not found. Session may be stale.");
+          clearAuth();
+          setUserState(null);
         }
-      };
+      } catch (error) {
+        console.error("Failed to fetch full user profile in Navbar:", error);
+      }
+    };
+
+    const handleUserUpdate = () => {
+      refreshUser();
       fetchFullProfile();
-    }
+    };
+
+    refreshUser();
+    fetchFullProfile();
+
+    window.addEventListener('user-updated', handleUserUpdate);
+    window.addEventListener('cart-updated', fetchCartCount);
 
     return () => {
-      window.removeEventListener('user-updated', refreshUser);
+      window.removeEventListener('user-updated', handleUserUpdate);
       window.removeEventListener('cart-updated', fetchCartCount);
     };
   }, []);
@@ -710,13 +723,22 @@ export default function Navbar() {
       >
 
         {/* ── ROW 1: PRIMARY PILLARS & ACTIONS ── */}
-        <div className={`flex items-center justify-between px-4 sm:px-8 lg:px-16 h-16 relative z-20 transition-all duration-200 bg-transparent`}>
+        <div className={`flex items-center justify-between px-4 sm:px-6 lg:px-8 xl:px-10 h-16 relative z-20 transition-all duration-200 bg-transparent`}>
           {/* Logo Section */}
           <div className="flex items-center">
             <Link href="/" className="group flex items-center gap-3 shrink-0">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 relative rounded overflow-hidden bg-white/5 flex items-center justify-center p-1">
+                <Image
+                  src="/assets/logo_iec.png"
+                  alt="Logo"
+                  fill
+                  sizes="40px"
+                  className="object-contain"
+                />
+              </div>
               <div className="flex flex-col">
-                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">Global Counsellor Centre</span>
-                <span className="text-[#B3985E] text-[11px] font-black sm:text-[12px] font-black font-black uppercase tracking-[0.4em] mt-2 opacity-70">GLOBAL ADMISSIONS</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">International Eduleader Council</span>
+                <span className="text-[#B3985E] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] mt-2 opacity-80">GLOBAL ADMISSIONS</span>
               </div>
             </Link>
           </div>
@@ -730,7 +752,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("universities")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-1.5 cursor-pointer text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-1.5 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white"}`}>
                   Universities
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "universities" ? "-rotate-90" : ""}`} />
                 </div>
@@ -741,15 +763,15 @@ export default function Navbar() {
                     browseHref="/universities"
                     browseLabel="Browse All Universities"
                     align="center"
+                    compact={true}
                     onMouseEnter={() => onEnter("universities")}
                     onMouseLeave={onLeave}
                   />
                 )}
               </div>
 
-              {/* Services (Static Link) */}
               <div className="h-full flex items-center">
-                <Link href="/services" className="text-[14px] font-bold font-black uppercase tracking-[0.25em] text-white/70 hover:text-[#B3985E] transition-all">
+                <Link href="/services" className="text-[10px] font-black uppercase tracking-[0.25em] text-white hover:text-[#B3985E] transition-all">
                   Services
                 </Link>
               </div>
@@ -760,7 +782,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("resources")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-pointer text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-2 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white"}`}>
                   Resources
                   <div className="w-1 h-1 rounded-full bg-[#B3985E] shadow-[0_0_8px_rgba(179,152,94,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "resources" ? "-rotate-90" : ""}`} />
@@ -784,7 +806,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("ai-services")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-default text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white/70"}`}>
+                <div className={`flex items-center gap-2 cursor-default text-[10px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white"}`}>
                   AI Services
                   <div className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "ai-services" ? "-rotate-90" : ""}`} />
@@ -901,7 +923,7 @@ export default function Navbar() {
               onSubmit={handleSearch}
               className={`relative group w-[340px] search-glow transition-all duration-300 ${searchError ? "animate-shake border-red-500/50" : ""}`}
             >
-              <button type="submit" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
+              <button type="submit" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/70 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
                 <Search size={13} />
               </button>
               <input
@@ -909,7 +931,7 @@ export default function Navbar() {
                 value={searchQuery}
                 onChange={handleInputChange}
                 placeholder="Search your dream country..."
-                className={`w-full h-8 bg-white/[0.05] border rounded-full pl-10 pr-4 text-[14px] font-bold text-white/90 placeholder:text-white/30 outline-none transition-all tracking-wide ${searchError ? "border-red-500/40" : "border-white/40 focus:bg-white/[0.08] focus:border-[#B3985E]/40"}`}
+                className={`w-full h-8 bg-white/[0.1] border rounded-full pl-10 pr-4 text-[10px] text-white placeholder:text-white/60 outline-none transition-all tracking-wide ${searchError ? "border-red-500/60" : "border-white/50 focus:bg-white/[0.15] focus:border-[#B3985E]/60"}`}
               />
 
               {/* Suggestions Dropdown */}
@@ -941,7 +963,7 @@ export default function Navbar() {
             {[navItems[0], navItems[3], navItems[4], navItems[5], navItems[8]].map((item) => (
               <div key={item.path} className="relative group h-full flex items-center">
                 {item.badge === "Coming Soon" ? (
-                  <div className={`flex items-center gap-2 px-4 h-full text-[13px] font-bold font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white/50 group-hover:text-[#B3985E]`}>
+                  <div className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white group-hover:text-[#B3985E]`}>
                     {item.name}
                   </div>
                 ) : (
@@ -965,8 +987,8 @@ export default function Navbar() {
           {/* App Download CTA */}
           <div className="flex items-center h-full shrink-0 pl-4 border-l border-white/5">
             <div className="relative group/app flex items-center h-full gap-1.5 px-2 cursor-help">
-              <Smartphone size={12} className="text-white/40 group-hover/app:text-[#B3985E] transition-all" />
-              <span className="text-[12px] font-black font-black text-white/40 group-hover/app:text-[#B3985E] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
+              <Smartphone size={12} className="text-white group-hover/app:text-[#B3985E] transition-all" />
+              <span className="text-[8px] font-black text-white group-hover/app:text-[#B3985E] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
               <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover/app:opacity-100 group-hover/app:visible transition-all duration-300 transform scale-90 group-hover/app:scale-100 -translate-y-1 group-hover/app:translate-y-0 pointer-events-none z-[60]">
                 <span className="text-[11px] font-black text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
                 {/* Caret: Simulated Border Triangle */}
@@ -987,8 +1009,17 @@ export default function Navbar() {
 
           {/* Mobile Menu Header */}
           <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
-            <Link href="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
-              <span className="text-white font-black text-[14px] font-bold uppercase tracking-widest leading-none">Global Counsellor Centre</span>
+            <Link href="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
+              <div className="w-8 h-8 relative rounded overflow-hidden bg-white/5 flex items-center justify-center p-1 shrink-0">
+                <Image
+                  src="/assets/logo_iec.png"
+                  alt="Logo"
+                  fill
+                  sizes="40px"
+                  className="object-contain"
+                />
+              </div>
+              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">International Eduleader Council</span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}
@@ -1259,7 +1290,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Footer */}
           <div className="p-8 border-t border-white/5 bg-[#2D1F1D]/80 flex items-center justify-center text-white/10 shrink-0">
-            <span className="text-[12px] font-black font-black uppercase tracking-[0.4em]">GCC Success Portal © 2026</span>
+            <span className="text-[8px] font-black uppercase tracking-[0.4em]">IEC Success Portal © 2026</span>
           </div>
         </div>
       )}

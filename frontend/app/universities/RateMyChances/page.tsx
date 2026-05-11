@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
     ChevronRight,
@@ -16,10 +17,11 @@ import {
     Award
 } from "lucide-react";
 import Image from "next/image";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import usaData from "@/data/USA.json";
 
 const Globe = ({ className, ...props }: any) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} {...props}><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>
 );
 // ─── Premium Features Data ───────────────────────────────────────────────────
 const premiumFeatures = [
@@ -60,6 +62,7 @@ const premiumFeatures = [
 export default function RateMyChancesPage() {
     const harvardInfo = usaData.find(u => u.slug === 'harvard-university') || usaData[0];
     const topBranch = harvardInfo.branches[0];
+    const [isBookingOpen, setIsBookingOpen] = useState(false);
 
     const USD_TO_INR = 83; // Standard conversion rate
     const formatINR = (usdAmount: number | undefined) => {
@@ -90,24 +93,24 @@ export default function RateMyChancesPage() {
 
     return (
         <main className="min-h-screen bg-[#FDFBF7] text-[#362B25] font-base selection:bg-[#D4A848]/20 overflow-x-hidden pt-[100px] mb-8">
-            
+
             {/* ── Hero Section ── */}
             <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 pt-4 text-center space-y-4 relative z-10">
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }} 
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
                 >
                     <h1 className="text-5xl md:text-7xl font-black text-[#D4A848] tracking-tighter mb-1 font-serif">
                         RateMyChances
                     </h1>
-                    <p className="text-[14px] font-bold sm:text-xs font-black uppercase tracking-[0.2em] text-[#675F5B]/80 mt-2">
-                        Powered By Global Counsellor Centre
+                    <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[#675F5B]/80 mt-2">
+                        Powered By International Eduleader Council
                     </p>
                 </motion.div>
 
-                <motion.div 
-                    initial={{ opacity: 0 }} 
+                <motion.div
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="flex justify-center relative mt-6"
@@ -123,7 +126,7 @@ export default function RateMyChancesPage() {
 
             {/* ── Example Harvard Card ── */}
             <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -170,13 +173,13 @@ export default function RateMyChancesPage() {
                     </div>
 
                     <div className="pt-8 flex flex-col sm:flex-row gap-4">
-                        <button 
+                        <button
                             onClick={() => window.open(`/universities/${harvardInfo.slug}`, '_self')}
                             className="flex-1 py-3 sm:py-4 px-6 rounded-xl border border-[#D4A848]/40 text-[#D4A848] font-black text-xs sm:text-sm uppercase tracking-widest hover:bg-[#D4A848] hover:text-white transition-colors"
                         >
                             View More
                         </button>
-                        <button 
+                        <button
                             onClick={() => document.getElementById('premium-cta')?.scrollIntoView({ behavior: 'smooth' })}
                             className="flex-1 py-3 sm:py-4 px-6 rounded-xl bg-gradient-to-r from-[#D4A848] to-[#B38F3A] text-white font-black text-xs sm:text-sm uppercase tracking-widest shadow-lg shadow-[#D4A848]/20 hover:shadow-[#D4A848]/40 hover:-translate-y-0.5 transition-all outline-none border border-[rgba(255,255,255,0.2)]"
                         >
@@ -219,7 +222,7 @@ export default function RateMyChancesPage() {
 
             {/* ── Premium Options CTA ── */}
             <section id="premium-cta" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10 flex flex-col items-start sm:items-center overflow-hidden">
-                <button 
+                <button
                     onClick={() => document.getElementById('why-premium')?.scrollIntoView({ behavior: 'smooth' })}
                     className="flex items-center gap-3 px-8 py-3.5 sm:px-10 sm:py-5 rounded-full border-2 border-[#D4A848]/40 text-[#D4A848] font-black uppercase tracking-widest text-xs sm:text-sm hover:bg-[#D4A848] hover:text-white transition-all shadow-xl shadow-[#D4A848]/10 group z-10 bg-white"
                 >
@@ -272,13 +275,18 @@ export default function RateMyChancesPage() {
                 {/* Book Session CTA Footer */}
                 <div className="flex justify-center mt-20 pb-10">
                     <button
-                        onClick={() => window.open('/services/admission-guidance', '_self')}
+                        onClick={() => setIsBookingOpen(true)}
                         className="bg-[#362B25] text-white px-8 py-4 sm:px-12 sm:py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs sm:text-sm hover:bg-[#D4A848] transition-colors shadow-2xl flex items-center gap-3"
                     >
                         Contact Experts <ChevronRight size={18} />
                     </button>
                 </div>
             </section>
+
+            <BookCounsellingModal
+                isOpen={isBookingOpen}
+                onClose={() => setIsBookingOpen(false)}
+            />
         </main>
     );
 }

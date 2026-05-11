@@ -393,24 +393,6 @@ export default function ResearchPaperPage() {
             </div>
           </div>
 
-          {/* The Help You Need */}
-          <div className="bg-[#FFFFFF] shadow-lg border border-[#D4A848]/20 rounded-3xl p-10">
-            <h3 className="text-2xl font-black text-center text-[#362B25] mb-2 uppercase tracking-tight">The Help YOU Need</h3>
-            <div className="w-16 h-[2px] bg-[#D4A848] mx-auto mb-8 rounded-full" />
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <p className="text-[#675F5B] font-medium text-base leading-relaxed">
-                Understand what's in the service after your purchase.
-              </p>
-              <div className="bg-[#F8F6F1] border border-[#D4A848]/20 rounded-2xl p-6 flex items-center gap-4 hover:border-[#D4A848]/50 shadow-sm transition-all cursor-pointer group">
-                <div className="w-14 h-14 bg-[#362B25]/5 border border-[#362B25]/10 rounded-xl flex items-center justify-center text-2xl">▶️</div>
-                <div>
-                  <p className="text-xs font-black text-[#D4A848] uppercase tracking-widest mb-1">Watch on YouTube</p>
-                  <p className="text-sm font-bold text-[#362B25]">How do services work?</p>
-                  <p className="text-xs text-[#675F5B] font-semibold">SAM</p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* ── SIDEBAR ───────────────────────────────────────────────────── */}

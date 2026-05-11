@@ -20,8 +20,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 connectDB()
 
 
-
-
 app.get("/", (req, res) => {
   res.send("Server is running");
 });

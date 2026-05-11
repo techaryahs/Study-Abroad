@@ -133,7 +133,7 @@ export default function ResourcesPage() {
 
       {/* ── HERO ── */}
       <section
-        className="relative px-6 pt-32 pb-20 text-center overflow-hidden"
+        className="relative px-6 pt-12 pb-20 text-center overflow-hidden"
         style={{
           background:
             "linear-gradient(180deg, rgba(197,160,89,0.08) 0%, transparent 100%)",
@@ -145,7 +145,7 @@ export default function ResourcesPage() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto space-y-6"
         >
-          <span className="inline-block px-5 py-1.5 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[14px] font-bold tracking-[0.3em] uppercase shadow-sm">
+          <span className="inline-block px-5 py-1.5 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[12px] tracking-[0.3em] uppercase shadow-sm">
             Academic Resource Hub
           </span>
           <h1 className="fd text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-[#2D2926] tracking-tight leading-[0.95]">
@@ -172,13 +172,13 @@ export default function ResourcesPage() {
           </div>
           <div className="flex gap-6 bg-white border border-[rgba(197,160,89,0.15)] px-7 py-4 rounded-2xl shadow-sm">
             <div className="flex flex-col border-r border-[#F1EDEA] pr-6">
-              <span className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest">
+              <span className="text-[12px] font-bold text-[#A8A29E] uppercase tracking-widest">
                 Countries
               </span>
               <span className="text-xl font-bold text-[#2D2926]">150+</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest">
+              <span className="text-[12px] font-bold text-[#A8A29E] uppercase tracking-widest">
                 Active Users
               </span>
               <span className="text-xl font-bold text-[#2D2926]">12k+</span>
@@ -202,10 +202,10 @@ export default function ResourcesPage() {
                 <div className="flex items-start justify-between">
                   <div className="icon-ring">{category.icon}</div>
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-[13px] font-bold font-bold text-[#C5A059] border border-[rgba(197,160,89,0.25)] px-2.5 py-0.5 rounded-md uppercase tracking-widest">
+                    <span className="text-[11px] font-bold text-[#C5A059] border border-[rgba(197,160,89,0.25)] px-2.5 py-0.5 rounded-md uppercase tracking-widest">
                       {category.badge}
                     </span>
-                    <span className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-wide">
+                    <span className="text-[11px] font-bold text-[#A8A29E] uppercase tracking-wide">
                       {category.stat}
                     </span>
                   </div>
@@ -222,8 +222,8 @@ export default function ResourcesPage() {
                 </div>
 
                 {/* CTA */}
-                <div className="mt-auto pt-3 flex items-center text-[#C5A059] font-bold text-[14px] font-bold tracking-widest uppercase gap-2">
-                  Explore <ArrowRight size={13} />
+                <div className="mt-auto pt-3 flex items-center text-[#C5A059] font-bold text-[12px] tracking-widest uppercase gap-2">
+                  Explore <ArrowRight size={15} />
                 </div>
               </motion.div>
             </Link>

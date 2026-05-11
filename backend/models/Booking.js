@@ -36,6 +36,11 @@ const bookingSchema = new mongoose.Schema(
     // Meeting / WebRTC
     sessionId: { type: String, unique: true, sparse: true }, // Unique per counselling session
     meetingId: { type: String }, // Short hash used by WebRTC room
+    
+    // Payment info
+    paymentId: { type: String },
+    isPaid: { type: Boolean, default: false },
+    amountPaid: { type: Number },
   },
   { timestamps: true, autoCreate: false, autoIndex: false }
 );

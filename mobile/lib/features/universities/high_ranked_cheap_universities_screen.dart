@@ -134,7 +134,7 @@ class HighRankedCheapUniversitiesScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       uni['country'] as String,
-                      style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary),
+                      style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary),
                     ),
                   ],
                 ),
@@ -148,7 +148,7 @@ class HighRankedCheapUniversitiesScreen extends StatelessWidget {
                 ),
                 child: Text(
                   uni['rank'] as String,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: AppTheme.gold),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold),
                 ),
               ),
             ],
@@ -167,7 +167,7 @@ class HighRankedCheapUniversitiesScreen extends StatelessWidget {
                 const SizedBox(width: 6),
                 Text(
                   uni['tuition'] as String,
-                  style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
                 ),
               ],
             ),

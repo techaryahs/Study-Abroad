@@ -25,7 +25,7 @@ class PersonalInfoSection extends StatelessWidget {
             Container(width: 4, height: 16, color: AppTheme.gold),
             const SizedBox(width: 12),
             const Text('PERSONAL INFORMATION', 
-                style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.5)),
+                style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.5)),
           ],
         ),
         const SizedBox(height: 24),
@@ -47,7 +47,7 @@ class PersonalInfoSection extends StatelessWidget {
   Widget _inputLabel(String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10, left: 4),
-      child: Text(label, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1.5)),
+      child: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1.5)),
     );
   }
 

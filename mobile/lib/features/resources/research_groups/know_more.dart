@@ -52,7 +52,7 @@ class KnowMore extends StatelessWidget {
 
           const Text(
             "Participating in research clusters is important for academic growth.",
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: 14),
           ),
 
           const SizedBox(height: 20),
@@ -111,7 +111,7 @@ class KnowMore extends StatelessWidget {
                     /// 🔹 Description
                     Text(
                       card["description"],
-                      style: const TextStyle(fontSize: 12),
+                      style: const TextStyle(fontSize: 14),
                     ),
                   ],
                 ),
@@ -144,7 +144,7 @@ class KnowMore extends StatelessWidget {
                 const Text(
                   "Our advisors will guide you for research.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.white70, fontSize: 12),
+                  style: TextStyle(color: Colors.white70, fontSize: 14),
                 ),
 
                 const SizedBox(height: 20),

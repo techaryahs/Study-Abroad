@@ -89,12 +89,12 @@ function ServiceCard({
 
       {/* badges */}
       {service.badge === "fire" && (
-        <span className="absolute top-0 right-0 text-[12px] font-black sm:text-[14px] font-bold font-black tracking-wider uppercase bg-[#D4A848] text-[#40332D] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[11px] font-black tracking-wider uppercase bg-[#D4A848] text-[#40332D] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
           🔥 On Fire
         </span>
       )}
       {service.badge === "popular" && (
-        <span className="absolute top-0 right-0 text-[12px] font-black sm:text-[14px] font-bold font-black tracking-wider uppercase bg-[#C0A045] text-[#40332D] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[11px] font-black tracking-wider uppercase bg-[#C0A045] text-[#40332D] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
           Popular
         </span>
       )}
@@ -103,11 +103,11 @@ function ServiceCard({
         {service.icon}
       </div>
 
-      <h3 className="font-bold text-[12px] sm:text-[15px] leading-tight text-[#D4A848] group-hover:text-white transition-colors duration-200">
+      <h3 className="font-bold text-[14px] sm:text-[16px] leading-tight text-[#D4A848] group-hover:text-white transition-colors duration-200 uppercase tracking-wide">
         {service.title}
       </h3>
 
-      <p className="text-[#FDFBF7]/60 text-[14px] font-bold sm:text-[13px] leading-relaxed flex-1">
+      <p className="text-[#FDFBF7]/85 text-[11px] sm:text-[14px] leading-relaxed flex-1">
         {service.description}
       </p>
 
@@ -168,7 +168,7 @@ export default function ServicesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "failed">("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  
+
   // Pre-fill name/email from logged-in user
   useEffect(() => {
     const user = getUser();
@@ -193,7 +193,7 @@ export default function ServicesPage() {
     setIsSubmitting(true);
     setStatus("loading");
     setErrorMessage("");
-    
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/enquiry`, {
         method: "POST",
@@ -232,7 +232,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FFFFFF] text-[#675F5B] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
+    <main className="min-h-screen bg-[#FFFFFF] text-[#362B25] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
       <section className="relative px-4 sm:px-8 md:px-14 lg:px-20 pt-14 pb-12 border-b border-white/10 overflow-hidden">
@@ -242,7 +242,7 @@ export default function ServicesPage() {
         {/* badge */}
         <div className="inline-flex items-center gap-2 mb-6 bg-[#D4A848]/[0.08] border border-[#D4A848]/25 rounded-full px-4 py-1.5">
           <span className="w-2 h-2 rounded-full bg-[#D4A848] animate-pulse" />
-          <span className="text-[#D4A848] text-xs font-semibold tracking-widest uppercase">Our Services</span>
+          <span className="text-[#D4A848] text-[12px] font-semibold tracking-widest uppercase">Our Services</span>
         </div>
 
         {/* heading */}
@@ -262,16 +262,16 @@ export default function ServicesPage() {
           transition={{ delay: 0.4, duration: 1 }}
           className="max-w-3xl space-y-3.5"
         >
-          <p className="text-[#675F5B]/70 text-sm sm:text-[15px] leading-relaxed">
+          <p className="text-[#362B25]/85 text-[15px] sm:text-[17px] leading-relaxed font-medium">
             Having worked with students from over{" "}
-            <strong className="text-[#362B25] font-semibold">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
-            <strong className="text-[#362B25] font-semibold">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
+            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
+            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
           </p>
-          <p className="text-[#675F5B]/70 text-sm sm:text-[15px] leading-relaxed">
+          <p className="text-[#362B25]/85 text-[15px] sm:text-[17px] leading-relaxed font-medium">
             We support applications to most countries including but not limited to{" "}
-            <strong className="text-[#362B25] font-semibold">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
+            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
           </p>
-          <p className="text-[#D4A848] text-sm font-medium pt-1">
+          <p className="text-[#D4A848] text-sm sm:text-base font-black pt-1">
             ✦ To see the charges, you can click on the service, select the currency and other relevant options (if any). Crypto payments now accepted!
           </p>
         </motion.div>
@@ -333,14 +333,14 @@ export default function ServicesPage() {
       <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-6 sm:py-8 bg-white border-b border-[#D4A848]/10">
         <div className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] bg-[#40332D] p-5 sm:p-10 shadow-2xl border border-[#D4A848]/20 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8 group transition-all hover:border-[#D4A848]/40">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,168,72,0.1),transparent_50%)]" />
-          
+
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-4 md:gap-6 text-center md:text-left">
             <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-[#D4A848]/10 flex items-center justify-center text-2xl sm:text-3xl shadow-inner border border-[#D4A848]/10 animate-float">
               💬
             </div>
             <div className="space-y-1">
               <h2 className="text-base sm:text-2xl font-black text-[#D4A848] uppercase tracking-normal">Questions? Start a chat with us.</h2>
-              <p className="text-[#FDFBF7]/50 text-[14px] font-bold sm:text-sm font-medium leading-relaxed">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
+              <p className="text-[#FDFBF7]/70 text-[12px] sm:text-sm font-medium leading-relaxed">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
             </div>
           </div>
 
@@ -349,7 +349,7 @@ export default function ServicesPage() {
               href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in your services. I would like to discuss...`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[#D4A848] text-[#40332D] font-black text-[14px] font-bold sm:text-sm px-6 py-3 sm:px-8 sm:py-4 rounded-xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#D4A848]/10 uppercase tracking-widest"
+              className="inline-flex items-center gap-3 bg-[#D4A848] text-[#40332D] font-black text-[12px] sm:text-sm px-6 py-3 sm:px-8 sm:py-4 rounded-xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#D4A848]/10 uppercase tracking-widest"
             >
               <ChatIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               Chat on Whatsapp
@@ -366,10 +366,10 @@ export default function ServicesPage() {
         <div className="max-w-3xl mx-auto relative z-10">
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 mb-2 bg-[#D4A848]/10 px-4 py-1 rounded-full border border-[#D4A848]/20">
-              <span className="text-[#D4A848] text-[12px] font-black font-black uppercase tracking-[0.3em]">Custom Solutions</span>
+              <span className="text-[#D4A848] text-[11px] font-black uppercase tracking-[0.3em]">Custom Solutions</span>
             </div>
             <h2 className="text-2xl sm:text-4xl font-black text-[#362B25] tracking-tight uppercase leading-none mb-3">Request a <span className="text-[#D4A848]">Service</span></h2>
-            <p className="text-[#675F5B]/60 text-xs sm:text-sm max-w-lg mx-auto leading-relaxed">
+            <p className="text-[#675F5B]/80 text-[12px] sm:text-sm max-w-lg mx-auto leading-relaxed">
               If our standard offerings don&apos;t fit, tell us what you&apos;re looking for and we&apos;ll craft a unique plan.
             </p>
           </div>
@@ -380,11 +380,11 @@ export default function ServicesPage() {
                 <div className="w-16 h-16 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-3xl border border-[#D4A848]/20">✨</div>
                 <div className="space-y-1">
                   <h3 className="text-xl font-black text-[#362B25] uppercase tracking-tight">Request Received</h3>
-                  <p className="text-[#675F5B]/70 text-xs font-bold uppercase tracking-widest opacity-60">We&apos;ll reach out within 24 hours.</p>
+                  <p className="text-[#675F5B]/80 text-[11px] font-bold uppercase tracking-widest opacity-80">We&apos;ll reach out within 24 hours.</p>
                 </div>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-2 text-[#D4A848] font-black text-[14px] font-bold uppercase tracking-widest border-b border-[#D4A848] pb-0.5 hover:text-[#362B25] hover:border-[#362B25] transition-all"
+                  className="mt-2 text-[#D4A848] font-black text-[12px] uppercase tracking-widest border-b border-[#D4A848] pb-0.5 hover:text-[#362B25] hover:border-[#362B25] transition-all"
                 >
                   Submit Another request
                 </button>
@@ -398,7 +398,7 @@ export default function ServicesPage() {
                     { label: "Phone", name: "mobile", type: "tel", placeholder: "+91 90000 00000", colSpan: "sm:col-span-1" },
                   ].map((field) => (
                     <div key={field.name} className={`space-y-1 ${field.colSpan}`}>
-                      <label className="text-[13px] font-bold font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
+                      <label className="text-[12px] font-black text-[#362B25]/85 uppercase tracking-widest ml-1">
                         {field.label}
                       </label>
                       <input
@@ -408,14 +408,14 @@ export default function ServicesPage() {
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         required={field.name !== "mobile"}
-                        className="w-full bg-[#F8F6F1]/50 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#362B25] placeholder-[#362B25]/20 focus:outline-none focus:border-[#D4A848]/30 focus:bg-white transition-all"
+                        className="w-full bg-[#F8F6F1]/50 border border-[#D4A848]/20 rounded-xl px-4 py-3 text-sm text-[#362B25] placeholder-[#362B25]/40 focus:outline-none focus:border-[#D4A848]/60 focus:bg-white transition-all shadow-sm"
                       />
                     </div>
                   ))}
                 </div>
 
-                <div className="space-y-1">
-                  <label className="text-[13px] font-bold font-black text-[#675F5B]/50 uppercase tracking-widest ml-1">
+                <div className="space-y-1.5">
+                  <label className="text-[12px] font-black text-[#362B25]/85 uppercase tracking-widest ml-1">
                     What can we do for you?
                   </label>
                   <textarea
@@ -424,8 +424,8 @@ export default function ServicesPage() {
                     onChange={handleChange}
                     placeholder="Briefly describe your requirements..."
                     required
-                    rows={3}
-                    className="w-full bg-[#F8F6F1]/50 border border-transparent rounded-xl px-4 py-2.5 text-xs text-[#362B25] placeholder-[#362B25]/20 focus:outline-none focus:border-[#D4A848]/30 focus:bg-white transition-all resize-none"
+                    rows={4}
+                    className="w-full bg-[#F8F6F1]/50 border border-[#D4A848]/20 rounded-xl px-4 py-3 text-sm text-[#362B25] placeholder-[#362B25]/40 focus:outline-none focus:border-[#D4A848]/60 focus:bg-white transition-all resize-none shadow-sm"
                   />
                 </div>
 
