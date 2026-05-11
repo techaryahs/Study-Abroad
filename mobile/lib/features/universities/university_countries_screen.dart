@@ -13,7 +13,11 @@ class UniversityCountriesScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppTheme.background,
         elevation: 0,
-        title: const Text('Countries & Slugs', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w900, fontSize: 20)),
+        title: const Text('Countries & Slugs',
+            style: TextStyle(
+                color: AppTheme.textPrimary,
+                fontWeight: FontWeight.w900,
+                fontSize: 20)),
         iconTheme: const IconThemeData(color: AppTheme.textPrimary),
       ),
       body: FutureBuilder<List<UniversityCountry>>(
@@ -25,7 +29,9 @@ class UniversityCountriesScreen extends StatelessWidget {
 
           final countries = snapshot.data ?? [];
           if (countries.isEmpty) {
-            return const Center(child: Text('No countries available.', style: TextStyle(color: AppTheme.textSecondary)));
+            return const Center(
+                child: Text('No countries available.',
+                    style: TextStyle(color: AppTheme.textSecondary)));
           }
 
           return SafeArea(
@@ -41,9 +47,10 @@ class UniversityCountriesScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(20),
-                    onTap: () => context.go('/universities/${country.slug}'),
+                    onTap: () => context.push('/universities/${country.slug}'),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18, vertical: 18),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -67,9 +74,15 @@ class UniversityCountriesScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(country.name,
-                                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w900,
+                                            color: AppTheme.textPrimary)),
                                     const SizedBox(height: 6),
-                                    Text('Slug: ${country.slug}', style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
+                                    Text('Slug: ${country.slug}',
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            color: AppTheme.textSecondary)),
                                   ],
                                 ),
                               ),
@@ -77,9 +90,15 @@ class UniversityCountriesScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text('${country.universities.length}',
-                                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w900,
+                                          color: AppTheme.gold)),
                                   const SizedBox(height: 4),
-                                  const Text('Universities', style: TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
+                                  const Text('Universities',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: AppTheme.textSecondary)),
                                 ],
                               ),
                             ],
@@ -90,22 +109,30 @@ class UniversityCountriesScreen extends StatelessWidget {
                             runSpacing: 8,
                             children: country.universities
                                 .map((university) => Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 6),
                                       decoration: BoxDecoration(
                                         color: AppTheme.backgroundAlt,
                                         borderRadius: BorderRadius.circular(14),
                                       ),
                                       child: Text(university.slug,
-                                          style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
+                                          style: const TextStyle(
+                                              fontSize: 13,
+                                              color: AppTheme.textSecondary,
+                                              fontWeight: FontWeight.w700)),
                                     ))
                                 .toList(),
                           ),
                           const SizedBox(height: 10),
                           Row(
                             children: const [
-                              Text('Tap to view country universities', style: TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
+                              Text('Tap to view country universities',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      color: AppTheme.textSecondary)),
                               Spacer(),
-                              Icon(Icons.arrow_forward_ios_rounded, size: 14, color: AppTheme.textSecondary),
+                              Icon(Icons.arrow_forward_ios_rounded,
+                                  size: 14, color: AppTheme.textSecondary),
                             ],
                           ),
                         ],

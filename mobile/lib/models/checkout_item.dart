@@ -9,6 +9,7 @@ class CheckoutItem {
   final String? subtitle;
   final List<String>? features;
   final String? serviceId;
+  final int quantity;
 
   CheckoutItem({
     required this.id,
@@ -21,7 +22,9 @@ class CheckoutItem {
     this.subtitle,
     this.features,
     this.serviceId,
-  }) : actualPrice = actualPrice ?? price;
+    int quantity = 1,
+  })  : actualPrice = actualPrice ?? price,
+        quantity = quantity < 1 ? 1 : quantity;
 
   int get discount {
     final value = actualPrice - price;
@@ -40,6 +43,7 @@ class CheckoutItem {
       'subtitle': subtitle,
       'features': features,
       'serviceId': serviceId,
+      'quantity': quantity,
     };
   }
 
@@ -48,13 +52,25 @@ class CheckoutItem {
       id: map['id']?.toString() ?? map['title']?.toString() ?? 'item',
       title: map['title']?.toString() ?? '',
       icon: map['icon']?.toString() ?? '🛒',
-      price: map['price'] is int ? map['price'] as int : int.tryParse(map['price']?.toString() ?? '0') ?? 0,
-      actualPrice: map['actualPrice'] is int ? map['actualPrice'] as int : int.tryParse(map['actualPrice']?.toString() ?? map['price']?.toString() ?? '0') ?? 0,
+      price: map['price'] is int
+          ? map['price'] as int
+          : int.tryParse(map['price']?.toString() ?? '0') ?? 0,
+      actualPrice: map['actualPrice'] is int
+          ? map['actualPrice'] as int
+          : int.tryParse(map['actualPrice']?.toString() ??
+                  map['price']?.toString() ??
+                  '0') ??
+              0,
       currency: map['currency']?.toString() ?? 'INR',
       description: map['description']?.toString(),
       subtitle: map['subtitle']?.toString(),
-      features: map['features'] is List ? List<String>.from(map['features'] as List) : null,
+      features: map['features'] is List
+          ? List<String>.from(map['features'] as List)
+          : null,
       serviceId: map['serviceId']?.toString(),
+      quantity: map['quantity'] is int
+          ? map['quantity'] as int
+          : int.tryParse(map['quantity']?.toString() ?? '1') ?? 1,
     );
   }
 }

@@ -20,8 +20,8 @@ class RateMyChancesScreen extends StatelessWidget {
             backgroundColor: AppTheme.background,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(LucideIcons.arrowLeft, color: AppTheme.textPrimary),
-              onPressed: () => context.pop(),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: AppTheme.textPrimary),
+              onPressed: () => context.canPop() ? context.pop() : context.go('/universities'),
             ),
             title: const Text(
               'RATEMYCHANCES',

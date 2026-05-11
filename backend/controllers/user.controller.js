@@ -152,29 +152,37 @@ exports.addToCart = async (req, res) => {
     // 1. PRICE CLEANING
     const numericPrice = parseFloat(cartData.price.toString().replace(/,/g, ""));
     const numericActualPrice = cartData.actualPrice ? parseFloat(cartData.actualPrice.toString().replace(/,/g, "")) : numericPrice / 0.8;
+    const requestedQuantity = Math.max(1, parseInt(cartData.quantity, 10) || 1);
 
-    // 2. CREATE ITEM SNAPSHOT
+    // 2. QUANTITY MERGE
+    if (!user.cart) user.cart = [];
+
+    const existingItem = user.cart.find(item => item.serviceId === serviceId || item.itemId === serviceId);
+
+    if (existingItem) {
+      existingItem.quantity = Math.max(1, parseInt(existingItem.quantity, 10) || 1) + requestedQuantity;
+      existingItem.updatedAt = new Date();
+
+      user.markModified("cart");
+      await user.save();
+
+      return res.status(200).json({
+        success: true,
+        message: `${serviceId} quantity updated`,
+        cart: user.cart
+      });
+    }
+
+    // 3. CREATE ITEM SNAPSHOT
     const newItem = {
       itemId: Date.now().toString(36) + Math.random().toString(36).substring(2),
       serviceId,
       ...cartData,
       price: numericPrice,
       actualPrice: numericActualPrice,
+      quantity: requestedQuantity,
       addedAt: new Date()
     };
-
-    // 3. DUPLICATE PREVENTION
-    if (!user.cart) user.cart = [];
-
-    const isDuplicate = user.cart.some(item => item.serviceId === serviceId);
-
-    if (isDuplicate) {
-      return res.status(200).json({
-        success: true,
-        message: "This service is already in your cart",
-        cart: user.cart
-      });
-    }
 
     user.cart.push(newItem);
 
@@ -190,6 +198,52 @@ exports.addToCart = async (req, res) => {
   } catch (error) {
     console.error("Add to cart error:", error);
     res.status(500).json({ message: "Server error adding to cart" });
+  }
+};
+
+// @desc    Update cart item quantity
+exports.updateCartItemQuantity = async (req, res) => {
+  try {
+    const { itemId, quantity } = req.body;
+    const parsedQuantity = parseInt(quantity, 10);
+
+    if (!itemId || Number.isNaN(parsedQuantity)) {
+      return res.status(400).json({ message: "Item ID and quantity are required" });
+    }
+
+    const result = await findUserById(req.user.id);
+    if (!result) return res.status(404).json({ message: "User not found" });
+
+    const { user } = result;
+
+    if (!user.cart || user.cart.length === 0) {
+      return res.status(400).json({ message: "Cart is already empty" });
+    }
+
+    const itemIndex = user.cart.findIndex(item => item.itemId === itemId || item.serviceId === itemId);
+
+    if (itemIndex === -1) {
+      return res.status(404).json({ message: "Item not found in cart" });
+    }
+
+    if (parsedQuantity <= 0) {
+      user.cart.splice(itemIndex, 1);
+    } else {
+      user.cart[itemIndex].quantity = parsedQuantity;
+      user.cart[itemIndex].updatedAt = new Date();
+    }
+
+    user.markModified("cart");
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Cart quantity updated",
+      cart: user.cart
+    });
+  } catch (error) {
+    console.error("Update cart quantity error:", error);
+    res.status(500).json({ message: "Server error updating cart quantity" });
   }
 };
 
@@ -232,7 +286,7 @@ exports.removeFromCart = async (req, res) => {
     }
 
     // Find item index
-    const itemIndex = user.cart.findIndex(item => item.itemId === itemId);
+    const itemIndex = user.cart.findIndex(item => item.itemId === itemId || item.serviceId === itemId);
 
     if (itemIndex === -1) {
       return res.status(404).json({ message: "Item not found in cart" });

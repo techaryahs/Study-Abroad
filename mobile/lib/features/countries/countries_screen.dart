@@ -30,6 +30,7 @@ class CountriesScreen extends StatelessWidget {
     },
     {
       'name': 'Germany',
+      'slug': 'germany',
       'code': 'DE',
       'universities': '400+',
       'description': 'Free tuition public universities & research excellence',
@@ -39,6 +40,7 @@ class CountriesScreen extends StatelessWidget {
     },
     {
       'name': 'Australia',
+      'slug': 'australia',
       'code': 'AU',
       'universities': '43+',
       'description': 'Group of Eight & world-class research focus',
@@ -48,6 +50,7 @@ class CountriesScreen extends StatelessWidget {
     },
     {
       'name': 'Ireland',
+      'slug': 'ireland',
       'code': 'IE',
       'universities': '30+',
       'description': 'Gateway to Europe with English-taught programs',
@@ -57,6 +60,7 @@ class CountriesScreen extends StatelessWidget {
     },
     {
       'name': 'Canada',
+      'slug': 'canada',
       'code': 'CA',
       'universities': '100+',
       'description': 'Post-study work rights & welcoming immigration',
@@ -66,6 +70,7 @@ class CountriesScreen extends StatelessWidget {
     },
     {
       'name': 'Dubai',
+      'slug': 'dubai',
       'code': 'AE',
       'universities': '70+',
       'description': 'Global education hub with tax-free lifestyle',
@@ -97,10 +102,15 @@ class CountriesScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text('Explore\nTop Countries',
-                    style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.w900, height: 1.2)),
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w900,
+                        height: 1.2)),
                 const SizedBox(height: 8),
                 Text('15+ countries, 360+ partner universities',
-                    style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 14)),
+                    style: TextStyle(
+                        color: Colors.white.withOpacity(0.5), fontSize: 14)),
               ],
             ),
           ).animate().fadeIn(duration: 400.ms),
@@ -110,7 +120,7 @@ class CountriesScreen extends StatelessWidget {
           ...List.generate(_countries.length, (i) {
             final c = _countries[i];
             return GestureDetector(
-              onTap: () => context.go('/universities/${c['slug']}'),
+              onTap: () => context.push('/universities/${c['slug']}'),
               child: Container(
                 margin: const EdgeInsets.only(bottom: 14),
                 decoration: BoxDecoration(
@@ -125,7 +135,8 @@ class CountriesScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                         color: Color(c['color'] as int).withOpacity(0.06),
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(20)),
                       ),
                       child: Row(
                         children: [
@@ -133,7 +144,8 @@ class CountriesScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                             child: CountryFlag.fromCountryCode(
                               c['code'] as String,
-                              height: 44, width: 66,
+                              height: 44,
+                              width: 66,
                             ),
                           ),
                           const SizedBox(width: 16),
@@ -142,27 +154,37 @@ class CountriesScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(c['name'] as String,
-                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w900,
+                                        color: AppTheme.textPrimary)),
                                 const SizedBox(height: 4),
                                 Text(c['description'] as String,
-                                    style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary, height: 1.4)),
+                                    style: const TextStyle(
+                                        fontSize: 13,
+                                        color: AppTheme.textSecondary,
+                                        height: 1.4)),
                               ],
                             ),
                           ),
-                          const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: AppTheme.textSecondary),
+                          const Icon(Icons.arrow_forward_ios_rounded,
+                              size: 14, color: AppTheme.textSecondary),
                         ],
                       ),
                     ),
 
                     // Stats row
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 14),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          _statChip('🏛️', c['universities'] as String, 'Universities'),
+                          _statChip('🏛️', c['universities'] as String,
+                              'Universities'),
                           _divider(),
-                          _statChip('🎓', c['scholarships'] as String, 'Scholarship'),
+                          _statChip(
+                              '🎓', c['scholarships'] as String, 'Scholarship'),
                           _divider(),
                           _statChip('✈️', c['visa'] as String, 'Visa Type'),
                         ],
@@ -171,7 +193,10 @@ class CountriesScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            ).animate().fadeIn(delay: Duration(milliseconds: i * 70)).slideY(begin: 0.05);
+            )
+                .animate()
+                .fadeIn(delay: Duration(milliseconds: i * 70))
+                .slideY(begin: 0.05);
           }),
         ],
       ),
@@ -184,9 +209,15 @@ class CountriesScreen extends StatelessWidget {
         Text(icon, style: const TextStyle(fontSize: 16)),
         const SizedBox(height: 4),
         Text(value,
-            style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+            style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: AppTheme.textPrimary)),
         Text(label,
-            style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
+            style: const TextStyle(
+                fontSize: 14,
+                color: AppTheme.textSecondary,
+                fontWeight: FontWeight.w600)),
       ],
     );
   }

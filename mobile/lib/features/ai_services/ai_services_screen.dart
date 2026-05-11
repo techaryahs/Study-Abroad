@@ -39,7 +39,7 @@ class AiServicesScreen extends StatelessWidget {
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.textPrimary, fontFamily: 'Playfair Display')),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: AppTheme.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.canPop() ? context.pop() : context.go('/'),
         ),
       ),
       body: SingleChildScrollView(

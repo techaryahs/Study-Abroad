@@ -58,7 +58,7 @@ class _PopularProgramsScreenState extends State<PopularProgramsScreen> {
             ),
             leading: IconButton(
               icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
-              onPressed: () => context.pop(),
+              onPressed: () => context.canPop() ? context.pop() : context.go('/universities'),
             ),
           ),
           

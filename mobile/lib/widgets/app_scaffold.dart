@@ -229,7 +229,7 @@ class _MoreMenuSheet extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
-                        context.go(item.route);
+                        context.push(item.route);
                       },
                       child: Container(
                         decoration: BoxDecoration(

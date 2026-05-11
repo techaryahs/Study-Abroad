@@ -1,4 +1,5 @@
 const { findUserById } = require("../utils/userHelper");
+const Student = require("../models/Student");
 const fs = require("fs");
 
 exports.getProfile = async (req, res) => {

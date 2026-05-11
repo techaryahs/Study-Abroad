@@ -15,12 +15,32 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> _services = [
-    {'title': 'Admission Guidance', 'icon': '🏛️', 'route': '/services/application-help'},
-    {'title': 'University Shortlisting', 'icon': '📋', 'route': '/services/shortlisting'},
+    {
+      'title': 'Admission Guidance',
+      'icon': '🏛️',
+      'route': '/services/application-help'
+    },
+    {
+      'title': 'University Shortlisting',
+      'icon': '📋',
+      'route': '/services/shortlisting'
+    },
     {'title': 'SOP & LOR Support', 'icon': '✍️', 'route': '/services/sop'},
-    {'title': 'Scholarship Assistance', 'icon': '🎓', 'route': '/services/scholarship'},
-    {'title': 'Visa Guidance', 'icon': '🛂', 'route': '/services/visa-application-help'},
-    {'title': 'Profile Building', 'icon': '📈', 'route': '/services/profile-building'},
+    {
+      'title': 'Scholarship Assistance',
+      'icon': '🎓',
+      'route': '/services/scholarship'
+    },
+    {
+      'title': 'Visa Guidance',
+      'icon': '🛂',
+      'route': '/services/visa-application-help'
+    },
+    {
+      'title': 'Profile Building',
+      'icon': '📈',
+      'route': '/services/profile-building'
+    },
   ];
 
   final List<Map<String, String>> _countries = [
@@ -67,9 +87,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   children: [
                     Container(
-                      width: 30, height: 30,
+                      width: 30,
+                      height: 30,
                       padding: const EdgeInsets.all(2),
-                      child: Image.asset('assets/images/logo_iec.png', fit: BoxFit.contain),
+                      child: Image.asset('assets/images/logo_iec.png',
+                          fit: BoxFit.contain),
                     ),
                     const SizedBox(width: 8),
                     Column(
@@ -77,11 +99,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         const Text(
                           'INTERNATIONAL EDULEADER COUNCIL',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 0.5),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: AppTheme.textPrimary,
+                              letterSpacing: 0.5),
                         ),
                         Text(
                           'GLOBAL ADMISSIONS',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 1.5),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: AppTheme.gold,
+                              letterSpacing: 1.5),
                         ),
                       ],
                     ),
@@ -95,8 +125,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 12.0),
                   child: IconButton(
-                    icon: const Icon(Icons.shopping_cart_outlined, color: AppTheme.textPrimary),
-                    onPressed: () => context.go('/cart'),
+                    icon: const Icon(Icons.shopping_cart_outlined,
+                        color: AppTheme.textPrimary),
+                    onPressed: () => context.push('/cart'),
                   ),
                 ),
               ),
@@ -107,7 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 // ── HERO CARD (Photo + Scholarship Strip) ──────
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -120,7 +150,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(32),
-                          border: Border.all(color: AppTheme.gold.withOpacity(0.4)),
+                          border:
+                              Border.all(color: AppTheme.gold.withOpacity(0.4)),
                           boxShadow: [
                             BoxShadow(
                               color: AppTheme.gold.withOpacity(0.25),
@@ -147,37 +178,52 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Expanded(
                                   child: ElevatedButton(
-                                    onPressed: () => showBookCounsellingSheet(context),
+                                    onPressed: () =>
+                                        showBookCounsellingSheet(context),
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: AppTheme.gold,
                                       foregroundColor: AppTheme.darkBrown,
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12)),
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12),
                                     ),
-                                    child: const Text('TALK TO EXPERT',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 1)),
+                                    child: const FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text('TALK TO EXPERT',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w800,
+                                              letterSpacing: 1)),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
                                   child: OutlinedButton.icon(
-                                    onPressed: () => launchUrl(Uri.parse('https://wa.me/918657869659')),
-                                    icon: const Icon(Icons.chat_rounded, size: 13, color: AppTheme.darkBrown),
-                                    label: const Text('WHATSAPP',
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: 1,
-                                            color: AppTheme.darkBrown)),
+                                    onPressed: () => launchUrl(Uri.parse(
+                                        'https://wa.me/918657869659')),
+                                    icon: const Icon(Icons.chat_rounded,
+                                        size: 13, color: AppTheme.darkBrown),
+                                    label: const FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text('WHATSAPP',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w800,
+                                              letterSpacing: 1,
+                                              color: AppTheme.darkBrown)),
+                                    ),
                                     style: OutlinedButton.styleFrom(
-                                      side: BorderSide(color: AppTheme.darkBrown.withOpacity(0.35)),
+                                      side: BorderSide(
+                                          color: AppTheme.darkBrown
+                                              .withOpacity(0.35)),
                                       shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(12)),
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 12),
                                     ),
                                   ),
                                 ),
@@ -190,11 +236,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       // ── Scholarship strip ──────────────────────
                       const SizedBox(height: 12),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 16),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF8F6F1), // Lighter background
                           borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
+                          border:
+                              Border.all(color: AppTheme.gold.withOpacity(0.3)),
                           boxShadow: [
                             BoxShadow(
                               color: AppTheme.gold.withOpacity(0.1),
@@ -204,29 +252,52 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: _dreams.map((d) => Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(3),
-                                child: CountryFlag.fromCountryCode(d['code']!, height: 20, width: 30),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(d['name']!,
-                                  style: const TextStyle(
-                                      color: AppTheme.darkBrown, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 1)),
-                              const SizedBox(height: 2),
-                              Text(d['stat']!,
-                                  style: const TextStyle(
-                                      color: AppTheme.gold, fontSize: 16, fontWeight: FontWeight.w900)),
-                              Text(d['sub']!,
-                                  style: const TextStyle(
-                                      color: AppTheme.textSecondary,
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.w700,
-                                      letterSpacing: 0.5)),
-                            ],
-                          )).toList(),
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: _dreams
+                              .map((d) => Expanded(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(3),
+                                          child: CountryFlag.fromCountryCode(
+                                              d['code']!,
+                                              height: 20,
+                                              width: 30),
+                                        ),
+                                        const SizedBox(height: 6),
+                                        FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(d['name']!,
+                                              style: const TextStyle(
+                                                  color: AppTheme.darkBrown,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.w800,
+                                                  letterSpacing: 1)),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(d['stat']!,
+                                              style: const TextStyle(
+                                                  color: AppTheme.gold,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w900)),
+                                        ),
+                                        FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(d['sub']!,
+                                              style: const TextStyle(
+                                                  color: AppTheme.textSecondary,
+                                                  fontSize: 9,
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing: 0.5)),
+                                        ),
+                                      ],
+                                    ),
+                                  ))
+                              .toList(),
                         ),
                       ),
                     ],
@@ -251,26 +322,35 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(18),
                           border: Border.all(color: AppTheme.borderLight),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(s['value']!,
-                                style: const TextStyle(
-                                  color: AppTheme.textPrimary,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: -1,
-                                )),
-                            const SizedBox(height: 2),
-                            Text(s['label']!.toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: AppTheme.gold,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 1.2,
-                                )),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(s['value']!,
+                                    style: const TextStyle(
+                                      color: AppTheme.textPrimary,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: -1,
+                                    )),
+                              ),
+                              const SizedBox(height: 2),
+                              FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(s['label']!.toUpperCase(),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      color: AppTheme.gold,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w800,
+                                      letterSpacing: 1.2,
+                                    )),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
@@ -297,7 +377,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (s['route'] == 'sheet') {
                           showBookCounsellingSheet(context);
                         } else {
-                          context.go(s['route']!);
+                          context.push(s['route']!);
                         }
                       },
                       child: Container(
@@ -309,25 +389,33 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(s['icon']!, style: const TextStyle(fontSize: 26)),
+                            Text(s['icon']!,
+                                style: const TextStyle(fontSize: 26)),
                             const SizedBox(height: 8),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6),
-                              child: Text(
-                                s['title']!,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: AppTheme.textPrimary,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w800,
-                                  height: 1.3,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 6),
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  s['title']!,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: AppTheme.textPrimary,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w800,
+                                    height: 1.3,
+                                  ),
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ).animate().fadeIn(delay: Duration(milliseconds: i * 60)).scale(begin: const Offset(0.9, 0.9));
+                    )
+                        .animate()
+                        .fadeIn(delay: Duration(milliseconds: i * 60))
+                        .scale(begin: const Offset(0.9, 0.9));
                   },
                 ),
 
@@ -343,14 +431,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemBuilder: (_, i) {
                       final c = _countries[i];
                       return GestureDetector(
-                        onTap: () => context.go('/universities/${c['slug']}'),
+                        onTap: () => context.push('/universities/${c['slug']}'),
                         child: Column(
                           children: [
                             Container(
-                              width: 52, height: 52,
+                              width: 52,
+                              height: 52,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                border: Border.all(color: AppTheme.gold, width: 2),
+                                border:
+                                    Border.all(color: AppTheme.gold, width: 2),
                                 boxShadow: [
                                   BoxShadow(
                                     color: AppTheme.gold.withOpacity(0.2),
@@ -362,7 +452,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ClipOval(
                                 child: CountryFlag.fromCountryCode(
                                   c['code']!,
-                                  height: 52, width: 52,
+                                  height: 52,
+                                  width: 52,
                                 ),
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme.dart';
 import '../../../models/checkout_item.dart';
 import '../../../widgets/checkout_sheet.dart';
@@ -12,7 +13,6 @@ class SopGeneratorScreen extends StatefulWidget {
 }
 
 class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
-
   final List<Map<String, String>> _universities = [
     {'name': 'Stanford', 'domain': 'stanford.edu'},
     {'name': 'Harvard', 'domain': 'harvard.edu'},
@@ -24,19 +24,23 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
   final List<Map<String, String>> _faqItems = [
     {
       'q': 'Can I use the same SOP for multiple applications?',
-      'a': 'While you can, we recommend slight modifications to tailor each SOP to specific universities for better acceptance chances.',
+      'a':
+          'While you can, we recommend slight modifications to tailor each SOP to specific universities for better acceptance chances.',
     },
     {
       'q': 'How long does it take to generate my SOP?',
-      'a': 'Your fully customized SOP, perfectly bypassed and polished, will be generated within 15-20 minutes after completing the input details.',
+      'a':
+          'Your fully customized SOP, perfectly bypassed and polished, will be generated within 15-20 minutes after completing the input details.',
     },
     {
       'q': 'Is the SOP plagiarism-free and AI-safe?',
-      'a': 'Absolutely. Our advanced AI-Removal engine refines the language so it retains the human touch, making it undetectable by standard AI detectors.',
+      'a':
+          'Absolutely. Our advanced AI-Removal engine refines the language so it retains the human touch, making it undetectable by standard AI detectors.',
     },
     {
       'q': 'Will my SOP be unique even if I generate it multiple times?',
-      'a': 'Yes, each output is distinctively crafted around your specific background data, ensuring no two generated SOPs are ever identical.',
+      'a':
+          'Yes, each output is distinctively crafted around your specific background data, ensuring no two generated SOPs are ever identical.',
     },
   ];
 
@@ -59,12 +63,18 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
         backgroundColor: AppTheme.background,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: AppTheme.textPrimary),
-          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios_new,
+              size: 18, color: AppTheme.textPrimary),
+          onPressed: () =>
+              context.canPop() ? context.pop() : context.go('/ai-services'),
         ),
         title: const Text(
           'AI SOP GENERATOR',
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary),
+          style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 1.5,
+              color: AppTheme.textPrimary),
         ),
       ),
       body: SingleChildScrollView(
@@ -76,7 +86,12 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('AI SOP Generator —', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, fontFamily: 'Playfair Display', height: 1.2)),
+                  const Text('AI SOP Generator —',
+                      style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Playfair Display',
+                          height: 1.2)),
                   const SizedBox(height: 8),
                   ShaderMask(
                     shaderCallback: (bounds) => const LinearGradient(
@@ -84,13 +99,22 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                     ).createShader(bounds),
                     child: const Text(
                       'Original Writing Crafted to Bypass AI Detectors',
-                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700, fontFamily: 'Playfair Display', color: Colors.white, height: 1.2),
+                      style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: 'Playfair Display',
+                          color: Colors.white,
+                          height: 1.2),
                     ),
                   ),
                   const SizedBox(height: 18),
                   const Text(
                     'Get a plagiarism-free Statement of Purpose (SOP) in minutes - designed to reflect your story and meet top university standards for admissions and scholarships.',
-                    style: TextStyle(fontSize: 15, color: AppTheme.textMuted, height: 1.6, fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: AppTheme.textMuted,
+                        height: 1.6,
+                        fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 28),
                   Row(
@@ -99,16 +123,23 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                         child: OutlinedButton(
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: AppTheme.goldDark, width: 1.5),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                            side: const BorderSide(
+                                color: AppTheme.goldDark, width: 1.5),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18)),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
-                              Text('Buy Now', style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.w700, fontSize: 14)),
+                              Text('Buy Now',
+                                  style: TextStyle(
+                                      color: AppTheme.textPrimary,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 14)),
                               SizedBox(width: 8),
-                              Icon(Icons.arrow_right_alt, size: 20, color: AppTheme.textPrimary),
+                              Icon(Icons.arrow_right_alt,
+                                  size: 20, color: AppTheme.textPrimary),
                             ],
                           ),
                         ),
@@ -118,21 +149,29 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Expert Consultation request initiated!')),
+                              const SnackBar(
+                                  content: Text(
+                                      'Expert Consultation request initiated!')),
                             );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.darkBrown,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18)),
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             elevation: 4,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: const [
-                              Icon(Icons.auto_awesome_rounded, size: 18, color: AppTheme.gold),
+                              Icon(Icons.auto_awesome_rounded,
+                                  size: 18, color: AppTheme.gold),
                               SizedBox(width: 10),
-                              Text('Consult SOP Expert', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14)),
+                              Text('Consult SOP Expert',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 14)),
                             ],
                           ),
                         ),
@@ -149,13 +188,17 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                           color: AppTheme.gold.withValues(alpha: 38),
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        child: const Icon(Icons.star, color: AppTheme.gold, size: 20),
+                        child: const Icon(Icons.star,
+                            color: AppTheme.gold, size: 20),
                       ),
                       const SizedBox(width: 14),
                       const Expanded(
                         child: Text(
                           'Trusted by Students from 20+ Countries',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.textMuted),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.textMuted),
                         ),
                       ),
                     ],
@@ -207,13 +250,18 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                 itemBuilder: (_, index) {
                   final uni = _universities[index];
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppTheme.gold.withValues(alpha: 38)),
+                      border: Border.all(
+                          color: AppTheme.gold.withValues(alpha: 38)),
                       boxShadow: [
-                        BoxShadow(color: Colors.black.withValues(alpha: 10), blurRadius: 12, offset: const Offset(0, 4)),
+                        BoxShadow(
+                            color: Colors.black.withValues(alpha: 10),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4)),
                       ],
                     ),
                     child: Row(
@@ -226,11 +274,18 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Center(
-                            child: Text(uni['name']!.substring(0, 1), style: const TextStyle(color: AppTheme.darkBrown, fontWeight: FontWeight.w900)),
+                            child: Text(uni['name']!.substring(0, 1),
+                                style: const TextStyle(
+                                    color: AppTheme.darkBrown,
+                                    fontWeight: FontWeight.w900)),
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Text(uni['name']!, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: AppTheme.darkBrown)),
+                        Text(uni['name']!,
+                            style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w800,
+                                color: AppTheme.darkBrown)),
                       ],
                     ),
                   );
@@ -240,7 +295,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            _buildSectionHeading('Key Features', 'Your AI partner for original, plagiarism-free, and polished statements.'),
+            _buildSectionHeading('Key Features',
+                'Your AI partner for original, plagiarism-free, and polished statements.'),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -248,7 +304,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                 children: [
                   _buildFeatureCard(
                     title: 'AI-Powered Content Generation',
-                    description: 'Create a customized and impactful SOP that stands out without sounding generic.',
+                    description:
+                        'Create a customized and impactful SOP that stands out without sounding generic.',
                     backgroundColor: const Color(0xFF596E92),
                     icon: Icons.auto_stories,
                     iconBackground: AppTheme.goldDark.withValues(alpha: 38),
@@ -257,7 +314,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   const SizedBox(height: 16),
                   _buildFeatureCard(
                     title: 'Authenticity Assured',
-                    description: 'Receive plagiarism-free, unique content tailored to your profile and aspirations.',
+                    description:
+                        'Receive plagiarism-free, unique content tailored to your profile and aspirations.',
                     backgroundColor: const Color(0xFF233A40),
                     icon: Icons.shield,
                     iconBackground: AppTheme.goldDark.withValues(alpha: 38),
@@ -267,7 +325,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            _buildSectionHeading('How It Works', 'Turn your input into impact, effortlessly!'),
+            _buildSectionHeading(
+                'How It Works', 'Turn your input into impact, effortlessly!'),
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -276,7 +335,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   _buildStepCard(
                     step: 'Step 1',
                     title: 'Input Details',
-                    description: 'Provide your background and goals by filling out a simple form. It takes just 15-20 minutes.',
+                    description:
+                        'Provide your background and goals by filling out a simple form. It takes just 15-20 minutes.',
                     color: AppTheme.darkBrown,
                     isDark: true,
                     icon: Icons.edit_document,
@@ -285,7 +345,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   _buildStepCard(
                     step: 'Step 2',
                     title: 'AI Magic',
-                    description: 'Our AI analyzes your inputs and crafts a high-quality, professional SOP.',
+                    description:
+                        'Our AI analyzes your inputs and crafts a high-quality, professional SOP.',
                     color: Colors.white,
                     isDark: false,
                     icon: Icons.auto_awesome,
@@ -294,7 +355,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   _buildStepCard(
                     step: 'Step 3',
                     title: 'Get Your SOP',
-                    description: 'Get your curated Statement of Purpose instantly without any deviation from your provided input.',
+                    description:
+                        'Get your curated Statement of Purpose instantly without any deviation from your provided input.',
                     color: AppTheme.darkBrown,
                     isDark: true,
                     icon: Icons.download,
@@ -303,7 +365,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   _buildStepCard(
                     step: 'Step 4',
                     title: 'AI & Plagiarism Removal',
-                    description: 'Our AI remover ensures your SOP passes detection checks while remaining authentic.',
+                    description:
+                        'Our AI remover ensures your SOP passes detection checks while remaining authentic.',
                     color: Colors.white,
                     isDark: false,
                     icon: Icons.verified_user,
@@ -323,7 +386,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                 child: Column(
                   children: [
                     ClipRRect(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(28)),
                       child: Image.network(
                         'https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1200&q=80',
                         fit: BoxFit.cover,
@@ -336,9 +400,18 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Go AI-Safe', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: AppTheme.textPrimary)),
+                          const Text('Go AI-Safe',
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppTheme.textPrimary)),
                           const SizedBox(height: 12),
-                          const Text('Instantly create a flawless SOP that is affordable and AI-proof!', style: TextStyle(fontSize: 15, color: AppTheme.textMuted, height: 1.6)),
+                          const Text(
+                              'Instantly create a flawless SOP that is affordable and AI-proof!',
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppTheme.textMuted,
+                                  height: 1.6)),
                           const SizedBox(height: 20),
                           _buildCheckRow('AI Detection & Removal'),
                           _buildCheckRow('Plagiarism-Free'),
@@ -349,16 +422,21 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                             child: ElevatedButton(
                               onPressed: () {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Expert Consultation request initiated!')),
+                                  const SnackBar(
+                                      content: Text(
+                                          'Expert Consultation request initiated!')),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppTheme.darkBrown,
                                 foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18)),
                                 minimumSize: const Size.fromHeight(52),
                               ),
-                              child: const Text('CONSULT SOP EXPERT →', style: TextStyle(fontWeight: FontWeight.w900)),
+                              child: const Text('CONSULT SOP EXPERT →',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.w900)),
                             ),
                           ),
                         ],
@@ -369,7 +447,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            _buildSectionHeading('Why Our AI Beats Generic AI Like ChatGPT', 'Our model is built for university success.'),
+            _buildSectionHeading('Why Our AI Beats Generic AI Like ChatGPT',
+                'Our model is built for university success.'),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -409,7 +488,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               ),
             ),
             const SizedBox(height: 40),
-            _buildSectionHeading('Small Investment → Great Impact', '1 in 3 students face rejections due to a subpar SOP. Every submission matters.'),
+            _buildSectionHeading('Small Investment → Great Impact',
+                '1 in 3 students face rejections due to a subpar SOP. Every submission matters.'),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -434,7 +514,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                         price: 3999,
                         actualPrice: 5000,
                         currency: 'INR',
-                        description: 'Single SOP generation with AI-assisted editing and human review.',
+                        description:
+                            'Single SOP generation with AI-assisted editing and human review.',
                       ),
                     ),
                   ),
@@ -458,7 +539,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                         price: 14999,
                         actualPrice: 25000,
                         currency: 'INR',
-                        description: 'Five SOPs for multiple application submissions.',
+                        description:
+                            'Five SOPs for multiple application submissions.',
                       ),
                     ),
                   ),
@@ -483,7 +565,8 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                         price: 24999,
                         actualPrice: 40000,
                         currency: 'INR',
-                        description: 'Ten SOPs with maximum coverage for diverse applications.',
+                        description:
+                            'Ten SOPs with maximum coverage for diverse applications.',
                       ),
                     ),
                   ),
@@ -493,7 +576,11 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
             const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: const Text('Frequently Asked Questions!', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Playfair Display')),
+              child: const Text('Frequently Asked Questions!',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Playfair Display')),
             ),
             const SizedBox(height: 16),
             Padding(
@@ -503,20 +590,32 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                     .map((faq) => Padding(
                           padding: const EdgeInsets.only(bottom: 12),
                           child: Theme(
-                            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                            data: Theme.of(context)
+                                .copyWith(dividerColor: Colors.transparent),
                             child: ExpansionTile(
-                              tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              childrenPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-                              collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                              tilePadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              childrenPadding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18)),
+                              collapsedShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18)),
                               backgroundColor: Colors.white,
                               collapsedBackgroundColor: Colors.white,
                               title: Text(
                                 faq['q']!,
-                                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppTheme.textPrimary),
                               ),
                               children: [
-                                Text(faq['a']!, style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.6)),
+                                Text(faq['a']!,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        color: AppTheme.textSecondary,
+                                        height: 1.6)),
                               ],
                             ),
                           ),
@@ -537,9 +636,16 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: AppTheme.textPrimary, fontFamily: 'Playfair Display')),
+          Text(title,
+              style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: AppTheme.textPrimary,
+                  fontFamily: 'Playfair Display')),
           const SizedBox(height: 10),
-          Text(subtitle, style: const TextStyle(fontSize: 15, color: AppTheme.textMuted, height: 1.6)),
+          Text(subtitle,
+              style: const TextStyle(
+                  fontSize: 15, color: AppTheme.textMuted, height: 1.6)),
         ],
       ),
     );
@@ -559,7 +665,10 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 20), blurRadius: 24, offset: const Offset(0, 12)),
+          BoxShadow(
+              color: Colors.black.withValues(alpha: 20),
+              blurRadius: 24,
+              offset: const Offset(0, 12)),
         ],
       ),
       padding: const EdgeInsets.all(22),
@@ -573,12 +682,22 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               color: iconBackground,
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, color: isDark ? Colors.white : AppTheme.darkBrown, size: 26),
+            child: Icon(icon,
+                color: isDark ? Colors.white : AppTheme.darkBrown, size: 26),
           ),
           const SizedBox(height: 18),
-          Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: isDark ? Colors.white : AppTheme.textPrimary, fontFamily: 'Playfair Display')),
+          Text(title,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: isDark ? Colors.white : AppTheme.textPrimary,
+                  fontFamily: 'Playfair Display')),
           const SizedBox(height: 12),
-          Text(description, style: TextStyle(fontSize: 15, color: isDark ? Colors.white70 : AppTheme.textMuted, height: 1.6)),
+          Text(description,
+              style: TextStyle(
+                  fontSize: 15,
+                  color: isDark ? Colors.white70 : AppTheme.textMuted,
+                  height: 1.6)),
         ],
       ),
     );
@@ -601,7 +720,10 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
         color: color,
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 13), blurRadius: 20, offset: const Offset(0, 10)),
+          BoxShadow(
+              color: Colors.black.withValues(alpha: 13),
+              blurRadius: 20,
+              offset: const Offset(0, 10)),
         ],
       ),
       padding: const EdgeInsets.all(22),
@@ -611,10 +733,17 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             decoration: BoxDecoration(
-              color: isDark ? AppTheme.gold.withValues(alpha: 46) : AppTheme.goldDark.withValues(alpha: 31),
+              color: isDark
+                  ? AppTheme.gold.withValues(alpha: 46)
+                  : AppTheme.goldDark.withValues(alpha: 31),
               borderRadius: BorderRadius.circular(999),
             ),
-            child: Text(step, style: TextStyle(color: isDark ? AppTheme.gold : AppTheme.goldDark, fontWeight: FontWeight.w900, fontSize: 14, letterSpacing: 0.8)),
+            child: Text(step,
+                style: TextStyle(
+                    color: isDark ? AppTheme.gold : AppTheme.goldDark,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 14,
+                    letterSpacing: 0.8)),
           ),
           const SizedBox(height: 18),
           Row(
@@ -627,16 +756,25 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   color: isDark ? Colors.white24 : AppTheme.backgroundAlt,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Icon(icon, size: 24, color: isDark ? Colors.white : AppTheme.darkBrown),
+                child: Icon(icon,
+                    size: 24,
+                    color: isDark ? Colors.white : AppTheme.darkBrown),
               ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: titleColor, fontFamily: 'Playfair Display')),
+                    Text(title,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                            color: titleColor,
+                            fontFamily: 'Playfair Display')),
                     const SizedBox(height: 10),
-                    Text(description, style: TextStyle(fontSize: 15, color: bodyColor, height: 1.6)),
+                    Text(description,
+                        style: TextStyle(
+                            fontSize: 15, color: bodyColor, height: 1.6)),
                   ],
                 ),
               ),
@@ -662,7 +800,13 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
             child: const Icon(Icons.check, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 14),
-          Expanded(child: Text(text, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: AppTheme.textPrimary, height: 1.5))),
+          Expanded(
+              child: Text(text,
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      color: AppTheme.textPrimary,
+                      height: 1.5))),
         ],
       ),
     );
@@ -682,9 +826,14 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(24),
-        border: isAccent ? Border.all(color: AppTheme.goldDark, width: 1.5) : Border.all(color: AppTheme.borderLight),
+        border: isAccent
+            ? Border.all(color: AppTheme.goldDark, width: 1.5)
+            : Border.all(color: AppTheme.borderLight),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 13), blurRadius: 20, offset: const Offset(0, 10)),
+          BoxShadow(
+              color: Colors.black.withValues(alpha: 13),
+              blurRadius: 20,
+              offset: const Offset(0, 10)),
         ],
       ),
       padding: const EdgeInsets.all(22),
@@ -701,7 +850,11 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Center(
-                  child: Text(title[0], style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900)),
+                  child: Text(title[0],
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900)),
                 ),
               ),
               const SizedBox(width: 14),
@@ -709,15 +862,25 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                    Text(title,
+                        style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: AppTheme.textPrimary)),
                     const SizedBox(height: 4),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: tagColor.withValues(alpha: 38),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text(tag, style: TextStyle(color: tagColor, fontSize: 13, fontWeight: FontWeight.w800, letterSpacing: 0.5)),
+                      child: Text(tag,
+                          style: TextStyle(
+                              color: tagColor,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.5)),
                     ),
                   ],
                 ),
@@ -736,15 +899,26 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                             width: 18,
                             height: 18,
                             decoration: BoxDecoration(
-                              color: isAccent ? AppTheme.goldDark : AppTheme.backgroundAlt,
+                              color: isAccent
+                                  ? AppTheme.goldDark
+                                  : AppTheme.backgroundAlt,
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Center(
-                              child: Icon(Icons.check, size: 12, color: isAccent ? Colors.white : AppTheme.darkBrown),
+                              child: Icon(Icons.check,
+                                  size: 12,
+                                  color: isAccent
+                                      ? Colors.white
+                                      : AppTheme.darkBrown),
                             ),
                           ),
                           const SizedBox(width: 12),
-                          Expanded(child: Text(bullet, style: const TextStyle(fontSize: 14, color: AppTheme.textPrimary, height: 1.6))),
+                          Expanded(
+                              child: Text(bullet,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: AppTheme.textPrimary,
+                                      height: 1.6))),
                         ],
                       ),
                     ))
@@ -773,23 +947,36 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
       decoration: BoxDecoration(
         color: cardColor,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: isHighlighted ? AppTheme.goldDark : AppTheme.borderLight),
+        border: Border.all(
+            color: isHighlighted ? AppTheme.goldDark : AppTheme.borderLight),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 13), blurRadius: 20, offset: const Offset(0, 10)),
+          BoxShadow(
+              color: Colors.black.withValues(alpha: 13),
+              blurRadius: 20,
+              offset: const Offset(0, 10)),
         ],
       ),
       padding: const EdgeInsets.all(22),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Price: INR $original', style: TextStyle(color: noteColor, fontSize: 13)),
+          Text('Price: INR $original',
+              style: TextStyle(color: noteColor, fontSize: 13)),
           const SizedBox(height: 14),
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('INR', style: TextStyle(color: titleColor, fontSize: 16, fontWeight: FontWeight.w700)),
+              Text('INR',
+                  style: TextStyle(
+                      color: titleColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700)),
               const SizedBox(width: 8),
-              Text(price, style: TextStyle(color: titleColor, fontSize: 34, fontWeight: FontWeight.w900)),
+              Text(price,
+                  style: TextStyle(
+                      color: titleColor,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w900)),
             ],
           ),
           const SizedBox(height: 12),
@@ -799,7 +986,11 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               color: isHighlighted ? Colors.white10 : AppTheme.backgroundAlt,
               borderRadius: BorderRadius.circular(14),
             ),
-            child: Text(note, style: TextStyle(color: noteColor, fontSize: 13, fontWeight: FontWeight.w600)),
+            child: Text(note,
+                style: TextStyle(
+                    color: noteColor,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600)),
           ),
           const SizedBox(height: 18),
           Column(
@@ -817,10 +1008,16 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                               color: AppTheme.goldDark,
                               borderRadius: BorderRadius.circular(6),
                             ),
-                            child: const Icon(Icons.check, size: 12, color: Colors.white),
+                            child: const Icon(Icons.check,
+                                size: 12, color: Colors.white),
                           ),
                           const SizedBox(width: 12),
-                          Expanded(child: Text(bullet, style: TextStyle(color: titleColor, fontSize: 14, height: 1.6))),
+                          Expanded(
+                              child: Text(bullet,
+                                  style: TextStyle(
+                                      color: titleColor,
+                                      fontSize: 14,
+                                      height: 1.6))),
                         ],
                       ),
                     ))
@@ -832,12 +1029,15 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
             child: ElevatedButton(
               onPressed: onTap,
               style: ElevatedButton.styleFrom(
-                backgroundColor: isHighlighted ? AppTheme.gold : AppTheme.background,
+                backgroundColor:
+                    isHighlighted ? AppTheme.gold : AppTheme.background,
                 foregroundColor: AppTheme.darkBrown,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16)),
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Upgrade Now', style: TextStyle(fontWeight: FontWeight.w900)),
+              child: const Text('Upgrade Now',
+                  style: TextStyle(fontWeight: FontWeight.w900)),
             ),
           ),
         ],

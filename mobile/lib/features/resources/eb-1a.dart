@@ -31,20 +31,63 @@ const _faqs = [
 ];
 
 const _kitItems = [
-  _KitItem(icon: '📄', title: 'Sample I-140 & I-907 Forms', desc: 'Real examples to guide your petition and premium processing request.'),
-  _KitItem(icon: '⚖️', title: 'USCIS Officer Decisions + AAO Reviews', desc: 'Insights from actual USCIS decisions and Administrative Appeals Office (AAO) reviews.'),
-  _KitItem(icon: '📋', title: 'Request for Evidence (RFE) Sample', desc: 'A real RFE document to help you understand what USCIS asks for and how to respond.'),
-  _KitItem(icon: '✏️', title: 'Editable Petition (PDF, Word, LaTeX)', desc: 'Professionally written, editable petition used by successful candidates.', highlight: true),
-  _KitItem(icon: '⬇️', title: 'Fresh I-140 Form', desc: 'Latest downloadable version to process your immigrant petition.', highlight: true),
-  _KitItem(icon: '🎬', title: 'Step-by-Step Guide: How to Use the Kit', desc: 'Walkthrough to make the most of your kit, from start to submission.'),
-  _KitItem(icon: '📝', title: 'Fresh I-907', desc: 'Latest downloadable form to apply for the premium processing.'),
-  _KitItem(icon: '🍃', title: 'Overleaf Integration', desc: 'Step-by-step Overleaf guide with your LaTeX kit.'),
+  _KitItem(
+      icon: '📄',
+      title: 'Sample I-140 & I-907 Forms',
+      desc:
+          'Real examples to guide your petition and premium processing request.'),
+  _KitItem(
+      icon: '⚖️',
+      title: 'USCIS Officer Decisions + AAO Reviews',
+      desc:
+          'Insights from actual USCIS decisions and Administrative Appeals Office (AAO) reviews.'),
+  _KitItem(
+      icon: '📋',
+      title: 'Request for Evidence (RFE) Sample',
+      desc:
+          'A real RFE document to help you understand what USCIS asks for and how to respond.'),
+  _KitItem(
+      icon: '✏️',
+      title: 'Editable Petition (PDF, Word, LaTeX)',
+      desc:
+          'Professionally written, editable petition used by successful candidates.',
+      highlight: true),
+  _KitItem(
+      icon: '⬇️',
+      title: 'Fresh I-140 Form',
+      desc: 'Latest downloadable version to process your immigrant petition.',
+      highlight: true),
+  _KitItem(
+      icon: '🎬',
+      title: 'Step-by-Step Guide: How to Use the Kit',
+      desc:
+          'Walkthrough to make the most of your kit, from start to submission.'),
+  _KitItem(
+      icon: '📝',
+      title: 'Fresh I-907',
+      desc: 'Latest downloadable form to apply for the premium processing.'),
+  _KitItem(
+      icon: '🍃',
+      title: 'Overleaf Integration',
+      desc: 'Step-by-step Overleaf guide with your LaTeX kit.'),
 ];
 
 const _whyItems = [
-  _WhyItem(emoji: '👤', title: 'Clear Instructions', desc: 'Step-by-step videos and sample petitions to help you file confidently.'),
-  _WhyItem(emoji: '🛡️', title: 'Avoid RFEs', desc: 'AAO case studies show what USCIS looks for, so you can fill evidence gaps smartly.'),
-  _WhyItem(emoji: '⚙️', title: 'Expert-Level Content', desc: 'Professional petition template designed to maximize your approval success.'),
+  _WhyItem(
+      emoji: '👤',
+      title: 'Clear Instructions',
+      desc:
+          'Step-by-step videos and sample petitions to help you file confidently.'),
+  _WhyItem(
+      emoji: '🛡️',
+      title: 'Avoid RFEs',
+      desc:
+          'AAO case studies show what USCIS looks for, so you can fill evidence gaps smartly.'),
+  _WhyItem(
+      emoji: '⚙️',
+      title: 'Expert-Level Content',
+      desc:
+          'Professional petition template designed to maximize your approval success.'),
 ];
 
 const _videoFeatures = [
@@ -171,7 +214,9 @@ class _HeroSection extends StatelessWidget {
                   text: 'Based on ',
                   style: TextStyle(fontSize: 13, color: _lightText),
                   children: [
-                    TextSpan(text: '200+', style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(
+                        text: '200+',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     TextSpan(text: ' EB-1A approvals'),
                   ],
                 ),
@@ -255,14 +300,17 @@ class _KitCard extends StatelessWidget {
             height: 36,
             decoration: BoxDecoration(
               color: item.highlight ? _brown.withOpacity(0.1) : _bg,
-              border: Border.all(color: item.highlight ? _brown.withOpacity(0.4) : _tan),
+              border: Border.all(
+                  color: item.highlight ? _brown.withOpacity(0.4) : _tan),
             ),
-            child: Center(child: Text(item.icon, style: const TextStyle(fontSize: 16))),
+            child: Center(
+                child: Text(item.icon, style: const TextStyle(fontSize: 16))),
           ),
           const SizedBox(height: 10),
           Text(
             item.title,
-            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: titleColor),
+            style: TextStyle(
+                fontSize: 13, fontWeight: FontWeight.w700, color: titleColor),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
@@ -295,10 +343,16 @@ class _DIYSection extends StatelessWidget {
         children: [
           RichText(
             text: const TextSpan(
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: _dark, height: 1.2),
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: _dark,
+                  height: 1.2),
               children: [
                 TextSpan(text: 'DIY Winning Petition,\n'),
-                TextSpan(text: 'No Attorney Required', style: TextStyle(color: _brown)),
+                TextSpan(
+                    text: 'No Attorney Required',
+                    style: TextStyle(color: _brown)),
               ],
             ),
           ),
@@ -315,7 +369,8 @@ class _DIYSection extends StatelessWidget {
             child: Container(
               height: 180,
               color: _tan.withOpacity(0.4),
-              child: const Center(child: Text('💻', style: TextStyle(fontSize: 60))),
+              child: const Center(
+                  child: Text('💻', style: TextStyle(fontSize: 60))),
             ),
           ),
         ],
@@ -337,10 +392,12 @@ class _WhyChooseSection extends StatelessWidget {
         children: [
           _SectionHeader(
             title: 'Why Choose Our DIY Kit?',
-            subtitle: "Master your EB-1A petition affordably with YMGRad's all-in-one toolkit. Cut legal costs and preempt RFEs.",
+            subtitle:
+                "Master your EB-1A petition affordably with YMGRad's all-in-one toolkit. Cut legal costs and preempt RFEs.",
           ),
           const SizedBox(height: 28),
-          ...List.generate(_whyItems.length, (i) => _WhyCard(item: _whyItems[i])),
+          ...List.generate(
+              _whyItems.length, (i) => _WhyCard(item: _whyItems[i])),
         ],
       ),
     );
@@ -364,7 +421,9 @@ class _WhyCard extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: const Color(0xFFEEEEEE)),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)],
+              boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8)
+              ],
             ),
             child: Stack(
               children: [
@@ -372,11 +431,26 @@ class _WhyCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(height: 8, width: 60, decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(4))),
+                      Container(
+                          height: 8,
+                          width: 60,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(4))),
                       const SizedBox(height: 6),
-                      Container(height: 8, width: 80, decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(4))),
+                      Container(
+                          height: 8,
+                          width: 80,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(4))),
                       const SizedBox(height: 6),
-                      Container(height: 8, width: 70, decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(4))),
+                      Container(
+                          height: 8,
+                          width: 70,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(4))),
                     ],
                   ),
                 ),
@@ -385,7 +459,12 @@ class _WhyCard extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: Center(
-                    child: Container(height: 10, width: 50, decoration: BoxDecoration(color: _yellow, borderRadius: BorderRadius.circular(4))),
+                    child: Container(
+                        height: 10,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: _yellow,
+                            borderRadius: BorderRadius.circular(4))),
                   ),
                 ),
                 Positioned(
@@ -394,17 +473,25 @@ class _WhyCard extends StatelessWidget {
                   child: Container(
                     width: 28,
                     height: 28,
-                    decoration: BoxDecoration(color: _yellow, borderRadius: BorderRadius.circular(6)),
-                    child: Center(child: Text(item.emoji, style: const TextStyle(fontSize: 13))),
+                    decoration: BoxDecoration(
+                        color: _yellow, borderRadius: BorderRadius.circular(6)),
+                    child: Center(
+                        child: Text(item.emoji,
+                            style: const TextStyle(fontSize: 13))),
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 12),
-          Text(item.title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: _dark)),
+          Text(item.title,
+              style: const TextStyle(
+                  fontSize: 15, fontWeight: FontWeight.w600, color: _dark)),
           const SizedBox(height: 6),
-          Text(item.desc, textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, color: _mutedText, height: 1.5)),
+          Text(item.desc,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 14, color: _mutedText, height: 1.5)),
         ],
       ),
     );
@@ -430,16 +517,22 @@ class _Built200Section extends StatelessWidget {
             child: Container(
               height: 160,
               color: _brown.withOpacity(0.3),
-              child: const Center(child: Text('📋', style: TextStyle(fontSize: 60))),
+              child: const Center(
+                  child: Text('📋', style: TextStyle(fontSize: 60))),
             ),
           ),
           const SizedBox(height: 24),
           RichText(
             text: const TextSpan(
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: _bg, height: 1.2),
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: _bg,
+                  height: 1.2),
               children: [
                 TextSpan(text: 'Built on '),
-                TextSpan(text: '200+ Approved\n', style: TextStyle(color: _brown)),
+                TextSpan(
+                    text: '200+ Approved\n', style: TextStyle(color: _brown)),
                 TextSpan(text: 'EB-1A Petitions'),
               ],
             ),
@@ -457,7 +550,11 @@ class _Built200Section extends StatelessWidget {
               color: _brown,
               child: const Text(
                 'GET THE KIT NOW',
-                style: TextStyle(color: _bg, fontSize: 13, letterSpacing: 2, fontWeight: FontWeight.w600),
+                style: TextStyle(
+                    color: _bg,
+                    fontSize: 13,
+                    letterSpacing: 2,
+                    fontWeight: FontWeight.w600),
               ),
             ),
           ),
@@ -480,7 +577,8 @@ class _VideoGuideSection extends StatelessWidget {
         children: [
           _SectionHeader(
             title: 'Step-by-Step Video Guide',
-            subtitle: 'We walk you through every part of the EB-1A petition — from choosing the right evidence to structuring your case.',
+            subtitle:
+                'We walk you through every part of the EB-1A petition — from choosing the right evidence to structuring your case.',
           ),
           const SizedBox(height: 24),
           ..._videoFeatures.map((f) => _VideoFeatureCard(feature: f)).toList(),
@@ -512,11 +610,15 @@ class _VideoFeatureCard extends StatelessWidget {
               color: _brown.withOpacity(0.1),
               border: Border.all(color: _tan),
             ),
-            child: Center(child: Text(feature.icon, style: const TextStyle(fontSize: 20))),
+            child: Center(
+                child:
+                    Text(feature.icon, style: const TextStyle(fontSize: 20))),
           ),
           const SizedBox(width: 16),
           Expanded(
-            child: Text(feature.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: _dark)),
+            child: Text(feature.title,
+                style: const TextStyle(
+                    fontSize: 13, fontWeight: FontWeight.w500, color: _dark)),
           ),
         ],
       ),
@@ -539,10 +641,15 @@ class _PricingSection extends StatelessWidget {
           RichText(
             textAlign: TextAlign.center,
             text: const TextSpan(
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: _bg, height: 1.2),
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.w800,
+                  color: _bg,
+                  height: 1.2),
               children: [
                 TextSpan(text: 'The Only EB-1A Toolkit\n'),
-                TextSpan(text: "You'll Ever Need", style: TextStyle(color: _brown)),
+                TextSpan(
+                    text: "You'll Ever Need", style: TextStyle(color: _brown)),
               ],
             ),
           ),
@@ -555,16 +662,20 @@ class _PricingSection extends StatelessWidget {
           const SizedBox(height: 32),
           // Price card
           Container(
-            decoration: BoxDecoration(border: Border.all(color: _brown.withOpacity(0.3))),
+            decoration: BoxDecoration(
+                border: Border.all(color: _brown.withOpacity(0.3))),
             child: Column(
               children: [
                 // Price panel
                 Container(
                   color: _bg,
-                  padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 32, horizontal: 20),
                   child: Column(
                     children: [
-                      const Text('BUY AT', style: TextStyle(fontSize: 14, color: _brown, letterSpacing: 2)),
+                      const Text('BUY AT',
+                          style: TextStyle(
+                              fontSize: 14, color: _brown, letterSpacing: 2)),
                       const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -572,13 +683,20 @@ class _PricingSection extends StatelessWidget {
                         children: const [
                           Padding(
                             padding: EdgeInsets.only(top: 6),
-                            child: Text('USD', style: TextStyle(fontSize: 14, color: _dark)),
+                            child: Text('USD',
+                                style: TextStyle(fontSize: 14, color: _dark)),
                           ),
                           SizedBox(width: 4),
-                          Text('200', style: TextStyle(fontSize: 52, fontWeight: FontWeight.w800, color: _dark)),
+                          Text('200',
+                              style: TextStyle(
+                                  fontSize: 52,
+                                  fontWeight: FontWeight.w800,
+                                  color: _dark)),
                         ],
                       ),
-                      const Text('billed just once', style: TextStyle(fontSize: 13, color: _brown, letterSpacing: 1)),
+                      const Text('billed just once',
+                          style: TextStyle(
+                              fontSize: 13, color: _brown, letterSpacing: 1)),
                       const SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {},
@@ -589,7 +707,11 @@ class _PricingSection extends StatelessWidget {
                           child: const Text(
                             'BUY NOW',
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: _bg, fontSize: 13, letterSpacing: 2, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                color: _bg,
+                                fontSize: 13,
+                                letterSpacing: 2,
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
@@ -612,9 +734,12 @@ class _PricingSection extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Row(
                             children: [
-                              const Text('✓', style: TextStyle(color: _brown, fontSize: 14)),
+                              const Icon(Icons.check, color: _brown, size: 14),
                               const SizedBox(width: 10),
-                              Expanded(child: Text(f, style: const TextStyle(fontSize: 14, color: _tan))),
+                              Expanded(
+                                  child: Text(f,
+                                      style: const TextStyle(
+                                          fontSize: 14, color: _tan))),
                             ],
                           ),
                         ),
@@ -624,9 +749,12 @@ class _PricingSection extends StatelessWidget {
                         spacing: 16,
                         runSpacing: 8,
                         children: const [
-                          Text('◎ Cost-effective kit', style: TextStyle(fontSize: 13, color: _brown)),
-                          Text('◎ 100% assisted', style: TextStyle(fontSize: 13, color: _brown)),
-                          Text('◎ Customizable', style: TextStyle(fontSize: 13, color: _brown)),
+                          Text('◎ Cost-effective kit',
+                              style: TextStyle(fontSize: 13, color: _brown)),
+                          Text('◎ 100% assisted',
+                              style: TextStyle(fontSize: 13, color: _brown)),
+                          Text('◎ Customizable',
+                              style: TextStyle(fontSize: 13, color: _brown)),
                         ],
                       ),
                     ],
@@ -677,13 +805,17 @@ class _FAQSectionState extends State<_FAQSection> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 14),
                       child: Row(
                         children: [
                           Expanded(
                             child: Text(
                               _faqs[i].question,
-                              style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: _dark),
+                              style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: _dark),
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -697,7 +829,10 @@ class _FAQSectionState extends State<_FAQSection> {
                             child: Center(
                               child: Text(
                                 isOpen ? '−' : '+',
-                                style: TextStyle(color: isOpen ? Colors.white : _brown, fontSize: 18, height: 1),
+                                style: TextStyle(
+                                    color: isOpen ? Colors.white : _brown,
+                                    fontSize: 18,
+                                    height: 1),
                               ),
                             ),
                           ),
@@ -708,12 +843,14 @@ class _FAQSectionState extends State<_FAQSection> {
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        decoration: BoxDecoration(border: Border(top: BorderSide(color: _tan))),
+                        decoration: BoxDecoration(
+                            border: Border(top: BorderSide(color: _tan))),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 12),
                           child: Text(
                             _faqs[i].answer,
-                            style: const TextStyle(fontSize: 13, color: _lightText, height: 1.6),
+                            style: const TextStyle(
+                                fontSize: 13, color: _lightText, height: 1.6),
                           ),
                         ),
                       ),
@@ -739,9 +876,15 @@ class _SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(title, textAlign: TextAlign.center, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: _dark)),
+        Text(title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                fontSize: 26, fontWeight: FontWeight.w800, color: _dark)),
         const SizedBox(height: 8),
-        Text(subtitle, textAlign: TextAlign.center, style: const TextStyle(fontSize: 14, color: _mutedText, height: 1.5)),
+        Text(subtitle,
+            textAlign: TextAlign.center,
+            style:
+                const TextStyle(fontSize: 14, color: _mutedText, height: 1.5)),
       ],
     );
   }
@@ -758,8 +901,11 @@ class _YellowButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-        decoration: BoxDecoration(color: _yellow, borderRadius: BorderRadius.circular(6)),
-        child: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: _dark)),
+        decoration: BoxDecoration(
+            color: _yellow, borderRadius: BorderRadius.circular(6)),
+        child: Text(label,
+            style: const TextStyle(
+                fontSize: 14, fontWeight: FontWeight.w600, color: _dark)),
       ),
     );
   }
@@ -791,14 +937,19 @@ class _KitItem {
   final String title;
   final String desc;
   final bool highlight;
-  const _KitItem({required this.icon, required this.title, required this.desc, this.highlight = false});
+  const _KitItem(
+      {required this.icon,
+      required this.title,
+      required this.desc,
+      this.highlight = false});
 }
 
 class _WhyItem {
   final String emoji;
   final String title;
   final String desc;
-  const _WhyItem({required this.emoji, required this.title, required this.desc});
+  const _WhyItem(
+      {required this.emoji, required this.title, required this.desc});
 }
 
 class _VideoFeature {

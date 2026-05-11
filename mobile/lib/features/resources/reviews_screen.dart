@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
@@ -30,16 +31,20 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     try {
       final params = {'limit': '50'};
       if (_activeFilter != 'all') params['service'] = _activeFilter;
-      
-      final res = await ApiClient.instance.get('/api/reviews', queryParameters: params);
+
+      final res =
+          await ApiClient.instance.get('/api/reviews', queryParameters: params);
       setState(() {
         _reviews = res.data['reviews'] ?? [];
         _total = res.data['total'] ?? 0;
-        
+
         // Extract filters from stats if available
         if (res.data['stats'] != null) {
           final stats = List<Map<String, dynamic>>.from(res.data['stats']);
-          _filters = ['all', ...stats.map((s) => s['_id'] as String).where((id) => id.isNotEmpty)];
+          _filters = [
+            'all',
+            ...stats.map((s) => s['_id'] as String).where((id) => id.isNotEmpty)
+          ];
         }
       });
     } catch (e) {
@@ -73,8 +78,10 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
             surfaceTintColor: Colors.transparent,
             elevation: 0,
             leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: AppTheme.textPrimary),
-              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                  size: 20, color: AppTheme.textPrimary),
+              onPressed: () =>
+                  context.canPop() ? context.pop() : context.go('/resources'),
             ),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
@@ -94,9 +101,11 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 4),
                         decoration: BoxDecoration(
-                          border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
+                          border:
+                              Border.all(color: AppTheme.gold.withOpacity(0.3)),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -167,7 +176,8 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.5,
-                          color: isActive ? AppTheme.gold : AppTheme.textSecondary,
+                          color:
+                              isActive ? AppTheme.gold : AppTheme.textSecondary,
                         ),
                       ),
                       selected: isActive,
@@ -182,7 +192,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                         side: BorderSide(
-                          color: isActive ? AppTheme.darkBrown : AppTheme.borderLight,
+                          color: isActive
+                              ? AppTheme.darkBrown
+                              : AppTheme.borderLight,
                         ),
                       ),
                       showCheckmark: false,
@@ -225,7 +237,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                 ),
               ),
             ),
-          
+
           const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
       ),
@@ -236,7 +248,8 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
         icon: const Icon(Icons.rate_review_outlined),
         label: Text(
           'WRITE A REVIEW',
-          style: GoogleFonts.outfit(fontWeight: FontWeight.w800, letterSpacing: 1),
+          style:
+              GoogleFonts.outfit(fontWeight: FontWeight.w800, letterSpacing: 1),
         ),
       ),
     );
@@ -304,7 +317,7 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
         'title': _titleController.text.trim(),
         'body': _bodyController.text.trim(),
       });
-      
+
       if (!mounted) return;
       Navigator.pop(context);
       widget.onSuccess();
@@ -379,24 +392,32 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
               DropdownButtonFormField<String>(
                 value: _selectedService,
                 dropdownColor: Colors.white,
-                items: _services.map((s) => DropdownMenuItem(
-                  value: s,
-                  child: Text(s, style: GoogleFonts.outfit(fontSize: 14)),
-                )).toList(),
+                items: _services
+                    .map((s) => DropdownMenuItem(
+                          value: s,
+                          child:
+                              Text(s, style: GoogleFonts.outfit(fontSize: 14)),
+                        ))
+                    .toList(),
                 onChanged: (v) => setState(() => _selectedService = v),
                 decoration: _inputDecoration('Select a service'),
               ),
               const SizedBox(height: 20),
               _buildLabel('OVERALL RATING *'),
               Row(
-                children: List.generate(5, (index) => IconButton(
-                  onPressed: () => setState(() => _rating = index + 1.0),
-                  icon: Icon(
-                    Icons.star_rounded,
-                    size: 32,
-                    color: index < _rating ? AppTheme.gold : AppTheme.borderLight,
-                  ),
-                )),
+                children: List.generate(
+                    5,
+                    (index) => IconButton(
+                          onPressed: () =>
+                              setState(() => _rating = index + 1.0),
+                          icon: Icon(
+                            Icons.star_rounded,
+                            size: 32,
+                            color: index < _rating
+                                ? AppTheme.gold
+                                : AppTheme.borderLight,
+                          ),
+                        )),
               ),
               const SizedBox(height: 20),
               _buildLabel('REVIEW TITLE'),
@@ -409,7 +430,8 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
               TextFormField(
                 controller: _bodyController,
                 maxLines: 4,
-                decoration: _inputDecoration('Tell us about your experience...'),
+                decoration:
+                    _inputDecoration('Tell us about your experience...'),
                 validator: (v) => v!.isEmpty ? 'Review text is required' : null,
               ),
               const SizedBox(height: 32),
@@ -489,7 +511,6 @@ class _WriteReviewSheetState extends State<_WriteReviewSheet> {
   }
 }
 
-
 class _ReviewCard extends StatelessWidget {
   final dynamic review;
   const _ReviewCard({required this.review});
@@ -497,9 +518,14 @@ class _ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = review['name'] ?? 'Anonymous';
-    final initials = name.split(' ').map((e) => e.isNotEmpty ? e[0] : '').take(2).join('').toUpperCase();
+    final initials = name
+        .split(' ')
+        .map((e) => e.isNotEmpty ? e[0] : '')
+        .take(2)
+        .join('')
+        .toUpperCase();
     final rating = (review['rating'] ?? 0).toDouble();
-    final date = review['createdAt'] != null 
+    final date = review['createdAt'] != null
         ? DateFormat('d MMM, yyyy').format(DateTime.parse(review['createdAt']))
         : '';
 
@@ -559,9 +585,11 @@ class _ReviewCard extends StatelessWidget {
                         if (review['isVerified'] == true) ...[
                           const SizedBox(width: 6),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 6, vertical: 2),
                             decoration: BoxDecoration(
-                              border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
+                              border: Border.all(
+                                  color: AppTheme.gold.withOpacity(0.3)),
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
@@ -579,11 +607,15 @@ class _ReviewCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Row(
-                      children: List.generate(5, (i) => Icon(
-                        Icons.star_rounded,
-                        size: 14,
-                        color: i < rating ? AppTheme.gold : AppTheme.borderLight,
-                      )),
+                      children: List.generate(
+                          5,
+                          (i) => Icon(
+                                Icons.star_rounded,
+                                size: 14,
+                                color: i < rating
+                                    ? AppTheme.gold
+                                    : AppTheme.borderLight,
+                              )),
                     ),
                   ],
                 ),

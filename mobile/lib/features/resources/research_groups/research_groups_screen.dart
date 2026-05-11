@@ -81,7 +81,7 @@ class _ResearchGroupsScreenState extends State<ResearchGroupsScreen> {
                             searchController: _searchController,
                             emailController: _emailController,
                             onCreateTap: _openCreate,
-                            onConsultTap: () => BookCounsellingSheet.show(context),
+                            onConsultTap: () => showBookCounsellingSheet(context),
                           ),
                         const SizedBox(height: 40),
                       ],

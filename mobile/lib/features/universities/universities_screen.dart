@@ -8,7 +8,8 @@ class UniversitiesScreen extends StatelessWidget {
   static final List<Map<String, dynamic>> _items = [
     {
       'title': 'Top Universities By Country',
-      'subtitle': 'Find statistics like acceptance rates, expenses, deadlines, and test scores.',
+      'subtitle':
+          'Find statistics like acceptance rates, expenses, deadlines, and test scores.',
       'icon': Icons.public_rounded,
       'badge': null,
     },
@@ -38,7 +39,8 @@ class UniversitiesScreen extends StatelessWidget {
     },
     {
       'title': 'Top Universities by State',
-      'subtitle': 'Filter top schools by region (California, Texas, Ontario, etc.).',
+      'subtitle':
+          'Filter top schools by region (California, Texas, Ontario, etc.).',
       'icon': Icons.location_on_rounded,
       'badge': null,
     },
@@ -88,21 +90,22 @@ class UniversitiesScreen extends StatelessWidget {
                     return GestureDetector(
                       onTap: () {
                         if (index == 0) {
-                          context.go('/universities/countries');
+                          context.push('/universities/countries');
                         } else if (index == 1) {
-                          context.go('/universities/unipredict');
+                          context.push('/universities/unipredict');
                         } else if (index == 2) {
-                          context.go('/universities/rate-my-chances');
+                          context.push('/universities/rate-my-chances');
                         } else if (index == 3) {
-                          context.go('/universities/popular-programs');
+                          context.push('/universities/popular-programs');
                         } else if (index == 4) {
-                          context.go('/universities/high-ranked-cheap');
+                          context.push('/universities/high-ranked-cheap');
                         } else if (index == 5) {
-                          context.go('/universities/by-state');
+                          context.push('/universities/by-state');
                         }
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 18, vertical: 18),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -137,7 +140,8 @@ class UniversitiesScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       Expanded(
                                         child: Text(
@@ -151,10 +155,12 @@ class UniversitiesScreen extends StatelessWidget {
                                       ),
                                       if (item['badge'] != null)
                                         Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 4),
                                           decoration: BoxDecoration(
                                             color: AppTheme.gold,
-                                            borderRadius: BorderRadius.circular(12),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                           ),
                                           child: Text(
                                             item['badge'] as String,

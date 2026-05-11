@@ -11,6 +11,7 @@ router.post("/update-profile", upload.fields([{ name: 'profileImage', maxCount: 
 router.post("/change-password", authMiddleware, userController.changePassword);
 router.post("/add-to-cart", authMiddleware, userController.addToCart);
 router.get("/get-cart", authMiddleware, userController.getCart);
+router.patch("/update-cart-item-quantity", authMiddleware, userController.updateCartItemQuantity);
 router.delete("/remove-from-cart", authMiddleware, userController.removeFromCart);
 router.delete("/clear-cart", authMiddleware, userController.clearCart);
 router.get("/:email", userController.getUserByEmail);

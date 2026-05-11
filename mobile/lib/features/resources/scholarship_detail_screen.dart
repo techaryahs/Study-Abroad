@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/theme.dart';
@@ -9,7 +10,8 @@ class ScholarshipDetailScreen extends StatefulWidget {
   const ScholarshipDetailScreen({super.key, required this.slug});
 
   @override
-  State<ScholarshipDetailScreen> createState() => _ScholarshipDetailScreenState();
+  State<ScholarshipDetailScreen> createState() =>
+      _ScholarshipDetailScreenState();
 }
 
 class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
@@ -18,7 +20,8 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
   @override
   void initState() {
     super.initState();
-    _scholarshipFuture = ScholarshipRepository.getScholarshipBySlug(widget.slug);
+    _scholarshipFuture =
+        ScholarshipRepository.getScholarshipBySlug(widget.slug);
   }
 
   @override
@@ -27,12 +30,24 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
       future: _scholarshipFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator(color: AppTheme.gold)));
+          return const Scaffold(
+              body: Center(
+                  child: CircularProgressIndicator(color: AppTheme.gold)));
         }
 
         final s = snapshot.data;
         if (s == null) {
-          return Scaffold(appBar: AppBar(), body: const Center(child: Text('Scholarship not found')));
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                icon: const Icon(LucideIcons.arrowLeft),
+                onPressed: () => context.canPop()
+                    ? context.pop()
+                    : context.go('/resources/scholarships'),
+              ),
+            ),
+            body: const Center(child: Text('Scholarship not found')),
+          );
         }
 
         return Scaffold(
@@ -45,10 +60,21 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                 pinned: true,
                 backgroundColor: AppTheme.background,
                 elevation: 0,
-                title: const Text('SCHOLARSHIP PROFILE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.gold)),
+                title: const Text('SCHOLARSHIP PROFILE',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 2,
+                        color: AppTheme.gold)),
                 iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+                leading: IconButton(
+                  icon: const Icon(LucideIcons.arrowLeft,
+                      color: AppTheme.textPrimary),
+                  onPressed: () => context.canPop()
+                      ? context.pop()
+                      : context.go('/resources/scholarships'),
+                ),
               ),
-              
               SliverToBoxAdapter(
                 child: Column(
                   children: [
@@ -78,7 +104,8 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               shape: BoxShape.circle,
-                              border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+                              border: Border.all(
+                                  color: AppTheme.gold.withOpacity(0.2)),
                               boxShadow: [
                                 BoxShadow(
                                   color: AppTheme.gold.withOpacity(0.1),
@@ -88,19 +115,27 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                               ],
                             ),
                             child: const Center(
-                              child: Icon(LucideIcons.graduationCap, size: 60, color: AppTheme.gold),
+                              child: Icon(LucideIcons.graduationCap,
+                                  size: 60, color: AppTheme.gold),
                             ),
                           ),
                           const SizedBox(height: 24),
                           const Text(
                             'Ready to Apply?',
-                            style: TextStyle(fontFamily: 'Cormorant Garamond', fontSize: 32, fontWeight: FontWeight.bold, color: AppTheme.textPrimary),
+                            style: TextStyle(
+                                fontFamily: 'Cormorant Garamond',
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.textPrimary),
                           ),
                           const SizedBox(height: 12),
                           const Text(
                             'Transition to the official portal to complete your institutional application.',
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: AppTheme.textSecondary, fontSize: 13, height: 1.6),
+                            style: TextStyle(
+                                color: AppTheme.textSecondary,
+                                fontSize: 13,
+                                height: 1.6),
                           ),
                           const SizedBox(height: 32),
                           SizedBox(
@@ -111,13 +146,18 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppTheme.darkBrown,
                                 foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16)),
                                 elevation: 0,
                               ),
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text('INITIALIZE APPLICATION', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                                  Text('INITIALIZE APPLICATION',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w900,
+                                          letterSpacing: 1)),
                                   SizedBox(width: 8),
                                   Icon(LucideIcons.externalLink, size: 16),
                                 ],
@@ -127,20 +167,30 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                         ],
                       ),
                     ),
-                    
+
                     Padding(
                       padding: const EdgeInsets.all(24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(s.sponsor, style: const TextStyle(color: AppTheme.gold, fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                          Text(s.sponsor,
+                              style: const TextStyle(
+                                  color: AppTheme.gold,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 2)),
                           const SizedBox(height: 12),
                           Text(
                             s.name,
-                            style: const TextStyle(fontFamily: 'Cormorant Garamond', fontSize: 40, fontWeight: FontWeight.bold, color: AppTheme.textPrimary, height: 1.1),
+                            style: const TextStyle(
+                                fontFamily: 'Cormorant Garamond',
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.textPrimary,
+                                height: 1.1),
                           ),
                           const SizedBox(height: 40),
-                          
+
                           // Info Grid
                           GridView.count(
                             crossAxisCount: 2,
@@ -150,51 +200,79 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
                             crossAxisSpacing: 16,
                             childAspectRatio: 1.5,
                             children: [
-                              _infoCard('DEADLINE', s.deadline, LucideIcons.calendar, Colors.red[400]!),
-                              _infoCard('VALUE', s.amount, LucideIcons.dollarSign, const Color(0xFF10B981)),
-                              _infoCard('AWARDED', s.id.contains('1') ? 'Multiple' : 'Variable', LucideIcons.award, AppTheme.gold),
-                              _infoCard('LOCATION', s.hostCountry, LucideIcons.mapPin, const Color(0xFF60A5FA)),
+                              _infoCard('DEADLINE', s.deadline,
+                                  LucideIcons.calendar, Colors.red[400]!),
+                              _infoCard(
+                                  'VALUE',
+                                  s.amount,
+                                  LucideIcons.dollarSign,
+                                  const Color(0xFF10B981)),
+                              _infoCard(
+                                  'AWARDED',
+                                  s.id.contains('1') ? 'Multiple' : 'Variable',
+                                  LucideIcons.award,
+                                  AppTheme.gold),
+                              _infoCard('LOCATION', s.hostCountry,
+                                  LucideIcons.mapPin, const Color(0xFF60A5FA)),
                             ],
                           ),
-                          
+
                           const SizedBox(height: 48),
-                          
+
                           // Narrative
-                          const Text('SCOPE & PURPOSE', style: TextStyle(color: AppTheme.gold, fontSize: 13, fontWeight: FontWeight.w900, letterSpacing: 2)),
+                          const Text('SCOPE & PURPOSE',
+                              style: TextStyle(
+                                  color: AppTheme.gold,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 2)),
                           const SizedBox(height: 20),
                           Text(
                             s.description,
-                            style: const TextStyle(fontSize: 16, color: AppTheme.textSecondary, height: 1.8),
+                            style: const TextStyle(
+                                fontSize: 16,
+                                color: AppTheme.textSecondary,
+                                height: 1.8),
                           ),
-                          
+
                           const SizedBox(height: 48),
-                          
+
                           // Perks Box
                           Container(
                             padding: const EdgeInsets.all(24),
                             decoration: BoxDecoration(
                               color: AppTheme.gold.withOpacity(0.05),
                               borderRadius: BorderRadius.circular(24),
-                              border: Border.all(color: AppTheme.gold.withOpacity(0.1)),
+                              border: Border.all(
+                                  color: AppTheme.gold.withOpacity(0.1)),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Text('VALUE PROPOSITION', style: TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                                const Text('VALUE PROPOSITION',
+                                    style: TextStyle(
+                                        color: AppTheme.gold,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 1)),
                                 const SizedBox(height: 16),
                                 Text(
                                   '"${s.perks}"',
-                                  style: const TextStyle(fontSize: 16, fontStyle: FontStyle.italic, color: AppTheme.textPrimary, height: 1.6),
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontStyle: FontStyle.italic,
+                                      color: AppTheme.textPrimary,
+                                      height: 1.6),
                                 ),
                               ],
                             ),
                           ),
-                          
+
                           const SizedBox(height: 48),
-                          
+
                           // Contact Details (Light Theme)
                           _contactSection(s),
-                          
+
                           const SizedBox(height: 100),
                         ],
                       ),
@@ -223,9 +301,19 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
         children: [
           Icon(icon, size: 18, color: color),
           const SizedBox(height: 12),
-          Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 1)),
+          Text(label,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w900,
+                  color: AppTheme.textSecondary,
+                  letterSpacing: 1)),
           const SizedBox(height: 4),
-          Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textPrimary), overflow: TextOverflow.ellipsis),
+          Text(value,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.textPrimary),
+              overflow: TextOverflow.ellipsis),
         ],
       ),
     );
@@ -249,11 +337,22 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('LIAISON INFORMATION', style: TextStyle(color: AppTheme.gold, fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1.5)),
+          const Text('LIAISON INFORMATION',
+              style: TextStyle(
+                  color: AppTheme.gold,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.5)),
           const SizedBox(height: 32),
-          _contactItem(LucideIcons.mapPin, 'Provider HQ', s.id.contains('1') ? 'Brooklyn, NY' : 'Global'),
+          _contactItem(LucideIcons.mapPin, 'Provider HQ',
+              s.id.contains('1') ? 'Brooklyn, NY' : 'Global'),
           const SizedBox(height: 24),
-          _contactItem(LucideIcons.mail, 'Inquiries', s.id.contains('1') ? 'tandon.admissions@nyu.edu' : 'info@scholarships.com'),
+          _contactItem(
+              LucideIcons.mail,
+              'Inquiries',
+              s.id.contains('1')
+                  ? 'tandon.admissions@nyu.edu'
+                  : 'info@scholarships.com'),
         ],
       ),
     );
@@ -268,9 +367,18 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(label, style: const TextStyle(color: AppTheme.textSecondary, fontSize: 14, fontWeight: FontWeight.w800, letterSpacing: 1)),
+              Text(label,
+                  style: const TextStyle(
+                      color: AppTheme.textSecondary,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1)),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 13, fontWeight: FontWeight.bold)),
+              Text(value,
+                  style: const TextStyle(
+                      color: AppTheme.textPrimary,
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold)),
             ],
           ),
         ),
@@ -283,10 +391,13 @@ class _ScholarshipDetailScreenState extends State<ScholarshipDetailScreen> {
     final uri = Uri.parse(sanitizedUrl);
     try {
       // Try launching directly first as canLaunchUrl is sometimes unreliable on specific Android builds
-      final success = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      final success =
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
       if (!success && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not open portal. Please check your internet connection.')),
+          SnackBar(
+              content: Text(
+                  'Could not open portal. Please check your internet connection.')),
         );
       }
     } catch (e) {

@@ -57,20 +57,34 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 color: AppTheme.darkBrown,
-                padding: const EdgeInsets.fromLTRB(20, 80, 20, 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Consultant Dashboard',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 22,
-                            fontWeight: FontWeight.w900)),
-                    Text(auth.user?['name'] ?? 'Consultant',
-                        style: TextStyle(
-                            color: Colors.white.withOpacity(0.5),
-                            fontSize: 13)),
-                  ],
+                alignment: Alignment.bottomLeft,
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                child: SafeArea(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text('Consultant Dashboard',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w900)),
+                        ),
+                      ),
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(auth.user?['name'] ?? 'Consultant',
+                              style: TextStyle(
+                                  color: Colors.white.withOpacity(0.5),
+                                  fontSize: 13)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -149,11 +163,15 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
                                       b['studentName'] ??
                                           b['name'] ??
                                           'Student',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w800,
                                           color: AppTheme.textPrimary)),
                                   Text(b['date'] ?? b['preferredDate'] ?? '—',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                           fontSize: 13,
                                           color: AppTheme.textSecondary)),
@@ -169,8 +187,11 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [BoxShadow(color: AppTheme.gold.withOpacity(0.3), blurRadius: 8)],
                                 ),
-                                child: const Text('JOIN CALL',
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.black)),
+                                child: const FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text('JOIN CALL',
+                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: Colors.black)),
+                                ),
                               ),
                             ),
                           ],
@@ -201,20 +222,31 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
           children: [
             Icon(icon, color: AppTheme.gold, size: 22),
             const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(value,
-                    style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w900,
-                        color: AppTheme.textPrimary)),
-                Text(label,
-                    style: const TextStyle(
-                        fontSize: 14,
-                        color: AppTheme.textSecondary,
-                        fontWeight: FontWeight.w700)),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(value,
+                        style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w900,
+                            color: AppTheme.textPrimary)),
+                  ),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(label,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            color: AppTheme.textSecondary,
+                            fontWeight: FontWeight.w700)),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
