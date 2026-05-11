@@ -26,12 +26,12 @@ String extractErrorMessage(Object e) {
 
 class ApiClient {
   /// Live Render backend
-  static const String baseUrl = 'https://study-abroad-backend-pfjq.onrender.com';
+  // static const String baseUrl = 'https://study-abroad-backend-pfjq.onrender.com';
   
   /// Local Backend (Uncomment for local testing)
   // static const String baseUrl = 'http://10.0.2.2:5001'; // For Android Emulator
   // static const String baseUrl = 'http://localhost:5001'; // For iOS/Web
-  // static const String baseUrl = 'http://YOUR_LOCAL_IP:5001'; // For Physical Device
+  static const String baseUrl = 'http://192.168.1.12:5001'; // For Physical Device
 
   static Dio? _dio;
 
