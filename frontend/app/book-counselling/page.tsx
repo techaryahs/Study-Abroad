@@ -531,442 +531,475 @@ export default function BookCounsellingPage() {
       {isOpen && (
         <>
           <motion.div
-            key="backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            onClick={onClose}
-            className="hidden"
-          />
-
-          <motion.div
             key="modal"
             initial={{ opacity: 0, scale: 0.97, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: 15 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="min-h-screen pt-24 pb-12 flex items-center justify-center px-4"
+            className="min-h-screen pt-20 pb-12 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-black/40"
           >
-            <div className="w-full max-w-4xl bg-[#2D1F1D] border border-[#D4A848]/20 rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[600px]">
-
-              {/* Header */}
-              <div className="relative flex items-center justify-between px-4 md:px-5 pt-4 md:pt-5 pb-3 flex-shrink-0">
-                <div>
-                  <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-2.5 py-0.5 mb-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4A848] animate-pulse" />
-                    <span className="text-[#D4A848] text-[12px] font-black md:text-[13px] font-bold font-bold tracking-widest uppercase">Book Session</span>
-                  </div>
-                  <h2 className="text-base md:text-lg font-black text-white leading-tight">Counselling Session</h2>
-                  <p className="text-white/40 text-[13px] font-bold md:text-[14px] font-bold mt-0.5">1-hour private session</p>
-                </div>
-                <button onClick={onClose} className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all">
-                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={3}><path d="M18 6L6 18M6 6l12 12" /></svg>
+            <div className="w-full max-w-5xl bg-[#2D1F1D] border border-[#D4A848]/20 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col lg:flex-row min-h-[600px] relative">
+              
+              {/* ── Left Panel (Hero/Info) ── */}
+              <div className="lg:w-[40%] bg-black/20 p-6 md:p-10 flex flex-col relative border-b lg:border-b-0 lg:border-r border-[#D4A848]/10 overflow-hidden shrink-0">
+                {/* Background Decor */}
+                <div className="absolute top-[-20%] left-[-20%] w-[300px] h-[300px] bg-[#D4A848]/10 rounded-full blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[200px] h-[200px] bg-[#D4A848]/5 rounded-full blur-[80px] pointer-events-none" />
+                
+                {/* Back Button */}
+                <button onClick={onClose} className="absolute top-6 left-6 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/5">
+                  <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={3}><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                  Back
                 </button>
+
+                <div className="flex-1 flex flex-col justify-center relative z-10 mt-12 lg:mt-0">
+                  <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-3 py-1 mb-5 w-fit">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4A848] animate-pulse" />
+                    <span className="text-[#D4A848] text-[11px] font-black tracking-widest uppercase">Book Session</span>
+                  </div>
+                  
+                  <h2 className="text-3xl lg:text-4xl font-black text-white leading-tight mb-3">
+                    Counselling<br/>Session
+                  </h2>
+                  <p className="text-white/50 text-sm mb-8 font-medium max-w-[250px]">1-hour private one-on-one session with our experts.</p>
+                  
+                  {/* Admin Badge */}
+                  <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3 w-fit backdrop-blur-md">
+                    <div className="w-10 h-10 rounded-full bg-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 text-lg">
+                      👤
+                    </div>
+                    <div>
+                      <div className="text-white text-[11px] font-black uppercase tracking-widest mb-0.5">Expert Help</div>
+                      <div className="text-white/40 text-[9px] font-black uppercase tracking-wider">With Admin / Consultant</div>
+                    </div>
+                  </div>
+
+                  {/* Benefits List */}
+                  <div className="mt-12 space-y-4 hidden lg:block">
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
+                      <p className="text-sm font-medium text-white/60">Personalized university shortlisting</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
+                      <p className="text-sm font-medium text-white/60">Profile evaluation & strengthening</p>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
+                      <p className="text-sm font-medium text-white/60">Application timeline planning</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
-              {/* Steps */}
-              {step < 4 && !needsQuickAuth && (
-                <div className="flex items-center gap-2 px-4 md:px-5 pb-3 flex-shrink-0">
-                  <StepDot step={1} current={step} label="Date" />
-                  <div className={`flex-1 h-px ${step > 1 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
-                  <StepDot step={2} current={step} label="Time" />
-                  <div className={`flex-1 h-px ${step > 2 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
-                  <StepDot step={3} current={step} label="Confirm" />
-                </div>
-              )}
+              {/* ── Right Panel (Interactive) ── */}
+              <div className="lg:w-[60%] flex flex-col relative bg-[#2D1F1D]">
+                
+                {/* Mobile Close Button */}
+                <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all z-20 lg:hidden">
+                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={3}><path d="M18 6L6 18M6 6l12 12" /></svg>
+                </button>
 
-              {/* Admin Badge */}
-              {step < 4 && !needsQuickAuth && (
-                <div className="px-4 md:px-5 pb-2 flex-shrink-0">
-                  <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-2.5 py-1">
-                    <span className="text-[#D4A848] text-[12px] font-black md:text-[13px] font-bold font-bold uppercase tracking-tight">👤 Counselling with Admin</span>
+                {/* Steps */}
+                {step < 4 && !needsQuickAuth && (
+                  <div className="flex items-center gap-2 px-6 md:px-10 pt-8 pb-4 flex-shrink-0">
+                    <StepDot step={1} current={step} label="Date" />
+                    <div className={`flex-1 h-px ${step > 1 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
+                    <StepDot step={2} current={step} label="Time" />
+                    <div className={`flex-1 h-px ${step > 2 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
+                    <StepDot step={3} current={step} label="Confirm" />
                   </div>
-                </div>
-              )}
+                )}
 
-              <div className="h-px bg-white/5 flex-shrink-0" />
+                {step < 4 && !needsQuickAuth && <div className="h-px bg-white/5 mx-6 md:mx-10 flex-shrink-0" />}
 
-              {/* Content Area */}
-              <div className="flex-1 overflow-y-auto min-h-0 bg-black/10">
-                {needsQuickAuth ? (
-                  <motion.div key="auth" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="p-4 space-y-4">
-                    <div className="text-center mb-4">
-                      <div className="w-10 h-10 mx-auto mb-2 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/25 flex items-center justify-center text-[#D4A848]">
-                        {otpSent ? <Phone size={18} /> : <UserPlus size={18} />}
-                      </div>
-                      <div className="text-white text-sm font-bold">Quick Booking</div>
-                      <div className="text-white/40 text-xs">
-                        {otpSent ? "Verify your phone number" : "Enter your details to get started"}
-                      </div>
-                    </div>
-
-                    {!otpSent ? (
-                      <>
-                        <input type="text" placeholder="Your Name" value={userName} onChange={e => setUserName(e.target.value)}
-                          className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none" />
-                        <input type="email" placeholder="Email Address *" value={userEmail} onChange={e => setUserEmail(e.target.value)} required
-                          className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none" />
-                        <div className="grid grid-cols-[116px_1fr] gap-2">
-                          <select
-                            aria-label="Country code"
-                            value={selectedCountryIso}
-                            onChange={e => {
-                              const nextIso = e.target.value;
-                              setSelectedCountryIso(nextIso);
-                              setUserPhone(buildPhoneNumber(nextIso, phoneNumber));
-                            }}
-                            className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-2 py-2.5 text-xs text-white focus:border-[#D4A848]/40 outline-none"
-                          >
-                            {COUNTRY_CODE_OPTIONS.map(country => (
-                              <option key={country.isoCode} value={country.isoCode}>
-                                {country.flag} {country.dialCode}
-                              </option>
-                            ))}
-                          </select>
-                          <input
-                            type="tel"
-                            placeholder="Phone Number *"
-                            value={phoneNumber}
-                            onChange={e => {
-                              const digits = e.target.value.replace(/\D/g, "").slice(0, 15);
-                              setPhoneNumber(digits);
-                              setUserPhone(buildPhoneNumber(selectedCountryIso, digits));
-                            }}
-                            required
-                            className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none"
-                          />
+                {/* Content Area */}
+                <div className="flex-1 overflow-y-auto min-h-0">
+                  {needsQuickAuth ? (
+                    <motion.div key="auth" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="p-6 md:p-10 space-y-5 flex flex-col justify-center h-full">
+                      <div className="text-center mb-6">
+                        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/25 flex items-center justify-center text-[#D4A848]">
+                          {otpSent ? <Phone size={20} /> : <UserPlus size={20} />}
                         </div>
+                        <div className="text-white text-lg font-black tracking-tight">Quick Booking</div>
+                        <div className="text-white/40 text-[13px] font-medium mt-1">
+                          {otpSent ? "Verify your phone number" : "Enter your details to get started"}
+                        </div>
+                      </div>
 
-                        {(otpError || error) && <div className="text-red-400 text-xs px-1">{otpError || error}</div>}
-                        {authConflict && (
-                          <button
-                            type="button"
-                            onClick={() => router.push("/auth/login")}
-                            className="w-full py-2.5 rounded-lg border border-[#D4A848]/40 text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848]/10 transition-all"
-                          >
-                            Login Instead
-                          </button>
-                        )}
+                      {!otpSent ? (
+                        <div className="space-y-4 max-w-sm mx-auto w-full">
+                          <input type="text" placeholder="Your Name" value={userName} onChange={e => setUserName(e.target.value)}
+                            className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
+                          <input type="email" placeholder="Email Address *" value={userEmail} onChange={e => setUserEmail(e.target.value)} required
+                            className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
+                          <div className="grid grid-cols-[120px_1fr] gap-3">
+                            <select
+                              aria-label="Country code"
+                              value={selectedCountryIso}
+                              onChange={e => {
+                                const nextIso = e.target.value;
+                                setSelectedCountryIso(nextIso);
+                                setUserPhone(buildPhoneNumber(nextIso, phoneNumber));
+                              }}
+                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-3 py-3.5 text-sm text-white focus:border-[#D4A848]/40 outline-none transition-colors"
+                            >
+                              {COUNTRY_CODE_OPTIONS.map(country => (
+                                <option key={country.isoCode} value={country.isoCode}>
+                                  {country.flag} {country.dialCode}
+                                </option>
+                              ))}
+                            </select>
+                            <input
+                              type="tel"
+                              placeholder="Phone Number *"
+                              value={phoneNumber}
+                              onChange={e => {
+                                const digits = e.target.value.replace(/\D/g, "").slice(0, 15);
+                                setPhoneNumber(digits);
+                                setUserPhone(buildPhoneNumber(selectedCountryIso, digits));
+                              }}
+                              required
+                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors"
+                            />
+                          </div>
 
-                        <button type="button" onClick={sendOtp} disabled={otpLoading || authLoading || !userEmail || !phoneNumber}
-                          className="w-full py-2.5 rounded-lg bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all">
-                          {otpLoading ? "Sending..." : "Send OTP"}
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-xl p-3 space-y-2">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-[#D4A848]">
-                              <Phone size={16} />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="text-white text-xs font-bold">OTP sent to</div>
-                              <div className="text-[#D4A848] text-xs truncate">{userPhone}</div>
-                            </div>
+                          {(otpError || error) && <div className="text-red-400 text-xs px-1 font-medium">{otpError || error}</div>}
+                          {authConflict && (
                             <button
                               type="button"
-                              onClick={() => {
-                                setOtpSent(false);
-                                setOtp("");
-                                setOtpError("");
-                                setError("");
-                                setOtpTimer(0);
-                                setOtpVerified(false);
-                              }}
-                              className="text-white/40 hover:text-white text-[10px] uppercase"
+                              onClick={() => router.push("/auth/login")}
+                              className="w-full py-3.5 rounded-xl border border-[#D4A848]/40 text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848]/10 transition-all"
                             >
-                              Change
+                              Login Instead
                             </button>
+                          )}
+
+                          <button type="button" onClick={sendOtp} disabled={otpLoading || authLoading || !userEmail || !phoneNumber}
+                            className="w-full py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#D4A848]/20 mt-2">
+                            {otpLoading ? "Sending..." : "Send OTP"}
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="space-y-5 max-w-sm mx-auto w-full">
+                          <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-2xl p-4 space-y-2">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-[#D4A848]">
+                                <Phone size={18} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-white text-xs font-bold mb-0.5">OTP sent to</div>
+                                <div className="text-[#D4A848] text-sm truncate">{userPhone}</div>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setOtpSent(false);
+                                  setOtp("");
+                                  setOtpError("");
+                                  setError("");
+                                  setOtpTimer(0);
+                                  setOtpVerified(false);
+                                }}
+                                className="text-white/40 hover:text-white text-[10px] uppercase font-black tracking-wider bg-white/5 px-2 py-1.5 rounded-md"
+                              >
+                                Change
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="space-y-3">
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              autoComplete="one-time-code"
+                              placeholder="Enter 6-digit OTP"
+                              value={otp}
+                              onChange={e => {
+                                const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+                                setOtp(val);
+                              }}
+                              maxLength={6}
+                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-4 text-center text-2xl tracking-[0.5em] text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none font-mono transition-colors"
+                            />
+
+                            {otpTimer > 0 && (
+                              <div className="text-center text-white/40 text-xs font-medium">
+                                OTP expires in {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, "0")}
+                              </div>
+                            )}
+                          </div>
+
+                          {(otpError || error) && <div className="text-red-400 text-xs px-1 font-medium">{otpError || error}</div>}
+                          {authConflict && (
+                            <button
+                              type="button"
+                              onClick={() => router.push("/auth/login")}
+                              className="w-full py-3.5 rounded-xl border border-[#D4A848]/40 text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848]/10 transition-all"
+                            >
+                              Login Instead
+                            </button>
+                          )}
+
+                          <button type="button" onClick={verifyOtp} disabled={otpLoading || authLoading || otpVerified || otp.length !== 6}
+                            className="w-full py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#D4A848]/20 mt-2">
+                            {otpLoading || authLoading ? "Verifying..." : otpVerified ? "Verified" : "Verify & Continue"}
+                          </button>
+
+                          {otpTimer === 0 && (
+                            <button type="button" onClick={sendOtp} disabled={otpLoading || authLoading}
+                              className="w-full text-[#D4A848] text-[13px] font-bold hover:underline disabled:opacity-40">
+                              Resend OTP
+                            </button>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="text-center mt-6">
+                        <button onClick={() => router.push("/auth/login")} className="text-[#D4A848] text-[13px] font-bold hover:underline">
+                          Already have an account? Login
+                        </button>
+                      </div>
+                    </motion.div>
+                  ) : (
+                  <AnimatePresence mode="wait" custom={dir}>
+                    {step === 1 && (
+                      <motion.div key="s1" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-6 md:p-10 space-y-6">
+                        <div className="space-y-4 max-w-sm mx-auto">
+                          <label className="text-[13px] font-bold md:text-[14px] font-black text-white/50 uppercase tracking-widest block text-center">Select Date</label>
+                          <div className="bg-[#362B25]/40 border border-[#D4A848]/10 rounded-2xl p-4 md:p-5 shadow-inner">
+                            <div className="flex items-center justify-between mb-5">
+                              <button onClick={prevMonth} className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors">‹</button>
+                              <span className="text-[15px] font-black text-white uppercase tracking-wider">{monthNames[calMonth]} {calYear}</span>
+                              <button onClick={nextMonth} className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors">›</button>
+                            </div>
+                            <div className="grid grid-cols-7 mb-3">
+                              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => (
+                                <div key={d} className="text-center text-[12px] font-black text-[#D4A848]/60 uppercase py-1">{d}</div>
+                              ))}
+                            </div>
+                            <div className="grid grid-cols-7 gap-1">
+                              {cells.map((day, i) => {
+                                const dateStr = day ? `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}` : "";
+                                const disabled = isCellDisabled(day);
+                                const isSelected = dateStr === selectedDate;
+                                const isToday = dateStr === todayStr;
+                                return (
+                                  <button key={i} onClick={() => selectDay(day)} disabled={disabled}
+                                    className={`aspect-square w-full rounded-xl text-sm font-bold transition-all flex items-center justify-center
+                                      ${!day ? "invisible" : ""}
+                                      ${disabled ? "text-white/10 cursor-not-allowed" : "hover:bg-[#D4A848]/10 text-white"}
+                                      ${isSelected ? "!bg-[#D4A848] !text-[#2D1F1D] shadow-lg shadow-[#D4A848]/20 scale-105" : ""}
+                                      ${isToday && !isSelected ? "text-[#D4A848] ring-1 ring-[#D4A848]/30" : ""}
+                                    `}
+                                  >{day}</button>
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
+                      </motion.div>
+                    )}
 
-                        <div className="space-y-2">
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            autoComplete="one-time-code"
-                            placeholder="Enter 6-digit OTP"
-                            value={otp}
-                            onChange={e => {
-                              const val = e.target.value.replace(/\D/g, "").slice(0, 6);
-                              setOtp(val);
-                            }}
-                            maxLength={6}
-                            className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-center text-lg tracking-[0.5em] text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none font-mono"
-                          />
+                    {step === 2 && (
+                      <motion.div key="s2" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-6 md:p-10 space-y-6">
+                        <div className="flex items-center justify-center gap-4 bg-[#362B25]/60 border border-[#D4A848]/10 rounded-2xl px-5 py-4 max-w-sm mx-auto shadow-inner">
+                          <div className="w-10 h-10 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-xl">📅</div>
+                          <div className="text-left">
+                            <div className="text-white font-black text-sm uppercase tracking-wider">{formatDate(selectedDate)}</div>
+                            <div className="text-[#D4A848]/70 text-[11px] font-black uppercase tracking-widest mt-0.5">Select a preferred slot below</div>
+                          </div>
+                        </div>
+                        
+                        {error && <div className="text-red-400 text-[14px] font-bold text-center">{error}</div>}
+                        
+                        <div className="max-w-md mx-auto">
+                          {slotsLoading ? (
+                            <div className="grid grid-cols-3 gap-3">{Array.from({ length: 9 }).map((_, i) => <div key={i} className="h-14 bg-white/5 rounded-xl animate-pulse" />)}</div>
+                          ) : (
+                            <div className="grid grid-cols-3 gap-3">
+                              {slots.length === 0 ? (
+                                <div className="col-span-3 text-center py-10 bg-[#362B25]/30 rounded-2xl border border-white/5">
+                                  <div className="text-4xl mb-3 opacity-50">⏰</div>
+                                  <div className="text-white/70 text-[15px] font-black tracking-wide">No slots available</div>
+                                  <div className="text-white/40 text-xs mt-1">Please select another date</div>
+                                </div>
+                              ) : slots.map((slot) => {
+                                const isToday = selectedDate === todayStr;
+                                const blocked = isSlotBlocked(slot, isToday);
+                                const isSelected = selectedSlot?.time === slot.time && !blocked;
+                                const isBooked = !slot.available;
+                                const isPast = !isBooked && blocked;
 
-                          {otpTimer > 0 && (
-                            <div className="text-center text-white/40 text-[11px]">
-                              OTP expires in {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, "0")}
+                                let subLabel = slot.endTime;
+                                if (isBooked) subLabel = "Booked";
+                                else if (isPast) subLabel = "Past";
+
+                                return (
+                                  <button key={slot.time} disabled={blocked} onClick={() => setSelectedSlot(slot)}
+                                    className={`h-14 rounded-xl text-xs font-black uppercase tracking-wider border flex flex-col items-center justify-center transition-all relative overflow-hidden
+                                      ${isSelected
+                                        ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D] shadow-[0_5px_15px_rgba(212,168,72,0.3)] scale-105 z-10"
+                                        : blocked ? "bg-[#362B25]/20 border-white/5 opacity-40 cursor-not-allowed" : "bg-[#362B25]/40 border-white/5 text-white/70 hover:border-[#D4A848]/30 hover:bg-[#D4A848]/5"
+                                      }
+                                    `}
+                                  >
+                                    <span className={blocked ? "line-through text-white/40" : ""}>{slot.time}</span>
+                                    <span className={`text-[9px] mt-0.5 tracking-widest ${isSelected ? "text-[#2D1F1D]/70" : blocked ? "text-red-400/70" : "text-[#D4A848]/50"}`}>{subLabel}</span>
+                                  </button>
+                                );
+                              })}
                             </div>
                           )}
                         </div>
-
-                        {(otpError || error) && <div className="text-red-400 text-xs px-1">{otpError || error}</div>}
-                        {authConflict && (
-                          <button
-                            type="button"
-                            onClick={() => router.push("/auth/login")}
-                            className="w-full py-2.5 rounded-lg border border-[#D4A848]/40 text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848]/10 transition-all"
-                          >
-                            Login Instead
-                          </button>
-                        )}
-
-                        <button type="button" onClick={verifyOtp} disabled={otpLoading || authLoading || otpVerified || otp.length !== 6}
-                          className="w-full py-2.5 rounded-lg bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all">
-                          {otpLoading || authLoading ? "Verifying..." : otpVerified ? "Verified" : "Verify & Continue"}
-                        </button>
-
-                        {otpTimer === 0 && (
-                          <button type="button" onClick={sendOtp} disabled={otpLoading || authLoading}
-                            className="w-full text-[#D4A848] text-xs hover:underline disabled:opacity-40">
-                            Resend OTP
-                          </button>
-                        )}
-                      </>
+                      </motion.div>
                     )}
 
-                    <div className="text-center">
-                      <button onClick={() => router.push("/auth/login")} className="text-[#D4A848] text-xs hover:underline">
-                        Already have an account? Login
-                      </button>
-                    </div>
-                  </motion.div>
-                ) : (
-                <AnimatePresence mode="wait" custom={dir}>
-                  {step === 1 && (
-                    <motion.div key="s1" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-4 space-y-4">
-                      <div className="space-y-3">
-                        <label className="text-[13px] font-bold md:text-[14px] font-bold font-bold text-white/50 uppercase tracking-widest block">Select Date</label>
-                        <div className="bg-[#362B25]/40 border border-[#D4A848]/10 rounded-xl p-3">
-                          <div className="flex items-center justify-between mb-3">
-                            <button onClick={prevMonth} className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white">‹</button>
-                            <span className="text-sm font-black text-white">{monthNames[calMonth]} {calYear}</span>
-                            <button onClick={nextMonth} className="w-7 h-7 flex items-center justify-center text-white/40 hover:text-white">›</button>
-                          </div>
-                          <div className="grid grid-cols-7 mb-2">
-                            {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => (
-                              <div key={d} className="text-center text-[13px] font-bold font-bold text-white/20 uppercase py-1">{d}</div>
-                            ))}
-                          </div>
-                          <div className="grid grid-cols-7 gap-0.5">
-                            {cells.map((day, i) => {
-                              const dateStr = day ? `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}` : "";
-                              const disabled = isCellDisabled(day);
-                              const isSelected = dateStr === selectedDate;
-                              const isToday = dateStr === todayStr;
-                              return (
-                                <button key={i} onClick={() => selectDay(day)} disabled={disabled}
-                                  className={`h-8 w-full rounded-lg text-xs font-bold transition-all
-                                    ${!day ? "invisible" : ""}
-                                    ${disabled ? "text-white/10 cursor-not-allowed" : "hover:bg-[#D4A848]/10 text-white"}
-                                    ${isSelected ? "!bg-[#D4A848] !text-[#2D1F1D] shadow-lg shadow-[#D4A848]/10" : ""}
-                                    ${isToday && !isSelected ? "text-[#D4A848] ring-1 ring-[#D4A848]/30" : ""}
-                                  `}
-                                >{day}</button>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {step === 2 && (
-                    <motion.div key="s2" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-4 space-y-4">
-                      <div className="flex items-center gap-3 bg-[#362B25]/60 border border-[#D4A848]/10 rounded-xl px-3 py-2.5">
-                        <span className="text-lg">📅</span>
-                        <div>
-                          <div className="text-white font-bold text-xs">{formatDate(selectedDate)}</div>
-                          <div className="text-white/40 text-[13px] font-bold">Select a preferred slot below</div>
-                        </div>
-                      </div>
-                      {error && <div className="text-red-400 text-[14px] font-bold px-2">{error}</div>}
-                      {slotsLoading ? (
-                        <div className="grid grid-cols-3 gap-2">{Array.from({ length: 9 }).map((_, i) => <div key={i} className="h-12 bg-white/5 rounded-lg animate-pulse" />)}</div>
-                      ) : (
-                        <div className="grid grid-cols-3 gap-2">
-                          {slots.length === 0 ? (
-                            <div className="col-span-3 text-center py-6">
-                              <div className="text-3xl mb-2">⏰</div>
-                              <div className="text-white/70 text-xs font-bold">No slots available</div>
-                              <div className="text-white/40 text-[10px]">Please select another date</div>
+                    {step === 3 && (
+                      <motion.div key="s3" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-6 md:p-10 space-y-6">
+                        <div className="max-w-sm mx-auto space-y-5">
+                          {freeEligibility?.eligible && (
+                            <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-4">
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 shrink-0">
+                                  <Gift size={18} />
+                                </div>
+                                <div>
+                                  <div className="text-green-400 text-sm font-black uppercase tracking-wide">Your First Session is FREE!</div>
+                                  <div className="text-green-400/60 text-xs font-medium mt-0.5">No payment required</div>
+                                </div>
+                              </div>
                             </div>
-                          ) : slots.map((slot) => {
-                            const isToday = selectedDate === todayStr;
-                            const blocked = isSlotBlocked(slot, isToday);
-                            const isSelected = selectedSlot?.time === slot.time && !blocked;
-                            const isBooked = !slot.available;
-                            const isPast = !isBooked && blocked;
+                          )}
 
-                            let subLabel = slot.endTime;
-                            if (isBooked) subLabel = "Booked";
-                            else if (isPast) subLabel = "Past";
+                          {!freeEligibility?.eligible && freeEligibility?.message && (
+                            <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-white/50 text-xs text-center font-medium">
+                              {freeEligibility.message}
+                            </div>
+                          )}
 
-                            return (
-                              <button key={slot.time} disabled={blocked} onClick={() => setSelectedSlot(slot)}
-                                className={`h-12 rounded-lg text-[11px] font-bold border flex flex-col items-center justify-center transition-all relative overflow-hidden
-                                  ${isSelected
-                                    ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D]"
-                                    : blocked ? "bg-[#362B25]/20 border-white/5 opacity-50 cursor-not-allowed" : "bg-[#362B25]/40 border-white/5 text-white/70 hover:border-[#D4A848]/30"
-                                  }
-                                `}
+                          <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-2xl p-5 space-y-2 text-center shadow-inner">
+                            <div className="text-[11px] font-black text-white/40 uppercase tracking-[0.2em] mb-2">Session Summary</div>
+                            <div className="text-white text-sm font-black uppercase tracking-wider">{formatDate(selectedDate)}</div>
+                            <div className="text-[#D4A848] text-lg font-black uppercase tracking-widest">{selectedSlot?.time} – {selectedSlot?.endTime}</div>
+                          </div>
+                          
+                          <div className="space-y-3">
+                            <input type="text" placeholder="Full Name" value={userName} onChange={e => setUserName(e.target.value)}
+                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
+                            <input type="email" placeholder="Email Address *" value={userEmail} onChange={e => setUserEmail(e.target.value)} onBlur={() => void checkFreeEligibility(userEmail)} required disabled={isLoggedIn}
+                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50 transition-colors" />
+                            <input type="tel" placeholder="Phone Number *" value={userPhone} onChange={e => setUserPhone(e.target.value)} required disabled={isLoggedIn}
+                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50 transition-colors" />
+                          </div>
+                          
+                          {isLoggedIn && (
+                            <div className="flex items-center justify-between gap-3 text-[12px] px-2 bg-white/5 py-2 rounded-lg border border-white/5">
+                              <span className="text-white/50 font-medium">Using saved account details</span>
+                              <button
+                                type="button"
+                                onClick={useDifferentDetails}
+                                className="text-[#D4A848] hover:text-white transition-colors font-black uppercase tracking-wider text-[10px]"
                               >
-                                <span className={blocked ? "line-through text-white/40" : ""}>{slot.time}</span>
-                                <span className={`text-[8px] ${isSelected ? "text-[#2D1F1D]/60" : blocked ? "text-red-400/70" : "text-white/30"}`}>{subLabel}</span>
-                                {blocked && (
-                                  <div className="absolute top-1 right-1 opacity-40">
-                                    {isBooked ? (
-                                      <UserX size={10} className="text-red-400" />
-                                    ) : (
-                                      <Clock size={10} className="text-white/50" />
-                                    )}
-                                  </div>
-                                )}
+                                Change
                               </button>
-                            );
-                          })}
+                            </div>
+                          )}
+                          
+                          {error && <div className="text-red-400 text-xs text-center font-medium">{error}</div>}
+                          
+                          {!freeEligibility?.eligible && (
+                            <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-2xl p-5 space-y-2">
+                              <div className="flex justify-between items-center text-[13px] font-black text-white/60 uppercase tracking-widest">
+                                <span>Session Charge</span>
+                                <span className="text-[#D4A848] text-base">Rs. 599</span>
+                              </div>
+                              <div className="text-[11px] text-[#D4A848]/60 font-medium leading-relaxed">Charges are fully adjustable against any IEC premium service you opt for later.</div>
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </motion.div>
-                  )}
+                      </motion.div>
+                    )}
 
-                  {step === 3 && (
-                    <motion.div key="s3" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-4 space-y-4">
-                      {freeEligibility?.eligible && (
-                        <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3">
-                          <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center text-green-400">
-                              <Gift size={16} />
-                            </div>
-                            <div>
-                              <div className="text-green-400 text-sm font-bold">Your First Session is FREE!</div>
-                              <div className="text-green-400/60 text-xs">No payment required</div>
-                            </div>
+                    {step === 4 && booking && (
+                      <motion.div key="s4" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="p-6 md:p-12 space-y-8 text-center max-w-md mx-auto flex flex-col justify-center h-full min-h-[400px]">
+                        <div className="w-20 h-20 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mx-auto text-green-400 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
+                          {lastBookingWasFree ? <Gift size={32} /> : <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth={3}><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-black text-white leading-tight uppercase tracking-wide">
+                            {lastBookingWasFree ? "Free Session Booked!" : "Session Confirmed!"}
+                          </h3>
+                          <p className="text-white/50 text-[14px] font-medium mt-2">Confirmation sent to <span className="text-white">{userEmail}</span></p>
+                        </div>
+                        
+                        <div className="bg-[#362B25]/60 border border-[#D4A848]/20 rounded-2xl p-5 space-y-4 text-left shadow-inner">
+                          <Row label="Date" value={formatDate(booking.date)} />
+                          <Row label="Time" value={booking.time} />
+                          <div className="pt-4 border-t border-white/5">
+                            <div className="text-[11px] font-black text-white/40 uppercase tracking-widest mb-1.5">Meeting ID</div>
+                            <code className="block w-full bg-black/40 px-4 py-3 rounded-xl text-[#D4A848] text-sm font-black font-mono text-center tracking-widest border border-[#D4A848]/10">{booking.meetingId}</code>
                           </div>
                         </div>
-                      )}
-
-                      {!freeEligibility?.eligible && freeEligibility?.message && (
-                        <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-white/45 text-xs">
-                          {freeEligibility.message}
-                        </div>
-                      )}
-
-                      <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-xl p-3.5 space-y-2">
-                        <div className="text-[13px] font-bold font-bold text-white/30 uppercase tracking-widest">Summary</div>
-                        <div className="text-white text-xs font-bold leading-none">{formatDate(selectedDate)}</div>
-                        <div className="text-[#D4A848] text-[14px] font-bold font-bold uppercase">{selectedSlot?.time} – {selectedSlot?.endTime}</div>
-                      </div>
-                      <div className="space-y-2">
-                        <input type="text" placeholder="Full Name" value={userName} onChange={e => setUserName(e.target.value)}
-                          className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none" />
-                        <input type="email" placeholder="Email Address *" value={userEmail} onChange={e => setUserEmail(e.target.value)} onBlur={() => void checkFreeEligibility(userEmail)} required disabled={isLoggedIn}
-                          className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50" />
-                        <input type="tel" placeholder="Phone Number *" value={userPhone} onChange={e => setUserPhone(e.target.value)} required disabled={isLoggedIn}
-                          className="w-full bg-[#1A110F] border border-white/5 rounded-lg px-3 py-2.5 text-xs text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50" />
-                      </div>
-                      {isLoggedIn && (
-                        <div className="flex items-center justify-between gap-3 text-[11px] px-1">
-                          <span className="text-white/35">Using saved account details</span>
-                          <button
-                            type="button"
-                            onClick={useDifferentDetails}
-                            className="text-[#D4A848] hover:underline font-bold"
-                          >
-                            Use different details
-                          </button>
-                        </div>
-                      )}
-                      {error && <div className="text-red-400 text-xs px-1">{error}</div>}
-                      {!freeEligibility?.eligible && (
-                        <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-xl p-3.5 space-y-1">
-                        <div className="flex justify-between items-center text-[14px] font-bold font-bold text-white/50 uppercase">
-                          <span>Session Charge</span>
-                          <span className="text-white">Rs. 599</span>
-                        </div>
-                        <div className="text-[13px] font-bold text-[#D4A848]/60 font-medium">Charges are fully adjustable in any service you opt for later.</div>
-                        </div>
-                      )}
-                    </motion.div>
+                        
+                        {shouldPromptProfileCompletion && lastBookingWasFree && (
+                          <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-2xl p-5 text-left">
+                            <div className="text-[#D4A848] text-sm font-black uppercase tracking-wider mb-2">Complete Your Profile</div>
+                            <div className="text-white/60 text-xs font-medium mb-4 leading-relaxed">Add your profile details to book more sessions and access your full student dashboard.</div>
+                            <button onClick={() => { onClose(); router.push("/User/edit-profile"); }}
+                              className="w-full py-3 rounded-xl border-2 border-[#D4A848] text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848] hover:text-[#2D1F1D] transition-colors">
+                              Complete Profile Now
+                            </button>
+                          </div>
+                        )}
+                        
+                        <button onClick={() => { onClose(); router.push(`/meeting/${booking.sessionId}`); }}
+                          className="w-full bg-[#D4A848] text-[#2D1F1D] font-black py-4 rounded-xl text-sm uppercase tracking-widest shadow-[0_10px_20px_rgba(212,168,72,0.2)] hover:shadow-[0_15px_30px_rgba(212,168,72,0.3)] transition-all hover:-translate-y-1">
+                          Enter Meeting Room
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                   )}
+                </div>
 
-                  {step === 4 && booking && (
-                    <motion.div key="s4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 space-y-5 text-center">
-                      <div className="w-14 h-14 bg-[#D4A848]/10 border border-[#D4A848]/30 rounded-full flex items-center justify-center mx-auto text-[#D4A848] text-xs font-black">
-                        {lastBookingWasFree ? <Gift size={22} /> : "OK"}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-black text-white leading-tight">
-                          {lastBookingWasFree ? "Free Session Booked!" : "Confirmed!"}
-                        </h3>
-                        <p className="text-white/40 text-[14px] font-bold mt-1">Confirmation sent to {userEmail}</p>
-                      </div>
-                      <div className="bg-black/20 border border-white/5 rounded-xl p-3 space-y-2 text-left">
-                        <Row label="Date" value={formatDate(booking.date)} />
-                        <Row label="Time" value={booking.time} />
-                        <div className="pt-2 border-t border-white/5">
-                          <div className="text-[12px] font-black text-white/30 uppercase mb-0.5">Meeting ID</div>
-                          <code className="text-[#D4A848] text-xs font-bold font-mono">{booking.meetingId}</code>
-                        </div>
-                      </div>
-                      {shouldPromptProfileCompletion && lastBookingWasFree && (
-                        <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-xl p-3 text-left">
-                          <div className="text-[#D4A848] text-sm font-bold mb-1">Complete Your Profile</div>
-                          <div className="text-white/50 text-xs mb-2">Add your profile details to book more sessions and access your student dashboard.</div>
-                          <button onClick={() => { onClose(); router.push("/User/edit-profile"); }}
-                            className="w-full py-2 rounded-lg border border-[#D4A848] text-[#D4A848] text-xs uppercase tracking-wider">
-                            Complete Profile
-                          </button>
-                        </div>
-                      )}
-                      <button onClick={() => { onClose(); router.push(`/meeting/${booking.sessionId}`); }}
-                        className="w-full bg-[#D4A848] text-[#2D1F1D] font-black py-3 rounded-lg text-xs uppercase tracking-widest shadow-xl shadow-[#D4A848]/10">Join Room</button>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {/* Footer Controls */}
+                {step < 4 && !needsQuickAuth && (
+                  <div className="p-6 md:p-10 pt-4 border-t border-white/5 flex gap-3 mt-auto shrink-0 bg-[#2D1F1D]">
+                    {step > 1 && (
+                      <button onClick={() => goBack(step - 1)} className="flex-[0.4] py-3.5 rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-white/5 text-[12px] font-black uppercase tracking-widest transition-all">Back</button>
+                    )}
+                    <button
+                      onClick={async () => {
+                        if (step === 1 && selectedDate) goNext(2);
+                        else if (step === 2 && selectedSlot) {
+                          goNext(3);
+                          if (userEmail) {
+                            void checkFreeEligibility(userEmail);
+                          }
+                        }
+                        else if (step === 3) {
+                          if (!userName || !userEmail || !userPhone) {
+                            setError("Please fill all details");
+                            return;
+                          }
+
+                          const eligibility = await checkFreeEligibility(userEmail);
+                          if ((eligibility || freeEligibility)?.eligible) {
+                            await confirmBooking(undefined, true);
+                          } else {
+                            setIsCheckoutOpen(true);
+                          }
+                        }
+                      }}
+                      disabled={(step === 1 && !selectedDate) || (step === 2 && !selectedSlot) || (step === 3 && (bookingLoading || isCheckingEligibility))}
+                      className="flex-1 py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[13px] font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all shadow-lg shadow-[#D4A848]/10 hover:shadow-[#D4A848]/20"
+                    >
+                      {bookingLoading ? "Booking..." : isCheckingEligibility ? "Checking..." : step === 3 ? (freeEligibility?.eligible ? "Confirm Free Session" : "Confirm & Pay (Rs.599)") : "Continue"}
+                    </button>
+                  </div>
                 )}
               </div>
-
-              {/* Footer */}
-              {step < 4 && !needsQuickAuth && (
-                <div className="p-3 md:p-4 border-t border-white/5 flex gap-2">
-                  {step > 1 && (
-                    <button onClick={() => goBack(step - 1)} className="flex-1 py-2.5 rounded-lg border border-white/10 text-white/50 text-[14px] font-bold font-bold uppercase transition-all">Back</button>
-                  )}
-                  <button
-                    onClick={async () => {
-                      if (step === 1 && selectedDate) goNext(2);
-                      else if (step === 2 && selectedSlot) {
-                        goNext(3);
-                        if (userEmail) {
-                          void checkFreeEligibility(userEmail);
-                        }
-                      }
-                      else if (step === 3) {
-                        if (!userName || !userEmail || !userPhone) {
-                          setError("Please fill all details");
-                          return;
-                        }
-
-                        const eligibility = await checkFreeEligibility(userEmail);
-                        if ((eligibility || freeEligibility)?.eligible) {
-                          await confirmBooking(undefined, true);
-                        } else {
-                          setIsCheckoutOpen(true);
-                        }
-                      }
-                    }}
-                    disabled={(step === 1 && !selectedDate) || (step === 2 && !selectedSlot) || (step === 3 && (bookingLoading || isCheckingEligibility))}
-                    className="flex-1 py-2.5 rounded-lg bg-[#D4A848] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
-                  >
-                    {bookingLoading ? "Booking..." : isCheckingEligibility ? "Checking..." : step === 3 ? (freeEligibility?.eligible ? "Confirm Free Session" : "Confirm & Pay") : "Continue"}
-                  </button>
-                </div>
-              )}
             </div>
           </motion.div>
 
