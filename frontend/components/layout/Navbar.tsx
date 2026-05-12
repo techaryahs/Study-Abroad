@@ -33,7 +33,6 @@ import {
 import { useEffect } from "react";
 import { getUser, removeToken, clearAuth } from "@/app/lib/token";
 import Image from "next/image";
-import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -516,7 +515,6 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<DropdownKey>(null);
   const [user, setUserState] = useState<any>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [expandedSubItem, setExpandedSubItem] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState(0);
@@ -850,12 +848,12 @@ export default function Navbar() {
                     )}
                   </Link>
 
-                  <button
+                  <Link
+                    href="/book-counselling"
                     className="hidden lg:flex px-4 sm:px-5 py-3 rounded-lg bg-white/5 border border-white/10 text-white text-[13px] font-bold font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all active:scale-95"
-                    onClick={() => setShowCounsellingModal(true)}
                   >
                     Book Session
-                  </button>
+                  </Link>
 
                   {/* Profile Avatar */}
                   <div className="relative group/profile">
@@ -1068,13 +1066,14 @@ export default function Navbar() {
 
             {/* Quick Actions (Mobile Only) */}
             <div className="grid grid-cols-2 gap-4 mb-8">
-              <button
-                onClick={() => { setShowCounsellingModal(true); setMenuOpen(false); }}
+              <Link
+                href="/book-counselling"
+                onClick={() => setMenuOpen(false)}
                 className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl"
               >
                 <Star size={14} />
                 Expert Help
-              </button>
+              </Link>
 
               <Link
                 href="/User/cart"
@@ -1295,11 +1294,6 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* ── Book Counselling Modal ── */}
-      <BookCounsellingModal
-        isOpen={showCounsellingModal}
-        onClose={() => setShowCounsellingModal(false)}
-      />
     </>
   );
 }
