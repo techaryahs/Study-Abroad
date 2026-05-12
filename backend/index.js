@@ -10,7 +10,21 @@ const setupWebRTCSignaling = require('./webrtc-signaling');
 const featureActivityRoutes = require("./routes/featureActivity.routes");
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "https://iec.aryahsworld.com",
+      "http://localhost:5173",
+      "http://localhost:3000"
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 const path = require("path");
