@@ -95,26 +95,52 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   /// Blocked when: booked (available==false) OR today's date and slot time
   /// is at/before current IST device time.
   bool _isSlotBlocked(Map<String, dynamic> slot, bool isToday) {
+    // If backend already marked the slot unavailable, block it.
     if (slot['available'] != true) return true;
+
+    // Only compare time for today's date.
     if (isToday) {
       final timeStr = (slot['time'] as String? ?? '').trim();
       if (timeStr.isEmpty) return false;
 
       DateTime? parsed;
-      // Try multiple formats with explicit en_US locale so AM/PM always resolves
-      for (final fmt in ['h:mm a', 'hh:mm a', 'h:mma', 'hh:mma', 'H:mm', 'HH:mm']) {
+
+      // Try multiple possible time formats.
+      for (final fmt in [
+        'h:mm a',
+        'hh:mm a',
+        'h:mma',
+        'hh:mma',
+        'H:mm',
+        'HH:mm',
+      ]) {
         try {
           parsed = DateFormat(fmt, 'en_US').parse(timeStr);
           break;
         } catch (_) {}
       }
-      if (parsed == null) return false; // can't parse → don't block
 
-      final now = DateTime.now(); // device local time == IST
-      final slotDt = DateTime(now.year, now.month, now.day, parsed.hour, parsed.minute);
-      // Block if slot start is not strictly after now
+      // If parsing fails, do not block the slot.
+      if (parsed == null) return false;
+
+      // Force current time to IST (UTC + 5:30)
+      final nowUtc = DateTime.now().toUtc();
+      final now = nowUtc.add(const Duration(hours: 5, minutes: 30));
+
+      // Build slot time for today's date in IST.
+      final slotDt = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        parsed.hour,
+        parsed.minute,
+      );
+
+      // Block if slot start time is less than or equal to current IST time.
       return !slotDt.isAfter(now);
     }
+
+    // Future dates are not blocked.
     return false;
   }
 
