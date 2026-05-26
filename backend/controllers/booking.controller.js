@@ -452,41 +452,69 @@ exports.cancelBooking = async (req, res) => {
 exports.getAvailableSlots = async (req, res) => {
   try {
     const { date } = req.query;
-    if (!date) return res.status(400).json({ message: "Date is required" });
+    if (!date) {
+      return res.status(400).json({ message: "Date is required" });
+    }
 
     const WeeklySchedule = require("../models/WeeklySchedule");
 
-    // Get day of week from date
+    // Get day of week from selected date
+    // Using T12:00:00 avoids timezone shifts when parsing YYYY-MM-DD
     const dateObj = new Date(date + "T12:00:00");
-    const dayNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    const dayNames = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ];
     const dayOfWeek = dayNames[dateObj.getDay()];
 
-    // Get active schedule
+    // Get active weekly schedule
     const schedule = await WeeklySchedule.findOne({ isActive: true });
+
     if (!schedule) {
       return res.json({
         slots: [],
-        message: "No schedule configured. Admin needs to set up weekly schedule."
+        message: "No schedule configured. Admin needs to set up weekly schedule.",
       });
     }
 
-    // Find day schedule
-    const daySchedule = schedule.schedule.find(d => d.dayOfWeek === dayOfWeek);
+    // Find schedule for the selected day
+    const daySchedule = schedule.schedule.find(
+      (d) => d.dayOfWeek === dayOfWeek
+    );
+
     if (!daySchedule || !daySchedule.isEnabled) {
       return res.json({
         slots: [],
-        message: `No slots available on ${dayOfWeek}s`
+        message: `No slots available on ${dayOfWeek}s`,
       });
     }
 
-    // Check current time for past slots
-    const now = new Date();
-    const todayStr = now.toISOString().split("T")[0];
-    const currentTime = now.toTimeString().substring(0, 5);
+    // -------------------------------------------------------------
+    // Get current date/time in Indian Standard Time (IST)
+    // -------------------------------------------------------------
+    const now = new Date(
+      new Date().toLocaleString("en-US", {
+        timeZone: "Asia/Kolkata",
+      })
+    );
+
+    const todayStr =
+      `${now.getFullYear()}-` +
+      `${String(now.getMonth() + 1).padStart(2, "0")}-` +
+      `${String(now.getDate()).padStart(2, "0")}`;
+
+    const currentTime =
+      `${String(now.getHours()).padStart(2, "0")}:` +
+      `${String(now.getMinutes()).padStart(2, "0")}`;
 
     // Helper: Convert HH:mm to minutes since midnight
     const timeToMinutes = (time) => {
-      const [h, m] = time.split(':').map(Number);
+      const [h, m] = time.split(":").map(Number);
       return h * 60 + m;
     };
 
@@ -494,10 +522,10 @@ exports.getAvailableSlots = async (req, res) => {
     const minutesToTime = (mins) => {
       const h = Math.floor(mins / 60);
       const m = mins % 60;
-      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+      return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
     };
 
-    // Generate individual bookable slots from time ranges
+    // Generate bookable slots
     const allSlots = [];
 
     for (const timeRange of daySchedule.timeSlots) {
@@ -508,38 +536,48 @@ exports.getAvailableSlots = async (req, res) => {
       const duration = timeRange.duration || 60;
 
       // Generate slots within this time range
-      for (let slotStart = startMins; slotStart + duration <= endMins; slotStart += duration) {
+      for (
+        let slotStart = startMins;
+        slotStart + duration <= endMins;
+        slotStart += duration
+      ) {
         const slotEnd = slotStart + duration;
         const slotStartTime = minutesToTime(slotStart);
         const slotEndTime = minutesToTime(slotEnd);
 
-        // Check if slot is already booked
+        // Check if already booked
         const existingBooking = await Booking.findOne({
           date,
           time: slotStartTime,
           bookingType: "counselling",
-          status: "booked"
+          status: "booked",
         });
 
-        const isPast = date === todayStr && slotStartTime < currentTime;
+        // Check if slot is in the past (for today's date only)
+        const isPast =
+          date === todayStr && slotStartTime < currentTime;
+
         const isBooked = !!existingBooking;
         const isAvailable = !isPast && !isBooked;
 
         allSlots.push({
           time: slotStartTime,
           endTime: slotEndTime,
-          duration: duration,
+          duration,
           available: isAvailable,
           booked: isBooked,
-          past: isPast
+          past: isPast,
         });
       }
     }
 
-    // Sort by time
+    // Sort slots by time
     allSlots.sort((a, b) => a.time.localeCompare(b.time));
 
-    console.log(`✅ Generated ${allSlots.length} slots for ${dayOfWeek} ${date}`);
+    console.log(
+      `✅ Generated ${allSlots.length} slots for ${dayOfWeek} ${date} (IST now: ${todayStr} ${currentTime})`
+    );
+
     res.json({ slots: allSlots });
   } catch (err) {
     console.error("❌ getAvailableSlots Error:", err);

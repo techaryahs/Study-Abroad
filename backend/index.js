@@ -10,7 +10,21 @@ const setupWebRTCSignaling = require('./webrtc-signaling');
 const featureActivityRoutes = require("./routes/featureActivity.routes");
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "https://iec.aryahsworld.com",
+      "http://localhost:5173",
+      "http://localhost:3000"
+    ],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 const path = require("path");
@@ -79,7 +93,7 @@ module.exports = app;
 
 // Only listen if run directly (useful for local development)
 if (require.main === module) {
-  const PORT = process.env.PORT || 5001;
+  const PORT = process.env.PORT || 5011;
   server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 
