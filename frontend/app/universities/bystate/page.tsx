@@ -3,8 +3,53 @@ import fs from 'fs';
 import path from 'path';
 import ClientPage from './ClientPage';
 
-export const metadata = {
-  title: 'Universities By State',
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title:
+    "Top Universities by State with International Eduleader Council | Best Colleges by Region",
+
+  description:
+    "Explore top universities by state and region with the International Eduleader Council including California, Texas, Ontario, and more for smarter study abroad planning.",
+
+  keywords: [
+    "Top universities by state",
+    "Best colleges by region",
+    "Universities in California",
+    "Universities in Texas",
+    "Study abroad universities",
+    "International Eduleader Council",
+    "Top universities worldwide",
+    "Regional universities abroad",
+  ],
+
+  alternates: {
+    canonical:
+      "https://yourdomain.com/universities/by-state",
+  },
+
+  openGraph: {
+    title:
+      "Top Universities by State | International Eduleader Council",
+
+    description:
+      "Discover top-ranked universities by state and region for smarter study abroad planning.",
+
+    url:
+      "https://yourdomain.com/universities/by-state",
+
+    siteName: "International Eduleader Council",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Top Universities by State | IEC",
+
+    description:
+      "Explore leading universities by region and state worldwide with IEC.",
+  },
 };
 
 function getCurrencySymbol(country: string) {

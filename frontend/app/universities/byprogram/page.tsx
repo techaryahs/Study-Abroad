@@ -1,7 +1,62 @@
 import React from 'react';
 import fs from 'fs';
 import path from 'path';
+import type { Metadata } from "next";
 import ClientPage from './ClientPage';
+
+type PageProps = {
+  searchParams: {
+    program?: string;
+  };
+};
+
+export async function generateMetadata({
+  searchParams,
+}: PageProps): Promise<Metadata> {
+  const program = (await searchParams)?.program?.toLowerCase() || "";
+
+  // BUSINESS
+  if (
+    program.includes("business") ||
+    program.includes("mba") ||
+    program.includes("management") ||
+    program.includes("finance")
+  ) {
+    return {
+      title:
+        "Business Programs Abroad with International Eduleader Council | MBA & Management Courses",
+
+      description:
+        "Study Business, MBA, Finance, Marketing, and Management programs abroad with International Eduleader Council expert university admissions and visa guidance.",
+    };
+  }
+
+  // SCIENCE
+  if (
+    program.includes("science") ||
+    program.includes("biotechnology") ||
+    program.includes("physics") ||
+    program.includes("chemistry") ||
+    program.includes("biology")
+  ) {
+    return {
+      title:
+        "Science Programs Abroad with International Eduleader Council | Top Universities Worldwide",
+
+      description:
+        "Discover leading science programs abroad with the International Eduleader Council including Data Science, Biotechnology, Physics, Chemistry, and Life Sciences at top universities.",
+    };
+  }
+
+  // DEFAULT ENGINEERING
+  return {
+    title:
+      "Engineering Programs Abroad with International Eduleader Council | Top Global Universities",
+
+    description:
+      "Explore top engineering programs abroad with the International Eduleader Council including Computer Science, Mechanical, Civil, AI, and Electrical Engineering at leading universities worldwide.",
+  };
+}
 
 export default async function ByProgramPage() {
   const dataDir = path.join(process.cwd(), 'data');

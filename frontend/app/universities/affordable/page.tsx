@@ -2,8 +2,52 @@ import fs from 'fs';
 import path from 'path';
 import UniversityCard from '../by-country/UniversityCard';
 
-export const metadata = {
-  title: 'High Ranked, Low Tuition Universities',
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title:
+    "Affordable Top Ranked Universities with International Eduleader Council | Study Abroad on Budget",
+
+  description:
+    "Find affordable high-ranked universities worldwide with the International Eduleader Council. Explore low tuition fees, scholarships, and quality education opportunities for international students.",
+
+  keywords: [
+    "Affordable universities abroad",
+    "Low tuition universities",
+    "Top ranked cheap universities",
+    "Study abroad on budget",
+    "International Eduleader Council",
+    "Cheap universities for international students",
+    "Scholarships abroad",
+    "Budget-friendly universities",
+  ],
+
+  alternates: {
+    canonical:
+      "https://yourdomain.com/universities/high-ranked-low-tuition",
+  },
+
+  openGraph: {
+    title:
+      "Affordable Top Ranked Universities | International Eduleader Council",
+
+    description:
+      "Explore affordable top-ranked universities worldwide with low tuition fees and scholarship opportunities.",
+
+    url:
+      "https://yourdomain.com/universities/high-ranked-low-tuition",
+
+    siteName: "International Eduleader Council",
+    type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title:
+      "Affordable Top Ranked Universities | IEC",
+    description:
+      "Find budget-friendly top universities abroad with expert study abroad guidance.",
+  },
 };
 
 // Map country to currency symbol
