@@ -18,6 +18,9 @@ const consultantSchema = new mongoose.Schema({
   password: { type: String, required: true },
   mobile: { type: String },
   isVerified: { type: Boolean, default: false },
+  loginOtp: { type: String, default: null },
+  loginOtpExpiresAt: { type: Date, default: null },
+  loginOtpAttempts: { type: Number, default: 0 },
 
   name: { type: String, required: true },
   role: { type: String, required: true }, // job role (Career Counselor, etc.)

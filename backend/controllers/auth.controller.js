@@ -761,4 +761,157 @@ exports.createBasicAccount = async (req, res) => {
   }
 };
 
+/* =========================
+   SEND OTP FOR PASSWORDLESS LOGIN
+   POST /api/auth/send-login-otp
+========================= */
+exports.sendLoginOtp = async (req, res) => {
+  try {
+    const { mobile } = req.body;
+    if (!mobile) {
+      return res.status(400).json({ error: "Mobile number is required" });
+    }
+
+    const { toE164 } = require("../middleware/rateLimiter");
+    const standardizedPhone = toE164(mobile);
+
+    // Find the user by mobile across all collections
+    const identified = await findUserByMobile(standardizedPhone);
+    if (!identified) {
+      return res.status(404).json({
+        error: "Phone number not registered. Please book a session or register first."
+      });
+    }
+
+    const { user } = identified;
+
+    // Generate secure 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
+    // Save to database user document
+    user.loginOtp = otp;
+    user.loginOtpExpiresAt = expiresAt;
+    user.loginOtpAttempts = 0;
+    await user.save();
+
+    console.log(`[OTP DEBUG] Generated Login OTP for ${standardizedPhone}: ${otp}`);
+
+    // Dispatch SMS using sendSMSOTP
+    const smsResult = await sendSMSOTP(standardizedPhone, otp);
+    if (!smsResult.success) {
+      console.error(`❌ Failed to send SMS to ${standardizedPhone}: ${smsResult.message}`);
+    }
+
+    res.json({
+      message: "Verification code sent to your mobile successfully",
+      expiresIn: 600
+    });
+  } catch (err) {
+    console.error("❌ sendLoginOtp Error:", err);
+    res.status(500).json({ error: "Failed to send verification code" });
+  }
+};
+
+/* =========================
+   VERIFY OTP FOR PASSWORDLESS LOGIN
+   POST /api/auth/verify-login-otp
+========================= */
+exports.verifyLoginOtp = async (req, res) => {
+  try {
+    const { mobile, otp } = req.body;
+    if (!mobile || !otp) {
+      return res.status(400).json({ error: "Mobile and OTP are required" });
+    }
+
+    const { toE164 } = require("../middleware/rateLimiter");
+    const standardizedPhone = toE164(mobile);
+
+    const identified = await findUserByMobile(standardizedPhone);
+    if (!identified) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const { user, role } = identified;
+
+    // Brute-force protection: check attempts
+    if (user.loginOtpAttempts >= 3) {
+      // Invalidate the code
+      user.loginOtp = null;
+      user.loginOtpExpiresAt = null;
+      await user.save();
+      return res.status(400).json({
+        error: "Too many invalid attempts. Your OTP has been invalidated. Please request a new OTP."
+      });
+    }
+
+    // Verify OTP and expiry
+    if (!user.loginOtp) {
+      return res.status(400).json({ error: "No active OTP found. Please request a new code." });
+    }
+
+    if (new Date() > user.loginOtpExpiresAt) {
+      user.loginOtp = null;
+      user.loginOtpExpiresAt = null;
+      user.loginOtpAttempts = 0;
+      await user.save();
+      return res.status(400).json({ error: "OTP has expired. Please request a new code." });
+    }
+
+    if (user.loginOtp.toString() !== otp.toString()) {
+      user.loginOtpAttempts += 1;
+      await user.save();
+
+      const remaining = 3 - user.loginOtpAttempts;
+      if (remaining <= 0) {
+        // Invalidate immediately
+        user.loginOtp = null;
+        user.loginOtpExpiresAt = null;
+        await user.save();
+        return res.status(400).json({
+          error: "Too many invalid attempts. Your OTP has been invalidated. Please request a new OTP."
+        });
+      }
+
+      return res.status(400).json({
+        error: `Invalid OTP. You have ${remaining} attempts remaining.`
+      });
+    }
+
+    // OTP matches! Clear OTP state
+    user.loginOtp = null;
+    user.loginOtpExpiresAt = null;
+    user.loginOtpAttempts = 0;
+    await user.save();
+
+    // Standard login response payload
+    const profile = user.profile || {};
+    const userData = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: role,
+      isVerified: user.isVerified === true || (user.profile && user.profile.isVerified === true) || false,
+      mobile: user.mobile,
+      profileImage: (user.profile && user.profile.profileImage) || user.image || null,
+      isPremium: (user.profile && user.profile.isPremium) || user.isPremium || false,
+      isBasicAccount: (user.profile && user.profile.isBasicAccount) || false,
+      hasUsedFreeBooking: (user.profile && user.profile.hasUsedFreeBooking) || false
+    };
+
+    if (role === 'consultant') {
+      userData.videoCallEnabled = user.videoCallEnabled || false;
+    }
+
+    res.json({
+      message: "Login successful",
+      token: generateToken(user._id, role),
+      user: userData
+    });
+  } catch (err) {
+    console.error("❌ verifyLoginOtp Error:", err);
+    res.status(500).json({ error: "Server error during verification" });
+  }
+};
+
 
