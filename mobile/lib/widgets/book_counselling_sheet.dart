@@ -25,25 +25,28 @@ class BookCounsellingSheet extends StatefulWidget {
 
 class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   int _step = 1; // 1: Date, 2: Slot, 3: Details, 4: Confirmation
-  
+
   // Step 1: Date selection
   late DateTime _today;
   int _calendarYear = DateTime.now().year;
   int _calendarMonth = DateTime.now().month;
   String _selectedDate = '';
-  
+
   // Step 2: Slot selection
   List<Map<String, dynamic>> _slots = [];
   bool _slotsLoading = false;
   int? _selectedSlotIndex;
   String _error = '';
   String _prefetchedDate = ''; // tracks which date was prefetched
-  
+
   // Step 3: Personal details
   final _nameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
+  final _phoneCtrl = TextEditingController();
   bool _bookingLoading = false;
-  
+  bool _eligibilityLoading = false;
+  Map<String, dynamic>? _freeEligibility;
+
   // Step 4: Confirmation
   Map<String, dynamic>? _bookingResult;
 
@@ -62,6 +65,10 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       final user = authProvider.user!;
       _nameCtrl.text = user['fullName'] ?? user['name'] ?? '';
       _emailCtrl.text = user['email'] ?? '';
+      _phoneCtrl.text = user['mobile'] ?? user['phone'] ?? '';
+      if (_emailCtrl.text.isNotEmpty) {
+        await _checkFreeEligibility(_emailCtrl.text);
+      }
     }
   }
 
@@ -69,24 +76,57 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   void dispose() {
     _nameCtrl.dispose();
     _emailCtrl.dispose();
+    _phoneCtrl.dispose();
     super.dispose();
+  }
+
+  bool get _isFreeEligible => _freeEligibility?['eligible'] == true;
+
+  Future<Map<String, dynamic>?> _checkFreeEligibility(String email) async {
+    final trimmed = email.trim();
+    if (trimmed.isEmpty) return null;
+
+    setState(() => _eligibilityLoading = true);
+    try {
+      final res = await ApiClient.instance.get(
+        '/api/bookings/free-eligibility',
+        queryParameters: {'email': trimmed},
+      );
+      final data = Map<String, dynamic>.from(res.data as Map);
+      debugPrint('Free eligibility check: $data');
+      if (mounted) {
+        setState(() => _freeEligibility = data);
+      }
+      return data;
+    } catch (e) {
+      debugPrint('Eligibility check failed: $e');
+      if (mounted) {
+        setState(() => _freeEligibility = null);
+      }
+      return null;
+    } finally {
+      if (mounted) {
+        setState(() => _eligibilityLoading = false);
+      }
+    }
   }
 
   List<int?> _buildCalendarGrid() {
     final firstDay = DateTime(_calendarYear, _calendarMonth, 1).weekday;
     final daysInMonth = DateTime(_calendarYear, _calendarMonth + 1, 0).day;
     final cells = <int?>[];
-    
+
     for (int i = 0; i < firstDay; i++) cells.add(null);
     for (int d = 1; d <= daysInMonth; d++) cells.add(d);
     while (cells.length % 7 != 0) cells.add(null);
-    
+
     return cells;
   }
 
   bool _isCellDisabled(int? day) {
     if (day == null) return true;
-    final dateStr = '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+    final dateStr =
+        '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
     final todayStr = DateFormat('yyyy-MM-dd').format(_today);
     return dateStr.compareTo(todayStr) < 0;
   }
@@ -102,7 +142,14 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
 
       DateTime? parsed;
       // Try multiple formats with explicit en_US locale so AM/PM always resolves
-      for (final fmt in ['h:mm a', 'hh:mm a', 'h:mma', 'hh:mma', 'H:mm', 'HH:mm']) {
+      for (final fmt in [
+        'h:mm a',
+        'hh:mm a',
+        'h:mma',
+        'hh:mma',
+        'H:mm',
+        'HH:mm'
+      ]) {
         try {
           parsed = DateFormat(fmt, 'en_US').parse(timeStr);
           break;
@@ -111,7 +158,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       if (parsed == null) return false; // can't parse → don't block
 
       final now = DateTime.now(); // device local time == IST
-      final slotDt = DateTime(now.year, now.month, now.day, parsed.hour, parsed.minute);
+      final slotDt =
+          DateTime(now.year, now.month, now.day, parsed.hour, parsed.minute);
       // Block if slot start is not strictly after now
       return !slotDt.isAfter(now);
     }
@@ -120,7 +168,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
 
   void _selectDay(int? day) {
     if (day == null || _isCellDisabled(day)) return;
-    final newDate = '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+    final newDate =
+        '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
     setState(() => _selectedDate = newDate);
     // Prefetch slots immediately so Continue tap is instant
     if (newDate != _prefetchedDate) {
@@ -156,7 +205,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   }
 
   Future<void> _confirmBooking() async {
-    if (_nameCtrl.text.isEmpty || _emailCtrl.text.isEmpty) {
+    if (_nameCtrl.text.isEmpty ||
+        _emailCtrl.text.isEmpty ||
+        _phoneCtrl.text.isEmpty) {
       setState(() => _error = 'Please fill in all details');
       return;
     }
@@ -166,8 +217,15 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     }
 
     final selectedSlot = _slots[_selectedSlotIndex!];
-    
-    // Show Checkout Modal first
+    final eligibility = await _checkFreeEligibility(_emailCtrl.text.trim());
+
+    if ((eligibility ?? _freeEligibility)?['eligible'] == true) {
+      debugPrint('Free booking eligible - skipping payment');
+      await _finalizeBooking(isFreeBooking: true);
+      return;
+    }
+
+    debugPrint('Payment required - opening checkout');
     CheckoutSheet.show(
       context,
       title: 'Booking Payment',
@@ -175,7 +233,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         CheckoutItem(
           id: 'counselling-session',
           title: 'Counselling Session',
-          subtitle: '${DateFormat('MMM d').format(DateTime.parse(_selectedDate))} @ ${selectedSlot['time']}',
+          subtitle:
+              '${DateFormat('MMM d').format(DateTime.parse(_selectedDate))} @ ${selectedSlot['time']}',
           icon: '📅',
           price: 599,
           actualPrice: 599,
@@ -185,12 +244,13 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       ],
       onPaymentSuccess: () {
         // Once payment is successful, actually save the booking
-        _finalizeBooking();
+        _finalizeBooking(paymentId: 'mobile_checkout_verified');
       },
     );
   }
 
-  Future<void> _finalizeBooking() async {
+  Future<void> _finalizeBooking(
+      {String? paymentId, bool isFreeBooking = false}) async {
     setState(() {
       _bookingLoading = true;
       _error = '';
@@ -204,6 +264,10 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           'time': slot['time'],
           'userName': _nameCtrl.text.trim(),
           'userEmail': _emailCtrl.text.trim(),
+          'userPhone': _phoneCtrl.text.trim(),
+          'paymentId': paymentId,
+          'amount': 599,
+          'isFreeBooking': isFreeBooking,
         },
       );
       setState(() {
@@ -213,7 +277,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       });
     } catch (e) {
       setState(() {
-        _error = 'Payment was successful but booking failed. Please contact support.';
+        _error = isFreeBooking
+            ? 'Booking failed. Please try again.'
+            : 'Payment was successful but booking failed. Please contact support.';
         _bookingLoading = false;
       });
     }
@@ -258,10 +324,13 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: AppTheme.gold.withOpacity(0.1),
-                          border: Border.all(color: AppTheme.gold.withOpacity(0.25), width: 0.5),
+                          border: Border.all(
+                              color: AppTheme.gold.withOpacity(0.25),
+                              width: 0.5),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Row(
@@ -277,22 +346,34 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                             ),
                             const SizedBox(width: 6),
                             const Text('BOOK SESSION',
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 0.5)),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w900,
+                                    color: AppTheme.gold,
+                                    letterSpacing: 0.5)),
                           ],
                         ),
                       ),
                       const SizedBox(height: 6),
                       const Text('Counselling Session',
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: AppTheme.textPrimary)),
                       const Text('1-hour private session',
-                          style: TextStyle(fontSize: 13, color: AppTheme.textSecondary, fontWeight: FontWeight.w600)),
+                          style: TextStyle(
+                              fontSize: 13,
+                              color: AppTheme.textSecondary,
+                              fontWeight: FontWeight.w600)),
                     ],
                   ),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close_rounded, color: AppTheme.textSecondary, size: 20),
+                    icon: const Icon(Icons.close_rounded,
+                        color: AppTheme.textSecondary, size: 20),
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                    constraints:
+                        const BoxConstraints(minWidth: 32, minHeight: 32),
                   ),
                 ],
               ),
@@ -301,7 +382,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
             // Step indicators with lines
             if (_step < 4)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -310,7 +392,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 6),
                         height: 1,
-                        color: _step > 1 ? AppTheme.gold.withOpacity(0.4) : AppTheme.borderLight,
+                        color: _step > 1
+                            ? AppTheme.gold.withOpacity(0.4)
+                            : AppTheme.borderLight,
                       ),
                     ),
                     _stepDot(2, 'Time'),
@@ -318,7 +402,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 6),
                         height: 1,
-                        color: _step > 2 ? AppTheme.gold.withOpacity(0.4) : AppTheme.borderLight,
+                        color: _step > 2
+                            ? AppTheme.gold.withOpacity(0.4)
+                            : AppTheme.borderLight,
                       ),
                     ),
                     _stepDot(3, 'Confirm'),
@@ -331,14 +417,19 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                   decoration: BoxDecoration(
                     color: AppTheme.gold.withOpacity(0.1),
-                    border: Border.all(color: AppTheme.gold.withOpacity(0.25), width: 0.5),
+                    border: Border.all(
+                        color: AppTheme.gold.withOpacity(0.25), width: 0.5),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text('👤 Counselling with Admin',
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.gold)),
+                      style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.gold)),
                 ),
               ),
 
@@ -348,7 +439,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
             Expanded(
               child: ListView(
                 controller: ctrl,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 children: [
                   if (_step == 1) _buildDatePicker(),
                   if (_step == 2) _buildSlotPicker(),
@@ -371,10 +463,14 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(color: AppTheme.borderLight),
                             padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
                           ),
                           child: const Text('BACK',
-                              style: TextStyle(color: AppTheme.textSecondary, fontSize: 14, fontWeight: FontWeight.w900)),
+                              style: TextStyle(
+                                  color: AppTheme.textSecondary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w900)),
                         ),
                       ),
                     if (_step > 1) const SizedBox(width: 10),
@@ -385,11 +481,23 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                           backgroundColor: AppTheme.gold,
                           foregroundColor: AppTheme.darkBrown,
                           padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12)),
                         ),
                         child: Text(
-                          _bookingLoading ? '...' : _step == 3 ? 'CONFIRM & PAY' : 'CONTINUE',
-                          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 14, letterSpacing: 0.5),
+                          _bookingLoading
+                              ? 'BOOKING...'
+                              : _eligibilityLoading
+                                  ? 'CHECKING...'
+                                  : _step == 3
+                                      ? (_isFreeEligible
+                                          ? 'CONFIRM FREE BOOKING'
+                                          : 'CONFIRM & PAY')
+                                      : 'CONTINUE',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w900,
+                              fontSize: 14,
+                              letterSpacing: 0.5),
                         ),
                       ),
                     ),
@@ -411,16 +519,25 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           width: 28,
           height: 28,
           decoration: BoxDecoration(
-            color: done ? AppTheme.gold : active ? Colors.transparent : AppTheme.background,
+            color: done
+                ? AppTheme.gold
+                : active
+                    ? Colors.transparent
+                    : AppTheme.background,
             border: Border.all(
-              color: active ? AppTheme.gold : done ? AppTheme.gold : AppTheme.borderLight,
+              color: active
+                  ? AppTheme.gold
+                  : done
+                      ? AppTheme.gold
+                      : AppTheme.borderLight,
               width: 1.5,
             ),
             borderRadius: BorderRadius.circular(50),
           ),
           child: Center(
             child: done
-                ? const Icon(Icons.check_rounded, color: AppTheme.darkBrown, size: 14)
+                ? const Icon(Icons.check_rounded,
+                    color: AppTheme.darkBrown, size: 14)
                 : Text(
                     step.toString(),
                     style: TextStyle(
@@ -432,21 +549,42 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           ),
         ),
         const SizedBox(height: 3),
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+        Text(label,
+            style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: AppTheme.textSecondary)),
       ],
     );
   }
 
   Widget _buildDatePicker() {
     final cells = _buildCalendarGrid();
-    final monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'];
+    final monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
     final dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('SELECT DATE', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const Text('SELECT DATE',
+            style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: AppTheme.textSecondary,
+                letterSpacing: 0.5)),
         const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(12),
@@ -471,10 +609,14 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                     }),
                     icon: const Icon(Icons.chevron_left, size: 20),
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                    constraints:
+                        const BoxConstraints(minWidth: 32, minHeight: 32),
                   ),
                   Text('${monthNames[_calendarMonth - 1]} $_calendarYear',
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: AppTheme.textPrimary)),
                   IconButton(
                     onPressed: () => setState(() {
                       if (_calendarMonth == 12) {
@@ -486,7 +628,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                     }),
                     icon: const Icon(Icons.chevron_right, size: 20),
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                    constraints:
+                        const BoxConstraints(minWidth: 32, minHeight: 32),
                   ),
                 ],
               ),
@@ -494,36 +637,49 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 4, crossAxisSpacing: 4),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 7, mainAxisSpacing: 4, crossAxisSpacing: 4),
                 itemCount: 7,
                 itemBuilder: (_, i) => Center(
                   child: Text(dayNames[i],
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                      style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.textSecondary)),
                 ),
               ),
               const SizedBox(height: 8),
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 4, crossAxisSpacing: 4),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 7, mainAxisSpacing: 4, crossAxisSpacing: 4),
                 itemCount: cells.length,
                 itemBuilder: (_, i) {
                   final day = cells[i];
                   final disabled = _isCellDisabled(day);
-                  final dateStr = day != null ? '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}' : '';
+                  final dateStr = day != null
+                      ? '$_calendarYear-${_calendarMonth.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}'
+                      : '';
                   final isSelected = dateStr == _selectedDate;
                   final todayStr = DateFormat('yyyy-MM-dd').format(_today);
                   final isToday = dateStr == todayStr;
-                  
+
                   return day == null
                       ? const SizedBox()
                       : GestureDetector(
                           onTap: () => _selectDay(day),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: isSelected ? AppTheme.gold : isToday && !isSelected ? AppTheme.gold.withOpacity(0.1) : Colors.transparent,
+                              color: isSelected
+                                  ? AppTheme.gold
+                                  : isToday && !isSelected
+                                      ? AppTheme.gold.withOpacity(0.1)
+                                      : Colors.transparent,
                               border: Border.all(
-                                color: isToday && !isSelected ? AppTheme.gold.withOpacity(0.3) : Colors.transparent,
+                                color: isToday && !isSelected
+                                    ? AppTheme.gold.withOpacity(0.3)
+                                    : Colors.transparent,
                               ),
                               borderRadius: BorderRadius.circular(8),
                             ),
@@ -535,7 +691,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                                     color: isSelected
                                         ? AppTheme.darkBrown
                                         : disabled
-                                            ? AppTheme.textSecondary.withOpacity(0.3)
+                                            ? AppTheme.textSecondary
+                                                .withOpacity(0.3)
                                             : AppTheme.textPrimary,
                                   )),
                             ),
@@ -555,11 +712,16 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     final isToday = _selectedDate == todayStr;
     // Always show ALL slots; blocked ones are dimmed and non-selectable
     final displaySlots = _slots;
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('SELECT TIME', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const Text('SELECT TIME',
+            style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: AppTheme.textSecondary,
+                letterSpacing: 0.5)),
         const SizedBox(height: 8),
         // Date info with emoji
         Container(
@@ -576,24 +738,31 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(DateFormat('EEE, MMM d, yyyy').format(DateTime.parse(_selectedDate)),
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                  Text(
+                      DateFormat('EEE, MMM d, yyyy')
+                          .format(DateTime.parse(_selectedDate)),
+                      style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: AppTheme.textPrimary)),
                   const Text('Select a preferred slot below',
-                      style: TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
+                      style: TextStyle(
+                          fontSize: 13, color: AppTheme.textSecondary)),
                 ],
               ),
             ],
           ),
         ),
         const SizedBox(height: 12),
-        
+
         // Error message
         if (_error.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: Text(_error, style: const TextStyle(color: Colors.red, fontSize: 14)),
+            child: Text(_error,
+                style: const TextStyle(color: Colors.red, fontSize: 14)),
           ),
-        
+
         // Loading state
         if (_slotsLoading)
           GridView.builder(
@@ -613,7 +782,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               ),
             ),
           )
-        
+
         // No slots available
         else if (displaySlots.isEmpty)
           Padding(
@@ -624,14 +793,18 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                   const Text('⏰', style: TextStyle(fontSize: 32)),
                   const SizedBox(height: 8),
                   const Text('No slots available',
-                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 13, fontWeight: FontWeight.w600)),
+                      style: TextStyle(
+                          color: AppTheme.textSecondary,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600)),
                   const Text('Please select another date',
-                      style: TextStyle(color: AppTheme.textSecondary, fontSize: 14)),
+                      style: TextStyle(
+                          color: AppTheme.textSecondary, fontSize: 14)),
                 ],
               ),
             ),
           )
-        
+
         // Slot grid — shows ALL slots; past/booked are blocked (dimmed, non-tappable)
         else
           GridView.builder(
@@ -651,7 +824,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               final isSelected = _selectedSlotIndex == i && !isBlocked;
               final startTime = (slot['time'] ?? '') as String;
               final isBooked = slot['available'] != true;
-              final isPast = !isBooked && isBlocked; // blocked because of past time today
+              final isPast =
+                  !isBooked && isBlocked; // blocked because of past time today
 
               // Label shown under the time
               String subLabel;
@@ -664,7 +838,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               }
 
               return GestureDetector(
-                onTap: isBlocked ? null : () => setState(() => _selectedSlotIndex = i),
+                onTap: isBlocked
+                    ? null
+                    : () => setState(() => _selectedSlotIndex = i),
                 child: Opacity(
                   opacity: isBlocked ? 0.35 : 1.0,
                   child: Container(
@@ -700,7 +876,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                                           ? AppTheme.textSecondary
                                           : AppTheme.textPrimary,
                                   fontSize: 13,
-                                  decoration: isBlocked ? TextDecoration.lineThrough : null,
+                                  decoration: isBlocked
+                                      ? TextDecoration.lineThrough
+                                      : null,
                                   decorationColor: AppTheme.textSecondary,
                                 ),
                               ),
@@ -726,7 +904,9 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                             top: 4,
                             right: 4,
                             child: Icon(
-                              isBooked ? Icons.person_off_rounded : Icons.lock_clock,
+                              isBooked
+                                  ? Icons.person_off_rounded
+                                  : Icons.lock_clock,
                               size: 10,
                               color: AppTheme.textSecondary.withOpacity(0.5),
                             ),
@@ -744,12 +924,18 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
 
   Widget _buildDetailsForm() {
     // _selectedSlotIndex is always an index into _slots directly
-    final selectedSlot = _selectedSlotIndex != null ? _slots[_selectedSlotIndex!] : null;
-    
+    final selectedSlot =
+        _selectedSlotIndex != null ? _slots[_selectedSlotIndex!] : null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('YOUR DETAILS', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 0.5)),
+        const Text('YOUR DETAILS',
+            style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w900,
+                color: AppTheme.textSecondary,
+                letterSpacing: 0.5)),
         const SizedBox(height: 12),
         // Summary
         Container(
@@ -762,18 +948,74 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Summary', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+              const Text('Summary',
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.textSecondary)),
               const SizedBox(height: 6),
-              Text(DateFormat('EEE, MMM d, yyyy').format(DateTime.parse(_selectedDate)),
-                  style: const TextStyle(fontWeight: FontWeight.w900, color: AppTheme.textPrimary, fontSize: 14)),
+              Text(
+                  DateFormat('EEE, MMM d, yyyy')
+                      .format(DateTime.parse(_selectedDate)),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      color: AppTheme.textPrimary,
+                      fontSize: 14)),
               const SizedBox(height: 2),
               if (selectedSlot != null)
                 Text('${selectedSlot['time']} – ${selectedSlot['endTime']}',
-                    style: const TextStyle(fontWeight: FontWeight.w700, color: AppTheme.gold, fontSize: 14)),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.gold,
+                        fontSize: 14)),
             ],
           ),
         ),
         const SizedBox(height: 12),
+        if (_isFreeEligible) ...[
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.green.withOpacity(0.08),
+              border: Border.all(color: Colors.green.withOpacity(0.25)),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.card_giftcard_rounded,
+                    color: Colors.green, size: 18),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Your first session is free. No payment required.',
+                    style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.green),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+        ] else if (_freeEligibility?['message'] != null) ...[
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppTheme.background.withOpacity(0.5),
+              border: Border.all(color: AppTheme.borderLight),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              _freeEligibility!['message'].toString(),
+              style: const TextStyle(
+                  fontSize: 13,
+                  color: AppTheme.textSecondary,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
         // Name
         TextField(
           controller: _nameCtrl,
@@ -782,9 +1024,14 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
             hintText: 'Full Name',
             filled: true,
             fillColor: AppTheme.background.withOpacity(0.5),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.borderLight)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.borderLight)),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           ),
         ),
         const SizedBox(height: 10),
@@ -792,38 +1039,74 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         TextField(
           controller: _emailCtrl,
           keyboardType: TextInputType.emailAddress,
+          onSubmitted: (value) => _checkFreeEligibility(value),
           style: const TextStyle(fontSize: 14),
           decoration: InputDecoration(
             hintText: 'Email Address *',
             filled: true,
             fillColor: AppTheme.background.withOpacity(0.5),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
-            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.borderLight)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.borderLight)),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          ),
+        ),
+        const SizedBox(height: 12),
+        // Phone
+        TextField(
+          controller: _phoneCtrl,
+          keyboardType: TextInputType.phone,
+          style: const TextStyle(fontSize: 14),
+          decoration: InputDecoration(
+            hintText: 'Phone Number *',
+            filled: true,
+            fillColor: AppTheme.background.withOpacity(0.5),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.borderLight)),
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppTheme.borderLight)),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           ),
         ),
         const SizedBox(height: 12),
         // Price
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AppTheme.gold.withOpacity(0.08),
-            border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
-            borderRadius: BorderRadius.circular(12),
+        if (!_isFreeEligible) ...[
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: AppTheme.gold.withOpacity(0.08),
+              border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Session Charge',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.textSecondary)),
+                const Text('Rs. 599',
+                    style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w900,
+                        color: AppTheme.gold)),
+              ],
+            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('Session Charge', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
-              const Text('₹599', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.gold)),
-            ],
+          const SizedBox(height: 6),
+          const Text(
+            'Charges are fully adjustable in any service you opt for later.',
+            style: TextStyle(fontSize: 13, color: AppTheme.textSecondary),
           ),
-        ),
-        const SizedBox(height: 6),
-        const Text(
-          'Charges are fully adjustable in any service you opt for later.',
-          style: TextStyle(fontSize: 13, color: AppTheme.textSecondary),
-        ),
+        ],
         if (_error.isNotEmpty) ...[
           const SizedBox(height: 10),
           Text(_error, style: const TextStyle(color: Colors.red, fontSize: 14)),
@@ -850,10 +1133,15 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           ),
         ),
         const SizedBox(height: 12),
-        const Text('Confirmed!', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+        const Text('Confirmed!',
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w900,
+                color: AppTheme.textPrimary)),
         const SizedBox(height: 2),
         Text('Sent to ${_bookingResult?['userEmail'] ?? 'your email'}',
-            style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
+            style:
+                const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
         const SizedBox(height: 14),
         Container(
           padding: const EdgeInsets.all(12),
@@ -865,7 +1153,10 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _summaryRow('Date', DateFormat('EEE, MMM d, yyyy').format(DateTime.parse(_bookingResult?['date'] ?? ''))),
+              _summaryRow(
+                  'Date',
+                  DateFormat('EEE, MMM d, yyyy')
+                      .format(DateTime.parse(_bookingResult?['date'] ?? ''))),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 6),
                 child: Divider(height: 1, color: AppTheme.borderLight),
@@ -881,10 +1172,18 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Meeting ID', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
+                      const Text('Meeting ID',
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.textSecondary)),
                       const SizedBox(height: 3),
-                      Text(_bookingResult?['meetingId'] ?? '', 
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, fontFamily: 'monospace')),
+                      Text(_bookingResult?['meetingId'] ?? '',
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w900,
+                              color: AppTheme.gold,
+                              fontFamily: 'monospace')),
                     ],
                   ),
                 ),
@@ -901,9 +1200,14 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
               backgroundColor: AppTheme.gold,
               foregroundColor: AppTheme.darkBrown,
               padding: const EdgeInsets.symmetric(vertical: 12),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
             ),
-            child: const Text('DONE', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14, letterSpacing: 0.5)),
+            child: const Text('DONE',
+                style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 14,
+                    letterSpacing: 0.5)),
           ),
         ),
       ],
@@ -914,22 +1218,39 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
-        Text(value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+        Text(label,
+            style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: AppTheme.textSecondary)),
+        Text(value,
+            style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w900,
+                color: AppTheme.textPrimary)),
       ],
     );
   }
 
+  Future<void> _enterDetailsStep() async {
+    if (_emailCtrl.text.trim().isNotEmpty) {
+      await _checkFreeEligibility(_emailCtrl.text.trim());
+    }
+    if (mounted) {
+      setState(() => _step = 3);
+    }
+  }
+
   VoidCallback? _getNextButtonAction() {
+    if (_bookingLoading || _eligibilityLoading) return null;
+
     if (_step == 1) {
       // Slots are already being fetched (started on date tap), just navigate
-      return _selectedDate.isNotEmpty
-          ? () => setState(() => _step = 2)
-          : null;
+      return _selectedDate.isNotEmpty ? () => setState(() => _step = 2) : null;
     } else if (_step == 2) {
-      return _selectedSlotIndex != null ? () => setState(() => _step = 3) : null;
+      return _selectedSlotIndex != null ? () => _enterDetailsStep() : null;
     } else if (_step == 3) {
-      return _bookingLoading ? null : _confirmBooking;
+      return _confirmBooking;
     }
     return null;
   }

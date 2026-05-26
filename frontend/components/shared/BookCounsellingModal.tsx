@@ -235,6 +235,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     try {
       const res = await fetch(`${API_BASE}/api/bookings/free-eligibility?email=${encodeURIComponent(emailTrimmed)}`);
       const data = await res.json();
+      console.log("Free eligibility check:", data);
       if (!res.ok) {
         setFreeEligibility(null);
         return null;
@@ -242,6 +243,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
       setFreeEligibility(data);
       return data;
     } catch {
+      console.error("Eligibility check failed");
       setFreeEligibility(null);
       return null;
     } finally {
@@ -476,6 +478,11 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
     setError("");
     try {
       const isFree = Boolean((forceFree || freeEligibility?.eligible) && !paymentId);
+      console.log("Booking details:", {
+        isFree,
+        hasPaymentId: Boolean(paymentId),
+        eligible: freeEligibility?.eligible
+      });
       const body = {
         date: selectedDate,
         time: selectedSlot.time,
@@ -496,6 +503,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
         setError(data.message || "Booking failed.");
         return;
       }
+      console.log("Booking successful:", data);
       if (isFree) {
         const currentUser = getUser();
         if (currentUser) {
@@ -939,10 +947,10 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                     onClick={async () => {
                       if (step === 1 && selectedDate) goNext(2);
                       else if (step === 2 && selectedSlot) {
-                        goNext(3);
                         if (userEmail) {
-                          void checkFreeEligibility(userEmail);
+                          await checkFreeEligibility(userEmail);
                         }
+                        goNext(3);
                       }
                       else if (step === 3) {
                         if (!userName || !userEmail || !userPhone) {
@@ -951,9 +959,11 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                         }
 
                         const eligibility = await checkFreeEligibility(userEmail);
-                        if ((eligibility || freeEligibility)?.eligible) {
+                        if ((eligibility || freeEligibility)?.eligible === true) {
+                          console.log("Free booking eligible - skipping payment");
                           await confirmBooking(undefined, true);
                         } else {
+                          console.log("Payment required - opening checkout");
                           setIsCheckoutOpen(true);
                         }
                       }
@@ -961,7 +971,7 @@ export default function BookCounsellingModal({ isOpen, onClose }: Props) {
                     disabled={(step === 1 && !selectedDate) || (step === 2 && !selectedSlot) || (step === 3 && (bookingLoading || isCheckingEligibility))}
                     className="flex-1 py-2.5 rounded-lg bg-[#D4A848] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all"
                   >
-                    {bookingLoading ? "Booking..." : isCheckingEligibility ? "Checking..." : step === 3 ? (freeEligibility?.eligible ? "Confirm Free Session" : "Confirm & Pay") : "Continue"}
+                    {bookingLoading ? "Booking..." : isCheckingEligibility ? "Checking..." : step === 3 ? (freeEligibility?.eligible ? "Confirm Free Booking" : "Confirm & Pay") : "Continue"}
                   </button>
                 </div>
               )}
