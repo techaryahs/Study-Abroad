@@ -3,8 +3,9 @@
 import React, { useState, FormEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Mail, Lock, Eye, EyeOff, ChevronRight, Sparkles, AlertCircle } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ChevronRight, Sparkles, AlertCircle, Phone as PhoneIcon } from "lucide-react";
 import { setToken, setUser, getToken } from "@/app/lib/token";
+import { Country } from "country-state-city";
 
 type User = {
   role: string;
@@ -12,12 +13,41 @@ type User = {
   isVerified: boolean;
 };
 
+const DEFAULT_COUNTRY_ISO = "IN";
+
+function normalizeDialCode(phonecode: string): string {
+  const digits = phonecode.replace(/\D/g, "");
+  return digits ? `+${digits}` : "+91";
+}
+
+const COUNTRY_CODE_OPTIONS = Country.getAllCountries()
+  .map(country => ({
+    isoCode: country.isoCode,
+    name: country.name,
+    flag: country.flag,
+    dialCode: normalizeDialCode(country.phonecode)
+  }))
+  .filter(country => country.dialCode.length > 1)
+  .sort((a, b) => {
+    if (a.isoCode === DEFAULT_COUNTRY_ISO) return -1;
+    if (b.isoCode === DEFAULT_COUNTRY_ISO) return 1;
+    return a.name.localeCompare(b.name);
+  });
+
 const Login: React.FC = () => {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const [loginMethod, setLoginMethod] = useState<"email" | "phone">("email");
+  const [mobile, setMobile] = useState<string>("");
+  const [selectedCountryIso, setSelectedCountryIso] = useState<string>("IN");
+  const [otp, setOtp] = useState<string>("");
+  const [otpSent, setOtpSent] = useState<boolean>(false);
+  const [otpTimer, setOtpTimer] = useState<number>(0);
+  const [otpLoading, setOtpLoading] = useState<boolean>(false);
+  const [otpError, setOtpError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showForgotModal, setShowForgotModal] = useState<boolean>(false);
   const [forgotStep, setForgotStep] = useState<1 | 2>(1);
@@ -67,6 +97,106 @@ const Login: React.FC = () => {
     } catch (err: any) {
       console.error("❌ Login error:", err.message);
       setErrorMsg(err.message || "Login failed");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  useEffect(() => {
+    if (otpTimer <= 0) return;
+    const interval = setInterval(() => {
+      setOtpTimer(prev => Math.max(prev - 1, 0));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [otpTimer]);
+
+  const sendLoginOtp = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setErrorMsg("");
+    setOtpError("");
+
+    if (!mobile.trim()) {
+      setOtpError("Please enter your phone number");
+      return;
+    }
+
+    const cleanedDigits = mobile.replace(/\D/g, "");
+    if (cleanedDigits.length < 6) {
+      setOtpError("Please enter a valid phone number");
+      return;
+    }
+
+    const dialCode = COUNTRY_CODE_OPTIONS.find(c => c.isoCode === selectedCountryIso)?.dialCode || "+91";
+    const fullMobile = `${dialCode}${cleanedDigits}`;
+
+    setOtpLoading(true);
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/send-login-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile: fullMobile }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send OTP");
+      }
+
+      setOtpSent(true);
+      setOtpTimer(60); // 60s cooldown
+    } catch (err: any) {
+      setOtpError(err.message || "Failed to send OTP");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const verifyLoginOtp = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setErrorMsg("");
+    setOtpError("");
+
+    if (!otp.trim() || otp.length !== 6) {
+      setOtpError("Please enter the 6-digit OTP code");
+      return;
+    }
+
+    const cleanedDigits = mobile.replace(/\D/g, "");
+    const dialCode = COUNTRY_CODE_OPTIONS.find(c => c.isoCode === selectedCountryIso)?.dialCode || "+91";
+    const fullMobile = `${dialCode}${cleanedDigits}`;
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/auth/verify-login-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mobile: fullMobile, otp: otp.trim() }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Verification failed");
+      }
+
+      const { token, user }: { token: string; user: any } = data;
+      const role = user.role;
+
+      setToken(token);
+      setUser(user);
+
+      // Notify components immediately
+      window.dispatchEvent(new Event('user-updated'));
+
+      setTimeout(() => {
+        if (role === "admin") router.push("/admin-dashboard");
+        else router.push("/User/dashboard");
+      }, 500);
+    } catch (err: any) {
+      setOtpError(err.message || "Invalid OTP code");
     } finally {
       setIsSubmitting(false);
     }
@@ -225,69 +355,195 @@ const Login: React.FC = () => {
             <div className="h-1 w-12 bg-[#C5A059] rounded-full" />
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter your registered email</label>
-              <div className="relative group">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="name@university.com"
-                  className="w-full pl-12 pr-4 py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs text-[#3C2A21] font-bold placeholder:text-[#6B5E51]/20 focus:border-[#C5A059] transition-all outline-none shadow-inner"
-                />
-              </div>
-            </div>
+          {/* Login Method Tabs */}
+          <div className="flex border-b border-[#F1EDEA] mb-6">
+            <button
+              onClick={() => { setLoginMethod("email"); setErrorMsg(""); }}
+              className={`flex-1 pb-3 text-xs font-black uppercase tracking-wider transition-colors ${loginMethod === "email" ? "border-b-2 border-[#C5A059] text-[#3C2A21]" : "text-[#6B5E51]/50 hover:text-[#C5A059]"}`}
+            >
+              Email & Password
+            </button>
+            <button
+              onClick={() => { setLoginMethod("phone"); setErrorMsg(""); }}
+              className={`flex-1 pb-3 text-xs font-black uppercase tracking-wider transition-colors ${loginMethod === "phone" ? "border-b-2 border-[#C5A059] text-[#3C2A21]" : "text-[#6B5E51]/50 hover:text-[#C5A059]"}`}
+            >
+              Phone OTP Login
+            </button>
+          </div>
 
-            <div className="space-y-2">
-              <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter Password</label>
-              <div className="relative group">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="••••••••"
-                  className="w-full pl-12 pr-12 py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] transition-all outline-none shadow-inner"
-                />
+          {loginMethod === "email" ? (
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter your registered email</label>
+                <div className="relative group">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    placeholder="name@university.com"
+                    className="w-full pl-12 pr-4 py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs text-[#3C2A21] font-bold placeholder:text-[#6B5E51]/20 focus:border-[#C5A059] transition-all outline-none shadow-inner"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter Password</label>
+                <div className="relative group">
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    placeholder="••••••••"
+                    className="w-full pl-12 pr-12 py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] transition-all outline-none shadow-inner"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/70 hover:text-[#C5A059] transition-all outline-none"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex justify-end pt-1">
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/70 hover:text-[#C5A059] transition-all outline-none"
+                  onClick={() => setShowForgotModal(true)}
+                  className="text-[13px] font-bold font-black text-[#6B5E51]/70 hover:text-[#C5A059] uppercase tracking-widest transition-all"
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  Forgot Password?
                 </button>
               </div>
-            </div>
 
-            <div className="flex justify-end pt-1">
               <button
-                type="button"
-                onClick={() => setShowForgotModal(true)}
-                className="text-[13px] font-bold font-black text-[#6B5E51]/70 hover:text-[#C5A059] uppercase tracking-widest transition-all"
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 mt-2 hover:bg-[#C5A059]"
               >
-                Forgot Password?
+                {isSubmitting ? "Authenticating..." : "Sign In"}
+                {!isSubmitting && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
               </button>
-            </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 mt-2 hover:bg-[#C5A059]"
-            >
-              {isSubmitting ? "Authenticating..." : "Sign In"}
-              {!isSubmitting && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
-            </button>
+              {errorMsg && (
+                <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[14px] font-bold items-center justify-center flex mt-6 font-black uppercase italic bg-rose-50/50 py-4 rounded-xl border border-rose-100 px-4 text-center">
+                  {errorMsg}
+                </motion.p>
+              )}
+            </form>
+          ) : (
+            <form onSubmit={verifyLoginOtp} className="space-y-4">
+              {!otpSent ? (
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Phone Number</label>
+                    <div className="grid grid-cols-[120px_1fr] gap-3">
+                      <select
+                        aria-label="Country code"
+                        value={selectedCountryIso}
+                        onChange={e => setSelectedCountryIso(e.target.value)}
+                        className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-3 py-4 text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] outline-none shadow-inner"
+                      >
+                        {COUNTRY_CODE_OPTIONS.map(country => (
+                          <option key={country.isoCode} value={country.isoCode}>
+                            {country.flag} {country.dialCode}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="tel"
+                        placeholder="Phone Number *"
+                        value={mobile}
+                        onChange={e => setMobile(e.target.value.replace(/\D/g, "").slice(0, 15))}
+                        required
+                        className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-4 py-4 text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] outline-none shadow-inner"
+                      />
+                    </div>
+                  </div>
 
-            {errorMsg && (
-              <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[14px] font-bold items-center justify-center flex mt-6 font-black uppercase italic bg-rose-50/50 py-4 rounded-xl border border-rose-100 px-4 text-center">
-                {errorMsg}
-              </motion.p>
-            )}
-          </form>
+                  <button
+                    type="button"
+                    onClick={sendLoginOtp}
+                    disabled={otpLoading || !mobile}
+                    className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 hover:bg-[#C5A059]"
+                  >
+                    {otpLoading ? "Sending..." : "Send OTP"}
+                    {!otpLoading && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                      <div className="text-[#6B5E51]/50 text-[10px] font-black uppercase tracking-widest">OTP sent to</div>
+                      <div className="text-[#3C2A21] text-xs font-bold font-mono">
+                        {COUNTRY_CODE_OPTIONS.find(c => c.isoCode === selectedCountryIso)?.dialCode} {mobile}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setOtpSent(false);
+                        setOtp("");
+                        setOtpError("");
+                        setOtpTimer(0);
+                      }}
+                      className="text-[#C5A059] text-[10px] uppercase font-black tracking-wider bg-[#C5A059]/10 px-3 py-1.5 rounded-lg hover:bg-[#C5A059]/20 transition-colors"
+                    >
+                      Change
+                    </button>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter 6-Digit OTP</label>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      placeholder="000000"
+                      value={otp}
+                      onChange={e => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                      maxLength={6}
+                      className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-4 py-4 text-center text-xl tracking-[0.5em] text-[#3C2A21] font-mono focus:border-[#C5A059] outline-none shadow-inner"
+                    />
+                  </div>
+
+                  {otpTimer > 0 ? (
+                    <div className="text-center text-[#6B5E51]/50 text-xs font-bold uppercase tracking-widest">
+                      Expires in {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, "0")}
+                    </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={sendLoginOtp}
+                      className="w-full text-[#C5A059] text-xs font-black uppercase tracking-widest hover:underline text-center"
+                    >
+                      Resend OTP
+                    </button>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || otp.length !== 6}
+                    className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 hover:bg-[#C5A059]"
+                  >
+                    {isSubmitting ? "Verifying..." : "Verify & Login"}
+                    {!isSubmitting && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                  </button>
+                </div>
+              )}
+
+              {otpError && (
+                <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[14px] font-bold items-center justify-center flex mt-6 font-black uppercase italic bg-rose-50/50 py-4 rounded-xl border border-rose-100 px-4 text-center">
+                  {otpError}
+                </motion.p>
+              )}
+            </form>
+          )}
 
           <div className="mt-8 pt-6 border-t border-[#F1EDEA] flex flex-col gap-4 items-center">
             <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>

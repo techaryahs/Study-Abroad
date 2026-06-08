@@ -34,7 +34,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { getToken, getUser, setUser } from "@/app/lib/token";
+import { getToken, getUser, setUser, clearAuth } from "@/app/lib/token";
 
 export default function EditProfilePage() {
   const [userData, setUserData] = useState<any>(null);
@@ -699,7 +699,12 @@ export default function EditProfilePage() {
 
       <AnimatePresence>
         {showPasswordModal && (
-          <ResetPasswordModal email={formData.email} onClose={() => setShowPasswordModal(false)} BACKEND_URL={BACKEND_URL} />
+          <ResetPasswordModal 
+            email={formData.email} 
+            onClose={() => setShowPasswordModal(false)} 
+            BACKEND_URL={BACKEND_URL} 
+            isBasicAccount={userData?.profile?.isBasicAccount === true}
+          />
         )}
       </AnimatePresence>
 
@@ -804,7 +809,7 @@ function TestUpdateModal({ testId, testDef, scores, onChange, onClose }: any) {
   );
 }
 
-function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, onClose: () => void, BACKEND_URL: string }) {
+function ResetPasswordModal({ email, onClose, BACKEND_URL, isBasicAccount }: { email: string, onClose: () => void, BACKEND_URL: string, isBasicAccount?: boolean }) {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -820,7 +825,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
   const handleChangePassword = async () => {
     setMessage({ text: '', type: '' });
 
-    if (!currentPassword || !newPassword || !confirmPassword) {
+    if ((!isBasicAccount && !currentPassword) || !newPassword || !confirmPassword) {
       setMessage({ text: 'All fields are required', type: 'error' });
       return;
     }
@@ -848,7 +853,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ 
-          currentPassword, 
+          ...(isBasicAccount ? {} : { currentPassword }),
           newPassword, 
           confirmPassword 
         })
@@ -856,11 +861,9 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
 
       const data = await response.json();
       if (response.ok) {
-        setMessage({ text: 'Password changed successfully! Logging you out...', type: 'success' });
+        setMessage({ text: 'Password set successfully! Logging you out...', type: 'success' });
         setTimeout(() => {
-          localStorage.removeItem('token');
-          localStorage.removeItem('auth_token');
-          localStorage.removeItem('auth_user');
+          clearAuth();
           window.location.href = '/auth/login';
         }, 2000);
       } else {
@@ -886,7 +889,7 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
         
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="fd text-xl font-bold text-[#3C2A21] uppercase italic tracking-tight">Change Password</h3>
+            <h3 className="fd text-xl font-bold text-[#3C2A21] uppercase italic tracking-tight">{isBasicAccount ? 'Create Password' : 'Change Password'}</h3>
           </div>
           <button 
             onClick={onClose} 
@@ -913,25 +916,27 @@ function ResetPasswordModal({ email, onClose, BACKEND_URL }: { email: string, on
 
         <div className="space-y-6">
           {/* Current Password */}
-          <div className="space-y-2">
-            <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Current Password</label>
-            <div className="relative">
-              <input 
-                type={showPasswords.current ? 'text' : 'password'}
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                placeholder="Enter current password"
-                className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-bold shadow-inner focus:border-[#C5A059]/50 outline-none transition-all pr-12"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/80 hover:text-[#C5A059] transition-colors"
-              >
-                {showPasswords.current ? <Eye size={16} /> : <EyeOff size={16} />}
-              </button>
+          {!isBasicAccount && (
+            <div className="space-y-2">
+              <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Current Password</label>
+              <div className="relative">
+                <input 
+                  type={showPasswords.current ? 'text' : 'password'}
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  placeholder="Enter current password"
+                  className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-6 py-4 text-[#3C2A21] font-bold shadow-inner focus:border-[#C5A059]/50 outline-none transition-all pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPasswords({ ...showPasswords, current: !showPasswords.current })}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6B5E51]/80 hover:text-[#C5A059] transition-colors"
+                >
+                  {showPasswords.current ? <Eye size={16} /> : <EyeOff size={16} />}
+                </button>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* New Password */}
           <div className="space-y-2">

@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import '../features/auth/auth_provider.dart';
+import '../features/landing/landing_screen.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/register_screen.dart';
 import '../features/home/home_screen.dart';
@@ -42,16 +43,20 @@ import '../widgets/app_scaffold.dart';
 class AppRouter {
   static GoRouter create(AuthProvider auth) {
     return GoRouter(
-      initialLocation: '/',
+      initialLocation: '/landing',
       refreshListenable: auth,
       redirect: (context, state) {
         final isLoggedIn = auth.isLoggedIn;
-        final isAuthRoute = state.uri.path == '/login' || state.uri.path == '/register';
+        final isAuthRoute =
+            state.uri.path == '/login' || state.uri.path == '/register';
+        final isPublicRoute = isAuthRoute || state.uri.path == '/landing';
 
-        if (!isLoggedIn && !isAuthRoute) return '/login';
+        if (!isLoggedIn && !isPublicRoute) return '/login';
 
         // ✅ Logged in → block auth pages
-        if (isLoggedIn && (isAuthRoute || (state.uri.path == '/' && auth.role != 'student'))) {
+        if (isLoggedIn &&
+            (isAuthRoute ||
+                (state.uri.path == '/' && auth.role != 'student'))) {
           return _homeForRole(auth.role);
         }
 
@@ -59,6 +64,7 @@ class AppRouter {
       },
       routes: [
         // ── AUTH ──────────────────────────────────────────────
+        GoRoute(path: '/landing', builder: (_, __) => const LandingScreen()),
         GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
         GoRoute(path: '/register', builder: (_, __) => const RegisterScreen()),
 
@@ -67,28 +73,52 @@ class AppRouter {
           path: '/meeting/:id',
           builder: (context, state) => MeetingScreen(
             sessionId: state.pathParameters['id'] ?? '',
-            sessionData: state.extra is Map ? Map<String, dynamic>.from(state.extra as Map) : null,
+            sessionData: state.extra is Map
+                ? Map<String, dynamic>.from(state.extra as Map)
+                : null,
           ),
         ),
 
         // ── DASHBOARDS (No bottom nav) ─────────────────────────
-        GoRoute(path: '/admin-dashboard', builder: (_, __) => const AdminDashboardScreen()),
-        GoRoute(path: '/consultant-dashboard', builder: (_, __) => const ConsultantDashboardScreen()),
+        GoRoute(
+            path: '/admin-dashboard',
+            builder: (_, __) => const AdminDashboardScreen()),
+        GoRoute(
+            path: '/consultant-dashboard',
+            builder: (_, __) => const ConsultantDashboardScreen()),
 
         // ── SHELL (bottom nav) ────────────────────────────────
         ShellRoute(
           builder: (context, state, child) => AppScaffold(child: child),
           routes: [
             GoRoute(path: '/', builder: (_, __) => const HomeScreen()),
-            GoRoute(path: '/countries', builder: (_, __) => const CountriesScreen()),
-            GoRoute(path: '/universities', builder: (_, __) => const UniversitiesScreen()),
-            GoRoute(path: '/universities/countries', builder: (_, __) => const UniversityCountriesScreen()),
-            GoRoute(path: '/universities/unipredict', builder: (_, __) => const UniPredictScreen()),
-            GoRoute(path: '/universities/unipredict/calculator', builder: (_, __) => const UniPredictCalculatorScreen()),
-            GoRoute(path: '/universities/rate-my-chances', builder: (_, __) => const RateMyChancesScreen()),
-            GoRoute(path: '/universities/popular-programs', builder: (_, __) => const PopularProgramsScreen()),
-            GoRoute(path: '/universities/high-ranked-cheap', builder: (_, __) => const HighRankedCheapUniversitiesScreen()),
-            GoRoute(path: '/universities/by-state', builder: (_, __) => const TopUniversitiesByStateScreen()),
+            GoRoute(
+                path: '/countries',
+                builder: (_, __) => const CountriesScreen()),
+            GoRoute(
+                path: '/universities',
+                builder: (_, __) => const UniversitiesScreen()),
+            GoRoute(
+                path: '/universities/countries',
+                builder: (_, __) => const UniversityCountriesScreen()),
+            GoRoute(
+                path: '/universities/unipredict',
+                builder: (_, __) => const UniPredictScreen()),
+            GoRoute(
+                path: '/universities/unipredict/calculator',
+                builder: (_, __) => const UniPredictCalculatorScreen()),
+            GoRoute(
+                path: '/universities/rate-my-chances',
+                builder: (_, __) => const RateMyChancesScreen()),
+            GoRoute(
+                path: '/universities/popular-programs',
+                builder: (_, __) => const PopularProgramsScreen()),
+            GoRoute(
+                path: '/universities/high-ranked-cheap',
+                builder: (_, __) => const HighRankedCheapUniversitiesScreen()),
+            GoRoute(
+                path: '/universities/by-state',
+                builder: (_, __) => const TopUniversitiesByStateScreen()),
             GoRoute(
               path: '/universities/:country',
               builder: (_, state) {
@@ -97,25 +127,39 @@ class AppRouter {
                 return UniversityListScreen(country: country, state: stateName);
               },
             ),
-            GoRoute(path: '/services', builder: (_, __) => const ServicesScreen()),
+            GoRoute(
+                path: '/services', builder: (_, __) => const ServicesScreen()),
             GoRoute(
               path: '/services/:slug',
               builder: (context, state) => ServiceDetailScreen(
                 slug: state.pathParameters['slug'] ?? '',
               ),
             ),
-            GoRoute(path: '/dashboard', builder: (_, __) => const DashboardScreen()),
+            GoRoute(
+                path: '/dashboard',
+                builder: (_, __) => const DashboardScreen()),
             GoRoute(path: '/cart', builder: (_, __) => const CartScreen()),
             GoRoute(path: '/blogs', builder: (_, __) => const BlogsScreen()),
             GoRoute(path: '/about', builder: (_, __) => const AboutScreen()),
-            GoRoute(path: '/contact', builder: (_, __) => const ContactScreen()),
-            GoRoute(path: '/success-stories', builder: (_, __) => const SuccessStoriesScreen()),
-            
+            GoRoute(
+                path: '/contact', builder: (_, __) => const ContactScreen()),
+            GoRoute(
+                path: '/success-stories',
+                builder: (_, __) => const SuccessStoriesScreen()),
+
             // AI SERVICES
-            GoRoute(path: '/ai-services', builder: (_, __) => const AiServicesScreen()),
-            GoRoute(path: '/ai-services/sop-generator', builder: (_, __) => const SopGeneratorScreen()),
-            GoRoute(path: '/ai-services/mock-interview', builder: (_, __) => const MockInterviewScreen()),
-            GoRoute(path: '/ai-services/plagiarism-remover', builder: (_, __) => const PlagiarismRemoverScreen()),
+            GoRoute(
+                path: '/ai-services',
+                builder: (_, __) => const AiServicesScreen()),
+            GoRoute(
+                path: '/ai-services/sop-generator',
+                builder: (_, __) => const SopGeneratorScreen()),
+            GoRoute(
+                path: '/ai-services/mock-interview',
+                builder: (_, __) => const MockInterviewScreen()),
+            GoRoute(
+                path: '/ai-services/plagiarism-remover',
+                builder: (_, __) => const PlagiarismRemoverScreen()),
             // FAQ
             GoRoute(path: '/faq', builder: (_, __) => const FAQScreen()),
             GoRoute(
@@ -124,11 +168,21 @@ class AppRouter {
                 slug: state.pathParameters['slug'] ?? '',
               ),
             ),
-            GoRoute(path: '/resources', builder: (_, __) => const ResourcesScreen()),
-            GoRoute(path: '/resources/eb1a', builder: (_, __) => const EB1AToolkitPage()),
-            GoRoute(path: '/resources/education-loan', builder: (_, __) => const EducationLoanPage()),
-            GoRoute(path: '/resources/reviews', builder: (_, __) => const ReviewsScreen()),
-            GoRoute(path: '/resources/scholarships', builder: (_, __) => const ScholarshipsScreen()),
+            GoRoute(
+                path: '/resources',
+                builder: (_, __) => const ResourcesScreen()),
+            GoRoute(
+                path: '/resources/eb1a',
+                builder: (_, __) => const EB1AToolkitPage()),
+            GoRoute(
+                path: '/resources/education-loan',
+                builder: (_, __) => const EducationLoanPage()),
+            GoRoute(
+                path: '/resources/reviews',
+                builder: (_, __) => const ReviewsScreen()),
+            GoRoute(
+                path: '/resources/scholarships',
+                builder: (_, __) => const ScholarshipsScreen()),
             GoRoute(
               path: '/resources/scholarships/:slug',
               builder: (_, state) => ScholarshipDetailScreen(

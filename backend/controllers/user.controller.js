@@ -305,12 +305,12 @@ exports.removeFromCart = async (req, res) => {
       message: "Item removed from cart",
       cart: user.cart
     });
-
   } catch (error) {
     console.error("Remove from cart error:", error);
-    res.status(500).json({ message: "Server error removing item" });
+    res.status(500).json({ message: "Server error removing from cart" });
   }
 };
+
 exports.clearCart = async (req, res) => {
   console.log("clear cart");
   try {
@@ -337,11 +337,11 @@ exports.changePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword, confirmPassword } = req.body;
 
-    // 1. VALIDATION
-    if (!currentPassword || !newPassword || !confirmPassword) {
+    // 1. BASIC VALIDATIONS
+    if (!newPassword || !confirmPassword) {
       return res.status(400).json({ 
         success: false,
-        message: "Current password, new password, and confirmation are required" 
+        message: "New password and password confirmation are required" 
       });
     }
 
@@ -361,7 +361,7 @@ exports.changePassword = async (req, res) => {
       });
     }
 
-    // 2. FETCH USER
+    // 2. FETCH USER FROM DB
     const result = await findUserById(req.user.id);
     if (!result) {
       return res.status(404).json({ 
@@ -371,26 +371,40 @@ exports.changePassword = async (req, res) => {
     }
 
     const { user } = result;
+    const isBasicAccount = user.profile && user.profile.isBasicAccount === true;
 
-    // 3. VERIFY CURRENT PASSWORD
-    const isPasswordValid = await user.matchPassword(currentPassword);
-    if (!isPasswordValid) {
-      return res.status(401).json({ 
-        success: false,
-        message: "Current password is incorrect" 
-      });
+    // 3. CURRENT PASSWORD VALIDATION (IF NOT BASIC ACCOUNT)
+    if (!isBasicAccount) {
+      if (!currentPassword) {
+        return res.status(400).json({ 
+          success: false,
+          message: "Current password is required" 
+        });
+      }
+
+      const isPasswordValid = await user.matchPassword(currentPassword);
+      if (!isPasswordValid) {
+        return res.status(401).json({ 
+          success: false,
+          message: "Current password is incorrect" 
+        });
+      }
+
+      // Check if new password is same as old
+      const isSameAsOld = await bcrypt.compare(newPassword, user.password);
+      if (isSameAsOld) {
+        return res.status(400).json({ 
+          success: false,
+          message: "New password must be different from current password" 
+        });
+      }
+    } else {
+      // If basic account, we upgrade them
+      user.profile.isBasicAccount = false;
+      user.markModified("profile");
     }
 
-    // 4. CHECK IF NEW PASSWORD IS SAME AS OLD
-    const isSameAsOld = await bcrypt.compare(newPassword, user.password);
-    if (isSameAsOld) {
-      return res.status(400).json({ 
-        success: false,
-        message: "New password must be different from current password" 
-      });
-    }
-
-    // 5. UPDATE PASSWORD (will be hashed by pre-save hook)
+    // 4. UPDATE PASSWORD (will be hashed by pre-save hook)
     user.password = newPassword;
     await user.save();
 

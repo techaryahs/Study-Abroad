@@ -31,6 +31,9 @@ const UserSchema = new mongoose.Schema(
       enum: ["student", "consultant", "parent", "admin"],
       default: "student",
     },
+    loginOtp: { type: String, default: null },
+    loginOtpExpiresAt: { type: Date, default: null },
+    loginOtpAttempts: { type: Number, default: 0 },
 
     // 🔥 PROFILE DETAILS (NESTED OBJECT) 🔥
     // The user explicitly requested an embedded subdocument so that it can simply be expanded in their database IDE.

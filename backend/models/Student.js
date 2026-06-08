@@ -42,6 +42,9 @@ const StudentSchema = new mongoose.Schema(
       type: String,
       default: "student",
     },
+    loginOtp: { type: String, default: null },
+    loginOtpExpiresAt: { type: Date, default: null },
+    loginOtpAttempts: { type: Number, default: 0 },
 
     profile: {
       parents: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
