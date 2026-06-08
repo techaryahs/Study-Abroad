@@ -52,12 +52,12 @@ dependencies:
   socket_io_client: ^2.0.3+1
 
   # Native Video (WebRTC)
-  flutter_webrtc: ^1.4.1
   permission_handler: ^11.3.1
 
   # Shimmer loading
   shimmer: ^3.0.0
   razorpay_flutter: ^1.4.4
+  flutter_webrtc: ^1.4.1
 
 dev_dependencies:
   flutter_test:
