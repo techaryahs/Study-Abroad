@@ -75,60 +75,101 @@ class _HomeScreenState extends State<HomeScreen> {
         slivers: [
           // ── APP BAR ──────────────────────────────────────────
           SliverAppBar(
-            expandedHeight: 0,
-            toolbarHeight: 90,
             pinned: true,
+            floating: false,
+            snap: false,
+            toolbarHeight: 80,
             backgroundColor: Colors.white,
+            surfaceTintColor: Colors.white,
             elevation: 0,
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
+
+            title: LayoutBuilder(
+              builder: (context, constraints) {
+                final width = MediaQuery.of(context).size.width;
+
+                final isSmall = width < 380;
+                final logoSize = isSmall ? 28.0 : 34.0;
+                final titleSize = isSmall ? 10.0 : 12.0;
+                final subtitleSize = isSmall ? 8.0 : 10.0;
+
+                return Row(
                   children: [
                     Container(
-                      width: 30,
-                      height: 30,
-                      padding: const EdgeInsets.all(2),
-                      child: Image.asset('assets/images/logo_iec.png',
-                          fit: BoxFit.contain),
+                      width: logoSize,
+                      height: logoSize,
+                      alignment: Alignment.center,
+                      child: Image.asset(
+                        'assets/images/logo_iec.png',
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                    const SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'INTERNATIONAL EDULEADER COUNCIL',
-                          style: TextStyle(
-                              fontSize: 14,
+
+                    SizedBox(width: isSmall ? 6 : 10),
+
+                    Flexible(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "INTERNATIONAL EDULEADER",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: titleSize,
                               fontWeight: FontWeight.w900,
                               color: AppTheme.textPrimary,
-                              letterSpacing: 0.5),
-                        ),
-                        Text(
-                          'GLOBAL ADMISSIONS',
-                          style: TextStyle(
-                              fontSize: 14,
+                              letterSpacing: 0.4,
+                              height: 1.0,
+                            ),
+                          ),
+
+                          Text(
+                            "COUNCIL",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: titleSize,
+                              fontWeight: FontWeight.w900,
+                              color: AppTheme.textPrimary,
+                              letterSpacing: 0.4,
+                              height: 1.0,
+                            ),
+                          ),
+
+                          SizedBox(height: 2),
+
+                          Text(
+                            "GLOBAL ADMISSIONS",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: subtitleSize,
                               fontWeight: FontWeight.w900,
                               color: AppTheme.gold,
-                              letterSpacing: 1.5),
-                        ),
-                      ],
+                              letterSpacing: 1.5,
+                              height: 1.0,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                ),
-              ],
+                );
+              },
             ),
+
             actions: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: IconButton(
-                    icon: const Icon(Icons.shopping_cart_outlined,
-                        color: AppTheme.textPrimary),
-                    onPressed: () => context.push('/cart'),
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: IconButton(
+                  iconSize: 22,
+                  splashRadius: 22,
+                  icon: const Icon(
+                    Icons.shopping_cart_outlined,
+                    color: AppTheme.textPrimary,
                   ),
+                  onPressed: () => context.push('/cart'),
                 ),
               ),
             ],
