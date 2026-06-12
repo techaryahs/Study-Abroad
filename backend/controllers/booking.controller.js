@@ -133,7 +133,7 @@ exports.bookConsultant = async (req, res) => {
       );
 
       await sendEmail(
-        process.env.ADMIN_NOTIFY_TO || "admin@careergenai.com",
+        process.env.ADMIN_NOTIFY_TO || "iec.aryahs@gmail.com",
         "New Consultation Booking (Admin Copy)",
         "",
         `<p>User: ${userName} (${userEmail})</p><p>Mentor: ${consultantName}</p>`
@@ -639,7 +639,7 @@ exports.bookCounsellingSession = async (req, res) => {
 
     // Hardcode admin as session counsellor
     const finalConsultantName = "Admin";
-    const finalConsultantEmail = process.env.ADMIN_EMAIL || "admin@careergenai.com";
+    const finalConsultantEmail = process.env.ADMIN_EMAIL || "iec.aryahs@gmail.com";
 
     // Generate session & meeting identifiers
     const sessionId = randomUUID();
