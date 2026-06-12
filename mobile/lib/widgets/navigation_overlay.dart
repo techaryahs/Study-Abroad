@@ -59,79 +59,62 @@ class _NavigationOverlayState extends State<NavigationOverlay> {
                     ],
                   ),
                   const SizedBox(height: 30),
-                  TextField(
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: "Search Country...",
-                      hintStyle: const TextStyle(color: Colors.white54),
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.white54,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(.05),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
                   _menuTile(
                     context,
                     "Home",
                     Icons.home_rounded,
                     "/",
                   ),
-                  ExpansionTile(
-                    collapsedIconColor: Colors.white,
-                    iconColor: const Color(0xFFC79A63),
-                    title: const Text(
-                      "Universities",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    children: [
-                      _subItem(context, "USA"),
-                      _subItem(context, "Canada"),
-                      _subItem(context, "UK"),
-                      _subItem(context, "Germany"),
-                      _subItem(context, "Australia"),
-                    ],
-                  ),
-                  ExpansionTile(
-                    collapsedIconColor: Colors.white,
-                    iconColor: const Color(0xFFC79A63),
-                    title: const Text(
-                      "Resources",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    children: [
-                      _subItem(context, "Scholarships"),
-                      _subItem(context, "Research Groups"),
-                      _subItem(context, "Education Loans"),
-                    ],
-                  ),
-                  ExpansionTile(
-                    collapsedIconColor: Colors.white,
-                    iconColor: const Color(0xFFC79A63),
-                    title: const Text(
-                      "AI Services",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    children: [
-                      _subItem(context, "Mock Interview AI"),
-                      _subItem(context, "SOP Generator"),
-                      _subItem(context, "AI Humanizer"),
-                    ],
-                  ),
+                  // ExpansionTile(
+                  //   collapsedIconColor: Colors.white,
+                  //   iconColor: const Color(0xFFC79A63),
+                  //   title: const Text(
+                  //     "Universities",
+                  //     style: TextStyle(
+                  //       color: Colors.white,
+                  //       fontWeight: FontWeight.w600,
+                  //     ),
+                  //   ),
+                  //   children: [
+                  //     _subItem(context, "USA"),
+                  //     _subItem(context, "Canada"),
+                  //     _subItem(context, "UK"),
+                  //     _subItem(context, "Germany"),
+                  //     _subItem(context, "Australia"),
+                  //   ],
+                  // ),
+                  // ExpansionTile(
+                  //   collapsedIconColor: Colors.white,
+                  //   iconColor: const Color(0xFFC79A63),
+                  //   title: const Text(
+                  //     "Resources",
+                  //     style: TextStyle(
+                  //       color: Colors.white,
+                  //       fontWeight: FontWeight.w600,
+                  //     ),
+                  //   ),
+                  //   children: [
+                  //     _subItem(context, "Scholarships"),
+                  //     _subItem(context, "Research Groups"),
+                  //     _subItem(context, "Education Loans"),
+                  //   ],
+                  // ),
+                  // ExpansionTile(
+                  //   collapsedIconColor: Colors.white,
+                  //   iconColor: const Color(0xFFC79A63),
+                  //   title: const Text(
+                  //     "AI Services",
+                  //     style: TextStyle(
+                  //       color: Colors.white,
+                  //       fontWeight: FontWeight.w600,
+                  //     ),
+                  //   ),
+                  //   children: [
+                  //     _subItem(context, "Mock Interview AI"),
+                  //     _subItem(context, "SOP Generator"),
+                  //     _subItem(context, "AI Humanizer"),
+                  //   ],
+                  // ),
                   _menuTile(
                     context,
                     "Services",
@@ -143,6 +126,24 @@ class _NavigationOverlayState extends State<NavigationOverlay> {
                     "Contact",
                     Icons.phone,
                     "/contact",
+                  ),
+                  _menuTile(
+                    context,
+                    "About",
+                    Icons.info_outline_rounded,
+                    "/about",
+                  ),
+                  _menuTile(
+                    context,
+                    "Terms & Condition",
+                    Icons.description_outlined,
+                    "/terms-condition",
+                  ),
+                  _menuTile(
+                    context,
+                    "Privacy & Policy",
+                    Icons.privacy_tip_outlined,
+                    "/privacy-policy",
                   ),
                   const SizedBox(height: 40),
                   SizedBox(
@@ -177,24 +178,72 @@ class _NavigationOverlayState extends State<NavigationOverlay> {
   }
 
   Widget _menuTile(
-    BuildContext context,
-    String title,
-    IconData icon,
-    String route,
-  ) {
-    return ListTile(
-      leading: Icon(icon, color: const Color(0xFFC79A63)),
-      title: Text(
-        title,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
+      BuildContext context,
+      String title,
+      IconData icon,
+      String route,
+      ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () {
+            Navigator.pop(context);
+            context.push(route);
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 18,
+              vertical: 16,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: Colors.white.withOpacity(.03),
+              border: Border.all(
+                color: Colors.white.withOpacity(.05),
+              ),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  width: 42,
+                  height: 42,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFC79A63).withOpacity(.15),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    icon,
+                    color: const Color(0xFFC79A63),
+                    size: 22,
+                  ),
+                ),
+
+                const SizedBox(width: 16),
+
+                Expanded(
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+
+                const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: Colors.white38,
+                  size: 15,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
-      onTap: () {
-        Navigator.pop(context);
-        context.push(route);
-      },
     );
   }
 

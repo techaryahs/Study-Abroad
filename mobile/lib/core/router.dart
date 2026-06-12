@@ -7,6 +7,8 @@ import '../features/home/home_screen.dart';
 import '../features/dashboard/dashboard_screen.dart';
 import '../features/cart/cart_screen.dart';
 import '../features/countries/countries_screen.dart';
+import '../features/privacy-policy/privacy-policy.dart';
+import '../features/terms-condition/terms-condition.dart';
 import '../features/universities/universities_screen.dart';
 import '../features/universities/university_countries_screen.dart';
 import '../features/universities/university_list_screen.dart';
@@ -143,6 +145,9 @@ class AppRouter {
             GoRoute(path: '/about', builder: (_, __) => const AboutScreen()),
             GoRoute(
                 path: '/contact', builder: (_, __) => const ContactScreen()),
+            GoRoute(path: '/terms-condition', builder: (_, __) => const TermsConditionScreen()),
+            GoRoute(path: '/privacy-policy', builder: (_, __) => const PrivacyPolicyScreen()),
+
             GoRoute(
                 path: '/success-stories',
                 builder: (_, __) => const SuccessStoriesScreen()),

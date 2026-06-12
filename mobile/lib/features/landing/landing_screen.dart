@@ -237,30 +237,11 @@ class LandingScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: 32),
                     // Hero Section
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: _cSurfaceContainerHigh,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: const Text(
-                              'ELITE CONSULTANCY',
-                              style: TextStyle(
-                                fontFamily: 'Manrope',
-                                color: _cPrimary,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1.2,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 24),
                           const Text(
                             'Education Leader Led Path to Ivy League & Top Global Universities',
                             textAlign: TextAlign.center,
@@ -322,54 +303,6 @@ class LandingScreen extends StatelessWidget {
                           ),
 
                         ],
-                      ),
-                    ),
-                    const SizedBox(height: 48),
-
-                    // Academic Progress Tracker
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Container(
-                        padding: const EdgeInsets.all(24),
-                        decoration: BoxDecoration(
-                          color: _cSurfaceContainerLowest,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: _cSurfaceContainerHigh),
-                          boxShadow: [
-                            BoxShadow(
-                              color: _cSecondary.withOpacity(0.04),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'YOUR ADMISSION JOURNEY',
-                                  style: TextStyle(fontFamily: 'Manrope', fontSize: 10, fontWeight: FontWeight.w700, color: _cOnSurfaceVariant, letterSpacing: 1.0),
-                                ),
-                                Text(
-                                  '45% COMPLETE',
-                                  style: TextStyle(fontFamily: 'Manrope', fontSize: 10, fontWeight: FontWeight.w700, color: _cPrimary, letterSpacing: 1.0),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 12),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: const LinearProgressIndicator(
-                                value: 0.45,
-                                minHeight: 8,
-                                backgroundColor: _cSurfaceContainerHigh,
-                                valueColor: AlwaysStoppedAnimation<Color>(_cPrimary),
-                              ),
-                            ),
-                          ],
-                        ),
                       ),
                     ),
                     const SizedBox(height: 48),
