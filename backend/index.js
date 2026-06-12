@@ -8,26 +8,38 @@ const http = require('http');
 const server = http.createServer(app);
 const setupWebRTCSignaling = require('./webrtc-signaling');
 const featureActivityRoutes = require("./routes/featureActivity.routes");
+const couponRoutes = require('./routes/couponRoutes');
+
+// ✅ FIXED: Proper CORS Configuration
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    process.env.FRONTEND_URL,
+  ].filter(Boolean),
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 // Middleware
-app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 const path = require("path");
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Database Connection
-connectDB()
-
-
-
+connectDB();
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
+
 // Routes
 app.use('/api/auth', require('./routes/auth.routes'));
 
+// 🎟️ Coupon Codes
+app.use('/api/coupons', couponRoutes);
 
 // 👤 User
 app.use("/api/user", require("./routes/user.routes"));
@@ -59,19 +71,14 @@ app.use('/api/payment', require('./routes/payment.routes'));
 app.use("/api/user", require("./routes/profile.routes"));
 
 // 👪 Parent
-// 👨‍👩‍👧 Parent Dashboard
 app.use("/api/parent", require("./routes/parent.routes"));
 
-
-// 💓 Activity Manager (Heartbeat & Stats)
+// 💓 Activity Manager
 app.use("/api/activity", require("./routes/activityRoutes"));
 
 app.use("/api/feature-activity", featureActivityRoutes);
 app.use("/api/research-groups", require("./routes/researchGroup.routes"));
 app.use("/api/reviews", require("./routes/review.routes"));
-
-
-
 
 // Setup WebRTC Signaling
 setupWebRTCSignaling(server);
@@ -82,6 +89,5 @@ module.exports = app;
 // Only listen if run directly (useful for local development)
 if (require.main === module) {
   const PORT = process.env.PORT || 5001;
-  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  server.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
 }
-
