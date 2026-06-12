@@ -15,8 +15,9 @@ interface CheckoutModalProps {
     onSuccess?: () => void;
 }
 
-// Razorpay script loading commented out
-/*
+const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+
+// ── Razorpay script loader ─────────────────────────────────────────────────
 function loadRazorpayScript(): Promise<boolean> {
     return new Promise((resolve) => {
         if ((window as any).Razorpay) return resolve(true);
@@ -27,7 +28,6 @@ function loadRazorpayScript(): Promise<boolean> {
         document.body.appendChild(script);
     });
 }
-*/
 
 export default function CheckoutModal({
     isOpen,
@@ -43,35 +43,66 @@ export default function CheckoutModal({
     const [error, setError] = useState<string | null>(null);
     const [receiptData, setReceiptData] = useState<any>(null);
 
+    // ── Coupon Code State ──────────────────────────────────────────────────
+    const [couponCode, setCouponCode] = useState("");
+    const [couponApplied, setCouponApplied] = useState(false);
+    const [couponDiscount, setCouponDiscount] = useState(0);
+    const [couponError, setCouponError] = useState<string | null>(null);
+    const [couponLoading, setCouponLoading] = useState(false);
+
+    // Final amounts after coupon discount
+    const finalTotal = Math.max(total - couponDiscount, 0);
+    const totalDiscount = discount + couponDiscount;
+
     const formatPrice = (price: number) =>
         price.toLocaleString(currency === "INR" ? "en-IN" : "en-US", {
             maximumFractionDigits: 2,
             minimumFractionDigits: 2,
         });
 
+    // ── Apply Coupon ──────────────────────────────────────────────────────
+    const handleApplyCoupon = async () => {
+        if (!couponCode.trim()) return;
+        setCouponLoading(true);
+        setCouponError(null);
+
+        try {
+            const res = await fetch(`${API_BASE}/api/coupons/apply`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code: couponCode, orderAmount: total }),
+            });
+            const data = await res.json();
+
+            if (!res.ok || !data.success) {
+                setCouponError(data.message || "Invalid coupon code");
+                setCouponApplied(false);
+                setCouponDiscount(0);
+                return;
+            }
+
+            setCouponDiscount(data.discount);
+            setCouponApplied(true);
+            setCouponError(null);
+        } catch {
+            setCouponError("Could not apply coupon. Try again.");
+        } finally {
+            setCouponLoading(false);
+        }
+    };
+
+    const handleRemoveCoupon = () => {
+        setCouponCode("");
+        setCouponApplied(false);
+        setCouponDiscount(0);
+        setCouponError(null);
+    };
+
+    // ── Razorpay Online Payment ─────────────────────────────────────────────
     const handlePayment = async () => {
         setIsProcessing(true);
         setError(null);
 
-        // Simulation of success without Razorpay
-        setTimeout(() => {
-            setIsProcessing(false);
-            setReceiptData({
-                paymentId: "OFFLINE_TEST_" + Date.now(),
-                userEmail: getUser()?.email || "test@example.com",
-                items: items.map(i => ({
-                    title: i.name || i.title,
-                    price: i.price
-                })),
-                subtotal,
-                discount,
-                total,
-                currency: currency || "INR"
-            });
-            if (onSuccess) onSuccess();
-        }, 1500);
-
-        /*
         const loaded = await loadRazorpayScript();
         if (!loaded) {
             setError("Failed to load payment gateway. Check your internet connection.");
@@ -87,15 +118,12 @@ export default function CheckoutModal({
         }
 
         try {
-            // Create order on backend
-            const res = await fetch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001"}/api/payment/create-order`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ amount: total, currency: currency || "INR" }),
-                }
-            );
+            // Create order on backend (amount after coupon discount)
+            const res = await fetch(`${API_BASE}/api/payment/create-order`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: finalTotal, currency: currency || "INR" }),
+            });
 
             if (!res.ok) throw new Error("Could not create payment order.");
             const order = await res.json();
@@ -108,9 +136,8 @@ export default function CheckoutModal({
                 name: "Global Counselling Centre",
                 description: items.map((i: any) => i.name || i.title || "Service").join(", "),
                 handler: async (response: any) => {
-                    const verifyRes = await fetch(
-                        `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001"}/api/payment/verify`,
-                        {
+                    try {
+                        const verifyRes = await fetch(`${API_BASE}/api/payment/verify`, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({
@@ -124,29 +151,35 @@ export default function CheckoutModal({
                                     serviceId: i.serviceId
                                 })),
                                 subtotal,
-                                discount,
-                                total,
+                                discount: totalDiscount,
+                                total: finalTotal,
+                                couponCode: couponApplied ? couponCode : null,
                                 currency: currency || "INR"
                             }),
+                        });
+
+                        if (verifyRes.ok) {
+                            const verifyData = await verifyRes.json();
+                            setReceiptData(verifyData.receipt);
+                            if (onSuccess) onSuccess();
+                        } else {
+                            setError("Payment verification failed. Please contact support.");
                         }
-                    );
-                    
-                    if (verifyRes.ok) {
-                        const verifyData = await verifyRes.json();
-                        setReceiptData(verifyData.receipt);
-                        if (onSuccess) onSuccess();
-                    } else {
+                    } catch {
                         setError("Payment verification failed. Please contact support.");
+                    } finally {
                         setIsProcessing(false);
                     }
                 },
-                prefill: { 
-                    name: user.name || "", 
-                    email: user.email || "", 
-                    contact: user.phone || "" 
+                prefill: {
+                    name: user.name || "",
+                    email: user.email || "",
+                    contact: user.phone || "",
                 },
                 theme: { color: "#302621" },
-                modal: { ondismiss: () => setIsProcessing(false) },
+                modal: {
+                    ondismiss: () => setIsProcessing(false),
+                },
             };
 
             const rzp = new (window as any).Razorpay(options);
@@ -155,7 +188,6 @@ export default function CheckoutModal({
             setError(err.message || "Something went wrong. Please try again.");
             setIsProcessing(false);
         }
-        */
     };
 
     if (!isOpen) return null;
@@ -199,7 +231,7 @@ export default function CheckoutModal({
                                     <span>{receiptData.currency} {formatPrice(receiptData.subtotal)}</span>
                                 </div>
                                 <div className="flex justify-between text-[11px] font-bold text-green-600">
-                                    <span>Discount Applied</span>
+                                    <span>Discount Applied{receiptData.couponCode ? ` (${receiptData.couponCode})` : ""}</span>
                                     <span>- {receiptData.currency} {formatPrice(receiptData.discount)}</span>
                                 </div>
                                 <div className="h-[1px] bg-black/5 my-2"></div>
@@ -261,14 +293,56 @@ export default function CheckoutModal({
                             <span className="opacity-80">Actual Amount:</span>
                             <span className="text-[#675F5B]/50 line-through">{currency} {formatPrice(subtotal)}</span>
                         </div>
+                        {couponApplied && (
+                            <div className="flex justify-between items-center text-[11px] font-black uppercase tracking-widest text-green-600">
+                                <span>Coupon Discount:</span>
+                                <span>- {currency} {formatPrice(couponDiscount)}</span>
+                            </div>
+                        )}
                         <div className="flex justify-between items-center text-[11px] font-black uppercase tracking-widest text-[#362B25]">
                             <span className="opacity-80">Amount:</span>
-                            <span className="text-red-600">{currency} {formatPrice(total)}</span>
+                            <span className="text-red-600">{currency} {formatPrice(finalTotal)}</span>
                         </div>
                         <div className="flex justify-between items-center text-[11px] font-black uppercase tracking-widest text-[#675F5B]/50">
                             <span>You Save:</span>
-                            <span>{currency} {formatPrice(discount)}</span>
+                            <span>{currency} {formatPrice(totalDiscount)}</span>
                         </div>
+                    </div>
+
+                    {/* Coupon Code Section */}
+                    <div className="mb-6">
+                        {!couponApplied ? (
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    placeholder="Enter coupon code"
+                                    value={couponCode}
+                                    onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                                    disabled={couponLoading}
+                                    className="flex-1 border border-black/10 rounded-2xl px-4 py-3 text-[11px] font-bold uppercase tracking-wider text-[#362B25] placeholder-black/30 outline-none focus:border-[#302621]/40"
+                                />
+                                <button
+                                    onClick={handleApplyCoupon}
+                                    disabled={couponLoading || !couponCode.trim()}
+                                    className="px-6 py-3 bg-[#302621] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest disabled:opacity-40 transition-all flex items-center justify-center min-w-[88px]"
+                                >
+                                    {couponLoading ? <Loader2 size={14} className="animate-spin" /> : "Apply"}
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="flex justify-between items-center bg-green-50 border border-green-200 rounded-2xl px-4 py-3">
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 size={14} className="text-green-600" />
+                                    <span className="text-[11px] font-black text-green-700 uppercase tracking-wider">{couponCode} Applied</span>
+                                </div>
+                                <button onClick={handleRemoveCoupon} className="text-[10px] font-bold text-red-500 uppercase">
+                                    Remove
+                                </button>
+                            </div>
+                        )}
+                        {couponError && (
+                            <p className="text-red-500 text-[10px] font-bold mt-2 px-1">{couponError}</p>
+                        )}
                     </div>
 
                     {error && (
@@ -283,10 +357,10 @@ export default function CheckoutModal({
                             onClick={handlePayment}
                             className="w-full bg-[#302621] text-white py-4 rounded-3xl font-black text-[11px] uppercase tracking-widest transition-all hover:bg-[#251d1a] shadow-lg active:scale-95 flex items-center justify-center h-[52px] disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                            {isProcessing ? <Loader2 size={16} className="animate-spin" /> : "Proceed (Offine Mode)"}
+                            {isProcessing ? <Loader2 size={16} className="animate-spin" /> : `Pay ${currency} ${formatPrice(finalTotal)}`}
                         </button>
                         <p className="text-[9px] text-[#675F5B] font-bold uppercase tracking-widest mt-4 opacity-70">
-                            Payment system currently in offline mode
+                            Secured by Razorpay
                         </p>
                     </div>
                 </div>
