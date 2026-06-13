@@ -141,22 +141,40 @@ export default function CouponAdminPage() {
 
   const isExpired = (date: string) => new Date(date) < new Date();
 
+  const statusBadge = (c: Coupon) => {
+    const expired = isExpired(c.expiryDate);
+    return (
+      <button
+        onClick={() => handleToggleActive(c)}
+        className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full whitespace-nowrap ${
+          expired
+            ? "bg-gray-100 text-gray-400"
+            : c.isActive
+            ? "bg-green-50 text-green-600"
+            : "bg-red-50 text-red-500"
+        }`}
+      >
+        {expired ? "Expired" : c.isActive ? "Active" : "Inactive"}
+      </button>
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-[#F7F5F3] p-6 md:p-10 font-sans">
+    <div className="min-h-screen bg-[#F7F5F3] p-4 sm:p-6 md:p-10 font-sans">
       <div className="max-w-5xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-10 h-10 rounded-xl bg-[#302621] flex items-center justify-center">
+        <div className="flex items-center gap-3 mb-6 sm:mb-8">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#302621] flex items-center justify-center flex-shrink-0">
             <Tag size={18} className="text-[#D4A848]" />
           </div>
           <div>
-            <h1 className="text-xl font-black text-[#362B25]">Coupon Codes</h1>
-            <p className="text-[11px] text-black/40 font-bold uppercase tracking-widest">Generate & manage discount coupons</p>
+            <h1 className="text-lg sm:text-xl font-black text-[#362B25]">Coupon Codes</h1>
+            <p className="text-[10px] sm:text-[11px] text-black/40 font-bold uppercase tracking-widest">Generate & manage discount coupons</p>
           </div>
         </div>
 
         {/* Create Form */}
-        <div className="bg-white rounded-2xl shadow-sm border border-black/5 p-6 mb-8">
-          <h2 className="text-[12px] font-black uppercase tracking-widest text-[#362B25] mb-4">Generate New Coupon</h2>
+        <div className="bg-white rounded-2xl shadow-sm border border-black/5 p-4 sm:p-6 mb-6 sm:mb-8">
+          <h2 className="text-[11px] sm:text-[12px] font-black uppercase tracking-widest text-[#362B25] mb-4">Generate New Coupon</h2>
 
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-600 text-[11px] font-bold rounded-lg px-4 py-2 mb-4">
@@ -164,9 +182,9 @@ export default function CouponAdminPage() {
             </div>
           )}
 
-          <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <form onSubmit={handleCreate} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {/* Code */}
-            <div className="md:col-span-2">
+            <div className="sm:col-span-2 md:col-span-2">
               <label className="block text-[10px] font-black uppercase tracking-widest text-black/40 mb-1.5">Coupon Code</label>
               <div className="flex gap-2">
                 <input
@@ -174,12 +192,12 @@ export default function CouponAdminPage() {
                   value={form.code}
                   onChange={(e) => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))}
                   placeholder="e.g. WELCOME100"
-                  className="flex-1 border border-black/10 rounded-xl px-4 py-2.5 text-[12px] font-bold uppercase tracking-wider text-[#362B25] placeholder-black/30 outline-none focus:border-[#302621]/40"
+                  className="flex-1 min-w-0 border border-black/10 rounded-xl px-4 py-2.5 text-[12px] font-bold uppercase tracking-wider text-[#362B25] placeholder-black/30 outline-none focus:border-[#302621]/40"
                 />
                 <button
                   type="button"
                   onClick={generateRandomCode}
-                  className="px-4 py-2.5 bg-black/5 hover:bg-black/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-[#362B25] transition-all"
+                  className="px-3 sm:px-4 py-2.5 bg-black/5 hover:bg-black/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-[#362B25] transition-all whitespace-nowrap"
                 >
                   Random
                 </button>
@@ -263,11 +281,11 @@ export default function CouponAdminPage() {
             </div>
 
             {/* Submit */}
-            <div className="md:col-span-3 flex justify-end">
+            <div className="sm:col-span-2 md:col-span-3 flex justify-stretch sm:justify-end">
               <button
                 type="submit"
                 disabled={creating}
-                className="flex items-center gap-2 bg-[#302621] text-white px-6 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-[#251d1a] transition-all disabled:opacity-50"
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#302621] text-white px-6 py-3 rounded-xl text-[11px] font-black uppercase tracking-widest hover:bg-[#251d1a] transition-all disabled:opacity-50"
               >
                 {creating ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
                 Create Coupon
@@ -278,8 +296,8 @@ export default function CouponAdminPage() {
 
         {/* Coupon List */}
         <div className="bg-white rounded-2xl shadow-sm border border-black/5 overflow-hidden">
-          <div className="px-6 py-4 border-b border-black/5">
-            <h2 className="text-[12px] font-black uppercase tracking-widest text-[#362B25]">All Coupons ({coupons.length})</h2>
+          <div className="px-4 sm:px-6 py-4 border-b border-black/5">
+            <h2 className="text-[11px] sm:text-[12px] font-black uppercase tracking-widest text-[#362B25]">All Coupons ({coupons.length})</h2>
           </div>
 
           {loading ? (
@@ -291,23 +309,80 @@ export default function CouponAdminPage() {
               No coupons yet
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="text-[9px] font-black uppercase tracking-widest text-black/30 border-b border-black/5">
-                    <th className="px-6 py-3">Code</th>
-                    <th className="px-6 py-3">Discount</th>
-                    <th className="px-6 py-3">Min Order</th>
-                    <th className="px-6 py-3">Usage</th>
-                    <th className="px-6 py-3">Expiry</th>
-                    <th className="px-6 py-3">Status</th>
-                    <th className="px-6 py-3 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {coupons.map((c) => {
-                    const expired = isExpired(c.expiryDate);
-                    return (
+            <>
+              {/* Mobile / Tablet: Card view */}
+              <div className="md:hidden divide-y divide-black/5">
+                {coupons.map((c) => (
+                  <div key={c._id} className="p-4 space-y-2.5">
+                    <div className="flex justify-between items-start gap-2">
+                      <button
+                        onClick={() => handleCopy(c.code)}
+                        className="flex items-center gap-2 font-black text-[13px] text-[#362B25] tracking-wider break-all"
+                      >
+                        {c.code}
+                        {copiedCode === c.code ? (
+                          <CheckCircle2 size={13} className="text-green-500 flex-shrink-0" />
+                        ) : (
+                          <Copy size={13} className="text-black/20 flex-shrink-0" />
+                        )}
+                      </button>
+                      <button
+                        onClick={() => handleDelete(c._id)}
+                        className="text-black/20 hover:text-red-500 transition-all flex-shrink-0 p-1"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
+
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-black/40 uppercase tracking-widest text-[9px]">Discount</span>
+                      <span className="text-[#362B25]">
+                        {c.discountType === "percentage" ? `${c.discountValue}%` : `₹${c.discountValue}`}
+                        {c.maxDiscount ? <span className="text-black/30 text-[10px]"> (max ₹{c.maxDiscount})</span> : ""}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-black/40 uppercase tracking-widest text-[9px]">Min Order</span>
+                      <span className="text-black/60">₹{c.minOrderAmount}</span>
+                    </div>
+
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-black/40 uppercase tracking-widest text-[9px]">Usage</span>
+                      <span className="text-black/60">{c.usedCount} / {c.usageLimit}</span>
+                    </div>
+
+                    <div className="flex justify-between text-[11px] font-bold">
+                      <span className="text-black/40 uppercase tracking-widest text-[9px]">Expiry</span>
+                      <span className="text-black/60">
+                        {new Date(c.expiryDate).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
+                      </span>
+                    </div>
+
+                    <div className="flex justify-between items-center pt-1">
+                      <span className="text-black/40 uppercase tracking-widest text-[9px] font-bold">Status</span>
+                      {statusBadge(c)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Desktop: Table view */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full text-left">
+                  <thead>
+                    <tr className="text-[9px] font-black uppercase tracking-widest text-black/30 border-b border-black/5">
+                      <th className="px-6 py-3">Code</th>
+                      <th className="px-6 py-3">Discount</th>
+                      <th className="px-6 py-3">Min Order</th>
+                      <th className="px-6 py-3">Usage</th>
+                      <th className="px-6 py-3">Expiry</th>
+                      <th className="px-6 py-3">Status</th>
+                      <th className="px-6 py-3 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {coupons.map((c) => (
                       <tr key={c._id} className="border-b border-black/5 hover:bg-black/[0.015] transition-all">
                         <td className="px-6 py-4">
                           <button
@@ -331,20 +406,7 @@ export default function CouponAdminPage() {
                         <td className="px-6 py-4 text-[12px] font-bold text-black/50">
                           {new Date(c.expiryDate).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
                         </td>
-                        <td className="px-6 py-4">
-                          <button
-                            onClick={() => handleToggleActive(c)}
-                            className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
-                              expired
-                                ? "bg-gray-100 text-gray-400"
-                                : c.isActive
-                                ? "bg-green-50 text-green-600"
-                                : "bg-red-50 text-red-500"
-                            }`}
-                          >
-                            {expired ? "Expired" : c.isActive ? "Active" : "Inactive"}
-                          </button>
-                        </td>
+                        <td className="px-6 py-4">{statusBadge(c)}</td>
                         <td className="px-6 py-4 text-right">
                           <button
                             onClick={() => handleDelete(c._id)}
@@ -354,11 +416,11 @@ export default function CouponAdminPage() {
                           </button>
                         </td>
                       </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
           )}
         </div>
       </div>
