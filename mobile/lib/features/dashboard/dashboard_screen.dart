@@ -956,6 +956,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return Column(
           children: [
             _premiumInfoRow(Icons.person, 'FULL NAME', _userData?['name'] ?? '—'),
+            if (profile['bio'] != null && profile['bio'].toString().isNotEmpty)
+              _premiumInfoRow(Icons.info_outline, 'BIO', profile['bio']),
             _premiumInfoRow(Icons.location_on, 'LOCATION', _userData?['country'] ?? '—'),
             _premiumInfoRow(Icons.calendar_today, 'JOINED', 'Sep 2025'),
           ],
@@ -1102,18 +1104,84 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ],
                 ),
               ),
-              if (items.isNotEmpty) ...items.map((it) => Container(
-                padding: const EdgeInsets.all(16),
-                margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
-                decoration: BoxDecoration(
-                  color: AppTheme.background,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(child: Text(it['role'] ?? it['title'] ?? 'Record', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900))),
-                    const Icon(Icons.chevron_right, color: AppTheme.textMuted, size: 16),
-                  ],
+              if (items.isNotEmpty) ...items.map((it) => GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => Container(
+                      padding: const EdgeInsets.all(32),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(36)),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text((it['role'] ?? it['title'] ?? 'DETAILS').toString().toUpperCase(), 
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, fontFamily: 'Playfair Display', letterSpacing: 1.5)),
+                              IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close)),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+                          if (it['organization'] != null) ...[
+                            const Text('ORGANIZATION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
+                            const SizedBox(height: 4),
+                            Text(it['organization'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 16),
+                          ],
+                          if (it['category'] != null) ...[
+                            const Text('CATEGORY', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
+                            const SizedBox(height: 4),
+                            Text(it['category'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 16),
+                          ],
+                          if (it['description'] != null) ...[
+                            const Text('DESCRIPTION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
+                            const SizedBox(height: 4),
+                            Text(it['description'], style: const TextStyle(fontSize: 14, height: 1.5)),
+                            const SizedBox(height: 24),
+                          ],
+                          SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                Navigator.pop(context);
+                                final updated = await context.push('/dashboard/edit', extra: _userData);
+                                if (updated == true) _fetchData();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.background,
+                                foregroundColor: AppTheme.textPrimary,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                elevation: 0,
+                              ),
+                              child: const Text('EDIT IN PROFILE', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.fromLTRB(12, 0, 12, 12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.background,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(child: Text(it['role'] ?? it['title'] ?? 'Record', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900))),
+                      const Icon(Icons.chevron_right, color: AppTheme.textMuted, size: 16),
+                    ],
+                  ),
                 ),
               )),
             ],

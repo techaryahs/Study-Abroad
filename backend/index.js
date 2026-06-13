@@ -12,13 +12,25 @@ const featureActivityRoutes = require("./routes/featureActivity.routes");
 // Middleware
 // app.use(cors());
 
+const allowedOrigins = [
+  "https://iec.aryahsworld.com",
+  "http://localhost:5173",
+  "http://localhost:3000",
+];
+
 app.use(
   cors({
-    origin: [
-      "https://iec.aryahsworld.com",
-      "http://localhost:5173",
-      "http://localhost:3000"
-    ],
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        /^http:\/\/localhost:\d+$/.test(origin) ||
+        /^http:\/\/127\.0\.0\.1:\d+$/.test(origin)
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

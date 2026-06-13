@@ -11,9 +11,35 @@ exports.getProfile = async (req, res) => {
     if (!result) return res.status(404).json({ message: "User not found" });
 
     const { user } = result;
-    // Populate bookings/sessions if it's a student (which usually has these)
-    if (user.profile && user.profile.populate) {
-       await user.populate("profile.myBookings profile.mySessions");
+
+    // Ensure all nested array items have an _id (important for User schema where they are Mixed)
+    let profileModified = false;
+    if (user.profile) {
+      const mongoose = require("mongoose");
+      const validSections = [
+        "highSchool", "underGrad", "masters", "testScores", "workExperience",
+        "research", "projects", "volunteering", "targetUniversities"
+      ];
+      for (const section of validSections) {
+        if (Array.isArray(user.profile[section])) {
+          for (let i = 0; i < user.profile[section].length; i++) {
+            if (!user.profile[section][i]._id) {
+              user.profile[section][i]._id = new mongoose.Types.ObjectId();
+              profileModified = true;
+            }
+          }
+        }
+      }
+      if (profileModified) {
+        user.markModified('profile');
+        await user.save();
+      }
+
+      // Populate bookings/sessions if available in schema
+      await user.populate([
+        { path: "profile.myBookings", strictPopulate: false },
+        { path: "profile.mySessions", strictPopulate: false }
+      ]);
     }
 
     res.json(user);
@@ -109,13 +135,22 @@ exports.addProfileItem = async (req, res) => {
       return res.status(400).json({ message: "Invalid profile section" });
     }
 
-    const user = await Student.findById(userId);
-    if (!user) return res.status(404).json({ message: "Student not found" });
+    const result = await findUserById(userId);
+    if (!result) return res.status(404).json({ message: "User not found" });
+
+    const { user } = result;
 
     if (!user.profile) user.profile = {};
     if (!user.profile[section]) user.profile[section] = [];
 
+    // Ensure _id exists for Mixed schemas
+    const mongoose = require("mongoose");
+    if (!data._id) {
+      data._id = new mongoose.Types.ObjectId();
+    }
+
     user.profile[section].push(data);
+    user.markModified(`profile.${section}`);
     await user.save();
 
     res.json({
@@ -140,19 +175,20 @@ exports.updateProfileItem = async (req, res) => {
     if (!userId) return res.status(401).json({ message: "Authentication required" });
     if (!section || !itemId || !data) return res.status(400).json({ message: "Missing information" });
 
-    const user = await Student.findById(userId);
-    if (!user) return res.status(404).json({ message: "Student not found" });
+    const result = await findUserById(userId);
+    if (!result) return res.status(404).json({ message: "User not found" });
+    const { user } = result;
 
     if (!user.profile || !user.profile[section]) {
       return res.status(404).json({ message: "Section not found" });
     }
 
-    const itemIndex = user.profile[section].findIndex(item => item._id.toString() === itemId);
+    const itemIndex = user.profile[section].findIndex(item => item._id && item._id.toString() === itemId);
     if (itemIndex === -1) {
       return res.status(404).json({ message: "Item not found" });
     }
 
-    user.profile[section][itemIndex] = { ...user.profile[section][itemIndex].toObject(), ...data };
+    user.profile[section][itemIndex] = { ...user.profile[section][itemIndex], ...data };
     user.markModified(`profile.${section}`);
     await user.save();
 
@@ -171,14 +207,15 @@ exports.deleteProfileItem = async (req, res) => {
     if (!userId) return res.status(401).json({ message: "Authentication required" });
     if (!section || !itemId) return res.status(400).json({ message: "Missing section or itemId" });
 
-    const user = await Student.findById(userId);
-    if (!user) return res.status(404).json({ message: "Student not found" });
+    const result = await findUserById(userId);
+    if (!result) return res.status(404).json({ message: "User not found" });
+    const { user } = result;
 
     if (!user.profile || !user.profile[section]) {
       return res.status(404).json({ message: "Section not found" });
     }
 
-    user.profile[section] = user.profile[section].filter(item => item._id.toString() !== itemId);
+    user.profile[section] = user.profile[section].filter(item => item._id && item._id.toString() !== itemId);
     user.markModified(`profile.${section}`);
     await user.save();
 

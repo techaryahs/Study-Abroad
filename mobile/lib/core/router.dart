@@ -196,6 +196,10 @@ class AppRouter {
             ),
             GoRoute(
               path: '/dashboard/edit',
+              redirect: (context, state) {
+                if (state.extra == null) return '/dashboard';
+                return null;
+              },
               builder: (context, state) => EditProfileScreen(
                 userData: Map<String, dynamic>.from(state.extra as Map),
               ),
