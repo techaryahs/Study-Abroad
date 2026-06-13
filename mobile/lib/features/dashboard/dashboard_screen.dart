@@ -143,6 +143,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
         ),
+        ),
       ),
     );
   }
@@ -251,6 +252,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ],
           ),
+        ),
         ),
       ),
     );
@@ -1172,6 +1174,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           )
                         ],
                       ),
+                    ),
                     ),
                   );
                 },
