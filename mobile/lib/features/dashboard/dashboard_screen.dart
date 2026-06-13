@@ -32,8 +32,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (pickedFile == null) return;
 
     try {
+      final bytes = await pickedFile.readAsBytes();
       final formData = FormData.fromMap({
-        'profileImage': await MultipartFile.fromFile(pickedFile.path, filename: 'photo.jpg'),
+        'profileImage': MultipartFile.fromBytes(bytes, filename: pickedFile.name),
       });
       await ApiClient.instance.put('/api/user/profile/${_userData!['_id']}', data: formData);
       _fetchData(); // Refresh to show new photo
