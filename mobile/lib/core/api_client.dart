@@ -28,7 +28,7 @@ class ApiClient {
   /// Live Render backend
   // static const String baseUrl = 'https://study-abroad-backend-pfjq.onrender.com';
   // static const String baseUrl = 'https://study-abroad-backend-pfjq.onrender.com';
-  // static const String baseUrl = 'https://api.studyabarod.aryahsworld.com';
+  static const String baseUrl = 'https://api.studyabarod.aryahsworld.com';
   
   /// Local Backend (Uncomment for local testing)
   // static const String baseUrl = 'http://10.0.2.2:5001'; // For Android Emulator
