@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { getUser, getToken, removeToken } from "@/app/lib/token";
 import { Video, Calendar, Clock, User, X, CheckCircle,
-         Lock, Key, Eye, EyeOff, LogOut, ChevronRight } from "lucide-react";
+         Lock, Key, Eye, EyeOff, LogOut, ChevronRight, Tag } from "lucide-react";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 interface CounsellingSession {
@@ -21,7 +21,7 @@ interface CounsellingSession {
   createdAt: string;
 }
 
-type ActiveTab = "active" | "past" | "profile";
+type ActiveTab = "active" | "past" | "profile" | "coupons";
 type PasswordModal = "none" | "change" | "forgot";
 type ForgotStep = 1 | 2;
 
@@ -174,7 +174,6 @@ function ChangePasswordModal({ onClose, onForgot, token }: {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
       <div className="relative w-full max-w-md bg-[#0d0f12] border border-white/8 rounded-2xl p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
-        {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-xl bg-[#c2a878]/10 flex items-center justify-center">
             <Lock size={18} className="text-[#c2a878]" />
@@ -194,7 +193,6 @@ function ChangePasswordModal({ onClose, onForgot, token }: {
           <PasswordInput label="Confirm New Password" value={confirm} onChange={setConfirm} />
         </div>
 
-        {/* Forgot link */}
         <button onClick={onForgot}
           className="mt-3 text-[14px] font-bold font-black text-[#c2a878]/60 hover:text-[#c2a878] transition-colors float-right uppercase tracking-wider">
           Forgot current password?
@@ -209,7 +207,7 @@ function ChangePasswordModal({ onClose, onForgot, token }: {
   );
 }
 
-// ─── Forgot Password Modal (3 steps) ─────────────────────────────────────────
+// ─── Forgot Password Modal ─────────────────────────────────────────────────────
 function ForgotPasswordModal({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState<ForgotStep>(1);
   const [email, setEmail] = useState("");
@@ -248,7 +246,6 @@ function ForgotPasswordModal({ onClose }: { onClose: () => void }) {
     if (!PW_REGEX.test(newPw)) { setMsg("Min 8 chars with uppercase, lowercase & number"); return; }
     setLoading(true);
     try {
-      // Step 1: Verify OTP
       const verifyRes = await fetch(`${BACKEND}/api/auth/admin/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -256,8 +253,7 @@ function ForgotPasswordModal({ onClose }: { onClose: () => void }) {
       });
       const verifyData = await verifyRes.json();
       if (!verifyRes.ok) throw new Error(verifyData.error || verifyData.message || "OTP verification failed");
-      
-      // Step 2: Reset password
+
       const res = await fetch(`${BACKEND}/api/auth/admin/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -277,7 +273,6 @@ function ForgotPasswordModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
       <div className="relative w-full max-w-md bg-[#0d0f12] border border-white/8 rounded-2xl p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
-        {/* Header */}
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-xl bg-[#c2a878]/10 flex items-center justify-center">
             <Key size={18} className="text-[#c2a878]" />
@@ -291,7 +286,6 @@ function ForgotPasswordModal({ onClose }: { onClose: () => void }) {
           <button onClick={onClose} className="text-white/30 hover:text-white transition-colors"><X size={18} /></button>
         </div>
 
-        {/* Progress bar */}
         <div className="flex gap-1 mb-5">
           <div className="h-1 flex-1 rounded-full bg-[#c2a878]" />
           <div className={`h-1 flex-1 rounded-full transition-all ${step === 2 ? "bg-[#c2a878]" : "bg-white/10"}`} />
@@ -340,7 +334,6 @@ function ProfileTab({ user, token, onLogout }: {
 
   return (
     <>
-      {/* Profile card */}
       <div className="bg-[#c2a878]/[0.03] border border-[#c2a878]/10 rounded-2xl p-6 mb-6">
         <div className="flex items-center gap-5">
           <div className="w-16 h-16 rounded-2xl bg-[#c2a878]/10 flex items-center justify-center">
@@ -356,7 +349,6 @@ function ProfileTab({ user, token, onLogout }: {
         </div>
       </div>
 
-      {/* Actions */}
       <div className="space-y-3 mb-6">
         {profileActions.map(({ id, icon: Icon, label, desc, onClick }) => (
           <button
@@ -377,7 +369,6 @@ function ProfileTab({ user, token, onLogout }: {
         ))}
       </div>
 
-      {/* Modals */}
       {modal === "change" && (
         <ChangePasswordModal
           token={token}
@@ -389,6 +380,35 @@ function ProfileTab({ user, token, onLogout }: {
         <ForgotPasswordModal onClose={() => setModal("none")} />
       )}
     </>
+  );
+}
+
+// ─── Coupons Tab ──────────────────────────────────────────────────────────────
+function CouponsTab() {
+  const router = useRouter();
+  return (
+    <div className="space-y-4">
+      <div className="bg-[#c2a878]/[0.03] border border-[#c2a878]/10 rounded-2xl p-6">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-12 h-12 rounded-2xl bg-[#c2a878]/10 flex items-center justify-center">
+            <Tag size={22} className="text-[#c2a878]" />
+          </div>
+          <div>
+            <h3 className="text-lg font-black text-white">Coupon Management</h3>
+            <p className="text-[12px] text-white/40 font-bold uppercase tracking-widest">Create & manage discount codes</p>
+          </div>
+        </div>
+        <p className="text-[13px] text-white/50 mb-6 leading-relaxed">
+          Generate coupon codes for your users. Set flat or percentage discounts, expiry dates, and usage limits.
+        </p>
+        <button
+          onClick={() => router.push("/admin-dashboard/coupons")}
+          className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95"
+        >
+          <Tag size={14} /> Manage Coupons →
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -475,6 +495,7 @@ export default function AdminDashboard() {
     { id: "active",  label: `Active (${activeSessions.length})` },
     { id: "past",    label: `Past (${pastSessions.length})` },
     { id: "profile", label: "Profile" },
+    { id: "coupons", label: "🎟 Coupons" },
   ];
 
   return (
@@ -605,6 +626,10 @@ export default function AdminDashboard() {
         {activeTab === "profile" && (
           <ProfileTab user={adminUser} token={adminToken} onLogout={handleLogout} />
         )}
+
+        {/* Coupons Tab */}
+        {activeTab === "coupons" && <CouponsTab />}
+
       </div>
     </div>
   );
