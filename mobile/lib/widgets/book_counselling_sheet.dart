@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:dio/dio.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../features/auth/auth_provider.dart';
@@ -47,6 +48,18 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
   bool _eligibilityLoading = false;
   Map<String, dynamic>? _freeEligibility;
 
+  // OTP State
+  bool _emailVerified = false;
+  bool _mobileVerified = false;
+  bool _emailOtpSent = false;
+  bool _mobileOtpSent = false;
+  final _emailOtpCtrl = TextEditingController();
+  final _mobileOtpCtrl = TextEditingController();
+  bool _emailOtpLoading = false;
+  bool _mobileOtpLoading = false;
+  String _emailOtpError = '';
+  String _mobileOtpError = '';
+
   // Step 4: Confirmation
   Map<String, dynamic>? _bookingResult;
 
@@ -66,6 +79,11 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       _nameCtrl.text = user['fullName'] ?? user['name'] ?? '';
       _emailCtrl.text = user['email'] ?? '';
       _phoneCtrl.text = user['mobile'] ?? user['phone'] ?? '';
+      
+      // Auto-verify if logged in
+      _emailVerified = true;
+      _mobileVerified = true;
+
       if (_emailCtrl.text.isNotEmpty) {
         await _checkFreeEligibility(_emailCtrl.text);
       }
@@ -77,6 +95,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     _nameCtrl.dispose();
     _emailCtrl.dispose();
     _phoneCtrl.dispose();
+    _emailOtpCtrl.dispose();
+    _mobileOtpCtrl.dispose();
     super.dispose();
   }
 
@@ -238,8 +258,8 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     final eligibility = await _checkFreeEligibility(_emailCtrl.text.trim());
 
     if ((eligibility ?? _freeEligibility)?['eligible'] == true) {
-      debugPrint('Free booking eligible - skipping payment');
-      await _finalizeBooking(isFreeBooking: true);
+      debugPrint('Free booking eligible - OTP verification required');
+      await _verifyAndBookFreeSession();
       return;
     }
 
@@ -294,12 +314,24 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         _bookingLoading = false;
       });
     } catch (e) {
-      setState(() {
-        _error = isFreeBooking
-            ? 'Booking failed. Please try again.'
-            : 'Payment was successful but booking failed. Please contact support.';
-        _bookingLoading = false;
-      });
+      if (e is DioException) {
+        final msg = e.response?.data?['message']?.toString() ??
+            e.response?.data.toString() ??
+            e.message?.toString();
+
+        setState(() {
+          _error = msg ?? 'An unexpected error occurred';
+          _bookingLoading = false;
+        });
+
+        debugPrint('STATUS: ${e.response?.statusCode}');
+        debugPrint('DATA: ${e.response?.data}');
+      } else {
+        setState(() {
+          _error = e.toString();
+          _bookingLoading = false;
+        });
+      }
     }
   }
 
@@ -1059,6 +1091,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           keyboardType: TextInputType.emailAddress,
           onSubmitted: (value) => _checkFreeEligibility(value),
           style: const TextStyle(fontSize: 14),
+          enabled: !_emailVerified,
           decoration: InputDecoration(
             hintText: 'Email Address *',
             filled: true,
@@ -1071,14 +1104,54 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                 borderSide: const BorderSide(color: AppTheme.borderLight)),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            suffixIcon: _emailVerified 
+                ? const Icon(Icons.check_circle, color: Colors.green)
+                : TextButton(
+                    onPressed: _emailOtpLoading || _emailCtrl.text.isEmpty ? null : _sendEmailOtp,
+                    child: _emailOtpLoading ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)) : Text(_emailOtpSent ? 'RESEND' : 'SEND OTP', style: const TextStyle(color: AppTheme.gold, fontWeight: FontWeight.bold, fontSize: 12)),
+                  ),
           ),
         ),
+        if (_emailOtpSent && !_emailVerified) ...[
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _emailOtpCtrl,
+                  keyboardType: TextInputType.number,
+                  maxLength: 6,
+                  decoration: InputDecoration(
+                    counterText: '',
+                    hintText: 'Enter Email OTP',
+                    filled: true,
+                    fillColor: AppTheme.background.withOpacity(0.3),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: _emailOtpLoading ? null : _verifyEmailOtp,
+                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.gold, foregroundColor: AppTheme.darkBrown, padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                child: const Text('VERIFY', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
+        ],
+        if (_emailOtpError.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(_emailOtpError, style: const TextStyle(color: Colors.red, fontSize: 12)),
+        ],
         const SizedBox(height: 12),
         // Phone
         TextField(
           controller: _phoneCtrl,
           keyboardType: TextInputType.phone,
           style: const TextStyle(fontSize: 14),
+          enabled: !_mobileVerified,
           decoration: InputDecoration(
             hintText: 'Phone Number *',
             filled: true,
@@ -1091,8 +1164,47 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                 borderSide: const BorderSide(color: AppTheme.borderLight)),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            suffixIcon: _mobileVerified 
+                ? const Icon(Icons.check_circle, color: Colors.green)
+                : TextButton(
+                    onPressed: _mobileOtpLoading || _phoneCtrl.text.isEmpty ? null : _sendMobileOtp,
+                    child: _mobileOtpLoading ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)) : Text(_mobileOtpSent ? 'RESEND' : 'SEND OTP', style: const TextStyle(color: AppTheme.gold, fontWeight: FontWeight.bold, fontSize: 12)),
+                  ),
           ),
         ),
+        if (_mobileOtpSent && !_mobileVerified) ...[
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _mobileOtpCtrl,
+                  keyboardType: TextInputType.number,
+                  maxLength: 6,
+                  decoration: InputDecoration(
+                    counterText: '',
+                    hintText: 'Enter Mobile OTP',
+                    filled: true,
+                    fillColor: AppTheme.background.withOpacity(0.3),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: const BorderSide(color: AppTheme.borderLight)),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              ElevatedButton(
+                onPressed: _mobileOtpLoading ? null : _verifyMobileOtp,
+                style: ElevatedButton.styleFrom(backgroundColor: AppTheme.gold, foregroundColor: AppTheme.darkBrown, padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                child: const Text('VERIFY', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ],
+          ),
+        ],
+        if (_mobileOtpError.isNotEmpty) ...[
+          const SizedBox(height: 4),
+          Text(_mobileOtpError, style: const TextStyle(color: Colors.red, fontSize: 12)),
+        ],
         const SizedBox(height: 12),
         // Price
         if (!_isFreeEligible) ...[
@@ -1248,6 +1360,188 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
                 color: AppTheme.textPrimary)),
       ],
     );
+  }
+
+  Future<void> _sendEmailOtp() async {
+    setState(() {
+      _emailOtpLoading = true;
+      _emailOtpError = '';
+    });
+    try {
+      await ApiClient.instance.post(
+        '/api/book-counselling/send-email-otp',
+        data: {
+          'email': _emailCtrl.text.trim(),
+          'mobile': _phoneCtrl.text.trim().isNotEmpty ? _phoneCtrl.text.trim() : null,
+        },
+      );
+      setState(() {
+        _emailOtpSent = true;
+        _emailOtpLoading = false;
+      });
+    } on DioException catch (e) {
+      final msg = e.response?.data?['error']?.toString() ?? e.message?.toString();
+      setState(() {
+        _emailOtpError = msg ?? 'Failed to send email OTP';
+        _emailOtpLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _emailOtpError = e.toString();
+        _emailOtpLoading = false;
+      });
+    }
+  }
+
+  Future<void> _verifyEmailOtp() async {
+    setState(() {
+      _emailOtpLoading = true;
+      _emailOtpError = '';
+    });
+    try {
+      await ApiClient.instance.post(
+        '/api/book-counselling/verify-email-otp',
+        data: {
+          'email': _emailCtrl.text.trim(),
+          'otp': _emailOtpCtrl.text.trim(),
+        },
+      );
+      setState(() {
+        _emailVerified = true;
+        _emailOtpLoading = false;
+        _emailOtpError = '';
+      });
+    } on DioException catch (e) {
+      final msg = e.response?.data?['error']?.toString() ?? e.message?.toString();
+      setState(() {
+        _emailOtpError = msg ?? 'Invalid OTP';
+        _emailOtpLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _emailOtpError = e.toString();
+        _emailOtpLoading = false;
+      });
+    }
+  }
+
+  Future<void> _sendMobileOtp() async {
+    setState(() {
+      _mobileOtpLoading = true;
+      _mobileOtpError = '';
+    });
+    try {
+      await ApiClient.instance.post(
+        '/api/bookings/send-booking-otp',
+        data: {
+          'email': _emailCtrl.text.trim(),
+          'mobile': _phoneCtrl.text.trim(),
+        },
+      );
+      setState(() {
+        _mobileOtpSent = true;
+        _mobileOtpLoading = false;
+      });
+    } on DioException catch (e) {
+      final msg = e.response?.data?['error']?.toString() ?? e.message?.toString();
+      setState(() {
+        _mobileOtpError = msg ?? 'Failed to send mobile OTP';
+        _mobileOtpLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _mobileOtpError = e.toString();
+        _mobileOtpLoading = false;
+      });
+    }
+  }
+
+  Future<void> _verifyMobileOtp() async {
+    setState(() {
+      _mobileOtpLoading = true;
+      _mobileOtpError = '';
+    });
+    try {
+      await ApiClient.instance.post(
+        '/api/bookings/verify-booking-otp',
+        data: {
+          'mobile': _phoneCtrl.text.trim(),
+          'otp': _mobileOtpCtrl.text.trim(),
+        },
+      );
+      setState(() {
+        _mobileVerified = true;
+        _mobileOtpLoading = false;
+        _mobileOtpError = '';
+      });
+    } on DioException catch (e) {
+      final msg = e.response?.data?['error']?.toString() ?? e.message?.toString();
+      setState(() {
+        _mobileOtpError = msg ?? 'Invalid OTP';
+        _mobileOtpLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _mobileOtpError = e.toString();
+        _mobileOtpLoading = false;
+      });
+    }
+  }
+
+  Future<void> _createBasicAccount() async {
+    // Explicitly pass client: 'web' to ensure backend enforces dual verification
+    // even though the request comes from Dart.
+    await ApiClient.instance.post(
+      '/api/auth/create-basic-account',
+      data: {
+        'name': _nameCtrl.text.trim(),
+        'email': _emailCtrl.text.trim(),
+        'phone': _phoneCtrl.text.trim(),
+        'client': 'web',
+      },
+    );
+  }
+
+  Future<void> _verifyAndBookFreeSession() async {
+    if (!_emailVerified || !_mobileVerified) {
+      setState(() {
+        _error = 'Please verify both Email and Mobile to continue.';
+      });
+      return;
+    }
+
+    setState(() {
+      _bookingLoading = true;
+      _error = '';
+    });
+    try {
+      final authProvider = context.read<AuthProvider>();
+      if (!authProvider.isLoggedIn) {
+        await _createBasicAccount();
+      }
+      await _finalizeBooking(isFreeBooking: true);
+    } on DioException catch (e) {
+      final data = e.response?.data;
+
+      if (e.response?.statusCode == 409 &&
+          data is Map &&
+          data['code'] == 'LOGIN_REQUIRED') {
+        // Existing account -> book directly
+        await _finalizeBooking(isFreeBooking: true);
+        return;
+      }
+
+      final msg = data is Map ? (data['message'] ?? data['error'])?.toString() : null;
+      setState(() {
+        _error = msg ?? e.message ?? 'Verification failed';
+        _bookingLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _bookingLoading = false;
+      });
+    }
   }
 
   Future<void> _enterDetailsStep() async {

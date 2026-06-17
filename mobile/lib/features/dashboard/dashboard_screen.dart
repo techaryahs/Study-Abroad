@@ -6,6 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:study_abroad/features/dashboard/widgets/profile_recommendation_card.dart';
 import 'package:study_abroad/features/dashboard/widgets/profile_progress_bar.dart';
+import 'package:study_abroad/features/dashboard/widgets/dashboard_header.dart';
+import 'package:study_abroad/features/dashboard/widgets/quick_actions_grid.dart';
+import 'package:study_abroad/features/dashboard/widgets/dashboard_progress_section.dart';
+import 'package:study_abroad/features/dashboard/widgets/dashboard_summary_card.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import '../../core/theme.dart';
@@ -69,81 +73,81 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('PROFESSIONAL INFO', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.5, fontFamily: 'Playfair Display')),
-                  IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, size: 20)),
-                ],
-              ),
-              const SizedBox(height: 30),
-              const Text('BIO / TAGLINE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
-              const SizedBox(height: 12),
-              TextField(
-                controller: bioController,
-                maxLines: 4,
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                decoration: InputDecoration(
-                  hintText: 'e.g. Aspiring Ivy League candidate interest in Fintech...',
-                  filled: true,
-                  fillColor: AppTheme.background,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('PROFESSIONAL INFO', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.5, fontFamily: 'Playfair Display')),
+                    IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, size: 20)),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 24),
-              const Text('LINKEDIN PROFILE URL', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
-              const SizedBox(height: 12),
-              TextField(
-                controller: linkedinController,
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.link, color: AppTheme.gold, size: 18),
-                  hintText: 'https://linkedin.com/in/username',
-                  filled: true,
-                  fillColor: AppTheme.background,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                ),
-              ),
-              const SizedBox(height: 40),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: saving ? null : () async {
-                    setModalState(() => saving = true);
-                    try {
-                      await ApiClient.instance.put('/api/user/profile/${_userData!['_id']}', data: {
-                        'profile': {
-                          'bio': bioController.text,
-                          'linkedin': linkedinController.text,
-                        }
-                      });
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                        _fetchData();
-                      }
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
-                      }
-                    } finally {
-                      if (context.mounted) setModalState(() => saving = false);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.darkBrown,
-                    foregroundColor: AppTheme.gold,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    elevation: 0,
+                const SizedBox(height: 30),
+                const Text('BIO / TAGLINE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: bioController,
+                  maxLines: 4,
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  decoration: InputDecoration(
+                    hintText: 'e.g. Aspiring Ivy League candidate interest in Fintech...',
+                    filled: true,
+                    fillColor: AppTheme.background,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
                   ),
-                  child: saving 
-                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.gold, strokeWidth: 2))
-                    : const Text('UPDATE PROFILE', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
                 ),
-              ),
-            ],
+                const SizedBox(height: 24),
+                const Text('LINKEDIN PROFILE URL', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: linkedinController,
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.link, color: AppTheme.gold, size: 18),
+                    hintText: 'https://linkedin.com/in/username',
+                    filled: true,
+                    fillColor: AppTheme.background,
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                  ),
+                ),
+                const SizedBox(height: 40),
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: saving ? null : () async {
+                      setModalState(() => saving = true);
+                      try {
+                        await ApiClient.instance.put('/api/user/profile/${_userData!['_id']}', data: {
+                          'profile': {
+                            'bio': bioController.text,
+                            'linkedin': linkedinController.text,
+                          }
+                        });
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                          _fetchData();
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+                        }
+                      } finally {
+                        if (context.mounted) setModalState(() => saving = false);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.darkBrown,
+                      foregroundColor: AppTheme.gold,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 0,
+                    ),
+                    child: saving
+                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.gold, strokeWidth: 2))
+                        : const Text('UPDATE PROFILE', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
         ),
       ),
     );
@@ -152,7 +156,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _showAddProfileItemSheet(Map<String, String> sectionInfo) async {
     final section = sectionInfo['section']!;
     final title = sectionInfo['title']!;
-    
+
     final controllers = <String, TextEditingController>{};
     final fields = _getFieldsForSection(section);
     for (var f in fields) {
@@ -181,79 +185,79 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('ADD $title', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.5, fontFamily: 'Playfair Display')),
-                  IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, size: 20)),
-                ],
-              ),
-              const SizedBox(height: 24),
-              ...fields.map((f) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(f['label']!.toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: controllers[f['key']],
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                      decoration: InputDecoration(
-                        hintText: f['hint'],
-                        filled: true,
-                        fillColor: AppTheme.background,
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                      ),
-                    ),
+                    Text('ADD $title', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.5, fontFamily: 'Playfair Display')),
+                    IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, size: 20)),
                   ],
                 ),
-              )).toList(),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: saving ? null : () async {
-                    setModalState(() => saving = true);
-                    try {
-                      final data = <String, dynamic>{};
-                      for (var f in fields) {
-                        data[f['key']!] = controllers[f['key']]!.text;
-                      }
-
-                      await ApiClient.instance.post('/api/user/profile/${_userData!['_id']}/add-item', data: {
-                        'section': section,
-                        'data': data,
-                      });
-                      
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                        _fetchData();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$title Added!'), backgroundColor: Colors.green));
-                      }
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
-                      }
-                    } finally {
-                      if (context.mounted) setModalState(() => saving = false);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.darkBrown,
-                    foregroundColor: AppTheme.gold,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    elevation: 0,
+                const SizedBox(height: 24),
+                ...fields.map((f) => Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(f['label']!.toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
+                      const SizedBox(height: 10),
+                      TextField(
+                        controller: controllers[f['key']],
+                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                        decoration: InputDecoration(
+                          hintText: f['hint'],
+                          filled: true,
+                          fillColor: AppTheme.background,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                        ),
+                      ),
+                    ],
                   ),
-                  child: saving 
-                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.gold, strokeWidth: 2))
-                    : const Text('SAVE RECORD', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                )).toList(),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: saving ? null : () async {
+                      setModalState(() => saving = true);
+                      try {
+                        final data = <String, dynamic>{};
+                        for (var f in fields) {
+                          data[f['key']!] = controllers[f['key']]!.text;
+                        }
+
+                        await ApiClient.instance.post('/api/user/profile/${_userData!['_id']}/add-item', data: {
+                          'section': section,
+                          'data': data,
+                        });
+
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                          _fetchData();
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$title Added!'), backgroundColor: Colors.green));
+                        }
+                      } catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+                        }
+                      } finally {
+                        if (context.mounted) setModalState(() => saving = false);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.darkBrown,
+                      foregroundColor: AppTheme.gold,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 0,
+                    ),
+                    child: saving
+                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.gold, strokeWidth: 2))
+                        : const Text('SAVE RECORD', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
         ),
       ),
     );
@@ -324,7 +328,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _togglePublicStatus(bool current) async {
     final auth = context.read<AuthProvider>();
-    
+
     // ── OPTIMISTIC UI: Update locally first for instant feel ──
     setState(() {
       if (_userData != null && _userData!['profile'] != null) {
@@ -444,6 +448,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final profile = _userData != null && _userData!['profile'] is Map ? Map<String, dynamic>.from(_userData!['profile']) : <String, dynamic>{};
     final name = _userData?['name'] ?? 'Student Member';
     final completedSteps = _countCompleted(profile);
+    
+    // Calculate progress percentage
+    int totalSteps = 9;
+    int percentage = ((completedSteps / totalSteps) * 100).toInt();
+
+    // Get pending cards
+    final pendingCards = _profileCards.where((c) => !_hasData(profile, c['section']!)).toList();
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -454,215 +465,170 @@ class _DashboardScreenState extends State<DashboardScreen> {
           physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
           child: Column(
             children: [
-              // ── PREMIUM HEADER ──
-              Container(
-                padding: const EdgeInsets.fromLTRB(24, 70, 24, 40),
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  border: Border(bottom: BorderSide(color: AppTheme.borderLight)),
-                ),
-                child: Column(
-                  children: [
-                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: _pickAndUploadPhoto,
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: 86, height: 86,
-                                padding: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: AppTheme.borderLight),
-                                  gradient: LinearGradient(
-                                    colors: [AppTheme.gold.withOpacity(0.2), Colors.transparent],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                ),
-                                child: ClipOval(
-                                  child: profile['profileImage'] != null
-                                      ? _buildProfileImage(profile['profileImage'], name)
-                                      : _avatarPlaceholder(name),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0, right: 0,
-                                child: Container(
-                                  width: 32, height: 32,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.gold,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.white, width: 3),
-                                    boxShadow: [BoxShadow(color: AppTheme.gold.withOpacity(0.3), blurRadius: 10)],
-                                  ),
-                                  child: const Icon(Icons.camera_alt, color: Colors.white, size: 14),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(name.toUpperCase(),
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w900,
-                                    letterSpacing: 1.5,
-                                    color: AppTheme.textPrimary,
-                                    fontFamily: 'Playfair Display',
-                                    fontStyle: FontStyle.italic,
-                                  )),
-                              const SizedBox(height: 6),
-                              GestureDetector(
-                                onTap: () => _togglePublicStatus(profile['isPublic'] ?? false),
-                                behavior: HitTestBehavior.opaque,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      (profile['isPublic'] ?? false) ? "PUBLIC" : "PRIVATE",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w900,
-                                        letterSpacing: 2,
-                                        color: (profile['isPublic'] ?? false) ? Colors.green : AppTheme.textSecondary,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 8),
-                                    _toggle(profile['isPublic'] ?? false),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        // Logout icon — top-right of profile header
-                        IconButton(
-                          onPressed: () => _showSignOutDialog(),
-                          icon: const Icon(Icons.logout_rounded, color: AppTheme.textSecondary, size: 22),
-                          tooltip: 'Sign Out',
-                          padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(minWidth: 40, minHeight: 40),
-                        ),
-                      ],
-                    ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1),
-  
-                    const SizedBox(height: 30),
-                    
-                    // Location & LinkedIn
-                    Row(
-                      children: [
-                        _headerIconLink(Icons.location_on, _userData?['country'] ?? 'Global Citizen'),
-                        const SizedBox(width: 24),
-                        GestureDetector(
-                          onTap: () {
-                            final url = profile['linkedin'];
-                            if (url != null && url.toString().isNotEmpty) {
-                              launchUrl(Uri.parse(url));
-                            } else {
-                              _showBioLinkedInModal();
-                            }
-                          },
-                          child: _headerIconLink(
-                            Icons.link, 
-                            (profile['linkedin'] != null && profile['linkedin'].toString().isNotEmpty) ? 'LinkedIn' : 'Connect',
-                            color: (profile['linkedin'] != null && profile['linkedin'].toString().isNotEmpty) ? AppTheme.gold : null,
-                          ),
-                        ),
-                      ],
-                    ),
-  
-                    const SizedBox(height: 30),
-  
-                    // Actions
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: _showBioLinkedInModal,
-                            child: _secondaryBtn(
-                              (profile['bio'] != null && profile['bio'].toString().isNotEmpty) ? Icons.edit_note : Icons.add_circle_outline, 
-                              (profile['bio'] != null && profile['bio'].toString().isNotEmpty) ? 'EDIT BIO' : 'ADD BIO'
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () async {
-                              final updated = await context.push('/dashboard/edit', extra: _userData);
-                              if (updated == true) _fetchData();
-                            },
-                            child: _primaryBtn(Icons.edit, 'EDIT PROFILE'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              DashboardHeader(
+                profile: profile,
+                name: name,
+                location: _userData?['country'] ?? 'Global Citizen',
+                completionPercentage: percentage,
+                onPickPhoto: _pickAndUploadPhoto,
+                onEditProfile: () async {
+                  final updated = await context.push('/dashboard/edit', extra: _userData);
+                  if (updated == true) _fetchData();
+                },
+                onSignOut: _showSignOutDialog,
+                buildProfileImage: _buildProfileImage,
+                buildAvatarPlaceholder: _avatarPlaceholder,
               ),
-  
-              // ── MAIN TABS ──
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  child: Row(
-                    children: ['profile', 'bookings', 'sessions'].map((tab) {
-                      final isSelected = _activeTab == tab;
-                      return GestureDetector(
-                        onTap: () => setState(() => _activeTab = tab),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          margin: const EdgeInsets.only(right: 12),
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                          decoration: BoxDecoration(
-                            color: isSelected ? AppTheme.gold : Colors.white,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: isSelected ? AppTheme.gold : AppTheme.borderLight),
-                            boxShadow: isSelected ? [BoxShadow(color: AppTheme.gold.withOpacity(0.2), blurRadius: 15, offset: const Offset(0, 5))] : null,
-                          ),
-                          child: Text(
-                            tab == 'profile' ? 'PROFILE' : tab == 'bookings' ? 'MY BOOKINGS' : 'MY SESSIONS',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 1.5,
-                              color: isSelected ? Colors.white : AppTheme.textSecondary,
-                            ),
-                          ),
+
+              if (_activeTab == 'profile') ...[
+                const SizedBox(height: 32),
+                QuickActionsGrid(
+                  onBookingsTap: () => setState(() => _activeTab = 'bookings'),
+                  onSessionsTap: () => setState(() => _activeTab = 'sessions'),
+                  onUniversitiesTap: () => context.push('/universities'), // Requires universities route
+                  onAiServicesTap: () => context.push('/'), // Navigate somewhere safe if no AI route
+                ),
+
+                const SizedBox(height: 32),
+                DashboardProgressSection(
+                  completedSteps: completedSteps,
+                  pendingCards: pendingCards,
+                  onCompleteCard: _showAddProfileItemSheet,
+                ),
+
+                const SizedBox(height: 32),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'DASHBOARD',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1.5,
+                          color: Colors.black87,
                         ),
-                      );
-                    }).toList(),
+                      ),
+                      const SizedBox(height: 16),
+                      DashboardSummaryCard(
+                        title: 'Upcoming Sessions',
+                        subtitle: 'Your next meeting',
+                        icon: Icons.video_camera_front,
+                        actionText: 'VIEW ALL SESSIONS',
+                        onAction: () => setState(() => _activeTab = 'sessions'),
+                        customContent: _buildUpcomingSessionPreview(profile),
+                      ),
+                      DashboardSummaryCard(
+                        title: 'Recent Bookings',
+                        subtitle: 'Your latest purchases',
+                        icon: Icons.receipt_long,
+                        actionText: 'VIEW ALL BOOKINGS',
+                        onAction: () => setState(() => _activeTab = 'bookings'),
+                        customContent: _buildRecentBookingPreview(),
+                      ),
+                      DashboardSummaryCard(
+                        title: 'Saved Universities',
+                        subtitle: 'Your target schools',
+                        icon: Icons.school,
+                        actionText: 'VIEW UNIVERSITIES',
+                        onAction: () => context.push('/universities'),
+                      ),
+                      DashboardSummaryCard(
+                        title: 'AI Recommendations',
+                        subtitle: 'Smart profile tips',
+                        icon: Icons.auto_awesome,
+                        actionText: 'EXPLORE AI',
+                        onAction: () => context.push('/'),
+                      ),
+                    ],
+                  ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.05),
+                ),
+                
+                const SizedBox(height: 40),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    'DETAILED PROFILE',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1.5,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
-              ),
-  
-              if (_activeTab == 'profile') ...[
-                // ── IDENTITY MODULE ──
                 _buildIdentityModule(profile),
-  
-                // ── RECOMMENDED CAROUSEL ──
-                _buildRecommendedCarousel(profile, completedSteps),
-  
-                // ── SYSTEM NODES ──
                 _buildSystemNodes(profile),
               ],
-  
-              if (_activeTab == 'bookings') _buildBookingsTab(),
-              if (_activeTab == 'sessions') _buildSessionsTab(profile),
-  
+
+              if (_activeTab == 'bookings') ...[
+                _buildBackToHomeBtn(),
+                _buildBookingsTab(),
+              ],
+              if (_activeTab == 'sessions') ...[
+                _buildBackToHomeBtn(),
+                _buildSessionsTab(profile),
+              ],
+
               const SizedBox(height: 100),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildBackToHomeBtn() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: TextButton.icon(
+          onPressed: () => setState(() => _activeTab = 'profile'),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.gold),
+          label: const Text('Back to Home', style: TextStyle(color: AppTheme.gold, fontWeight: FontWeight.bold)),
+        ),
+      ),
+    );
+  }
+
+  Widget? _buildUpcomingSessionPreview(Map<String, dynamic> profile) {
+    final now = DateTime.now();
+    final allSessions = profile['mySessions'] as List? ?? [];
+    final upcoming = allSessions.where((s) {
+      final dateStr = s['date'] ?? '';
+      final timeStr = s['time'] ?? '00:00';
+      try {
+        final d = DateTime.parse('${dateStr}T${timeStr}:00');
+        return d.isAfter(now);
+      } catch (_) {
+        return true;
+      }
+    }).toList();
+
+    if (upcoming.isEmpty) return null;
+    final next = upcoming.first;
+    
+    return Row(
+      children: [
+        const Icon(Icons.calendar_today, size: 14, color: AppTheme.gold),
+        const SizedBox(width: 8),
+        Text('${next['date'] ?? 'Scheduled'} at ${next['time'] ?? 'Live'}', style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+      ],
+    );
+  }
+
+  Widget? _buildRecentBookingPreview() {
+    if (_receipts.isEmpty) return null;
+    final r = _receipts.first;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text((r['orderId'] ?? 'Order').toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12)),
+        Text('${r['currency']} ${r['total']}', style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.redAccent, fontSize: 14)),
+      ],
     );
   }
 
@@ -683,11 +649,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-           children: [
-             Icon(Icons.emoji_events, color: AppTheme.gold, size: 20),
-             const SizedBox(width: 8),
-             Text("${score['testType']} RESULTS".toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary)),
-           ],
+          children: [
+            Icon(Icons.emoji_events, color: AppTheme.gold, size: 20),
+            const SizedBox(width: 8),
+            Text("${score['testType']} RESULTS".toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5, color: AppTheme.textPrimary)),
+          ],
         ),
         const SizedBox(height: 24),
         ...sections.entries.map((e) => Padding(
@@ -702,11 +668,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         )),
         const Divider(height: 32, color: AppTheme.borderLight),
         Row(
-           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-           children: [
-             const Text("TOTAL SCORE", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 2)),
-             Text(score['score'].toString(), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, color: AppTheme.textPrimary)),
-           ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text("TOTAL SCORE", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold, letterSpacing: 2)),
+            Text(score['score'].toString(), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, color: AppTheme.textPrimary)),
+          ],
         ),
       ],
     );
@@ -736,9 +702,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text((r['orderId'] ?? 'Order').toUpperCase(), 
+                    Text((r['orderId'] ?? 'Order').toUpperCase(),
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary)),
-                    Text('${r['currency']} ${r['total']}', 
+                    Text('${r['currency']} ${r['total']}',
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.redAccent, fontStyle: FontStyle.italic)),
                   ],
                 ),
@@ -759,10 +725,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ).animate().fadeIn(duration: 400.ms),
           )),
           if (_receipts.isEmpty)
-             Center(child: Padding(
-               padding: const EdgeInsets.symmetric(vertical: 60),
-               child: Text("NO PURCHASES FOUND", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textMuted, letterSpacing: 2)),
-             )),
+            Center(child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 60),
+              child: Text("NO PURCHASES FOUND", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textMuted, letterSpacing: 2)),
+            )),
         ],
       ),
     );
@@ -773,7 +739,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildSessionsTab(Map<String, dynamic> profile) {
     final now = DateTime.now();
     final allSessions = profile['mySessions'] as List? ?? [];
-    
+
     final sessions = allSessions.where((s) {
       final dateStr = s['date'] ?? '';
       final timeStr = s['time'] ?? '00:00';
@@ -781,9 +747,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
         final d = DateTime.parse('${dateStr}T${timeStr}:00');
         final isUpcoming = d.isAfter(now);
         return _sessionFilter == 'upcoming' ? isUpcoming : !isUpcoming;
-      } catch (_) { 
+      } catch (_) {
         // If date is invalid, show it in upcoming just in case
-        return _sessionFilter == 'upcoming'; 
+        return _sessionFilter == 'upcoming';
       }
     }).toList();
 
@@ -826,7 +792,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text((s['consultantName']?.toString() ?? 'Counselling Session').toUpperCase(), 
+                      Text((s['consultantName']?.toString() ?? 'Counselling Session').toUpperCase(),
                           style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
                       const SizedBox(height: 6),
                       Row(
@@ -844,39 +810,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 if (_sessionFilter == 'upcoming')
-                   GestureDetector(
-                     onTap: () {
-                        context.push('/meeting/${s['_id']}', extra: Map<String, dynamic>.from(s));
-                     },
-                     child: Container(
-                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                       decoration: BoxDecoration(
-                         color: Colors.green,
-                         borderRadius: BorderRadius.circular(12),
-                         boxShadow: [BoxShadow(color: Colors.green.withOpacity(0.3), blurRadius: 10)],
-                       ),
-                       child: const Text('JOIN', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
-                     ),
-                   ),
+                  GestureDetector(
+                    onTap: () {
+                      context.push('/meeting/${s['_id']}', extra: Map<String, dynamic>.from(s));
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [BoxShadow(color: Colors.green.withOpacity(0.3), blurRadius: 10)],
+                      ),
+                      child: const Text('JOIN', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+                    ),
+                  ),
               ],
             ),
           )),
           if (sessions.isEmpty)
-             Padding(
-               padding: const EdgeInsets.symmetric(vertical: 60),
-               child: Column(
-                 children: [
-                   Icon(Icons.event_busy, color: AppTheme.textMuted, size: 40),
-                   const SizedBox(height: 16),
-                   Text("NO ${_sessionFilter.toUpperCase()} SESSIONS", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textMuted, letterSpacing: 2)),
-                   if (_sessionFilter == 'upcoming')
-                     Padding(
-                       padding: const EdgeInsets.only(top: 8),
-                       child: Text("Check the 'Past' tab for finished sessions.", style: TextStyle(fontSize: 14, color: AppTheme.textMuted)),
-                     ),
-                 ],
-               ),
-             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 60),
+              child: Column(
+                children: [
+                  Icon(Icons.event_busy, color: AppTheme.textMuted, size: 40),
+                  const SizedBox(height: 16),
+                  Text("NO ${_sessionFilter.toUpperCase()} SESSIONS", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textMuted, letterSpacing: 2)),
+                  if (_sessionFilter == 'upcoming')
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text("Check the 'Past' tab for finished sessions.", style: TextStyle(fontSize: 14, color: AppTheme.textMuted)),
+                    ),
+                ],
+              ),
+            ),
         ],
       ),
     );
@@ -939,7 +905,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
           ),
-          
+
           // Content
           Padding(
             padding: const EdgeInsets.all(24),
@@ -994,10 +960,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(it[nameKey].toString().toUpperCase(), 
+                  Text(it[nameKey].toString().toUpperCase(),
                       style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
                   const SizedBox(height: 4),
-                  Text('CGPA: ${it['cgpa']} / ${it['outOf']}', 
+                  Text('CGPA: ${it['cgpa']} / ${it['outOf']}',
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppTheme.textSecondary)),
                 ],
               ),
@@ -1039,9 +1005,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           const SizedBox(height: 30),
           // Progress Bar
           ProfileProgressBar(completed: completed),
-          
+
           const SizedBox(height: 32),
-          
+
           if (pending.isNotEmpty)
             SizedBox(
               height: 200,
@@ -1058,18 +1024,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             )
           else
-             Container(
-               padding: const EdgeInsets.symmetric(vertical: 40),
-               width: double.infinity,
-               child: Column(
-                 children: [
-                   const Icon(Icons.verified, color: Colors.green, size: 40),
-                   const SizedBox(height: 16),
-                   const Text("PROFILE 100% COMPLETE", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.2)),
-                   Text("You are ready for applications.", style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
-                 ],
-               ),
-             ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              width: double.infinity,
+              child: Column(
+                children: [
+                  const Icon(Icons.verified, color: Colors.green, size: 40),
+                  const SizedBox(height: 16),
+                  const Text("PROFILE 100% COMPLETE", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.2)),
+                  Text("You are ready for applications.", style: TextStyle(fontSize: 14, color: AppTheme.textSecondary)),
+                ],
+              ),
+            ),
         ],
       ),
     ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.05);
@@ -1128,54 +1094,54 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text((it['role'] ?? it['title'] ?? 'DETAILS').toString().toUpperCase(), 
-                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, fontFamily: 'Playfair Display', letterSpacing: 1.5)),
-                              IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close)),
-                            ],
-                          ),
-                          const SizedBox(height: 24),
-                          if (it['organization'] != null) ...[
-                            const Text('ORGANIZATION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
-                            const SizedBox(height: 4),
-                            Text(it['organization'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-                            const SizedBox(height: 16),
-                          ],
-                          if (it['category'] != null) ...[
-                            const Text('CATEGORY', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
-                            const SizedBox(height: 4),
-                            Text(it['category'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-                            const SizedBox(height: 16),
-                          ],
-                          if (it['description'] != null) ...[
-                            const Text('DESCRIPTION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
-                            const SizedBox(height: 4),
-                            Text(it['description'], style: const TextStyle(fontSize: 14, height: 1.5)),
-                            const SizedBox(height: 24),
-                          ],
-                          SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                Navigator.pop(context);
-                                final updated = await context.push('/dashboard/edit', extra: _userData);
-                                if (updated == true) _fetchData();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.background,
-                                foregroundColor: AppTheme.textPrimary,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                                elevation: 0,
-                              ),
-                              child: const Text('EDIT IN PROFILE', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text((it['role'] ?? it['title'] ?? 'DETAILS').toString().toUpperCase(),
+                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, fontFamily: 'Playfair Display', letterSpacing: 1.5)),
+                                IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close)),
+                              ],
                             ),
-                          )
-                        ],
+                            const SizedBox(height: 24),
+                            if (it['organization'] != null) ...[
+                              const Text('ORGANIZATION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
+                              const SizedBox(height: 4),
+                              Text(it['organization'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                              const SizedBox(height: 16),
+                            ],
+                            if (it['category'] != null) ...[
+                              const Text('CATEGORY', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
+                              const SizedBox(height: 4),
+                              Text(it['category'], style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                              const SizedBox(height: 16),
+                            ],
+                            if (it['description'] != null) ...[
+                              const Text('DESCRIPTION', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textSecondary, letterSpacing: 1.5)),
+                              const SizedBox(height: 4),
+                              Text(it['description'], style: const TextStyle(fontSize: 14, height: 1.5)),
+                              const SizedBox(height: 24),
+                            ],
+                            SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  Navigator.pop(context);
+                                  final updated = await context.push('/dashboard/edit', extra: _userData);
+                                  if (updated == true) _fetchData();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppTheme.background,
+                                  foregroundColor: AppTheme.textPrimary,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                  elevation: 0,
+                                ),
+                                child: const Text('EDIT IN PROFILE', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
                     ),
                   );
                 },
@@ -1284,9 +1250,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-               color: AppTheme.background,
-               borderRadius: BorderRadius.circular(12),
-               border: Border.all(color: AppTheme.borderLight),
+              color: AppTheme.background,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppTheme.borderLight),
             ),
             child: Icon(icon, color: AppTheme.gold, size: 18),
           ),
