@@ -35,6 +35,139 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
     }
   }
 
+  void _showDeleteAccountDialog() {
+    final textController = TextEditingController();
+    bool isDeleteEnabled = false;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: Colors.white,
+          title: const Row(
+            children: [
+              Icon(Icons.warning_amber_rounded, color: Colors.redAccent, size: 24),
+              SizedBox(width: 8),
+              Text(
+                'Delete Account?',
+                style: TextStyle(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 16,
+                  fontFamily: 'Playfair Display',
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'This action is permanent and cannot be undone. To confirm, please type "DELETE" below.',
+                style: TextStyle(color: Colors.black54, fontSize: 13, height: 1.4),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: textController,
+                onChanged: (val) {
+                  setState(() {
+                    isDeleteEnabled = val.trim().toUpperCase() == 'DELETE';
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'DELETE',
+                  hintStyle: const TextStyle(color: AppTheme.textMuted, fontSize: 12),
+                  filled: true,
+                  fillColor: AppTheme.background,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppTheme.borderLight),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: Colors.redAccent),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                ),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                textController.dispose();
+                Navigator.pop(dialogContext);
+              },
+              child: const Text(
+                'CANCEL',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: isDeleteEnabled
+                  ? () async {
+                      Navigator.pop(dialogContext);
+                      textController.dispose();
+                      
+                      // Show loading indicator
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => const Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      );
+
+                      try {
+                        await context.read<AuthProvider>().deleteAccount();
+                        if (mounted) Navigator.pop(context);
+                      } catch (e) {
+                        if (mounted) Navigator.pop(context);
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Error deleting account: $e'),
+                              backgroundColor: Colors.redAccent,
+                            ),
+                          );
+                        }
+                      }
+                    }
+                  : null,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                foregroundColor: Colors.white,
+                disabledBackgroundColor: Colors.redAccent.withOpacity(0.3),
+                disabledForegroundColor: Colors.white.withOpacity(0.6),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                elevation: 0,
+              ),
+              child: const Text(
+                'DELETE ACCOUNT',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
@@ -47,11 +180,37 @@ class _ConsultantDashboardScreenState extends State<ConsultantDashboardScreen> {
             backgroundColor: AppTheme.darkBrown,
             expandedHeight: 140,
             actions: [
-              IconButton(
-                icon: const Icon(Icons.logout_rounded, color: Colors.white54),
-                onPressed: () async {
-                  await auth.logout();
+              PopupMenuButton<String>(
+                icon: const Icon(Icons.more_vert_rounded, color: Colors.white54),
+                onSelected: (value) async {
+                  if (value == 'logout') {
+                    await auth.logout();
+                  } else if (value == 'delete_account') {
+                    _showDeleteAccountDialog();
+                  }
                 },
+                itemBuilder: (context) => [
+                  const PopupMenuItem(
+                    value: 'logout',
+                    child: Row(
+                      children: [
+                        Icon(Icons.logout_rounded, size: 20),
+                        SizedBox(width: 8),
+                        Text('Logout'),
+                      ],
+                    ),
+                  ),
+                  const PopupMenuItem(
+                    value: 'delete_account',
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete_forever_rounded, color: Colors.redAccent, size: 20),
+                        SizedBox(width: 8),
+                        Text('Delete Account', style: TextStyle(color: Colors.redAccent)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
             flexibleSpace: FlexibleSpaceBar(

@@ -84,4 +84,9 @@ class AuthProvider extends ChangeNotifier {
     _isLoggedIn = false;
     notifyListeners();
   }
+
+  Future<void> deleteAccount() async {
+    await ApiClient.instance.delete('/api/user/delete-account');
+    await logout();
+  }
 }

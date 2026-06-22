@@ -25,16 +25,21 @@ String extractErrorMessage(Object e) {
 }
 
 class ApiClient {
-  /// Live Render backend
-  // static const String baseUrl = 'https://study-abroad-backend-pfjq.onrender.com';
-  // static const String baseUrl = 'https://study-abroad-backend-pfjq.onrender.com';
+  // ── PRODUCTION SERVER ──
   static const String baseUrl = 'https://api.studyabarod.aryahsworld.com';
+
+  // ── LOCAL NODE.JS DEVELOPMENT BACKEND (PORT 5011) ──
+  // Toggle the active environment below by commenting/uncommenting:
   
-  /// Local Backend (Uncomment for local testing)
-  // static const String baseUrl = 'http://10.0.2.2:5001'; // For Android Emulator
-  //  static const String baseUrl = 'http://localhost:5011'; // For iOS/Web
-  // static const String baseUrl = 'http://192.168.1.15:5011';
-  //  static const String baseUrl = 'http:// 192.168.1.15:5011'; // For Physical Device
+  // 1. iOS Simulator / Web / Local Desktop
+  // static const String baseUrl = 'http://localhost:5011';
+  // static const String baseUrl = 'http://127.0.0.1:5011';
+  
+  // 2. Android Emulator (translates to localhost of your development machine)
+  // static const String baseUrl = 'http://10.0.2.2:5011';
+  
+  // 3. Physical Device (NOTE: Replace "192.168.1.35" with your actual local machine's IP address if different)
+  // static const String baseUrl = 'http://192.168.1.35:5011';
 
   static Dio? _dio;
 
