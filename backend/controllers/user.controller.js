@@ -1,5 +1,11 @@
 const bcrypt = require("bcryptjs");
 const { findUserById, findUserByEmail } = require("../utils/userHelper");
+const ProgressReport = require("../models/ProgressReport");
+const FeatureActivity = require("../models/featureActivity");
+const Activity = require("../models/Activity");
+const Receipt = require("../models/Receipt");
+const Booking = require("../models/Booking");
+const Review = require("../models/Review");
 
 // @desc    Get user premium status
 exports.getPremiumStatus = async (req, res) => {
@@ -421,3 +427,53 @@ exports.changePassword = async (req, res) => {
     });
   }
 };
+
+// @desc    Delete user account and perform cascading cleanup
+exports.deleteAccount = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const result = await findUserById(userId);
+    if (!result) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const { user, model, role } = result;
+    const email = user.email;
+
+    // 1. Cascading cleanups
+    // Delete progress report (for student)
+    if (role === "student") {
+      await ProgressReport.deleteMany({ userId });
+    }
+
+    // Delete feature activity records
+    await FeatureActivity.deleteMany({ userId });
+
+    // Delete activity session logs
+    await Activity.deleteMany({ userId });
+
+    // Delete receipt payments
+    await Receipt.deleteMany({ $or: [{ userId }, { userEmail: email }] });
+
+    // Delete reviews
+    if (email) {
+      await Review.deleteMany({ email });
+    }
+
+    // Delete bookings
+    if (role === "consultant") {
+      await Booking.deleteMany({ $or: [{ consultantId: userId }, { consultantEmail: email }] });
+    } else {
+      await Booking.deleteMany({ userEmail: email });
+    }
+
+    // 2. Delete the user document itself
+    await model.deleteOne({ _id: userId });
+
+    res.status(200).json({ success: true, message: "Account deleted successfully" });
+  } catch (error) {
+    console.error("Delete account error:", error);
+    res.status(500).json({ success: false, message: "Server error deleting account" });
+  }
+};
+
