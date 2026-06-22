@@ -318,40 +318,83 @@ class LandingScreen extends StatelessWidget {
                             style: TextStyle(fontFamily: 'EB Garamond', fontSize: 28, fontWeight: FontWeight.w500, color: _cOnSurface),
                           ),
                           const SizedBox(height: 24),
-                          GridView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 12,
-                              mainAxisSpacing: 12,
-                              childAspectRatio: 1.3,
-                            ),
-                            itemCount: _services.length,
-                            itemBuilder: (context, index) {
-                              final s = _services[index];
-                              return Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: _cSurfaceContainerLowest,
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(color: _cSurfaceContainerLow),
-                                  boxShadow: [
-                                    BoxShadow(color: _cSecondary.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 4)),
-                                  ],
+                          LayoutBuilder(
+                            builder: (context, constraints) {
+                              final width = constraints.maxWidth;
+                              int crossAxisCount = 1;
+                              double childAspectRatio = 3.2;
+
+                              if (width >= 900) {
+                                crossAxisCount = 3;
+                                childAspectRatio = 1.8;
+                              } else if (width >= 600) {
+                                crossAxisCount = 2;
+                                childAspectRatio = 1.6;
+                              }
+
+                              return GridView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: crossAxisCount,
+                                  crossAxisSpacing: 16,
+                                  mainAxisSpacing: 16,
+                                  childAspectRatio: childAspectRatio,
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Icon(s.$1, color: _cPrimary, size: 32),
-                                    const Spacer(),
-                                    Text(
-                                      s.$2,
-                                      style: const TextStyle(fontFamily: 'Manrope', fontSize: 14, fontWeight: FontWeight.w700, color: _cOnSurface),
+                                itemCount: _services.length,
+                                itemBuilder: (context, index) {
+                                  final s = _services[index];
+                                  return Container(
+                                    padding: const EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: _cSurfaceContainerLowest,
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(color: _cSurfaceContainerLow),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: _cSecondary.withOpacity(0.04),
+                                          blurRadius: 10,
+                                          offset: const Offset(0, 4),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                    child: crossAxisCount == 1
+                                        ? Row(
+                                            children: [
+                                              Icon(s.$1, color: _cPrimary, size: 32),
+                                              const SizedBox(width: 16),
+                                              Expanded(
+                                                child: Text(
+                                                  s.$2,
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Manrope',
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: _cOnSurface,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        : Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Icon(s.$1, color: _cPrimary, size: 32),
+                                              const Spacer(),
+                                              Text(
+                                                s.$2,
+                                                style: const TextStyle(
+                                                  fontFamily: 'Manrope',
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: _cOnSurface,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                  );
+                                },
                               );
                             },
                           ),
@@ -363,31 +406,39 @@ class LandingScreen extends StatelessWidget {
                     // Stats Grid
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: GridView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 24,
-                          mainAxisSpacing: 32,
-                          childAspectRatio: 1.8,
-                        ),
-                        itemCount: _stats.length,
-                        itemBuilder: (context, index) {
-                          final stat = _stats[index];
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                stat.$1,
-                                style: const TextStyle(fontFamily: 'EB Garamond', fontSize: 32, fontWeight: FontWeight.w600, color: _cPrimary),
-                              ),
-                              Text(
-                                stat.$2,
-                                style: const TextStyle(fontFamily: 'Manrope', fontSize: 12, fontWeight: FontWeight.w700, color: _cSecondary, letterSpacing: 1.0),
-                              ),
-                            ],
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final width = constraints.maxWidth;
+                          final crossAxisCount = width >= 600 ? 4 : 2;
+                          final childAspectRatio = width >= 600 ? 2.5 : 1.8;
+
+                          return GridView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              crossAxisSpacing: 24,
+                              mainAxisSpacing: 32,
+                              childAspectRatio: childAspectRatio,
+                            ),
+                            itemCount: _stats.length,
+                            itemBuilder: (context, index) {
+                              final stat = _stats[index];
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    stat.$1,
+                                    style: const TextStyle(fontFamily: 'EB Garamond', fontSize: 32, fontWeight: FontWeight.w600, color: _cPrimary),
+                                  ),
+                                  Text(
+                                    stat.$2,
+                                    style: const TextStyle(fontFamily: 'Manrope', fontSize: 12, fontWeight: FontWeight.w700, color: _cSecondary, letterSpacing: 1.0),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         },
                       ),
