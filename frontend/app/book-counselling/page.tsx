@@ -4,7 +4,13 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Country } from "country-state-city";
-import { clearAuth, getToken, getUser, setToken, setUser } from "@/app/lib/token";
+import {
+  clearAuth,
+  getToken,
+  getUser,
+  setToken,
+  setUser,
+} from "@/app/lib/token";
 import CheckoutModal from "@/app/User/cart/checkoutmodal";
 import { UserX, Clock, Gift, UserPlus, Phone } from "lucide-react";
 
@@ -54,13 +60,13 @@ function normalizeDialCode(phonecode: string): string {
 }
 
 const COUNTRY_CODE_OPTIONS = Country.getAllCountries()
-  .map(country => ({
+  .map((country) => ({
     isoCode: country.isoCode,
     name: country.name,
     flag: country.flag,
-    dialCode: normalizeDialCode(country.phonecode)
+    dialCode: normalizeDialCode(country.phonecode),
   }))
-  .filter(country => country.dialCode.length > 1)
+  .filter((country) => country.dialCode.length > 1)
   .sort((a, b) => {
     if (a.isoCode === DEFAULT_COUNTRY_ISO) return -1;
     if (b.isoCode === DEFAULT_COUNTRY_ISO) return 1;
@@ -68,7 +74,10 @@ const COUNTRY_CODE_OPTIONS = Country.getAllCountries()
   });
 
 function getDialCode(isoCode: string): string {
-  return COUNTRY_CODE_OPTIONS.find(country => country.isoCode === isoCode)?.dialCode || "+91";
+  return (
+    COUNTRY_CODE_OPTIONS.find((country) => country.isoCode === isoCode)
+      ?.dialCode || "+91"
+  );
 }
 
 function buildPhoneNumber(isoCode: string, nationalNumber: string): string {
@@ -80,7 +89,12 @@ function buildPhoneNumber(isoCode: string, nationalNumber: string): string {
 function formatDate(dateStr: string): string {
   if (!dateStr) return "";
   const d = new Date(dateStr + "T12:00:00");
-  return d.toLocaleDateString("en-US", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
+  return d.toLocaleDateString("en-US", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 // ─── Helper: Build a 42-cell calendar grid ───────────────────────────────────
@@ -120,7 +134,7 @@ function isSlotBlocked(slot: Slot, isToday: boolean) {
     const now = new Date(
       nowUtc.toLocaleString("en-US", {
         timeZone: "Asia/Kolkata",
-      })
+      }),
     );
 
     // Build slot datetime using IST date
@@ -129,7 +143,7 @@ function isSlotBlocked(slot: Slot, isToday: boolean) {
       now.getMonth(),
       now.getDate(),
       parsed.hours,
-      parsed.minutes
+      parsed.minutes,
     );
 
     // Block if slot time is less than or equal to current IST time
@@ -141,22 +155,33 @@ function isSlotBlocked(slot: Slot, isToday: boolean) {
 }
 
 // ─── Step Indicator ───────────────────────────────────────────────────────────
-function StepDot({ step, current, label }: { step: number; current: number; label: string }) {
+function StepDot({
+  step,
+  current,
+  label,
+}: {
+  step: number;
+  current: number;
+  label: string;
+}) {
   const done = current > step;
   const active = current === step;
   return (
     <div className="flex flex-col items-center gap-1">
       <div
-        className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-[14px] font-bold md:text-xs font-bold border-2 transition-all duration-300 ${done
-          ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D]"
-          : active
-            ? "bg-transparent border-[#D4A848] text-[#D4A848]"
-            : "bg-transparent border-white/20 text-white/30"
-          }`}
+        className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-[14px] font-bold md:text-xs font-bold border-2 transition-all duration-300 ${
+          done
+            ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D]"
+            : active
+              ? "bg-transparent border-[#D4A848] text-[#D4A848]"
+              : "bg-transparent border-white/20 text-white/30"
+        }`}
       >
         {done ? "✓" : step}
       </div>
-      <span className={`text-[12px] font-black md:text-[13px] font-bold font-semibold uppercase tracking-wider ${active ? "text-[#D4A848]" : done ? "text-white/60" : "text-white/25"}`}>
+      <span
+        className={`text-[12px] font-black md:text-[13px] font-bold font-semibold uppercase tracking-wider ${active ? "text-[#D4A848]" : done ? "text-white/60" : "text-white/25"}`}
+      >
         {label}
       </span>
     </div>
@@ -166,7 +191,7 @@ function StepDot({ step, current, label }: { step: number; current: number; labe
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function BookCounsellingPage() {
   const isOpen = true;
-  const onClose = () => router.push('/');
+  const onClose = () => router.push("/");
   const router = useRouter();
 
   const [step, setStep] = useState(1);
@@ -180,14 +205,17 @@ export default function BookCounsellingPage() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPhone, setUserPhone] = useState("");
-  const [selectedCountryIso, setSelectedCountryIso] = useState(DEFAULT_COUNTRY_ISO);
+  const [selectedCountryIso, setSelectedCountryIso] =
+    useState(DEFAULT_COUNTRY_ISO);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isCheckingEligibility, setIsCheckingEligibility] = useState(false);
-  const [freeEligibility, setFreeEligibility] = useState<FreeEligibility | null>(null);
+  const [freeEligibility, setFreeEligibility] =
+    useState<FreeEligibility | null>(null);
   const [showAuthStep, setShowAuthStep] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
-  const [shouldPromptProfileCompletion, setShouldPromptProfileCompletion] = useState(false);
+  const [shouldPromptProfileCompletion, setShouldPromptProfileCompletion] =
+    useState(false);
   const [lastBookingWasFree, setLastBookingWasFree] = useState(false);
   const [booking, setBooking] = useState<BookingResult | null>(null);
   const [bookingLoading, setBookingLoading] = useState(false);
@@ -239,7 +267,9 @@ export default function BookCounsellingPage() {
     setError("");
     try {
       const params = new URLSearchParams({ date });
-      const res = await fetch(`${API_BASE}/api/bookings/available-slots?${params}`);
+      const res = await fetch(
+        `${API_BASE}/api/bookings/available-slots?${params}`,
+      );
       const data = await res.json();
       setSlots(data.slots || []);
     } catch {
@@ -250,27 +280,32 @@ export default function BookCounsellingPage() {
     }
   }, []);
 
-  const checkFreeEligibility = useCallback(async (email: string): Promise<FreeEligibility | null> => {
-    const emailTrimmed = email.trim();
-    if (!emailTrimmed) return null;
+  const checkFreeEligibility = useCallback(
+    async (email: string): Promise<FreeEligibility | null> => {
+      const emailTrimmed = email.trim();
+      if (!emailTrimmed) return null;
 
-    setIsCheckingEligibility(true);
-    try {
-      const res = await fetch(`${API_BASE}/api/bookings/free-eligibility?email=${encodeURIComponent(emailTrimmed)}`);
-      const data = await res.json();
-      if (!res.ok) {
+      setIsCheckingEligibility(true);
+      try {
+        const res = await fetch(
+          `${API_BASE}/api/bookings/free-eligibility?email=${encodeURIComponent(emailTrimmed)}`,
+        );
+        const data = await res.json();
+        if (!res.ok) {
+          setFreeEligibility(null);
+          return null;
+        }
+        setFreeEligibility(data);
+        return data;
+      } catch {
         setFreeEligibility(null);
         return null;
+      } finally {
+        setIsCheckingEligibility(false);
       }
-      setFreeEligibility(data);
-      return data;
-    } catch {
-      setFreeEligibility(null);
-      return null;
-    } finally {
-      setIsCheckingEligibility(false);
-    }
-  }, []);
+    },
+    [],
+  );
 
   const createBasicAccount = async (phoneOverride?: string) => {
     const phoneForAccount = phoneOverride || userPhone;
@@ -294,8 +329,8 @@ export default function BookCounsellingPage() {
         body: JSON.stringify({
           name: userName || "Guest User",
           email: userEmail,
-          phone: phoneForAccount
-        })
+          phone: phoneForAccount,
+        }),
       });
 
       const data = await res.json();
@@ -313,7 +348,9 @@ export default function BookCounsellingPage() {
       setUserPhone(phoneForAccount);
       setIsLoggedIn(true);
       setOtpVerified(true);
-      setShouldPromptProfileCompletion(Boolean(data.user?.isBasicAccount || data.isNewUser));
+      setShouldPromptProfileCompletion(
+        Boolean(data.user?.isBasicAccount || data.isNewUser),
+      );
 
       await checkFreeEligibility(userEmail);
       setShowAuthStep(false);
@@ -354,7 +391,7 @@ export default function BookCounsellingPage() {
       const res = await fetch(`${API_BASE}/api/bookings/send-booking-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: userEmail, mobile: fullPhone })
+        body: JSON.stringify({ email: userEmail, mobile: fullPhone }),
       });
 
       const data = await res.json();
@@ -380,7 +417,8 @@ export default function BookCounsellingPage() {
       return;
     }
 
-    const mobileForOtp = userPhone || buildPhoneNumber(selectedCountryIso, phoneNumber);
+    const mobileForOtp =
+      userPhone || buildPhoneNumber(selectedCountryIso, phoneNumber);
 
     setOtpLoading(true);
     setOtpError("");
@@ -390,7 +428,7 @@ export default function BookCounsellingPage() {
       const res = await fetch(`${API_BASE}/api/bookings/verify-booking-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mobile: mobileForOtp, otp })
+        body: JSON.stringify({ mobile: mobileForOtp, otp }),
       });
 
       const data = await res.json();
@@ -463,7 +501,7 @@ export default function BookCounsellingPage() {
     if (otpTimer <= 0) return;
 
     const interval = setInterval(() => {
-      setOtpTimer(prev => Math.max(prev - 1, 0));
+      setOtpTimer((prev) => Math.max(prev - 1, 0));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -473,12 +511,16 @@ export default function BookCounsellingPage() {
   const todayStr = today.toISOString().split("T")[0];
 
   const prevMonth = () => {
-    if (calMonth === 0) { setCalYear(y => y - 1); setCalMonth(11); }
-    else setCalMonth(m => m - 1);
+    if (calMonth === 0) {
+      setCalYear((y) => y - 1);
+      setCalMonth(11);
+    } else setCalMonth((m) => m - 1);
   };
   const nextMonth = () => {
-    if (calMonth === 11) { setCalYear(y => y + 1); setCalMonth(0); }
-    else setCalMonth(m => m + 1);
+    if (calMonth === 11) {
+      setCalYear((y) => y + 1);
+      setCalMonth(0);
+    } else setCalMonth((m) => m + 1);
   };
   const isCellDisabled = (day: number | null) => {
     if (!day) return true;
@@ -487,10 +529,27 @@ export default function BookCounsellingPage() {
   };
   const selectDay = (day: number | null) => {
     if (!day || isCellDisabled(day)) return;
-    setSelectedDate(`${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`);
+    setSelectedDate(
+      `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
+    );
   };
 
-  const confirmBooking = async (paymentId?: string, forceFree = false) => {
+  const getPlatform = () => {
+    if (typeof navigator !== "undefined") {
+      const ua =
+        navigator.userAgent || navigator.vendor || (window as any).opera;
+      if (/iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream)
+        return "ios";
+      if (/android/i.test(ua)) return "android";
+    }
+    return "web";
+  };
+
+  const confirmBooking = async (
+    paymentId?: string,
+    forceFree = false,
+    pSource?: string,
+  ) => {
     if (!selectedSlot || !selectedDate || !userEmail || !userPhone) {
       setError("Please fill in all required fields.");
       return;
@@ -498,7 +557,14 @@ export default function BookCounsellingPage() {
     setBookingLoading(true);
     setError("");
     try {
-      const isFree = Boolean((forceFree || freeEligibility?.eligible) && !paymentId);
+      const isFree = Boolean(
+        (forceFree || freeEligibility?.eligible) &&
+        !paymentId &&
+        pSource !== "apple_iap",
+      );
+      const platform = getPlatform();
+      const paymentSource = pSource || (isFree ? "free" : "razorpay");
+
       const body = {
         date: selectedDate,
         time: selectedSlot.time,
@@ -507,7 +573,9 @@ export default function BookCounsellingPage() {
         userPhone,
         paymentId: paymentId || null,
         amount: 599,
-        isFreeBooking: isFree
+        isFreeBooking: isFree,
+        platform,
+        paymentSource,
       };
       const res = await fetch(`${API_BASE}/api/bookings/book-session`, {
         method: "POST",
@@ -535,7 +603,27 @@ export default function BookCounsellingPage() {
     }
   };
 
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const handleIosPaidBooking = async () => {
+    alert(
+      "Apple In-App Purchase flow will be connected here for iOS. Razorpay is disabled on iOS.",
+    );
+    return;
+  };
+
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const slideVariants = {
     enter: (dir: number) => ({ x: dir > 0 ? 50 : -50, opacity: 0 }),
     center: { x: 0, opacity: 1 },
@@ -543,8 +631,14 @@ export default function BookCounsellingPage() {
   };
 
   const [dir, setDir] = useState(1);
-  const goNext = (nextStep: number) => { setDir(1); setStep(nextStep); };
-  const goBack = (prevStep: number) => { setDir(-1); setStep(prevStep); };
+  const goNext = (nextStep: number) => {
+    setDir(1);
+    setStep(nextStep);
+  };
+  const goBack = (prevStep: number) => {
+    setDir(-1);
+    setStep(prevStep);
+  };
   const needsQuickAuth = showAuthStep && !isLoggedIn && step === 1;
 
   return (
@@ -560,7 +654,6 @@ export default function BookCounsellingPage() {
             className="min-h-screen pt-20 pb-12 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-black/40"
           >
             <div className="w-full max-w-5xl bg-[#2D1F1D] border border-[#D4A848]/20 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col lg:flex-row min-h-[600px] relative">
-
               {/* ── Left Panel (Hero/Info) ── */}
               <div className="lg:w-[40%] bg-black/20 p-6 md:p-10 flex flex-col relative border-b lg:border-b-0 lg:border-r border-[#D4A848]/10 overflow-hidden shrink-0">
                 {/* Background Decor */}
@@ -568,21 +661,38 @@ export default function BookCounsellingPage() {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[200px] h-[200px] bg-[#D4A848]/5 rounded-full blur-[80px] pointer-events-none" />
 
                 {/* Back Button */}
-                <button onClick={onClose} className="absolute top-6 left-6 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/5">
-                  <svg viewBox="0 0 24 24" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={3}><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+                <button
+                  onClick={onClose}
+                  className="absolute top-6 left-6 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/5"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-3 h-3"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={3}
+                  >
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                  </svg>
                   Back
                 </button>
 
                 <div className="flex-1 flex flex-col justify-center relative z-10 mt-12 lg:mt-0">
                   <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-3 py-1 mb-5 w-fit">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#D4A848] animate-pulse" />
-                    <span className="text-[#D4A848] text-[11px] font-black tracking-widest uppercase">Book Session</span>
+                    <span className="text-[#D4A848] text-[11px] font-black tracking-widest uppercase">
+                      Book Session
+                    </span>
                   </div>
 
                   <h2 className="text-3xl lg:text-4xl font-black text-white leading-tight mb-3">
-                    Counselling<br />Session
+                    Counselling
+                    <br />
+                    Session
                   </h2>
-                  <p className="text-white/50 text-sm mb-8 font-medium max-w-[250px]">1-hour private one-on-one session with our experts.</p>
+                  <p className="text-white/50 text-sm mb-8 font-medium max-w-[250px]">
+                    1-hour private one-on-one session with our experts.
+                  </p>
 
                   {/* Admin Badge */}
                   <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3 w-fit backdrop-blur-md">
@@ -590,24 +700,40 @@ export default function BookCounsellingPage() {
                       👤
                     </div>
                     <div>
-                      <div className="text-white text-[11px] font-black uppercase tracking-widest mb-0.5">Expert Help</div>
-                      <div className="text-white/40 text-[9px] font-black uppercase tracking-wider">With Admin / Consultant</div>
+                      <div className="text-white text-[11px] font-black uppercase tracking-widest mb-0.5">
+                        Expert Help
+                      </div>
+                      <div className="text-white/40 text-[9px] font-black uppercase tracking-wider">
+                        With Admin / Consultant
+                      </div>
                     </div>
                   </div>
 
                   {/* Benefits List */}
                   <div className="mt-12 space-y-4 hidden lg:block">
                     <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
-                      <p className="text-sm font-medium text-white/60">Personalized university shortlisting</p>
+                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">
+                        ✓
+                      </div>
+                      <p className="text-sm font-medium text-white/60">
+                        Personalized university shortlisting
+                      </p>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
-                      <p className="text-sm font-medium text-white/60">Profile evaluation & strengthening</p>
+                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">
+                        ✓
+                      </div>
+                      <p className="text-sm font-medium text-white/60">
+                        Profile evaluation & strengthening
+                      </p>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
-                      <p className="text-sm font-medium text-white/60">Application timeline planning</p>
+                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">
+                        ✓
+                      </div>
+                      <p className="text-sm font-medium text-white/60">
+                        Application timeline planning
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -615,58 +741,104 @@ export default function BookCounsellingPage() {
 
               {/* ── Right Panel (Interactive) ── */}
               <div className="lg:w-[60%] flex flex-col relative bg-[#2D1F1D]">
-
                 {/* Mobile Close Button */}
-                <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all z-20 lg:hidden">
-                  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={3}><path d="M18 6L6 18M6 6l12 12" /></svg>
+                <button
+                  onClick={onClose}
+                  className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all z-20 lg:hidden"
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={3}
+                  >
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
                 </button>
 
                 {/* Steps */}
                 {step < 4 && !needsQuickAuth && (
                   <div className="flex items-center gap-2 px-6 md:px-10 pt-8 pb-4 flex-shrink-0">
                     <StepDot step={1} current={step} label="Date" />
-                    <div className={`flex-1 h-px ${step > 1 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
+                    <div
+                      className={`flex-1 h-px ${step > 1 ? "bg-[#D4A848]/40" : "bg-white/10"}`}
+                    />
                     <StepDot step={2} current={step} label="Time" />
-                    <div className={`flex-1 h-px ${step > 2 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
+                    <div
+                      className={`flex-1 h-px ${step > 2 ? "bg-[#D4A848]/40" : "bg-white/10"}`}
+                    />
                     <StepDot step={3} current={step} label="Confirm" />
                   </div>
                 )}
 
-                {step < 4 && !needsQuickAuth && <div className="h-px bg-white/5 mx-6 md:mx-10 flex-shrink-0" />}
+                {step < 4 && !needsQuickAuth && (
+                  <div className="h-px bg-white/5 mx-6 md:mx-10 flex-shrink-0" />
+                )}
 
                 {/* Content Area */}
                 <div className="flex-1 overflow-y-auto min-h-0">
                   {needsQuickAuth ? (
-                    <motion.div key="auth" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="p-6 md:p-10 space-y-5 flex flex-col justify-center h-full">
+                    <motion.div
+                      key="auth"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="p-6 md:p-10 space-y-5 flex flex-col justify-center h-full"
+                    >
                       <div className="text-center mb-6">
                         <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/25 flex items-center justify-center text-[#D4A848]">
-                          {otpSent ? <Phone size={20} /> : <UserPlus size={20} />}
+                          {otpSent ? (
+                            <Phone size={20} />
+                          ) : (
+                            <UserPlus size={20} />
+                          )}
                         </div>
-                        <div className="text-white text-lg font-black tracking-tight">Quick Booking</div>
+                        <div className="text-white text-lg font-black tracking-tight">
+                          Quick Booking
+                        </div>
                         <div className="text-white/40 text-[13px] font-medium mt-1">
-                          {otpSent ? "Verify your phone number" : "Enter your details to get started"}
+                          {otpSent
+                            ? "Verify your phone number"
+                            : "Enter your details to get started"}
                         </div>
                       </div>
 
                       {!otpSent ? (
                         <div className="space-y-4 max-w-sm mx-auto w-full">
-                          <input type="text" placeholder="Your Name" value={userName} onChange={e => setUserName(e.target.value)}
-                            className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
-                          <input type="email" placeholder="Email Address *" value={userEmail} onChange={e => setUserEmail(e.target.value)} required
-                            className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
+                          <input
+                            type="text"
+                            placeholder="Your Name"
+                            value={userName}
+                            onChange={(e) => setUserName(e.target.value)}
+                            className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors"
+                          />
+                          <input
+                            type="email"
+                            placeholder="Email Address *"
+                            value={userEmail}
+                            onChange={(e) => setUserEmail(e.target.value)}
+                            required
+                            className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors"
+                          />
                           <div className="grid grid-cols-[120px_1fr] gap-3">
                             <select
                               aria-label="Country code"
                               value={selectedCountryIso}
-                              onChange={e => {
+                              onChange={(e) => {
                                 const nextIso = e.target.value;
                                 setSelectedCountryIso(nextIso);
-                                setUserPhone(buildPhoneNumber(nextIso, phoneNumber));
+                                setUserPhone(
+                                  buildPhoneNumber(nextIso, phoneNumber),
+                                );
                               }}
                               className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-3 py-3.5 text-sm text-white focus:border-[#D4A848]/40 outline-none transition-colors"
                             >
-                              {COUNTRY_CODE_OPTIONS.map(country => (
-                                <option key={country.isoCode} value={country.isoCode}>
+                              {COUNTRY_CODE_OPTIONS.map((country) => (
+                                <option
+                                  key={country.isoCode}
+                                  value={country.isoCode}
+                                >
                                   {country.flag} {country.dialCode}
                                 </option>
                               ))}
@@ -675,17 +847,25 @@ export default function BookCounsellingPage() {
                               type="tel"
                               placeholder="Phone Number *"
                               value={phoneNumber}
-                              onChange={e => {
-                                const digits = e.target.value.replace(/\D/g, "").slice(0, 15);
+                              onChange={(e) => {
+                                const digits = e.target.value
+                                  .replace(/\D/g, "")
+                                  .slice(0, 15);
                                 setPhoneNumber(digits);
-                                setUserPhone(buildPhoneNumber(selectedCountryIso, digits));
+                                setUserPhone(
+                                  buildPhoneNumber(selectedCountryIso, digits),
+                                );
                               }}
                               required
                               className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors"
                             />
                           </div>
 
-                          {(otpError || error) && <div className="text-red-400 text-xs px-1 font-medium">{otpError || error}</div>}
+                          {(otpError || error) && (
+                            <div className="text-red-400 text-xs px-1 font-medium">
+                              {otpError || error}
+                            </div>
+                          )}
                           {authConflict && (
                             <button
                               type="button"
@@ -696,8 +876,17 @@ export default function BookCounsellingPage() {
                             </button>
                           )}
 
-                          <button type="button" onClick={sendOtp} disabled={otpLoading || authLoading || !userEmail || !phoneNumber}
-                            className="w-full py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#D4A848]/20 mt-2">
+                          <button
+                            type="button"
+                            onClick={sendOtp}
+                            disabled={
+                              otpLoading ||
+                              authLoading ||
+                              !userEmail ||
+                              !phoneNumber
+                            }
+                            className="w-full py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#D4A848]/20 mt-2"
+                          >
                             {otpLoading ? "Sending..." : "Send OTP"}
                           </button>
                         </div>
@@ -709,8 +898,12 @@ export default function BookCounsellingPage() {
                                 <Phone size={18} />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <div className="text-white text-xs font-bold mb-0.5">OTP sent to</div>
-                                <div className="text-[#D4A848] text-sm truncate">{userPhone}</div>
+                                <div className="text-white text-xs font-bold mb-0.5">
+                                  OTP sent to
+                                </div>
+                                <div className="text-[#D4A848] text-sm truncate">
+                                  {userPhone}
+                                </div>
                               </div>
                               <button
                                 type="button"
@@ -736,8 +929,10 @@ export default function BookCounsellingPage() {
                               autoComplete="one-time-code"
                               placeholder="Enter 6-digit OTP"
                               value={otp}
-                              onChange={e => {
-                                const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+                              onChange={(e) => {
+                                const val = e.target.value
+                                  .replace(/\D/g, "")
+                                  .slice(0, 6);
                                 setOtp(val);
                               }}
                               maxLength={6}
@@ -746,12 +941,17 @@ export default function BookCounsellingPage() {
 
                             {otpTimer > 0 && (
                               <div className="text-center text-white/40 text-xs font-medium">
-                                OTP expires in {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, "0")}
+                                OTP expires in {Math.floor(otpTimer / 60)}:
+                                {String(otpTimer % 60).padStart(2, "0")}
                               </div>
                             )}
                           </div>
 
-                          {(otpError || error) && <div className="text-red-400 text-xs px-1 font-medium">{otpError || error}</div>}
+                          {(otpError || error) && (
+                            <div className="text-red-400 text-xs px-1 font-medium">
+                              {otpError || error}
+                            </div>
+                          )}
                           {authConflict && (
                             <button
                               type="button"
@@ -762,14 +962,31 @@ export default function BookCounsellingPage() {
                             </button>
                           )}
 
-                          <button type="button" onClick={verifyOtp} disabled={otpLoading || authLoading || otpVerified || otp.length !== 6}
-                            className="w-full py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#D4A848]/20 mt-2">
-                            {otpLoading || authLoading ? "Verifying..." : otpVerified ? "Verified" : "Verify & Continue"}
+                          <button
+                            type="button"
+                            onClick={verifyOtp}
+                            disabled={
+                              otpLoading ||
+                              authLoading ||
+                              otpVerified ||
+                              otp.length !== 6
+                            }
+                            className="w-full py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#D4A848]/20 mt-2"
+                          >
+                            {otpLoading || authLoading
+                              ? "Verifying..."
+                              : otpVerified
+                                ? "Verified"
+                                : "Verify & Continue"}
                           </button>
 
                           {otpTimer === 0 && (
-                            <button type="button" onClick={sendOtp} disabled={otpLoading || authLoading}
-                              className="w-full text-[#D4A848] text-[13px] font-bold hover:underline disabled:opacity-40">
+                            <button
+                              type="button"
+                              onClick={sendOtp}
+                              disabled={otpLoading || authLoading}
+                              className="w-full text-[#D4A848] text-[13px] font-bold hover:underline disabled:opacity-40"
+                            >
                               Resend OTP
                             </button>
                           )}
@@ -777,7 +994,10 @@ export default function BookCounsellingPage() {
                       )}
 
                       <div className="text-center mt-6">
-                        <button onClick={() => router.push("/auth/login")} className="text-[#D4A848] text-[13px] font-bold hover:underline">
+                        <button
+                          onClick={() => router.push("/auth/login")}
+                          className="text-[#D4A848] text-[13px] font-bold hover:underline"
+                        >
                           Already have an account? Login
                         </button>
                       </div>
@@ -785,35 +1005,71 @@ export default function BookCounsellingPage() {
                   ) : (
                     <AnimatePresence mode="wait" custom={dir}>
                       {step === 1 && (
-                        <motion.div key="s1" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-6 md:p-10 space-y-6">
+                        <motion.div
+                          key="s1"
+                          custom={dir}
+                          variants={slideVariants}
+                          initial="enter"
+                          animate="center"
+                          exit="exit"
+                          className="p-6 md:p-10 space-y-6"
+                        >
                           <div className="space-y-4 max-w-sm mx-auto">
-                            <label className="text-[13px] font-bold md:text-[14px] font-black text-white/50 uppercase tracking-widest block text-center">Select Date</label>
+                            <label className="text-[13px] font-bold md:text-[14px] font-black text-white/50 uppercase tracking-widest block text-center">
+                              Select Date
+                            </label>
                             <div className="bg-[#362B25]/40 border border-[#D4A848]/10 rounded-2xl p-4 md:p-5 shadow-inner">
                               <div className="flex items-center justify-between mb-5">
-                                <button onClick={prevMonth} className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors">‹</button>
-                                <span className="text-[15px] font-black text-white uppercase tracking-wider">{monthNames[calMonth]} {calYear}</span>
-                                <button onClick={nextMonth} className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors">›</button>
+                                <button
+                                  onClick={prevMonth}
+                                  className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                                >
+                                  ‹
+                                </button>
+                                <span className="text-[15px] font-black text-white uppercase tracking-wider">
+                                  {monthNames[calMonth]} {calYear}
+                                </span>
+                                <button
+                                  onClick={nextMonth}
+                                  className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors"
+                                >
+                                  ›
+                                </button>
                               </div>
                               <div className="grid grid-cols-7 mb-3">
-                                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => (
-                                  <div key={d} className="text-center text-[12px] font-black text-[#D4A848]/60 uppercase py-1">{d}</div>
-                                ))}
+                                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(
+                                  (d) => (
+                                    <div
+                                      key={d}
+                                      className="text-center text-[12px] font-black text-[#D4A848]/60 uppercase py-1"
+                                    >
+                                      {d}
+                                    </div>
+                                  ),
+                                )}
                               </div>
                               <div className="grid grid-cols-7 gap-1">
                                 {cells.map((day, i) => {
-                                  const dateStr = day ? `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}` : "";
+                                  const dateStr = day
+                                    ? `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`
+                                    : "";
                                   const disabled = isCellDisabled(day);
                                   const isSelected = dateStr === selectedDate;
                                   const isToday = dateStr === todayStr;
                                   return (
-                                    <button key={i} onClick={() => selectDay(day)} disabled={disabled}
+                                    <button
+                                      key={i}
+                                      onClick={() => selectDay(day)}
+                                      disabled={disabled}
                                       className={`aspect-square w-full rounded-xl text-sm font-bold transition-all flex items-center justify-center
                                       ${!day ? "invisible" : ""}
                                       ${disabled ? "text-white/10 cursor-not-allowed" : "hover:bg-[#D4A848]/10 text-white"}
                                       ${isSelected ? "!bg-[#D4A848] !text-[#2D1F1D] shadow-lg shadow-[#D4A848]/20 scale-105" : ""}
                                       ${isToday && !isSelected ? "text-[#D4A848] ring-1 ring-[#D4A848]/30" : ""}
                                     `}
-                                    >{day}</button>
+                                    >
+                                      {day}
+                                    </button>
                                   );
                                 })}
                               </div>
@@ -823,53 +1079,109 @@ export default function BookCounsellingPage() {
                       )}
 
                       {step === 2 && (
-                        <motion.div key="s2" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-6 md:p-10 space-y-6">
+                        <motion.div
+                          key="s2"
+                          custom={dir}
+                          variants={slideVariants}
+                          initial="enter"
+                          animate="center"
+                          exit="exit"
+                          className="p-6 md:p-10 space-y-6"
+                        >
                           <div className="flex items-center justify-center gap-4 bg-[#362B25]/60 border border-[#D4A848]/10 rounded-2xl px-5 py-4 max-w-sm mx-auto shadow-inner">
-                            <div className="w-10 h-10 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-xl">📅</div>
+                            <div className="w-10 h-10 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-xl">
+                              📅
+                            </div>
                             <div className="text-left">
-                              <div className="text-white font-black text-sm uppercase tracking-wider">{formatDate(selectedDate)}</div>
-                              <div className="text-[#D4A848]/70 text-[11px] font-black uppercase tracking-widest mt-0.5">Select a preferred slot below</div>
+                              <div className="text-white font-black text-sm uppercase tracking-wider">
+                                {formatDate(selectedDate)}
+                              </div>
+                              <div className="text-[#D4A848]/70 text-[11px] font-black uppercase tracking-widest mt-0.5">
+                                Select a preferred slot below
+                              </div>
                             </div>
                           </div>
 
-                          {error && <div className="text-red-400 text-[14px] font-bold text-center">{error}</div>}
+                          {error && (
+                            <div className="text-red-400 text-[14px] font-bold text-center">
+                              {error}
+                            </div>
+                          )}
 
                           <div className="max-w-md mx-auto">
                             {slotsLoading ? (
-                              <div className="grid grid-cols-3 gap-3">{Array.from({ length: 9 }).map((_, i) => <div key={i} className="h-14 bg-white/5 rounded-xl animate-pulse" />)}</div>
+                              <div className="grid grid-cols-3 gap-3">
+                                {Array.from({ length: 9 }).map((_, i) => (
+                                  <div
+                                    key={i}
+                                    className="h-14 bg-white/5 rounded-xl animate-pulse"
+                                  />
+                                ))}
+                              </div>
                             ) : (
                               <div className="grid grid-cols-3 gap-3">
                                 {slots.length === 0 ? (
                                   <div className="col-span-3 text-center py-10 bg-[#362B25]/30 rounded-2xl border border-white/5">
-                                    <div className="text-4xl mb-3 opacity-50">⏰</div>
-                                    <div className="text-white/70 text-[15px] font-black tracking-wide">No slots available</div>
-                                    <div className="text-white/40 text-xs mt-1">Please select another date</div>
+                                    <div className="text-4xl mb-3 opacity-50">
+                                      ⏰
+                                    </div>
+                                    <div className="text-white/70 text-[15px] font-black tracking-wide">
+                                      No slots available
+                                    </div>
+                                    <div className="text-white/40 text-xs mt-1">
+                                      Please select another date
+                                    </div>
                                   </div>
-                                ) : slots.map((slot) => {
-                                  const isToday = selectedDate === todayStr;
-                                  const blocked = isSlotBlocked(slot, isToday);
-                                  const isSelected = selectedSlot?.time === slot.time && !blocked;
-                                  const isBooked = !slot.available;
-                                  const isPast = !isBooked && blocked;
+                                ) : (
+                                  slots.map((slot) => {
+                                    const isToday = selectedDate === todayStr;
+                                    const blocked = isSlotBlocked(
+                                      slot,
+                                      isToday,
+                                    );
+                                    const isSelected =
+                                      selectedSlot?.time === slot.time &&
+                                      !blocked;
+                                    const isBooked = !slot.available;
+                                    const isPast = !isBooked && blocked;
 
-                                  let subLabel = slot.endTime;
-                                  if (isBooked) subLabel = "Booked";
-                                  else if (isPast) subLabel = "Past";
+                                    let subLabel = slot.endTime;
+                                    if (isBooked) subLabel = "Booked";
+                                    else if (isPast) subLabel = "Past";
 
-                                  return (
-                                    <button key={slot.time} disabled={blocked} onClick={() => setSelectedSlot(slot)}
-                                      className={`h-14 rounded-xl text-xs font-black uppercase tracking-wider border flex flex-col items-center justify-center transition-all relative overflow-hidden
-                                      ${isSelected
+                                    return (
+                                      <button
+                                        key={slot.time}
+                                        disabled={blocked}
+                                        onClick={() => setSelectedSlot(slot)}
+                                        className={`h-14 rounded-xl text-xs font-black uppercase tracking-wider border flex flex-col items-center justify-center transition-all relative overflow-hidden
+                                      ${
+                                        isSelected
                                           ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D] shadow-[0_5px_15px_rgba(212,168,72,0.3)] scale-105 z-10"
-                                          : blocked ? "bg-[#362B25]/20 border-white/5 opacity-40 cursor-not-allowed" : "bg-[#362B25]/40 border-white/5 text-white/70 hover:border-[#D4A848]/30 hover:bg-[#D4A848]/5"
-                                        }
+                                          : blocked
+                                            ? "bg-[#362B25]/20 border-white/5 opacity-40 cursor-not-allowed"
+                                            : "bg-[#362B25]/40 border-white/5 text-white/70 hover:border-[#D4A848]/30 hover:bg-[#D4A848]/5"
+                                      }
                                     `}
-                                    >
-                                      <span className={blocked ? "line-through text-white/40" : ""}>{slot.time}</span>
-                                      <span className={`text-[9px] mt-0.5 tracking-widest ${isSelected ? "text-[#2D1F1D]/70" : blocked ? "text-red-400/70" : "text-[#D4A848]/50"}`}>{subLabel}</span>
-                                    </button>
-                                  );
-                                })}
+                                      >
+                                        <span
+                                          className={
+                                            blocked
+                                              ? "line-through text-white/40"
+                                              : ""
+                                          }
+                                        >
+                                          {slot.time}
+                                        </span>
+                                        <span
+                                          className={`text-[9px] mt-0.5 tracking-widest ${isSelected ? "text-[#2D1F1D]/70" : blocked ? "text-red-400/70" : "text-[#D4A848]/50"}`}
+                                        >
+                                          {subLabel}
+                                        </span>
+                                      </button>
+                                    );
+                                  })
+                                )}
                               </div>
                             )}
                           </div>
@@ -877,7 +1189,15 @@ export default function BookCounsellingPage() {
                       )}
 
                       {step === 3 && (
-                        <motion.div key="s3" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-6 md:p-10 space-y-6">
+                        <motion.div
+                          key="s3"
+                          custom={dir}
+                          variants={slideVariants}
+                          initial="enter"
+                          animate="center"
+                          exit="exit"
+                          className="p-6 md:p-10 space-y-6"
+                        >
                           <div className="max-w-sm mx-auto space-y-5">
                             {freeEligibility?.eligible && (
                               <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-4">
@@ -886,37 +1206,72 @@ export default function BookCounsellingPage() {
                                     <Gift size={18} />
                                   </div>
                                   <div>
-                                    <div className="text-green-400 text-sm font-black uppercase tracking-wide">Your First Session is FREE!</div>
-                                    <div className="text-green-400/60 text-xs font-medium mt-0.5">No payment required</div>
+                                    <div className="text-green-400 text-sm font-black uppercase tracking-wide">
+                                      Your First Session is FREE!
+                                    </div>
+                                    <div className="text-green-400/60 text-xs font-medium mt-0.5">
+                                      No payment required
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             )}
 
-                            {!freeEligibility?.eligible && freeEligibility?.message && (
-                              <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-white/50 text-xs text-center font-medium">
-                                {freeEligibility.message}
-                              </div>
-                            )}
+                            {!freeEligibility?.eligible &&
+                              freeEligibility?.message && (
+                                <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-white/50 text-xs text-center font-medium">
+                                  {freeEligibility.message}
+                                </div>
+                              )}
 
                             <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-2xl p-5 space-y-2 text-center shadow-inner">
-                              <div className="text-[11px] font-black text-white/40 uppercase tracking-[0.2em] mb-2">Session Summary</div>
-                              <div className="text-white text-sm font-black uppercase tracking-wider">{formatDate(selectedDate)}</div>
-                              <div className="text-[#D4A848] text-lg font-black uppercase tracking-widest">{selectedSlot?.time} – {selectedSlot?.endTime}</div>
+                              <div className="text-[11px] font-black text-white/40 uppercase tracking-[0.2em] mb-2">
+                                Session Summary
+                              </div>
+                              <div className="text-white text-sm font-black uppercase tracking-wider">
+                                {formatDate(selectedDate)}
+                              </div>
+                              <div className="text-[#D4A848] text-lg font-black uppercase tracking-widest">
+                                {selectedSlot?.time} – {selectedSlot?.endTime}
+                              </div>
                             </div>
 
                             <div className="space-y-3">
-                              <input type="text" placeholder="Full Name" value={userName} onChange={e => setUserName(e.target.value)}
-                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
-                              <input type="email" placeholder="Email Address *" value={userEmail} onChange={e => setUserEmail(e.target.value)} onBlur={() => void checkFreeEligibility(userEmail)} required disabled={isLoggedIn}
-                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50 transition-colors" />
-                              <input type="tel" placeholder="Phone Number *" value={userPhone} onChange={e => setUserPhone(e.target.value)} required disabled={isLoggedIn}
-                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50 transition-colors" />
+                              <input
+                                type="text"
+                                placeholder="Full Name"
+                                value={userName}
+                                onChange={(e) => setUserName(e.target.value)}
+                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors"
+                              />
+                              <input
+                                type="email"
+                                placeholder="Email Address *"
+                                value={userEmail}
+                                onChange={(e) => setUserEmail(e.target.value)}
+                                onBlur={() =>
+                                  void checkFreeEligibility(userEmail)
+                                }
+                                required
+                                disabled={isLoggedIn}
+                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50 transition-colors"
+                              />
+                              <input
+                                type="tel"
+                                placeholder="Phone Number *"
+                                value={userPhone}
+                                onChange={(e) => setUserPhone(e.target.value)}
+                                required
+                                disabled={isLoggedIn}
+                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50 transition-colors"
+                              />
                             </div>
 
                             {isLoggedIn && (
                               <div className="flex items-center justify-between gap-3 text-[12px] px-2 bg-white/5 py-2 rounded-lg border border-white/5">
-                                <span className="text-white/50 font-medium">Using saved account details</span>
+                                <span className="text-white/50 font-medium">
+                                  Using saved account details
+                                </span>
                                 <button
                                   type="button"
                                   onClick={useDifferentDetails}
@@ -927,15 +1282,24 @@ export default function BookCounsellingPage() {
                               </div>
                             )}
 
-                            {error && <div className="text-red-400 text-xs text-center font-medium">{error}</div>}
+                            {error && (
+                              <div className="text-red-400 text-xs text-center font-medium">
+                                {error}
+                              </div>
+                            )}
 
                             {!freeEligibility?.eligible && (
                               <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-2xl p-5 space-y-2">
                                 <div className="flex justify-between items-center text-[13px] font-black text-white/60 uppercase tracking-widest">
                                   <span>Session Charge</span>
-                                  <span className="text-[#D4A848] text-base">Rs. 599</span>
+                                  <span className="text-[#D4A848] text-base">
+                                    Rs. 599
+                                  </span>
                                 </div>
-                                <div className="text-[11px] text-[#D4A848]/60 font-medium leading-relaxed">Charges are fully adjustable against any IEC premium service you opt for later.</div>
+                                <div className="text-[11px] text-[#D4A848]/60 font-medium leading-relaxed">
+                                  Charges are fully adjustable against any IEC
+                                  premium service you opt for later.
+                                </div>
                               </div>
                             )}
                           </div>
@@ -943,39 +1307,88 @@ export default function BookCounsellingPage() {
                       )}
 
                       {step === 4 && booking && (
-                        <motion.div key="s4" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="p-6 md:p-12 space-y-8 text-center max-w-md mx-auto flex flex-col justify-center h-full min-h-[400px]">
+                        <motion.div
+                          key="s4"
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="p-6 md:p-12 space-y-8 text-center max-w-md mx-auto flex flex-col justify-center h-full min-h-[400px]"
+                        >
                           <div className="w-20 h-20 bg-green-500/10 border border-green-500/30 rounded-full flex items-center justify-center mx-auto text-green-400 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
-                            {lastBookingWasFree ? <Gift size={32} /> : <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" stroke="currentColor" strokeWidth={3}><path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+                            {lastBookingWasFree ? (
+                              <Gift size={32} />
+                            ) : (
+                              <svg
+                                viewBox="0 0 24 24"
+                                className="w-10 h-10"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={3}
+                              >
+                                <path
+                                  d="M5 13l4 4L19 7"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            )}
                           </div>
                           <div>
                             <h3 className="text-2xl font-black text-white leading-tight uppercase tracking-wide">
-                              {lastBookingWasFree ? "Free Session Booked!" : "Session Confirmed!"}
+                              {lastBookingWasFree
+                                ? "Free Session Booked!"
+                                : "Session Confirmed!"}
                             </h3>
-                            <p className="text-white/50 text-[14px] font-medium mt-2">Confirmation sent to <span className="text-white">{userEmail}</span></p>
+                            <p className="text-white/50 text-[14px] font-medium mt-2">
+                              Confirmation sent to{" "}
+                              <span className="text-white">{userEmail}</span>
+                            </p>
                           </div>
 
                           <div className="bg-[#362B25]/60 border border-[#D4A848]/20 rounded-2xl p-5 space-y-4 text-left shadow-inner">
-                            <Row label="Date" value={formatDate(booking.date)} />
+                            <Row
+                              label="Date"
+                              value={formatDate(booking.date)}
+                            />
                             <Row label="Time" value={booking.time} />
                             <div className="pt-4 border-t border-white/5">
-                              <div className="text-[11px] font-black text-white/40 uppercase tracking-widest mb-1.5">Meeting ID</div>
-                              <code className="block w-full bg-black/40 px-4 py-3 rounded-xl text-[#D4A848] text-sm font-black font-mono text-center tracking-widest border border-[#D4A848]/10">{booking.meetingId}</code>
+                              <div className="text-[11px] font-black text-white/40 uppercase tracking-widest mb-1.5">
+                                Meeting ID
+                              </div>
+                              <code className="block w-full bg-black/40 px-4 py-3 rounded-xl text-[#D4A848] text-sm font-black font-mono text-center tracking-widest border border-[#D4A848]/10">
+                                {booking.meetingId}
+                              </code>
                             </div>
                           </div>
 
-                          {shouldPromptProfileCompletion && lastBookingWasFree && (
-                            <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-2xl p-5 text-left">
-                              <div className="text-[#D4A848] text-sm font-black uppercase tracking-wider mb-2">Complete Your Profile</div>
-                              <div className="text-white/60 text-xs font-medium mb-4 leading-relaxed">Add your profile details to book more sessions and access your full student dashboard.</div>
-                              <button onClick={() => { onClose(); router.push("/User/edit-profile"); }}
-                                className="w-full py-3 rounded-xl border-2 border-[#D4A848] text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848] hover:text-[#2D1F1D] transition-colors">
-                                Complete Profile Now
-                              </button>
-                            </div>
-                          )}
+                          {shouldPromptProfileCompletion &&
+                            lastBookingWasFree && (
+                              <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-2xl p-5 text-left">
+                                <div className="text-[#D4A848] text-sm font-black uppercase tracking-wider mb-2">
+                                  Complete Your Profile
+                                </div>
+                                <div className="text-white/60 text-xs font-medium mb-4 leading-relaxed">
+                                  Add your profile details to book more sessions
+                                  and access your full student dashboard.
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    onClose();
+                                    router.push("/User/edit-profile");
+                                  }}
+                                  className="w-full py-3 rounded-xl border-2 border-[#D4A848] text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848] hover:text-[#2D1F1D] transition-colors"
+                                >
+                                  Complete Profile Now
+                                </button>
+                              </div>
+                            )}
 
-                          <button onClick={() => { onClose(); router.push(`/meeting/${booking.sessionId}`); }}
-                            className="w-full bg-[#D4A848] text-[#2D1F1D] font-black py-4 rounded-xl text-sm uppercase tracking-widest shadow-[0_10px_20px_rgba(212,168,72,0.2)] hover:shadow-[0_15px_30px_rgba(212,168,72,0.3)] transition-all hover:-translate-y-1">
+                          <button
+                            onClick={() => {
+                              onClose();
+                              router.push(`/meeting/${booking.sessionId}`);
+                            }}
+                            className="w-full bg-[#D4A848] text-[#2D1F1D] font-black py-4 rounded-xl text-sm uppercase tracking-widest shadow-[0_10px_20px_rgba(212,168,72,0.2)] hover:shadow-[0_15px_30px_rgba(212,168,72,0.3)] transition-all hover:-translate-y-1"
+                          >
                             Enter Meeting Room
                           </button>
                         </motion.div>
@@ -988,7 +1401,12 @@ export default function BookCounsellingPage() {
                 {step < 4 && !needsQuickAuth && (
                   <div className="p-6 md:p-10 pt-4 border-t border-white/5 flex gap-3 mt-auto shrink-0 bg-[#2D1F1D]">
                     {step > 1 && (
-                      <button onClick={() => goBack(step - 1)} className="flex-[0.4] py-3.5 rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-white/5 text-[12px] font-black uppercase tracking-widest transition-all">Back</button>
+                      <button
+                        onClick={() => goBack(step - 1)}
+                        className="flex-[0.4] py-3.5 rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-white/5 text-[12px] font-black uppercase tracking-widest transition-all"
+                      >
+                        Back
+                      </button>
                     )}
                     <button
                       onClick={async () => {
@@ -998,25 +1416,43 @@ export default function BookCounsellingPage() {
                           if (userEmail) {
                             void checkFreeEligibility(userEmail);
                           }
-                        }
-                        else if (step === 3) {
+                        } else if (step === 3) {
                           if (!userName || !userEmail || !userPhone) {
                             setError("Please fill all details");
                             return;
                           }
 
-                          const eligibility = await checkFreeEligibility(userEmail);
+                          const eligibility =
+                            await checkFreeEligibility(userEmail);
                           if ((eligibility || freeEligibility)?.eligible) {
-                            await confirmBooking(undefined, true);
+                            await confirmBooking(undefined, true, "free");
                           } else {
-                            setIsCheckoutOpen(true);
+                            const platform = getPlatform();
+                            if (platform === "ios") {
+                              await handleIosPaidBooking();
+                            } else {
+                              setIsCheckoutOpen(true);
+                            }
                           }
                         }
                       }}
-                      disabled={(step === 1 && !selectedDate) || (step === 2 && !selectedSlot) || (step === 3 && (bookingLoading || isCheckingEligibility))}
+                      disabled={
+                        (step === 1 && !selectedDate) ||
+                        (step === 2 && !selectedSlot) ||
+                        (step === 3 &&
+                          (bookingLoading || isCheckingEligibility))
+                      }
                       className="flex-1 py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[13px] font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all shadow-lg shadow-[#D4A848]/10 hover:shadow-[#D4A848]/20"
                     >
-                      {bookingLoading ? "Booking..." : isCheckingEligibility ? "Checking..." : step === 3 ? (freeEligibility?.eligible ? "Confirm Free Session" : "Confirm & Pay (Rs.599)") : "Continue"}
+                      {bookingLoading
+                        ? "Booking..."
+                        : isCheckingEligibility
+                          ? "Checking..."
+                          : step === 3
+                            ? freeEligibility?.eligible
+                              ? "Confirm Free Session"
+                              : "Confirm & Pay (Rs.599)"
+                            : "Continue"}
                     </button>
                   </div>
                 )}
@@ -1043,7 +1479,9 @@ export default function BookCounsellingPage() {
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between items-center">
-      <span className="text-white/30 text-[14px] font-bold font-bold uppercase">{label}</span>
+      <span className="text-white/30 text-[14px] font-bold font-bold uppercase">
+        {label}
+      </span>
       <span className="text-white text-[11px] font-bold">{value}</span>
     </div>
   );

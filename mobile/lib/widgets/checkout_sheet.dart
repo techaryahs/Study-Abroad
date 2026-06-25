@@ -1,9 +1,11 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../models/checkout_item.dart';
 import '../core/api_client.dart';
 import '../core/storage.dart';
+import '../core/apple_iap_service.dart';
 
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -176,6 +178,30 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
       if (user == null)
         throw Exception("Please login first to make a payment.");
 
+      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+        AppleIapService.instance.initialize();
+        final productId = 'com.iecstudyabroad.counselling.premium599';
+        final result =
+            await AppleIapService.instance.purchaseProduct(productId);
+
+        if (result.success) {
+          if (mounted) {
+            setState(() => _isProcessing = false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text(
+                  'Apple purchase completed. Final iOS checkout verification will be enabled after backend Apple verification is fully connected.',
+                ),
+              ),
+            );
+          }
+        } else {
+          throw Exception(result.errorMessage ?? 'Apple IAP failed');
+        }
+
+        AppleIapService.instance.dispose();
+        return;
+      }
       final res = await ApiClient.instance.post(
         '/api/payment/create-order',
         data: {

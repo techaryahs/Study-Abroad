@@ -11,16 +11,16 @@ const bookingSchema = new mongoose.Schema(
     bookingType: {
       type: String,
       enum: ["consultant", "counselling"],
-      default: "consultant"
+      default: "consultant",
     },
     classMode: {
       type: String,
-      enum: ["online", "offline"]
+      enum: ["online", "offline"],
     },
 
     date: { type: String, required: true }, // Format: YYYY-MM-DD
     time: { type: String, required: true }, // Format: "HH:mm" (24-hour)
-    endTime: { type: String },              // Format: "HH:mm" (end of 1-hour slot)
+    endTime: { type: String }, // Format: "HH:mm" (end of 1-hour slot)
     duration: { type: Number, default: 60 }, // in minutes
 
     userEmail: { type: String, required: true },
@@ -29,21 +29,38 @@ const bookingSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["pending", "accepted", "rejected", "booked", "completed", "cancelled"],
-      default: "pending"
+      enum: [
+        "pending",
+        "accepted",
+        "rejected",
+        "booked",
+        "completed",
+        "cancelled",
+      ],
+      default: "pending",
     },
 
     // Meeting / WebRTC
     sessionId: { type: String, unique: true, sparse: true }, // Unique per counselling session
     meetingId: { type: String }, // Short hash used by WebRTC room
-    
+
     // Payment info
     paymentId: { type: String },
+    paymentSource: { type: String, enum: ["free", "razorpay", "apple_iap"] },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid", "failed"],
+      default: "pending",
+    },
+    appleTransactionId: { type: String },
+    appleProductId: { type: String },
+    platform: { type: String },
     isPaid: { type: Boolean, default: false },
     isFreeBooking: { type: Boolean, default: false },
     amountPaid: { type: Number },
   },
-  { timestamps: true, autoCreate: false, autoIndex: false }
+  { timestamps: true, autoCreate: false, autoIndex: false },
 );
 
-module.exports = mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
+module.exports =
+  mongoose.models.Booking || mongoose.model("Booking", bookingSchema);

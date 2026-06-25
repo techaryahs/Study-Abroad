@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
+import '../../core/apple_iap_service.dart';
 import '../features/auth/auth_provider.dart';
 import 'checkout_sheet.dart';
 import '../models/checkout_item.dart';
@@ -239,11 +241,30 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
 
     if ((eligibility ?? _freeEligibility)?['eligible'] == true) {
       debugPrint('Free booking eligible - skipping payment');
-      await _finalizeBooking(isFreeBooking: true);
+      await _finalizeBooking(isFreeBooking: true, paymentSource: 'free');
       return;
     }
 
     debugPrint('Payment required - opening checkout');
+
+    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+      AppleIapService.instance.initialize();
+      final result = await AppleIapService.instance.purchaseProduct('com.iecstudyabroad.counselling.premium599');
+      if (result.success) {
+        await _finalizeBooking(
+  paymentId: result.appleTransactionId,
+  paymentSource: 'apple_iap',
+  appleTransactionId: result.appleTransactionId,
+  appleProductId: result.appleProductId,
+  platform: 'ios',
+);
+      } else {
+        setState(() => _error = result.errorMessage ?? 'Apple IAP failed');
+      }
+      AppleIapService.instance.dispose();
+      return;
+    }
+
     CheckoutSheet.show(
       context,
       title: 'Booking Payment',
@@ -267,8 +288,14 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     );
   }
 
-  Future<void> _finalizeBooking(
-      {String? paymentId, bool isFreeBooking = false}) async {
+  Future<void> _finalizeBooking({
+    String? paymentId,
+    bool isFreeBooking = false,
+    String? paymentSource,
+    String? appleTransactionId,
+    String? appleProductId,
+    String? platform,
+  }) async {
     setState(() {
       _bookingLoading = true;
       _error = '';
@@ -286,6 +313,10 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           'paymentId': paymentId,
           'amount': 599,
           'isFreeBooking': isFreeBooking,
+          if (paymentSource != null) 'paymentSource': paymentSource,
+          if (appleTransactionId != null) 'appleTransactionId': appleTransactionId,
+          if (appleProductId != null) 'appleProductId': appleProductId,
+          if (platform != null) 'platform': platform,
         },
       );
       setState(() {
