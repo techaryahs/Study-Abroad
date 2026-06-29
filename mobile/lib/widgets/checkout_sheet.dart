@@ -190,7 +190,7 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
         'amount': data['amount'],
         'currency': data['currency'],
         'order_id': data['id'],
-        'name': 'International Eduleader Council',
+        'name': 'EduLeaderGlobal',
         'description': widget.items.map((e) => e.title).join(', '),
         'prefill': {
           'contact': user['phone'] ?? user['mobile'] ?? '',

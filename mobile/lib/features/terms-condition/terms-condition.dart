@@ -29,7 +29,7 @@ class TermsConditionScreen extends StatelessWidget {
           children: [
             _section(
               "1. Acceptance of Terms",
-              "By accessing and using International EduLeader Council services, you agree to comply with these Terms and Conditions.",
+              "By accessing and using EduLeaderGlobal services, you agree to comply with these Terms and Conditions.",
             ),
             _section(
               "2. Educational Guidance",
@@ -45,7 +45,7 @@ class TermsConditionScreen extends StatelessWidget {
             ),
             _section(
               "5. Intellectual Property",
-              "All content, branding, logos, designs, and materials available on this platform are the intellectual property of International EduLeader Council.",
+              "All content, branding, logos, designs, and materials available on this platform are the intellectual property of EduLeaderGlobal.",
             ),
             _section(
               "6. Limitation of Liability",

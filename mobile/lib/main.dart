@@ -30,7 +30,7 @@ class StudyAbroadApp extends StatelessWidget {
     final router = AppRouter.create(auth);
 
     return MaterialApp.router(
-      title: 'IEC',
+      title: 'EduLeaderGlobal',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       routerConfig: router,

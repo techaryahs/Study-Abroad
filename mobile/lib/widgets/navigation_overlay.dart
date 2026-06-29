@@ -41,7 +41,7 @@ class _NavigationOverlayState extends State<NavigationOverlay> {
                     children: [
                       const Expanded(
                         child: Text(
-                          "INTERNATIONAL EDULEADER COUNCIL",
+                          "EduLeaderGlobal",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,

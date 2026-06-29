@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: logoSize,
                       alignment: Alignment.center,
                       child: Image.asset(
-                        'assets/images/logo_iec.png',
+                        'assets/images/logo_edug.png',
                         fit: BoxFit.contain,
                       ),
                     ),

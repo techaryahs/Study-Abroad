@@ -97,7 +97,7 @@ class LandingScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       image: const DecorationImage(
                         image: AssetImage(
-                          "assets/images/logo_iec.png",
+                          "assets/images/logo_edug.png",
                         ),
                         fit: BoxFit.cover,
                       ),
@@ -583,7 +583,7 @@ class LandingScreen extends StatelessWidget {
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
                                     image: AssetImage(
-                                      'assets/images/logo_iec.png',
+                                      'assets/images/logo_edug.png',
                                     ),
                                     fit: BoxFit.contain,
                                   ),
@@ -594,7 +594,7 @@ class LandingScreen extends StatelessWidget {
 
                               const Flexible(
                                 child: Text(
-                                  'International EduLeader Council',
+                                  'EduLeaderGlobal',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.center,
@@ -635,7 +635,7 @@ class LandingScreen extends StatelessWidget {
                           const SizedBox(height: 24),
 
                           const Text(
-                            '© 2026 International EduLeader Council',
+                            '© 2026 EduLeaderGlobal',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontFamily: 'Manrope',

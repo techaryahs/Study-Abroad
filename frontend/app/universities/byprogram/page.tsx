@@ -24,10 +24,10 @@ export async function generateMetadata({
   ) {
     return {
       title:
-        "Business Programs Abroad with International Eduleader Council | MBA & Management Courses",
+        "Business Programs Abroad with EduLeaderGlobal | MBA & Management Courses",
 
       description:
-        "Study Business, MBA, Finance, Marketing, and Management programs abroad with International Eduleader Council expert university admissions and visa guidance.",
+        "Study Business, MBA, Finance, Marketing, and Management programs abroad with EduLeaderGlobal expert university admissions and visa guidance.",
     };
   }
 
@@ -41,20 +41,20 @@ export async function generateMetadata({
   ) {
     return {
       title:
-        "Science Programs Abroad with International Eduleader Council | Top Universities Worldwide",
+        "Science Programs Abroad with EduLeaderGlobal | Top Universities Worldwide",
 
       description:
-        "Discover leading science programs abroad with the International Eduleader Council including Data Science, Biotechnology, Physics, Chemistry, and Life Sciences at top universities.",
+        "Discover leading science programs abroad with the EduLeaderGlobal including Data Science, Biotechnology, Physics, Chemistry, and Life Sciences at top universities.",
     };
   }
 
   // DEFAULT ENGINEERING
   return {
     title:
-      "Engineering Programs Abroad with International Eduleader Council | Top Global Universities",
+      "Engineering Programs Abroad with EduLeaderGlobal | Top Global Universities",
 
     description:
-      "Explore top engineering programs abroad with the International Eduleader Council including Computer Science, Mechanical, Civil, AI, and Electrical Engineering at leading universities worldwide.",
+      "Explore top engineering programs abroad with the EduLeaderGlobal including Computer Science, Mechanical, Civil, AI, and Electrical Engineering at leading universities worldwide.",
   };
 }
 

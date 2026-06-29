@@ -60,7 +60,7 @@ class UniPredictScreen extends StatelessWidget {
                       colors: [AppTheme.gold, Color(0xFFE6D5B8), AppTheme.gold],
                     ).createShader(bounds),
                     child: const Text(
-                      'IEC',
+                      'EduLeaderGlobal',
                       style: TextStyle(
                         fontSize: 64,
                         fontWeight: FontWeight.w900,

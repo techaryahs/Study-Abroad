@@ -470,13 +470,13 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                   ),
                   const SizedBox(height: 16),
                   _buildComparisonCard(
-                    title: 'International Eduleader Council',
+                    title: 'EduLeaderGlobal',
                     tag: 'Council-Verified AI',
                     tagColor: AppTheme.goldDark,
                     bullets: [
                       'Our AI is trained on SOPs from students admitted to top universities.',
                       'Generates personalized SOPs based on your inputs.',
-                      'Comes with IEC AI remover to ensure originality and AI-proofing.',
+                      'Comes with EduLeaderGlobal AI remover to ensure originality and AI-proofing.',
                       'Ensures a unique, high-quality SOP that passes plagiarism checks.',
                       'Built specifically for university admission standards.',
                     ],

@@ -257,7 +257,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
           price: 599,
           actualPrice: 599,
           currency: 'INR',
-          description: '1-hour private session with IEC Admin.',
+          description: '1-hour private session with EduLeaderGlobal Admin.',
         )
       ],
       onPaymentSuccess: () {

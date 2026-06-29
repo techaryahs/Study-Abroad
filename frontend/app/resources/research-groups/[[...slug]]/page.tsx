@@ -3,10 +3,10 @@ import ResearchGroupsClientPage from "./ResearchGroupsClientPage";
 
 export const metadata: Metadata = {
   title:
-    "Research Groups with International Eduleader Council | Connect with Global Academic Research",
+    "Research Groups with EduLeaderGlobal | Connect with Global Academic Research",
 
   description:
-    "Explore international research groups with the International Eduleader Council and discover opportunities for academic research, innovation, publications, and university collaborations abroad.",
+    "Explore international research groups with the EduLeaderGlobal and discover opportunities for academic research, innovation, publications, and university collaborations abroad.",
 
   keywords: [
     "Research groups",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "Research publications",
     "Global academic research",
     "Research opportunities abroad",
-    "International Eduleader Council",
+    "EduLeaderGlobal",
     "University collaborations",
     "Research clusters",
     "Academic innovation",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Research Groups | International Eduleader Council",
+      "Research Groups | EduLeaderGlobal",
 
     description:
       "Connect with international academic research groups, collaborations, publications, and innovation networks worldwide.",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     url:
       "https://yourdomain.com/resources/research-groups",
 
-    siteName: "International Eduleader Council",
+    siteName: "EduLeaderGlobal",
     type: "website",
   },
 
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
 
     title:
-      "Research Groups | IEC",
+      "Research Groups | EduLeaderGlobal",
 
     description:
       "Discover global research collaborations, academic clusters, and publication opportunities.",

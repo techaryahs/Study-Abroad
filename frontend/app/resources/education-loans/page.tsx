@@ -397,7 +397,7 @@ export default function EducationLoanPage() {
 
           <div className="space-y-6">
             <h2 className="fd text-3xl md:text-4xl font-bold text-[#2D2926] leading-tight">
-              Why choose <span className="bg-[#2D2926] text-[#C5A059] px-4 py-1 rounded-xl inline-block -rotate-1">IEC</span>?
+              Why choose <span className="bg-[#2D2926] text-[#C5A059] px-4 py-1 rounded-xl inline-block -rotate-1">EduLeaderGlobal</span>?
             </h2>
             <p className="text-[#6B5E51] text-base font-medium leading-relaxed">
               At our core, we prioritize financial inclusivity by offering unbiased guidance so every student can get access to world-class education.

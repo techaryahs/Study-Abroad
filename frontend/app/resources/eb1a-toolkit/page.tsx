@@ -3,10 +3,10 @@ import EB1AToolkitClientPage from "./EB1AToolkitClientPage";
 
 export const metadata: Metadata = {
   title:
-    "EB-1A Toolkit with International Eduleader Council | USA Extraordinary Ability Visa Support",
+    "EB-1A Toolkit with EduLeaderGlobal | USA Extraordinary Ability Visa Support",
 
   description:
-    "International Eduleader Council’s EB-1A Toolkit helps students, researchers, and professionals strengthen their USA EB-1A visa profile with expert guidance and documentation support.",
+    "EduLeaderGlobal’s EB-1A Toolkit helps students, researchers, and professionals strengthen their USA EB-1A visa profile with expert guidance and documentation support.",
 
   keywords: [
     "EB1A visa",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "US immigration visa",
     "Researcher visa USA",
     "Extraordinary ability immigration",
-    "International Eduleader Council",
+    "EduLeaderGlobal",
     "EB1A documentation support",
     "USCIS petition support",
   ],
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "EB-1A Toolkit | International Eduleader Council",
+      "EB-1A Toolkit | EduLeaderGlobal",
 
     description:
       "Strengthen your EB-1A USA visa profile with expert petition guidance, templates, USCIS support, and documentation strategies.",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     url:
       "https://yourdomain.com/resources/eb1a-toolkit",
 
-    siteName: "International Eduleader Council",
+    siteName: "EduLeaderGlobal",
     type: "website",
   },
 
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
 
     title:
-      "EB-1A Toolkit | IEC",
+      "EB-1A Toolkit | EduLeaderGlobal",
 
     description:
       "Expert EB-1A visa petition toolkit for researchers, students, and professionals applying for USA extraordinary ability immigration.",

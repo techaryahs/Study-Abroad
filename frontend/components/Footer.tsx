@@ -14,7 +14,7 @@ export default function Footer() {
                 <span className="text-white font-bold text-sm">SA</span>
               </div>
               <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white underline underline-offset-4 decoration-blue-600/30">
-                International EduLeader Council
+                EduLeaderGlobal
               </span>
             </Link>
             <p className="max-w-xs text-[10px] font-bold uppercase tracking-wider text-white/50 leading-relaxed">
@@ -63,7 +63,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 border-t border-gray-100 pt-8 dark:border-white/5">
           <p className="text-center text-[10px] font-bold uppercase tracking-[0.3em] text-white">
-            <span className="text-[#B3985E]">© {currentYear}</span> International EduLeader Council. All rights reserved.
+            <span className="text-[#B3985E]">© {currentYear}</span> EduLeaderGlobal. All rights reserved.
           </p>
         </div>
       </div>

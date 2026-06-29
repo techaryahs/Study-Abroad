@@ -58,7 +58,7 @@ export default function PrivacyPolicy() {
         <div className="content-block">
 
           <p>
-            At Aryahs IEC Mumbai (International Eduleader Council), accessible from https://iec.aryahsworld.com, protecting your privacy is one of our main priorities. This Privacy Policy document outlines the types of information that is collected and how we use it.
+            At Aryahs EduLeaderGlobal Mumbai (EduLeaderGlobal), accessible from https://iec.aryahsworld.com, protecting your privacy is one of our main priorities. This Privacy Policy document outlines the types of information that is collected and how we use it.
           </p>
 
           <h2 className="sub-h">Information We Collect</h2>

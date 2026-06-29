@@ -605,7 +605,7 @@ class _WhyChooseSection extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(color: _dark, borderRadius: BorderRadius.circular(12)),
-                child: const Text('IEC', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: _gold)),
+                child: const Text('EduLeaderGlobal', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: _gold)),
               ),
               const Text('?', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: _dark)),
             ],
