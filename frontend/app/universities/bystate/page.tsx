@@ -147,16 +147,11 @@ export default function ByStatePage() {
 
     // Extract top states that have the most universities
     const sortedStates = Object.keys(byState)
-        .sort((a, b) => byState[b].length - byState[a].length)
-        .slice(0, 50); // Keep purely to 50 active main states
-
-    // Prune out any states that didn't make the cut from the byState object
-    const finalByState: Record<string, any[]> = {};
-    sortedStates.forEach(st => finalByState[st] = byState[st]);
+        .sort((a, b) => byState[b].length - byState[a].length);
 
     return (
         <Suspense fallback={<div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">Loading regional data...</div>}>
-            <ClientPage states={sortedStates} byState={finalByState} />
+            <ClientPage states={sortedStates} byState={byState} />
         </Suspense>
     );
 }

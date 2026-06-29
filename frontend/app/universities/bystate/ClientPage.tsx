@@ -12,19 +12,21 @@ export default function ClientPage({ states, byState }: any) {
   const router = useRouter();
   const { isPremium } = usePremiumStatus();
 
-  // Find a case-insensitive match for the initial state from query, or default.
+  // Find a case-insensitive match for the initial state from query.
   const matchedState = queryState
     ? states.find((s: string) => s.toLowerCase() === queryState.toLowerCase())
     : null;
 
-  const [selectedState, setSelectedState] = useState(matchedState || states[0] || "");
+  // If queryState is provided but has 0 unis, we still want to show it rather than falling back to Dubai.
+  const initialState = matchedState || queryState || states[0] || "";
+  const [selectedState, setSelectedState] = useState(initialState);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   // Instantly reflect active state changes if the URL gets updated externally
   useEffect(() => {
     if (queryState) {
       const found = states.find((s: string) => s.toLowerCase() === queryState.toLowerCase());
-      if (found) setSelectedState(found);
+      setSelectedState(found || queryState);
     }
   }, [queryState, states]);
 
@@ -169,6 +171,16 @@ export default function ClientPage({ states, byState }: any) {
                 </div>
 
                 <div className="space-y-2 text-sm text-[#6B5E51]">
+                {(!states.includes(selectedState) && selectedState) && (
+                    <button 
+                    key={selectedState}
+                    className="state-btn active"
+                    onClick={() => handleStateClick(selectedState)}
+                    >
+                    <span className="truncate pr-2">{selectedState}</span>
+                    <span className="badge-count">0</span>
+                    </button>
+                )}
                 {states.map((st: string) => (
                     <button 
                     key={st}
@@ -176,7 +188,7 @@ export default function ClientPage({ states, byState }: any) {
                     onClick={() => handleStateClick(st)}
                     >
                     <span className="truncate pr-2">{st}</span>
-                    <span className="badge-count">{byState[st].length}</span>
+                    <span className="badge-count">{byState[st]?.length || 0}</span>
                     </button>
                 ))}
                 </div>

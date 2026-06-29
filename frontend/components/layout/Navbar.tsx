@@ -289,7 +289,7 @@ const aiServicesItems: DropdownItem[] = [
 ];
 
 // ─── Sub-Accordion logic ───────────────────────────────────────────────────
-function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; items: { name: string; href: string }[] }[] }) {
+function AccordionSubMenu({ accordionItems, onClose }: { accordionItems: { name: string; items: { name: string; href: string }[] }[], onClose?: () => void }) {
   const [openCountry, setOpenCountry] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [openUpwards, setOpenUpwards] = useState(false);
@@ -336,6 +336,7 @@ function AccordionSubMenu({ accordionItems }: { accordionItems: { name: string; 
                     <li key={subItem.name}>
                       <Link
                         href={subItem.href}
+                        onClick={onClose}
                         className="block px-6 py-2.5 text-[12px] font-medium text-gray-400 hover:text-white hover:bg-white/10 transition-all border-l-2 border-transparent hover:border-[#B3985E]"
                       >
                         {subItem.name}
@@ -364,6 +365,7 @@ function DropdownPanel({
   compact = false,
   onMouseEnter,
   onMouseLeave,
+  onClose,
 }: {
   items: DropdownItem[];
   label: string;
@@ -374,6 +376,7 @@ function DropdownPanel({
   compact?: boolean;
   onMouseEnter: () => void;
   onMouseLeave: () => void;
+  onClose?: () => void;
 }) {
   const posClass = align === "center" ? "left-1/2 -translate-x-1/2" : "left-0";
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -433,6 +436,7 @@ function DropdownPanel({
             ) : (
               <Link
                 href={item.href}
+                onClick={onClose}
                 className={`group flex items-start gap-3 px-4 ${compact ? "py-1" : "py-2"} hover:bg-white/5 transition-colors duration-150`}
               >
                 <div className="mt-0.5 flex-shrink-0 text-[#d4af37]">{item.icon}</div>
@@ -474,6 +478,7 @@ function DropdownPanel({
                     <li key={sub.name}>
                       <Link
                         href={sub.href}
+                        onClick={onClose}
                         className="block px-4 py-2.5 text-sm font-medium text-gray-300 hover:text-yellow-400 hover:bg-white/5 transition-colors"
                       >
                         {sub.name}
@@ -486,7 +491,7 @@ function DropdownPanel({
 
             {/* ACCORDION SUB-MENU (for Programs, States) */}
             {item.subAccordion && hoveredIndex === index && (
-              <AccordionSubMenu accordionItems={item.subAccordion} />
+              <AccordionSubMenu accordionItems={item.subAccordion} onClose={onClose} />
             )}
           </li>
         ))}
@@ -496,6 +501,7 @@ function DropdownPanel({
       <div className="px-4 py-2 border-t border-[#d4af37]/20 bg-white/5">
         <Link
           href={browseHref}
+          onClick={onClose}
           className="text-xs text-[#d4af37] hover:text-yellow-300 font-medium flex items-center gap-1 transition-colors"
         >
           {browseLabel}
@@ -764,6 +770,7 @@ export default function Navbar() {
                     compact={true}
                     onMouseEnter={() => onEnter("universities")}
                     onMouseLeave={onLeave}
+                    onClose={() => setActiveDropdown(null)}
                   />
                 )}
               </div>
@@ -794,6 +801,7 @@ export default function Navbar() {
                     align="center"
                     onMouseEnter={() => onEnter("resources")}
                     onMouseLeave={onLeave}
+                    onClose={() => setActiveDropdown(null)}
                   />
                 )}
               </div>
@@ -818,6 +826,7 @@ export default function Navbar() {
                     align="center"
                     onMouseEnter={() => onEnter("ai-services")}
                     onMouseLeave={onLeave}
+                    onClose={() => setActiveDropdown(null)}
                   />
                 )}
               </div>
