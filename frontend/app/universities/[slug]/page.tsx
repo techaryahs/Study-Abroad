@@ -366,7 +366,7 @@ export default function UniversityPage() {
                                 </div>
                             </div>
 
-                            {/* Quick stats - International Eduleader Council Style Stats Cards */}
+                            {/* Quick stats - EduLeaderGlobal Style Stats Cards */}
                             <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 ${mounted ? "afu d4" : "opacity-0"}`}
                                 style={{ marginTop: 40, borderTop: "1px solid rgba(197,160,89,.1)", paddingTop: 30 }}>
                                 {[
@@ -692,7 +692,7 @@ export default function UniversityPage() {
                         {/* ── RIGHT SIDEBAR ── */}
                         <div style={{ position: "sticky", top: 40, display: "flex", flexDirection: "column", gap: 24 }}>
 
-                            {/* Get help card - International Eduleader Council Notification Style */}
+                            {/* Get help card - EduLeaderGlobal Notification Style */}
                             <div style={{ background: "#2D2926", borderRadius: 32, padding: 30, color: "#FFFFFF", boxShadow: "0 20px 50px rgba(0,0,0,0.15)" }}>
                                 <div style={{ display: "flex", gap: 14, marginBottom: 20 }}>
                                     <div style={{ width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>💬</div>
@@ -727,7 +727,7 @@ export default function UniversityPage() {
                                 </div>
                             </div>
 
-                            {/* Stats Card - International Eduleader Council Style */}
+                            {/* Stats Card - EduLeaderGlobal Style */}
                             <div className="card" style={{ padding: 24, textAlign: "center", background: "#F8F5F0" }}>
                                 <p style={{ fontSize: 12, fontWeight: 700, color: "#C5A059", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 12 }}>Trust Index</p>
                                 <p className="fd" style={{ fontSize: 40, fontWeight: 700, color: "#2D2926", lineHeight: 1 }}>98.4%</p>

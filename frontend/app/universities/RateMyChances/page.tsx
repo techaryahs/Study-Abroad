@@ -3,10 +3,10 @@ import RateMyChances from "./RateMyChances";
 
 export const metadata: Metadata = {
   title:
-    "RateMyChances by International Eduleader Council | AI University Admit Predictor",
+    "RateMyChances by EduLeaderGlobal | AI University Admit Predictor",
 
   description:
-    "RateMyChances by International Eduleader Council uses AI-powered analysis to evaluate your university admission probability for top global universities and programs.",
+    "RateMyChances by EduLeaderGlobal uses AI-powered analysis to evaluate your university admission probability for top global universities and programs.",
 };
 
 export default function Page() {

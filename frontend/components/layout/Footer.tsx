@@ -65,7 +65,7 @@ export default function Footer() {
                 </div>
                 <div className="flex flex-col">
                   <span className="font-serif font-bold text-lg text-white leading-tight">
-                    International Eduleader Council
+                    EduLeaderGlobal
                   </span>
                   <span className="text-[9px] text-[#B3985E] uppercase tracking-[0.3em] font-black">
                     GLOBAL ADMISSIONS

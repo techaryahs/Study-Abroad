@@ -727,7 +727,7 @@ export default function Navbar() {
             <Link href="/" className="group flex items-center gap-3 shrink-0">
               <div className="w-8 h-8 sm:w-10 sm:h-10 relative rounded overflow-hidden bg-white/5 flex items-center justify-center p-1">
                 <Image
-                  src="/assets/logo_iec.png"
+                  src="/assets/logo_edug.png"
                   alt="Logo"
                   fill
                   sizes="40px"
@@ -735,7 +735,7 @@ export default function Navbar() {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">International Eduleader Council</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">EduLeaderGlobal</span>
                 <span className="text-[#B3985E] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] mt-2 opacity-80">GLOBAL ADMISSIONS</span>
               </div>
             </Link>
@@ -1010,14 +1010,14 @@ export default function Navbar() {
             <Link href="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
               <div className="w-8 h-8 relative rounded overflow-hidden bg-white/5 flex items-center justify-center p-1 shrink-0">
                 <Image
-                  src="/assets/logo_iec.png"
+                  src="/assets/logo_edug.png"
                   alt="Logo"
                   fill
                   sizes="40px"
                   className="object-contain"
                 />
               </div>
-              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">International Eduleader Council</span>
+              <span className="text-white font-black text-[10px] uppercase tracking-widest leading-none">EduLeaderGlobal</span>
             </Link>
             <button
               onClick={() => setMenuOpen(false)}
@@ -1289,7 +1289,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Footer */}
           <div className="p-8 border-t border-white/5 bg-[#2D1F1D]/80 flex items-center justify-center text-white/10 shrink-0">
-            <span className="text-[8px] font-black uppercase tracking-[0.4em]">IEC Success Portal © 2026</span>
+            <span className="text-[8px] font-black uppercase tracking-[0.4em]">EduLeaderGlobal Success Portal © 2026</span>
           </div>
         </div>
       )}

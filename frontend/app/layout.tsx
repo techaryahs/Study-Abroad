@@ -6,16 +6,16 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "International Eduleader Council Admissions | Elite Study Abroad Mentorship",
+    "EduLeaderGlobal Admissions | Elite Study Abroad Mentorship",
 
   description:
     "Personalized admissions guidance for global success. Secure your path to Ivy League and prestigious international universities.",
 
-  applicationName: "International Eduleader Council",
+  applicationName: "EduLeaderGlobal",
 
   openGraph: {
-    title: "International Eduleader Council",
-    siteName: "International Eduleader Council",
+    title: "EduLeaderGlobal",
+    siteName: "EduLeaderGlobal",
     description:
       "Personalized admissions guidance for global success.",
     url: "https://iec.aryahsworld.com",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "International Eduleader Council",
+    title: "EduLeaderGlobal",
     description:
       "Personalized admissions guidance for global success.",
   },
@@ -62,7 +62,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              name: "International Eduleader Council",
+              name: "EduLeaderGlobal",
               url: "https://iec.aryahsworld.com",
             }),
           }}

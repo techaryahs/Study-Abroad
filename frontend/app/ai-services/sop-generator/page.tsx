@@ -446,7 +446,7 @@ export default function AISOPGeneratorPage() {
                                 </ul>
                             </div>
 
-                            {/* International Eduleader Council Card */}
+                            {/* EduLeaderGlobal Card */}
                             <div className="flex-1 border-[2px] border-[#D4A848] rounded-xl p-8 bg-white shadow-[0_10px_40px_rgba(235,192,62,0.15)] flex flex-col relative transform md:-translate-y-4">
                                 {/* Header */}
                                 <div className="flex justify-between items-center mb-8">
@@ -470,7 +470,7 @@ export default function AISOPGeneratorPage() {
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>
-                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Comes with IEC AI Remover to ensure originality & AI-proofing.</span>
+                                        <span className="text-[#362B25] text-[14px] leading-relaxed">Comes with EduLeaderGlobal AI Remover to ensure originality & AI-proofing.</span>
                                     </li>
                                     <li className="flex gap-4 items-start">
                                         <div className="w-5 h-5 bg-[#D4A848] rounded shrink-0 flex items-center justify-center mt-0.5 shadow-sm"><span className="text-white text-[12px] font-bold">✓</span></div>

@@ -57,7 +57,7 @@ export default function TermsAndConditions() {
         <div className="content-block">
 
           <p>
-            Welcome to Aryahs IEC Mumbai (International Eduleader Council). By accessing our website (https://iec.aryahsworld.com), you agree to comply with and be bound by the following terms and conditions.
+            Welcome to Aryahs EduLeaderGlobal Mumbai (EduLeaderGlobal). By accessing our website (https://iec.aryahsworld.com), you agree to comply with and be bound by the following terms and conditions.
           </p>
 
           <h2 className="sub-h">Use of Website</h2>
@@ -82,12 +82,12 @@ export default function TermsAndConditions() {
             Payments for services are subject to our refund policy. Refunds may be granted only if services cannot be delivered due to reasons solely from our side.
           </p>
           <p>
-            A change of mind or personal circumstances will not qualify for a refund. Any incorrect payment may be refunded to the IEC wallet only.
+            A change of mind or personal circumstances will not qualify for a refund. Any incorrect payment may be refunded to the EduLeaderGlobal wallet only.
           </p>
 
           <h2 className="sub-h">Intellectual Property</h2>
           <p>
-            All content on this website, including text, design, graphics, and tools, is owned by IEC and protected under intellectual property laws. Unauthorized use is strictly prohibited.
+            All content on this website, including text, design, graphics, and tools, is owned by EduLeaderGlobal and protected under intellectual property laws. Unauthorized use is strictly prohibited.
           </p>
 
           <h2 className="sub-h">Third-Party Links</h2>
@@ -97,7 +97,7 @@ export default function TermsAndConditions() {
 
           <h2 className="sub-h">Limitation of Liability</h2>
           <p>
-            IEC shall not be held liable for any direct or indirect damages arising from the use of our services, including admission decisions, visa outcomes, or third-party actions.
+            EduLeaderGlobal shall not be held liable for any direct or indirect damages arising from the use of our services, including admission decisions, visa outcomes, or third-party actions.
           </p>
 
           <h2 className="sub-h">AI Tools Disclaimer</h2>
