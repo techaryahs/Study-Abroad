@@ -39,6 +39,8 @@ import {
   ClipboardList,
   Target
 } from "lucide-react";
+import PremiumLock from "@/components/shared/PremiumLock";
+import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
 
 interface ProfileCard {
   id: number;
@@ -74,6 +76,7 @@ export default function DashboardPage() {
   const [savingImage, setSavingImage] = useState(false);
   const [receipts, setReceipts] = useState<any[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { isPremium } = usePremiumStatus();
 
   const router = useRouter();
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
@@ -400,6 +403,7 @@ export default function DashboardPage() {
           <div className="w-full md:w-56 bg-[#FDFBF7] border-b md:border-b-0 md:border-r border-[#F1EDEA] p-4 md:p-6 flex flex-row md:flex-col gap-2 overflow-x-auto no-scrollbar">
             {[
               { id: 'about', label: 'About', hasData: true },
+              { id: 'insights', label: 'Insights', hasData: true },
               { id: 'highSchool', label: 'High School', hasData: userData?.profile?.highSchool?.length > 0 },
               { id: 'undergrad', label: "Bachelor's", hasData: userData?.profile?.underGrad?.length > 0 },
               { id: 'masters', label: "Master's", hasData: userData?.profile?.masters?.length > 0 },
@@ -424,6 +428,52 @@ export default function DashboardPage() {
                   <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><span className="text-xl">♀</span></div><div><p className="text-[13px] font-bold text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Gender</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.gender || "Female"}</h3></div></div>
                   <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><MapPin size={18} /></div><div><p className="text-[13px] font-bold text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Location</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.country || userData?.profile?.location || "India"}</h3></div></div>
                   <div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#FDFBF7] border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-inner"><Calendar size={18} /></div><div><p className="text-[13px] font-bold text-[#6B5E51] font-black uppercase tracking-[0.3em] mb-1">Birth Date</p><h3 className="text-sm font-black text-[#3C2A21] uppercase tracking-tight">{userData?.dob || "Sep 03, 2005"}</h3></div></div>
+                </motion.div>
+              )}
+              {activeProfileTab === 'insights' && (
+                <motion.div key="insights" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
+                  <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Advanced Profile Analytics</h2>
+                  <PremiumLock isPremium={isPremium} title="Unlock Admission Insights" description="Get AI-powered admission predictions, profile gap analysis, and tailored university recommendations based on your unique profile." price={4999} discountedPrice={1999}>
+                    <div className="space-y-6">
+                      <div className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div className="flex items-center gap-5">
+                          <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center text-green-600">
+                            <Target size={20} />
+                          </div>
+                          <div>
+                            <h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">Admission Probability</h4>
+                            <p className="text-[13px] font-bold text-[#6B5E51] mt-1">Based on global acceptance trends</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-3xl font-black text-green-600 italic">74%</p>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div className="flex items-center gap-5">
+                          <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]">
+                            <Star size={20} />
+                          </div>
+                          <div>
+                            <h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">Profile Percentile</h4>
+                            <p className="text-[13px] font-bold text-[#6B5E51] mt-1">Compared to other applicants</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-3xl font-black text-[#C5A059] italic">Top 15%</p>
+                        </div>
+                      </div>
+
+                      <div className="bg-red-50 border border-red-100 rounded-[1.5rem] p-6">
+                        <h4 className="text-red-800 font-black text-xs uppercase tracking-widest mb-3">Critical Gaps Identified</h4>
+                        <ul className="list-disc pl-5 text-sm font-bold text-red-700/80 space-y-2">
+                          <li>Lack of international research exposure</li>
+                          <li>Quant score is slightly below the median for your target universities</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </PremiumLock>
                 </motion.div>
               )}
               {activeProfileTab === 'highSchool' && (

@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Users, Clock, ExternalLink, ArrowRight, MoreHorizontal, MessageCircle, Send, Copy, Link as LinkIcon, Check, Calendar } from "lucide-react";
+import { Users, Clock, ExternalLink, ArrowRight, MoreHorizontal, MessageCircle, Send, Copy, Link as LinkIcon, Check, Calendar, Share2, Activity, Brain, Microscope, FlaskConical, BookOpen, Target } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import PremiumLock from "@/components/shared/PremiumLock";
+import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
 
 export const groups = [
   {
@@ -76,6 +78,7 @@ interface AvailableGroupsProps {
 export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardClick }: AvailableGroupsProps) {
   const [openShareId, setOpenShareId] = React.useState<number | null>(null);
   const [copiedId, setCopiedId] = React.useState<number | null>(null);
+  const { isPremium } = usePremiumStatus();
 
   const filteredGroups = groups.filter(group => 
     group.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -128,14 +131,16 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
   }, [openShareId]);
 
   return (
+    <>
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {filteredGroups.length > 0 ? filteredGroups.map((group) => (
+      {filteredGroups.length > 0 ? (
+        <>
+        {filteredGroups.slice(0, 3).map((group) => (
         <div 
           key={group.id} 
           onClick={() => onCardClick?.(group)}
           className="group/card relative bg-white border border-[rgba(197,160,89,0.15)] rounded-[24px] overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 cursor-pointer shadow-sm"
         >
-          {/* Card Header Illustration Area */}
           <div className="relative h-28 bg-[rgba(197,160,89,0.03)] flex items-center justify-center p-6 border-b border-[#F1EDEA]">
               <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #C5A059 1px, transparent 0)", backgroundSize: '16px 16px' }}></div>
               
@@ -148,7 +153,6 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
                 </span>
               </div>
 
-            {/* Share Menu */}
             <div className="absolute top-4 right-4 share-menu-container z-20">
                 <button 
                     onClick={(e) => {
@@ -254,15 +258,65 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
             </div>
           </div>
         </div>
-      )) : (
+      ))}
+      </>
+      ) : (
         <div className="col-span-full py-32 text-center">
           <div className="w-20 h-20 bg-[rgba(197,160,89,0.05)] rounded-full flex items-center justify-center mx-auto mb-6 text-[#A8A29E]">
              <Users size={32} />
           </div>
           <h2 className="fd text-2xl font-bold text-[#2D2926]">No Clusters Identified</h2>
-          <p className="text-[#6B5E51] mt-2 font-medium">Reset your parameters to identify active research groups.</p>
+          <p className="text-[#6B5E51] font-medium max-w-sm mt-4 leading-relaxed mx-auto">
+            Adjust your filters or try a different search term to find what you're looking for.
+          </p>
         </div>
       )}
     </div>
+
+    {filteredGroups.length > 3 && (
+      <div className="mt-8">
+        <PremiumLock isPremium={isPremium} title="Unlock All Research Groups" description="Get premium access to join world-class research teams and exclusive mentorship programs.">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {filteredGroups.slice(3).map((group) => (
+              <div 
+                key={group.id} 
+                onClick={() => onCardClick?.(group)}
+                className="group/card relative bg-white border border-[rgba(197,160,89,0.15)] rounded-[24px] overflow-hidden hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 cursor-pointer shadow-sm"
+              >
+                <div className="relative h-28 bg-[rgba(197,160,89,0.03)] flex items-center justify-center p-6 border-b border-[#F1EDEA]">
+                    <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, #C5A059 1px, transparent 0)", backgroundSize: '16px 16px' }}></div>
+                    
+                    <div className="absolute top-4 left-4 flex gap-2 z-10">
+                      <span className="bg-white/80 backdrop-blur-md text-[13px] font-bold px-2.5 py-1 rounded-md text-[#6B5E51] border border-[rgba(197,160,89,0.1)] uppercase tracking-wider font-bold shadow-sm flex items-center gap-1.5">
+                         <Calendar className="w-2.5 h-2.5" /> {group.date}
+                      </span>
+                      <span className="bg-white/80 backdrop-blur-md text-[13px] font-bold px-2.5 py-1 rounded-md text-[#C5A059] border border-[rgba(197,160,89,0.1)] flex items-center gap-1.5 uppercase tracking-wider font-bold shadow-sm">
+                        <Users className="w-3 h-3" /> {group.spots} Active
+                      </span>
+                    </div>
+                </div>
+
+                <div className="p-8">
+                  <div className="mb-8">
+                    <h3 className="text-2xl fd font-bold text-[#2D2926] leading-tight mb-3">
+                      {group.title}
+                    </h3>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#C5A059] to-[#E6D5B8] flex items-center justify-center shadow-inner">
+                        <span className="text-white font-bold text-xs">{group.initials}</span>
+                      </div>
+                      <div>
+                        <p className="text-[#2D2926] font-bold text-sm leading-none">{group.author}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </PremiumLock>
+      </div>
+    )}
+    </>
   );
 }

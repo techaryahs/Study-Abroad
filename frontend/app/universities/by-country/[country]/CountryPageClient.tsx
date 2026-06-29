@@ -4,6 +4,8 @@ import { useParams } from "next/navigation";
 import { useState, useEffect, useRef, useMemo } from "react";
 import UniversityCard from "../UniversityCard";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import PremiumLock from "@/components/shared/PremiumLock";
+import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
 import singaporeData from "@/data/singapore.json";
 import newZealandData from "@/data/NewZealand Universities.json";
 import germanyData from "@/data/Germany.json";
@@ -163,6 +165,7 @@ export default function CountryPage() {
   const [tuitionFilter, setTuitionFilter] = useState(0);
   const [page, setPage] = useState(1);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const { isPremium } = usePremiumStatus();
   const PER_PAGE = 10;
 
   const [heroRef, heroVisible] = useInView(0.05);
@@ -225,16 +228,16 @@ export default function CountryPage() {
       address = [uni.location.city, uni.location.state].filter(Boolean).join(", ") || "";
     }
     let tuition = null, tuitionRaw = 0;
-    if (uni.annual_tuition_sgd) { tuition = `S$${uni.annual_tuition_sgd.toLocaleString()}`; tuitionRaw = uni.annual_tuition_sgd; }
-    else if (uni.annual_tuition_eur) { tuition = `€${uni.annual_tuition_eur.toLocaleString()}`; tuitionRaw = uni.annual_tuition_eur; }
-    else if (uni.tuition_fees_eur) { tuition = `€${uni.tuition_fees_eur.toLocaleString()}`; tuitionRaw = uni.tuition_fees_eur; }
-    else if (uni.tuition_eur) { tuition = `€${uni.tuition_eur.toLocaleString()}`; tuitionRaw = uni.tuition_eur; }
-    else if (uni.tuition_fees_chf) { tuition = `CHF ${uni.tuition_fees_chf.toLocaleString()}`; tuitionRaw = uni.tuition_fees_chf; }
+    if (uni.annual_tuition_sgd) { tuition = `S$${uni.annual_tuition_sgd.toLocaleString('en-US')}`; tuitionRaw = uni.annual_tuition_sgd; }
+    else if (uni.annual_tuition_eur) { tuition = `€${uni.annual_tuition_eur.toLocaleString('en-US')}`; tuitionRaw = uni.annual_tuition_eur; }
+    else if (uni.tuition_fees_eur) { tuition = `€${uni.tuition_fees_eur.toLocaleString('en-US')}`; tuitionRaw = uni.tuition_fees_eur; }
+    else if (uni.tuition_eur) { tuition = `€${uni.tuition_eur.toLocaleString('en-US')}`; tuitionRaw = uni.tuition_eur; }
+    else if (uni.tuition_fees_chf) { tuition = `CHF ${uni.tuition_fees_chf.toLocaleString('en-US')}`; tuitionRaw = uni.tuition_fees_chf; }
     else if (uni.branches?.[0]?.stats?.tuition_fee) {
       const amount = uni.branches[0].stats.tuition_fee;
-      if (countryLower === "switzerland") tuition = `CHF ${amount.toLocaleString()}`;
-      else if (countryLower === "uk" || countryLower === "united kingdom") tuition = `£${amount.toLocaleString()}`;
-      else tuition = `$${amount.toLocaleString()}`;
+      if (countryLower === "switzerland") tuition = `CHF ${amount.toLocaleString('en-US')}`;
+      else if (countryLower === "uk" || countryLower === "united kingdom") tuition = `£${amount.toLocaleString('en-US')}`;
+      else tuition = `$${amount.toLocaleString('en-US')}`;
       tuitionRaw = amount;
     }
 
@@ -243,10 +246,10 @@ export default function CountryPage() {
     else if (uni.branches?.[0]?.stats?.acceptance_rate != null) { acceptance = `${uni.branches[0].stats.acceptance_rate}%`; acceptanceRaw = uni.branches[0].stats.acceptance_rate; }
 
     let salary = null, sat = null, toefl = null, gpa = null;
-    if (uni.common_sections?.employment_figures?.average_salary) salary = `$${uni.common_sections.employment_figures.average_salary.toLocaleString()}`;
+    if (uni.common_sections?.employment_figures?.average_salary) salary = `$${uni.common_sections.employment_figures.average_salary.toLocaleString('en-US')}`;
     else if (uni.branches) {
       const b = uni.branches.find((b: any) => b.stats?.avg_salary);
-      if (b) salary = `$${b.stats.avg_salary.toLocaleString()}`;
+      if (b) salary = `$${b.stats.avg_salary.toLocaleString('en-US')}`;
     }
 
     if (uni.branches && Array.isArray(uni.branches)) {
@@ -567,7 +570,7 @@ export default function CountryPage() {
                 </div>
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                  {paginated.map((uni, i) => (
+                  {paginated.slice(0, 3).map((uni, i) => (
                     <div
                       key={uni.id}
                       style={{
@@ -575,14 +578,24 @@ export default function CountryPage() {
                         transform: listVisible ? "translateY(0)" : "translateY(20px)",
                         transition: `opacity .55s ease ${Math.min(i, 5) * 60}ms, transform .55s ease ${Math.min(i, 5) * 60}ms`,
                       }}>
-
-                      {/* Card aesthetic is now handled by UniversityCard being upgraded */}
                       <UniversityCard key={uni.id} uni={uni} />
                     </div>
                   ))}
 
+                  {filtered.length > 3 && (
+                    <PremiumLock isPremium={isPremium} title={`Unlock ${filtered.length} Universities`} description={`Get premium access to explore all ${filtered.length} universities in ${dataCountry}, along with detailed admission stats and fees.`}>
+                       <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                         {filtered.slice(3, 8).map((uni, i) => (
+                           <div key={uni.id}>
+                             <UniversityCard key={uni.id} uni={uni} />
+                           </div>
+                         ))}
+                       </div>
+                    </PremiumLock>
+                  )}
+
                   {/* Load more */}
-                  {hasMore && (
+                  {hasMore && isPremium && (
                     <div style={{ textAlign: "center", paddingTop: 30 }}>
                       <button className="load-more" onClick={() => setPage(p => p + 1)}>
                         Reveal More Opportunities ({filtered.length - paginated.length} hidden)

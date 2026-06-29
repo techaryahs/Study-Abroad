@@ -15,6 +15,8 @@ import irelandData from "@/data/Ireland.json";
 import switzerlandData from "@/data/Switzerland.json";
 import netherlandsData from "@/data/Netherlands.json";
 import franceData from "@/data/France.json";
+import PremiumLock from "@/components/shared/PremiumLock";
+import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -54,7 +56,7 @@ function CountUp({ target, decimals = 0, prefix = "", suffix = "", duration = 16
         };
         requestAnimationFrame(step);
     }, [started, target, decimals, duration]);
-    return <span ref={ref}>{prefix}{decimals ? val.toFixed(decimals) : val.toLocaleString()}{suffix}</span>;
+    return <span ref={ref}>{prefix}{decimals ? val.toFixed(decimals) : val.toLocaleString('en-US')}{suffix}</span>;
 }
 
 function RingChart({ pct, size = 100, stroke = 9, color = "#C5A059", label }: { pct: number, size?: number, stroke?: number, color?: string, label: string }) {
@@ -156,6 +158,8 @@ export default function UniversityPage() {
             </div>
         );
     }
+
+    const { isPremium } = usePremiumStatus();
 
     const currentPrograms = data.branches?.map((b: any) => b.name) || ["Engineering"];
     const [activeProgram, setActiveProgram] = useState(currentPrograms[0]);
@@ -371,8 +375,8 @@ export default function UniversityPage() {
                                 style={{ marginTop: 40, borderTop: "1px solid rgba(197,160,89,.1)", paddingTop: 30 }}>
                                 {[
                                     ["🏛️", currentUni.type, "Category"],
-                                    currentUni.totalStudents ? ["👥", currentUni.totalStudents.toLocaleString(), "Total Enrollment"] : null,
-                                    currentUni.intlStudents ? ["🌍", currentUni.intlStudents.toLocaleString(), "International"] : null,
+                                    currentUni.totalStudents ? ["👥", currentUni.totalStudents.toLocaleString('en-US'), "Total Enrollment"] : null,
+                                    currentUni.intlStudents ? ["🌍", currentUni.intlStudents.toLocaleString('en-US'), "International"] : null,
                                     activeBranch?.stats?.acceptance_rate ? ["📊", `${activeBranch.stats.acceptance_rate}%`, "Acceptance"] : null,
                                     activeBranch?.stats?.avg_salary ? ["💵", `$${Math.round(activeBranch.stats.avg_salary / 1000)}K`, "Avg. Outcome"] : null,
                                 ].filter(Boolean).map(([icon, val, label]: any, i) => (
@@ -396,6 +400,7 @@ export default function UniversityPage() {
                 </section>
 
                 {/* ════════════════════ BODY ════════════════════ */}
+                <PremiumLock isPremium={isPremium} isFullPage={true} title="Unlock University Details" description="Get premium access to explore detailed admission chances, tuition costs, and student demographics for this university.">
                 <div className="max-w-6xl mx-auto px-6 py-20">
                     <div style={{ display: "grid", gridTemplateColumns: "240px 1fr 320px", gap: 40, alignItems: "start" }}>
 
@@ -737,6 +742,7 @@ export default function UniversityPage() {
 
                     </div>
                 </div>
+                </PremiumLock>
             </div>
 
             <BookCounsellingModal 

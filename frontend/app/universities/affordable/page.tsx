@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import UniversityCard from '../by-country/UniversityCard';
+import AffordableUnisClient from './AffordableUnisClient';
 
 import type { Metadata } from "next";
 
@@ -65,7 +65,7 @@ function getCurrencySymbol(country: string) {
 }
 
 function formatCurrency(amount: number, symbol: string) {
-    return `${symbol}${amount.toLocaleString()}`;
+    return `${symbol}${amount.toLocaleString('en-US')}`;
 }
 
 export default function AffordableUnisPage() {
@@ -179,11 +179,7 @@ export default function AffordableUnisPage() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 gap-6 sm:gap-8">
-                    {formattedUnis.map((uni, idx) => (
-                        <UniversityCard key={uni.slug || idx} uni={uni} />
-                    ))}
-                </div>
+                <AffordableUnisClient unis={formattedUnis} />
             </div>
         </main>
     );

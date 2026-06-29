@@ -1,6 +1,7 @@
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Receipt = require('../models/Receipt');
+const { findUserById } = require('../utils/userHelper');
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -65,6 +66,28 @@ const verifyPayment = async (req, res) => {
             });
 
             await newReceipt.save();
+
+            // Handle Premium Subscription activation
+            const isPremiumPurchase = items && items.some(i => 
+                i.name === 'Premium Subscription' || 
+                i.title === 'Premium Subscription'
+            );
+
+            if (isPremiumPurchase && userId) {
+                const result = await findUserById(userId);
+                if (result) {
+                    const { user } = result;
+                    if (user.profile) {
+                        user.profile.isPremium = true;
+                        user.profile.premiumPlan = 'lifetime';
+                        user.profile.premiumStartAt = new Date();
+                    } else {
+                        user.isPremium = true;
+                    }
+                    await user.save();
+                    console.log(`✅ Premium activated for user ${userEmail}`);
+                }
+            }
 
             res.json({ 
                 success: true, 

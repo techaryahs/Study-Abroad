@@ -95,8 +95,8 @@ export default async function ByProgramPage() {
             // Stats from this specific branch if available
             acceptance: branch.stats?.acceptance_rate ? `${branch.stats.acceptance_rate}%` : "Variable",
             acceptanceRaw: branch.stats?.acceptance_rate || null,
-            tuition: branch.stats?.tuition_fee ? `$${branch.stats.tuition_fee.toLocaleString()}` : "Contact for fees",
-            salary: branch.stats?.avg_salary ? `$${branch.stats.avg_salary.toLocaleString()}` : null,
+            tuition: branch.stats?.tuition_fee ? `$${branch.stats.tuition_fee.toLocaleString('en-US')}` : "Contact for fees",
+            salary: branch.stats?.avg_salary ? `$${branch.stats.avg_salary.toLocaleString('en-US')}` : null,
             sat: branch.stats?.avg_sat || null,
             toefl: uni.admitted_profiles?.toefl_min || null,
             gpa: branch.stats?.avg_gpa || null

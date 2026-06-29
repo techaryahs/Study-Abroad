@@ -3,11 +3,14 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ChevronDown, Filter, X, ChevronRight, BookOpen } from 'lucide-react';
 import UniversityCard from '../by-country/UniversityCard';
+import PremiumLock from "@/components/shared/PremiumLock";
+import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
 
 export default function ClientPage({ categories, byProgram, allPrograms }: any) {
   const searchParams = useSearchParams();
   const queryProg = searchParams?.get('program');
   const router = useRouter();
+  const { isPremium } = usePremiumStatus();
 
   // Find initial program
   const initialProg = queryProg && allPrograms.includes(queryProg) ? queryProg : allPrograms[0];
@@ -185,9 +188,25 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
 
           {/* INSTITUTIONAL LIST */}
           <div className="lg:col-span-3 space-y-12 sm:space-y-16">
-            {unis.length > 0 ? unis.map((uni: any) => (
-              <UniversityCard key={uni.slug} uni={uni} />
-            )) : (
+            {unis.length > 0 ? (
+              <>
+                {unis.slice(0, 3).map((uni: any) => (
+                  <UniversityCard key={uni.slug} uni={uni} />
+                ))}
+
+                {unis.length > 3 && (
+                  <PremiumLock isPremium={isPremium} title={`Unlock ${unis.length} Universities`} description={`Get premium access to explore all ${unis.length} universities offering ${selectedProgram}, including detailed admission stats and fees.`}>
+                    <div className="space-y-12 sm:space-y-16">
+                      {unis.slice(3, 8).map((uni: any) => (
+                        <div key={uni.slug}>
+                          <UniversityCard uni={uni} />
+                        </div>
+                      ))}
+                    </div>
+                  </PremiumLock>
+                )}
+              </>
+            ) : (
               <div className="text-center py-20 text-[#6B5E51] font-medium text-lg">
                 No advanced institutions formally documented strictly for "{selectedProgram}" yet.
               </div>

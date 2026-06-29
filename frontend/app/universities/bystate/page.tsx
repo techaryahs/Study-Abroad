@@ -66,7 +66,7 @@ function getCurrencySymbol(country: string) {
 }
 
 function formatCurrency(amount: number, symbol: string) {
-    return `${symbol}${amount.toLocaleString()}`;
+    return `${symbol}${amount.toLocaleString('en-US')}`;
 }
 
 export default function ByStatePage() {
