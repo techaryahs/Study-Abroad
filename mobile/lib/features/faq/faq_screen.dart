@@ -8,19 +8,19 @@ class FAQScreen extends StatelessWidget {
   final List<Map<String, String>> faqs = const [
     {
       "q": "Do you only help for applications to the US? What about other countries?",
-      "a": "At IEC, we support applications to most countries including but not limited to the USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore."
+      "a": "At EduLeaderGlobal, we support applications to most countries including but not limited to the USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore."
     },
     {
       "q": "Does the price include GST/Taxes?",
-      "a": "All charges for IEC services are inclusive of applicable GST/Taxes."
+      "a": "All charges for EduLeaderGlobal services are inclusive of applicable GST/Taxes."
     },
     {
       "q": "Since the services are offered online, how do we ensure the process will be as smooth as an offline consulting service?",
-      "a": "At the International Eduleader Council (IEC), we have worked with clients from over 55 countries. We believe the most important part of any service is support. A dedicated support representative is provided to you on WhatsApp for both calls and texts. You can also use our live chat feature, and your IEC dashboard will be your single point of access for all real-time status updates."
+      "a": "At the EduLeaderGlobal (EduLeaderGlobal), we have worked with clients from over 55 countries. We believe the most important part of any service is support. A dedicated support representative is provided to you on WhatsApp for both calls and texts. You can also use our live chat feature, and your EduLeaderGlobal dashboard will be your single point of access for all real-time status updates."
     },
     {
       "q": "What is the best time for me to enroll in the services?",
-      "a": "For the best support, we advise enrolling in advance. You can avail of the IEC service you purchase anytime within 1 year. Hence, many students enroll with us as early as a year in advance to enjoy our support in profile building and applications."
+      "a": "For the best support, we advise enrolling in advance. You can avail of the EduLeaderGlobal service you purchase anytime within 1 year. Hence, many students enroll with us as early as a year in advance to enjoy our support in profile building and applications."
     },
     {
       "q": "Can I divide the charges between my co-author(s) and I?",
@@ -28,18 +28,18 @@ class FAQScreen extends StatelessWidget {
     },
     {
       "q": "Are the timelines mentioned on the website followed religiously?",
-      "a": "Our current record shows that 98.3% of IEC's deadlines have been met precisely as mentioned on the platform. These timelines begin from the date of your input submission. In extremely rare cases, the average timeline may be slightly exceeded, but our team ensures prompt delivery."
+      "a": "Our current record shows that 98.3% of EduLeaderGlobal's deadlines have been met precisely as mentioned on the platform. These timelines begin from the date of your input submission. In extremely rare cases, the average timeline may be slightly exceeded, but our team ensures prompt delivery."
     },
     {
       "q": "Are there any ongoing discount offers?",
-      "a": "Please keep an eye out for any active promo codes or seasonal discounts available directly on the IEC website or our official social media properties."
+      "a": "Please keep an eye out for any active promo codes or seasonal discounts available directly on the EduLeaderGlobal website or our official social media properties."
     },
     {
       "q": "Are the publishing charges covered?",
-      "a": "Yes, for our research services, publishing charges are covered as part of our comprehensive IEC package."
+      "a": "Yes, for our research services, publishing charges are covered as part of our comprehensive EduLeaderGlobal package."
     },
     {
-      "q": "Does IEC provide assistance with scholarships and financial aid?",
+      "q": "Does EduLeaderGlobal provide assistance with scholarships and financial aid?",
       "a": "Absolutely. Our expert counsellors help you identify and apply for various merit-based and need-based scholarships globally, including profile-specific fee waivers and honors awards."
     },
     {
@@ -56,7 +56,7 @@ class FAQScreen extends StatelessWidget {
     },
     {
       "q": "How do I communicate with my assigned counsellor?",
-      "a": "Once enrolled, you can directly chat with your counsellor through the IEC app, schedule 1-on-1 video meetings via our integrated platform, and track your application progress in real-time on your dashboard."
+      "a": "Once enrolled, you can directly chat with your counsellor through the EduLeaderGlobal app, schedule 1-on-1 video meetings via our integrated platform, and track your application progress in real-time on your dashboard."
     },
   ];
 

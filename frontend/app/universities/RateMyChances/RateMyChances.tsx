@@ -109,7 +109,7 @@ export default function RateMyChancesPage() {
                         RateMyChances
                     </h1>
                     <p className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[#675F5B]/80 mt-2">
-                        Powered By International Eduleader Council
+                        Powered By EduLeaderGlobal
                     </p>
                 </motion.div>
 

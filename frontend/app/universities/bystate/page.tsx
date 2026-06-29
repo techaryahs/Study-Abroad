@@ -7,10 +7,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "Top Universities by State with International Eduleader Council | Best Colleges by Region",
+    "Top Universities by State with EduLeaderGlobal | Best Colleges by Region",
 
   description:
-    "Explore top universities by state and region with the International Eduleader Council including California, Texas, Ontario, and more for smarter study abroad planning.",
+    "Explore top universities by state and region with the EduLeaderGlobal including California, Texas, Ontario, and more for smarter study abroad planning.",
 
   keywords: [
     "Top universities by state",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "Universities in California",
     "Universities in Texas",
     "Study abroad universities",
-    "International Eduleader Council",
+    "EduLeaderGlobal",
     "Top universities worldwide",
     "Regional universities abroad",
   ],
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Top Universities by State | International Eduleader Council",
+      "Top Universities by State | EduLeaderGlobal",
 
     description:
       "Discover top-ranked universities by state and region for smarter study abroad planning.",
@@ -38,17 +38,17 @@ export const metadata: Metadata = {
     url:
       "https://yourdomain.com/universities/by-state",
 
-    siteName: "International Eduleader Council",
+    siteName: "EduLeaderGlobal",
     type: "website",
   },
 
   twitter: {
     card: "summary_large_image",
     title:
-      "Top Universities by State | IEC",
+      "Top Universities by State | EduLeaderGlobal",
 
     description:
-      "Explore leading universities by region and state worldwide with IEC.",
+      "Explore leading universities by region and state worldwide with EduLeaderGlobal.",
   },
 };
 

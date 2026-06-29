@@ -51,7 +51,7 @@ class RateMyChancesScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   const Text(
-                    'POWERED BY INTERNATIONAL EDULEADER COUNCIL',
+                    'POWERED BY EduLeaderGlobal',
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 2, color: AppTheme.textSecondary),
                   ),
                   

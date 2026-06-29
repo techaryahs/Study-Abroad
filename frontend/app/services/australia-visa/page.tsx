@@ -674,9 +674,9 @@ export default function AustraliaVisaPage() {
       <Sec bg={T.bg} py={72} topRule>
         <div style={{ maxWidth: 840, margin: "0 auto", textAlign: "center", marginBottom: 48 }}>
           
-          <H2 center>Why Choose International Eduleader Council for Your NIV Application?</H2>
+          <H2 center>Why Choose EduLeaderGlobal for Your NIV Application?</H2>
           <Rule center />
-          <Body center color={T.inkFade}>Our end-to-end NIV application services at International Eduleader Council — Global Admissions are unlike any other firm&apos;s.</Body>
+          <Body center color={T.inkFade}>Our end-to-end NIV application services at EduLeaderGlobal — Global Admissions are unlike any other firm&apos;s.</Body>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 20 }}>
           {[

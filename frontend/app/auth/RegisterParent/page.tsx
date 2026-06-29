@@ -131,7 +131,7 @@ export default function RegisterParent() {
               <div className="w-10 h-10 bg-gold-500 rounded-xl flex items-center justify-center shadow-[0_0_30px_rgba(234,179,8,0.3)]">
                 <Sparkles className="w-5 h-5 text-black" />
               </div>
-              <span className="text-xl font-black tracking-tighter uppercase">International EduLeader Council</span>
+              <span className="text-xl font-black tracking-tighter uppercase">EduLeaderGlobal</span>
             </div>
             <h1 className="text-4xl font-black leading-tight uppercase italic mb-4" style={{ fontFamily: 'Georgia, serif' }}>
               Parental <span className="text-gold-500">Guidance</span> for the Elite.

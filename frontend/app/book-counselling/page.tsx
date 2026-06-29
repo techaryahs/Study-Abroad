@@ -935,7 +935,7 @@ export default function BookCounsellingPage() {
                                   <span>Session Charge</span>
                                   <span className="text-[#D4A848] text-base">Rs. 599</span>
                                 </div>
-                                <div className="text-[11px] text-[#D4A848]/60 font-medium leading-relaxed">Charges are fully adjustable against any IEC premium service you opt for later.</div>
+                                <div className="text-[11px] text-[#D4A848]/60 font-medium leading-relaxed">Charges are fully adjustable against any EduLeaderGlobal premium service you opt for later.</div>
                               </div>
                             )}
                           </div>
