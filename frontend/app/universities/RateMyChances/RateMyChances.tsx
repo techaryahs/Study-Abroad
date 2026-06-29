@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import PremiumLock from "@/components/shared/PremiumLock";
+import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
 import usaData from "@/data/USA.json";
 
 const Globe = ({ className, ...props }: any) => (
@@ -60,6 +62,7 @@ const premiumFeatures = [
 
 
 export default function RateMyChancesPage() {
+    const { isPremium } = usePremiumStatus();
     const harvardInfo = usaData.find(u => u.slug === 'harvard-university') || usaData[0];
     const topBranch = harvardInfo.branches[0];
     const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -92,6 +95,7 @@ export default function RateMyChancesPage() {
     };
 
     return (
+        <PremiumLock isPremium={isPremium} isFullPage={true} title="Unlock RateMyChances" description="Get premium access to our AI-driven admit chances estimator to instantly analyze your profile against top programs.">
         <main className="min-h-screen bg-[#FDFBF7] text-[#362B25] font-base selection:bg-[#D4A848]/20 overflow-x-hidden pt-[100px] mb-8">
 
             {/* ── Hero Section ── */}
@@ -288,5 +292,6 @@ export default function RateMyChancesPage() {
                 onClose={() => setIsBookingOpen(false)}
             />
         </main>
+        </PremiumLock>
     );
 }

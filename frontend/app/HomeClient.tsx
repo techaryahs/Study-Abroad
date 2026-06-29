@@ -50,10 +50,10 @@ export default function Home() {
   ];
 
   const statsRow = [
-    { value: "15+", label: "Countries" },
-    { value: "360+", label: "Top Universities" },
-    { value: "1000+", label: "Admits Received" },
-    { value: "500+", label: "Tier 1 Institutes" },
+    { value: "1,500+", label: "Top Universities" },
+    { value: "500+", label: "Elite Scholarships" },
+    { value: "15+", label: "Global Destinations" },
+    { value: "10,000+", label: "Premium Programs" },
   ];
 
   const dreams = [

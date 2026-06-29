@@ -5,8 +5,11 @@ import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import Flag from "react-world-flags";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import PremiumLock from "@/components/shared/PremiumLock";
+import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
 
 export default function UniversitiesPage() {
+  const { isPremium } = usePremiumStatus();
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -95,9 +98,26 @@ export default function UniversitiesPage() {
             <h1 className="fd text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 leading-[0.95] text-[#2D2926]">
               World-Class <span className="gold-shimmer">Destinations</span>
             </h1>
-            <p className="text-[#6B5E51] text-lg md:text-2xl max-w-3xl mx-auto font-medium leading-relaxed">
-              Curated selection of the world's most prestigious academic hubs. Explore certified benchmarks and institutional rankings.
+            <p className="text-[#6B5E51] text-base sm:text-lg max-w-2xl mx-auto font-medium mb-10 leading-relaxed">
+              Explore our curated database of premium universities, meticulously categorized by country, state, programs, and advanced predictive metrics.
             </p>
+
+            <div className="flex flex-wrap justify-center gap-8 md:gap-12 mb-12">
+              <div className="text-center">
+                <p className="text-3xl md:text-4xl font-black text-[#C5A059] fd">1,500+</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#6B5E51] mt-1">Universities</p>
+              </div>
+              <div className="hidden sm:block w-[1px] bg-gradient-to-b from-transparent via-[#C5A059]/40 to-transparent"></div>
+              <div className="text-center">
+                <p className="text-3xl md:text-4xl font-black text-[#C5A059] fd">10,000+</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#6B5E51] mt-1">Programs</p>
+              </div>
+              <div className="hidden sm:block w-[1px] bg-gradient-to-b from-transparent via-[#C5A059]/40 to-transparent"></div>
+              <div className="text-center">
+                <p className="text-3xl md:text-4xl font-black text-[#C5A059] fd">15+</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#6B5E51] mt-1">Countries</p>
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
@@ -142,7 +162,7 @@ export default function UniversitiesPage() {
           animate="visible"
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"
         >
-          {destinations.map((dest) => (
+          {destinations.slice(0, 3).map((dest) => (
             <Link key={dest.code} href={`/universities/by-country/${dest.slug}`}>
               <motion.div
                 variants={itemVariants}
@@ -175,6 +195,52 @@ export default function UniversitiesPage() {
             </Link>
           ))}
         </motion.div>
+
+        {destinations.length > 3 && (
+          <div className="mt-10">
+            <PremiumLock isPremium={isPremium} title="Unlock 1,500+ Top Universities" description="Get premium access to explore detailed admission matrices, acceptance rates, and student demographics for over 1,500 world-class educational hubs.">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10"
+              >
+                {destinations.slice(3).map((dest) => (
+                  <Link key={dest.code} href={`/universities/by-country/${dest.slug}`}>
+                    <motion.div
+                      variants={itemVariants}
+                      className="destination-card group relative p-8 cursor-pointer"
+                    >
+                      {dest.popular && (
+                        <div className="absolute top-0 right-0 featured-badge">
+                          Featured Tier
+                        </div>
+                      )}
+
+                      <div className="flex flex-col items-center text-center space-y-6">
+                        <div className="w-24 h-16 relative overflow-hidden rounded-xl shadow-lg border-2 border-[#FDFBF7] group-hover:scale-110 transition-transform duration-500">
+                          <Flag code={dest.code} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="space-y-2">
+                          <h3 className="fd font-bold text-3xl text-[#2D2926] group-hover:text-[#C5A059] transition-colors leading-tight">
+                            {dest.name}
+                          </h3>
+                          <span className="text-[13px] font-black text-[#C5A059] tracking-widest uppercase block">
+                            {dest.count}
+                          </span>
+                        </div>
+
+                        <div className="pt-4 flex items-center text-[#6B5E51] font-black text-[12px] tracking-widest opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          VIEW CATALOGUE <span className="ml-2 text-lg">→</span>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </Link>
+                ))}
+              </motion.div>
+            </PremiumLock>
+          </div>
+        )}
       </section>
 
       {/* CTA section */}

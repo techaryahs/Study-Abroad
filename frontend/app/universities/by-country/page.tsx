@@ -13,7 +13,7 @@ export default function ByCountryPage() {
     location: uni.location ? `${uni.location.city}, ${uni.location.country}` : "Singapore",
     address: uni.location?.city || "Singapore",
     tuition: uni.branches?.[0]?.stats?.tuition_fee
-      ? `S$${uni.branches[0].stats.tuition_fee.toLocaleString()}`
+      ? `S$${uni.branches[0].stats.tuition_fee.toLocaleString('en-US')}`
       : "N/A",
     acceptance: uni.branches?.[0]?.stats?.acceptance_rate
       ? `${uni.branches[0].stats.acceptance_rate}%`
