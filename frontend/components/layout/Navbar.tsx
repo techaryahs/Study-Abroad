@@ -992,17 +992,15 @@ export default function Navbar() {
           </nav>
 
           {/* App Download CTA */}
-          <div className="flex items-center h-full shrink-0 pl-4 border-l border-white/5">
-            <div className="relative group/app flex items-center h-full gap-1.5 px-2 cursor-help">
-              <Smartphone size={12} className="text-white group-hover/app:text-[#B3985E] transition-all" />
-              <span className="text-[8px] font-black text-white group-hover/app:text-[#B3985E] transition-all uppercase tracking-[0.2em] whitespace-nowrap">Download Our App</span>
-              <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover/app:opacity-100 group-hover/app:visible transition-all duration-300 transform scale-90 group-hover/app:scale-100 -translate-y-1 group-hover/app:translate-y-0 pointer-events-none z-[60]">
-                <span className="text-[11px] font-black text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
-                {/* Caret: Simulated Border Triangle */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[5px] border-b-[#B3985E]/40" />
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#2D1F1D]" />
-              </div>
-            </div>
+          <div className="flex items-center h-full shrink-0 pl-6 border-l border-white/10">
+            <Link
+              href="/pricing"
+              className={`text-[10px] font-black uppercase tracking-[0.28em] text-white hover:text-[#B3985E] transition-all duration-300 whitespace-nowrap ${
+                pathname === "/pricing" ? "text-[#B3985E]" : ""
+              }`}
+            >
+              Pricing
+            </Link>
           </div>
         </div>
       </header>
