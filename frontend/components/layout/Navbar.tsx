@@ -691,7 +691,7 @@ export default function Navbar() {
     { name: "Services", path: "/services" },
     { name: "Decisions", path: "/decisions", badge: "Coming Soon" },
     { name: "Discussions", path: "/discussions", badge: "Coming Soon" },
-    { name: "Articles", path: "/blogs", badge: "Coming Soon" },
+    { name: "Articles", path: "/blogs" },
     { name: "Resources", path: "/resources", badge: "New", dropdown: "resources" as DropdownKey },
     { name: "AI Services", path: "/ai-services", badge: "New", dropdown: "ai-services" as DropdownKey },
     { name: "Material", path: "/material", badge: "Coming Soon" },
