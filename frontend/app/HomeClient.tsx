@@ -7,6 +7,14 @@ import Flag from "react-world-flags";
 import { motion, Variants } from "framer-motion";
 import { ArrowRight, BrainCircuit, CheckCircle2, Compass, FileCheck2, PenTool, Sparkles } from "lucide-react";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import {
+  GraduationCap,
+  Building2,
+  FileSignature,
+  BadgeDollarSign,
+  Plane,
+  TrendingUp,
+} from "lucide-react";
 
 export default function Home() {
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
@@ -32,12 +40,36 @@ export default function Home() {
   };
 
   const servicesRow = [
-    { title: "Admission Guidance", icon: "🏛️", link: "/services/admission-guidance" },
-    { title: "University Shortlisting", icon: "📋", link: "/services/shortlisting" },
-    { title: "SOP & LOR Support", icon: "✍️", link: "/services/sop" },
-    { title: "Scholarship Assistance", icon: "🎓", link: "/services/scholarship" },
-    { title: "Visa Guidance", icon: "🛂", link: "/services/visa-guidance" },
-    { title: "Profile Building", icon: "📈", link: "/services/portfolio" },
+    {
+      title: "Admission Guidance",
+      icon: Building2,
+      link: "/services/admission-guidance",
+    },
+    {
+      title: "University Shortlisting",
+      icon: GraduationCap,
+      link: "/services/shortlisting",
+    },
+    {
+      title: "SOP & LOR Support",
+      icon: FileSignature,
+      link: "/services/sop",
+    },
+    {
+      title: "Scholarship Assistance",
+      icon: BadgeDollarSign,
+      link: "/services/scholarship",
+    },
+    {
+      title: "Visa Guidance",
+      icon: Plane,
+      link: "/services/visa-guidance",
+    },
+    {
+      title: "Profile Building",
+      icon: TrendingUp,
+      link: "/services/portfolio",
+    },
   ];
 
   const destinations = [
@@ -81,7 +113,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(44,165,157,0.16),_transparent_30%),linear-gradient(135deg,_#f8f4ea_0%,_#fcfbf7_100%)] pt-24 text-[#10324a] selection:bg-[#d2a14a]/20">
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(44,165,157,0.16),_transparent_30%),linear-gradient(135deg,_#f8f4ea_0%,_#fcfbf7_100%)] pt-12 lg:pt-20 text-[#10324a] selection:bg-[#d2a14a]/20">
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.9),rgba(255,255,255,0.45))]" />
         <div className="absolute inset-0 opacity-30">
@@ -99,18 +131,18 @@ export default function Home() {
         <div className="absolute right-[-8%] top-[8%] h-[480px] w-[480px] rounded-full bg-[#d2a14a]/15 blur-[130px]" />
       </div>
 
-      <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 pb-24 sm:px-8 lg:px-12">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 pb-12 sm:px-8 lg:px-12">
         <motion.section
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid gap-8 rounded-[36px] border border-[#10324a]/10 bg-white/80 p-8 shadow-[0_30px_90px_rgba(16,50,74,0.08)] backdrop-blur-xl xl:grid-cols-[1.1fr_0.9fr] xl:p-12"
+          className="grid gap-6 rounded-[36px] border border-[#10324a]/10 bg-white/80 p-6 shadow-[0_30px_90px_rgba(16,50,74,0.08)] backdrop-blur-xl xl:grid-cols-[1.1fr_0.9fr] xl:p-8"
         >
           <div className="max-w-2xl text-left">
             <motion.div variants={itemVariants} className="inline-flex items-center gap-2 rounded-full border border-[#2ca59d]/20 bg-[#2ca59d]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.28em] text-[#0f4c5c]">
               <Sparkles size={14} /> Study Abroad, Reimagined
             </motion.div>
-            <motion.h1 variants={itemVariants} className="mt-6 text-4xl font-black leading-[1.05] tracking-[-0.03em] text-[#10324a] sm:text-5xl lg:text-6xl">
+            <motion.h1 variants={itemVariants} className="mt-4 text-4xl font-black leading-[0.95] tracking-[-0.03em] text-[#D4A54A] sm:text-5xl lg:text-6xl">
               The World Is Your Campus.
             </motion.h1>
             <motion.p variants={itemVariants} className="mt-4 max-w-xl text-lg leading-8 text-[#4b5b6a] sm:text-xl">
@@ -135,7 +167,7 @@ export default function Home() {
               </button>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-3">
+            <motion.div variants={itemVariants} className="mt-5 flex flex-wrap gap-3">
               {[
                 "Personalized mentorship",
                 "Scholarship strategy",
@@ -149,7 +181,7 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <motion.div variants={itemVariants} className="rounded-[32px] border border-[#10324a]/10 bg-[#10324a] p-6 text-white shadow-[0_20px_60px_rgba(16,50,74,0.18)]">
+          <motion.div variants={itemVariants} className="rounded-[32px] border border-[#10324a]/10 bg-[#10324a] p-5 text-white shadow-[0_20px_60px_rgba(16,50,74,0.18)]">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[#d2a14a]">Your next step</p>
@@ -159,7 +191,7 @@ export default function Home() {
                 <BrainCircuit size={24} className="text-[#d2a14a]" />
               </div>
             </div>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
               {statsRow.map((stat) => (
                 <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 p-4">
                   <p className="text-2xl font-black text-[#f8f4ea]">{stat.value}</p>
@@ -169,58 +201,6 @@ export default function Home() {
             </div>
           </motion.div>
         </motion.section>
-
-        <section className="mt-14 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-[32px] border border-[#d2a14a]/20 bg-[#fffaf1] p-8 shadow-[0_16px_50px_rgba(210,161,74,0.08)]">
-            <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-[#d2a14a]/15 p-2 text-[#d2a14a]">
-                <Sparkles size={18} />
-              </div>
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.32em] text-[#0f4c5c]">Best features</p>
-                <h3 className="text-2xl font-black text-[#10324a]">Our most powerful tools</h3>
-              </div>
-            </div>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {featureTools.map((tool) => {
-                const Icon = tool.icon;
-                return (
-                  <Link key={tool.title} href={tool.link} className="group rounded-[24px] border border-[#10324a]/10 bg-white p-5 transition hover:-translate-y-1 hover:border-[#2ca59d]/30">
-                    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${tool.accent} text-white`}>
-                      <Icon size={18} />
-                    </div>
-                    <h4 className="mt-4 text-xl font-black text-[#10324a]">{tool.title}</h4>
-                    <p className="mt-2 text-sm leading-7 text-[#4b5b6a]">{tool.description}</p>
-                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#2ca59d]">
-                      Explore now <ArrowRight size={15} />
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="rounded-[32px] border border-[#10324a]/10 bg-[#f7fbfd] p-8 shadow-[0_16px_50px_rgba(16,50,74,0.06)]">
-            <div className="flex items-center gap-3">
-              <div className="rounded-2xl bg-[#2ca59d]/15 p-2 text-[#2ca59d]">
-                <Compass size={18} />
-              </div>
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.32em] text-[#0f4c5c]">Meaningful marks</p>
-                <h3 className="text-2xl font-black text-[#10324a]">Built for a global journey</h3>
-              </div>
-            </div>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {partnerMarks.map((mark) => (
-                <div key={mark.name} className="rounded-[22px] border border-[#10324a]/10 bg-white/80 p-4">
-                  <div className="h-11 w-11 rounded-2xl bg-[#10324a] text-lg font-black text-[#d2a14a] flex items-center justify-center">{mark.name.slice(0, 2).toUpperCase()}</div>
-                  <p className="mt-3 text-lg font-black text-[#10324a]">{mark.name}</p>
-                  <p className="mt-1 text-sm text-[#4b5b6a]">{mark.tag}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <section className="mt-14 rounded-[32px] border border-[#10324a]/10 bg-white/80 p-8 shadow-[0_16px_50px_rgba(16,50,74,0.06)]">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
@@ -253,13 +233,33 @@ export default function Home() {
         </section>
 
         <section className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {servicesRow.map((service) => (
-            <Link key={service.title} href={service.link} className="rounded-[24px] border border-[#10324a]/10 bg-white/70 p-6 shadow-[0_12px_35px_rgba(16,50,74,0.05)] transition hover:-translate-y-1">
-              <div className="text-2xl">{service.icon}</div>
-              <h4 className="mt-4 text-lg font-black text-[#10324a]">{service.title}</h4>
-              <p className="mt-2 text-sm text-[#4b5b6a]">Support built around your study abroad goals.</p>
-            </Link>
-          ))}
+          {servicesRow.map((service) => {
+            const Icon = service.icon;
+
+            return (
+              <Link
+                key={service.title}
+                href={service.link}
+                className="group rounded-[24px] border border-[#10324a]/10 bg-white/70 p-6 shadow-[0_12px_35px_rgba(16,50,74,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+              >
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2ca59d]/15 to-[#d2a14a]/15 transition-all duration-300 group-hover:scale-110">
+                  <Icon
+                    size={28}
+                    strokeWidth={2}
+                    className="text-[#10324a]"
+                  />
+                </div>
+
+                <h4 className="text-xl font-black text-[#10324a]">
+                  {service.title}
+                </h4>
+
+                <p className="mt-3 text-base leading-7 text-[#4b5b6a]">
+                  Support built around your study abroad goals.
+                </p>
+              </Link>
+            );
+          })}
         </section>
       </div>
 
