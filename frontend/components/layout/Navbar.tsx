@@ -292,7 +292,7 @@ function AccordionSubMenu({ accordionItems, onClose }: { accordionItems: { name:
       className={`absolute left-[calc(100%+2px)] pl-1 z-[60] flex flex-col transition-all duration-300 ${openUpwards ? "bottom-0" : "top-0"} ${openCountry ? "-translate-y-4" : ""}`}
       style={{ animation: "dropIn 0.15s ease-out both" }}
     >
-      <div className="bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 flex flex-col overflow-hidden">
+      <div className="bg-[#16364F] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 flex flex-col overflow-hidden">
         <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
           <p className="text-[12px] font-semibold uppercase tracking-widest text-[#B3985E] truncate">
             {accordionItems[0]?.items[0]?.href.includes('program') ? 'Academic Categories' : 'Regions & States'}
@@ -365,7 +365,7 @@ function DropdownPanel({
     <div
       className={`absolute top-full mt-1 ${posClass} rounded-xl shadow-2xl z-50`}
       style={{
-        background: "#2D1F1D",
+        background: "#16364F",
         width,
         animation: "dropIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) both",
       }}
@@ -446,7 +446,7 @@ function DropdownPanel({
             {/* COUNTRY LIST SUB-MENU */}
             {item.subItems && hoveredIndex === index && (
               <div
-                className="absolute left-[calc(100%+2px)] top-0 pl-1 bg-[#2D1F1D] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 z-50 flex flex-col"
+                className="absolute left-[calc(100%+2px)] top-0 pl-1 bg-[#16364F] rounded-xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-white/10 w-48 z-50 flex flex-col"
                 style={{ animation: "dropIn 0.15s ease-out both" }}
               >
                 <div className="px-4 pt-4 pb-2 border-b border-white/10 flex-shrink-0">
@@ -704,7 +704,7 @@ export default function Navbar() {
       `}</style>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-200 border-b bg-[#2D1F1D] border-[#B3985E]/40 shadow-xl`}
+        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-200 border-b bg-[#16364F] border-[#B3985E]/40 shadow-xl`}
       >
 
         {/* ── ROW 1: PRIMARY PILLARS & ACTIONS ── */}
@@ -822,7 +822,7 @@ export default function Navbar() {
                   <Link href="/auth/login" className="text-[14px] font-bold font-black uppercase tracking-widest text-white hover:text-[#B3985E] transition-all">Sign In</Link>
                   <Link
                     href="/auth/RegisterStudent"
-                    className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
+                    className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
                   >
                     Register
                   </Link>
@@ -832,7 +832,7 @@ export default function Navbar() {
                   <Link href="/User/cart" className="relative group/checkout p-2">
                     <ShoppingCart size={14} className="text-white opacity-40 group-hover/checkout:opacity-100 group-hover/checkout:text-[#B3985E] transition-all" />
                     {cartCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[11px] font-black font-black rounded-full flex items-center justify-center shadow-lg border border-[#2D1F1D] group-hover/checkout:bg-[#B3985E] transition-all">
+                      <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[11px] font-black font-black rounded-full flex items-center justify-center shadow-lg border border-[#16364F] group-hover/checkout:bg-[#B3985E] transition-all">
                         {cartCount}
                       </span>
                     )}
@@ -851,7 +851,7 @@ export default function Navbar() {
                       onMouseEnter={() => setProfileDropdownOpen(true)}
                       className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#B3985E] to-[#8E7B5B] p-[1.5px] transition-transform group-hover/profile:scale-110 shadow-xl"
                     >
-                      <div className="w-full h-full rounded-[11px] bg-[#2D1F1D] overflow-hidden flex items-center justify-center">
+                      <div className="w-full h-full rounded-[11px] bg-[#16364F] overflow-hidden flex items-center justify-center">
                         <img
                           src={getProfileImage(user)}
                           className="w-full h-full object-cover rounded-[11px]"
@@ -863,13 +863,13 @@ export default function Navbar() {
                     {profileDropdownOpen && (
                       <div
                         onMouseLeave={() => setProfileDropdownOpen(false)}
-                        className="absolute right-0 mt-4 w-60 bg-[#2D1F1D] border border-white/10 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] p-5 z-50 text-center"
+                        className="absolute right-0 mt-4 w-60 bg-[#16364F] border border-white/10 rounded-3xl shadow-[0_40px_100px_rgba(0,0,0,1)] p-5 z-50 text-center"
                         style={{ animation: "dropIn 0.2s ease-out both" }}
                       >
                         {/* Card Top: Large Avatar */}
                         <div className="flex justify-center mb-4">
                           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#B3985E] to-[#8E7B5B] p-[1.5px] shadow-2xl">
-                            <div className="w-full h-full rounded-[15px] bg-[#2D1F1D] overflow-hidden flex items-center justify-center">
+                            <div className="w-full h-full rounded-[15px] bg-[#16364F] overflow-hidden flex items-center justify-center">
                               <img src={getProfileImage(user)} className="w-full h-full object-cover" alt="Profile Large" />
                             </div>
                           </div>
@@ -924,7 +924,7 @@ export default function Navbar() {
 
               {/* Suggestions Dropdown */}
               {suggestions.length > 0 && (
-                <div className="absolute top-full mt-2 w-full bg-[#2D1F1D] border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden z-[100] animate-in fade-in slide-in-from-top-2 duration-200 text-center">
+                <div className="absolute top-full mt-2 w-full bg-[#16364F] border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden z-[100] animate-in fade-in slide-in-from-top-2 duration-200 text-center">
                   <div className="px-3 pt-3 pb-2 border-b border-white/5">
                     <span className="text-[11px] font-black font-black uppercase tracking-[0.2em] text-[#B3985E]">Destinations Found</span>
                   </div>
@@ -960,10 +960,10 @@ export default function Navbar() {
                   </Link>
                 )}
                 {item.badge === "Coming Soon" && (
-                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-90 group-hover:scale-100 -translate-y-1 group-hover:translate-y-0 pointer-events-none z-[60]">
+                  <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#16364F] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-90 group-hover:scale-100 -translate-y-1 group-hover:translate-y-0 pointer-events-none z-[60]">
                     <span className="text-[11px] font-black text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[5px] border-b-[#B3985E]/40" />
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#2D1F1D]" />
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#16364F]" />
                   </div>
                 )}
               </div>
@@ -986,13 +986,13 @@ export default function Navbar() {
 
       {/* ── MOBILE FULL SCREEN MENU ── */}
       {menuOpen && (
-        <div className="fixed inset-0 z-[100] bg-[#2D1F1D] overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-300">
+        <div className="fixed inset-0 z-[100] bg-[#16364F] overflow-hidden flex flex-col animate-in fade-in zoom-in-95 duration-300">
           {/* Animated Background decorative elements */}
           <div className="absolute top-[-10%] right-[-10%] w-[400px] h-[400px] bg-[#B3985E]/10 rounded-full blur-[120px] pointer-events-none" />
           <div className="absolute bottom-[-10%] left-[-10%] w-[300px] h-[300px] bg-[#B3985E]/5 rounded-full blur-[100px] pointer-events-none" />
 
           {/* Mobile Menu Header */}
-          <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#2D1F1D]/50 backdrop-blur-xl shrink-0">
+          <div className="flex items-center justify-between px-6 h-16 border-b border-white/10 relative z-20 bg-[#16364F]/50 backdrop-blur-xl shrink-0">
             <Link href="/" className="flex items-center gap-3" onClick={() => setMenuOpen(false)}>
               <div className="w-8 h-8 relative rounded overflow-hidden bg-white/5 flex items-center justify-center p-1 shrink-0">
                 <Image
@@ -1034,7 +1034,7 @@ export default function Navbar() {
               </form>
 
               {suggestions.length > 0 && (
-                <div className="relative mt-2 w-full bg-[#2D1F1D] border border-white/20 rounded-xl shadow-2xl z-[110] overflow-hidden">
+                <div className="relative mt-2 w-full bg-[#16364F] border border-white/20 rounded-xl shadow-2xl z-[110] overflow-hidden">
                   {suggestions.map((country) => (
                     <div
                       key={country.name}
@@ -1055,7 +1055,7 @@ export default function Navbar() {
               <Link
                 href="/book-counselling"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl"
+                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 active:scale-95 transition-all shadow-xl"
               >
                 <Star size={14} />
                 Expert Help
@@ -1069,7 +1069,7 @@ export default function Navbar() {
                 <ShoppingCart size={14} className="text-[#B3985E]" />
                 Cart
                 {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-[13px] font-bold font-black rounded-full flex items-center justify-center shadow-lg border-2 border-[#2D1F1D]">
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-[13px] font-bold font-black rounded-full flex items-center justify-center shadow-lg border-2 border-[#16364F]">
                     {cartCount}
                   </span>
                 )}
@@ -1118,7 +1118,7 @@ export default function Navbar() {
                                   e.preventDefault();
                                   setExpandedItem(isExpanded ? null : item.name);
                                 }}
-                                className={`p-2 -mr-2 rounded-lg transition-all ${isExpanded ? "bg-[#B3985E] text-[#2D1F1D]" : "text-white/20 hover:text-[#B3985E]"}`}
+                                className={`p-2 -mr-2 rounded-lg transition-all ${isExpanded ? "bg-[#B3985E] text-[#16364F]" : "text-white/20 hover:text-[#B3985E]"}`}
                               >
                                 {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
                               </button>
@@ -1235,7 +1235,7 @@ export default function Navbar() {
               <div className="mb-8 p-6 rounded-3xl bg-white/[0.03] border border-white/10 shadow-2xl relative overflow-hidden">
                 <div className="flex items-center gap-4 mb-6">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#B3985E] to-[#8E7B5B] p-[1.5px] shadow-lg flex-shrink-0">
-                    <div className="w-full h-full rounded-[14px] bg-[#2D1F1D] overflow-hidden flex items-center justify-center">
+                    <div className="w-full h-full rounded-[14px] bg-[#16364F] overflow-hidden flex items-center justify-center">
                       <img src={getProfileImage(user)} className="w-full h-full object-cover" alt="User" />
                     </div>
                   </div>
@@ -1268,13 +1268,13 @@ export default function Navbar() {
             {!user && (
               <div className="grid grid-cols-2 gap-4 mt-auto pt-10">
                 <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[14px] font-bold font-black uppercase tracking-widest transition-colors hover:bg-white/10">Sign In</Link>
-                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#B3985E] text-[#2D1F1D] text-[14px] font-bold font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
+                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
               </div>
             )}
           </div>
 
           {/* Mobile Menu Footer */}
-          <div className="p-8 border-t border-white/5 bg-[#2D1F1D]/80 flex items-center justify-center text-white/10 shrink-0">
+          <div className="p-8 border-t border-white/5 bg-[#16364F]/80 flex items-center justify-center text-white/10 shrink-0">
             <span className="text-[8px] font-black uppercase tracking-[0.4em]">EduLeaderGlobal Success Portal © 2026</span>
           </div>
         </div>
