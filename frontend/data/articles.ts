@@ -12,6 +12,7 @@ export const articleCategories = [
 ] as const;
 
 export type ArticleCategory = Exclude<(typeof articleCategories)[number], "All">;
+export type ArticleStatus = "Draft" | "Published";
 
 export interface Article {
   slug: string;
@@ -24,6 +25,9 @@ export interface Article {
   readingTime: string;
   content: string[];
   highlights: string[];
+  tags?: string[];
+  featured?: boolean;
+  status?: ArticleStatus;
 }
 
 export interface PopularTopic {

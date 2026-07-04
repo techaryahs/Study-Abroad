@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Search } from "lucide-react";
 import ArticleCard from "@/components/articles/ArticleCard";
 import CategoryFilters from "@/components/articles/CategoryFilters";
@@ -8,12 +8,12 @@ import FeaturedArticle from "@/components/articles/FeaturedArticle";
 import NewsletterSection from "@/components/articles/NewsletterSection";
 import Pagination from "@/components/articles/Pagination";
 import PopularTopics from "@/components/articles/PopularTopics";
+import { articleCategories, popularTopics } from "@/data/articles";
 import {
-  articleCategories,
-  articles,
-  featuredArticle,
-  popularTopics,
-} from "@/data/articles";
+  getPublicFeaturedArticle,
+  getPublicLatestArticles,
+} from "@/lib/articlesStore";
+import { useManagedArticles } from "@/lib/useArticles";
 
 const ARTICLES_PER_PAGE = 6;
 
@@ -21,11 +21,22 @@ export default function ArticlesPageClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+  const managedArticles = useManagedArticles();
+
+  const featuredArticle = useMemo(
+    () => getPublicFeaturedArticle(managedArticles),
+    [managedArticles]
+  );
+
+  const latestArticles = useMemo(
+    () => getPublicLatestArticles(managedArticles),
+    [managedArticles]
+  );
 
   const filteredArticles = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
 
-    return articles.filter((article) => {
+    return latestArticles.filter((article) => {
       const matchesCategory =
         activeCategory === "All" || article.category === activeCategory;
       const matchesSearch =
@@ -36,7 +47,7 @@ export default function ArticlesPageClient() {
 
       return matchesCategory && matchesSearch;
     });
-  }, [activeCategory, searchQuery]);
+  }, [activeCategory, latestArticles, searchQuery]);
 
   const totalPages = Math.max(
     1,
@@ -47,6 +58,10 @@ export default function ArticlesPageClient() {
     (currentPage - 1) * ARTICLES_PER_PAGE,
     currentPage * ARTICLES_PER_PAGE
   );
+
+  useEffect(() => {
+    if (currentPage > totalPages) setCurrentPage(totalPages);
+  }, [currentPage, totalPages]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -138,19 +153,21 @@ export default function ArticlesPageClient() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-12 lg:py-16">
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <span className="text-[11px] font-black uppercase tracking-[0.28em] text-[#C5A059]">
-              Editor&apos;s Pick
-            </span>
-            <h2 className="fd mt-2 text-4xl font-bold text-[#2D2926] sm:text-5xl">
-              Featured Article
-            </h2>
+      {featuredArticle && (
+        <section className="mx-auto max-w-7xl px-6 py-14 lg:px-12 lg:py-16">
+          <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="text-[11px] font-black uppercase tracking-[0.28em] text-[#C5A059]">
+                Editor&apos;s Pick
+              </span>
+              <h2 className="fd mt-2 text-4xl font-bold text-[#2D2926] sm:text-5xl">
+                Featured Article
+              </h2>
+            </div>
           </div>
-        </div>
-        <FeaturedArticle article={featuredArticle} />
-      </section>
+          <FeaturedArticle article={featuredArticle} />
+        </section>
+      )}
 
       <section
         id="latest-articles"

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -12,12 +13,22 @@ import {
   UserRound,
 } from "lucide-react";
 import ArticleCard from "@/components/articles/ArticleCard";
-import { articles, getArticleBySlug } from "@/data/articles";
+import {
+  getArticleBySlugFromList,
+  getPublishedArticles,
+  shouldUseUnoptimizedArticleImage,
+} from "@/lib/articlesStore";
+import { useManagedArticles } from "@/lib/useArticles";
 
 export default function ArticleDetailPage() {
   const params = useParams<{ slug: string }>();
   const router = useRouter();
-  const article = getArticleBySlug(params.slug);
+  const managedArticles = useManagedArticles();
+  const publishedArticles = useMemo(
+    () => getPublishedArticles(managedArticles),
+    [managedArticles]
+  );
+  const article = getArticleBySlugFromList(publishedArticles, params.slug);
 
   if (!article) {
     return (
@@ -52,12 +63,14 @@ export default function ArticleDetailPage() {
     );
   }
 
-  const relatedArticles = articles
+  const relatedArticles = publishedArticles
     .filter(
       (candidate) =>
         candidate.category === article.category && candidate.slug !== article.slug
     )
-    .concat(articles.filter((candidate) => candidate.slug !== article.slug))
+    .concat(
+      publishedArticles.filter((candidate) => candidate.slug !== article.slug)
+    )
     .slice(0, 3);
 
   return (
@@ -111,6 +124,9 @@ export default function ArticleDetailPage() {
                   alt={article.title}
                   fill
                   priority
+                  unoptimized={shouldUseUnoptimizedArticleImage(
+                    article.coverImage
+                  )}
                   sizes="(min-width: 1024px) 48vw, 100vw"
                   className="object-cover"
                 />
@@ -159,24 +175,26 @@ export default function ArticleDetailPage() {
             ))}
           </div>
 
-          <div className="mt-10 rounded-[28px] border border-[rgba(197,160,89,0.18)] bg-[#F8F5F0] p-6 sm:p-8">
-            <h2 className="fd text-3xl font-bold text-[#2D2926]">
-              Key Takeaways
-            </h2>
-            <div className="mt-6 grid gap-4">
-              {article.highlights.map((highlight) => (
-                <div key={highlight} className="flex gap-3">
-                  <CheckCircle2
-                    size={19}
-                    className="mt-0.5 shrink-0 text-[#C5A059]"
-                  />
-                  <p className="text-sm font-bold leading-relaxed text-[#6B5E51]">
-                    {highlight}
-                  </p>
-                </div>
-              ))}
+          {article.highlights.length > 0 && (
+            <div className="mt-10 rounded-[28px] border border-[rgba(197,160,89,0.18)] bg-[#F8F5F0] p-6 sm:p-8">
+              <h2 className="fd text-3xl font-bold text-[#2D2926]">
+                Key Takeaways
+              </h2>
+              <div className="mt-6 grid gap-4">
+                {article.highlights.map((highlight) => (
+                  <div key={highlight} className="flex gap-3">
+                    <CheckCircle2
+                      size={19}
+                      className="mt-0.5 shrink-0 text-[#C5A059]"
+                    />
+                    <p className="text-sm font-bold leading-relaxed text-[#6B5E51]">
+                      {highlight}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </article>
 
         <aside className="h-fit rounded-[32px] bg-[#2D2926] p-7 text-white shadow-[0_24px_70px_rgba(45,41,38,0.14)] lg:sticky lg:top-32">
