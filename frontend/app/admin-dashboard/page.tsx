@@ -538,6 +538,10 @@ export default function AdminDashboard() {
             className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
             Manage Slots
           </button>
+          <button onClick={() => router.push("/admin-dashboard/articles")}
+            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            Articles
+          </button>
           <button onClick={() => router.push("/admin/consultants")}
             className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
             Counsellors
