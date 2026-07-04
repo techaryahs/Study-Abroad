@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Clock3, UserRound } from "lucide-react";
 import type { Article } from "@/data/articles";
+import { shouldUseUnoptimizedArticleImage } from "@/lib/articlesStore";
 
 interface FeaturedArticleProps {
   article: Article;
@@ -25,6 +26,7 @@ export default function FeaturedArticle({ article }: FeaturedArticleProps) {
             alt={article.title}
             fill
             priority
+            unoptimized={shouldUseUnoptimizedArticleImage(article.coverImage)}
             sizes="(min-width: 1024px) 50vw, 100vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />

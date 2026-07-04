@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Flag from "react-world-flags";
 import { motion, Variants } from "framer-motion";
+import { ArrowRight, BrainCircuit, CheckCircle2, Compass, FileCheck2, PenTool, Sparkles } from "lucide-react";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 export default function Home() {
@@ -34,19 +35,42 @@ export default function Home() {
     { title: "Admission Guidance", icon: "🏛️", link: "/services/admission-guidance" },
     { title: "University Shortlisting", icon: "📋", link: "/services/shortlisting" },
     { title: "SOP & LOR Support", icon: "✍️", link: "/services/sop" },
-    { title: "Scholarship Assistance", icon: "🎓", link: "/services/scholarship-assistance" },
+    { title: "Scholarship Assistance", icon: "🎓", link: "/services/scholarship" },
     { title: "Visa Guidance", icon: "🛂", link: "/services/visa-guidance" },
-    { title: "Profile Building", icon: "📈", link: "/services/profile-building" },
+    { title: "Profile Building", icon: "📈", link: "/services/portfolio" },
   ];
 
-  const flagsRow = [
-    { name: "USA", code: "US" },
-    { name: "UK", code: "GB" },
-    { name: "Germany", code: "DE" },
-    { name: "Australia", code: "AU" },
-    { name: "Ireland", code: "IE" },
-    { name: "Dubai", code: "AE" },
-    { name: "Canada", code: "CA" },
+  const destinations = [
+    { name: "USA", code: "US", description: "Ivy League pathways & elite campuses" },
+    { name: "UK", code: "GB", description: "Prestige, research, and global alumni" },
+    { name: "Germany", code: "DE", description: "High-value STEM and innovation programs" },
+    { name: "Australia", code: "AU", description: "Practical learning with global industry reach" },
+    { name: "Canada", code: "CA", description: "Scholarship-friendly, student-first education" },
+    { name: "Ireland", code: "IE", description: "Strong career outcomes and innovation hubs" },
+  ];
+
+  const featureTools = [
+    {
+      title: "AI SOP Generator",
+      description: "Create a tailored, admissions-ready statement of purpose in minutes.",
+      link: "/ai-services/sop-generator",
+      icon: PenTool,
+      accent: "from-[#2ca59d] to-[#0f4c5c]",
+    },
+    {
+      title: "AI & Plagiarism Remover Tool",
+      description: "Polish and humanize your drafts before you submit them.",
+      link: "/ai_services/ai_plagrism_tool",
+      icon: FileCheck2,
+      accent: "from-[#d2a14a] to-[#8a5f16]",
+    },
+  ];
+
+  const partnerMarks = [
+    { name: "AdmitPilot", tag: "Predict your shortlist" },
+    { name: "VisaFlow", tag: "Clear, guided support" },
+    { name: "ScholarshipIQ", tag: "Smarter funding insight" },
+    { name: "CampusCompass", tag: "Destination-first planning" },
   ];
 
   const statsRow = [
@@ -56,143 +80,189 @@ export default function Home() {
     { value: "10,000+", label: "Premium Programs" },
   ];
 
-  const dreams = [
-    { code: "US", name: "USA", stat: "₹2Cr", sub: "Scholarship" },
-    { code: "GB", name: "UK", stat: "Merit", sub: "Honors Awards" },
-    { code: "DE", name: "GER", stat: "Full", sub: "Scholarship" },
-    { code: "AU", name: "AUS", stat: "50%", sub: "Fee Waiver" },
-  ];
-
   return (
-    <main className="relative min-h-screen bg-[#F8F6F1] text-[#362B25] overflow-hidden pt-6 font-base selection:bg-[#D4A848]/10">
-
-      {/* 🏙️ BACKGROUND */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Elegant Horizontal Split matching Boutique theme */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F8F6F1] via-[#FDFBF7] to-[#F8F6F1] z-0"></div>
-
-        {/* Global base to handle transparency if needed */}
-        <div className="absolute inset-0 bg-[#F8F6F1]/50 z-0"></div>
-
-        {/* University Background Image Layer */}
-        <div className="absolute inset-0 z-10 mix-blend-multiply opacity-40">
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(44,165,157,0.16),_transparent_30%),linear-gradient(135deg,_#f8f4ea_0%,_#fcfbf7_100%)] pt-24 text-[#10324a] selection:bg-[#d2a14a]/20">
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.9),rgba(255,255,255,0.45))]" />
+        <div className="absolute inset-0 opacity-30">
           <Image
-            src="/universityy.png"
-            alt="University Background"
+            src="/global-campus-hero.png"
+            alt="Global campus background"
             fill
             sizes="100vw"
-            quality={60}
-            className="object-cover object-center grayscale"
+            quality={80}
+            className="object-cover object-center"
             priority
           />
         </div>
-
-        {/* Gradient overlays to soften the edges */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#F8F6F1] via-transparent to-transparent z-10 w-full h-full opacity-90"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-[#F8F6F1]/80 via-transparent to-transparent z-10 w-full h-full"></div>
-
-        {/* Gold Glow behind the person */}
-        <div className="absolute right-[-10%] top-[20%] w-[700px] h-[700px] bg-[#D4A848]/5 blur-[150px] rounded-full z-10"></div>
-
-        {/* Curved Golden Divider */}
-        <div className="absolute top-[48%] left-[-10%] w-[120%] h-[300px] bg-transparent border-t border-[#D4A848]/10 rounded-[50%] shadow-[0_-10px_30px_rgba(179,152,94,0.05)] z-20"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f8f4ea]/90 via-transparent to-[#f8f4ea]/70" />
+        <div className="absolute right-[-8%] top-[8%] h-[480px] w-[480px] rounded-full bg-[#d2a14a]/15 blur-[130px]" />
       </div>
 
-      {/* CONTENT */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-16 flex flex-col items-center text-center gap-16 pt-4 pb-24">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 pb-24 sm:px-8 lg:px-12">
+        <motion.section
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid gap-8 rounded-[36px] border border-[#10324a]/10 bg-white/80 p-8 shadow-[0_30px_90px_rgba(16,50,74,0.08)] backdrop-blur-xl xl:grid-cols-[1.1fr_0.9fr] xl:p-12"
+        >
+          <div className="max-w-2xl text-left">
+            <motion.div variants={itemVariants} className="inline-flex items-center gap-2 rounded-full border border-[#2ca59d]/20 bg-[#2ca59d]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.28em] text-[#0f4c5c]">
+              <Sparkles size={14} /> Study Abroad, Reimagined
+            </motion.div>
+            <motion.h1 variants={itemVariants} className="mt-6 text-4xl font-black leading-[1.05] tracking-[-0.03em] text-[#10324a] sm:text-5xl lg:text-6xl">
+              The World Is Your Campus.
+            </motion.h1>
+            <motion.p variants={itemVariants} className="mt-4 max-w-xl text-lg leading-8 text-[#4b5b6a] sm:text-xl">
+              Empowering students to learn, grow, and thrive on a global stage.
+            </motion.p>
 
-        {/* HERO TEXT */}
-        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-8 flex flex-col items-center w-full">
-          <motion.h1 variants={itemVariants} className="text-3xl sm:text-4xl lg:text-[3.5rem] leading-[1.15] font-black tracking-tight text-[#362B25]">
-            Education Leader<br /> Led Path to <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#D4A848] to-[#9c782b]">
-              Ivy League & Top Global Universities
-            </span>
-          </motion.h1>
+            <motion.div variants={itemVariants} className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <button
+                onClick={() => setShowCounsellingModal(true)}
+                className="inline-flex items-center justify-center rounded-2xl bg-[#d2a14a] px-7 py-3 text-sm font-black uppercase tracking-[0.24em] text-[#16364b] shadow-[0_16px_40px_rgba(210,161,74,0.28)] transition-all hover:-translate-y-1 active:scale-95"
+              >
+                Talk to an Expert
+              </button>
+              <button
+                onClick={() => {
+                  const phone = (process.env.NEXT_PUBLIC_WTSP_PHONE || "+918657869659").replace(/\D/g, "");
+                  window.open(`https://wa.me/${phone}`, "_blank");
+                }}
+                className="inline-flex items-center justify-center rounded-2xl border border-[#10324a]/15 px-7 py-3 text-sm font-black uppercase tracking-[0.24em] text-[#10324a] transition-all hover:bg-[#10324a] hover:text-white"
+              >
+                WhatsApp Us
+              </button>
+            </motion.div>
 
-          <motion.p variants={itemVariants} className="text-[#362B25] text-sm sm:text-base leading-relaxed max-w-2xl italic font-semibold">
-            Personalized higher study guidance for USA, UK, Germany,
-            Australia, Ireland, and Dubai — powered by AI-driven support.
-          </motion.p>
+            <motion.div variants={itemVariants} className="mt-8 flex flex-wrap gap-3">
+              {[
+                "Personalized mentorship",
+                "Scholarship strategy",
+                "Visa-ready planning",
+              ].map((item) => (
+                <div key={item} className="inline-flex items-center gap-2 rounded-full border border-[#10324a]/10 bg-[#f7fbfd] px-3 py-2 text-sm font-semibold text-[#4b5b6a]">
+                  <CheckCircle2 size={15} className="text-[#2ca59d]" />
+                  {item}
+                </div>
+              ))}
+            </motion.div>
+          </div>
 
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto justify-center">
-            <button
-              onClick={() => setShowCounsellingModal(true)}
-              className="bg-[#D4A848] text-[#40332D] px-8 py-3 rounded-xl text-xs md:text-sm font-black uppercase tracking-widest shadow-xl hover:-translate-y-1 transition-all active:scale-95 text-center w-full sm:w-auto"
-            >
-              Talk to an Expert
-            </button>
-            <button onClick={() => {
-              const phone = (process.env.NEXT_PUBLIC_WTSP_PHONE || "+918657869659").replace(/\D/g, '');
-              window.open(`https://wa.me/${phone}`, '_blank');
-            }}
-              className="border-[1.5px] border-[#40332D] px-8 py-3 rounded-xl text-[#40332D] text-xs md:text-[13px] font-black uppercase tracking-widest hover:bg-[#D4A848] hover:text-[#40332D] transition-all text-center w-full sm:w-auto"
-            >
-              Whatsapp Us
-            </button>
+          <motion.div variants={itemVariants} className="rounded-[32px] border border-[#10324a]/10 bg-[#10324a] p-6 text-white shadow-[0_20px_60px_rgba(16,50,74,0.18)]">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[#d2a14a]">Your next step</p>
+                <h2 className="mt-2 text-2xl font-black">From profile to placement.</h2>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-white/10 p-3">
+                <BrainCircuit size={24} className="text-[#d2a14a]" />
+              </div>
+            </div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {statsRow.map((stat) => (
+                <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <p className="text-2xl font-black text-[#f8f4ea]">{stat.value}</p>
+                  <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/70">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </motion.div>
-        </motion.div>
+        </motion.section>
 
-        {/* WHY STUDENTS TRUST US */}
-        <div className="w-full pt-8 flex flex-col items-center">
-          <h3 className="text-sm uppercase tracking-[0.25em] mb-10 font-black text-[#362B25] text-center">Why Students Trust Us</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-4xl">
-            {servicesRow.map((s, i) => (
-              <Link key={i} href={s.link}>
-                <div className="bg-[#40332D] p-6 rounded-[24px] text-center shadow-[0_10px_30px_rgba(212,168,72,0.08)] border border-[#D4A848]/20 hover:border-[#D4A848]/60 hover:shadow-[0_10px_40px_rgba(212,168,72,0.15)] hover:-translate-y-2 transition-all duration-300">
-                  <div className="w-14 h-14 mx-auto mb-4 bg-[#D4A848]/10 text-[#D4A848] flex items-center justify-center rounded-2xl border border-[#D4A848]/20 text-xl">
-                    {s.icon}
+        <section className="mt-14 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-[32px] border border-[#d2a14a]/20 bg-[#fffaf1] p-8 shadow-[0_16px_50px_rgba(210,161,74,0.08)]">
+            <div className="flex items-center gap-3">
+              <div className="rounded-2xl bg-[#d2a14a]/15 p-2 text-[#d2a14a]">
+                <Sparkles size={18} />
+              </div>
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.32em] text-[#0f4c5c]">Best features</p>
+                <h3 className="text-2xl font-black text-[#10324a]">Our most powerful tools</h3>
+              </div>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {featureTools.map((tool) => {
+                const Icon = tool.icon;
+                return (
+                  <Link key={tool.title} href={tool.link} className="group rounded-[24px] border border-[#10324a]/10 bg-white p-5 transition hover:-translate-y-1 hover:border-[#2ca59d]/30">
+                    <div className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${tool.accent} text-white`}>
+                      <Icon size={18} />
+                    </div>
+                    <h4 className="mt-4 text-xl font-black text-[#10324a]">{tool.title}</h4>
+                    <p className="mt-2 text-sm leading-7 text-[#4b5b6a]">{tool.description}</p>
+                    <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#2ca59d]">
+                      Explore now <ArrowRight size={15} />
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="rounded-[32px] border border-[#10324a]/10 bg-[#f7fbfd] p-8 shadow-[0_16px_50px_rgba(16,50,74,0.06)]">
+            <div className="flex items-center gap-3">
+              <div className="rounded-2xl bg-[#2ca59d]/15 p-2 text-[#2ca59d]">
+                <Compass size={18} />
+              </div>
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.32em] text-[#0f4c5c]">Meaningful marks</p>
+                <h3 className="text-2xl font-black text-[#10324a]">Built for a global journey</h3>
+              </div>
+            </div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {partnerMarks.map((mark) => (
+                <div key={mark.name} className="rounded-[22px] border border-[#10324a]/10 bg-white/80 p-4">
+                  <div className="h-11 w-11 rounded-2xl bg-[#10324a] text-lg font-black text-[#d2a14a] flex items-center justify-center">{mark.name.slice(0, 2).toUpperCase()}</div>
+                  <p className="mt-3 text-lg font-black text-[#10324a]">{mark.name}</p>
+                  <p className="mt-1 text-sm text-[#4b5b6a]">{mark.tag}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-14 rounded-[32px] border border-[#10324a]/10 bg-white/80 p-8 shadow-[0_16px_50px_rgba(16,50,74,0.06)]">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.32em] text-[#0f4c5c]">Popular destinations</p>
+              <h3 className="text-2xl font-black text-[#10324a]">Study where ambition belongs</h3>
+            </div>
+            <Link href="/universities" className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-[0.24em] text-[#2ca59d]">
+              Explore all destinations <ArrowRight size={15} />
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {destinations.map((country) => (
+              <div key={country.name} className="group flex items-center justify-between rounded-[24px] border border-[#10324a]/10 bg-[#f8fcfe] p-5 transition hover:-translate-y-1 hover:border-[#d2a14a]/40">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-[#10324a]/10 bg-white">
+                    <Flag code={country.code} className="h-full w-full object-cover" />
                   </div>
-                  <p className="text-[#F8F6F1] text-sm font-bold leading-tight">{s.title}</p>
+                  <div>
+                    <p className="text-lg font-black text-[#10324a]">{country.name}</p>
+                    <p className="text-sm text-[#4b5b6a]">{country.description}</p>
+                  </div>
                 </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* DREAMS - Centered */}
-        <div className="bg-[#40332D] p-6 md:p-8 rounded-[2rem] grid grid-cols-2 md:grid-cols-4 gap-6 shadow-[0_10px_40px_rgba(212,168,72,0.12)] border border-[#D4A848]/20 w-full max-w-4xl mt-8">
-          {dreams.map((d, i) => (
-            <div key={i} className="text-center">
-              <div className="w-10 h-6 mx-auto mb-3 rounded-[3px] overflow-hidden border border-[#D4A848]/20">
-                <Flag code={d.code} className="w-full h-full object-cover" />
-              </div>
-              <p className="text-[11px] font-black uppercase tracking-widest text-[#D4A848]">{d.name}</p>
-              <p className="text-lg font-black text-[#F8F6F1]">{d.stat}</p>
-              <p className="text-[9px] text-[#F8F6F1]/60 font-bold uppercase tracking-widest mt-1">{d.sub}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* STATS ROW */}
-        <div className="w-full max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-6 text-center mt-4">
-          {statsRow.map((stat, i) => (
-            <div key={i} className="flex flex-col items-center">
-              <h2 className="text-[#362B25] text-4xl leading-none font-black tracking-tighter drop-shadow-sm">{stat.value}</h2>
-              <p className="text-[10px] text-[#362B25]/80 font-black uppercase tracking-[0.25em] mt-3">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* TOP DESTINATIONS */}
-        <div className="w-full pt-10 flex flex-col items-center">
-          <h3 className="text-sm uppercase tracking-[0.25em] mb-10 font-black text-[#362B25] text-center">Top Destinations</h3>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-12 relative w-full max-w-4xl">
-            <div className="absolute top-6 left-10 right-10 h-[1px] bg-[#D4A848]/20 hidden sm:block"></div>
-            {flagsRow.map((f, i) => (
-              <div key={i} className="flex flex-col items-center z-10 shrink-0">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#D4A848] shadow-xl bg-white">
-                  <Flag code={f.code} className="w-full h-full object-cover" />
+                <div className="rounded-full bg-[#2ca59d]/10 p-2 text-[#2ca59d]">
+                  <Compass size={16} />
                 </div>
-                <span className="text-[9px] sm:text-[10px] uppercase font-black tracking-widest mt-3 text-[#362B25] text-center">{f.name}</span>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
+        <section className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {servicesRow.map((service) => (
+            <Link key={service.title} href={service.link} className="rounded-[24px] border border-[#10324a]/10 bg-white/70 p-6 shadow-[0_12px_35px_rgba(16,50,74,0.05)] transition hover:-translate-y-1">
+              <div className="text-2xl">{service.icon}</div>
+              <h4 className="mt-4 text-lg font-black text-[#10324a]">{service.title}</h4>
+              <p className="mt-2 text-sm text-[#4b5b6a]">Support built around your study abroad goals.</p>
+            </Link>
+          ))}
+        </section>
       </div>
 
-      {/* MODAL */}
       <BookCounsellingModal
         isOpen={showCounsellingModal}
         onClose={() => setShowCounsellingModal(false)}

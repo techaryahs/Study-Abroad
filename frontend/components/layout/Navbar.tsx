@@ -241,13 +241,6 @@ const resourcesItems: DropdownItem[] = [
     href: "/resources/research-groups",
   },
   {
-    icon: <Briefcase size={18} />,
-    title: "EB-1A Toolkit",
-    description: "Everything you need to build an extraordinary ability case.",
-    href: "/resources/eb1a-toolkit",
-    badge: "NEW",
-  },
-  {
     icon: <GraduationCap size={18} />,
     title: "Scholarships",
     description: "Curated database of scholarships for international students.",
@@ -273,18 +266,6 @@ const aiServicesItems: DropdownItem[] = [
     title: "US Visa Mock Interview AI",
     description: "Practice your visa interview with our AI interviewer.",
     href: "/ai_services/mock_interview_ai",
-  },
-  {
-    icon: <Wand2 size={18} />,
-    title: "AI & Plagiarism Remover Tool",
-    description: "Clean and humanize AI-generated content instantly.",
-    href: "/ai_services/ai_plagrism_tool",
-  },
-  {
-    icon: <PenTool size={18} />,
-    title: "AI SOP Generator",
-    description: "Generate a personalized Statement of Purpose in minutes.",
-    href: "/ai-services/sop-generator",
   },
 ];
 
@@ -741,8 +722,8 @@ export default function Navbar() {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">EduLeaderGlobal</span>
-                <span className="text-[#B3985E] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] mt-2 opacity-80">GLOBAL ADMISSIONS</span>
+                <span className="text-white font-black text-[11px] sm:text-[13px] uppercase tracking-[0.05em] leading-none">EduLeader Global</span>
+                <span className="text-[#B3985E] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.4em] mt-2 opacity-80">STUDY ABROAD</span>
               </div>
             </Link>
           </div>
@@ -756,7 +737,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("universities")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-1.5 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white"}`}>
+                <div className={`flex items-center gap-1.5 cursor-pointer text-[11px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "universities" ? "text-[#B3985E]" : "text-white"}`}>
                   Universities
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "universities" ? "-rotate-90" : ""}`} />
                 </div>
@@ -776,7 +757,7 @@ export default function Navbar() {
               </div>
 
               <div className="h-full flex items-center">
-                <Link href="/services" className="text-[10px] font-black uppercase tracking-[0.25em] text-white hover:text-[#B3985E] transition-all">
+                <Link href="/services" className="text-[11px] font-black uppercase tracking-[0.25em] text-white hover:text-[#B3985E] transition-all">
                   Services
                 </Link>
               </div>
@@ -787,7 +768,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("resources")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-pointer text-[10px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white"}`}>
+                <div className={`flex items-center gap-2 cursor-pointer text-[11px] font-black uppercase tracking-[0.25em] transition-all hover:text-[#B3985E] ${activeDropdown === "resources" ? "text-[#B3985E]" : "text-white"}`}>
                   Resources
                   <div className="w-1 h-1 rounded-full bg-[#B3985E] shadow-[0_0_8px_rgba(179,152,94,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "resources" ? "-rotate-90" : ""}`} />
@@ -812,7 +793,7 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("ai-services")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-default text-[10px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white"}`}>
+                <div className={`flex items-center gap-2 cursor-default text-[11px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white"}`}>
                   AI Services
                   <div className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,1)]" />
                   <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "ai-services" ? "-rotate-90" : ""}`} />
@@ -922,23 +903,23 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className={`hidden lg:flex items-center justify-center px-6 md:px-16 h-10 relative z-10 gap-6 xl:gap-10 transition-all duration-200 bg-[#B3985E]/5 backdrop-blur-xl border-t border-[#B3985E]/10`}>
+        <div className={`hidden lg:flex items-center justify-center px-6 md:px-16 h-16 relative z-10 gap-3 xl:gap-4 transition-all duration-200 bg-[#B3985E]/5 backdrop-blur-xl border-t border-[#B3985E]/10`}>
           {/* Modern Condensed Search Bar & Items - Unified Group */}
           <div className="flex items-center h-full shrink-0">
             <form
               ref={searchRef}
               onSubmit={handleSearch}
-              className={`relative group w-[340px] search-glow transition-all duration-300 ${searchError ? "animate-shake border-red-500/50" : ""}`}
+              className={`relative group w-[420px] xl:w-[500px] search-glow transition-all duration-300 ${searchError ? "animate-shake border-red-500/50" : ""}`}
             >
-              <button type="submit" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/70 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
-                <Search size={13} />
+              <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
+                <Search size={15} />
               </button>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={handleInputChange}
                 placeholder="Search your dream country..."
-                className={`w-full h-8 bg-white/[0.1] border rounded-full pl-10 pr-4 text-[10px] text-white placeholder:text-white/60 outline-none transition-all tracking-wide ${searchError ? "border-red-500/60" : "border-white/50 focus:bg-white/[0.15] focus:border-[#B3985E]/60"}`}
+                className={`w-full h-13 rounded-full border bg-white/[0.13] pl-12 pr-4 text-[13px] font-semibold text-white placeholder:text-white/65 outline-none transition-all tracking-[0.02em] shadow-[0_12px_35px_rgba(0,0,0,0.14)] ${searchError ? "border-red-500/60" : "border-white/25 focus:bg-white/[0.19] focus:border-[#B3985E]/70"}`}
               />
 
               {/* Suggestions Dropdown */}
@@ -966,27 +947,25 @@ export default function Navbar() {
           </div>
 
           {/* Secondary Nav Items - Centered alongside Search */}
-          <nav className="flex items-center h-full gap-1">
+          <nav className="flex items-center h-full gap-2">
             {[navItems[0], navItems[3], navItems[4], navItems[5], navItems[8]].map((item) => (
               <div key={item.path} className="relative group h-full flex items-center">
                 {item.badge === "Coming Soon" ? (
-                  <div className={`flex items-center gap-2 px-4 h-full text-[9px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap cursor-default text-white group-hover:text-[#B3985E]`}>
+                  <div className={`flex min-w-[100px] items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 h-11 text-[11px] font-black uppercase tracking-[0.24em] transition-all whitespace-nowrap cursor-default text-white group-hover:text-[#B3985E] group-hover:border-[#B3985E]/40`}>
                     {item.name}
                   </div>
                 ) : (
-                  <Link href={item.path} className={`flex items-center gap-2 px-4 h-full text-[13px] font-bold font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap ${pathname === item.path ? "text-[#B3985E]" : "text-white hover:text-[#B3985E]"}`}>
+                  <Link href={item.path} className={`flex min-w-[100px] items-center justify-center rounded-full border px-4 h-11 text-[11px] font-black uppercase tracking-[0.24em] transition-all whitespace-nowrap ${pathname === item.path ? "bg-[#B3985E]/15 text-[#B3985E] border-[#B3985E]/30 shadow-[0_8px_20px_rgba(179,152,94,0.12)]" : "border-white/10 bg-white/5 text-white hover:text-[#B3985E] hover:bg-white/10 hover:border-white/15"}`}>
                     {item.name}
                   </Link>
                 )}
                 {item.badge === "Coming Soon" && (
                   <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[#2D1F1D] border border-[#B3985E]/40 rounded-lg shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform scale-90 group-hover:scale-100 -translate-y-1 group-hover:translate-y-0 pointer-events-none z-[60]">
                     <span className="text-[11px] font-black text-[#B3985E] font-black uppercase tracking-[0.2em] whitespace-nowrap">Coming Soon</span>
-                    {/* Caret: Simulated Border Triangle */}
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[5px] border-b-[#B3985E]/40" />
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[4px] border-b-[#2D1F1D]" />
                   </div>
                 )}
-                <div className="absolute bottom-2 left-4 right-4 h-[1px] bg-[#B3985E] scale-x-0 group-hover:scale-x-100 transition-transform origin-center opacity-50" />
               </div>
             ))}
           </nav>
@@ -1044,7 +1023,7 @@ export default function Navbar() {
                 onSubmit={handleSearch}
                 className={`relative group w-full ${searchError ? "animate-shake" : ""}`}
               >
-                <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40">
+                <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60">
                   <Search size={16} />
                 </button>
                 <input
@@ -1052,7 +1031,7 @@ export default function Navbar() {
                   value={searchQuery}
                   onChange={handleInputChange}
                   placeholder="Search countries..."
-                  className="w-full h-12 bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 text-sm text-white outline-none focus:border-[#B3985E]/50 transition-all font-medium"
+                  className="w-full h-14 rounded-2xl border border-white/15 bg-white/10 pl-12 pr-4 text-sm text-white outline-none transition-all font-medium shadow-[0_10px_30px_rgba(0,0,0,0.18)] focus:border-[#B3985E]/60 focus:bg-white/15"
                 />
               </form>
 

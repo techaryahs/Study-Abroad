@@ -7,18 +7,18 @@
     --color-gold-200: #ecdcb1;
     --color-gold-300: #dec17e;
     --color-gold-400: #d1a856;
-    --color-gold-500: #c2a878;
-    --color-gold-600: #a68c5b;
-    --color-gold-700: #856e49;
-    --color-gold-800: #69573c;
-    --color-gold-900: #574834;
-    --color-gold-950: #332a1e;
+    --color-gold-500: #d2a14a;
+    --color-gold-600: #b8832d;
+    --color-gold-700: #8a5f16;
+    --color-gold-800: #69451a;
+    --color-gold-900: #4b3414;
+    --color-gold-950: #2f220f;
 
-    --color-dark-950: #05070a;
-    --color-dark-900: #0a0c10;
-    --color-dark-800: #12151c;
-    --color-dark-700: #1e232d;
-    --color-dark-600: #2a313c;
+    --color-dark-950: #0f243b;
+    --color-dark-900: #123449;
+    --color-dark-800: #17425b;
+    --color-dark-700: #20556f;
+    --color-dark-600: #2b6980;
 
     --font-base: "Inter", system-ui, sans-serif;
     --font-serif: "Playfair Display", serif;
