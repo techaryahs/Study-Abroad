@@ -1,13 +1,82 @@
 "use client";
 
 import { useState } from "react";
-import { Rocket, Target, Star, Crown } from "lucide-react";
+import { Check, Crown, Rocket, Star, Target, X } from "lucide-react";
 
 import CheckoutModal from "@/app/User/cart/checkoutmodal";
 import PricingCard from "./components/PricingCard";
 
+type SelectedPlan = {
+  title: string;
+  price: number;
+};
+
+type PackageKey = "essential" | "premium" | "elite";
+
+type PackagePlan = {
+  title: string;
+  price: number;
+};
+
+const packagePlans: Record<PackageKey, PackagePlan> = {
+  essential: {
+    title: "Essential Plan",
+    price: 4999,
+  },
+  premium: {
+    title: "Premium Plan",
+    price: 14999,
+  },
+  elite: {
+    title: "Elite Global Plan",
+    price: 49999,
+  },
+};
+
+const services = [
+  "Counselling Session",
+  "Research Paper Drafting & Publishing Help",
+  "Visa Application Help",
+  "Apply For An EB-1 Visa",
+  "Complete Application Help",
+  "Profile Evaluation & University Shortlisting",
+  "Statement of Purpose/Essay Writing",
+  "Apply For An O-1 Visa",
+  "US Visa Mock Interview",
+  "Letter of Recommendation Drafting",
+  "Personal History Statement",
+  "Resume Drafting",
+  "GRE Prep-Plan Building",
+  "University Finalization Help",
+  "Plagiarism Check Report",
+  "Scholarship Application Help",
+  "TOEFL Prep-Plan Building/Coaching Session",
+  "Canada Visa SOP/Letter of Explanation",
+  "Profile Building Guidance",
+  "Cover Letter Drafting",
+  "LinkedIn Profile Boosting",
+  "Express Entry/PNP Help",
+  "Complete Application Review",
+  "Apply for Global Talent Visa",
+  "Portfolio Building & Management",
+  "Apply for Australia National Innovation Visa",
+  "Apply for Singapore ONE Pass",
+  "Apply for an EB-2 NIW Visa",
+];
+
 export default function PricingPage() {
-  const [selectedPlan, setSelectedPlan] = useState<any>(null);
+  const [selectedPlan, setSelectedPlan] = useState<SelectedPlan | null>(null);
+  const [selectedPackage, setSelectedPackage] = useState<PackageKey | null>(null);
+
+  const packageLimit =
+    selectedPackage === "essential"
+      ? Math.ceil(services.length / 3)
+      : selectedPackage === "premium"
+        ? Math.ceil(services.length / 2)
+        : services.length;
+
+  const visibleServices = selectedPackage ? services.slice(0, packageLimit) : [];
+  const activePlan = selectedPackage ? packagePlans[selectedPackage] : null;
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#1D1413] py-24 px-6">
@@ -66,12 +135,7 @@ export default function PricingPage() {
               "Dedicated Counselor (30 Days)",
             ]}
             description="Everything you need to plan your study abroad journey."
-            onSelect={() =>
-              setSelectedPlan({
-                title: "Essential",
-                price: 4999,
-              })
-            }
+            onSelect={() => setSelectedPackage("essential")}
           />
 
           {/* Premium */}
@@ -90,12 +154,7 @@ export default function PricingPage() {
               "Dedicated Counselor (90 Days)",
             ]}
             description="Expert support to strengthen your application and secure admission."
-            onSelect={() =>
-              setSelectedPlan({
-                title: "Premium",
-                price: 14999,
-              })
-            }
+            onSelect={() => setSelectedPackage("premium")}
           />
 
           {/* Elite */}
@@ -115,12 +174,7 @@ export default function PricingPage() {
               "Dedicated Success Manager",
             ]}
             description="Complete end-to-end support from application to your flight."
-            onSelect={() =>
-              setSelectedPlan({
-                title: "Elite Global",
-                price: 49999,
-              })
-            }
+            onSelect={() => setSelectedPackage("elite")}
           />
         </div>
       </div>
@@ -139,7 +193,7 @@ export default function PricingPage() {
           </h1>
 
           <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-gray-300">
-            Whether you're just exploring or ready to fly abroad,
+            Whether you&apos;re just exploring or ready to fly abroad,
             choose the guidance package that fits your dream.
           </p>
         </div>
@@ -165,6 +219,98 @@ export default function PricingPage() {
             setSelectedPlan(null);
           }}
         />
+      )}
+
+      {selectedPackage && activePlan && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/55 px-4 backdrop-blur-sm">
+          <div className="max-h-[88vh] w-full max-w-3xl overflow-hidden rounded-[28px] bg-white shadow-2xl">
+            <div className="flex items-start justify-between bg-gradient-to-r from-[#2B7CFF] to-[#145CFF] px-7 py-6 text-white">
+              <div>
+                <h2 className="font-serif text-3xl font-black leading-tight">
+                  {activePlan.title}
+                </h2>
+                <p className="mt-3 text-xl font-medium">
+                  Unlock{" "}
+                  <span className="font-black">
+                    {selectedPackage === "essential"
+                      ? "1/3"
+                      : selectedPackage === "premium"
+                        ? "1/2"
+                        : "All"}
+                  </span>
+                  {selectedPackage === "elite" ? " Services" : " of All Services"}
+                </p>
+              </div>
+              <button
+                onClick={() => setSelectedPackage(null)}
+                className="rounded-full p-2 text-white transition hover:bg-white/15"
+                aria-label="Close package details"
+              >
+                <X size={28} />
+              </button>
+            </div>
+
+            <div className="max-h-[34vh] overflow-y-auto bg-[#F2FFF6] px-7 py-5">
+              <div className="mb-4 flex items-center gap-2 text-base font-black text-[#16A34A]">
+                <Check size={20} />
+                Included Services ({visibleServices.length})
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                {visibleServices.map((service) => (
+                  <div
+                    key={service}
+                    className="flex min-h-[72px] items-center gap-4 rounded-xl border border-[#BBF7D0] bg-[#F0FDF4] px-5 py-4 text-[#374151]"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-sm font-black text-[#16A34A] shadow-sm">
+                      <Check size={18} />
+                    </span>
+                    <span className="text-sm font-bold leading-5">
+                      {service}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-white px-7 py-6">
+              <div className="mb-5 flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-sm font-medium text-[#4B5563]">
+                    Plan Price
+                  </p>
+                  <p className="mt-1 text-4xl font-black text-[#111827]">
+                    ₹{activePlan.price.toLocaleString("en-IN")}
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium text-[#4B5563]">
+                    Services Unlocked
+                  </p>
+                  <p className="mt-1 text-4xl font-black text-[#16A34A]">
+                    {visibleServices.length}/{services.length}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                onClick={() => {
+                  setSelectedPackage(null);
+                  setSelectedPlan(activePlan);
+                }}
+                className="w-full rounded-xl bg-[#05B946] px-6 py-5 text-base font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#049B3B] active:scale-[0.99]"
+              >
+                Proceed To Payment →
+              </button>
+              <button
+                onClick={() => setSelectedPackage(null)}
+                className="mt-4 w-full rounded-xl bg-[#E5E7EB] px-6 py-4 text-base font-black text-[#374151] transition hover:bg-[#D1D5DB]"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   );

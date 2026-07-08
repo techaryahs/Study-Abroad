@@ -36,9 +36,18 @@ export default function PricingCard({
       />
 
       <div
+        onClick={onSelect}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onSelect();
+          }
+        }}
         className={`relative flex h-[780px] flex-col overflow-hidden rounded-[28px] border-2 bg-white shadow-2xl transition-all duration-300 group-hover:-translate-y-2 ${
           blue ? "border-[#1E4BE9]" : "border-[#E5A400]"
-        }`}
+        } cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#D4A848]/40`}
       >
         {/* Top Border */}
         <div
@@ -122,7 +131,10 @@ export default function PricingCard({
 
           {/* Button */}
           <button
-            onClick={onSelect}
+            onClick={(event) => {
+              event.stopPropagation();
+              onSelect();
+            }}
             className={`mt-4 rounded-xl py-3 text-sm font-bold tracking-wide text-white transition-all duration-300 hover:scale-[1.02] ${
               blue
                 ? "bg-gradient-to-r from-[#1B3EA8] to-[#2F6EFF]"

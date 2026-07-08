@@ -2,8 +2,10 @@
 
 import { useState, FormEvent, useEffect } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import CheckoutModal from "@/app/User/cart/checkoutmodal";
 import { getUser } from "@/app/lib/token";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -17,6 +19,23 @@ interface Service {
   icon: string;
   badge: Badge;
 }
+
+type PackageKey = "essential" | "premium" | "elite";
+
+const packagePlans: Record<PackageKey, { title: string; price: number }> = {
+  essential: {
+    title: "Essential",
+    price: 4999,
+  },
+  premium: {
+    title: "Premium",
+    price: 14999,
+  },
+  elite: {
+    title: "Elite Global",
+    price: 49999,
+  },
+};
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -161,7 +180,9 @@ function ServiceCard({
 
 export default function ServicesPage() {
   const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
   const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+  const [checkoutPlan, setCheckoutPlan] = useState<PackageKey | null>(null);
   const contactPhone = (process.env.NEXT_PUBLIC_WTSP_PHONE || "+918657869659").replace(/\D/g, '');
   const [form, setForm] = useState({ name: "", email: "", mobile: "", message: "" });
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -182,7 +203,25 @@ export default function ServicesPage() {
     }
   }, []);
 
-  const filtered = services.filter(
+  const selectedPackageParam = searchParams.get("package")?.toLowerCase();
+  const selectedPackage: PackageKey | null =
+    selectedPackageParam === "essential" ||
+    selectedPackageParam === "premium" ||
+    selectedPackageParam === "elite"
+      ? selectedPackageParam
+      : null;
+
+  const packageLimit =
+    selectedPackage === "essential"
+      ? Math.ceil(services.length / 3)
+      : selectedPackage === "premium"
+        ? Math.ceil(services.length / 2)
+        : services.length;
+
+  const packageServices = services.slice(0, packageLimit);
+  const selectedPlan = selectedPackage ? packagePlans[selectedPackage] : null;
+
+  const filtered = packageServices.filter(
     (s) =>
       s.title.toLowerCase().includes(query.toLowerCase()) ||
       s.description.toLowerCase().includes(query.toLowerCase())
@@ -307,6 +346,26 @@ export default function ServicesPage() {
           </button>
         </div>
 
+        {selectedPackage && (
+          <div className="mb-6 flex flex-wrap items-center gap-3">
+            <span className="rounded-full border border-[#D4A848]/30 bg-white px-4 py-2 text-[12px] font-black uppercase tracking-[0.2em] text-[#362B25] shadow-sm">
+              {packagePlans[selectedPackage].title} package: {packageServices.length} of {services.length} services
+            </span>
+            <button
+              onClick={() => setCheckoutPlan(selectedPackage)}
+              className="rounded-full bg-[#D4A848] px-5 py-2 text-[12px] font-black uppercase tracking-[0.2em] text-[#40332D] shadow-md transition-all hover:bg-[#362B25] hover:text-white active:scale-95"
+            >
+              Pay INR {packagePlans[selectedPackage].price.toLocaleString("en-IN")}
+            </button>
+            <Link
+              href="/services"
+              className="text-[12px] font-black uppercase tracking-[0.2em] text-[#D4A848] underline decoration-[#D4A848]/30 underline-offset-4 hover:text-[#362B25]"
+            >
+              View all services
+            </Link>
+          </div>
+        )}
+
         <div className="max-w-screen-2xl mx-auto">
           {filtered.length > 0 ? (
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3 sm:gap-4">
@@ -327,6 +386,28 @@ export default function ServicesPage() {
             </div>
           )}
         </div>
+
+        {selectedPackage && selectedPlan && filtered.length > 0 && (
+          <div className="mt-8 rounded-2xl border border-[#D4A848]/25 bg-white p-5 shadow-xl sm:flex sm:items-center sm:justify-between sm:gap-6">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.25em] text-[#D4A848]">
+                Ready to continue
+              </p>
+              <h2 className="mt-2 text-2xl font-black uppercase text-[#362B25]">
+                {selectedPlan.title} Package
+              </h2>
+              <p className="mt-1 text-sm font-medium text-[#675F5B]">
+                Includes {packageServices.length} selected services from our full catalogue.
+              </p>
+            </div>
+            <button
+              onClick={() => setCheckoutPlan(selectedPackage)}
+              className="mt-5 w-full rounded-xl bg-[#362B25] px-6 py-4 text-sm font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-[#D4A848] hover:text-[#40332D] active:scale-95 sm:mt-0 sm:w-auto"
+            >
+              Pay INR {selectedPlan.price.toLocaleString("en-IN")}
+            </button>
+          </div>
+        )}
       </section>
 
       {/* ── HORIZONTAL CHAT BANNER ────────────────────────────────────────────────── */}
@@ -456,6 +537,25 @@ export default function ServicesPage() {
         isOpen={showCounsellingModal}
         onClose={() => setShowCounsellingModal(false)}
       />
+      {checkoutPlan && (
+        <CheckoutModal
+          isOpen={true}
+          onClose={() => setCheckoutPlan(null)}
+          items={[
+            {
+              title: packagePlans[checkoutPlan].title,
+              name: packagePlans[checkoutPlan].title,
+              price: packagePlans[checkoutPlan].price,
+              currency: "INR",
+            },
+          ]}
+          subtotal={packagePlans[checkoutPlan].price}
+          discount={0}
+          total={packagePlans[checkoutPlan].price}
+          currency="INR"
+          onSuccess={() => setCheckoutPlan(null)}
+        />
+      )}
     </main>
   );
 }
