@@ -418,18 +418,21 @@ export default function ResearchPaperPage() {
                       </div>
                       <div className="flex gap-2 mt-3">
                         <button className="flex-1 text-[14px] font-bold font-bold border border-[#D4A848]/20 py-1.5 rounded-lg text-[#362B25] hover:bg-[#D4A848]/10 transition-all">View Members</button>
-                        <button className="flex-1 text-[14px] font-bold font-black bg-[#D4A848] text-[#FFFFFF] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all">Join Group</button>
+                        <button
+                          className="flex-1 text-[14px] font-bold font-black bg-[#D4A848] text-[#FFFFFF] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all"
+                          onClick={() =>
+                            window.open(
+                              "https://chat.whatsapp.com/HLv87Xz5H5l242Z9LEOlmS",
+                              "_blank"
+                            )
+                          }
+                        >
+                          Join Group
+                        </button>
                       </div>
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="mt-6 text-center space-y-2">
-                <p className="text-xs text-[#675F5B] font-medium">Didn't find what you were looking for?</p>
-                <button className="w-full border border-[#D4A848]/30 text-[#362B25] font-bold py-3 rounded-xl text-xs hover:bg-[#D4A848]/5 transition-all">
-                  + Create Research Group
-                </button>
-                <button className="text-xs text-[#D4A848] font-bold underline hover:text-[#362B25] transition-colors">View More Groups</button>
               </div>
             </div>
           </div>
