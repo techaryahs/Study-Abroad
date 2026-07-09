@@ -41,6 +41,13 @@ class AppleProductIds {
     elite: SubscriptionPlan.elite,
   };
 
+  static const Map<String, SubscriptionPlan> _nameToPlan = {
+    'starter': SubscriptionPlan.starter,
+    'essential': SubscriptionPlan.essential,
+    'premium': SubscriptionPlan.premium,
+    'elite': SubscriptionPlan.elite,
+  };
+
   /// Resolves a [SubscriptionPlan] to its Apple Product ID.
   static String productIdFor(SubscriptionPlan plan) => _planToProductId[plan]!;
 
@@ -48,6 +55,12 @@ class AppleProductIds {
   /// the ID is not recognized.
   static SubscriptionPlan? planFor(String productId) =>
       _productIdToPlan[productId];
+
+  static SubscriptionPlan? planForName(String name) => _nameToPlan[name.toLowerCase()];
+  
+  static String nameForPlan(SubscriptionPlan plan) {
+    return _nameToPlan.entries.firstWhere((e) => e.value == plan).key;
+  }
 
   // ── Product type helpers ─────────────────────────────────────────────────
 

@@ -139,7 +139,7 @@ exports.updateProfile = async (req, res) => {
 
 const pricingData = require("../../frontend/data/services-pricing.json");
 
-// @desc    Add to cart
+// @desc    Add to cart (DEPRECATED)
 exports.addToCart = async (req, res) => {
   try {
     console.log("==== ADD TO CART ====");
@@ -227,7 +227,7 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-// @desc    Update cart item quantity
+// @desc    Update cart item quantity (DEPRECATED)
 exports.updateCartItemQuantity = async (req, res) => {
   try {
     const { itemId, quantity } = req.body;
@@ -273,7 +273,7 @@ exports.updateCartItemQuantity = async (req, res) => {
   }
 };
 
-// @desc    Get user cart
+// @desc    Get user cart (DEPRECATED)
 exports.getCart = async (req, res) => {
   try {
     // console.log("User:", req.user.id);
@@ -303,7 +303,7 @@ exports.getCart = async (req, res) => {
   }
 };
 
-// @desc    Remove item from cart
+// @desc    Remove item from cart (DEPRECATED)
 exports.removeFromCart = async (req, res) => {
   try {
     const { itemId } = req.body;

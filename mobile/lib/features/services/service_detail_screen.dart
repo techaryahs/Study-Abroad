@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +8,8 @@ import '../../core/theme.dart';
 import 'service_model.dart';
 import '../../widgets/book_counselling_sheet.dart';
 import '../cart/cart_provider.dart';
+import '../membership/membership_manager.dart';
+import '../membership/membership_screen.dart';
 
 class ServiceDetailScreen extends StatelessWidget {
   final String slug;
@@ -15,8 +19,12 @@ class ServiceDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
+    final membershipManager = context.watch<MembershipManager>();
     final inCart = cart.isInCart(slug);
     final quantity = cart.quantityFor(slug);
+    
+    // Web is treated separately from mobile platform logic to prevent crashes
+    final bool isIOS = !kIsWeb && Platform.isIOS;
 
     final service = ServiceModel.allServices.firstWhere(
       (s) => s.slug == slug,
@@ -38,37 +46,36 @@ class ServiceDetailScreen extends StatelessWidget {
                   context.canPop() ? context.pop() : context.go('/services'),
             ),
             actions: [
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.shopping_cart_outlined,
-                        color: AppTheme.gold),
-                    onPressed: () => context.push('/cart'),
-                  ),
-                  if (cart.totalQuantity > 0)
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: Container(
-                        constraints:
-                            const BoxConstraints(minWidth: 16, minHeight: 16),
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        decoration: BoxDecoration(
-                          color: AppTheme.gold,
-                          borderRadius: BorderRadius.circular(999),
-                        ),
-                        child: Center(
-                          child: Text('${cart.totalQuantity}',
-                              style: const TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w900,
-                                  color: AppTheme.darkBrown)),
+              if (!isIOS)
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.shopping_cart_outlined,
+                          color: AppTheme.gold),
+                      onPressed: () => context.push('/cart'),
+                    ),
+                    if (cart.totalQuantity > 0)
+                      Positioned(
+                        right: 8,
+                        top: 8,
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            cart.totalQuantity.toString(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                    ),
-                ],
-              ),
+                  ],
+                ),
             ],
             flexibleSpace: FlexibleSpaceBar(
               background: Stack(
@@ -176,54 +183,89 @@ class ServiceDetailScreen extends StatelessWidget {
                                     color: AppTheme.gold)),
                           ],
                         ),
-                        ElevatedButton(
-                          onPressed: () async {
-                            try {
-                              await cart.addToCart(service);
-                              if (context.mounted) {
+                        if (isIOS)
+                          ElevatedButton(
+                            onPressed: () {
+                              final hasAccess = membershipManager.canAccess(service.slug);
+                              if (hasAccess) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content:
-                                        Text('Added ${service.title} to cart'),
-                                    backgroundColor: Colors.green.shade700,
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
+                                  SnackBar(content: Text('Starting ${service.title}...')),
+                                );
+                              } else {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => MembershipScreen(
+                                      lockedFeatureId: service.slug,
+                                    ),
                                   ),
                                 );
                               }
-                            } catch (e) {
-                              if (context.mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text('Error: $e'),
-                                      backgroundColor: Colors.red),
-                                );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppTheme.gold,
+                              foregroundColor: AppTheme.darkBrown,
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                              elevation: 2,
+                            ),
+                            child: Text(
+                              membershipManager.canAccess(service.slug) ? 'ACCESS SERVICE' : 'UNLOCK MEMBERSHIP',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 14,
+                                letterSpacing: 1,
+                              ),
+                            ),
+                          )
+                        else
+                          ElevatedButton(
+                            onPressed: () async {
+                              try {
+                                await cart.addToCart(service);
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content:
+                                          Text('Added ${service.title} to cart'),
+                                      backgroundColor: Colors.green.shade700,
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(12)),
+                                    ),
+                                  );
+                                }
+                              } catch (e) {
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text('Error: $e'),
+                                        backgroundColor: Colors.red),
+                                  );
+                                }
                               }
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                inCart ? AppTheme.gold : AppTheme.darkBrown,
-                            foregroundColor:
-                                inCart ? AppTheme.darkBrown : Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 24, vertical: 16),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            elevation: 2,
-                          ),
-                          child: Text(
-                            inCart ? 'IN CART x$quantity' : 'ADD TO CART',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 14,
-                              letterSpacing: 1,
-                              color: inCart ? AppTheme.darkBrown : Colors.white,
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  inCart ? AppTheme.gold : AppTheme.darkBrown,
+                              foregroundColor:
+                                  inCart ? AppTheme.darkBrown : Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 24, vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                              elevation: 2,
+                            ),
+                            child: Text(
+                              inCart ? 'IN CART x$quantity' : 'ADD TO CART',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 14,
+                                letterSpacing: 1,
+                                color: inCart ? AppTheme.darkBrown : Colors.white,
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                   ).animate().fadeIn(duration: 500.ms).slideY(begin: 0.1),

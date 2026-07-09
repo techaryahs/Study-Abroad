@@ -6,6 +6,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/api_client.dart';
 import 'auth_provider.dart';
 import '../cart/cart_provider.dart';
+import '../../widgets/brand_logo_card.dart';
 
 // ── Design tokens ──────────────────────────────────────────────────
 const _kBg        = Color(0xFFFAF3EA);
@@ -359,23 +360,11 @@ class _LoginScreenState extends State<LoginScreen>
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Logo — pinned top
-                Container(
-                  width: _isTablet ? 56.0 : 44.0,
-                  height: _isTablet ? 56.0 : 44.0,
-                  decoration: BoxDecoration(
-                    color: _kGoldBtn1,
-                    borderRadius: BorderRadius.circular(_isTablet ? 16 : 12),
-                    boxShadow: [
-                      BoxShadow(
-                        color: _kGold.withOpacity(0.4),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Icon(Icons.auto_awesome_rounded,
-                      color: Colors.white, size: _isTablet ? 28.0 : 22.0),
-                ).animate().fadeIn(duration: 350.ms),
+                BrandLogoCard(
+                  size: MediaQuery.of(context).size.width >= 1024
+                      ? 64.0
+                      : (_isTablet ? 56.0 : 48.0),
+                ),
 
                 // Responsive spacing to replace spaceBetween
                 SizedBox(height: isLandscape ? 24.0 : (_isTablet ? 42.0 : 32.0)),

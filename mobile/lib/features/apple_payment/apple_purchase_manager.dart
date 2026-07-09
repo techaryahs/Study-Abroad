@@ -79,6 +79,7 @@ class ApplePurchaseManager {
   /// verification).
   List<CheckoutItem> _currentItems = [];
   String _currentCurrency = 'INR';
+  String? _currentPlanId;
   VoidCallback? _currentOnPaymentSuccess;
 
   /// Whether products have been successfully loaded.
@@ -116,16 +117,21 @@ class ApplePurchaseManager {
     };
 
     debugPrint(
-      '[ApplePurchaseManager] Loaded ${_products.length} products: '
-      '${_products.keys.toList()}',
+      '\n[ApplePurchaseManager] 📦 StoreKit ProductDetailsResponse:\n'
+      '   • error: ${response.error?.message ?? "none"}\n'
+      '   • productDetails.length: ${response.productDetails.length}\n'
+      '   • notFoundIDs: ${response.notFoundIDs}',
     );
 
-    if (response.notFoundIDs.isNotEmpty) {
-      debugPrint(
-        '[ApplePurchaseManager] Unavailable products: '
-        '${response.notFoundIDs}',
-      );
+    if (response.error != null) {
+      debugPrint('[ApplePurchaseManager] ❌ StoreKit query failed: ${response.error!.message}');
+      onStateChanged(ApplePurchaseState.error);
+      return false;
     }
+
+    _products = {
+      for (var p in response.productDetails) p.id: p
+    };
 
     return _products.isNotEmpty;
   }
@@ -140,11 +146,12 @@ class ApplePurchaseManager {
     SubscriptionPlan plan, {
     required List<CheckoutItem> items,
     required String currency,
+    required String planId,
     VoidCallback? onPaymentSuccess,
   }) async {
     final productId = AppleProductIds.productIdFor(plan);
     debugPrint(
-      '[ApplePurchaseManager] Purchase requested: '
+      '\n[ApplePurchaseManager] 🛒 Purchase requested: '
       '${plan.name} → $productId',
     );
 
@@ -161,10 +168,12 @@ class ApplePurchaseManager {
     // Stash context for post-purchase verification.
     _currentItems = items;
     _currentCurrency = currency;
+    _currentPlanId = planId;
     _currentOnPaymentSuccess = onPaymentSuccess;
 
     final product = _products[productId]!;
 
+    debugPrint('[ApplePurchaseManager] 🚀 Launching StoreKit for $productId');
     if (AppleProductIds.isConsumable(productId)) {
       await AppleIapService.instance.buyConsumable(product);
     } else {
@@ -249,12 +258,15 @@ class ApplePurchaseManager {
       }
 
       // Call the existing backend payment verification endpoint.
+      debugPrint('[ApplePurchaseManager] 🌐 Verifying purchase with Backend...');
       final verifyRes = await ApiClient.instance.post(
         '/api/payment/verify',
         data: {
-          'apple_transaction_id': purchase.purchaseID,
-          'apple_product_id': purchase.productID,
-          'verification_data': purchase.verificationData.serverVerificationData,
+          'platform': 'apple_iap',
+          'planId': _currentPlanId ?? AppleProductIds.planFor(purchase.productID)?.name,
+          'productId': purchase.productID,
+          'transactionId': purchase.purchaseID,
+          'verificationData': purchase.verificationData.serverVerificationData,
           'source': purchase.verificationData.source,
           'is_restore': isRestore,
           'userId': user['_id'] ?? user['id'],
@@ -285,12 +297,11 @@ class ApplePurchaseManager {
             (sum, item) => sum + item.price * item.quantity,
           ),
           'currency': _currentCurrency,
-          'paymentMethod': 'apple_iap',
         },
       );
 
       debugPrint(
-        '[ApplePurchaseManager] Backend verification response: '
+        '[ApplePurchaseManager] ✅ Backend verification response: '
         '${verifyRes.statusCode}',
       );
 

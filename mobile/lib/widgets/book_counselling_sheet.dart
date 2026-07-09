@@ -4,8 +4,9 @@ import 'package:provider/provider.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../features/auth/auth_provider.dart';
-import 'checkout_sheet.dart';
-import '../models/checkout_item.dart';
+import '../features/membership/membership_manager.dart';
+import '../features/membership/membership_screen.dart';
+import '../../core/app_features.dart';
 
 void showBookCounsellingSheet(BuildContext context) {
   showModalBottomSheet(
@@ -234,36 +235,35 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       return;
     }
 
-    final selectedSlot = _slots[_selectedSlotIndex!];
+    // 1. Check if user is eligible for legacy free first session
     final eligibility = await _checkFreeEligibility(_emailCtrl.text.trim());
-
     if ((eligibility ?? _freeEligibility)?['eligible'] == true) {
-      debugPrint('Free booking eligible - skipping payment');
+      debugPrint('Legacy free booking eligible');
       await _finalizeBooking(isFreeBooking: true);
       return;
     }
 
-    debugPrint('Payment required - opening checkout');
-    CheckoutSheet.show(
-      context,
-      title: 'Booking Payment',
-      items: [
-        CheckoutItem(
-          id: 'counselling-session',
-          title: 'Counselling Session',
-          subtitle:
-              '${DateFormat('MMM d').format(DateTime.parse(_selectedDate))} @ ${selectedSlot['time']}',
-          icon: '📅',
-          price: 599,
-          actualPrice: 599,
-          currency: 'INR',
-          description: '1-hour private session with EduLeaderGlobal Admin.',
-        )
-      ],
-      onPaymentSuccess: () {
-        // Once payment is successful, actually save the booking
-        _finalizeBooking(paymentId: 'mobile_checkout_verified');
-      },
+    // 2. Check Entitlement Engine
+    final manager = Provider.of<MembershipManager>(context, listen: false);
+    final hasConsultationAccess = manager.canAccess(AppFeatures.consultation);
+
+    if (hasConsultationAccess) {
+      // User has a membership with consultation entitlement remaining (e.g. Starter 1 credit, or Premium unlimited)
+      debugPrint('Entitlement allows direct booking');
+      // Pass a specific paymentId indicating it was consumed via membership
+      await _finalizeBooking(paymentId: 'membership_entitlement');
+      return;
+    }
+
+    // 3. User does not have access. Redirect to Membership Screen (Recommended: Starter)
+    debugPrint('No access. Redirecting to Membership Screen.');
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const MembershipScreen(
+          recommendedPlanId: 'starter',
+          lockedFeatureId: AppFeatures.consultation,
+        ),
+      ),
     );
   }
 

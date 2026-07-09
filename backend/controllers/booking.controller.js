@@ -1,6 +1,8 @@
 const Booking = require("../models/Booking");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
+const mongoose = require("mongoose");
+const { consumeEntitlement } = require("../utils/membershipUtils");
 
 // const transporter = require("../utils/transporter"); // nodemailer instance
 const sendEmail = require("../utils/sendEmail");     // used in bookConsultant
@@ -37,8 +39,7 @@ exports.bookConsultant = async (req, res) => {
       userPhone,
       userName,
       userId,
-      consultantType,
-      userPlan
+      consultantType
     } = req.body;
 
     console.log(`📡 [Booking] Request: ${req.body.date} ${req.body.time} for ID: ${consultantId}`);
@@ -63,21 +64,6 @@ exports.bookConsultant = async (req, res) => {
       return res.status(400).json({ message: 'Consultant email not found' });
     }
 
-    if (consultantType === "Premium" && userPlan !== "Premium") {
-      return res.status(403).json({
-        message: "This counselor is available only for Premium Users."
-      });
-    }
-
-    if (userPlan !== "Premium") {
-      const todayBooking = await Booking.findOne({ userEmail, date });
-      if (todayBooking) {
-        return res.status(403).json({
-          message: "Free users can book only 1 consultation per day."
-        });
-      }
-    }
-
     const alreadyBooked = await Booking.findOne({ consultantId, date, time });
     if (alreadyBooked) {
       console.warn(`🚫 [Booking] Conflict found: ${date} ${time} for consultant ${consultantId}`);
@@ -87,31 +73,47 @@ exports.bookConsultant = async (req, res) => {
     // Generate deterministic meeting ID
     const meetingId = generateMeetingId(`${consultantId}-${date}-${time}-${userEmail}`);
 
-    const booking = await Booking.create({
-      consultantId,
-      consultantEmail,
-      consultantName,
-      date,
-      time,
-      userEmail,
-      userName,
-      userPhone,
-      userId,
-      consultantType,
-      userPlan,
-      meetingId
-    });
-
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    let booking;
     try {
-      const student = await Student.findOne({ email: userEmail });
+      const newBooking = new Booking({
+        consultantId,
+        consultantEmail,
+        consultantName,
+        date,
+        time,
+        userEmail,
+        userName,
+        userPhone,
+        userId,
+        consultantType,
+        meetingId
+      });
+      booking = await newBooking.save({ session });
+
+      const student = await Student.findOne({ email: userEmail }).session(session);
       if (student) {
         if (!student.profile) student.profile = {};
         if (!student.profile.myBookings) student.profile.myBookings = [];
         student.profile.myBookings.push(booking._id);
-        await student.save();
+        await student.save({ session });
       }
-    } catch (err) {
-      console.warn("Could not link booking to student profile:", err.message);
+      
+      const realUserId = userId || (student ? student._id : null);
+      if (realUserId) {
+        await consumeEntitlement(realUserId, 'consultation', session);
+      } else {
+        throw new Error("Cannot consume entitlement without valid user ID.");
+      }
+
+      await session.commitTransaction();
+      session.endSession();
+    } catch (txnError) {
+      await session.abortTransaction();
+      session.endSession();
+      console.error("Booking transaction failed:", txnError);
+      return res.status(500).json({ message: "Booking failed due to internal error or entitlement limits.", error: txnError.message });
     }
 
     try {

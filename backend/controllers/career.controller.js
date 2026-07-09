@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const User = require("../models/User");
 const Student = require("../models/Student");
+const { consumeEntitlement } = require("../utils/membershipUtils");
 
 // ✅ Correct JSON file path
 const filePath = path.join(__dirname, "../data/careersInterest.json");
@@ -339,18 +340,11 @@ Return only the resume in markdown format. No introduction or explanation.
       return res.status(500).json({ error: 'Empty response from OpenRouter.' });
     }
 
-    if (req.user && req.user.id) {
-      let student = await Student.findById(req.user.id);
-      if (student) {
-        if (!student.profile) student.profile = {};
-        if (!student.profile.serviceActivity) student.profile.serviceActivity = {};
-        if (!student.profile.serviceActivity.resumeBuilder) student.profile.serviceActivity.resumeBuilder = {};
-
-        student.profile.serviceActivity.resumeBuilder.used = true;
-        student.profile.serviceActivity.resumeBuilder.lastUsedAt = new Date();
-
-        student.markModified('profile');
-        await student.save();
+    if (req.user && (req.user.id || req.user._id)) {
+      try {
+        await consumeEntitlement(req.user.id || req.user._id, 'resume_drafting');
+      } catch (consumeErr) {
+        console.error('Failed to consume resume entitlement after generating:', consumeErr);
       }
     }
 

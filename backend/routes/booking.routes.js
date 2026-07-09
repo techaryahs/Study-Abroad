@@ -1,9 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const bookingCtrl = require("../controllers/booking.controller");
+const auth = require("../middleware/auth");
+const requireEntitlement = require("../middleware/entitlement.middleware");
 
 // ── Existing routes ────────────────────────────────────────────────────────
-router.post("/book-consultant", bookingCtrl.bookConsultant);
+router.post("/book-consultant", auth, requireEntitlement('human', 'consultation'), bookingCtrl.bookConsultant);
 router.get("/booked-slots", bookingCtrl.getBookedSlots);
 router.get("/counselling/:email", bookingCtrl.getUserCounselling);
 router.get("/user/:email", bookingCtrl.getUserBookings);

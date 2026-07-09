@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme.dart';
 import '../../../models/checkout_item.dart';
 import '../../../widgets/checkout_sheet.dart';
+import '../../../widgets/entitlement_guard.dart';
+import '../../../core/app_features.dart';
 
 class SopGeneratorScreen extends StatefulWidget {
   const SopGeneratorScreen({super.key});
@@ -45,14 +47,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
   ];
 
   void _showCheckoutSheet(CheckoutItem plan) {
-    CheckoutSheet.show(
-      context,
-      title: 'SOP Package',
-      items: [plan],
-      onPaymentSuccess: () {
-        // You could add logic here to redirect the user or show a success screen
-      },
-    );
+    context.push('/membership');
   }
 
   @override
@@ -77,7 +72,9 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
               color: AppTheme.textPrimary),
         ),
       ),
-      body: SingleChildScrollView(
+      body: EntitlementGuard(
+        featureId: AppFeatures.aiSop,
+        child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -626,6 +623,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
             const SizedBox(height: 60),
           ],
         ),
+      ),
       ),
     );
   }

@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme.dart';
 import '../../../models/checkout_item.dart';
 import '../../../widgets/checkout_sheet.dart';
+import '../../../widgets/entitlement_guard.dart';
+import '../../../core/app_features.dart';
 
 class PlagiarismRemoverScreen extends StatefulWidget {
   const PlagiarismRemoverScreen({super.key});
@@ -113,28 +115,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
   }
 
   void _showPlanSummary() {
-    if (_selectedPlan == null) return;
-    final plan = _plans.firstWhere((p) => p['name'] == _selectedPlan);
-
-    CheckoutSheet.show(
-      context,
-      title: 'Plagiarism Bypass',
-      items: [
-        CheckoutItem(
-          id: 'plagiarism-bypass-${plan['name'].toString().toLowerCase()}',
-          title: '${plan['name']} Plan',
-          icon: '🛡️',
-          price: plan['price'] as int,
-          actualPrice: plan['original'] as int,
-          currency: 'INR',
-          description:
-              'High-fidelity AI removal and plagiarism bypass subscription.',
-        )
-      ],
-      onPaymentSuccess: () {
-        // Success logic
-      },
-    );
+    context.push('/membership');
   }
 
   Widget _buildBadge() {
@@ -788,7 +769,9 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
                 letterSpacing: 1.5,
                 color: AppTheme.textPrimary)),
       ),
-      body: SafeArea(
+      body: EntitlementGuard(
+        featureId: AppFeatures.aiHumanizer,
+        child: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
@@ -813,6 +796,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

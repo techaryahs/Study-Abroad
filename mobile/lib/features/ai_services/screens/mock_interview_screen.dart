@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme.dart';
 import '../../../models/checkout_item.dart';
 import '../../../widgets/checkout_sheet.dart';
+import '../../../widgets/entitlement_guard.dart';
+import '../../../core/app_features.dart';
 
 class MockInterviewScreen extends StatefulWidget {
   const MockInterviewScreen({super.key});
@@ -100,8 +102,10 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
               color: AppTheme.textPrimary),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
+      body: EntitlementGuard(
+        featureId: AppFeatures.mockInterview,
+        child: SingleChildScrollView(
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeroSection(),
@@ -112,6 +116,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
             const SizedBox(height: 100),
           ],
         ),
+      ),
       ),
     );
   }
@@ -731,25 +736,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
                     height: 52,
                     child: ElevatedButton(
                       onPressed: () {
-                        CheckoutSheet.show(
-                          context,
-                          title: 'Interview Package',
-                          items: [
-                            CheckoutItem(
-                              id: 'mock-interview-${plan['rounds'].toString().toLowerCase().replaceAll(' ', '-')}',
-                              title: 'Mock Interview: ${plan['rounds']}',
-                              icon: '🎙️',
-                              price: plan['price'] as int,
-                              actualPrice: plan['original'] as int,
-                              currency: selectedCurrency,
-                              description:
-                                  'Professional AI-driven US Visa Mock Interview rounds with feedback.',
-                            )
-                          ],
-                          onPaymentSuccess: () {
-                            // Payment success logic
-                          },
-                        );
+                        context.push('/membership');
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: isHighlight

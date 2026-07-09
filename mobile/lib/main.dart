@@ -5,6 +5,7 @@ import 'core/router.dart';
 import 'core/theme.dart';
 import 'features/auth/auth_provider.dart';
 import 'features/cart/cart_provider.dart';
+import 'features/membership/membership_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,18 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: authProvider),
+        ChangeNotifierProxyProvider<AuthProvider, MembershipManager>(
+          create: (_) => MembershipManager(),
+          update: (_, auth, manager) {
+            final m = manager ?? MembershipManager();
+            if (auth.isLoggedIn && m.userMembership == null && !m.isLoading) {
+              Future.microtask(() => m.refresh());
+            } else if (!auth.isLoggedIn && m.userMembership != null) {
+              Future.microtask(() => m.clear());
+            }
+            return m;
+          },
+        ),
         ChangeNotifierProvider(create: (_) {
           final cart = CartProvider();
           if (authProvider.isLoggedIn) cart.fetchCart();

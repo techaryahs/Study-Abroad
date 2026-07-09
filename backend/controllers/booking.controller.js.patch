@@ -1,0 +1,85 @@
+--- backend/controllers/booking.controller.js
++++ backend/controllers/booking.controller.js
+@@ -3,6 +3,8 @@
+ const Student = require("../models/Student");
++const mongoose = require("mongoose");
++const { consumeEntitlement } = require("../utils/membershipUtils");
+ 
+ // const transporter = require("../utils/transporter"); // nodemailer instance
+ const sendEmail = require("../utils/sendEmail");     // used in bookConsultant
+@@ -39,8 +41,7 @@
+       userName,
+       userId,
+-      consultantType,
+-      userPlan
++      consultantType
+     } = req.body;
+ 
+@@ -64,19 +65,9 @@
+     }
+ 
+-    if (consultantType === "Premium" && userPlan !== "Premium") {
+-      return res.status(403).json({
+-        message: "This counselor is available only for Premium Users."
+-      });
+-    }
+-
+-    if (userPlan !== "Premium") {
+-      const todayBooking = await Booking.findOne({ userEmail, date });
+-      if (todayBooking) {
+-        return res.status(403).json({
+-          message: "Free users can book only 1 consultation per day."
+-        });
+-      }
+-    }
+-
+     const alreadyBooked = await Booking.findOne({ consultantId, date, time });
+     if (alreadyBooked) {
+@@ -87,27 +78,41 @@
+     // Generate deterministic meeting ID
+     const meetingId = generateMeetingId(`${consultantId}-${date}-${time}-${userEmail}`);
+ 
+-    const booking = await Booking.create({
++    const session = await mongoose.startSession();
++    session.startTransaction();
++    let booking;
++    try {
++    const newBooking = new Booking({
+       consultantId,
+       consultantEmail,
+       consultantName,
+       date,
+       time,
+       userEmail,
+       userName,
+       userPhone,
+       userId,
+       consultantType,
+       meetingId
+     });
++    booking = await newBooking.save({ session });
+ 
+-    try {
+-      const student = await Student.findOne({ email: userEmail });
++      const student = await Student.findOne({ email: userEmail }).session(session);
+       if (student) {
+         if (!student.profile) student.profile = {};
+         if (!student.profile.myBookings) student.profile.myBookings = [];
+         student.profile.myBookings.push(booking._id);
+-        await student.save();
++        await student.save({ session });
+       }
+-    } catch (err) {
+-      console.warn("Could not link booking to student profile:", err.message);
++      
++      await consumeEntitlement(userId || student._id, 'consultation', session);
++
++      await session.commitTransaction();
++      session.endSession();
++    } catch (txnError) {
++      await session.abortTransaction();
++      session.endSession();
++      console.error("Booking transaction failed:", txnError);
++      return res.status(500).json({ message: "Booking failed due to internal error or entitlement limits.", error: txnError.message });
+     }
+ 

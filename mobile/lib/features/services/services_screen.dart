@@ -1,3 +1,5 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,8 @@ import 'package:provider/provider.dart';
 import '../../core/theme.dart';
 import '../../widgets/book_counselling_sheet.dart';
 import '../cart/cart_provider.dart';
+import '../membership/membership_manager.dart';
+import '../membership/membership_screen.dart';
 import 'service_model.dart';
 
 class ServicesScreen extends StatelessWidget {
@@ -15,6 +19,8 @@ class ServicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
+    final membershipManager = context.watch<MembershipManager>();
+    final bool isIOS = !kIsWeb && Platform.isIOS;
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -22,38 +28,39 @@ class ServicesScreen extends StatelessWidget {
         title: const Text('Our Services'),
         backgroundColor: AppTheme.background,
         actions: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart_outlined),
-                onPressed: () => context.push('/cart'),
-              ),
-              if (cart.totalQuantity > 0)
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: Container(
-                    constraints:
-                        const BoxConstraints(minWidth: 16, minHeight: 16),
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    decoration: BoxDecoration(
-                      color: AppTheme.gold,
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${cart.totalQuantity}',
-                        style: const TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w900,
-                            color: AppTheme.darkBrown),
+          if (!isIOS)
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.shopping_cart_outlined),
+                  onPressed: () => context.push('/cart'),
+                ),
+                if (cart.totalQuantity > 0)
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Container(
+                      constraints:
+                          const BoxConstraints(minWidth: 16, minHeight: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      decoration: BoxDecoration(
+                        color: AppTheme.gold,
+                        borderRadius: BorderRadius.circular(999),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '${cart.totalQuantity}',
+                          style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w900,
+                              color: AppTheme.darkBrown),
+                        ),
                       ),
                     ),
                   ),
-                ),
-            ],
-          ),
+              ],
+            ),
         ],
       ),
       body: ListView(
@@ -107,6 +114,7 @@ class ServicesScreen extends StatelessWidget {
             final service = _services[i];
             final inCart = cart.isInCart(service.slug);
             final quantity = cart.quantityFor(service.slug);
+            final hasAccess = isIOS ? membershipManager.canAccess(service.slug) : false;
 
             return GestureDetector(
               onTap: () => context.push('/services/${service.slug}'),
@@ -247,24 +255,56 @@ class ServicesScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          ElevatedButton(
-                            onPressed: () => _addToCart(context, service),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  inCart ? AppTheme.darkBrown : AppTheme.gold,
-                              foregroundColor:
-                                  inCart ? Colors.white : AppTheme.darkBrown,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12)),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 18, vertical: 10),
+                          if (isIOS)
+                            ElevatedButton(
+                              onPressed: () {
+                                if (hasAccess) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Starting ${service.title}...')),
+                                  );
+                                } else {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => MembershipScreen(
+                                        lockedFeatureId: service.slug,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.gold,
+                                foregroundColor: AppTheme.darkBrown,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 18, vertical: 10),
+                              ),
+                              child: Text(
+                                hasAccess ? 'Access' : 'Unlock',
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w800),
+                              ),
+                            )
+                          else
+                            ElevatedButton(
+                              onPressed: () => _addToCart(context, service),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    inCart ? AppTheme.darkBrown : AppTheme.gold,
+                                foregroundColor:
+                                    inCart ? Colors.white : AppTheme.darkBrown,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12)),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 18, vertical: 10),
+                              ),
+                              child: Text(
+                                inCart ? 'Add Again' : 'Add to Cart',
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w800),
+                              ),
                             ),
-                            child: Text(
-                              inCart ? 'Add Again' : 'Add to Cart',
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w800),
-                            ),
-                          ),
                         ],
                       ),
                     ),

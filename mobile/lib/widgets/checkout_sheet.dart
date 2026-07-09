@@ -271,6 +271,7 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
       widget.subscriptionPlan ?? SubscriptionPlan.starter,
       items: widget.items,
       currency: widget.currency,
+      planId: 'legacy_checkout',
       onPaymentSuccess: widget.onPaymentSuccess,
     );
   }
