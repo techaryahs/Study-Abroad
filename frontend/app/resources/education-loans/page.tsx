@@ -138,14 +138,17 @@ export default function EducationLoanPage() {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
   return (
-    <main className="min-h-screen bg-[#FDFBF7] text-[#362B25] selection:bg-[#D4A848]/20 overflow-x-hidden">
+    <main
+      className="min-h-screen text-[#10324a] selection:bg-[#d2a14a]/20 overflow-x-hidden"
+      style={{
+        background:
+          "radial-gradient(circle at top left, rgba(44,165,157,0.16), transparent 30%), linear-gradient(135deg, #f8f4ea 0%, #fcfbf7 100%)",
+      }}
+    >
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-        .fd { font-family: 'Cormorant Garamond', serif; }
-        .dm { font-family: 'DM Sans', sans-serif; }
         .gold-shimmer {
-          background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
+          background: linear-gradient(90deg, #d2a14a, #f4d89e, #d2a14a, #b3985e, #d2a14a);
           background-size: 300% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -162,31 +165,31 @@ export default function EducationLoanPage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
             <div className="space-y-4">
-              <h1 className="dm text-4xl md:text-5xl font-bold leading-tight tracking-tight text-[#2D2926]">
+              <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight">
                 From Application to Approval – <br />
                 <span className="gold-shimmer">Your Roadmap to Success</span>
               </h1>
-              <p className="text-[#6B5E51] text-lg font-medium max-w-lg">
+              <p className="text-[#4b5b6a] text-lg font-medium max-w-lg">
                 A step-by-step guide to how we help you get the best education loan for studying abroad.
               </p>
             </div>
 
             <div className="space-y-6 relative ml-4">
               {/* Connector Line */}
-              <div className="absolute left-[11px] top-6 bottom-6 w-[2px] bg-[#E0E0E0] z-0" />
+              <div className="absolute left-[11px] top-6 bottom-6 w-[2px] bg-[#10324a]/10 z-0" />
 
               {ROADMAP_STEPS.map((step) => (
                 <div key={step.id} className="relative z-10 flex gap-6 group">
-                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1 transition-all duration-300 ${step.active ? 'bg-[#C5A059] shadow-lg shadow-[#C5A059]/20' : 'bg-white border-2 border-[#E0E0E0]'}`}>
-                    {step.active && <CheckCircle2 className="w-4 h-4 text-white" />}
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-1 transition-all duration-300 ${step.active ? 'bg-[#d2a14a] shadow-lg shadow-[#d2a14a]/25' : 'bg-white border-2 border-[#10324a]/15'}`}>
+                    {step.active && <CheckCircle2 className="w-4 h-4 text-[#10324a]" />}
                   </div>
-                  <div className={`flex items-start gap-4 p-4 rounded-2xl transition-all duration-300 ${step.active ? 'bg-[#FDFBF7] border border-[#C5A059]/30 shadow-sm' : 'hover:bg-white hover:shadow-md'}`}>
-                    <div className={`${step.active ? 'text-[#C5A059]' : 'text-[#6B5E51]'}`}>
+                  <div className={`flex items-start gap-4 p-4 rounded-2xl transition-all duration-300 ${step.active ? 'bg-white/80 border border-[#d2a14a]/30 shadow-sm' : 'hover:bg-white/60 hover:shadow-md'}`}>
+                    <div className={`${step.active ? 'text-[#d2a14a]' : 'text-[#4b5b6a]'}`}>
                       {step.icon}
                     </div>
                     <div className="space-y-1">
-                      <h3 className="font-bold text-lg text-[#2D2926]">{step.title}</h3>
-                      {step.active && <p className="text-sm text-[#C5A059] font-medium">{step.description}</p>}
+                      <h3 className="font-black text-lg text-[#10324a]">{step.title}</h3>
+                      {step.active && <p className="text-sm text-[#d2a14a] font-medium">{step.description}</p>}
                     </div>
                   </div>
                 </div>
@@ -195,14 +198,14 @@ export default function EducationLoanPage() {
 
             <button 
               onClick={() => setShowBookingModal(true)}
-              className="bg-[#2D2926] text-[#C5A059] px-8 py-4 rounded-xl font-bold text-sm tracking-widest uppercase hover:bg-[#C5A059] hover:text-white transition-all shadow-xl flex items-center gap-2 group"
+              className="bg-[#10324a] text-[#d2a14a] px-8 py-4 rounded-xl font-black text-sm tracking-widest uppercase hover:bg-[#d2a14a] hover:text-[#10324a] transition-all shadow-xl flex items-center gap-2 group"
             >
               Check loan eligibility <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
           <div className="relative">
-            <div className="bg-[#E0F2F1] rounded-[40px] p-8 md:p-16 relative overflow-hidden aspect-square flex items-center justify-center">
+            <div className="bg-[#2ca59d]/10 rounded-[40px] p-8 md:p-16 relative overflow-hidden aspect-square flex items-center justify-center border border-[#2ca59d]/15">
               {/* Decorative circle */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/40 rounded-full blur-3xl" />
 
@@ -210,31 +213,31 @@ export default function EducationLoanPage() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                className="relative z-10 bg-white rounded-3xl p-6 shadow-2xl border border-[#C5A059]/10 w-full max-w-sm"
+                className="relative z-10 bg-white rounded-3xl p-6 shadow-2xl border border-[#10324a]/10 w-full max-w-sm"
               >
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center text-white text-[14px] font-bold font-bold">AXIS</div>
-                    <span className="font-bold text-sm text-[#2D2926]">AXIS BANK</span>
+                    <span className="font-bold text-sm text-[#10324a]">AXIS BANK</span>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="text-[14px] font-bold text-[#A8A29E] font-bold uppercase">Tenure</span>
-                    <span className="text-xs font-bold text-[#C5A059]">14 Years ▾</span>
+                    <span className="text-[14px] font-bold text-[#4b5b6a]/60 font-bold uppercase">Tenure</span>
+                    <span className="text-xs font-bold text-[#d2a14a]">14 Years ▾</span>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center text-xs py-2 border-b border-[#F1EDEA]">
-                    <span className="text-[#6B5E51] font-medium">Max. Loan Amount</span>
-                    <span className="text-[#2D2926] font-bold">Up to 7.5 lakhs</span>
+                  <div className="flex justify-between items-center text-xs py-2 border-b border-[#10324a]/8">
+                    <span className="text-[#4b5b6a] font-medium">Max. Loan Amount</span>
+                    <span className="text-[#10324a] font-bold">Up to 7.5 lakhs</span>
                   </div>
-                  <div className="flex justify-between items-center text-xs py-2 border-b border-[#F1EDEA]">
-                    <span className="text-[#6B5E51] font-medium">Interest Rate (%)</span>
-                    <span className="text-[#2D2926] font-bold">11.50% - 12.25%</span>
+                  <div className="flex justify-between items-center text-xs py-2 border-b border-[#10324a]/8">
+                    <span className="text-[#4b5b6a] font-medium">Interest Rate (%)</span>
+                    <span className="text-[#10324a] font-bold">11.50% - 12.25%</span>
                   </div>
                   <div className="flex justify-between items-center py-2">
-                    <span className="text-[#6B5E51] text-xs font-medium">Monthly EMI</span>
-                    <span className="text-[#2D2926] font-black text-lg">₹1,73,969</span>
+                    <span className="text-[#4b5b6a] text-xs font-medium">Monthly EMI</span>
+                    <span className="text-[#10324a] font-black text-lg">₹1,73,969</span>
                   </div>
                 </div>
               </motion.div>
@@ -244,10 +247,10 @@ export default function EducationLoanPage() {
       </section>
 
       {/* ── COMPARISON SECTION ── */}
-      <section id="comparison" className="px-6 md:px-14 lg:px-20 py-24 bg-white border-y border-[#F1EDEA]">
+      <section id="comparison" className="px-6 md:px-14 lg:px-20 py-24 bg-white/40 border-y border-[#10324a]/10">
         <div className="max-w-7xl mx-auto space-y-16">
           <div className="text-center space-y-4">
-            <h2 className="fd text-4xl md:text-5xl lg:text-6xl font-bold text-[#2D2926]">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#10324a]">
               Discover Funding Options, and <br />
               <span className="gold-shimmer">Begin Your Journey with Ease</span>
             </h2>
@@ -259,18 +262,18 @@ export default function EducationLoanPage() {
                 <tr>
                   <th className="py-6 px-4"></th>
                   {LENDER_COMPARISON.map((col) => (
-                    <th key={col.category} className="py-6 px-8 text-center bg-[#FDFBF7] rounded-t-3xl border-x border-t border-[#C5A059]/10 min-w-[200px]">
+                    <th key={col.category} className="py-6 px-8 text-center bg-white/80 rounded-t-3xl border-x border-t border-[#10324a]/10 min-w-[200px]">
                       <div className="flex flex-col items-center gap-2">
                         <div className="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center">
                           {col.icon}
                         </div>
-                        <span className="text-lg font-bold text-[#2D2926]">{col.category}</span>
+                        <span className="text-lg font-black text-[#10324a]">{col.category}</span>
                       </div>
                     </th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="bg-white">
+              <tbody className="bg-white/60">
                 {[
                   { label: "Maximum Loan amount", key: "maxAmount" },
                   { label: "Interest Rate", key: "interestRate" },
@@ -279,10 +282,10 @@ export default function EducationLoanPage() {
                   { label: "Processing Fee", key: "processingFee", highlight: true }
                 ].map((row) => (
                   <tr key={row.label}>
-                    <td className="py-6 px-4 text-sm font-bold text-[#6B5E51] border-b border-[#F1EDEA]">{row.label}</td>
+                    <td className="py-6 px-4 text-sm font-bold text-[#4b5b6a] border-b border-[#10324a]/8">{row.label}</td>
                     {LENDER_COMPARISON.map((col) => (
-                      <td key={col.category} className={`py-6 px-4 text-center border-b border-[#F1EDEA] border-x border-[#C5A059]/5 ${row.highlight ? 'bg-[#C5A059]/5' : 'bg-[#FDFBF7]'}`}>
-                        <span className={`text-sm font-bold ${row.highlight ? 'text-[#C5A059]' : 'text-[#2D2926]'}`}>
+                      <td key={col.category} className={`py-6 px-4 text-center border-b border-[#10324a]/8 border-x border-[#10324a]/5 ${row.highlight ? 'bg-[#d2a14a]/8' : 'bg-white/70'}`}>
+                        <span className={`text-sm font-bold ${row.highlight ? 'text-[#d2a14a]' : 'text-[#10324a]'}`}>
                           {col[row.key as keyof typeof col]}
                         </span>
                       </td>
@@ -294,12 +297,12 @@ export default function EducationLoanPage() {
             <div className="flex justify-center mt-8">
               <button 
                 onClick={() => scrollToSection('partners')}
-                className="text-[#C5A059] font-bold text-sm tracking-widest uppercase border-b-2 border-[#C5A059] pb-1 hover:text-[#2D2926] hover:border-[#2D2926] transition-all"
+                className="text-[#d2a14a] font-black text-sm tracking-widest uppercase border-b-2 border-[#d2a14a] pb-1 hover:text-[#10324a] hover:border-[#10324a] transition-all"
               >
                 View All
               </button>
             </div>
-            <p className="text-[14px] font-bold text-[#A8A29E] italic text-center mt-4">
+            <p className="text-[14px] font-bold text-[#4b5b6a]/60 italic text-center mt-4">
               *Actual loan terms may vary based on individual profile and lender assessment.
             </p>
           </div>
@@ -307,30 +310,31 @@ export default function EducationLoanPage() {
       </section>
 
       {/* ── PARTNERS LOGO STRIP ── */}
-      <section className="px-6 md:px-14 lg:px-20 py-16 bg-[#FDFBF7]">
+      <section className="px-6 md:px-14 lg:px-20 py-16">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-12 md:gap-24 opacity-60">
-          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926]">AXIS BANK</div>
-          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926] italic">Credila</div>
-          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926]">pnb</div>
-          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926]">IDFC FIRST <br /><span className="text-[14px] font-bold tracking-widest uppercase">Bank</span></div>
-          <div className="text-center font-black text-2xl tracking-tighter text-[#2D2926] text-blue-500">Prodigy <br /><span className="text-[14px] font-bold tracking-normal text-[#6B5E51]">Finance</span></div>
+          <div className="text-center font-black text-2xl tracking-tighter text-[#10324a]">AXIS BANK</div>
+          <div className="text-center font-black text-2xl tracking-tighter text-[#10324a] italic">Credila</div>
+          <div className="text-center font-black text-2xl tracking-tighter text-[#10324a]">pnb</div>
+          <div className="text-center font-black text-2xl tracking-tighter text-[#10324a]">IDFC FIRST <br /><span className="text-[14px] font-bold tracking-widest uppercase">Bank</span></div>
+          <div className="text-center font-black text-2xl tracking-tighter text-[#10324a] text-blue-500">Prodigy <br /><span className="text-[14px] font-bold tracking-normal text-[#4b5b6a]">Finance</span></div>
         </div>
       </section>
 
       {/* ── PARTNERS HIGHLIGHTS ── */}
-      <section id="partners" className="px-6 md:px-14 lg:px-20 py-24 bg-[#1C1917] relative overflow-hidden">
+      <section id="partners" className="px-6 md:px-14 lg:px-20 py-24 bg-[#10324a] relative overflow-hidden">
         {/* Decorative backdrop */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#C5A059] opacity-[0.03] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#d2a14a] opacity-[0.10] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#2ca59d] opacity-[0.10] rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
         
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-12 items-center relative z-10">
           <div className="lg:col-span-2 space-y-6">
-            <h2 className="fd text-5xl lg:text-7xl font-bold text-white">Our <br /><span className="gold-shimmer">Partners</span></h2>
-            <p className="text-white/50 text-lg font-medium leading-relaxed">
+            <h2 className="text-5xl lg:text-7xl font-black text-white">Our <br /><span className="gold-shimmer">Partners</span></h2>
+            <p className="text-white/60 text-lg font-medium leading-relaxed">
               Explore our curated network of trusted global lenders offering exclusive terms for our students.
             </p>
             <button 
               onClick={() => scrollToSection('why-choose')}
-              className="bg-[#C5A059] text-[#2D2926] px-10 py-5 rounded-xl font-black text-xs tracking-[0.2em] uppercase hover:bg-white transition-all shadow-xl group flex items-center gap-2"
+              className="bg-[#d2a14a] text-[#10324a] px-10 py-5 rounded-xl font-black text-xs tracking-[0.2em] uppercase hover:bg-white transition-all shadow-xl group flex items-center gap-2"
             >
               Explore <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
@@ -339,39 +343,39 @@ export default function EducationLoanPage() {
           <div className="lg:col-span-3 flex gap-6 overflow-x-auto no-scrollbar pb-10">
             {PARTNER_HIGHLIGHTS.map((p, i) => (
               <div key={i} className="flex-shrink-0 w-80 bg-white rounded-[32px] p-8 space-y-8 shadow-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 px-6 py-2 bg-[#C5A059]/10 text-[#C5A059] text-[14px] font-bold font-black tracking-widest uppercase rounded-bl-3xl">
+                <div className="absolute top-0 right-0 px-6 py-2 bg-[#d2a14a]/15 text-[#d2a14a] text-[14px] font-bold font-black tracking-widest uppercase rounded-bl-3xl">
                   {p.type}
                 </div>
                 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#FDFBF7] flex items-center justify-center border border-[#C5A059]/10 font-black text-[#C5A059]">
+                  <div className="w-12 h-12 rounded-xl bg-[#f7fbfd] flex items-center justify-center border border-[#d2a14a]/20 font-black text-[#d2a14a]">
                     {p.bank[0]}
                   </div>
-                  <h3 className="text-2xl font-black text-[#2D2926] tracking-tight">{p.bank}</h3>
+                  <h3 className="text-2xl font-black text-[#10324a] tracking-tight">{p.bank}</h3>
                 </div>
 
                 <div className="grid grid-cols-2 gap-y-6 gap-x-4">
                   <div>
-                    <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Maximum Loan</p>
-                    <p className="text-sm font-black text-[#2D2926]">{p.maxLoan}</p>
+                    <p className="text-[14px] font-bold font-bold text-[#4b5b6a]/60 uppercase tracking-widest mb-1">Maximum Loan</p>
+                    <p className="text-sm font-black text-[#10324a]">{p.maxLoan}</p>
                   </div>
                   <div>
-                    <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Interest Rate</p>
-                    <p className="text-sm font-black text-[#2D2926]">{p.interestRate}</p>
+                    <p className="text-[14px] font-bold font-bold text-[#4b5b6a]/60 uppercase tracking-widest mb-1">Interest Rate</p>
+                    <p className="text-sm font-black text-[#10324a]">{p.interestRate}</p>
                   </div>
                   <div>
-                    <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Processing time</p>
-                    <p className="text-sm font-black text-[#2D2926]">{p.processingTime}</p>
+                    <p className="text-[14px] font-bold font-bold text-[#4b5b6a]/60 uppercase tracking-widest mb-1">Processing time</p>
+                    <p className="text-sm font-black text-[#10324a]">{p.processingTime}</p>
                   </div>
                   <div>
-                    <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Processing fee</p>
-                    <p className="text-sm font-black text-[#2D2926]">{p.processingFee}</p>
+                    <p className="text-[14px] font-bold font-bold text-[#4b5b6a]/60 uppercase tracking-widest mb-1">Processing fee</p>
+                    <p className="text-sm font-black text-[#10324a]">{p.processingFee}</p>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-[#F1EDEA]">
-                  <p className="text-[14px] font-bold font-bold text-[#A8A29E] uppercase tracking-widest mb-1">Loan Type</p>
-                  <p className="text-sm font-black text-[#2D2926]">{p.loanType}</p>
+                <div className="pt-6 border-t border-[#10324a]/8">
+                  <p className="text-[14px] font-bold font-bold text-[#4b5b6a]/60 uppercase tracking-widest mb-1">Loan Type</p>
+                  <p className="text-sm font-black text-[#10324a]">{p.loanType}</p>
                 </div>
               </div>
             ))}
@@ -380,38 +384,38 @@ export default function EducationLoanPage() {
       </section>
 
       {/* ── WHY CHOOSE US ── */}
-      <section id="why-choose" className="px-6 md:px-14 lg:px-20 py-24 bg-white">
+      <section id="why-choose" className="px-6 md:px-14 lg:px-20 py-24">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div className="relative group">
-            <div className="absolute inset-0 bg-[#C5A059] rounded-[48px] rotate-3 -translate-x-2 translate-y-2 opacity-5" />
-            <div className="relative aspect-[4/3] rounded-[48px] overflow-hidden border-8 border-[#FDFBF7] shadow-2xl">
+            <div className="absolute inset-0 bg-[#d2a14a] rounded-[48px] rotate-3 -translate-x-2 translate-y-2 opacity-10" />
+            <div className="relative aspect-[4/3] rounded-[48px] overflow-hidden border-8 border-white shadow-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=1000"
                 alt="Education Advisor"
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2D2926]/40 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#10324a]/40 to-transparent" />
             </div>
           </div>
 
           <div className="space-y-6">
-            <h2 className="fd text-3xl md:text-4xl font-bold text-[#2D2926] leading-tight">
-              Why choose <span className="bg-[#2D2926] text-[#C5A059] px-4 py-1 rounded-xl inline-block -rotate-1">EduLeaderGlobal</span>?
+            <h2 className="text-3xl md:text-4xl font-black text-[#10324a] leading-tight">
+              Why choose <span className="bg-[#10324a] text-[#d2a14a] px-4 py-1 rounded-xl inline-block -rotate-1">EduLeaderGlobal</span>?
             </h2>
-            <p className="text-[#6B5E51] text-base font-medium leading-relaxed">
+            <p className="text-[#4b5b6a] text-base font-medium leading-relaxed">
               At our core, we prioritize financial inclusivity by offering unbiased guidance so every student can get access to world-class education.
             </p>
 
             <div className="space-y-8">
               {BENEFITS.map((b, i) => (
                 <div key={i} className="flex gap-4 group">
-                  <div className="w-6 h-6 rounded-full bg-[#C5A059]/10 flex items-center justify-center flex-shrink-0 mt-1 group-hover:bg-[#C5A059] transition-colors">
-                    <CheckCircle2 className="w-4 h-4 text-[#C5A059] group-hover:text-white transition-colors" />
+                  <div className="w-6 h-6 rounded-full bg-[#d2a14a]/15 flex items-center justify-center flex-shrink-0 mt-1 group-hover:bg-[#d2a14a] transition-colors">
+                    <CheckCircle2 className="w-4 h-4 text-[#d2a14a] group-hover:text-[#10324a] transition-colors" />
                   </div>
                   <div className="space-y-1">
-                    <h4 className="font-black text-[#2D2926] text-xl tracking-tight">{b.title}:</h4>
-                    <p className="text-[#6B5E51] font-medium leading-relaxed">{b.desc}</p>
+                    <h4 className="font-black text-[#10324a] text-xl tracking-tight">{b.title}:</h4>
+                    <p className="text-[#4b5b6a] font-medium leading-relaxed">{b.desc}</p>
                   </div>
                 </div>
               ))}
@@ -419,7 +423,7 @@ export default function EducationLoanPage() {
 
             <button 
               onClick={() => setShowBookingModal(true)}
-              className="bg-[#2D2926] text-[#C5A059] px-10 py-5 rounded-xl font-black text-sm tracking-[0.2em] uppercase hover:bg-[#C5A059] hover:text-white transition-all shadow-xl"
+              className="bg-[#10324a] text-[#d2a14a] px-10 py-5 rounded-xl font-black text-sm tracking-[0.2em] uppercase hover:bg-[#d2a14a] hover:text-[#10324a] transition-all shadow-xl"
             >
               Get loan options →
             </button>
@@ -429,17 +433,17 @@ export default function EducationLoanPage() {
 
       {/* ── CALL TO ACTION BANNER ── */}
       <section className="px-6 md:px-14 lg:px-20 py-16">
-        <div className="max-w-7xl mx-auto bg-[#2D2926] rounded-[40px] p-10 md:p-16 text-center space-y-8 shadow-[0_30px_80px_rgba(0,0,0,0.15)] relative overflow-hidden border border-white/5">
+        <div className="max-w-7xl mx-auto bg-[#10324a] rounded-[40px] p-10 md:p-16 text-center space-y-8 shadow-[0_30px_80px_rgba(16,50,74,0.2)] relative overflow-hidden border border-white/10">
           {/* Subtle geometric pattern / glow */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#C5A059] opacity-[0.02] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#C5A059] opacity-[0.01] rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#d2a14a] opacity-[0.08] rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+          <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#2ca59d] opacity-[0.10] rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2" />
           
           <div className="space-y-4 relative z-10">
-            <h2 className="fd text-4xl md:text-6xl font-bold text-white leading-tight">
+            <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
               Ready to fund your <br />
-              <span className="gold-shimmer italic">study abroad dream?</span>
+              <span className="gold-shimmer">study abroad dream?</span>
             </h2>
-            <p className="dm text-white/50 text-lg font-medium max-w-xl mx-auto leading-relaxed">
+            <p className="text-white/60 text-lg font-medium max-w-xl mx-auto leading-relaxed">
               Our expert advisors are standing by to architect your financial roadmap to global success.
             </p>
           </div>
@@ -447,13 +451,13 @@ export default function EducationLoanPage() {
           <div className="flex flex-wrap justify-center gap-6 relative z-10">
             <button 
               onClick={() => setShowBookingModal(true)}
-              className="bg-[#C5A059] text-[#2D2926] px-12 py-6 rounded-2xl font-black text-xs tracking-[0.25em] uppercase hover:bg-white transition-all shadow-2xl flex items-center gap-3 group"
+              className="bg-[#d2a14a] text-[#10324a] px-12 py-6 rounded-2xl font-black text-xs tracking-[0.25em] uppercase hover:bg-white transition-all shadow-2xl flex items-center gap-3 group"
             >
               Book Premium Consultation <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
             <button 
               onClick={() => scrollToSection('comparison')}
-              className="border-2 border-white/10 text-white px-12 py-6 rounded-2xl font-black text-xs tracking-[0.25em] uppercase hover:border-[#C5A059] hover:bg-white/5 transition-all"
+              className="border-2 border-white/15 text-white px-12 py-6 rounded-2xl font-black text-xs tracking-[0.25em] uppercase hover:border-[#d2a14a] hover:bg-white/5 transition-all"
             >
               Learn More
             </button>

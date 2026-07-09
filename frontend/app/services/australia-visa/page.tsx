@@ -5,18 +5,18 @@ import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import AddToCart from "@/components/shared/AddToCart";
 
 /* ─────────────────────────────────────────
-   DESIGN TOKENS  (from uploaded screenshot)
+   DESIGN TOKENS  (updated to home page theme)
    ───────────────────────────────────────── */
 const T = {
-  bg:       "#f5f0e8",          // parchment – main background
-  bgAlt:    "#edeade",          // deeper parchment – alternate sections
-  gold:     "#c9a84c",          // gold accent
-  goldDark: "#8b6914",          // hover / dark gold
-  ink:      "#2c2416",          // primary text
-  inkMid:   "#5c4a2a",          // secondary text
-  inkFade:  "rgba(92,74,42,0.52)",
-  navy:     "#2c3e50",          // dark card / section bg
-  navyMid:  "#3d5a6e",
+  bg:       "#f8f4ea",          // cream – main background (home page)
+  bgAlt:    "#fcfbf7",          // alt cream section
+  gold:     "#d2a14a",          // gold accent (home page)
+  goldDark: "#10324a",          // hover / dark → navy (home page)
+  ink:      "#10324a",          // primary text → navy (home page)
+  inkMid:   "#4b5b6a",          // secondary text
+  inkFade:  "rgba(16,50,74,0.55)",
+  navy:     "#10324a",          // dark card / section bg (home page navy)
+  navyMid:  "#164863",
   red:      "#c0392b",          // minus icon
   serif:    "'Georgia','Times New Roman',serif",
 };
@@ -30,7 +30,7 @@ function PillTag({ children }: { children: string }) {
   return (
     <span style={{
       display: "inline-block",
-      border: "1px solid rgba(44,36,22,0.3)",
+      border: "1px solid rgba(16,50,74,0.25)",
       borderRadius: 999,
       padding: "7px 20px",
       fontFamily: T.serif,
@@ -135,7 +135,7 @@ function Rule({ center = false }) {
 }
 
 /** Section heading */
-function H2({ children, color = T.ink, center = false }: { children: React.ReactNode; color?: string; center?: boolean }) {
+function H2({ children, color = T.gold, center = false }: { children: React.ReactNode; color?: string; center?: boolean }) {
   return (
     <h2 style={{
       fontFamily: T.serif, fontWeight: "bold",
@@ -172,7 +172,7 @@ function Sec({
       style={{
         background: bg,
         padding: `${py}px clamp(24px, 6vw, 112px)`,
-        borderTop: topRule ? "1px solid rgba(201,168,76,0.18)" : "none",
+        borderTop: topRule ? "1px solid rgba(210,161,74,0.2)" : "none",
       }}
     >
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
@@ -246,13 +246,15 @@ export default function AustraliaVisaPage() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   return (
-    <main style={{ background: T.bg, color: T.ink, fontFamily: T.serif, minHeight: "100vh" }}>
+    <main style={{
+      background: "radial-gradient(circle at top left, rgba(44,165,157,0.16), transparent 30%), linear-gradient(135deg, #f8f4ea 0%, #fcfbf7 100%)",
+      color: T.ink,
+      fontFamily: T.serif,
+      minHeight: "100vh"
+    }}>
 
       {/* ══════════════ HERO ══════════════ */}
-      <Sec bg={T.bg} py={80}>
-
-        {/* Back link */}
-      
+      <Sec bg="transparent" py={80}>
 
         {/* Two-column grid */}
         <div className="hero-grid" style={{
@@ -266,7 +268,7 @@ export default function AustraliaVisaPage() {
           <div>
             
 
-            <h1 style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "clamp(2.6rem, 6.5vw, 5.2rem)", lineHeight: 1.05, color: T.ink, margin: 0 }}>
+            <h1 style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "clamp(2.6rem, 6.5vw, 5.2rem)", lineHeight: 1.05, color: T.gold, margin: 0 }}>
              Apply for Australia
             </h1>
             <h1 style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "clamp(2.6rem, 6.5vw, 5.2rem)", lineHeight: 1.05, color: T.gold, margin: "0 0 30px" }}>
@@ -281,15 +283,14 @@ export default function AustraliaVisaPage() {
             <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
               <Avatar letter="N" />
               <div style={{
-              background: "#fff",
-              border: "1px solid rgba(201,168,76,0.26)",
+              background: "rgba(255,255,255,0.8)",
+              border: "1px solid rgba(16,50,74,0.1)",
               borderRadius: 8,
               padding: "22px 22px 18px",
+              boxShadow: "0 30px 90px rgba(16,50,74,0.08)",
+              backdropFilter: "blur(20px)",
             }}>
-              {/* Card header */}
-           
-
-              <div style={{ height: 1, background: "rgba(201,168,76,0.18)", marginBottom: 16 }} />
+              <div style={{ height: 1, background: "rgba(210,161,74,0.2)", marginBottom: 16 }} />
 
               {/* Includes label */}
               <p style={{
@@ -313,10 +314,10 @@ export default function AustraliaVisaPage() {
                   <div key={label} style={{
                     display: "flex", alignItems: "center", gap: 12,
                     padding: "10px 13px",
-                    border: "1px solid rgba(201,168,76,0.16)",
+                    border: "1px solid rgba(16,50,74,0.1)",
                     borderRadius: 6,
                     cursor: "pointer",
-                    background: "rgba(245,240,232,0.55)",
+                    background: "rgba(248,244,234,0.6)",
                     transition: "background .18s",
                   }}>
                     <span style={{
@@ -354,7 +355,8 @@ export default function AustraliaVisaPage() {
     fontSize: "0.9rem",
     margin: 0,
     whiteSpace: "nowrap",
-    cursor: "pointer"
+    cursor: "pointer",
+    color: T.ink,
   }}>
     Discuss Your Case
   </p>
@@ -372,10 +374,7 @@ export default function AustraliaVisaPage() {
 
 </div>
 
-              <div style={{ height: 1, background: "rgba(201,168,76,0.18)", margin: "16px 0" }} />
-
-              {/* CTA inside card */}
-             
+              <div style={{ height: 1, background: "rgba(210,161,74,0.2)", margin: "16px 0" }} />
             </div>
             </div>
           </div>
@@ -385,7 +384,7 @@ export default function AustraliaVisaPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
 
             {/* Hero image */}
-            <div style={{ position: "relative", borderRadius: 8, overflow: "hidden", aspectRatio: "4/3" }}>
+            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 20px 60px rgba(16,50,74,0.12)" }}>
               <img
                 src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?w=900&q=80"
                 alt="Sydney Opera House, Australia"
@@ -394,7 +393,7 @@ export default function AustraliaVisaPage() {
               {/* Gradient overlay */}
               <div style={{
                 position: "absolute", inset: 0,
-                background: "linear-gradient(160deg, rgba(44,36,22,0.12) 0%, rgba(44,36,22,0.48) 100%)",
+                background: "linear-gradient(160deg, rgba(16,50,74,0.12) 0%, rgba(16,50,74,0.5) 100%)",
               }} />
               {/* 🇦🇺 pill */}
               <div style={{
@@ -429,7 +428,7 @@ export default function AustraliaVisaPage() {
       </Sec>
 
       {/* ══════════════ ABOUT ══════════════ */}
-      <Sec bg={T.bg} py={72} topRule>
+      <Sec bg="transparent" py={72} topRule>
         <div style={{ maxWidth: 760, margin: "0 auto", textAlign: "center", marginBottom: 48 }}>
           <EyeBrow text="About Srvices" center />
           <H2 center>What is the Australia NIV?</H2>
@@ -446,9 +445,9 @@ export default function AustraliaVisaPage() {
             { label: "Innovative Investors",bg: T.navyMid,desc: "Investors who prioritize the quality of their investments and have the potential to push Australia's innovation and economic sectors." },
             { label: "Athletes & Creatives",bg: "#6b1a1a",desc: "Exceptional talents in sports and the arts." },
           ].map((c) => (
-            <div key={c.label} style={{ background: c.bg, padding: 22, borderRadius: 2 }}>
-              <p style={{ fontFamily: T.serif, fontSize: "0.6rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.58)", marginBottom: 10 }}>{c.label}</p>
-              <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 2, padding: 14 }}>
+            <div key={c.label} style={{ background: c.bg, padding: 22, borderRadius: 12 }}>
+              <p style={{ fontFamily: T.serif, fontSize: "0.6rem", letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: 10 }}>{c.label}</p>
+              <div style={{ background: "rgba(255,255,255,0.1)", borderRadius: 8, padding: 14 }}>
                 <p style={{ fontFamily: T.serif, fontWeight: "bold", color: "#fff", marginBottom: 6 }}>{c.label}</p>
                 <p style={{ fontFamily: T.serif, fontSize: "0.85rem", color: "rgba(255,255,255,0.76)", lineHeight: 1.78 }}>{c.desc}</p>
               </div>
@@ -510,7 +509,7 @@ export default function AustraliaVisaPage() {
                 style={{
                   fontFamily: T.serif,
                   fontSize: "0.86rem",
-                  color: "rgba(255,255,255,0.56)",
+                  color: "rgba(255,255,255,0.6)",
                   marginTop: 3,
                   lineHeight: 1.78,
                 }}
@@ -526,7 +525,7 @@ export default function AustraliaVisaPage() {
     {/* RIGHT SIDE (image) */}
     <div style={{ flex: 1, minWidth: 280, textAlign: "center" }}>
       <img
-        src="/pan.jpg" // replace with your image path
+        src="/pan.jpg"
         alt="Benefits illustration"
         style={{
           width: "100%",
@@ -539,19 +538,19 @@ export default function AustraliaVisaPage() {
 </Sec>
 
       {/* ══════════════ DISADVANTAGES ══════════════ */}
-      <Sec bg={T.bg} py={56} topRule>
+      <Sec bg="transparent" py={56} topRule>
         <div style={{ maxWidth: 760 }}>
           <H2>The NIV has the following <span style={{ color: T.goldDark }}>disadvantages</span></H2>
           <div style={{ height: 20 }} />
-          <div style={{ border: "1px solid rgba(201,168,76,0.26)", borderRadius: 2, padding: 28 }}>
+          <div style={{ border: "1px solid rgba(210,161,74,0.3)", borderRadius: 16, padding: 28, background: "rgba(255,255,255,0.7)" }}>
             {[
               { t: "Invitation-Only Process",       d: "After submitting your Expression of Interest, only the selected candidates will be invited to apply for the NIV." },
               { t: "Strict Nomination Requirement", d: "You must secure a nomination from a recognized individual, Australian citizen, permanent resident, eligible New Zealand citizen, or organization." },
             ].map((item, i) => (
-              <div key={item.t} style={{ display: "flex", gap: 14, paddingBottom: i === 0 ? 20 : 0, marginBottom: i === 0 ? 20 : 0, borderBottom: i === 0 ? "1px solid rgba(201,168,76,0.14)" : "none" }}>
+              <div key={item.t} style={{ display: "flex", gap: 14, paddingBottom: i === 0 ? 20 : 0, marginBottom: i === 0 ? 20 : 0, borderBottom: i === 0 ? "1px solid rgba(210,161,74,0.18)" : "none" }}>
                 <span style={{ marginTop: 2, width: 20, height: 20, flexShrink: 0, background: T.red, color: "#fff", fontSize: "0.9rem", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center" }}>–</span>
                 <div>
-                  <p style={{ fontFamily: T.serif, fontWeight: "bold" }}>{item.t}</p>
+                  <p style={{ fontFamily: T.serif, fontWeight: "bold", color: T.ink }}>{item.t}</p>
                   <p style={{ fontFamily: T.serif, fontSize: "0.875rem", color: T.inkFade, marginTop: 3, lineHeight: 1.78 }}>{item.d}</p>
                 </div>
               </div>
@@ -561,7 +560,7 @@ export default function AustraliaVisaPage() {
       </Sec>
 
       {/* ══════════════ ELIGIBILITY ══════════════ */}
-      <Sec bg={T.bgAlt} py={72}>
+      <Sec bg="transparent" py={72}>
         <div style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
@@ -576,9 +575,10 @@ export default function AustraliaVisaPage() {
             <div style={{
               width: "100%",
               aspectRatio: "3/4",
-              borderRadius: 4,
+              borderRadius: 16,
               overflow: "hidden",
               position: "relative",
+              boxShadow: "0 20px 60px rgba(16,50,74,0.12)",
             }}>
               <img
                 src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80"
@@ -588,19 +588,19 @@ export default function AustraliaVisaPage() {
               {/* Gold overlay tint */}
               <div style={{
                 position: "absolute", inset: 0,
-                background: "linear-gradient(to bottom, transparent 40%, rgba(44,36,22,0.55) 100%)",
+                background: "linear-gradient(to bottom, transparent 40%, rgba(16,50,74,0.6) 100%)",
               }} />
               {/* Badge on image */}
               <div style={{
                 position: "absolute", bottom: 28, left: 28, right: 28,
-                background: "rgba(201,168,76,0.92)",
+                background: "rgba(210,161,74,0.92)",
                 padding: "16px 20px",
-                borderRadius: 3,
+                borderRadius: 8,
               }}>
                 <p style={{ fontFamily: T.serif, fontWeight: "bold", color: "#fff", fontSize: "1.05rem", marginBottom: 2 }}>
                   Subclass 858
                 </p>
-                <p style={{ fontFamily: T.serif, fontSize: "0.78rem", color: "rgba(255,255,255,0.85)" }}>
+                <p style={{ fontFamily: T.serif, fontSize: "0.78rem", color: "rgba(255,255,255,0.9)" }}>
                   National Innovation Visa · Permanent Residency
                 </p>
               </div>
@@ -611,8 +611,8 @@ export default function AustraliaVisaPage() {
               position: "absolute",
               top: 18, left: -18,
               width: "60%", height: "40%",
-              border: `2px solid rgba(201,168,76,0.35)`,
-              borderRadius: 4,
+              border: `2px solid rgba(210,161,74,0.4)`,
+              borderRadius: 16,
               zIndex: -1,
             }} />
 
@@ -630,8 +630,8 @@ export default function AustraliaVisaPage() {
                 <div key={s.label} style={{
                   flex: 1,
                   background: "#fff",
-                  border: "1px solid rgba(201,168,76,0.22)",
-                  borderRadius: 3,
+                  border: "1px solid rgba(210,161,74,0.25)",
+                  borderRadius: 12,
                   padding: "12px 10px",
                   textAlign: "center",
                 }}>
@@ -648,11 +648,11 @@ export default function AustraliaVisaPage() {
             <H2>Eligibility Criteria</H2>
             <Rule />
             <Body color={T.inkFade}>To qualify for the National Innovation Visa, applicants must meet some of the following requirements</Body>
-            <div style={{ position: "relative", borderLeft: "2px dashed rgba(201,168,76,0.36)", paddingLeft: 36, marginTop: 36 }}>
+            <div style={{ position: "relative", borderLeft: "2px dashed rgba(210,161,74,0.4)", paddingLeft: 36, marginTop: 36 }}>
               {eligibility.map((e, i) => (
                 <div key={e.num} style={{ position: "relative", marginBottom: i < eligibility.length - 1 ? 26 : 0 }}>
                   <span style={{ position: "absolute", left: -47, top: 2, width: 28, height: 28, background: T.gold, color: "#fff", fontSize: "0.7rem", fontWeight: "bold", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: T.serif }}>{e.num}</span>
-                  <p style={{ fontFamily: T.serif, fontWeight: "bold", marginBottom: 3 }}>{e.title}</p>
+                  <p style={{ fontFamily: T.serif, fontWeight: "bold", marginBottom: 3, color: T.ink }}>{e.title}</p>
                   <p style={{ fontFamily: T.serif, fontSize: "0.855rem", color: T.inkFade, lineHeight: 1.8 }}>{e.desc}</p>
                 </div>
               ))}
@@ -671,7 +671,7 @@ export default function AustraliaVisaPage() {
       </Sec>
 
       {/* ══════════════ WHY US ══════════════ */}
-      <Sec bg={T.bg} py={72} topRule>
+      <Sec bg="transparent" py={72} topRule>
         <div style={{ maxWidth: 840, margin: "0 auto", textAlign: "center", marginBottom: 48 }}>
           
           <H2 center>Why Choose EduLeaderGlobal for Your NIV Application?</H2>
@@ -684,9 +684,9 @@ export default function AustraliaVisaPage() {
             { icon: "📈", title: "Profile Boosting",       desc: "We actively help strengthen your academic and professional profile.", hi: false },
             { icon: "✅", title: "Success Rates Over 92%", desc: "Our track record speaks — the highest success rates in the industry.", hi: false },
           ].map((w) => (
-            <div key={w.title} style={{ padding: 26, border: w.hi ? `1px solid ${T.gold}` : "1px solid rgba(201,168,76,0.2)", background: w.hi ? "rgba(201,168,76,0.07)" : "transparent", borderRadius: 2, textAlign: "left" }}>
+            <div key={w.title} style={{ padding: 26, border: w.hi ? `1px solid ${T.gold}` : "1px solid rgba(210,161,74,0.25)", background: w.hi ? "rgba(210,161,74,0.08)" : "rgba(255,255,255,0.6)", borderRadius: 16, textAlign: "left" }}>
               <span style={{ fontSize: "2rem", display: "block", marginBottom: 14 }}>{w.icon}</span>
-              <p style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "1rem", marginBottom: 8 }}>{w.title}</p>
+              <p style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "1rem", marginBottom: 8, color: T.ink }}>{w.title}</p>
               <p style={{ fontFamily: T.serif, fontSize: "0.875rem", color: T.inkFade, lineHeight: 1.75 }}>{w.desc}</p>
               <button style={{ marginTop: 14, background: "none", border: "none", fontFamily: T.serif, fontSize: "0.62rem", letterSpacing: "0.2em", textTransform: "uppercase", color: T.gold, cursor: "pointer" }}>
                 Learn more →
@@ -697,13 +697,13 @@ export default function AustraliaVisaPage() {
       </Sec>
 
       {/* ══════════════ TIMELINE ══════════════ */}
-      <Sec py={80} bg={T.bgAlt}>
+      <Sec py={80} bg="transparent">
   <div className="flex flex-col lg:flex-row gap-12 items-start">
 
           {/* LEFT IMAGE */}
           <div className="w-full lg:w-1/2">
             <img
-              src="/timeline-image.jpg" // replace with your image
+              src="/timeline-image.jpg"
               alt="Timeline"
               className="w-full max-w-md rounded-xl"
             />
@@ -747,7 +747,7 @@ export default function AustraliaVisaPage() {
                     <div
                       className="p-5 rounded"
                       style={{
-                        background: t.dark ? T.navy : "#fff",
+                        background: t.dark ? T.navy : "rgba(255,255,255,0.85)",
                       }}
                     >
                       <p
@@ -768,7 +768,7 @@ export default function AustraliaVisaPage() {
                         className="text-sm leading-relaxed"
                         style={{
                           color: t.dark
-                            ? "rgba(255,255,255,0.56)"
+                            ? "rgba(255,255,255,0.6)"
                             : T.inkFade,
                         }}
                       >
@@ -793,7 +793,7 @@ export default function AustraliaVisaPage() {
       </Sec>
 
       {/* ══════════════ SUCCESS RATES ══════════════ */}
-      <Sec bg={T.bg} py={72} topRule>
+      <Sec bg="transparent" py={72} topRule>
         <H2 center>Success Rate &amp; Pathways</H2>
         <Rule center />
         <div style={{ textAlign: "center", marginBottom: 48 }}>
@@ -802,12 +802,12 @@ export default function AustraliaVisaPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: 40 }}>
 
           {/* Bar chart */}
-          <div style={{ background: T.navy, color: "#fff", padding: 32, borderRadius: 2 }}>
+          <div style={{ background: T.navy, color: "#fff", padding: 32, borderRadius: 16 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
               <p style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "1rem" }}>NIV Australia Success Rates</p>
               <span style={{ fontSize: "1.4rem" }}>🇦🇺</span>
             </div>
-            <p style={{ fontFamily: T.serif, fontSize: "0.66rem", color: "rgba(255,255,255,0.42)", marginBottom: 24 }}>
+            <p style={{ fontFamily: T.serif, fontSize: "0.66rem", color: "rgba(255,255,255,0.5)", marginBottom: 24 }}>
               Based on petition outputs of our clients (2025)
             </p>
             {successData.map((s) => (
@@ -816,7 +816,7 @@ export default function AustraliaVisaPage() {
                   <span>{s.label}</span>
                   <span style={{ fontWeight: "bold", color: T.gold }}>{s.pct}%</span>
                 </div>
-                <div style={{ height: 14, background: "rgba(255,255,255,0.1)", borderRadius: 2, overflow: "hidden" }}>
+                <div style={{ height: 14, background: "rgba(255,255,255,0.1)", borderRadius: 8, overflow: "hidden" }}>
                   <div style={{ height: "100%", width: `${s.pct}%`, background: T.gold }} />
                 </div>
               </div>
@@ -828,14 +828,14 @@ export default function AustraliaVisaPage() {
 
           {/* Pathways */}
           <div>
-            <p style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "1.1rem", marginBottom: 10 }}>Other Pathways for working overseas</p>
+            <p style={{ fontFamily: T.serif, fontWeight: "bold", fontSize: "1.1rem", marginBottom: 10, color: T.ink }}>Other Pathways for working overseas</p>
             <div style={{ width: 32, height: 2, background: T.gold, marginBottom: 22 }} />
             {otherPathways.map((p) => (
-              <div key={p.title} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 0", borderBottom: "1px solid rgba(201,168,76,0.18)", cursor: "pointer" }}>
+              <div key={p.title} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "13px 0", borderBottom: "1px solid rgba(210,161,74,0.2)", cursor: "pointer" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <span style={{ fontSize: "1.4rem" }}>{p.flag}</span>
                   <div>
-                    <p style={{ fontFamily: T.serif, fontWeight: "600", fontSize: "0.875rem" }}>{p.title}</p>
+                    <p style={{ fontFamily: T.serif, fontWeight: "600", fontSize: "0.875rem", color: T.ink }}>{p.title}</p>
                     <p style={{ fontFamily: T.serif, fontSize: "0.74rem", color: T.inkFade }}>{p.sub}</p>
                   </div>
                 </div>
@@ -847,13 +847,13 @@ export default function AustraliaVisaPage() {
       </Sec>
 
       {/* ══════════════ FAQs ══════════════ */}
-      <Sec bg={T.bgAlt} py={72}>
+      <Sec bg="transparent" py={72}>
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <H2 center>Frequently Asked Questions</H2>
           <Rule center />
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {faqs.map((faq, i) => (
-              <div key={i} style={{ border: "1px solid rgba(201,168,76,0.2)", background: "#fff", borderRadius: 2 }}>
+              <div key={i} style={{ border: "1px solid rgba(210,161,74,0.25)", background: "rgba(255,255,255,0.85)", borderRadius: 12 }}>
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 24px", textAlign: "left", background: "none", border: "none", cursor: "pointer" }}
@@ -862,7 +862,7 @@ export default function AustraliaVisaPage() {
                   <span style={{ width: 28, height: 28, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${T.gold}`, color: T.gold, fontSize: "1.2rem", transform: openFaq === i ? "rotate(45deg)" : "none", transition: "transform .2s" }}>+</span>
                 </button>
                 {openFaq === i && (
-                  <div style={{ padding: "14px 24px 20px", borderTop: "1px solid rgba(201,168,76,0.12)", fontFamily: T.serif, fontSize: "0.875rem", color: T.inkFade, lineHeight: 1.82 }}>
+                  <div style={{ padding: "14px 24px 20px", borderTop: "1px solid rgba(210,161,74,0.15)", fontFamily: T.serif, fontSize: "0.875rem", color: T.inkFade, lineHeight: 1.82 }}>
                     {faq.a}
                   </div>
                 )}

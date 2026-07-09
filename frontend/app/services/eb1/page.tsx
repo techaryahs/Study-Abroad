@@ -124,10 +124,10 @@ export default function EB1Page() {
                         <span className="text-[#D4A848] uppercase tracking-[0.5em] font-black text-[11px] font-black sm:text-[13px] font-bold bg-[#FFFFFF] px-3 py-1 rounded-full border border-[#D4A848]/20 inline-block shadow-sm">
                            Extraordinary Protocol
                         </span>
-                        <h1 className="text-2xl text-[#362B25] md:text-5xl font-black leading-[1.1] uppercase italic tracking-tight">
-                           APPLY FOR AN <br className="sm:hidden" />
-                           <span className="text-[#D4A848] block mt-1">EB-1 VISA NODE</span>
-                        </h1>
+                        <h1 className="text-2xl text-[#D4A54A] md:text-5xl font-black leading-[1.1] uppercase italic tracking-tight">
+  APPLY FOR AN <br className="sm:hidden" />
+  <span className="block mt-1">EB-1 VISA NODE</span>
+</h1>
                      </motion.div>
 
                      <motion.div variants={itemVariants} className="hidden sm:block max-w-xl">

@@ -109,9 +109,9 @@ export default function ShortlistingPage() {
                 Strategic Pruning Node
               </span>
             </div>
-            <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
-               UNIVERSITY <br /> <span className="gold-shimmer lowercase">Shortlisting</span>
-            </h1>
+           <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#D4A54A] break-words">
+  UNIVERSITY <br /> <span className="lowercase">Shortlisting</span>
+</h1>
             <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
               "Don't waste thousands on applications. We identify the exact universities where your profile is most likely to win an admit."
             </p>

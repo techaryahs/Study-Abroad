@@ -76,10 +76,10 @@ export default function ApplicationHelpPage() {
                 <div className="inline-block border border-[#D4A848]/30 px-3 md:px-4 py-0.5 md:py-1 rounded-full bg-[#FFFFFF]">
                   <span className="text-[12px] font-black md:text-[14px] font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-[#D4A848]">Admissions • Premium Mentorship</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl md:text-7xl font-bold tracking-tighter leading-[1.1] break-words">
-                  <span className="text-[#362B25] block">COMPLETE</span>
-                  <span className="text-[#D4A848] italic font-serif">APPLICATION HELP</span>
-                </h1>
+                <h1 className="text-2xl sm:text-3xl md:text-7xl font-bold tracking-tighter leading-[1.1] break-words text-[#D4A54A]">
+  <span className="block">COMPLETE</span>
+  <span className="italic font-serif">APPLICATION HELP</span>
+</h1>
               </div>
             </div>
 

@@ -28,49 +28,42 @@ export default function ScholarshipHelpPage() {
   const [showBookingModal, setShowBookingModal] = useState(false);
 
   return (
-    <main className="min-h-screen pb-16" style={{ background: "#FDFBF7", color: "#3C2A21", fontFamily: "'DM Sans', sans-serif" }}>
+    <main
+      className="relative min-h-screen overflow-hidden pb-16 text-[#10324a]"
+      style={{
+        background: "radial-gradient(circle at top left, rgba(44,165,157,0.16), transparent 30%), linear-gradient(135deg, #f8f4ea 0%, #fcfbf7 100%)",
+        fontFamily: "'DM Sans', sans-serif"
+      }}
+    >
 
       <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
           .fd { font-family: 'Cormorant Garamond', serif; }
-          
-          .gold-shimmer {
-            background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
-            background-size: 300% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shimmer 4s linear infinite;
-          }
 
-          @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-          }
-          
           .glass-panel {
-            background: #FFFFFF;
-            border: 1px solid rgba(197,160,89, 0.15);
+            background: rgba(255,255,255,0.8);
+            border: 1px solid rgba(16,50,74,0.1);
             border-radius: 32px;
-            box-shadow: 0 40px 100px rgba(197,160,89, 0.05);
+            box-shadow: 0 30px 90px rgba(16,50,74,0.08);
+            backdrop-filter: blur(20px);
           }
 
           .feature-pill {
             background: #FFFFFF;
-            border: 1px solid rgba(197,160,89, 0.1);
+            border: 1px solid rgba(16,50,74,0.1);
             border-radius: 24px;
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
           }
 
           .feature-pill:hover {
-            border-color: #C5A059;
+            border-color: #d2a14a;
             transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(197,160,89, 0.08);
+            box-shadow: 0 20px 40px rgba(210,161,74,0.12);
           }
 
           .btn-gold {
-             background: #C5A059;
-             color: white;
+             background: #d2a14a;
+             color: #16364b;
              padding: 18px 30px;
              border-radius: 18px;
              font-weight: 700;
@@ -84,35 +77,41 @@ export default function ScholarshipHelpPage() {
              cursor: pointer;
           }
           .btn-gold:hover {
-             background: #3C2A21;
+             background: #10324a;
+             color: white;
              transform: translateY(-2px);
-             box-shadow: 0 10px 20px rgba(197,160,89, 0.2);
+             box-shadow: 0 10px 20px rgba(16,50,74,0.2);
           }
       `}</style>
 
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute right-[-8%] top-[8%] h-[480px] w-[480px] rounded-full bg-[#d2a14a]/15 blur-[130px]" />
+        <div className="absolute left-[-10%] bottom-[10%] h-[420px] w-[420px] rounded-full bg-[#2ca59d]/10 blur-[130px]" />
+      </div>
+
       {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
-      <section className="relative pt-6 pb-20 px-6 overflow-hidden md:px-16" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+      <section className="relative z-10 pt-10 pb-12 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start glass-panel p-6 sm:p-10">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            className="pt-10 space-y-8"
+            className="space-y-8"
           >
             <div className="flex flex-col gap-4">
               <Link
                 href="/services"
-                className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
+                className="inline-flex items-center gap-2 text-[#2ca59d] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
               >
                 <ArrowLeft size={14} /> Back to Services
               </Link>
-              <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
+              <span className="inline-block px-5 py-2 rounded-full border border-[#2ca59d]/20 bg-[#2ca59d]/10 text-[#0f4c5c] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
                 Financial Opportunity Node
               </span>
             </div>
-            <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
-              Premium <br /> <span className="gold-shimmer lowercase">Scholarship Help</span>
+            <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#D4A54A] break-words">
+              Premium <br /> Scholarship Help
             </h1>
-            <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+            <p className="text-[#4b5b6a] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
               "Funding your education should not be a matter of luck. We turn it into a clinical strategy through merit positioning and global dataset mapping."
             </p>
           </motion.div>
@@ -120,21 +119,21 @@ export default function ScholarshipHelpPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="relative pt-10"
+            className="relative"
           >
-            <div className="glass-panel p-2 overflow-hidden shadow-2xl group">
-              <div className="relative aspect-[4/3] w-full rounded-[28px] overflow-hidden border border-[#F1EDEA]">
+            <div className="bg-white rounded-[32px] border border-[#10324a]/10 p-2 overflow-hidden shadow-[0_20px_60px_rgba(16,50,74,0.12)] group">
+              <div className="relative aspect-[4/3] w-full rounded-[28px] overflow-hidden">
                 <Image
                   src="/scholarship-hero.png"
                   alt="Elite Scholarship Advisory"
                   fill
                   className="object-cover transition-transform duration-1000 group-hover:scale-110 opacity-90 group-hover:opacity-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#3C2A21]/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#10324a]/60 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
                   <div className="flex items-center gap-3 mb-2">
-                    <ShieldCheck className="text-[#C5A059]" size={20} />
-                    <span className="text-[14px] font-bold text-white font-bold tracking-widest uppercase">Verified Funding Path</span>
+                    <ShieldCheck className="text-[#d2a14a]" size={20} />
+                    <span className="text-[14px] font-bold text-white tracking-widest uppercase">Verified Funding Path</span>
                   </div>
                   <p className="text-white font-serif italic text-sm leading-relaxed">
                     "We have secured over ₹5Cr in total scholarship funds for our candidates. Join the elite."
@@ -147,15 +146,15 @@ export default function ScholarshipHelpPage() {
       </section>
 
       {/* ── CONTENT ARCHITECTURE ────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-white overflow-hidden md:px-16 border-y border-[#F1EDEA]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-16 lg:gap-24 items-start relative">
+      <section className="relative z-10 py-10 px-6 md:px-16">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-10 items-start glass-panel p-6 sm:p-10">
 
           {/* LEFT COLUMN: STRATEGIC NARRATIVE (3/5) */}
-          <div className="lg:col-span-3 space-y-20 text-[#6B5E51]">
+          <div className="lg:col-span-3 space-y-16 text-[#4b5b6a]">
             <div className="space-y-8">
               <div className="space-y-4">
-                <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Funding Command</span>
-                <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Strategic <br /> <span className="gold-shimmer">Capital Acquisition</span></h2>
+                <span className="text-[#0f4c5c] text-[11px] font-bold tracking-[0.3em] uppercase">Funding Command</span>
+                <h2 className="fd text-3xl md:text-5xl font-bold leading-tight text-[#D4A54A]">Strategic <br /> Capital Acquisition</h2>
               </div>
 
               <div className="space-y-6 font-medium leading-relaxed max-w-2xl text-lg">
@@ -165,26 +164,26 @@ export default function ScholarshipHelpPage() {
                 <p>
                   From identifying untapped state grants to crafting compelling scholarship essays and prepping for high-stakes interviews, we provide the ultimate edge in university funding.
                 </p>
-                <div className="p-8 bg-[#FDFBF7] border-l-4 border-[#C5A059] italic text-xl text-[#3C2A21] fd rounded-r-2xl shadow-sm">
+                <div className="p-8 bg-[#f8f4ea]/60 border-l-4 border-[#d2a14a] italic text-xl text-[#10324a] fd rounded-r-2xl shadow-sm">
                   "Most students miss scholarships because they don't know they exist. We ensure you see everything."
                 </div>
               </div>
             </div>
 
             {/* Grid Features */}
-            <div className="space-y-10">
+            <div className="space-y-8">
               <div className="space-y-2">
-                <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.2em] uppercase">Guidance Framework</span>
-                <h3 className="fd text-3xl font-bold text-[#3C2A21]">Core Advisory Nodes</h3>
+                <span className="text-[#0f4c5c] text-[14px] font-bold tracking-[0.2em] uppercase">Guidance Framework</span>
+                <h3 className="fd text-3xl font-bold text-[#10324a]">Core Advisory Nodes</h3>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {features.map((feat, i) => (
                   <div key={i} className="feature-pill p-8 flex flex-col gap-5 items-start">
-                    <div className="w-12 h-12 rounded-xl bg-[#FDFBF7] flex items-center justify-center text-[#C5A059] border border-[#C5A059]/10">
+                    <div className="w-12 h-12 rounded-xl bg-[#f8f4ea] flex items-center justify-center text-[#2ca59d] border border-[#10324a]/10">
                       {feat.icon}
                     </div>
                     <div className="space-y-2">
-                      <h4 className="fd text-xl font-bold text-[#3C2A21]">{feat.title}</h4>
+                      <h4 className="fd text-xl font-bold text-[#10324a]">{feat.title}</h4>
                       <p className="text-xs leading-relaxed font-medium opacity-70">{feat.desc}</p>
                     </div>
                   </div>
@@ -193,12 +192,12 @@ export default function ScholarshipHelpPage() {
             </div>
 
             {/* Community Consensus */}
-            <div className="space-y-10 pt-10 border-t border-[#F1EDEA]">
+            <div className="space-y-8 pt-10 border-t border-[#10324a]/10">
               <div className="space-y-2">
-                <span className="text-[#C5A059] text-[14px] font-bold font-bold tracking-[0.2em] uppercase tracking-widest">Public Consensus</span>
-                <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
+                <span className="text-[#0f4c5c] text-[14px] font-bold tracking-[0.2em] uppercase">Public Consensus</span>
+                <h3 className="fd text-3xl font-bold text-[#10324a]">Community Insights</h3>
               </div>
-              <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
+              <div className="bg-[#f8f4ea]/40 rounded-[32px] p-2 border border-[#10324a]/10">
                 <DiscussionSection serviceId="scholarship-help" />
               </div>
             </div>
@@ -206,11 +205,11 @@ export default function ScholarshipHelpPage() {
 
           {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) */}
           <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-40">
-            <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group border border-[#C5A059]/20">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-all duration-1000" />
+            <div className="bg-[#10324a] p-10 rounded-[32px] text-white space-y-8 shadow-[0_20px_60px_rgba(16,50,74,0.18)] relative overflow-hidden group border border-white/10">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />
               <div className="space-y-2 relative z-10">
-                <h3 className="fd text-3xl font-bold">Secure Your Grant</h3>
-                <p className="text-white/40 text-[14px] font-bold font-black uppercase tracking-widest">Elite Advisory Protocol.</p>
+                <h3 className="fd text-3xl font-bold text-[#d2a14a]">Secure Your Grant</h3>
+                <p className="text-white/60 text-[14px] font-black uppercase tracking-widest">Elite Advisory Protocol.</p>
               </div>
               <div className="relative z-10 w-full">
                 <AddToCart serviceId="scholarship-help" />
@@ -220,8 +219,10 @@ export default function ScholarshipHelpPage() {
         </div>
       </section>
 
-      <div className="bg-white">
-        <FAQSection />
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-16 pb-16">
+        <div className="glass-panel p-6 sm:p-10">
+          <FAQSection />
+        </div>
       </div>
 
       <BookCounsellingModal

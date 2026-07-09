@@ -35,49 +35,42 @@ export default function UniversityFinalizationPage() {
     const [showBookingModal, setShowBookingModal] = useState(false);
 
     return (
-        <main className="min-h-screen pb-16" style={{ background: "#FDFBF7", color: "#3C2A21", fontFamily: "'DM Sans', sans-serif" }}>
+        <main
+            className="relative min-h-screen overflow-hidden pb-16 text-[#10324a]"
+            style={{
+                background: "radial-gradient(circle at top left, rgba(44,165,157,0.16), transparent 30%), linear-gradient(135deg, #f8f4ea 0%, #fcfbf7 100%)",
+                fontFamily: "'DM Sans', sans-serif"
+            }}
+        >
 
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
                 .fd { font-family: 'Cormorant Garamond', serif; }
-                
-                .gold-shimmer {
-                  background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
-                  background-size: 300% auto;
-                  -webkit-background-clip: text;
-                  -webkit-text-fill-color: transparent;
-                  background-clip: text;
-                  animation: shimmer 4s linear infinite;
-                }
-
-                @keyframes shimmer {
-                  0% { background-position: -200% center; }
-                  100% { background-position: 200% center; }
-                }
 
                 .glass-panel {
-                  background: #FFFFFF;
-                  border: 1px solid rgba(197,160,89, 0.15);
+                  background: rgba(255,255,255,0.8);
+                  border: 1px solid rgba(16,50,74,0.1);
                   border-radius: 32px;
-                  box-shadow: 0 40px 100px rgba(197,160,89, 0.05);
+                  box-shadow: 0 30px 90px rgba(16,50,74,0.08);
+                  backdrop-filter: blur(20px);
                 }
 
                 .feature-pill {
                   background: white;
-                  border: 1px solid rgba(197,160,89, 0.1);
+                  border: 1px solid rgba(16,50,74,0.1);
                   border-radius: 24px;
                   transition: all 0.4s ease;
                 }
 
                 .feature-pill:hover {
-                  border-color: #C5A059;
+                  border-color: #d2a14a;
                   transform: translateY(-5px);
-                  box-shadow: 0 20px 40px rgba(197,160,89, 0.08);
+                  box-shadow: 0 20px 40px rgba(210,161,74,0.12);
                 }
 
                 .btn-gold {
-                   background: #C5A059;
-                   color: white;
+                   background: #d2a14a;
+                   color: #16364b;
                    padding: 18px 30px;
                    border-radius: 18px;
                    font-weight: 700;
@@ -90,15 +83,21 @@ export default function UniversityFinalizationPage() {
                    gap: 10px;
                 }
                 .btn-gold:hover {
-                   background: #3C2A21;
+                   background: #10324a;
+                   color: white;
                    transform: translateY(-2px);
-                   box-shadow: 0 10px 20px rgba(197,160,89, 0.2);
+                   box-shadow: 0 10px 20px rgba(16,50,74,0.2);
                 }
             `}</style>
 
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                <div className="absolute right-[-8%] top-[8%] h-[480px] w-[480px] rounded-full bg-[#d2a14a]/15 blur-[130px]" />
+                <div className="absolute left-[-10%] bottom-[10%] h-[420px] w-[420px] rounded-full bg-[#2ca59d]/10 blur-[130px]" />
+            </div>
+
             {/* ── HERO SECTION ────────────────────────────────────────────────────── */}
-            <section className="relative pt-10 pb-24 px-6 overflow-hidden" style={{ background: "linear-gradient(180deg, rgba(197,160,89, 0.1) 0%, transparent 100%)" }}>
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            <section className="relative z-10 pt-10 pb-12 px-6">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start glass-panel p-6 sm:p-10">
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -108,18 +107,18 @@ export default function UniversityFinalizationPage() {
                         <div className="flex flex-col gap-4">
                             <Link
                                 href="/services"
-                                className="inline-flex items-center gap-2 text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
+                                className="inline-flex items-center gap-2 text-[#2ca59d] font-bold text-[11px] tracking-[0.2em] uppercase hover:gap-3 transition-all"
                             >
                                 <ArrowLeft size={14} /> Back to Services
                             </Link>
-                            <span className="inline-block px-5 py-2 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
+                            <span className="inline-block px-5 py-2 rounded-full border border-[#2ca59d]/20 bg-[#2ca59d]/10 text-[#0f4c5c] font-bold text-[11px] tracking-[0.2em] uppercase w-fit">
                                 Post-Admission Strategy
                             </span>
                         </div>
-                        <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
-                            The Ultimate <br /> <span className="gold-shimmer">Decisive Choice</span>
+                        <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#D4A54A] break-words">
+                            The Ultimate <br /> Decisive Choice
                         </h1>
-                        <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
+                        <p className="text-[#4b5b6a] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
                             "Leverage deep-tier data analytics and years of expertise to finalize the one university that perfectly aligns with your career trajectory."
                         </p>
                         <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -138,30 +137,30 @@ export default function UniversityFinalizationPage() {
                         transition={{ duration: 1, delay: 0.2 }}
                         className="relative"
                     >
-                        <div className="glass-panel p-2 overflow-hidden shadow-2xl">
-                            <div className="bg-[#FFFFFF] rounded-[28px] overflow-hidden border border-[#F1EDEA]">
-                                <div className="bg-[#F8F5F0] px-6 py-4 flex items-center justify-between border-b border-[#F1EDEA]">
+                        <div className="bg-white rounded-[32px] border border-[#10324a]/10 p-2 overflow-hidden shadow-[0_20px_60px_rgba(16,50,74,0.12)]">
+                            <div className="bg-white rounded-[28px] overflow-hidden">
+                                <div className="bg-[#f8f4ea] px-6 py-4 flex items-center justify-between border-b border-[#10324a]/10">
                                     <div className="flex items-center gap-3">
-                                        <Compass className="text-[#C5A059]" size={20} />
-                                        <span className="text-[14px] font-bold text-[#3C2A21] font-bold tracking-widest uppercase">Decision Vault</span>
+                                        <Compass className="text-[#2ca59d]" size={20} />
+                                        <span className="text-[14px] font-bold text-[#10324a] tracking-widest uppercase">Decision Vault</span>
                                     </div>
-                                    <div className="w-2 h-2 rounded-full bg-[#C5A059] animate-pulse" />
+                                    <div className="w-2 h-2 rounded-full bg-[#d2a14a] animate-pulse" />
                                 </div>
-                                <div className="p-10 space-y-8 bg-[#FDFBF7]">
+                                <div className="p-10 space-y-8 bg-white">
                                     <div className="space-y-4">
-                                        <div className="p-6 bg-[#3C2A21] rounded-2xl shadow-xl">
+                                        <div className="p-6 bg-[#10324a] rounded-2xl shadow-[0_16px_40px_rgba(16,50,74,0.15)]">
                                             <p className="text-white font-serif italic text-sm leading-relaxed">
                                                 "Securing multiple admits is a triumph; choosing the wrong one is a tragedy. We audit every metric so you don't have to guess."
                                             </p>
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
-                                            <div className="p-4 bg-white border border-[#C5A059]/10 rounded-xl space-y-1">
-                                                <p className="text-[14px] font-bold text-[#C5A059] font-bold uppercase tracking-widest">Admits Needed</p>
-                                                <p className="text-[#3C2A21] font-bold text-lg">2 to 6+</p>
+                                            <div className="p-4 bg-[#f8f4ea]/60 border border-[#10324a]/10 rounded-xl space-y-1">
+                                                <p className="text-[14px] font-bold text-[#2ca59d] uppercase tracking-widest">Admits Needed</p>
+                                                <p className="text-[#10324a] font-bold text-lg">2 to 6+</p>
                                             </div>
-                                            <div className="p-4 bg-white border border-[#C5A059]/10 rounded-xl space-y-1">
-                                                <p className="text-[14px] font-bold text-[#C5A059] font-bold uppercase tracking-widest">Audit Depth</p>
-                                                <p className="text-[#3C2A21] font-bold text-lg">9+ Metrics</p>
+                                            <div className="p-4 bg-[#f8f4ea]/60 border border-[#10324a]/10 rounded-xl space-y-1">
+                                                <p className="text-[14px] font-bold text-[#2ca59d] uppercase tracking-widest">Audit Depth</p>
+                                                <p className="text-[#10324a] font-bold text-lg">9+ Metrics</p>
                                             </div>
                                         </div>
                                     </div>
@@ -172,8 +171,8 @@ export default function UniversityFinalizationPage() {
                                             "Job-Market Alignment",
                                             "Strategic One-Pick Finalization"
                                         ].map((item) => (
-                                            <div key={item} className="flex items-center gap-3 text-[#3C2A21] font-medium text-sm">
-                                                <CheckCircle2 size={16} className="text-[#C5A059]" />
+                                            <div key={item} className="flex items-center gap-3 text-[#10324a] font-medium text-sm">
+                                                <CheckCircle2 size={16} className="text-[#2ca59d]" />
                                                 {item}
                                             </div>
                                         ))}
@@ -186,40 +185,44 @@ export default function UniversityFinalizationPage() {
             </section>
 
             {/* ── ABOUT SECTION ──────────────────────────────────────────────────── */}
-            <section className="py-24 px-6 bg-white overflow-hidden">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+            <section className="relative z-10 py-10 px-6">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 items-start glass-panel p-6 sm:p-10">
                     <div className="space-y-10">
                         <div className="space-y-4">
-                            <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">The Importance of Choice</span>
-                            <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Navigating the <br /> <span className="gold-shimmer">Admissions Crossroad</span></h2>
+                            <span className="text-[#0f4c5c] text-[11px] font-bold tracking-[0.3em] uppercase">The Importance of Choice</span>
+                            <h2 className="fd text-3xl md:text-5xl font-bold leading-tight text-[#D4A54A]">Navigating the <br /> Admissions Crossroad</h2>
                         </div>
-                        <div className="space-y-6 text-[#6B5E51] font-medium leading-relaxed">
+                        <div className="space-y-6 text-[#4b5b6a] font-medium leading-relaxed">
                             <p>
                                 securing the admits is only the halfway mark. What comes next is an extremely critical decision that will influence your future in almost every possible way.
                             </p>
                             <p>
                                 Should you pick the low-ranked university which offered a scholarship, or the costlier, prestige-intensive alternative? Is the difference in tuition worth the long-term job reputation?
                             </p>
-                            <div className="p-8 bg-[#FDFBF7] border-l-4 border-[#C5A059] italic text-lg text-[#3C2A21] fd">
+                            <div className="p-8 bg-[#f8f4ea]/60 border-l-4 border-[#d2a14a] italic text-lg text-[#10324a] fd rounded-r-2xl">
                                 "Depending on your circumstances, the right fit for you may not be the same as the right fit for someone else."
                             </div>
                         </div>
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/10 blur-2xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                            <div className="space-y-4">
-                                <h3 className="fd text-3xl font-bold">Secure Your Choice</h3>
+                        <div className="bg-[#10324a] p-10 rounded-[32px] text-white space-y-8 shadow-[0_20px_60px_rgba(16,50,74,0.18)] relative overflow-hidden group border border-white/10">
+                            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />
+                            <div className="relative space-y-2">
+                                <h3 className="fd text-3xl font-bold text-[#d2a14a]">Secure Your Choice</h3>
                                 <p className="text-white/60 text-sm">Gain clarity with a detailed audit of every admit in your hand.</p>
                             </div>
-                            <AddToCart serviceId="university-finalization" />
-                            <DiscussionSection serviceId="university-finalization" />
+                            <div className="relative">
+                                <AddToCart serviceId="university-finalization" />
+                            </div>
+                            <div className="relative">
+                                <DiscussionSection serviceId="university-finalization" />
+                            </div>
                         </div>
                         <div className="p-8 glass-panel space-y-4">
-                            <h4 className="text-xs font-bold text-[#C5A059] uppercase tracking-[0.2em]">Legacy Note</h4>
-                            <p className="text-xs text-[#3C2A21]/60 leading-relaxed font-medium">
-                                If you are at the start of your journey and need shortlisting, please refer to the <Link href="/services/shortlisting" className="text-[#C5A059] border-b border-[#C5A059]/20 hover:border-[#C5A059] transition-all">University Shortlisting Service</Link> instead.
+                            <h4 className="text-xs font-bold text-[#2ca59d] uppercase tracking-[0.2em]">Legacy Note</h4>
+                            <p className="text-xs text-[#4b5b6a] leading-relaxed font-medium">
+                                If you are at the start of your journey and need shortlisting, please refer to the <Link href="/services/shortlisting" className="text-[#2ca59d] border-b border-[#2ca59d]/30 hover:border-[#2ca59d] transition-all">University Shortlisting Service</Link> instead.
                             </p>
                         </div>
                     </div>
@@ -227,27 +230,27 @@ export default function UniversityFinalizationPage() {
             </section>
 
             {/* ── AUDIT METRICS GRID ─────────────────────────────────────────────── */}
-            <section className="py-24 px-6">
-                <div className="max-w-7xl mx-auto space-y-20">
+            <section className="relative z-10 py-10 px-6">
+                <div className="max-w-7xl mx-auto glass-panel p-6 sm:p-10 space-y-14">
                     <div className="text-center space-y-4">
-                        <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Data Intelligence</span>
-                        <h2 className="fd text-4xl md:text-5xl font-bold leading-tight text-[#3C2A21]">Primary Audit <span className="gold-shimmer">Pillars</span></h2>
+                        <span className="text-[#0f4c5c] text-[11px] font-bold tracking-[0.3em] uppercase">Data Intelligence</span>
+                        <h2 className="fd text-3xl md:text-5xl font-bold leading-tight text-[#D4A54A]">Primary Audit Pillars</h2>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {finalizationFactors.map((feat, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: i * 0.1 }}
-                                className="feature-pill p-10 space-y-6"
+                                className="feature-pill p-8 space-y-6"
                             >
-                                <div className="w-14 h-14 rounded-2xl bg-[#FDFBF7] flex items-center justify-center text-[#C5A059] border border-[#C5A059]/10">
+                                <div className="w-14 h-14 rounded-2xl bg-[#f8f4ea] flex items-center justify-center text-[#2ca59d] border border-[#10324a]/10">
                                     {feat.icon}
                                 </div>
-                                <h3 className="fd text-2xl font-bold text-[#3C2A21]">{feat.title}</h3>
-                                <p className="text-[#6B5E51] text-sm leading-relaxed font-medium">{feat.desc}</p>
+                                <h3 className="fd text-2xl font-bold text-[#10324a]">{feat.title}</h3>
+                                <p className="text-[#4b5b6a] text-sm leading-relaxed font-medium">{feat.desc}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -255,33 +258,37 @@ export default function UniversityFinalizationPage() {
             </section>
 
             {/* ── REDESIGNED CALL TO ACTION ──────────────────────────────────────── */}
-            <section className="py-24 px-6 bg-white relative overflow-hidden">
-                <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(#C5A059 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+            <section className="relative z-10 py-10 px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    className="max-w-5xl mx-auto glass-panel p-16 flex flex-col items-center text-center space-y-10 relative z-10"
+                    className="max-w-5xl mx-auto glass-panel p-10 sm:p-16 flex flex-col items-center text-center space-y-10 relative overflow-hidden"
                 >
-                    <div className="w-20 h-20 rounded-full bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] mb-4">
+                    <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(#d2a14a 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+                    <div className="relative w-20 h-20 rounded-full bg-[#10324a] flex items-center justify-center text-[#d2a14a] mb-4 shadow-[0_20px_60px_rgba(16,50,74,0.18)]">
                         <Zap size={40} />
                     </div>
-                    <div className="space-y-4">
-                        <h4 className="fd text-4xl font-bold text-[#3C2A21]">Ready for the One Pick?</h4>
-                        <p className="text-[#6B5E51] text-lg font-medium italic max-w-2xl px-6">
+                    <div className="relative space-y-4">
+                        <h4 className="fd text-3xl sm:text-4xl font-bold text-[#D4A54A]">Ready for the One Pick?</h4>
+                        <p className="text-[#4b5b6a] text-lg font-medium italic max-w-2xl px-6">
                             For about 0.1% of what you will be paying your university, leverage years of expertise to ensure your future is built on the right foundation.
                         </p>
                     </div>
 
                     <button
                         onClick={() => setShowBookingModal(true)}
-                        className="btn-gold shadow-2xl group w-full sm:w-auto"
+                        className="btn-gold shadow-2xl group w-full sm:w-auto relative"
                     >
                         Begin Expert Consult <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </button>
                 </motion.div>
             </section>
 
-            <FAQSection />
+            <div className="relative z-10 max-w-7xl mx-auto px-6">
+                <div className="glass-panel p-6 sm:p-10">
+                    <FAQSection />
+                </div>
+            </div>
 
             <BookCounsellingModal
                 isOpen={showBookingModal}

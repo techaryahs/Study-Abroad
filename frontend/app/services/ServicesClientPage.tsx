@@ -104,38 +104,38 @@ function ServiceCard({
   const inner = (
     <>
       {/* top accent */}
-      <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#D4A848] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+      <span className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#2ca59d] via-[#d2a14a] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 
       {/* badges */}
       {service.badge === "fire" && (
-        <span className="absolute top-0 right-0 text-[11px] font-black tracking-wider uppercase bg-[#D4A848] text-[#40332D] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[11px] font-black tracking-wider uppercase bg-[#D4A54A] text-[#16364F] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
           🔥 On Fire
         </span>
       )}
       {service.badge === "popular" && (
-        <span className="absolute top-0 right-0 text-[11px] font-black tracking-wider uppercase bg-[#C0A045] text-[#40332D] px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
+        <span className="absolute top-0 right-0 text-[11px] font-black tracking-wider uppercase bg-[#2ca59d] text-white px-2.5 py-1 rounded-tr-2xl rounded-bl-xl">
           Popular
         </span>
       )}
 
-      <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#D4A848]/10 flex items-center justify-center text-base sm:text-lg flex-shrink-0">
+      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-white/10 flex items-center justify-center text-base sm:text-lg flex-shrink-0 border border-white/10">
         {service.icon}
       </div>
 
-      <h3 className="font-bold text-[14px] sm:text-[16px] leading-tight text-[#D4A848] group-hover:text-white transition-colors duration-200 uppercase tracking-wide">
+      <h3 className="font-black text-[14px] sm:text-[16px] leading-tight text-white transition-colors duration-200 uppercase tracking-wide">
         {service.title}
       </h3>
 
-      <p className="text-[#FDFBF7]/85 text-[11px] sm:text-[14px] leading-relaxed flex-1">
+      <p className="text-white/70 text-[11px] sm:text-[14px] leading-relaxed flex-1">
         {service.description}
       </p>
 
       {isCounselling ? (
-        <span className="self-end text-xs font-bold text-[#D4A848] bg-[#D4A848]/10 border border-[#D4A848]/20 px-3 py-1 rounded-full transition-all duration-200 shadow-sm shadow-[#D4A848]/10">
+        <span className="self-end text-xs font-black text-[#16364F] bg-[#D4A54A] border border-[#D4A54A]/20 px-3 py-1 rounded-full transition-all duration-200">
           Book Now →
         </span>
       ) : (
-        <span className="self-end text-[#D4A848] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
+        <span className="self-end text-[#D4A54A] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200">
           →
         </span>
       )}
@@ -151,7 +151,7 @@ function ServiceCard({
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ delay: index * 0.05, duration: 0.5 }}
-        className="group relative flex flex-col gap-3 p-3.5 sm:p-5 rounded-2xl border border-[#D4A848]/20 bg-[#40332D] hover:border-[#D4A848]/50 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden text-left w-full"
+        className="group relative flex flex-col gap-3 p-3.5 sm:p-5 rounded-[24px] border border-white/10 bg-[#16364F] hover:border-[#D4A54A]/40 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 overflow-hidden text-left w-full shadow-[0_18px_45px_rgba(0,0,0,0.18)]"
       >
         {inner}
       </motion.button>
@@ -167,9 +167,9 @@ function ServiceCard({
     >
       <Link
         href={`/services/${service.slug}`}
-        className="group relative flex flex-col gap-3 p-3.5 sm:p-5 rounded-2xl border border-[#D4A848]/10 bg-[#40332D] hover:border-[#D4A848]/40 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 overflow-hidden block h-full"
+        className="group relative flex flex-col gap-3 p-3.5 sm:p-5 rounded-[24px] border border-white/10 bg-[#16364F] hover:border-[#D4A54A]/40 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 overflow-hidden block h-full shadow-[0_18px_45px_rgba(0,0,0,0.18)]"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-gold-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-[#D4A54A]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         {inner}
       </Link>
     </motion.div>
@@ -271,17 +271,20 @@ export default function ServicesPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FFFFFF] text-[#362B25] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(44,165,157,0.16),_transparent_30%),linear-gradient(135deg,_#f8f4ea_0%,_#fcfbf7_100%)] text-[#10324a]">
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_left,rgba(212,165,74,0.14),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(44,165,157,0.14),transparent_36%)]" />
+      <div className="pointer-events-none absolute right-[-8%] top-[8%] z-0 h-[480px] w-[480px] rounded-full bg-[#D4A54A]/10 blur-[130px]" />
 
       {/* ── HERO ─────────────────────────────────────────────────────────────── */}
-      <section className="relative px-4 sm:px-8 md:px-14 lg:px-20 pt-14 pb-12 border-b border-white/10 overflow-hidden">
+      <section className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 pt-14 pb-10 overflow-hidden">
         {/* radial glow */}
-        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[420px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(245,197,24,0.12)_0%,transparent_70%)]" />
+        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[420px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(44,165,157,0.12)_0%,transparent_70%)]" />
+        <div className="rounded-[36px] border border-[#10324a]/10 bg-white/80 backdrop-blur-xl p-8 shadow-[0_30px_90px_rgba(16,50,74,0.08)]">
 
         {/* badge */}
-        <div className="inline-flex items-center gap-2 mb-6 bg-[#D4A848]/[0.08] border border-[#D4A848]/25 rounded-full px-4 py-1.5">
-          <span className="w-2 h-2 rounded-full bg-[#D4A848] animate-pulse" />
-          <span className="text-[#D4A848] text-[12px] font-semibold tracking-widest uppercase">Our Services</span>
+        <div className="inline-flex items-center gap-2 mb-6 bg-[#2ca59d]/10 border border-[#2ca59d]/20 rounded-full px-4 py-1.5">
+          <span className="w-2 h-2 rounded-full bg-[#2ca59d] animate-pulse" />
+          <span className="text-[#0f4c5c] text-[12px] font-black tracking-widest uppercase">Our Services</span>
         </div>
 
         {/* heading */}
@@ -289,9 +292,9 @@ export default function ServicesPage() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-3xl sm:text-5xl lg:text-[64px] font-black leading-[1.04] tracking-tight mb-8 max-w-3xl text-[#362B25] uppercase"
+          className="text-4xl sm:text-5xl lg:text-[64px] font-black leading-[0.98] tracking-[-0.03em] mb-6 max-w-3xl text-[#D4A54A]"
         >
-          SERVICES
+          Services Built Around Your Global Journey.
         </motion.h1>
 
         {/* body */}
@@ -301,37 +304,38 @@ export default function ServicesPage() {
           transition={{ delay: 0.4, duration: 1 }}
           className="max-w-3xl space-y-3.5"
         >
-          <p className="text-[#362B25]/85 text-[15px] sm:text-[17px] leading-relaxed font-medium">
+          <p className="text-[#4b5b6a] text-[15px] sm:text-[17px] leading-relaxed font-medium">
             Having worked with students from over{" "}
-            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
-            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
+            <strong className="text-white font-black underline decoration-[#D4A54A]/40">55 countries</strong> and interviewed a range of professors from various fields, I know exactly what the admissions committee likes to see in their applicants. Now, you can use my secrets to cracking the admissions process and implement it in your applications. Remember, forbids any tie-ups with universities for your protection. The services listed are offered for{" "}
+            <strong className="text-white font-black underline decoration-[#D4A54A]/40">Bachelor&apos;s, Master&apos;s (MS, MBA, Finance, Economics, Pharma, Dentistry, etc.), and PhD</strong> applicants.
           </p>
-          <p className="text-[#362B25]/85 text-[15px] sm:text-[17px] leading-relaxed font-medium">
+          <p className="text-[#4b5b6a] text-[15px] sm:text-[17px] leading-relaxed font-medium">
             We support applications to most countries including but not limited to{" "}
-            <strong className="text-[#362B25] font-black underline decoration-[#D4A848]/30">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
+            <strong className="text-white font-black underline decoration-[#D4A54A]/40">USA, Canada, Germany, Ireland, UK, Australia, India, and Singapore.</strong>
           </p>
-          <p className="text-[#D4A848] text-sm sm:text-base font-black pt-1">
+          <p className="text-[#D4A54A] text-sm sm:text-base font-black pt-1">
             ✦ To see the charges, you can click on the service, select the currency and other relevant options (if any). Crypto payments now accepted!
           </p>
         </motion.div>
 
         {/* chat strip */}
-        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-xl px-5 py-3.5 shadow-sm">
-          <span className="text-[#675F5B]/80 font-medium text-sm">To reach our sales team</span>
+        <div className="mt-8 inline-flex flex-wrap items-center gap-4 bg-white/10 border border-white/10 rounded-2xl px-5 py-3.5 shadow-sm">
+          <span className="text-white/75 font-medium text-sm">To reach our sales team</span>
           <a
             href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in the your services service. Specifically, I would like to discuss...`)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#D4A848] text-[#40332D] font-black text-sm px-5 py-2.5 rounded-lg hover:bg-white active:scale-95 transition-all text-center border border-[#D4A848]/20 shadow-md"
+            className="inline-flex items-center gap-2 bg-[#d2a14a] text-[#16364b] font-black text-sm px-5 py-2.5 rounded-xl hover:-translate-y-0.5 active:scale-95 transition-all text-center shadow-[0_16px_40px_rgba(210,161,74,0.22)]"
           >
             <ChatIcon className="w-4 h-4" />
             Chat Now →
           </a>
         </div>
+        </div>
       </section>
 
       {/* ── SEARCH + GRID ────────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-10 bg-[#F8F6F1] border-y border-[#D4A848]/10 relative z-10">
+      <section className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 py-10">
         {/* Search */}
         <div className="relative max-w-md mb-6">
           <input
@@ -339,27 +343,27 @@ export default function ServicesPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search for a service…"
-            className="w-full bg-white border border-[#D4A848]/20 rounded-2xl px-5 py-3.5 pr-11 text-sm text-[#362B25] font-medium placeholder-[#675F5B]/50 focus:outline-none focus:border-[#D4A848] focus:ring-1 focus:ring-[#D4A848]/50 transition-all shadow-md"
+            className="w-full bg-white/90 border border-[#10324a]/10 rounded-2xl px-5 py-3.5 pr-11 text-sm text-[#10324a] font-medium placeholder-[#4b5b6a]/50 focus:outline-none focus:border-[#2ca59d] focus:ring-2 focus:ring-[#2ca59d]/15 transition-all shadow-[0_12px_35px_rgba(16,50,74,0.05)]"
           />
-          <button className="absolute right-4 top-1/2 -translate-y-1/2 text-[#D4A848] hover:scale-110 transition-transform" aria-label="Search">
+          <button className="absolute right-4 top-1/2 -translate-y-1/2 text-[#2ca59d] hover:scale-110 transition-transform" aria-label="Search">
             <SearchIcon className="w-5 h-5" />
           </button>
         </div>
 
         {selectedPackage && (
           <div className="mb-6 flex flex-wrap items-center gap-3">
-            <span className="rounded-full border border-[#D4A848]/30 bg-white px-4 py-2 text-[12px] font-black uppercase tracking-[0.2em] text-[#362B25] shadow-sm">
+            <span className="rounded-full border border-[#10324a]/10 bg-white/80 px-4 py-2 text-[12px] font-black uppercase tracking-[0.2em] text-[#10324a] shadow-sm">
               {packagePlans[selectedPackage].title} package: {packageServices.length} of {services.length} services
             </span>
             <button
               onClick={() => setCheckoutPlan(selectedPackage)}
-              className="rounded-full bg-[#D4A848] px-5 py-2 text-[12px] font-black uppercase tracking-[0.2em] text-[#40332D] shadow-md transition-all hover:bg-[#362B25] hover:text-white active:scale-95"
+              className="rounded-full bg-[#d2a14a] px-5 py-2 text-[12px] font-black uppercase tracking-[0.2em] text-[#16364b] shadow-md transition-all hover:bg-[#10324a] hover:text-white active:scale-95"
             >
               Pay INR {packagePlans[selectedPackage].price.toLocaleString("en-IN")}
             </button>
             <Link
               href="/services"
-              className="text-[12px] font-black uppercase tracking-[0.2em] text-[#D4A848] underline decoration-[#D4A848]/30 underline-offset-4 hover:text-[#362B25]"
+              className="text-[12px] font-black uppercase tracking-[0.2em] text-[#2ca59d] underline decoration-[#2ca59d]/30 underline-offset-4 hover:text-[#10324a]"
             >
               View all services
             </Link>
@@ -381,28 +385,28 @@ export default function ServicesPage() {
               </AnimatePresence>
             </div>
           ) : (
-            <div className="py-24 text-center text-[#362B25]/50 text-sm">
+            <div className="py-24 text-center text-[#4b5b6a] text-sm">
               No services found for &ldquo;{query}&rdquo;
             </div>
           )}
         </div>
 
         {selectedPackage && selectedPlan && filtered.length > 0 && (
-          <div className="mt-8 rounded-2xl border border-[#D4A848]/25 bg-white p-5 shadow-xl sm:flex sm:items-center sm:justify-between sm:gap-6">
+          <div className="mt-8 rounded-[24px] border border-[#10324a]/10 bg-white/85 p-5 shadow-[0_16px_50px_rgba(16,50,74,0.06)] sm:flex sm:items-center sm:justify-between sm:gap-6">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.25em] text-[#D4A848]">
+              <p className="text-[11px] font-black uppercase tracking-[0.25em] text-[#0f4c5c]">
                 Ready to continue
               </p>
-              <h2 className="mt-2 text-2xl font-black uppercase text-[#362B25]">
+              <h2 className="mt-2 text-2xl font-black uppercase text-[#10324a]">
                 {selectedPlan.title} Package
               </h2>
-              <p className="mt-1 text-sm font-medium text-[#675F5B]">
+              <p className="mt-1 text-sm font-medium text-[#4b5b6a]">
                 Includes {packageServices.length} selected services from our full catalogue.
               </p>
             </div>
             <button
               onClick={() => setCheckoutPlan(selectedPackage)}
-              className="mt-5 w-full rounded-xl bg-[#362B25] px-6 py-4 text-sm font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-[#D4A848] hover:text-[#40332D] active:scale-95 sm:mt-0 sm:w-auto"
+              className="mt-5 w-full rounded-2xl bg-[#10324a] px-6 py-4 text-sm font-black uppercase tracking-[0.2em] text-white transition-all hover:bg-[#d2a14a] hover:text-[#16364b] active:scale-95 sm:mt-0 sm:w-auto"
             >
               Pay INR {selectedPlan.price.toLocaleString("en-IN")}
             </button>
@@ -411,17 +415,17 @@ export default function ServicesPage() {
       </section>
 
       {/* ── HORIZONTAL CHAT BANNER ────────────────────────────────────────────────── */}
-      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-6 sm:py-8 bg-white border-b border-[#D4A848]/10">
-        <div className="relative overflow-hidden rounded-[1.5rem] md:rounded-[2rem] bg-[#40332D] p-5 sm:p-10 shadow-2xl border border-[#D4A848]/20 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8 group transition-all hover:border-[#D4A848]/40">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(212,168,72,0.1),transparent_50%)]" />
+      <section className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 py-6 sm:py-8">
+        <div className="relative overflow-hidden rounded-[32px] bg-[#10324a] p-5 sm:p-10 shadow-[0_20px_60px_rgba(16,50,74,0.18)] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8 group transition-all">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(210,161,74,0.18),transparent_50%)]" />
 
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-4 md:gap-6 text-center md:text-left">
-            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-[#D4A848]/10 flex items-center justify-center text-2xl sm:text-3xl shadow-inner border border-[#D4A848]/10 animate-float">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-white/10 flex items-center justify-center text-2xl sm:text-3xl shadow-inner border border-white/10 animate-float">
               💬
             </div>
             <div className="space-y-1">
-              <h2 className="text-base sm:text-2xl font-black text-[#D4A848] uppercase tracking-normal">Questions? Start a chat with us.</h2>
-              <p className="text-[#FDFBF7]/70 text-[12px] sm:text-sm font-medium leading-relaxed">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
+              <h2 className="text-base sm:text-2xl font-black text-[#f8f4ea] uppercase tracking-normal">Questions? Start a chat with us.</h2>
+              <p className="text-white/70 text-[12px] sm:text-sm font-medium leading-relaxed">We&apos;re here to help you navigate your study, work, or immigration journey.</p>
             </div>
           </div>
 
@@ -430,7 +434,7 @@ export default function ServicesPage() {
               href={`https://wa.me/${contactPhone}?text=${encodeURIComponent(`I am interested in your services. I would like to discuss...`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 bg-[#D4A848] text-[#40332D] font-black text-[12px] sm:text-sm px-6 py-3 sm:px-8 sm:py-4 rounded-xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#D4A848]/10 uppercase tracking-widest"
+              className="inline-flex items-center gap-3 bg-[#d2a14a] text-[#16364b] font-black text-[12px] sm:text-sm px-6 py-3 sm:px-8 sm:py-4 rounded-2xl hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-xl shadow-[#d2a14a]/10 uppercase tracking-widest"
             >
               <ChatIcon className="w-4 h-4 sm:w-5 sm:h-5" />
               Chat on Whatsapp
@@ -440,32 +444,32 @@ export default function ServicesPage() {
       </section>
 
       {/* ── SPACIOUS SERVICE REQUEST FORM ─────────────────────────────────────────── */}
-      <section className="px-4 sm:px-8 md:px-14 lg:px-20 py-10 bg-[#F8F6F1] relative overflow-hidden">
+      <section className="relative z-10 mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 py-10 overflow-hidden">
         {/* decorative background element */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#D4A848]/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#2ca59d]/5 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="max-w-3xl mx-auto relative z-10">
           <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 mb-2 bg-[#D4A848]/10 px-4 py-1 rounded-full border border-[#D4A848]/20">
-              <span className="text-[#D4A848] text-[11px] font-black uppercase tracking-[0.3em]">Custom Solutions</span>
+            <div className="inline-flex items-center gap-2 mb-2 bg-[#2ca59d]/10 px-4 py-1 rounded-full border border-[#2ca59d]/20">
+              <span className="text-[#0f4c5c] text-[11px] font-black uppercase tracking-[0.3em]">Custom Solutions</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl font-black text-[#362B25] tracking-tight uppercase leading-none mb-3">Request a <span className="text-[#D4A848]">Service</span></h2>
-            <p className="text-[#675F5B]/80 text-[12px] sm:text-sm max-w-lg mx-auto leading-relaxed">
+            <h2 className="text-2xl sm:text-4xl font-black text-[#10324a] tracking-tight uppercase leading-none mb-3">Request a <span className="text-[#D4A54A]">Service</span></h2>
+            <p className="text-[#4b5b6a] text-[12px] sm:text-sm max-w-lg mx-auto leading-relaxed">
               If our standard offerings don&apos;t fit, tell us what you&apos;re looking for and we&apos;ll craft a unique plan.
             </p>
           </div>
 
-          <div className="bg-white border border-[#D4A848]/20 rounded-[1.5rem] p-6 sm:p-8 shadow-xl">
+          <div className="bg-white/85 border border-[#10324a]/10 rounded-[32px] p-6 sm:p-8 shadow-[0_16px_50px_rgba(16,50,74,0.06)] backdrop-blur-xl">
             {submitted ? (
               <div className="py-8 flex flex-col items-center text-center gap-4">
-                <div className="w-16 h-16 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-3xl border border-[#D4A848]/20">✨</div>
+                <div className="w-16 h-16 rounded-full bg-[#2ca59d]/10 flex items-center justify-center text-3xl border border-[#2ca59d]/20">✨</div>
                 <div className="space-y-1">
-                  <h3 className="text-xl font-black text-[#362B25] uppercase tracking-tight">Request Received</h3>
-                  <p className="text-[#675F5B]/80 text-[11px] font-bold uppercase tracking-widest opacity-80">We&apos;ll reach out within 24 hours.</p>
+                  <h3 className="text-xl font-black text-[#10324a] uppercase tracking-tight">Request Received</h3>
+                  <p className="text-[#4b5b6a] text-[11px] font-bold uppercase tracking-widest opacity-80">We&apos;ll reach out within 24 hours.</p>
                 </div>
                 <button
                   onClick={() => setSubmitted(false)}
-                  className="mt-2 text-[#D4A848] font-black text-[12px] uppercase tracking-widest border-b border-[#D4A848] pb-0.5 hover:text-[#362B25] hover:border-[#362B25] transition-all"
+                  className="mt-2 text-[#2ca59d] font-black text-[12px] uppercase tracking-widest border-b border-[#2ca59d] pb-0.5 hover:text-[#10324a] hover:border-[#10324a] transition-all"
                 >
                   Submit Another request
                 </button>
@@ -479,7 +483,7 @@ export default function ServicesPage() {
                     { label: "Phone", name: "mobile", type: "tel", placeholder: "+91 90000 00000", colSpan: "sm:col-span-1" },
                   ].map((field) => (
                     <div key={field.name} className={`space-y-1 ${field.colSpan}`}>
-                      <label className="text-[12px] font-black text-[#362B25]/85 uppercase tracking-widest ml-1">
+                      <label className="text-[12px] font-black text-[#10324a]/85 uppercase tracking-widest ml-1">
                         {field.label}
                       </label>
                       <input
@@ -489,14 +493,14 @@ export default function ServicesPage() {
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         required={field.name !== "mobile"}
-                        className="w-full bg-[#F8F6F1]/50 border border-[#D4A848]/20 rounded-xl px-4 py-3 text-sm text-[#362B25] placeholder-[#362B25]/40 focus:outline-none focus:border-[#D4A848]/60 focus:bg-white transition-all shadow-sm"
+                        className="w-full bg-[#f7fbfd] border border-[#10324a]/10 rounded-xl px-4 py-3 text-sm text-[#10324a] placeholder-[#4b5b6a]/45 focus:outline-none focus:border-[#2ca59d]/60 focus:bg-white transition-all shadow-sm"
                       />
                     </div>
                   ))}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[12px] font-black text-[#362B25]/85 uppercase tracking-widest ml-1">
+                  <label className="text-[12px] font-black text-[#10324a]/85 uppercase tracking-widest ml-1">
                     What can we do for you?
                   </label>
                   <textarea
@@ -506,7 +510,7 @@ export default function ServicesPage() {
                     placeholder="Briefly describe your requirements..."
                     required
                     rows={4}
-                    className="w-full bg-[#F8F6F1]/50 border border-[#D4A848]/20 rounded-xl px-4 py-3 text-sm text-[#362B25] placeholder-[#362B25]/40 focus:outline-none focus:border-[#D4A848]/60 focus:bg-white transition-all resize-none shadow-sm"
+                    className="w-full bg-[#f7fbfd] border border-[#10324a]/10 rounded-xl px-4 py-3 text-sm text-[#10324a] placeholder-[#4b5b6a]/45 focus:outline-none focus:border-[#2ca59d]/60 focus:bg-white transition-all resize-none shadow-sm"
                   />
                 </div>
 
@@ -519,7 +523,7 @@ export default function ServicesPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full ${status === "failed" ? "bg-red-600 shadow-red-500/20" : "bg-[#362B25]"} text-white font-black text-xs py-3.5 rounded-xl hover:bg-[#D4A848] hover:text-[#362B25] shadow-lg transition-all uppercase tracking-[0.2em] relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className={`w-full ${status === "failed" ? "bg-red-600 shadow-red-500/20" : "bg-[#10324a]"} text-white font-black text-xs py-3.5 rounded-xl hover:bg-[#d2a14a] hover:text-[#16364b] shadow-lg transition-all uppercase tracking-[0.2em] relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                   <span className="relative z-10">
                     {isSubmitting ? "Sending Request..." : status === "failed" ? "Failed! Try Again" : "Send Request →"}

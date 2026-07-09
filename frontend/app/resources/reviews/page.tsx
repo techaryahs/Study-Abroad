@@ -65,8 +65,8 @@ function StarRating({
           <Star
             size={size}
             className="transition-colors"
-            fill={(hovered || value) >= s ? "#C5A059" : "none"}
-            stroke={(hovered || value) >= s ? "#C5A059" : "#D4C5B0"}
+            fill={(hovered || value) >= s ? "#d2a14a" : "none"}
+            stroke={(hovered || value) >= s ? "#d2a14a" : "#c9bfa8"}
           />
         </button>
       ))}
@@ -92,18 +92,18 @@ function ReviewCard({ review }: { review: Review }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white border border-[rgba(197,160,89,0.15)] rounded-2xl p-7 flex flex-col gap-4 shadow-sm hover:shadow-md hover:border-[rgba(197,160,89,0.35)] transition-all duration-300"
+      className="bg-white/78 border border-[#10324a]/10 rounded-2xl p-7 flex flex-col gap-4 shadow-sm hover:shadow-md hover:border-[#d2a14a]/40 transition-all duration-300"
     >
       {/* Top row: avatar + name + rating */}
       <div className="flex items-start gap-4">
-        <div className="w-11 h-11 rounded-xl bg-[#2D2926] text-[#C5A059] font-black text-sm flex items-center justify-center flex-shrink-0">
+        <div className="w-11 h-11 rounded-xl bg-[#10324a] text-[#d2a14a] font-black text-sm flex items-center justify-center flex-shrink-0">
           {initials}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2 flex-wrap">
-            <span className="font-bold text-[#2D2926] text-sm truncate">{review.name}</span>
+            <span className="font-bold text-[#10324a] text-sm truncate">{review.name}</span>
             {review.isVerified && (
-              <span className="text-[13px] font-bold font-bold text-[#C5A059] border border-[rgba(197,160,89,0.3)] px-2 py-0.5 rounded-md uppercase tracking-widest flex-shrink-0">
+              <span className="text-[13px] font-bold font-bold text-[#0f4c5c] border border-[#2ca59d]/30 bg-[#2ca59d]/5 px-2 py-0.5 rounded-md uppercase tracking-widest flex-shrink-0">
                 Verified
               </span>
             )}
@@ -113,18 +113,18 @@ function ReviewCard({ review }: { review: Review }) {
       </div>
 
       {/* Service badge */}
-      <span className="self-start text-[13px] font-bold font-bold uppercase tracking-widest bg-[#F8F5F0] text-[#6B5E51] px-3 py-1 rounded-full border border-[#EDE8DF]">
+      <span className="self-start text-[13px] font-bold font-bold uppercase tracking-widest bg-[#f7fbfd] text-[#4b5b6a] px-3 py-1 rounded-full border border-[#10324a]/8">
         {review.service}
       </span>
 
       {/* Title + Body */}
       {review.title && (
-        <p className="font-bold text-[#2D2926] text-sm">{review.title}</p>
+        <p className="font-bold text-[#10324a] text-sm">{review.title}</p>
       )}
-      <p className="text-sm text-[#6B5E51] leading-relaxed">{review.body}</p>
+      <p className="text-sm text-[#4b5b6a] leading-relaxed">{review.body}</p>
 
       {/* Date */}
-      <p className="text-[14px] font-bold text-[#A8A29E] font-medium mt-auto">{date}</p>
+      <p className="text-[14px] font-bold text-[#4b5b6a]/50 font-medium mt-auto">{date}</p>
     </motion.div>
   );
 }
@@ -236,14 +236,15 @@ export default function ReviewsPage() {
 
   return (
     <main
-      className="min-h-screen pb-32"
-      style={{ background: "#FDFBF7", color: "#2D2926", fontFamily: "'DM Sans', sans-serif" }}
+      className="min-h-screen pb-32 text-[#10324a]"
+      style={{
+        background:
+          "radial-gradient(circle at top left, rgba(44,165,157,0.16), transparent 30%), linear-gradient(135deg, #f8f4ea 0%, #fcfbf7 100%)",
+      }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-        .fd { font-family: 'Cormorant Garamond', serif; }
         .gold-shimmer {
-          background: linear-gradient(90deg,#C5A059,#E6D5B8,#C5A059,#D4AF37,#C5A059);
+          background: linear-gradient(90deg,#d2a14a,#f4d89e,#d2a14a,#b3985e,#d2a14a);
           background-size: 300% auto;
           -webkit-background-clip: text; -webkit-text-fill-color: transparent;
           background-clip: text; animation: shimmer 4s linear infinite;
@@ -255,13 +256,13 @@ export default function ReviewsPage() {
         .filter-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        select option { color: #2D2926; background: #fff; }
+        select option { color: #10324a; background: #fff; }
       `}</style>
 
       {/* ── HERO ── */}
       <section
         className="relative px-6 pt-24 pb-12 text-center overflow-hidden"
-        style={{ background: "linear-gradient(180deg,rgba(197,160,89,0.08) 0%,transparent 100%)" }}
+        style={{ background: "linear-gradient(180deg,rgba(44,165,157,0.10) 0%,transparent 100%)" }}
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -269,26 +270,26 @@ export default function ReviewsPage() {
           transition={{ duration: 0.8 }}
           className="max-w-3xl mx-auto space-y-5"
         >
-          <span className="inline-block px-5 py-1.5 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[14px] font-bold tracking-[0.3em] uppercase">
+          <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full border border-[#2ca59d]/25 bg-[#2ca59d]/10 text-[#0f4c5c] font-black text-[14px] font-bold tracking-[0.3em] uppercase">
             Student Voices
           </span>
-          <h1 className="fd text-5xl sm:text-6xl md:text-7xl font-bold text-[#2D2926] tracking-tight leading-[0.95]">
-            Real <span className="gold-shimmer">Reviews</span>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight leading-[0.95]">
+            <span className="gold-shimmer">Real Reviews</span>
           </h1>
-          <p className="text-[#6B5E51] text-lg font-medium max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#4b5b6a] text-lg font-medium max-w-xl mx-auto leading-relaxed">
             Honest feedback from students who&apos;ve used EduLeaderGlobal&apos;s services to achieve their study-abroad dreams.
           </p>
 
           <div className="flex items-center justify-center gap-4 pt-4">
             <button
               onClick={() => setShowForm(true)}
-              className="inline-flex items-center gap-2 bg-[#2D2926] text-[#C5A059] font-bold px-8 py-4 rounded-2xl hover:bg-[#C5A059] hover:text-white transition-all shadow-xl text-sm tracking-widest uppercase"
+              className="inline-flex items-center gap-2 bg-[#10324a] text-[#d2a14a] font-black px-8 py-4 rounded-2xl hover:bg-[#d2a14a] hover:text-[#10324a] transition-all shadow-xl text-sm tracking-widest uppercase"
             >
               <MessageSquare size={16} /> Write a Review
             </button>
             <div className="text-left">
-              <p className="text-2xl font-bold text-[#2D2926]">{total}</p>
-              <p className="text-[14px] font-bold text-[#A8A29E] uppercase tracking-widest font-bold">Reviews</p>
+              <p className="text-2xl font-black text-[#10324a]">{total}</p>
+              <p className="text-[14px] font-bold text-[#4b5b6a]/60 uppercase tracking-widest font-bold">Reviews</p>
             </div>
           </div>
         </motion.div>
@@ -303,8 +304,8 @@ export default function ReviewsPage() {
               onClick={() => setActiveFilter(tab.value)}
               className={`whitespace-nowrap flex-shrink-0 px-5 py-2.5 rounded-xl text-[14px] font-bold font-black uppercase tracking-widest transition-all border ${
                 activeFilter === tab.value
-                  ? "bg-[#2D2926] text-[#C5A059] border-[#2D2926] shadow-lg"
-                  : "bg-white text-[#6B5E51] border-[rgba(197,160,89,0.2)] hover:border-[#C5A059]"
+                  ? "bg-[#10324a] text-[#d2a14a] border-[#10324a] shadow-lg"
+                  : "bg-white/70 text-[#4b5b6a] border-[#10324a]/10 hover:border-[#d2a14a]/40"
               }`}
             >
               {tab.label}
@@ -318,15 +319,15 @@ export default function ReviewsPage() {
         {loading && reviews.length === 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl h-56 animate-pulse border border-[rgba(197,160,89,0.1)]" />
+              <div key={i} className="bg-white/60 rounded-2xl h-56 animate-pulse border border-[#10324a]/8" />
             ))}
           </div>
         ) : reviews.length === 0 ? (
           <div className="text-center py-24">
-            <p className="text-[#A8A29E] font-medium text-lg">No reviews yet for this service.</p>
+            <p className="text-[#4b5b6a]/60 font-medium text-lg">No reviews yet for this service.</p>
             <button
               onClick={() => setShowForm(true)}
-              className="mt-6 bg-[#C5A059] text-white font-bold px-8 py-3 rounded-xl text-sm tracking-widest uppercase hover:bg-[#2D2926] transition-all"
+              className="mt-6 bg-[#d2a14a] text-[#10324a] font-black px-8 py-3 rounded-xl text-sm tracking-widest uppercase hover:bg-[#10324a] hover:text-white transition-all"
             >
               Be the first to review
             </button>
@@ -344,7 +345,7 @@ export default function ReviewsPage() {
                 <button
                   onClick={loadMore}
                   disabled={loading}
-                  className="flex items-center gap-2 border border-[rgba(197,160,89,0.3)] text-[#6B5E51] font-bold px-8 py-3 rounded-xl text-sm tracking-widest uppercase hover:border-[#C5A059] hover:text-[#C5A059] transition-all"
+                  className="flex items-center gap-2 border border-[#10324a]/15 text-[#4b5b6a] font-bold px-8 py-3 rounded-xl text-sm tracking-widest uppercase hover:border-[#d2a14a] hover:text-[#d2a14a] transition-all"
                 >
                   {loading ? "Loading..." : (<><ChevronDown size={16} /> Load More</>)}
                 </button>
@@ -363,24 +364,25 @@ export default function ReviewsPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowForm(false)}
-              className="absolute inset-0 bg-[#2D2926]/70 backdrop-blur-sm"
+              className="absolute inset-0 bg-[#10324a]/70 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative bg-[#FDFBF7] w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar"
+              className="relative bg-[#fcfbf7] w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto no-scrollbar"
             >
               {/* Modal Header */}
-              <div className="bg-[#2D2926] px-8 py-7 relative">
+              <div className="bg-[#10324a] px-8 py-7 relative">
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(210,161,74,0.15),transparent_50%)]" />
                 <button
                   onClick={() => setShowForm(false)}
                   className="absolute top-5 right-5 text-white/40 hover:text-white transition-colors"
                 >
                   <X size={20} />
                 </button>
-                <p className="text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#C5A059] mb-1">Share Your Experience</p>
-                <h2 className="fd text-3xl font-bold text-white leading-tight">Write a Review</h2>
+                <p className="relative z-10 text-[14px] font-bold font-black uppercase tracking-[0.3em] text-[#d2a14a] mb-1">Share Your Experience</p>
+                <h2 className="relative z-10 text-3xl font-black text-white leading-tight">Write a Review</h2>
               </div>
 
               {/* Form */}
@@ -393,15 +395,15 @@ export default function ReviewsPage() {
                     className="text-center py-10 space-y-3"
                   >
                     <div className="text-5xl">🎉</div>
-                    <p className="fd text-2xl font-bold text-[#2D2926]">Thank You!</p>
-                    <p className="text-[#6B5E51] text-sm">Your review has been submitted successfully.</p>
+                    <p className="text-2xl font-black text-[#10324a]">Thank You!</p>
+                    <p className="text-[#4b5b6a] text-sm">Your review has been submitted successfully.</p>
                   </motion.div>
                 ) : (
                   <>
                     {/* Name + Email */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
+                        <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#d2a14a]">
                           Your Name <span className="text-red-400">*</span>
                         </label>
                         <input
@@ -409,46 +411,46 @@ export default function ReviewsPage() {
                           value={form.name}
                           onChange={(e) => setForm({ ...form, name: e.target.value })}
                           placeholder="e.g. Arjun Sharma"
-                          className="w-full bg-white border border-[rgba(197,160,89,0.2)] focus:border-[#C5A059] outline-none rounded-xl px-4 py-3 text-sm font-medium placeholder:text-[#A8A29E] transition-colors"
+                          className="w-full bg-white border border-[#10324a]/12 focus:border-[#2ca59d] outline-none rounded-xl px-4 py-3 text-sm font-medium placeholder:text-[#4b5b6a]/40 transition-colors text-[#10324a]"
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
-                          Email <span className="text-[#A8A29E]">(optional)</span>
+                        <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#d2a14a]">
+                          Email <span className="text-[#4b5b6a]/50">(optional)</span>
                         </label>
                         <input
                           type="email"
                           value={form.email}
                           onChange={(e) => setForm({ ...form, email: e.target.value })}
                           placeholder="you@example.com"
-                          className="w-full bg-white border border-[rgba(197,160,89,0.2)] focus:border-[#C5A059] outline-none rounded-xl px-4 py-3 text-sm font-medium placeholder:text-[#A8A29E] transition-colors"
+                          className="w-full bg-white border border-[#10324a]/12 focus:border-[#2ca59d] outline-none rounded-xl px-4 py-3 text-sm font-medium placeholder:text-[#4b5b6a]/40 transition-colors text-[#10324a]"
                         />
                       </div>
                     </div>
 
                     {/* Service Selector */}
                     <div className="space-y-1.5">
-                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
+                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#d2a14a]">
                         Service <span className="text-red-400">*</span>
                       </label>
                       <div className="relative">
                         <select
                           value={form.service}
                           onChange={(e) => setForm({ ...form, service: e.target.value })}
-                          className="w-full appearance-none bg-white border border-[rgba(197,160,89,0.2)] focus:border-[#C5A059] outline-none rounded-xl px-4 py-3 text-sm font-medium text-[#2D2926] transition-colors pr-10"
+                          className="w-full appearance-none bg-white border border-[#10324a]/12 focus:border-[#2ca59d] outline-none rounded-xl px-4 py-3 text-sm font-medium text-[#10324a] transition-colors pr-10"
                         >
                           <option value="" disabled>Select a service…</option>
                           {SERVICES.map((s) => (
                             <option key={s} value={s}>{s}</option>
                           ))}
                         </select>
-                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#A8A29E] pointer-events-none" />
+                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#4b5b6a]/50 pointer-events-none" />
                       </div>
                     </div>
 
                     {/* Star Rating */}
                     <div className="space-y-1.5">
-                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
+                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#d2a14a]">
                         Overall Rating <span className="text-red-400">*</span>
                       </label>
                       <div className="flex items-center gap-3">
@@ -458,7 +460,7 @@ export default function ReviewsPage() {
                           size={28}
                         />
                         {form.rating > 0 && (
-                          <span className="text-xs font-bold text-[#C5A059]">
+                          <span className="text-xs font-bold text-[#d2a14a]">
                             {["", "Poor", "Fair", "Good", "Very Good", "Excellent"][form.rating]}
                           </span>
                         )}
@@ -467,21 +469,21 @@ export default function ReviewsPage() {
 
                     {/* Review Title */}
                     <div className="space-y-1.5">
-                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
-                        Review Title <span className="text-[#A8A29E]">(optional)</span>
+                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#d2a14a]">
+                        Review Title <span className="text-[#4b5b6a]/50">(optional)</span>
                       </label>
                       <input
                         type="text"
                         value={form.title}
                         onChange={(e) => setForm({ ...form, title: e.target.value })}
                         placeholder="Summarize your experience in a line"
-                        className="w-full bg-white border border-[rgba(197,160,89,0.2)] focus:border-[#C5A059] outline-none rounded-xl px-4 py-3 text-sm font-medium placeholder:text-[#A8A29E] transition-colors"
+                        className="w-full bg-white border border-[#10324a]/12 focus:border-[#2ca59d] outline-none rounded-xl px-4 py-3 text-sm font-medium placeholder:text-[#4b5b6a]/40 transition-colors text-[#10324a]"
                       />
                     </div>
 
                     {/* Review Body */}
                     <div className="space-y-1.5">
-                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#C5A059]">
+                      <label className="text-[14px] font-bold font-black uppercase tracking-widest text-[#d2a14a]">
                         Your Review <span className="text-red-400">*</span>
                       </label>
                       <textarea
@@ -489,7 +491,7 @@ export default function ReviewsPage() {
                         value={form.body}
                         onChange={(e) => setForm({ ...form, body: e.target.value })}
                         placeholder="Tell us about your experience with this service…"
-                        className="w-full bg-white border border-[rgba(197,160,89,0.2)] focus:border-[#C5A059] outline-none rounded-xl px-4 py-3 text-sm font-medium placeholder:text-[#A8A29E] transition-colors resize-none"
+                        className="w-full bg-white border border-[#10324a]/12 focus:border-[#2ca59d] outline-none rounded-xl px-4 py-3 text-sm font-medium placeholder:text-[#4b5b6a]/40 transition-colors resize-none text-[#10324a]"
                       />
                     </div>
 
@@ -502,13 +504,13 @@ export default function ReviewsPage() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full bg-[#C5A059] text-white font-black py-4 rounded-2xl text-xs uppercase tracking-[0.3em] hover:bg-[#2D2926] transition-all shadow-xl flex items-center justify-center gap-2 disabled:opacity-60"
+                      className="w-full bg-[#d2a14a] text-[#10324a] font-black py-4 rounded-2xl text-xs uppercase tracking-[0.3em] hover:bg-[#10324a] hover:text-white transition-all shadow-xl flex items-center justify-center gap-2 disabled:opacity-60"
                     >
                       {submitting ? (
                         <span className="flex gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-bounce [animation-delay:-0.3s]" />
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-bounce [animation-delay:-0.15s]" />
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-bounce" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#10324a] animate-bounce [animation-delay:-0.3s]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#10324a] animate-bounce [animation-delay:-0.15s]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#10324a] animate-bounce" />
                         </span>
                       ) : (
                         <><Send size={14} /> Submit Review</>

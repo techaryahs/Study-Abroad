@@ -129,9 +129,9 @@ export default function VisaApplicationPage() {
         <div className="max-w-screen-2xl mx-auto">
           <div className="flex flex-row lg:flex-row items-center gap-4 lg:gap-12 mb-8">
             <div className="flex-1">
-              <h1 className="text-2xl md:text-7xl font-black mb-4 tracking-tighter uppercase leading-[0.9] break-words">
-                <span className="text-[#362B25]">Visa Application</span><br className="sm:hidden" /> <span className="text-[#D4A848]">Help</span>
-              </h1>
+              <h1 className="text-2xl md:text-7xl font-black mb-4 tracking-tighter uppercase leading-[0.9] break-words text-[#D4A54A]">
+  Visa Application <br className="sm:hidden" /> Help
+</h1>
               <p className="hidden sm:block text-lg text-[#675F5B] mb-10 max-w-xl leading-relaxed font-medium">
                 Ace the visa application through our help in the paperwork, financial planning, and visa Interview mock rounds.{" "}
                 <span className="text-[#D4A848] font-black">Applicable for USA, Canada, UK, Germany, and more.</span>
