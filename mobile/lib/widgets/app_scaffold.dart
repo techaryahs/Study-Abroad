@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -121,7 +122,7 @@ class _MoreMenuSheet extends StatelessWidget {
     final items = [
       _MoreItem(Icons.school_rounded, 'Universities', '/universities'),
       _MoreItem(Icons.auto_awesome_rounded, 'AI Services', '/ai-services'),
-      _MoreItem(Icons.shopping_cart_rounded, 'Cart', '/cart'),
+      if (!Platform.isIOS) _MoreItem(Icons.shopping_cart_rounded, 'Cart', '/cart'),
       _MoreItem(Icons.menu_book_rounded, 'Resources', '/resources'),
       _MoreItem(Icons.mail_outline_rounded, 'Contact', '/contact'),
     ];

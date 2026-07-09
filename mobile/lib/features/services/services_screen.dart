@@ -170,13 +170,22 @@ class ServicesScreen extends StatelessWidget {
                                           color: AppTheme.textPrimary),
                                     ),
                                     const SizedBox(height: 4),
-                                    Text(
-                                      '\u20B9${service.price.toStringAsFixed(0)}',
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w900,
-                                          color: AppTheme.gold),
-                                    ),
+                                    if (isIOS)
+                                      Text(
+                                        hasAccess ? 'Included with Membership' : 'Unlock with Membership',
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w800,
+                                            color: AppTheme.gold),
+                                      )
+                                    else
+                                      Text(
+                                        '\u20B9${service.price.toStringAsFixed(0)}',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w900,
+                                            color: AppTheme.gold),
+                                      ),
                                   ],
                                 ),
                               ),

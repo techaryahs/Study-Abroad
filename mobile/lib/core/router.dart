@@ -1,5 +1,7 @@
+import 'dart:io' show Platform;
 import 'package:go_router/go_router.dart';
 import '../features/auth/auth_provider.dart';
+import '../features/membership/membership_screen.dart';
 import '../features/landing/landing_screen.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/register_screen.dart';
@@ -140,7 +142,25 @@ class AppRouter {
             GoRoute(
                 path: '/dashboard',
                 builder: (_, __) => const DashboardScreen()),
-            GoRoute(path: '/cart', builder: (_, __) => const CartScreen()),
+            GoRoute(
+              path: '/cart',
+              redirect: (context, state) {
+                if (Platform.isIOS) return '/membership';
+                return null;
+              },
+              builder: (_, __) => const CartScreen(),
+            ),
+            GoRoute(
+              path: '/membership',
+              builder: (context, state) {
+                final recommendedPlanId = state.uri.queryParameters['recommendedPlanId'];
+                final lockedFeatureId = state.uri.queryParameters['lockedFeatureId'];
+                return MembershipScreen(
+                  recommendedPlanId: recommendedPlanId,
+                  lockedFeatureId: lockedFeatureId,
+                );
+              },
+            ),
             GoRoute(path: '/blogs', builder: (_, __) => const BlogsScreen()),
             GoRoute(path: '/about', builder: (_, __) => const AboutScreen()),
             GoRoute(

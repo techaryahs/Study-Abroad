@@ -167,22 +167,43 @@ class ServiceDetailScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('Service Investment',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppTheme.textSecondary)),
-                            const SizedBox(height: 4),
-                            Text('₹${service.price.toStringAsFixed(0)}',
-                                style: const TextStyle(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w900,
-                                    color: AppTheme.gold)),
-                          ],
-                        ),
+                        if (isIOS)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Membership Access',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppTheme.textSecondary)),
+                              const SizedBox(height: 4),
+                              Text(
+                                  membershipManager.canAccess(service.slug)
+                                      ? 'Included'
+                                      : 'Required',
+                                  style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w900,
+                                      color: AppTheme.gold)),
+                            ],
+                          )
+                        else
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Service Investment',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppTheme.textSecondary)),
+                              const SizedBox(height: 4),
+                              Text('₹${service.price.toStringAsFixed(0)}',
+                                  style: const TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w900,
+                                      color: AppTheme.gold)),
+                            ],
+                          ),
                         if (isIOS)
                           ElevatedButton(
                             onPressed: () {
