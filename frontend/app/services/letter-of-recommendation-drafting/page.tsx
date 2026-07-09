@@ -222,7 +222,7 @@ export default function LORDraftingPage() {
                                 <h3 className="fd text-3xl font-bold">Secure Your Admit</h3>
                                 <p className="text-white/40 text-sm italic font-medium">Bespoke drafting for international standards.</p>
                             </div>
-                            <AddToCart serviceId="lor-drafting" />
+                            {/* <AddToCart serviceId="lor-drafting" /> */}
                         </div>
 
                         <div className="p-10 glass-panel space-y-6">

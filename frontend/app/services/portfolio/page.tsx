@@ -146,7 +146,7 @@ export default function PortfolioPage() {
                     {/* RIGHT COLUMN */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40 space-y-8">
-                            <AddToCart serviceId="portfolio-building" />
+                            {/* <AddToCart serviceId="portfolio-building" /> */}
                             
                             <div className="p-10 bg-[#3C2A21] rounded-[40px] text-white space-y-6 shadow-2xl border border-[#C5A059]/20 text-center">
                                 <Rocket size={40} className="mx-auto text-[#C5A059] mb-4" />

@@ -246,7 +246,7 @@ export default function EB2NIWPage() {
                     {/* RIGHT COLUMN: ACTION SIDEBAR */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40">
-                            <AddToCart serviceId="eb2-niw" />
+                            {/* <AddToCart serviceId="eb2-niw" /> */}
                             
                             {/* EXTRA HELP CARD */}
                             <div className="mt-8 p-10 bg-white border border-[#F1EDEA] rounded-[40px] space-y-6">

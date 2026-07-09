@@ -123,7 +123,7 @@ export default function ResearchPaperPage() {
   ];
 
   const researchGroups = [
-    { date: "Feb 26, 2026", slots: "1/3", title: "Construction Project Management", user: "P C", desc: "I'm planning to publish a research paper..." },
+    { date: "Feb 26, 2026", slots: "1/3", title: "Join Our Study Abroad Community", user: "P C", desc: "I'm planning to publish a research paper..." },
     { date: "Feb 08, 2026", slots: "1/3", title: "Clinical and Translational Research", user: "K V", desc: "Clinical Research" },
     { date: "Oct 30, 2025", slots: "1/6", title: "Information Systems (MIS)", user: "U S", desc: "I'm interested in starting a research gr..." },
   ];
@@ -398,13 +398,13 @@ export default function ResearchPaperPage() {
         {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28">
-            <AddToCart serviceId="research-papers" />
+            {/* <AddToCart serviceId="research-papers" /> */}
 
             {/* Research Groups */}
             <div className="mt-8 bg-[#FFFFFF] shadow-lg border border-[#D4A848]/20 rounded-[32px] p-8">
               <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#362B25] mb-6">Join or Create a Research Group</h3>
               <div className="space-y-4">
-                {researchGroups.map((g, idx) => (
+                {researchGroups.slice(0, 1).map((g, idx) => (
                   <div key={idx} className="bg-[#F8F6F1] border border-[#D4A848]/10 rounded-xl overflow-hidden hover:border-[#D4A848]/30 transition-all shadow-sm">
                     <div className="bg-[#FFFFFF] px-4 py-3 flex justify-between items-center border-b border-[#D4A848]/5">
                       <span className="text-[14px] font-bold text-[#675F5B] font-bold">Created on: {g.date}</span>
@@ -418,18 +418,21 @@ export default function ResearchPaperPage() {
                       </div>
                       <div className="flex gap-2 mt-3">
                         <button className="flex-1 text-[14px] font-bold font-bold border border-[#D4A848]/20 py-1.5 rounded-lg text-[#362B25] hover:bg-[#D4A848]/10 transition-all">View Members</button>
-                        <button className="flex-1 text-[14px] font-bold font-black bg-[#D4A848] text-[#FFFFFF] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all">Join Group</button>
+                        <button
+                          className="flex-1 text-[14px] font-bold font-black bg-[#D4A848] text-[#FFFFFF] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all"
+                          onClick={() =>
+                            window.open(
+                              "https://chat.whatsapp.com/HLv87Xz5H5l242Z9LEOlmS",
+                              "_blank"
+                            )
+                          }
+                        >
+                          Join Group
+                        </button>
                       </div>
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="mt-6 text-center space-y-2">
-                <p className="text-xs text-[#675F5B] font-medium">Didn't find what you were looking for?</p>
-                <button className="w-full border border-[#D4A848]/30 text-[#362B25] font-bold py-3 rounded-xl text-xs hover:bg-[#D4A848]/5 transition-all">
-                  + Create Research Group
-                </button>
-                <button className="text-xs text-[#D4A848] font-bold underline hover:text-[#362B25] transition-colors">View More Groups</button>
               </div>
             </div>
           </div>

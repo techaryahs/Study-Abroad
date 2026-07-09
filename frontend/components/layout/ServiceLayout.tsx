@@ -161,7 +161,7 @@ export default function ServiceLayout({ title, description, details, icon, accen
             variants={itemVariants}
             className="lg:sticky lg:top-32"
           >
-            {serviceId && <AddToCart serviceId={serviceId} />}
+            {/* {serviceId && <AddToCart serviceId={serviceId} />} */}
           </motion.div>
         </div>
       </motion.div>

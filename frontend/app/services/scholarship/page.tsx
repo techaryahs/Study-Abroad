@@ -213,7 +213,7 @@ export default function ScholarshipHelpPage() {
                 <p className="text-white/40 text-[14px] font-bold font-black uppercase tracking-widest">Elite Advisory Protocol.</p>
               </div>
               <div className="relative z-10 w-full">
-                <AddToCart serviceId="scholarship-help" />
+                {/* <AddToCart serviceId="scholarship-help" /> */}
               </div>
             </div>
           </div>

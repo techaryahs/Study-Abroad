@@ -126,7 +126,7 @@ export default function CanadaSOPPage() {
                     {/* RIGHT SIDEBAR */}
                     <div className="lg:sticky lg:top-32 space-y-8">
                         <div className="w-full">
-                            <AddToCart serviceId="canada-sop" />
+                            {/* <AddToCart serviceId="canada-sop" /> */}
                         </div>
 
                         <div className="p-8 bg-white border border-[#C5A059]/10 rounded-[32px] shadow-lg space-y-4">

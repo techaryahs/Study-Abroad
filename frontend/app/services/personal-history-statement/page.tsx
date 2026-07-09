@@ -127,7 +127,7 @@ export default function PersonalHistoryStatementPage() {
                     {/* RIGHT SIDEBAR */}
                     <div className="lg:sticky lg:top-32 space-y-8">
                         <div className="w-full">
-                            <AddToCart serviceId="history-draft" />
+                            {/* <AddToCart serviceId="history-draft" /> */}
                         </div>
 
                         <div className="p-8 bg-white border border-[#C5A059]/10 rounded-[32px] shadow-lg space-y-4">

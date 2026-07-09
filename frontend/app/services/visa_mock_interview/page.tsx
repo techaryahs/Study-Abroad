@@ -184,7 +184,7 @@ export default function VisaMockInterviewPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:sticky lg:top-24"
             >
-              <AddToCart serviceId="visa_mock_interview" />
+              {/* <AddToCart serviceId="visa_mock_interview" /> */}
             </motion.div>
           </div>
         </section>

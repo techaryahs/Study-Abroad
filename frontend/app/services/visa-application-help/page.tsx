@@ -286,7 +286,7 @@ export default function VisaApplicationPage() {
         {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28">
-            <AddToCart serviceId="visa-application-help" />
+            {/* <AddToCart serviceId="visa-application-help" /> */}
           </div>
         </div>
       </section>

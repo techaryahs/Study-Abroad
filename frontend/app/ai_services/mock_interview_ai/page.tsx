@@ -253,7 +253,7 @@ export default function USVisaMockInterview() {
             </section>
 
             {/* ── PRICING SECTION ─────────────────────────────────────────────────── */}
-            <section id="pricing" className="py-32 px-6">
+            {/* <section id="pricing" className="py-32 px-6">
                <div className="max-w-7xl mx-auto">
                   <div className="text-center mb-20 space-y-6">
                      <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Limited Time Enrollment</span>
@@ -310,7 +310,7 @@ export default function USVisaMockInterview() {
                      ))}
                   </div>
                </div>
-            </section>
+            </section> */}
 
             {/* ── FAQ SECTION ────────────────────────────────────────────────────── */}
             <section className="py-24 px-6 bg-[#F8F5F0]">
@@ -397,4 +397,4 @@ export default function USVisaMockInterview() {
             />
         </main>
     );
-}
+}

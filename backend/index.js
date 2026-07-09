@@ -89,5 +89,6 @@ module.exports = app;
 // Only listen if run directly (useful for local development)
 if (require.main === module) {
   const PORT = process.env.PORT || 5001;
-  server.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+  // Explicitly bind to '0.0.0.0' to ensure Express is reachable on all local network interfaces (for mobile device testing)
+  server.listen(PORT, '0.0.0.0', () => console.log(`✅ Server running on port ${PORT}`));
 }

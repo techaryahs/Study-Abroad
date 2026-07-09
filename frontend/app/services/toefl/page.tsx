@@ -250,7 +250,7 @@ export default function ToeflHelpPage() {
                                         <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Global Standards Applied</p>
                                     </div>
                                 </div>
-                                <AddToCart serviceId="toefl" />
+                                {/* <AddToCart serviceId="toefl" /> */}
                                 <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
                                     <div className="flex items-center gap-3 text-white/60 text-xs">
                                         <Star size={14} className="text-[#C5A059]" />

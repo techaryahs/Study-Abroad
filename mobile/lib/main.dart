@@ -14,7 +14,11 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: authProvider),
-        ChangeNotifierProvider(create: (_) => CartProvider()..fetchCart()),
+        ChangeNotifierProvider(create: (_) {
+          final cart = CartProvider();
+          if (authProvider.isLoggedIn) cart.fetchCart();
+          return cart;
+        }),
       ],
       child: const StudyAbroadApp(),
     ),

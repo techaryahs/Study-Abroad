@@ -128,7 +128,7 @@ class CartProvider extends ChangeNotifier {
         _replaceItems(response.data['cart']);
       }
     } catch (e) {
-      debugPrint('Error fetching cart: $e');
+      debugPrint('Error fetching cart: ${extractErrorMessage(e)}');
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -175,7 +175,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       _items = previousItems;
       notifyListeners();
-      debugPrint('Error adding to cart: $e');
+      debugPrint('Error adding to cart: ${extractErrorMessage(e)}');
       rethrow;
     }
   }
@@ -197,7 +197,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       _items = previousItems;
       notifyListeners();
-      debugPrint('Error removing from cart: $e');
+      debugPrint('Error removing from cart: ${extractErrorMessage(e)}');
       rethrow;
     }
   }
@@ -233,7 +233,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       _items = previousItems;
       notifyListeners();
-      debugPrint('Error updating cart quantity: $e');
+      debugPrint('Error updating cart quantity: ${extractErrorMessage(e)}');
       rethrow;
     }
   }
@@ -252,7 +252,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       _items = previousItems;
       notifyListeners();
-      debugPrint('Error clearing cart: $e');
+      debugPrint('Error clearing cart: ${extractErrorMessage(e)}');
       rethrow;
     }
   }

@@ -1,9 +1,13 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../models/checkout_item.dart';
 import '../core/api_client.dart';
 import '../core/storage.dart';
+import '../features/apple_payment/apple_product_ids.dart';
+import '../features/apple_payment/apple_purchase_manager.dart';
 
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
@@ -13,12 +17,18 @@ class CheckoutSheet extends StatefulWidget {
   final VoidCallback? onPaymentSuccess;
   final String title;
 
+  /// Optional subscription plan for Apple IAP on iOS.
+  /// When provided and running on iOS, Apple In-App Purchase is used.
+  /// When `null` or on Android/Web, the existing Razorpay flow is used.
+  final SubscriptionPlan? subscriptionPlan;
+
   const CheckoutSheet({
     super.key,
     required this.items,
     this.currency = 'INR',
     this.onPaymentSuccess,
     this.title = 'Checkout Summary',
+    this.subscriptionPlan,
   });
 
   static Future<T?> show<T>(
@@ -27,6 +37,7 @@ class CheckoutSheet extends StatefulWidget {
     String currency = 'INR',
     VoidCallback? onPaymentSuccess,
     String title = 'Checkout Summary',
+    SubscriptionPlan? subscriptionPlan,
   }) {
     return showModalBottomSheet<T>(
       context: context,
@@ -41,6 +52,7 @@ class CheckoutSheet extends StatefulWidget {
             currency: currency,
             onPaymentSuccess: onPaymentSuccess,
             title: title,
+            subscriptionPlan: subscriptionPlan,
           ),
         );
       },
@@ -55,6 +67,7 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
   Razorpay? _razorpay;
   bool _isProcessing = false;
   Map<String, dynamic>? _receiptData;
+  ApplePurchaseManager? _applePurchaseManager;
 
   int get subtotal =>
       widget.items.fold(0, (value, item) => value + item.price * item.quantity);
@@ -75,7 +88,7 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
   @override
   void initState() {
     super.initState();
-    if (!kIsWeb) {
+    if (!kIsWeb && Platform.isAndroid) {
       _razorpay = Razorpay();
       _razorpay!.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
       _razorpay!.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -86,6 +99,7 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
   @override
   void dispose() {
     _razorpay?.clear();
+    _applePurchaseManager?.dispose();
     super.dispose();
   }
 
@@ -170,6 +184,13 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
       return;
     }
 
+    // ── iOS: Apple In-App Purchase ─────────────────────────────
+    if (!kIsWeb && Platform.isIOS) {
+      await _initiateApplePayment();
+      return;
+    }
+
+    // ── Android / fallback: Razorpay (existing, unchanged) ────
     setState(() => _isProcessing = true);
     try {
       final user = await AppStorage.getUser();
@@ -205,6 +226,53 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(extractErrorMessage(e))));
     }
+  }
+
+  /// Handles payment via Apple In-App Purchase on iOS.
+  Future<void> _initiateApplePayment() async {
+    setState(() => _isProcessing = true);
+
+    _applePurchaseManager?.dispose();
+    _applePurchaseManager = ApplePurchaseManager(
+      onStateChanged: (state) {
+        if (!mounted) return;
+        switch (state) {
+          case ApplePurchaseState.loading:
+          case ApplePurchaseState.pending:
+            // Keep showing the processing indicator.
+            break;
+          case ApplePurchaseState.success:
+          case ApplePurchaseState.restored:
+            setState(() => _isProcessing = false);
+            widget.onPaymentSuccess?.call();
+          case ApplePurchaseState.cancelled:
+            setState(() => _isProcessing = false);
+          case ApplePurchaseState.error:
+            setState(() => _isProcessing = false);
+        }
+      },
+      onError: (message) {
+        if (!mounted) return;
+        setState(() => _isProcessing = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message), backgroundColor: Colors.red),
+        );
+      },
+      onReceiptReady: (receiptData) {
+        if (!mounted) return;
+        setState(() {
+          _receiptData = receiptData;
+          _isProcessing = false;
+        });
+      },
+    );
+
+    await _applePurchaseManager!.purchase(
+      widget.subscriptionPlan ?? SubscriptionPlan.starter,
+      items: widget.items,
+      currency: widget.currency,
+      onPaymentSuccess: widget.onPaymentSuccess,
+    );
   }
 
   /// Shows a user-friendly dialog when payment is attempted on Flutter Web.
@@ -299,8 +367,10 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
                     style: Theme.of(context).textTheme.bodyMedium),
               )
             else
-              Column(
-                children: widget.items.map((item) {
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: widget.items.map((item) {
                   final linePrice = item.price * item.quantity;
                   final lineActualPrice = item.actualPrice * item.quantity;
                   return Container(
@@ -397,7 +467,9 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
                   );
                 }).toList(),
               ),
-            const SizedBox(height: 12),
+            ),
+          ),
+          const SizedBox(height: 12),
             if (widget.items.isNotEmpty)
               Column(
                 children: [

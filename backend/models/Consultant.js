@@ -32,7 +32,11 @@ const consultantSchema = new mongoose.Schema({
   isPremium: { type: Boolean, default: false },
   videoCallEnabled: { type: Boolean, default: false },
   availability: [slotSchema],
-  bookings: [bookingSchema]
+  bookings: [bookingSchema],
+  cart: {
+    type: [mongoose.Schema.Types.Mixed],
+    default: [],
+  }
 }, { timestamps: true, autoCreate: false, autoIndex: false });
 
 // Pre-save hook to hash password

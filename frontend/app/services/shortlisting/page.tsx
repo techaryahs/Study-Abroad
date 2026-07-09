@@ -210,7 +210,7 @@ export default function ShortlistingPage() {
                 <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Pricing Protocol.</p>
               </div>
               <div className="relative z-10 w-full">
-                <AddToCart serviceId="shortlisting" />
+                {/* <AddToCart serviceId="shortlisting" /> */}
               </div>
             </div>
           </div>

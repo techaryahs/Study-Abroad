@@ -172,7 +172,7 @@ export default function ApplicationHelpPage() {
         {/* ── SIDEBAR ──────────────────────────────────────────────────────── */}
         <div className="lg:col-span-1">
           <div className="sticky top-28 space-y-8">
-            <AddToCart serviceId="application-help" />
+            {/* <AddToCart serviceId="application-help" /> */}
           </div>
         </div>
       </section>

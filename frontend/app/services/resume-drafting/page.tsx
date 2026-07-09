@@ -196,7 +196,7 @@ export default function ResumeDraftingPage() {
                                 <h3 className="fd text-3xl font-bold">Forge Your Profile</h3>
                                 <p className="text-white/40 text-sm">Elevate your professional identity today.</p>
                             </div>
-                            <AddToCart serviceId="resume-drafting" />
+                            {/* <AddToCart serviceId="resume-drafting" /> */}
                             <DiscussionSection serviceId="resume-drafting" />
                         </div>
 

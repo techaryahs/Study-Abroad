@@ -213,7 +213,7 @@ export default function UniversityFinalizationPage() {
                                 <h3 className="fd text-3xl font-bold">Secure Your Choice</h3>
                                 <p className="text-white/60 text-sm">Gain clarity with a detailed audit of every admit in your hand.</p>
                             </div>
-                            <AddToCart serviceId="university-finalization" />
+                            {/* <AddToCart serviceId="university-finalization" /> */}
                             <DiscussionSection serviceId="university-finalization" />
                         </div>
                         <div className="p-8 glass-panel space-y-4">

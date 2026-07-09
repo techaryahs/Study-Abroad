@@ -140,7 +140,7 @@ export default function CounsellingPage() {
         {/* Sidebar */}
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28 space-y-8">
-            <AddToCart serviceId="counselling" />
+            {/* <AddToCart serviceId="counselling" /> */}
             <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-6 shadow-2xl">
               <DiscussionSection serviceId="counselling" />
             </div>

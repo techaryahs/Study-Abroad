@@ -172,7 +172,7 @@ export default function GlobalTalentPage() {
                     {/* RIGHT COLUMN */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40 space-y-8">
-                            <AddToCart serviceId="global-talent" />
+                            {/* <AddToCart serviceId="global-talent" /> */}
                             
                             <div className="p-10 bg-[#3C2A21] rounded-[40px] text-white space-y-6 shadow-2xl border border-[#C5A059]/20 relative overflow-hidden group">
                                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-[#C5A059]/20 blur-3xl rounded-full" />

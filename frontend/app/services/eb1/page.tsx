@@ -482,7 +482,7 @@ export default function EB1Page() {
          </section>
 
          {/* ── SETTLEMENT SUMMARY ── */}
-         <section className="py-24 px-8 md:px-20 bg-[#F8F6F1] z-10 relative">
+         {/* <section className="py-24 px-8 md:px-20 bg-[#F8F6F1] z-10 relative">
             <div className="max-w-4xl mx-auto">
                <motion.div
                   whileHover={{ y: -5 }}
@@ -511,7 +511,7 @@ export default function EB1Page() {
                   </div>
                </motion.div>
             </div>
-         </section>
+         </section> */}
 
          {/* ── FAQ ── */}
          <section className="py-24 px-8 md:px-20 bg-[#FFFFFF] border-y border-[#D4A848]/10 z-10 relative">

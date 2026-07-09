@@ -11,7 +11,7 @@ const Review = require("../models/Review");
 exports.getPremiumStatus = async (req, res) => {
   try {
     const result = await findUserById(req.user.id);
-    if (!result) return res.status(404).json({ message: 'User not found' });
+    if (!result) return res.status(401).json({ error: 'Invalid session — user no longer exists' });
 
     const { user, role } = result;
     const profile = user.profile || user; // Consultants have flat fields
@@ -142,20 +142,29 @@ const pricingData = require("../../frontend/data/services-pricing.json");
 // @desc    Add to cart
 exports.addToCart = async (req, res) => {
   try {
+    console.log("==== ADD TO CART ====");
+    console.log("req.user:", req.user);
+    console.log("req.body:", req.body);
+
     const { serviceId, cartData } = req.body;
     if (!serviceId || !cartData) {
       return res.status(400).json({ message: "Service ID and cart data are required" });
     }
 
+    console.log("Finding user...");
     const result = await findUserById(req.user.id);
-    if (!result) return res.status(404).json({ message: "User not found" });
+    if (!result) return res.status(401).json({ error: "Invalid session — user no longer exists" });
 
     const { user } = result;
+    console.log("User found:", user._id);
+    await user.save();
+    console.log("Current cart:", user.cart);
 
     // 1. Get snapshot from JSON to supplement frontend data
     const serviceConfig = pricingData[serviceId] || {};
 
     // 1. PRICE CLEANING
+    console.log("Adding item...");
     const numericPrice = parseFloat(cartData.price.toString().replace(/,/g, ""));
     const numericActualPrice = cartData.actualPrice ? parseFloat(cartData.actualPrice.toString().replace(/,/g, "")) : numericPrice / 0.8;
     const requestedQuantity = Math.max(1, parseInt(cartData.quantity, 10) || 1);
@@ -170,7 +179,10 @@ exports.addToCart = async (req, res) => {
       existingItem.updatedAt = new Date();
 
       user.markModified("cart");
+      
+      console.log("Saving...");
       await user.save();
+      console.log("Saved successfully");
 
       return res.status(200).json({
         success: true,
@@ -195,7 +207,10 @@ exports.addToCart = async (req, res) => {
     // Explicitly mark cart as modified since it's Mixed/Array
     user.markModified('cart');
 
+    console.log("Saving...");
     await user.save();
+    console.log("Saved successfully");
+    
     res.status(200).json({
       success: true,
       message: `${serviceId} added to cart successfully`,
@@ -203,7 +218,12 @@ exports.addToCart = async (req, res) => {
     });
   } catch (error) {
     console.error("Add to cart error:", error);
-    res.status(500).json({ message: "Server error adding to cart" });
+    if (!res.headersSent) {
+      res.status(500).json({ 
+        error: error.message,
+        stack: error.stack
+      });
+    }
   }
 };
 
@@ -218,7 +238,7 @@ exports.updateCartItemQuantity = async (req, res) => {
     }
 
     const result = await findUserById(req.user.id);
-    if (!result) return res.status(404).json({ message: "User not found" });
+    if (!result) return res.status(401).json({ error: "Invalid session — user no longer exists" });
 
     const { user } = result;
 
@@ -255,19 +275,31 @@ exports.updateCartItemQuantity = async (req, res) => {
 
 // @desc    Get user cart
 exports.getCart = async (req, res) => {
-  console.log("🔍 [getCart] User ID from token:", req.user?.id);
   try {
+    // console.log("User:", req.user.id);
+
     const result = await findUserById(req.user.id);
-    if (!result) return res.status(404).json({ message: "User not found" });
+
+    if (!result) {
+      return res.status(401).json({
+        error: "Invalid session"
+      });
+    }
 
     const { user } = result;
-    res.status(200).json({
+
+    // console.log("Cart from DB:", JSON.stringify(user.cart, null, 2));
+
+    return res.status(200).json({
       success: true,
       cart: user.cart || []
     });
+
   } catch (error) {
-    console.error("Get cart error:", error);
-    res.status(500).json({ message: "Server error fetching cart" });
+    console.error(error);
+    return res.status(500).json({
+      message: "Server error fetching cart"
+    });
   }
 };
 
@@ -282,7 +314,7 @@ exports.removeFromCart = async (req, res) => {
 
     const result = await findUserById(req.user.id);
     if (!result) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(401).json({ error: "Invalid session — user no longer exists" });
     }
 
     const { user } = result;
@@ -320,7 +352,11 @@ exports.removeFromCart = async (req, res) => {
 exports.clearCart = async (req, res) => {
   console.log("clear cart");
   try {
-    const { user } = await findUserById(req.user.id);
+    const result = await findUserById(req.user.id);
+    if (!result) {
+      return res.status(401).json({ error: "Invalid session — user no longer exists" });
+    }
+    const { user } = result;
 
     user.cart = [];
     user.markModified("cart");
@@ -370,10 +406,7 @@ exports.changePassword = async (req, res) => {
     // 2. FETCH USER FROM DB
     const result = await findUserById(req.user.id);
     if (!result) {
-      return res.status(404).json({ 
-        success: false,
-        message: "User not found" 
-      });
+      return res.status(401).json({ error: "Invalid session — user no longer exists" });
     }
 
     const { user } = result;
@@ -434,7 +467,7 @@ exports.deleteAccount = async (req, res) => {
     const userId = req.user.id;
     const result = await findUserById(userId);
     if (!result) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res.status(401).json({ error: "Invalid session — user no longer exists" });
     }
 
     const { user, model, role } = result;

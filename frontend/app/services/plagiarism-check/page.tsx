@@ -311,7 +311,7 @@ export default function PlagiarismCheckPage() {
                                 <Zap className="text-[#C5A059]" size={28} />
                                 <h3 className="fd text-2xl font-bold">Secure Your Bench</h3>
                             </div>
-                            <AddToCart serviceId="plagiarism-check" />
+                            {/* <AddToCart serviceId="plagiarism-check" /> */}
                         </div>
                     </div>
                 </div>

@@ -225,7 +225,7 @@ export default function GrePrepPage() {
                                 <h3 className="fd text-3xl font-bold">Secure Your Bench</h3>
                                 <p className="text-white/40 text-sm">Join the clinical prep program today.</p>
                             </div>
-                            <AddToCart serviceId="gre-prep" />
+                            {/* <AddToCart serviceId="gre-prep" /> */}
                             <DiscussionSection serviceId="gre-prep" />
                         </div>
 
