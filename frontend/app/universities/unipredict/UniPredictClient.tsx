@@ -11,8 +11,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 
 const ChatIcon = ({ className }: { className?: string }) => (
@@ -22,8 +21,7 @@ const ChatIcon = ({ className }: { className?: string }) => (
 );
 
 export default function UniPredictPage() {
-    const { isPremium } = usePremiumStatus();
-    const [academicType, setAcademicType] = useState<"Percentage" | "CGPA">("Percentage");
+        const [academicType, setAcademicType] = useState<"Percentage" | "CGPA">("Percentage");
     const [percentage, setPercentage] = useState("");
     const [cgpa, setCgpa] = useState("");
     const [testType, setTestType] = useState<"GRE" | "GMAT">("GRE");
@@ -56,7 +54,8 @@ export default function UniPredictPage() {
     };
 
     return (
-        <PremiumLock isPremium={isPremium} isFullPage={true} title="Unlock UniPredict" description="Get premium access to our highly advanced admission prediction algorithm and tailored recommendations.">
+        <EntitlementGuard featureId="unipredict" fallbackTitle="Unlock UniPredict" fallbackDescription="Get premium access to our highly advanced admission prediction algorithm and tailored recommendations.">
+
         <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
 
             {/* ── Background Elements ── */}
@@ -475,6 +474,6 @@ export default function UniPredictPage() {
                 onClose={() => setIsBookingOpen(false)}
             />
         </main>
-        </PremiumLock>
+        </EntitlementGuard>
     );
 }

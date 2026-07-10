@@ -3,7 +3,7 @@ const fs = require("fs");
 const path = require("path");
 const User = require("../models/User");
 const Student = require("../models/Student");
-const { consumeEntitlement } = require("../utils/membershipUtils");
+const { withEntitlementUsage } = require("../utils/membershipUtils");
 
 // ✅ Correct JSON file path
 const filePath = path.join(__dirname, "../data/careersInterest.json");
@@ -319,6 +319,15 @@ Return only the resume in markdown format. No introduction or explanation.
 `;
 
   try {
+    const userId = req.user?.id || req.user?._id;
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required." });
+    }
+
+    const result = await withEntitlementUsage(
+      userId,
+      "resume_drafting",
+      async () => {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
@@ -337,18 +346,15 @@ Return only the resume in markdown format. No introduction or explanation.
     const aiReply = response.data.choices?.[0]?.message?.content?.trim();
 
     if (!aiReply) {
-      return res.status(500).json({ error: 'Empty response from OpenRouter.' });
+      throw new Error('Empty response from OpenRouter.');
     }
 
-    if (req.user && (req.user.id || req.user._id)) {
-      try {
-        await consumeEntitlement(req.user.id || req.user._id, 'resume_drafting');
-      } catch (consumeErr) {
-        console.error('Failed to consume resume entitlement after generating:', consumeErr);
-      }
-    }
+        return { resume: aiReply };
+      },
+      { metadata: { source: "generate_resume" } }
+    );
 
-    res.json({ resume: aiReply });
+    res.json(result);
   } catch (err) {
     console.error('Resume Generation Error:', err.response?.data || err.message);
     res.status(500).json({ error: 'Failed to generate resume from AI.' });

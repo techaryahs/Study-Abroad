@@ -89,7 +89,11 @@ const UserSchema = new mongoose.Schema(
     membership: {
       planId: { type: String, default: "free" },
       catalogVersion: { type: Number, default: 1 },
-      status: { type: String, enum: ['active', 'grace_period', 'expired', 'cancelled', 'none'], default: 'none' },
+      status: {
+        type: String,
+        enum: ['pending', 'active', 'grace_period', 'expired', 'cancelled', 'none'],
+        default: 'none',
+      },
       platform: { type: String, enum: ['apple_iap', 'razorpay', 'admin', 'none'], default: 'none' },
       productId: { type: String },
       transactionId: { type: String },

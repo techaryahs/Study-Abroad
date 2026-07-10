@@ -3,16 +3,13 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ChevronDown, Filter, X, ChevronRight, BookOpen } from 'lucide-react';
 import UniversityCard from '../by-country/UniversityCard';
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 export default function ClientPage({ categories, byProgram, allPrograms }: any) {
   const searchParams = useSearchParams();
   const queryProg = searchParams?.get('program');
   const router = useRouter();
-  const { isPremium } = usePremiumStatus();
-
-  // Find initial program
+    // Find initial program
   const initialProg = queryProg && allPrograms.includes(queryProg) ? queryProg : allPrograms[0];
       
   const [selectedProgram, setSelectedProgram] = useState(initialProg || "");
@@ -195,7 +192,7 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
                 ))}
 
                 {unis.length > 3 && (
-                  <PremiumLock isPremium={isPremium} title={`Unlock ${unis.length} Universities`} description={`Get premium access to explore all ${unis.length} universities offering ${selectedProgram}, including detailed admission stats and fees.`}>
+                  <EntitlementGuard featureId="university_search" fallbackTitle={`Unlock ${unis.length} Universities`} fallbackDescription={`Get premium access to explore all ${unis.length} universities offering ${selectedProgram}, including detailed admission stats and fees.`}>
                     <div className="space-y-12 sm:space-y-16">
                       {unis.slice(3, 8).map((uni: any) => (
                         <div key={uni.slug}>
@@ -203,7 +200,7 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
                         </div>
                       ))}
                     </div>
-                  </PremiumLock>
+                  </EntitlementGuard>
                 )}
               </>
             ) : (

@@ -3,8 +3,7 @@
 import React from "react";
 import { X, Users, MessageSquare, Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 interface GroupDetailsModalProps {
   isOpen: boolean;
@@ -14,8 +13,7 @@ interface GroupDetailsModalProps {
 }
 
 export default function GroupDetailsModal({ isOpen, onClose, group, onJoinClick }: GroupDetailsModalProps) {
-  const { isPremium } = usePremiumStatus();
-  if (!group) return null;
+    if (!group) return null;
 
   return (
     <AnimatePresence>
@@ -48,7 +46,7 @@ export default function GroupDetailsModal({ isOpen, onClose, group, onJoinClick 
             </div>
 
             <div className="p-8 md:p-10 flex flex-col gap-8 max-h-[85vh] overflow-y-auto">
-                <PremiumLock isPremium={isPremium} title="Unlock Research Cluster" description="Get premium access to explore detailed requirements, team structure, and apply for membership in this research cluster.">
+                <EntitlementGuard featureId="research_groups" fallbackTitle="Unlock Research Cluster" fallbackDescription="Get premium access to explore detailed requirements, team structure, and apply for membership in this research cluster.">
                 {/* Group Main Info */}
                 <div className="flex flex-col md:flex-row gap-6">
                     <div className="w-16 h-16 rounded-full bg-[#2D2926] flex items-center justify-center text-[#C5A059] font-bold text-xl shrink-0 border shadow-inner">
@@ -130,7 +128,7 @@ export default function GroupDetailsModal({ isOpen, onClose, group, onJoinClick 
                       Apply for Cluster Membership
                   </button>
                 </div>
-                </PremiumLock>
+                </EntitlementGuard>
             </div>
           </motion.div>
         </div>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import DiscussionSection from "@/components/shared/DiscussionSection";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import { motion, Variants } from "framer-motion";
 import {
    Phone,
@@ -170,6 +171,7 @@ export default function O1Page() {
                   </motion.div>
 
                   <DiscussionSection serviceId="o1" />
+                  <ServiceCTA serviceId="o1" />
                   <div className="pt-2 pl-2">
                      <button 
                         onClick={() => setShowCheckoutModal(true)}

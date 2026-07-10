@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -199,7 +199,7 @@ export default function ScholarshipHelpPage() {
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
               </div>
               <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
-                <DiscussionSection serviceId="scholarship-help" />
+                <DiscussionSection serviceId="scholarship_search" />
               </div>
             </div>
           </div>
@@ -213,7 +213,7 @@ export default function ScholarshipHelpPage() {
                 <p className="text-white/40 text-[14px] font-bold font-black uppercase tracking-widest">Elite Advisory Protocol.</p>
               </div>
               <div className="relative z-10 w-full">
-                {/* <AddToCart serviceId="scholarship-help" /> */}
+                <ServiceCTA serviceId="scholarship_search" />
               </div>
             </div>
           </div>

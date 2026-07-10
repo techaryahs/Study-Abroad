@@ -137,9 +137,9 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-const pricingData = require("../../frontend/data/services-pricing.json");
-
-// @desc    Add to cart (DEPRECATED)
+// @desc    Add to cart (legacy cart path)
+// Pricing snapshots come from the request payload and/or Membership catalog (MongoDB).
+// Backend must never import frontend data files.
 exports.addToCart = async (req, res) => {
   try {
     console.log("==== ADD TO CART ====");
@@ -160,10 +160,8 @@ exports.addToCart = async (req, res) => {
     await user.save();
     console.log("Current cart:", user.cart);
 
-    // 1. Get snapshot from JSON to supplement frontend data
-    const serviceConfig = pricingData[serviceId] || {};
-
-    // 1. PRICE CLEANING
+    // PRICE CLEANING — trust numeric values from client cart payload
+    // (membership purchases should use MembershipPlan from MongoDB, not a static JSON catalog)
     console.log("Adding item...");
     const numericPrice = parseFloat(cartData.price.toString().replace(/,/g, ""));
     const numericActualPrice = cartData.actualPrice ? parseFloat(cartData.actualPrice.toString().replace(/,/g, "")) : numericPrice / 0.8;

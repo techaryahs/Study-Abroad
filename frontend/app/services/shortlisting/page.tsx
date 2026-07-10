@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -196,7 +196,7 @@ export default function ShortlistingPage() {
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
               </div>
               <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
-                <DiscussionSection serviceId="shortlisting" />
+                <DiscussionSection serviceId="university_shortlist" />
               </div>
             </div>
           </div>
@@ -210,7 +210,7 @@ export default function ShortlistingPage() {
                 <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Pricing Protocol.</p>
               </div>
               <div className="relative z-10 w-full">
-                {/* <AddToCart serviceId="shortlisting" /> */}
+                <ServiceCTA serviceId="university_shortlist" />
               </div>
             </div>
           </div>

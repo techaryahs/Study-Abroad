@@ -18,7 +18,7 @@ import {
     ArrowRight
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -213,8 +213,8 @@ export default function UniversityFinalizationPage() {
                                 <h3 className="fd text-3xl font-bold">Secure Your Choice</h3>
                                 <p className="text-white/60 text-sm">Gain clarity with a detailed audit of every admit in your hand.</p>
                             </div>
-                            {/* <AddToCart serviceId="university-finalization" /> */}
-                            <DiscussionSection serviceId="university-finalization" />
+                            <ServiceCTA serviceId="university_finalization" />
+                            <DiscussionSection serviceId="university_finalization" />
                         </div>
                         <div className="p-8 glass-panel space-y-4">
                             <h4 className="text-xs font-bold text-[#C5A059] uppercase tracking-[0.2em]">Legacy Note</h4>

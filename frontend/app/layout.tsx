@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Script from "next/script";
+import { MembershipProvider } from "@/app/lib/membership/MembershipContext";
 
 import type { Metadata } from "next";
 
@@ -74,13 +75,15 @@ export default function RootLayout({
       </head>
 
       <body className="bg-[#FAFAFA] text-[#675F5B] antialiased">
-        <Navbar />
+        <MembershipProvider>
+          <Navbar />
 
-        <main className="pt-[64px] md:pt-[104px]">
-          {children}
-        </main>
+          <main className="pt-[64px] md:pt-[104px]">
+            {children}
+          </main>
 
-        <Footer />
+          <Footer />
+        </MembershipProvider>
       </body>
     </html>
   );

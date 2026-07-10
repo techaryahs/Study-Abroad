@@ -17,7 +17,7 @@ import {
     CheckCircle2
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -311,7 +311,7 @@ export default function PlagiarismCheckPage() {
                                 <Zap className="text-[#C5A059]" size={28} />
                                 <h3 className="fd text-2xl font-bold">Secure Your Bench</h3>
                             </div>
-                            {/* <AddToCart serviceId="plagiarism-check" /> */}
+                            <ServiceCTA serviceId="ai_humanizer" />
                         </div>
                     </div>
                 </div>

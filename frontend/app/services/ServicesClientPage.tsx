@@ -21,34 +21,34 @@ interface Service {
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const services: Service[] = [
-  { slug: "counselling", title: "Counselling Session", description: "Google Meet session with our counsellors. Get transparency on your case for study/work overseas. Charges fully adjustable in services' pricing.", icon: "🎯", badge: "fire" },
-  { slug: "research-papers", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
-  { slug: "visa-application-help", title: "Visa Application Help", description: "Ace the visa application through our help in the paperwork, financial planning, and visa interview mock rounds. Applicable for USA, Canada, UK, Germany, and more.", icon: "🛂", badge: null },
+  { slug: "consultation", title: "Counselling Session", description: "Google Meet session with our counsellors. Get transparency on your case for study/work overseas. Charges fully adjustable in services' pricing.", icon: "🎯", badge: "fire" },
+  { slug: "research_paper", title: "Research Paper Drafting & Publishing Help", description: "Publishing credible research papers with your name on them can help boost your profile! Extremely crucial for MS/PhD and O-1/EB-1 visa applicants.", icon: "📄", badge: "fire" },
+  { slug: "visa_guidance", title: "Visa Application Help", description: "Ace the visa application through our help in the paperwork, financial planning, and visa interview mock rounds. Applicable for USA, Canada, UK, Germany, and more.", icon: "🛂", badge: null },
   { slug: "eb1", title: "Apply For An EB-1 Visa", description: "The EB-1 visa is a talent-based immigrant visa in the US for individuals with extraordinary ability in their field.", icon: "🌟", badge: "fire" },
-  { slug: "application-help", title: "Complete Application Help", description: "Get your application into the top 10% of the applications the committee evaluates for admission.", icon: "📋", badge: "popular" },
-  { slug: "shortlisting", title: "Profile Evaluation & University Shortlisting", description: "Use our pruning strategy to get admits from the best universities your profile can get you into without wasting money.", icon: "🏛️", badge: null },
-  { slug: "sop", title: "Statement of Purpose/Essay Writing", description: "Ivy league graduates work FROM SCRATCH or with your existing draft, zero plagiarism, and unlimited changes - free of charge.", icon: "✍️", badge: null },
+  { slug: "application_help", title: "Complete Application Help", description: "Get your application into the top 10% of the applications the committee evaluates for admission.", icon: "📋", badge: "popular" },
+  { slug: "university_shortlist", title: "Profile Evaluation & University Shortlisting", description: "Use our pruning strategy to get admits from the best universities your profile can get you into without wasting money.", icon: "🏛️", badge: null },
+  { slug: "sop_writing", title: "Statement of Purpose/Essay Writing", description: "Ivy league graduates work FROM SCRATCH or with your existing draft, zero plagiarism, and unlimited changes - free of charge.", icon: "✍️", badge: null },
   { slug: "o1", title: "Apply For An O-1 Visa", description: "The O-1 visa is a talent-based non-immigrant work visa in the US for individuals with extraordinary ability in their field.", icon: "🏆", badge: null },
-  { slug: "visa_mock_interview", title: "US Visa Mock Interview", description: "The final step to your US visa is a Visa interview with an officer from the US consulate. Ace the interview with proven tricks and techniques.", icon: "🎤", badge: null },
-  { slug: "letter-of-recommendation-drafting", title: "Letter of Recommendation Drafting", description: "Little known is the art of writing exactly what the admissions committee wants to see in an applicant. This can be more impacting than your SOP if done right.", icon: "📝", badge: null },
-  { slug: "personal-history-statement", title: "Personal History Statement", description: "The Personal History Statement reflects your ability to connect the barriers you have overcome in the past to your current interest in the program.", icon: "📖", badge: null },
-  { slug: "resume-drafting", title: "Resume Drafting", description: "Learn the secret to a perfect resume that will truly set you apart from any other applicant that you compete with.", icon: "🗂️", badge: null },
-  { slug: "gre-prep", title: "GRE Prep-Plan Building", description: "The secret to an excellent GRE score is NOT hard work. I scored a 329/340 and helped thousands do the same. Are you next? (Day-by-day schedule)", icon: "📊", badge: null },
-  { slug: "university-finalization", title: "University Finalization Help", description: "Have some of your admits in hand and need help with finalizing on one? Get a detailed review of the right pick as per your circumstances.", icon: "🎓", badge: null },
-  { slug: "plagiarism-check", title: "Plagiarism Check Report", description: "Use our best-in-class instructor-level Turnitin reporting software to generate reports for your drafts. Can be used on SOPs, LORs, research papers, and even assignments.", icon: "🔍", badge: null },
-  { slug: "scholarship", title: "Scholarship Application Help", description: "Over 60% of our applicants get a scholarship/fellowship before they step into their university. Now, you can get one too.", icon: "💰", badge: null },
-  { slug: "toefl", title: "TOEFL Prep-Plan Building/Coaching Session", description: "TOEFL scores are your gateway to financial aid and teaching assistantships. Learn how I scored a 119/120 and YOU can too.", icon: "🗣️", badge: null },
-  { slug: "canada-sop", title: "Canada Visa SOP/Letter of Explanation", description: "Over 1000 students have been issued study permits with us. With our expertise in the most common reasons for rejection, we can help you ensure success.", icon: "🍁", badge: null },
-  { slug: "profile-building", title: "Profile Building Guidance", description: "Have more than 3 months of time for your applications? Join us for one-on-one mentorship on profile boosting in customized sessions.", icon: "📈", badge: null },
-  { slug: "cover-letter", title: "Cover Letter Drafting", description: "Command the attention of top recruiters with a cover letter that makes lasting impressions.", icon: "✉️", badge: null },
-  { slug: "linkedin", title: "LinkedIn Profile Boosting", description: "Revamp your LinkedIn profile from 0 to 99. The outcomes include better admits, job opportunities, placements, and a bigger network.", icon: "💡", badge: null },
-  { slug: "express-entry", title: "Express Entry/PNP Help", description: "Canada Permanent Residence (PR) via the Express Entry route. Get your applications filed via experts who have changed lives of hundreds of applicants already.", icon: "🍁", badge: null },
-  { slug: "review", title: "Complete Application Review", description: "Now, sail through your applications with our expertise and ensure success with in-depth reviews and brainstorming.", icon: "🔎", badge: null },
-  { slug: "global-talent", title: "Apply for Global Talent Visa", description: "The UK Global Talent Visa (GTV) is a UK immigration visa for exceptional leaders or potential leaders in the digital technology sector, academia and research, or in arts and culture.", icon: "🇬🇧", badge: null },
-  { slug: "portfolio", title: "Portfolio Building & Management", description: "Highlight the best parts of your profile and shine to employers, universities, and clients worldwide with an online portfolio, managed for you all year round.", icon: "🎨", badge: null },
-  { slug: "australia-visa", title: "Apply for Australia National Innovation Visa", description: "Highlight your extraordinary abilities and take the next step in your professional journey.", icon: "🦘", badge: null },
-  { slug: "singapore-pass", title: "Apply for Singapore ONE Pass", description: "The ONE Pass is Singapore's talent visa for top achievers in business, arts, sports, academia, and research.", icon: "🦁", badge: null },
-  { slug: "eb2", title: "Apply for an EB-2 NIW Visa", description: "The EB-2 NIW visa is a talent-based immigrant visa in the U.S. for individuals with exceptional ability in their field.", icon: "⭐", badge: null },
+  { slug: "mock_interview", title: "US Visa Mock Interview", description: "The final step to your US visa is a Visa interview with an officer from the US consulate. Ace the interview with proven tricks and techniques.", icon: "🎤", badge: null },
+  { slug: "lor_drafting", title: "Letter of Recommendation Drafting", description: "Little known is the art of writing exactly what the admissions committee wants to see in an applicant. This can be more impacting than your SOP if done right.", icon: "📝", badge: null },
+  { slug: "personal_history", title: "Personal History Statement", description: "The Personal History Statement reflects your ability to connect the barriers you have overcome in the past to your current interest in the program.", icon: "📖", badge: null },
+  { slug: "resume_drafting", title: "Resume Drafting", description: "Learn the secret to a perfect resume that will truly set you apart from any other applicant that you compete with.", icon: "🗂️", badge: null },
+  { slug: "gre_prep", title: "GRE Prep-Plan Building", description: "The secret to an excellent GRE score is NOT hard work. I scored a 329/340 and helped thousands do the same. Are you next? (Day-by-day schedule)", icon: "📊", badge: null },
+  { slug: "university_finalization", title: "University Finalization Help", description: "Have some of your admits in hand and need help with finalizing on one? Get a detailed review of the right pick as per your circumstances.", icon: "🎓", badge: null },
+  { slug: "ai_humanizer", title: "Plagiarism Check Report", description: "Use our best-in-class instructor-level Turnitin reporting software to generate reports for your drafts. Can be used on SOPs, LORs, research papers, and even assignments.", icon: "🔍", badge: null },
+  { slug: "scholarship_search", title: "Scholarship Application Help", description: "Over 60% of our applicants get a scholarship/fellowship before they step into their university. Now, you can get one too.", icon: "💰", badge: null },
+  { slug: "toefl_prep", title: "TOEFL Prep-Plan Building/Coaching Session", description: "TOEFL scores are your gateway to financial aid and teaching assistantships. Learn how I scored a 119/120 and YOU can too.", icon: "🗣️", badge: null },
+  { slug: "sop_writing", title: "Canada Visa SOP/Letter of Explanation", description: "Over 1000 students have been issued study permits with us. With our expertise in the most common reasons for rejection, we can help you ensure success.", icon: "🍁", badge: null },
+  { slug: "profile_evaluation", title: "Profile Building Guidance", description: "Have more than 3 months of time for your applications? Join us for one-on-one mentorship on profile boosting in customized sessions.", icon: "📈", badge: null },
+  { slug: "cover_letter", title: "Cover Letter Drafting", description: "Command the attention of top recruiters with a cover letter that makes lasting impressions.", icon: "✉️", badge: null },
+  { slug: "linkedin_optimization", title: "LinkedIn Profile Boosting", description: "Revamp your LinkedIn profile from 0 to 99. The outcomes include better admits, job opportunities, placements, and a bigger network.", icon: "💡", badge: null },
+  { slug: "express_entry", title: "Express Entry/PNP Help", description: "Canada Permanent Residence (PR) via the Express Entry route. Get your applications filed via experts who have changed lives of hundreds of applicants already.", icon: "🍁", badge: null },
+  { slug: "application_review", title: "Complete Application Review", description: "Now, sail through your applications with our expertise and ensure success with in-depth reviews and brainstorming.", icon: "🔎", badge: null },
+  { slug: "global_talent", title: "Apply for Global Talent Visa", description: "The UK Global Talent Visa (GTV) is a UK immigration visa for exceptional leaders or potential leaders in the digital technology sector, academia and research, or in arts and culture.", icon: "🇬🇧", badge: null },
+  { slug: "portfolio_building", title: "Portfolio Building & Management", description: "Highlight the best parts of your profile and shine to employers, universities, and clients worldwide with an online portfolio, managed for you all year round.", icon: "🎨", badge: null },
+  { slug: "australia_visa", title: "Apply for Australia National Innovation Visa", description: "Highlight your extraordinary abilities and take the next step in your professional journey.", icon: "🦘", badge: null },
+  { slug: "singapore_one_pass", title: "Apply for Singapore ONE Pass", description: "The ONE Pass is Singapore's talent visa for top achievers in business, arts, sports, academia, and research.", icon: "🦁", badge: null },
+  { slug: "eb2_niw", title: "Apply for an EB-2 NIW Visa", description: "The EB-2 NIW visa is a talent-based immigrant visa in the U.S. for individuals with exceptional ability in their field.", icon: "⭐", badge: null },
 ];
 // ─── Icons ───────────────────────────────────────────────────────────────────
 
@@ -80,7 +80,7 @@ function ServiceCard({
   index: number;
   onCounsellingClick: () => void;
 }) {
-  const isCounselling = service.slug === "counselling";
+  const isCounselling = service.slug === "consultation";
 
   const inner = (
     <>

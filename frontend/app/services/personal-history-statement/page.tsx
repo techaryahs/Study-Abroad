@@ -8,7 +8,7 @@ import {
     History
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -91,7 +91,7 @@ export default function PersonalHistoryStatementPage() {
                             </button>
                         </div>
 
-                        <DiscussionSection serviceId="personal-history-statement" />
+                        <DiscussionSection serviceId="personal_history" />
                     </motion.div>
                 </div>
             </section>
@@ -127,7 +127,7 @@ export default function PersonalHistoryStatementPage() {
                     {/* RIGHT SIDEBAR */}
                     <div className="lg:sticky lg:top-32 space-y-8">
                         <div className="w-full">
-                            {/* <AddToCart serviceId="history-draft" /> */}
+                            <ServiceCTA serviceId="personal_history" />
                         </div>
 
                         <div className="p-8 bg-white border border-[#C5A059]/10 rounded-[32px] shadow-lg space-y-4">

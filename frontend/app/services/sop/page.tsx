@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -209,7 +209,7 @@ export default function SOPPage() {
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
               </div>
               <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
-                <DiscussionSection serviceId="sop" />
+                <DiscussionSection serviceId="sop_writing" />
               </div>
             </div>
           </div>
@@ -223,7 +223,7 @@ export default function SOPPage() {
                 <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Zero-Beta Scratch Protocol.</p>
               </div>
               <div className="relative z-10 w-full">
-                {/* <AddToCart serviceId="sop" /> */}
+                <ServiceCTA serviceId="sop_writing" />
               </div>
             </div>
 

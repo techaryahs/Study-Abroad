@@ -14,7 +14,7 @@ import {
   ArrowLeft
 } from "lucide-react";
 import FAQSection, { defaultFaqs } from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 const visaFaqs = [...defaultFaqs];
@@ -91,7 +91,7 @@ export default function VisaMockInterviewPage() {
                 Ace the interview with proven tricks and techniques.
               </p>
 
-              <DiscussionSection serviceId="visa_mock_interview" />
+              <DiscussionSection serviceId="mock_interview" />
             </motion.div>
 
             <motion.div
@@ -184,7 +184,7 @@ export default function VisaMockInterviewPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="lg:sticky lg:top-24"
             >
-              {/* <AddToCart serviceId="visa_mock_interview" /> */}
+              <ServiceCTA serviceId="mock_interview" />
             </motion.div>
           </div>
         </section>

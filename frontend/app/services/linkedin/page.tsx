@@ -10,7 +10,7 @@ import {
    ArrowRight
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 const profileFeatures = [
@@ -133,7 +133,7 @@ export default function LinkedInReviewPage() {
                         <h2 className="fd text-4xl font-bold text-[#2D2926]">Public Consensus</h2>
                      </div>
                      <div className="rounded-[40px] overflow-hidden border border-[#F1EDEA] bg-[#FDFBF7]/20 p-2">
-                        <DiscussionSection serviceId="linkedin" />
+                        <DiscussionSection serviceId="linkedin_optimization" />
                      </div>
                   </div>
                </div>
@@ -147,7 +147,7 @@ export default function LinkedInReviewPage() {
                         <h3 className="fd text-4xl font-bold italic">Bespoke Revamp</h3>
                      </div>
                      <div className="relative z-10 w-full">
-                        <AddToCart serviceId="linkedin" />
+                        <ServiceCTA serviceId="linkedin_optimization" />
                      </div>
                   </div>
 

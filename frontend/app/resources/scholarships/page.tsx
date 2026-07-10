@@ -6,11 +6,12 @@ import { Search, Filter, Bookmark, ArrowRight, GraduationCap, Lock } from "lucid
 import { motion } from "framer-motion";
 import scholarshipData from "@/data/scolarship.json";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
+import { useMembership } from "@/app/lib/membership/MembershipContext";
 
 const ScholarshipsPage = () => {
-  const { isPremium } = usePremiumStatus();
+  const { canAccess } = useMembership();
+  const hasAccess = canAccess('scholarship_search');
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -178,7 +179,7 @@ const ScholarshipsPage = () => {
                     <div className="flex items-center gap-8 md:gap-10 flex-shrink-0">
                       <div className="flex flex-col items-center md:items-end gap-1">
                         <span className="text-[9px] font-black uppercase tracking-widest text-[#A8A29E]">Closing Date</span>
-                        {isPremium ? (
+                        {hasAccess ? (
                           <span className="text-xs font-bold text-[#2D2926] whitespace-nowrap">{s.deadline}</span>
                         ) : (
                           <div className="flex items-center gap-1 bg-[#FDFBF7] border border-[rgba(197,160,89,0.2)] px-2 py-0.5 rounded shadow-sm text-[#C5A059]">
@@ -189,7 +190,7 @@ const ScholarshipsPage = () => {
                       </div>
                       <div className="flex flex-col items-center md:items-end gap-1">
                         <span className="text-[9px] font-black uppercase tracking-widest text-[#C5A059]">Award value</span>
-                        {isPremium ? (
+                        {hasAccess ? (
                           <span className="text-xs font-bold text-[#2D2926] whitespace-nowrap">{s.amount}</span>
                         ) : (
                           <div className="flex items-center gap-1 bg-[#FDFBF7] border border-[rgba(197,160,89,0.2)] px-2 py-0.5 rounded shadow-sm text-[#C5A059]">
@@ -214,7 +215,7 @@ const ScholarshipsPage = () => {
               
               {filteredScholarships.length > 3 && (
                 /* Premium Lock for remaining scholarships */
-                <PremiumLock isPremium={isPremium} title="Unlock 500+ Scholarships" description="Get premium access to explore over 500 fully-funded scholarships, exclusive financial aids, and step-by-step application guides." price={4999} discountedPrice={1999}>
+                <EntitlementGuard featureId="scholarship_search" fallbackTitle="Unlock 500+ Scholarships" fallbackDescription="Get premium access to explore over 500 fully-funded scholarships, exclusive financial aids, and step-by-step application guides.">
                   <div className="grid gap-5">
                     {filteredScholarships.slice(3).map((s) => (
                       <Link
@@ -255,7 +256,7 @@ const ScholarshipsPage = () => {
                       </Link>
                     ))}
                   </div>
-                </PremiumLock>
+                </EntitlementGuard>
               )}
             </>
           ) : (

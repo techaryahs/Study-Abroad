@@ -5,12 +5,10 @@ import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, Calendar, DollarSign, Award, MapPin, Phone, Mail, ExternalLink, GraduationCap } from "lucide-react";
 import scholarshipData from "@/data/scolarship.json";
 import { motion } from "framer-motion";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 const ScholarshipDetail = () => {
-    const { isPremium } = usePremiumStatus();
-    const { slug } = useParams();
+        const { slug } = useParams();
     const router = useRouter();
     const scholarship = scholarshipData.scholarships.find((s) => s.slug === slug);
 
@@ -43,7 +41,7 @@ const ScholarshipDetail = () => {
     }
 
     return (
-        <PremiumLock isPremium={isPremium} isFullPage={true} title="Unlock Scholarship Details" description="Get premium access to explore detailed requirements, application strategies, and full funding amounts for this scholarship.">
+        <EntitlementGuard featureId="scholarship_search" fallbackTitle="Unlock Scholarship Details" fallbackDescription="Get premium access to explore detailed requirements, application strategies, and full funding amounts for this scholarship.">
         <div className="min-h-screen flex flex-col lg:flex-row relative z-10" style={{ background: "#FDFBF7", color: "#2D2926", fontFamily: "'DM Sans', sans-serif" }}>
             
             <style>{`
@@ -261,7 +259,7 @@ const ScholarshipDetail = () => {
                 </div>
             </div>
         </div>
-        </PremiumLock>
+        </EntitlementGuard>
     );
 };
 

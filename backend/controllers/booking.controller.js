@@ -2,7 +2,10 @@ const Booking = require("../models/Booking");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
 const mongoose = require("mongoose");
-const { consumeEntitlement } = require("../utils/membershipUtils");
+const {
+  reserveEntitlementUsage,
+  commitEntitlementUsage,
+} = require("../utils/membershipUtils");
 
 // const transporter = require("../utils/transporter"); // nodemailer instance
 const sendEmail = require("../utils/sendEmail");     // used in bookConsultant
@@ -77,6 +80,21 @@ exports.bookConsultant = async (req, res) => {
     session.startTransaction();
     let booking;
     try {
+      const student = await Student.findOne({ email: userEmail }).session(session);
+      const realUserId = userId || (student ? student._id : null);
+      if (!realUserId) {
+        throw new Error("Cannot reserve entitlement without valid user ID.");
+      }
+
+      const usageReservation = await reserveEntitlementUsage(
+        realUserId,
+        'consultation',
+        {
+          session,
+          metadata: { source: "book_consultant", consultantId, date, time },
+        }
+      );
+
       const newBooking = new Booking({
         consultantId,
         consultantEmail,
@@ -92,20 +110,17 @@ exports.bookConsultant = async (req, res) => {
       });
       booking = await newBooking.save({ session });
 
-      const student = await Student.findOne({ email: userEmail }).session(session);
       if (student) {
         if (!student.profile) student.profile = {};
         if (!student.profile.myBookings) student.profile.myBookings = [];
         student.profile.myBookings.push(booking._id);
         await student.save({ session });
       }
-      
-      const realUserId = userId || (student ? student._id : null);
-      if (realUserId) {
-        await consumeEntitlement(realUserId, 'consultation', session);
-      } else {
-        throw new Error("Cannot consume entitlement without valid user ID.");
-      }
+
+      await commitEntitlementUsage(usageReservation, {
+        session,
+        metadata: { bookingId: booking._id },
+      });
 
       await session.commitTransaction();
       session.endSession();

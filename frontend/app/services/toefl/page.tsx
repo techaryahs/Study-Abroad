@@ -16,7 +16,7 @@ import {
     Activity
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -250,7 +250,7 @@ export default function ToeflHelpPage() {
                                         <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Global Standards Applied</p>
                                     </div>
                                 </div>
-                                {/* <AddToCart serviceId="toefl" /> */}
+                                <ServiceCTA serviceId="toefl_prep" />
                                 <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
                                     <div className="flex items-center gap-3 text-white/60 text-xs">
                                         <Star size={14} className="text-[#C5A059]" />

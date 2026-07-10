@@ -17,7 +17,7 @@ import {
     Maximize2
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -196,8 +196,8 @@ export default function ResumeDraftingPage() {
                                 <h3 className="fd text-3xl font-bold">Forge Your Profile</h3>
                                 <p className="text-white/40 text-sm">Elevate your professional identity today.</p>
                             </div>
-                            {/* <AddToCart serviceId="resume-drafting" /> */}
-                            <DiscussionSection serviceId="resume-drafting" />
+                            <ServiceCTA serviceId="resume_drafting" />
+                            <DiscussionSection serviceId="resume_drafting" />
                         </div>
 
                         <div className="p-8 glass-panel space-y-4">

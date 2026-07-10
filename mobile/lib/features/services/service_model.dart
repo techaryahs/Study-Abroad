@@ -19,7 +19,7 @@ class ServiceModel {
 
   static List<ServiceModel> get allServices => [
     ServiceModel(
-      slug: 'counselling',
+      slug: 'consultation',
       title: 'Counselling Session',
       icon: '🎯',
       price: 999,
@@ -27,7 +27,7 @@ class ServiceModel {
       features: ['Personalized Advice', 'Case Evaluation', 'Timeline Strategy', 'Adjustable Pricing'],
     ),
     ServiceModel(
-      slug: 'research-papers',
+      slug: 'research_paper',
       title: 'Research Paper Drafting',
       icon: '📄',
       price: 8999,
@@ -35,7 +35,7 @@ class ServiceModel {
       features: ['Topic Selection', 'Drafting Support', 'Journal Alignment', 'Publication Help'],
     ),
     ServiceModel(
-      slug: 'visa-application-help',
+      slug: 'visa_guidance',
       title: 'Visa Application Help',
       icon: '🛂',
       price: 3499,
@@ -51,7 +51,7 @@ class ServiceModel {
       features: ['Eligibility Assessment', 'Evidence Gathering', 'Petition Support', 'Expert Review'],
     ),
     ServiceModel(
-      slug: 'application-help',
+      slug: 'application_help',
       title: 'Complete Application Help',
       icon: '📋',
       price: 9999,
@@ -59,7 +59,7 @@ class ServiceModel {
       features: ['Strategic Planning', 'Document Protocol', 'Submission Portal Help', 'Follow-up Assist'],
     ),
     ServiceModel(
-      slug: 'shortlisting',
+      slug: 'university_shortlist',
       title: 'University Shortlisting',
       icon: '🏛️',
       price: 2999,
@@ -67,7 +67,7 @@ class ServiceModel {
       features: ['Profile Matching', 'Ranking Analysis', 'Budget Fit', '15+ Options'],
     ),
     ServiceModel(
-      slug: 'sop',
+      slug: 'sop_writing',
       title: 'Statement of Purpose Writing',
       icon: '✍️',
       price: 4999,
@@ -83,7 +83,7 @@ class ServiceModel {
       features: ['Talent Profiling', 'Recommendation Help', 'Evidence Strategy', 'Timeline Management'],
     ),
     ServiceModel(
-      slug: 'visa_mock_interview',
+      slug: 'mock_interview',
       title: 'US Visa Mock Interview',
       icon: '🎤',
       price: 1999,
@@ -91,7 +91,7 @@ class ServiceModel {
       features: ['Mock Sessions', 'Real scenarios', 'Immediate Feedback', 'Trick Questions Help'],
     ),
     ServiceModel(
-      slug: 'letter-of-recommendation-drafting',
+      slug: 'lor_drafting',
       title: 'LOR Drafting Support',
       icon: '📝',
       price: 2499,
@@ -99,7 +99,7 @@ class ServiceModel {
       features: ['Professional Tone', 'Custom Templates', 'Strong Advocacy', 'Impactful Writing'],
     ),
     ServiceModel(
-      slug: 'personal-history-statement',
+      slug: 'personal_history',
       title: 'Personal History Statement',
       icon: '📖',
       price: 1999,
@@ -107,7 +107,7 @@ class ServiceModel {
       features: ['Storytelling Advice', 'Barrier Highlighting', 'Resilience Proofing', 'Goal Connection'],
     ),
     ServiceModel(
-      slug: 'resume-drafting',
+      slug: 'resume_drafting',
       title: 'Resume Drafting',
       icon: '🗂️',
       price: 1499,
@@ -115,7 +115,7 @@ class ServiceModel {
       features: ['ATS Optimized', 'Layout Design', 'Actionable Bulletpoints', 'Industry Standards'],
     ),
     ServiceModel(
-      slug: 'gre-prep',
+      slug: 'gre_prep',
       title: 'GRE Prep-Plan Building',
       icon: '📊',
       price: 999,
@@ -123,7 +123,7 @@ class ServiceModel {
       features: ['Custom Schedule', 'Resource Mapping', 'Cheat-sheets', 'Expert Guidance'],
     ),
     ServiceModel(
-      slug: 'university-finalization',
+      slug: 'university_finalization',
       title: 'University Finalization Help',
       icon: '🎓',
       price: 1999,
@@ -131,7 +131,7 @@ class ServiceModel {
       features: ['ROI Analysis', 'Location Comparison', 'Job Market Review', 'Final Decision Aide'],
     ),
     ServiceModel(
-      slug: 'plagiarism-check',
+      slug: 'ai_humanizer',
       title: 'Plagiarism Check Report',
       icon: '🔍',
       price: 499,
@@ -139,7 +139,7 @@ class ServiceModel {
       features: ['Turnitin Report', 'Detailed Source Breakdown', 'Fast Turnaround', 'Confidential'],
     ),
     ServiceModel(
-      slug: 'scholarship',
+      slug: 'scholarship_search',
       title: 'Scholarship Application Help',
       icon: '💰',
       price: 3999,
@@ -147,7 +147,7 @@ class ServiceModel {
       features: ['Merit-based Matching', 'Essay Support', 'Financial Planning', 'Expert Tips'],
     ),
     ServiceModel(
-      slug: 'toefl',
+      slug: 'toefl_prep',
       title: 'TOEFL Prep-Plan Building',
       icon: '🗣️',
       price: 999,
@@ -155,7 +155,7 @@ class ServiceModel {
       features: ['Section Strategy', 'Practice Drills', 'Template Provisions', 'Scoring Guide'],
     ),
     ServiceModel(
-      slug: 'canada-sop',
+      slug: 'sop_writing',
       title: 'Canada Visa SOP/LOE',
       icon: '🍁',
       price: 4499,
@@ -163,7 +163,7 @@ class ServiceModel {
       features: ['Rejection Reason Analysis', 'LOE Proofing', 'Strong Argument Design', 'Visa Protocol'],
     ),
     ServiceModel(
-      slug: 'profile-building',
+      slug: 'profile_evaluation',
       title: 'Profile Building Guidance',
       icon: '📈',
       price: 6999,
@@ -171,7 +171,7 @@ class ServiceModel {
       features: ['Internship Sourcing', 'Activity Planning', 'Skill Map', 'Mentorship'],
     ),
     ServiceModel(
-      slug: 'cover-letter',
+      slug: 'cover_letter',
       title: 'Cover Letter Drafting',
       icon: '✉️',
       price: 1499,
@@ -179,7 +179,7 @@ class ServiceModel {
       features: ['Employer Focused', 'Compelling Writing', 'Role Specific', 'Fast Edits'],
     ),
     ServiceModel(
-      slug: 'linkedin',
+      slug: 'linkedin_optimization',
       title: 'LinkedIn Profile Boosting',
       icon: '💡',
       price: 2499,
@@ -187,7 +187,7 @@ class ServiceModel {
       features: ['SEO Optimized', 'Banner Design', 'Narrative Help', 'Networking Strategy'],
     ),
     ServiceModel(
-      slug: 'express-entry',
+      slug: 'express_entry',
       title: 'Express Entry/PNP Help',
       icon: '🍁',
       price: 8999,
@@ -195,7 +195,7 @@ class ServiceModel {
       features: ['CRS Score Optimization', 'PCC/Medical Guide', 'Documentation protocols', 'Submission Handholding'],
     ),
     ServiceModel(
-      slug: 'review',
+      slug: 'application_review',
       title: 'Complete Application Review',
       icon: '🔎',
       price: 2999,

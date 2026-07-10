@@ -2,7 +2,7 @@
 
 import React, { useState, ReactNode } from "react";
 import Link from "next/link";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 
@@ -191,7 +191,7 @@ export default function ResearchPaperPage() {
             <p className="sm:hidden text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
               Publish credible papers to boost profile for <span className="text-[#D4A848] font-black">MS/PhD &amp; EB-1</span>.
             </p>
-            <DiscussionSection serviceId="research-papers" />
+            <DiscussionSection serviceId="research_paper" />
           </div>
         </div>
       </section>
@@ -398,7 +398,7 @@ export default function ResearchPaperPage() {
         {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28">
-            {/* <AddToCart serviceId="research-papers" /> */}
+            <ServiceCTA serviceId="research_paper" />
 
             {/* Research Groups */}
             <div className="mt-8 bg-[#FFFFFF] shadow-lg border border-[#D4A848]/20 rounded-[32px] p-8">

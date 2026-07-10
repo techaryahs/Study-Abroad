@@ -19,7 +19,7 @@ import {
     Quote
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -210,7 +210,7 @@ export default function LORDraftingPage() {
 
                         {/* INTEGRATED DISCUSSION */}
                         <div className="pt-10 border-t border-[#F1EDEA]">
-                            <DiscussionSection serviceId="letter-of-recommendation-drafting" />
+                            <DiscussionSection serviceId="lor_drafting" />
                         </div>
                     </div>
 
@@ -222,7 +222,7 @@ export default function LORDraftingPage() {
                                 <h3 className="fd text-3xl font-bold">Secure Your Admit</h3>
                                 <p className="text-white/40 text-sm italic font-medium">Bespoke drafting for international standards.</p>
                             </div>
-                            {/* <AddToCart serviceId="lor-drafting" /> */}
+                            <ServiceCTA serviceId="lor_drafting" />
                         </div>
 
                         <div className="p-10 glass-panel space-y-6">

@@ -5,12 +5,10 @@ import Link from "next/link";
 import { motion, Variants } from "framer-motion";
 import Flag from "react-world-flags";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 export default function UniversitiesPage() {
-  const { isPremium } = usePremiumStatus();
-  const [showCounsellingModal, setShowCounsellingModal] = useState(false);
+    const [showCounsellingModal, setShowCounsellingModal] = useState(false);
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -198,7 +196,7 @@ export default function UniversitiesPage() {
 
         {destinations.length > 3 && (
           <div className="mt-10">
-            <PremiumLock isPremium={isPremium} title="Unlock 1,500+ Top Universities" description="Get premium access to explore detailed admission matrices, acceptance rates, and student demographics for over 1,500 world-class educational hubs.">
+            <EntitlementGuard featureId="university_search" fallbackTitle="Unlock 1,500+ Top Universities" fallbackDescription="Get premium access to explore detailed admission matrices, acceptance rates, and student demographics for over 1,500 world-class educational hubs.">
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
@@ -238,7 +236,7 @@ export default function UniversitiesPage() {
                   </Link>
                 ))}
               </motion.div>
-            </PremiumLock>
+            </EntitlementGuard>
           </div>
         )}
       </section>

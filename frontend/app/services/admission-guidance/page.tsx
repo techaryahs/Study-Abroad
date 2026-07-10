@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -197,14 +197,14 @@ export default function AdmissionGuidancePage() {
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
               </div>
               <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
-                <DiscussionSection serviceId="admission-guidance" />
+                <DiscussionSection serviceId="consultation" />
               </div>
             </div>
           </div>
 
           {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) */}
           <div className="lg:col-span-2 lg:sticky lg:top-40">
-            <AddToCart serviceId="application-help" />
+            <ServiceCTA serviceId="consultation" />
           </div>
 
         </div>

@@ -14,7 +14,7 @@ import {
     Award
 } from "lucide-react";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 const reviewFeatures = [
   { title: "Profile Evaluation", desc: "Expert assessment of your academic and professional standing.", icon: <Search size={22} /> },
@@ -135,7 +135,7 @@ export default function ApplicationReviewPage() {
                                     <h3 className="fd text-4xl font-bold text-[#3C2A21]">Review Insights</h3>
                                 </div>
                                 <div className="bg-white rounded-[40px] p-2 border border-[#F1EDEA] shadow-sm">
-                                    <DiscussionSection serviceId="application-review" />
+                                    <DiscussionSection serviceId="application_review" />
                                 </div>
                             </div>
                         </div>
@@ -144,7 +144,7 @@ export default function ApplicationReviewPage() {
                     {/* RIGHT COLUMN */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40 space-y-8">
-                            <AddToCart serviceId="application-review" />
+                            <ServiceCTA serviceId="application_review" />
                             
                             <div className="p-10 bg-[#3C2A21] rounded-[40px] text-white space-y-6 shadow-2xl border border-[#C5A059]/20 text-center relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/20 blur-3xl rounded-full" />

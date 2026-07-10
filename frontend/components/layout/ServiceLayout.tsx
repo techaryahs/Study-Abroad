@@ -2,8 +2,8 @@
 
 import { motion, Variants } from "framer-motion";
 import Link from "next/link";
-import AddToCart from "@/components/shared/AddToCart";
 import DiscussionSection from "@/components/shared/DiscussionSection";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 interface ServiceLayoutProps {
   title: string;
@@ -14,7 +14,7 @@ interface ServiceLayoutProps {
   serviceId?: string;
 }
 
-export default function ServiceLayout({ title, description, details, icon, accentClass = "accent-glow-gold", serviceId }: ServiceLayoutProps) {
+export default function ServiceLayout({ title, description, details, icon, serviceId }: ServiceLayoutProps) {
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -156,12 +156,12 @@ export default function ServiceLayout({ title, description, details, icon, accen
             </motion.div>
           </div>
 
-          {/* AddToCart Section */}
+          {/* Membership entitlement CTA — serviceId must match backend Service.serviceId */}
           <motion.div 
             variants={itemVariants}
             className="lg:sticky lg:top-32"
           >
-            {/* {serviceId && <AddToCart serviceId={serviceId} />} */}
+            {serviceId ? <ServiceCTA serviceId={serviceId} /> : null}
           </motion.div>
         </div>
       </motion.div>

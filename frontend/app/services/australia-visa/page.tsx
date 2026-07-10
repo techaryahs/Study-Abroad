@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 /* ─────────────────────────────────────────
    DESIGN TOKENS  (from uploaded screenshot)
@@ -417,7 +417,7 @@ export default function AustraliaVisaPage() {
                 </p>
               </div>
             </div>
-            {/* <AddToCart serviceId="australia-visa" /> */}
+            <ServiceCTA serviceId="australia_visa" />
           </div>
         </div>
 

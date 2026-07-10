@@ -18,7 +18,7 @@ import {
     MessageSquare
 } from "lucide-react";
 import FAQSection from "./FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -225,8 +225,8 @@ export default function GrePrepPage() {
                                 <h3 className="fd text-3xl font-bold">Secure Your Bench</h3>
                                 <p className="text-white/40 text-sm">Join the clinical prep program today.</p>
                             </div>
-                            {/* <AddToCart serviceId="gre-prep" /> */}
-                            <DiscussionSection serviceId="gre-prep" />
+                            <ServiceCTA serviceId="gre_prep" />
+                            <DiscussionSection serviceId="gre_prep" />
                         </div>
 
                         <div className="glass-panel p-8 space-y-6 transition-all hover:border-[#C5A059]/30">

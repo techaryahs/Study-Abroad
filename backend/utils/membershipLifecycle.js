@@ -1,0 +1,454 @@
+/**
+ * MembershipLifecycle — single source of truth for membership state evaluation.
+ *
+ * Authorization MUST use this module. Do not duplicate expiry/status checks elsewhere.
+ *
+ * Lifecycle (stored + effective):
+ *   pending → active → grace_period (optional) → expired | cancelled | none
+ *
+ * Critical rule: expiryDate is evaluated at runtime. Stored status alone is never enough.
+ * If expiryDate has passed, effective status becomes expired (unless within optional grace).
+ */
+
+const MembershipPlan = require("../models/MembershipPlan");
+
+/** Optional post-expiry grace window (days). 0 = no calendar grace beyond status. */
+const GRACE_PERIOD_DAYS = Number(process.env.MEMBERSHIP_GRACE_DAYS || 0);
+
+const PLAN_RANK = {
+  free: 0,
+  starter: 10,
+  essential: 20,
+  premium: 30,
+  elite: 40,
+};
+
+/**
+ * @typedef {Object} LifecycleResult
+ * @property {string} planId
+ * @property {string} storedStatus - as on the document
+ * @property {string} effectiveStatus - after runtime expiry evaluation
+ * @property {boolean} isAccessAllowed - may use paid entitlements
+ * @property {Date|null} expiryDate
+ * @property {Date|null} purchaseDate
+ * @property {boolean} isCalendarExpired
+ * @property {boolean} shouldPersistStatus - stored status should be updated to effective
+ * @property {string|null} denyReason - if !isAccessAllowed
+ */
+
+/**
+ * Normalize a date-like value to Date or null.
+ * @param {unknown} value
+ * @returns {Date|null}
+ */
+function toDate(value) {
+  if (!value) return null;
+  const d = value instanceof Date ? value : new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+/**
+ * Compute membership period end for a plan type from a base date.
+ * @param {object} plan - MembershipPlan doc
+ * @param {Date} baseDate
+ * @returns {Date|null}
+ */
+function computePeriodEnd(plan, baseDate = new Date()) {
+  if (!plan || !plan.type) return null;
+  const base = new Date(baseDate);
+
+  if (plan.type === "one_time" || plan.type === "lifetime") {
+    return null; // no calendar end at membership level
+  }
+  if (plan.type === "yearly") {
+    const d = new Date(base);
+    d.setFullYear(d.getFullYear() + 1);
+    return d;
+  }
+  if (plan.type === "monthly") {
+    const d = new Date(base);
+    d.setMonth(d.getMonth() + 1);
+    return d;
+  }
+  return null;
+}
+
+/**
+ * Renewal: extend from max(now, previousExpiry). New purchase / upgrade: from now.
+ * @param {object} plan
+ * @param {object|null} previousMembership
+ * @param {string} newPlanId
+ * @returns {Date|null}
+ */
+function computeExpiryForProvision(plan, previousMembership, newPlanId) {
+  const now = new Date();
+  if (!plan) return null;
+
+  if (plan.type === "one_time" || plan.type === "lifetime") {
+    return null;
+  }
+
+  let base = now;
+  const prevPlanId = previousMembership?.planId;
+  const prevExpiry = toDate(previousMembership?.expiryDate);
+
+  // Same plan renewal while still valid: stack time from previous expiry
+  if (prevPlanId && prevPlanId === newPlanId && prevExpiry && prevExpiry > now) {
+    base = prevExpiry;
+  }
+
+  return computePeriodEnd(plan, base);
+}
+
+/**
+ * Classify transition for history logging.
+ * @param {string} fromPlanId
+ * @param {string} toPlanId
+ * @returns {'initial_purchase'|'renewal'|'upgrade'|'downgrade'}
+ */
+function classifyTransition(fromPlanId, toPlanId) {
+  const from = fromPlanId && fromPlanId !== "free" ? fromPlanId : null;
+  if (!from) return "initial_purchase";
+  if (from === toPlanId) return "renewal";
+  const fromRank = PLAN_RANK[from] ?? 0;
+  const toRank = PLAN_RANK[toPlanId] ?? 0;
+  if (toRank > fromRank) return "upgrade";
+  if (toRank < fromRank) return "downgrade";
+  return "upgrade";
+}
+
+/**
+ * Pure evaluation of membership for authorization.
+ * Does not write to the database.
+ *
+ * @param {object|null|undefined} membership - Student.membership (or plain object)
+ * @param {Date} [now]
+ * @returns {LifecycleResult}
+ */
+function evaluateMembership(membership, now = new Date()) {
+  const empty = {
+    planId: "free",
+    storedStatus: "none",
+    effectiveStatus: "none",
+    isAccessAllowed: false,
+    expiryDate: null,
+    purchaseDate: null,
+    isCalendarExpired: false,
+    shouldPersistStatus: false,
+    denyReason: "No membership.",
+  };
+
+  if (!membership || typeof membership !== "object") {
+    return empty;
+  }
+
+  // Mongoose subdoc or plain
+  const planId = membership.planId || "free";
+  const storedStatus = membership.status || "none";
+  const expiryDate = toDate(membership.expiryDate);
+  const purchaseDate = toDate(membership.purchaseDate);
+
+  if (!planId || planId === "free") {
+    return {
+      ...empty,
+      planId: planId || "free",
+      storedStatus,
+      effectiveStatus: storedStatus === "cancelled" ? "cancelled" : "none",
+      denyReason: "No paid membership plan.",
+    };
+  }
+
+  if (storedStatus === "cancelled") {
+    return {
+      planId,
+      storedStatus,
+      effectiveStatus: "cancelled",
+      isAccessAllowed: false,
+      expiryDate,
+      purchaseDate,
+      isCalendarExpired: false,
+      shouldPersistStatus: false,
+      denyReason: "Membership cancelled.",
+    };
+  }
+
+  if (storedStatus === "none" || storedStatus === "pending") {
+    return {
+      planId,
+      storedStatus,
+      effectiveStatus: storedStatus,
+      isAccessAllowed: false,
+      expiryDate,
+      purchaseDate,
+      isCalendarExpired: false,
+      shouldPersistStatus: false,
+      denyReason:
+        storedStatus === "pending"
+          ? "Membership pending activation."
+          : "No active membership.",
+    };
+  }
+
+  // Calendar expiry — source of truth independent of stored status
+  const isCalendarExpired = Boolean(expiryDate && expiryDate.getTime() <= now.getTime());
+
+  if (isCalendarExpired) {
+    // Optional grace: only if explicitly still in grace_period status AND within GRACE_PERIOD_DAYS after expiry
+    if (storedStatus === "grace_period" && GRACE_PERIOD_DAYS > 0 && expiryDate) {
+      const graceEnd = new Date(expiryDate);
+      graceEnd.setDate(graceEnd.getDate() + GRACE_PERIOD_DAYS);
+      if (now.getTime() <= graceEnd.getTime()) {
+        return {
+          planId,
+          storedStatus,
+          effectiveStatus: "grace_period",
+          isAccessAllowed: true,
+          expiryDate,
+          purchaseDate,
+          isCalendarExpired: true,
+          shouldPersistStatus: false,
+          denyReason: null,
+        };
+      }
+    }
+
+    return {
+      planId,
+      storedStatus,
+      effectiveStatus: "expired",
+      isAccessAllowed: false,
+      expiryDate,
+      purchaseDate,
+      isCalendarExpired: true,
+      shouldPersistStatus: storedStatus !== "expired",
+      denyReason: "Membership expired.",
+    };
+  }
+
+  // Not calendar-expired
+  if (storedStatus === "expired") {
+    // Stored expired but date still in future is inconsistent — trust date (not expired by calendar)
+    // If no expiryDate and status expired, deny
+    if (!expiryDate) {
+      return {
+        planId,
+        storedStatus,
+        effectiveStatus: "expired",
+        isAccessAllowed: false,
+        expiryDate,
+        purchaseDate,
+        isCalendarExpired: false,
+        shouldPersistStatus: false,
+        denyReason: "Membership expired.",
+      };
+    }
+  }
+
+  if (storedStatus === "active" || storedStatus === "grace_period") {
+    return {
+      planId,
+      storedStatus,
+      effectiveStatus: storedStatus,
+      isAccessAllowed: true,
+      expiryDate,
+      purchaseDate,
+      isCalendarExpired: false,
+      shouldPersistStatus: false,
+      denyReason: null,
+    };
+  }
+
+  // Unknown / unexpected stored status → fail closed
+  return {
+    planId,
+    storedStatus,
+    effectiveStatus: storedStatus || "none",
+    isAccessAllowed: false,
+    expiryDate,
+    purchaseDate,
+    isCalendarExpired: false,
+    shouldPersistStatus: false,
+    denyReason: `Membership status is ${storedStatus || "unknown"}.`,
+  };
+}
+
+/**
+ * Apply runtime evaluation onto a user document's membership.
+ * Optionally persists status flip to expired when calendar end has passed.
+ *
+ * @param {object} user - Mongoose user/student with membership
+ * @param {{ persist?: boolean, session?: object }} [options]
+ * @returns {Promise<LifecycleResult>}
+ */
+async function applyLifecycleToUser(user, options = {}) {
+  const { persist = true, session = null } = options;
+  if (!user) {
+    return evaluateMembership(null);
+  }
+
+  if (!user.membership) {
+    user.membership = { planId: "free", status: "none" };
+  }
+
+  const result = evaluateMembership(user.membership);
+
+  if (persist && result.shouldPersistStatus && result.effectiveStatus === "expired") {
+    user.membership.status = "expired";
+    if (typeof user.markModified === "function") {
+      user.markModified("membership");
+    }
+    if (typeof user.save === "function") {
+      try {
+        await user.save(session ? { session } : undefined);
+      } catch (saveErr) {
+        // Non-fatal: evaluation still correct for this request
+        console.warn("[MembershipLifecycle] persist expired status failed:", saveErr.message);
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Authorization pre-check used by middleware and utilities.
+ * @param {object|null} membership
+ * @returns {{ allowed: boolean, lifecycle: LifecycleResult }}
+ */
+function assertMembershipAllowsAccess(membership) {
+  const lifecycle = evaluateMembership(membership);
+  return {
+    allowed: lifecycle.isAccessAllowed,
+    lifecycle,
+  };
+}
+
+/**
+ * Build usage map from plan entitlements (limits only).
+ * Renewal resets counters only when entitlement.renewal matches the plan period.
+ * Plan changes preserve overlapping used counts, capped to the new limit.
+ * @param {object} plan
+ * @param {object|null} previousMembership
+ * @param {string} transitionType
+ * @returns {Object}
+ */
+function buildUsageMapFromPlan(plan, previousMembership = null, transitionType = "initial_purchase") {
+  const usageMap = {};
+  if (!plan || !plan.entitlements) return usageMap;
+
+  const previousUsage = previousMembership?.usage;
+  const getPreviousUsage = (featureId) => {
+    if (!previousUsage || !featureId) return null;
+    if (typeof previousUsage.get === "function") return previousUsage.get(featureId);
+    return previousUsage[featureId] || null;
+  };
+
+  const shouldReset = (entitlement) => {
+    if (transitionType === "initial_purchase") return true;
+    if (transitionType !== "renewal") return false;
+    if (!entitlement || entitlement.renewal == null) return false;
+    return entitlement.renewal === plan.type;
+  };
+
+  for (const category of ["ai", "human", "access"]) {
+    const bag = plan.entitlements[category];
+    if (!bag) continue;
+
+    // Map or plain object
+    const entries =
+      typeof bag.entries === "function"
+        ? Array.from(bag.entries())
+        : Object.entries(bag.toObject ? bag.toObject() : bag);
+
+    for (const [featureId, entitlement] of entries) {
+      if (entitlement && entitlement.limit != null) {
+        const limit = Math.max(0, Number(entitlement.limit));
+        const previous = getPreviousUsage(featureId);
+        const previousUsed = Number.isFinite(Number(previous?.used))
+          ? Math.max(0, Number(previous.used))
+          : 0;
+        const used = shouldReset(entitlement)
+          ? 0
+          : Math.min(previousUsed, limit);
+
+        usageMap[featureId] = {
+          used,
+          remaining: Math.max(0, limit - used),
+          lastUsedAt: used > 0 ? previous?.lastUsedAt || null : null,
+        };
+      }
+    }
+  }
+  return usageMap;
+}
+
+/**
+ * Apply a purchased plan onto user.membership (provision / renew / upgrade / downgrade).
+ * Does not save history/events — caller (payment controller) owns that.
+ *
+ * @param {object} user
+ * @param {object} plan - MembershipPlan document
+ * @param {{ platform: string, transactionId: string, productId?: string }} meta
+ * @returns {{ transitionType: string, previousPlanId: string, lifecycle: LifecycleResult }}
+ */
+function applyPlanToMembership(user, plan, meta) {
+  if (!user.membership) user.membership = {};
+
+  const previous = {
+    planId: user.membership.planId || "free",
+    status: user.membership.status,
+    expiryDate: user.membership.expiryDate,
+    usage: user.membership.usage,
+  };
+
+  const transitionType = classifyTransition(previous.planId, plan.planId);
+  const expiryDate = computeExpiryForProvision(plan, user.membership, plan.planId);
+  const usageMap = buildUsageMapFromPlan(plan, previous, transitionType);
+
+  user.membership.planId = plan.planId;
+  user.membership.catalogVersion = plan.version || 1;
+  user.membership.status = "active";
+  user.membership.platform = meta.platform || "none";
+  user.membership.transactionId = meta.transactionId;
+  if (meta.productId) user.membership.productId = meta.productId;
+  user.membership.purchaseDate = new Date();
+  user.membership.expiryDate = expiryDate;
+  user.membership.usage = usageMap;
+
+  if (typeof user.markModified === "function") {
+    user.markModified("membership");
+  }
+
+  const lifecycle = evaluateMembership(user.membership);
+  return {
+    transitionType,
+    previousPlanId: previous.planId,
+    lifecycle,
+  };
+}
+
+/**
+ * Load plan by planId (active preferred).
+ * @param {string} planId
+ * @param {object} [session]
+ */
+async function loadActivePlan(planId, session = null) {
+  const q = MembershipPlan.findOne({ planId, isActive: true });
+  if (session) q.session(session);
+  return q;
+}
+
+module.exports = {
+  GRACE_PERIOD_DAYS,
+  PLAN_RANK,
+  evaluateMembership,
+  applyLifecycleToUser,
+  assertMembershipAllowsAccess,
+  computePeriodEnd,
+  computeExpiryForProvision,
+  classifyTransition,
+  buildUsageMapFromPlan,
+  applyPlanToMembership,
+  loadActivePlan,
+  toDate,
+};

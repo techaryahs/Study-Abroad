@@ -2,10 +2,23 @@ const express = require("express");
 const router = express.Router();
 const bookingCtrl = require("../controllers/booking.controller");
 const auth = require("../middleware/auth");
-const requireEntitlement = require("../middleware/entitlement.middleware");
+const {
+  requireMembership,
+  requireEntitlement,
+  requireUsage,
+} = require("../middleware/membershipAuth.middleware");
 
-// ── Existing routes ────────────────────────────────────────────────────────
-router.post("/book-consultant", auth, requireEntitlement('human', 'consultation'), bookingCtrl.bookConsultant);
+// ── Paid human consultation (membership entitlement) ───────────────────────
+router.post(
+  "/book-consultant",
+  auth,
+  requireMembership(),
+  requireEntitlement("human", "consultation"),
+  requireUsage("consultation"),
+  bookingCtrl.bookConsultant
+);
+
+// ── Public / operational booking surfaces ──────────────────────────────────
 router.get("/booked-slots", bookingCtrl.getBookedSlots);
 router.get("/counselling/:email", bookingCtrl.getUserCounselling);
 router.get("/user/:email", bookingCtrl.getUserBookings);
@@ -15,9 +28,7 @@ router.post("/send-booking-otp", bookingCtrl.sendBookingOtp);
 router.post("/verify-booking-otp", bookingCtrl.verifyBookingOtp);
 
 // ── Consultant booking lookup ──────────────────────────────────────────────
-// By email (used by consultant-dashboard when _id is unavailable)
 router.get("/by-email", bookingCtrl.getBookingsByConsultantEmail);
-// By consultant document ID (main dashboard route)
 router.get("/consultant/:consultantId", bookingCtrl.getConsultantBookings);
 
 router.put("/:id/accept", bookingCtrl.acceptBooking);
@@ -27,12 +38,11 @@ router.delete("/:id", bookingCtrl.deleteBooking);
 router.put("/cancel/:id", bookingCtrl.cancelBooking);
 router.post("/seed", bookingCtrl.seedConsultants);
 
-// ── Counselling Session routes ─────────────────────────────────────────────
+// ── Counselling session (free/OTP path stays public; paid path uses book-consultant) ─
 router.post("/book-session", bookingCtrl.bookCounsellingSession);
 router.get("/available-slots", bookingCtrl.getAvailableSlots);
 router.get("/session/:sessionId", bookingCtrl.getCounsellingSession);
 
-// ── Admin: Get all bookings (with optional filters) ────────────────────────
 router.get("/", bookingCtrl.getAllBookings);
 
 module.exports = router;

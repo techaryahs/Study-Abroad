@@ -24,4 +24,6 @@ const receiptSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+receiptSchema.index({ paymentId: 1, orderId: 1 }, { unique: true });
+
 module.exports = mongoose.models.Receipt || mongoose.model("Receipt", receiptSchema);

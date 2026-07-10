@@ -3,16 +3,13 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { ChevronDown, Filter, X } from 'lucide-react';
 import UniversityCard from '../by-country/UniversityCard';
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 export default function ClientPage({ states, byState }: any) {
   const searchParams = useSearchParams();
   const queryState = searchParams?.get('state');
   const router = useRouter();
-  const { isPremium } = usePremiumStatus();
-
-  // Find a case-insensitive match for the initial state from query.
+    // Find a case-insensitive match for the initial state from query.
   const matchedState = queryState
     ? states.find((s: string) => s.toLowerCase() === queryState.toLowerCase())
     : null;
@@ -204,7 +201,7 @@ export default function ClientPage({ states, byState }: any) {
                 ))}
 
                 {unis.length > 3 && (
-                  <PremiumLock isPremium={isPremium} title={`Unlock ${unis.length} Universities`} description={`Get premium access to explore all ${unis.length} universities in ${selectedState}, including detailed admission stats and fees.`}>
+                  <EntitlementGuard featureId="university_search" fallbackTitle={`Unlock ${unis.length} Universities`} fallbackDescription={`Get premium access to explore all ${unis.length} universities in ${selectedState}, including detailed admission stats and fees.`}>
                     <div className="space-y-6 sm:space-y-8">
                       {unis.slice(3, 8).map((uni: any) => (
                         <div key={uni.slug}>
@@ -212,7 +209,7 @@ export default function ClientPage({ states, byState }: any) {
                         </div>
                       ))}
                     </div>
-                  </PremiumLock>
+                  </EntitlementGuard>
                 )}
               </>
             ) : (

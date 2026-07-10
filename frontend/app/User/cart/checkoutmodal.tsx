@@ -112,8 +112,13 @@ export default function CheckoutModal({
 
         const user = getUser();
         if (!user) {
-            setError("Session expired. Please login again.");
+            // Auth should be gated before checkout opens; never show session-expired here.
             setIsProcessing(false);
+            const returnTo =
+                typeof window !== "undefined"
+                    ? window.location.pathname + window.location.search
+                    : "/pricing";
+            window.location.href = `/auth/login?redirect=${encodeURIComponent(returnTo)}`;
             return;
         }
 
