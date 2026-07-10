@@ -79,16 +79,15 @@ export default function PricingPage() {
   const activePlan = selectedPackage ? packagePlans[selectedPackage] : null;
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#1D1413] py-24 px-6">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#6B4A1E_0%,transparent_45%),radial-gradient(circle_at_bottom_right,#0A2C83_0%,transparent_35%)] opacity-60" />
-
-      {/* Grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-
+    <main
+      className="relative min-h-screen overflow-hidden py-24 px-6"
+      style={{
+        background: "radial-gradient(circle at top left, rgba(44,165,157,0.16), transparent 30%), linear-gradient(135deg, #f8f4ea 0%, #fcfbf7 100%)",
+      }}
+    >
       {/* Blur Effects */}
-      <div className="absolute -left-40 top-40 h-96 w-96 rounded-full bg-[#0A2C83]/30 blur-[140px]" />
-      <div className="absolute -right-32 bottom-20 h-80 w-80 rounded-full bg-[#C58B14]/30 blur-[120px]" />
+      <div className="absolute -left-40 top-40 h-96 w-96 rounded-full bg-[#2ca59d]/15 blur-[140px]" />
+      <div className="absolute -right-32 bottom-20 h-80 w-80 rounded-full bg-[#d2a14a]/20 blur-[120px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto">
 
@@ -180,19 +179,19 @@ export default function PricingPage() {
       </div>
 
       {/* Heading */}
-        <div className="mt-20 mb-20 text-center">
-          <span className="inline-flex rounded-full border border-[#B3985E]/30 bg-[#B3985E]/10 px-5 py-2 text-sm font-semibold tracking-widest uppercase text-[#D6B06C]">
+        <div className="mt-20 mb-20 text-center relative z-10">
+          <span className="inline-flex rounded-full border border-[#2ca59d]/25 bg-[#2ca59d]/10 px-5 py-2 text-sm font-semibold tracking-widest uppercase text-[#0f4c5c]">
             Transparent Pricing
           </span>
 
-          <h1 className="mt-8 text-6xl md:text-7xl font-black text-white">
+          <h1 className="mt-8 text-6xl md:text-7xl font-black text-[#D4A54A]">
             Choose Your
-            <span className="block bg-gradient-to-r from-[#E4C07A] via-[#F4D89E] to-[#B3985E] bg-clip-text text-transparent">
+            <span className="block text-[#D4A54A]">
               Global Journey
             </span>
           </h1>
 
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-gray-300">
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-[#4b5b6a]">
             Whether you&apos;re just exploring or ready to fly abroad,
             choose the guidance package that fits your dream.
           </p>
@@ -222,16 +221,17 @@ export default function PricingPage() {
       )}
 
       {selectedPackage && activePlan && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/55 px-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#10324a]/60 px-4 backdrop-blur-sm">
           <div className="max-h-[88vh] w-full max-w-3xl overflow-hidden rounded-[28px] bg-white shadow-2xl">
-            <div className="flex items-start justify-between bg-gradient-to-r from-[#2B7CFF] to-[#145CFF] px-7 py-6 text-white">
-              <div>
-                <h2 className="font-serif text-3xl font-black leading-tight">
+            <div className="flex items-start justify-between bg-[#10324a] px-7 py-6 text-white relative overflow-hidden">
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />
+              <div className="relative">
+                <h2 className="font-serif text-3xl font-black leading-tight text-[#d2a14a]">
                   {activePlan.title}
                 </h2>
                 <p className="mt-3 text-xl font-medium">
                   Unlock{" "}
-                  <span className="font-black">
+                  <span className="font-black text-[#d2a14a]">
                     {selectedPackage === "essential"
                       ? "1/3"
                       : selectedPackage === "premium"
@@ -243,15 +243,15 @@ export default function PricingPage() {
               </div>
               <button
                 onClick={() => setSelectedPackage(null)}
-                className="rounded-full p-2 text-white transition hover:bg-white/15"
+                className="relative rounded-full p-2 text-white transition hover:bg-white/15"
                 aria-label="Close package details"
               >
                 <X size={28} />
               </button>
             </div>
 
-            <div className="max-h-[34vh] overflow-y-auto bg-[#F2FFF6] px-7 py-5">
-              <div className="mb-4 flex items-center gap-2 text-base font-black text-[#16A34A]">
+            <div className="max-h-[34vh] overflow-y-auto bg-[#f8f4ea]/60 px-7 py-5">
+              <div className="mb-4 flex items-center gap-2 text-base font-black text-[#2ca59d]">
                 <Check size={20} />
                 Included Services ({visibleServices.length})
               </div>
@@ -260,9 +260,9 @@ export default function PricingPage() {
                 {visibleServices.map((service) => (
                   <div
                     key={service}
-                    className="flex min-h-[72px] items-center gap-4 rounded-xl border border-[#BBF7D0] bg-[#F0FDF4] px-5 py-4 text-[#374151]"
+                    className="flex min-h-[72px] items-center gap-4 rounded-xl border border-[#2ca59d]/20 bg-white px-5 py-4 text-[#10324a]"
                   >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-sm font-black text-[#16A34A] shadow-sm">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f8f4ea] text-sm font-black text-[#2ca59d] shadow-sm">
                       <Check size={18} />
                     </span>
                     <span className="text-sm font-bold leading-5">
@@ -276,18 +276,18 @@ export default function PricingPage() {
             <div className="bg-white px-7 py-6">
               <div className="mb-5 flex items-end justify-between gap-4">
                 <div>
-                  <p className="text-sm font-medium text-[#4B5563]">
+                  <p className="text-sm font-medium text-[#4b5b6a]">
                     Plan Price
                   </p>
-                  <p className="mt-1 text-4xl font-black text-[#111827]">
+                  <p className="mt-1 text-4xl font-black text-[#10324a]">
                     ₹{activePlan.price.toLocaleString("en-IN")}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-medium text-[#4B5563]">
+                  <p className="text-sm font-medium text-[#4b5b6a]">
                     Services Unlocked
                   </p>
-                  <p className="mt-1 text-4xl font-black text-[#16A34A]">
+                  <p className="mt-1 text-4xl font-black text-[#2ca59d]">
                     {visibleServices.length}/{services.length}
                   </p>
                 </div>
@@ -298,13 +298,13 @@ export default function PricingPage() {
                   setSelectedPackage(null);
                   setSelectedPlan(activePlan);
                 }}
-                className="w-full rounded-xl bg-[#05B946] px-6 py-5 text-base font-black uppercase tracking-[0.16em] text-white transition hover:bg-[#049B3B] active:scale-[0.99]"
+                className="w-full rounded-xl bg-[#d2a14a] px-6 py-5 text-base font-black uppercase tracking-[0.16em] text-[#16364b] transition hover:bg-[#10324a] hover:text-white active:scale-[0.99]"
               >
                 Proceed To Payment →
               </button>
               <button
                 onClick={() => setSelectedPackage(null)}
-                className="mt-4 w-full rounded-xl bg-[#E5E7EB] px-6 py-4 text-base font-black text-[#374151] transition hover:bg-[#D1D5DB]"
+                className="mt-4 w-full rounded-xl bg-[#f8f4ea] px-6 py-4 text-base font-black text-[#10324a] transition hover:bg-[#eee7d8]"
               >
                 Cancel
               </button>

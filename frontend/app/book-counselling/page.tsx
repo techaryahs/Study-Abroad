@@ -148,15 +148,15 @@ function StepDot({ step, current, label }: { step: number; current: number; labe
     <div className="flex flex-col items-center gap-1">
       <div
         className={`w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center text-[14px] font-bold md:text-xs font-bold border-2 transition-all duration-300 ${done
-          ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D]"
+          ? "bg-[#d2a14a] border-[#d2a14a] text-[#10324a]"
           : active
-            ? "bg-transparent border-[#D4A848] text-[#D4A848]"
+            ? "bg-transparent border-[#d2a14a] text-[#d2a14a]"
             : "bg-transparent border-white/20 text-white/30"
           }`}
       >
         {done ? "✓" : step}
       </div>
-      <span className={`text-[12px] font-black md:text-[13px] font-bold font-semibold uppercase tracking-wider ${active ? "text-[#D4A848]" : done ? "text-white/60" : "text-white/25"}`}>
+      <span className={`text-[12px] font-black md:text-[13px] font-bold font-semibold uppercase tracking-wider ${active ? "text-[#d2a14a]" : done ? "text-white/60" : "text-white/25"}`}>
         {label}
       </span>
     </div>
@@ -557,15 +557,15 @@ export default function BookCounsellingPage() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97, y: 15 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="min-h-screen pt-20 pb-12 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-black/40"
+            className="min-h-screen pt-20 pb-12 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-[#10324a]/50"
           >
-            <div className="w-full max-w-5xl bg-[#2D1F1D] border border-[#D4A848]/20 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col lg:flex-row min-h-[600px] relative">
+            <div className="w-full max-w-5xl bg-[#10324a] border border-[#d2a14a]/25 rounded-3xl shadow-[0_20px_50px_rgba(16,50,74,0.5)] overflow-hidden flex flex-col lg:flex-row min-h-[600px] relative">
 
               {/* ── Left Panel (Hero/Info) ── */}
-              <div className="lg:w-[40%] bg-black/20 p-6 md:p-10 flex flex-col relative border-b lg:border-b-0 lg:border-r border-[#D4A848]/10 overflow-hidden shrink-0">
+              <div className="lg:w-[40%] bg-white/5 p-6 md:p-10 flex flex-col relative border-b lg:border-b-0 lg:border-r border-[#d2a14a]/15 overflow-hidden shrink-0">
                 {/* Background Decor */}
-                <div className="absolute top-[-20%] left-[-20%] w-[300px] h-[300px] bg-[#D4A848]/10 rounded-full blur-[100px] pointer-events-none" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[200px] h-[200px] bg-[#D4A848]/5 rounded-full blur-[80px] pointer-events-none" />
+                <div className="absolute top-[-20%] left-[-20%] w-[300px] h-[300px] bg-[#d2a14a]/15 rounded-full blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[200px] h-[200px] bg-[#2ca59d]/12 rounded-full blur-[80px] pointer-events-none" />
 
                 {/* Back Button */}
                 <button onClick={onClose} className="absolute top-6 left-6 text-white/40 hover:text-white transition-colors flex items-center gap-2 text-[10px] font-black uppercase tracking-widest z-10 bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm border border-white/5">
@@ -574,19 +574,29 @@ export default function BookCounsellingPage() {
                 </button>
 
                 <div className="flex-1 flex flex-col justify-center relative z-10 mt-12 lg:mt-0">
-                  <div className="inline-flex items-center gap-2 bg-[#D4A848]/10 border border-[#D4A848]/25 rounded-full px-3 py-1 mb-5 w-fit">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#D4A848] animate-pulse" />
-                    <span className="text-[#D4A848] text-[11px] font-black tracking-widest uppercase">Book Session</span>
+                  <div className="inline-flex items-center gap-2 bg-[#d2a14a]/10 border border-[#d2a14a]/30 rounded-full px-3 py-1 mb-5 w-fit">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#d2a14a] animate-pulse" />
+                    <span className="text-[#d2a14a] text-[11px] font-black tracking-widest uppercase">Book Session</span>
                   </div>
 
-                  <h2 className="text-3xl lg:text-4xl font-black text-white leading-tight mb-3">
-                    Counselling<br />Session
+                  <h2 className="text-3xl lg:text-4xl font-black leading-tight mb-3">
+                    <span
+                      style={{
+                        background: "linear-gradient(90deg, #d2a14a, #f4d89e, #d2a14a, #b3985e, #d2a14a)",
+                        backgroundSize: "300% auto",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      Counselling<br />Session
+                    </span>
                   </h2>
                   <p className="text-white/50 text-sm mb-8 font-medium max-w-[250px]">1-hour private one-on-one session with our experts.</p>
 
                   {/* Admin Badge */}
                   <div className="inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-3 w-fit backdrop-blur-md">
-                    <div className="w-10 h-10 rounded-full bg-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 text-lg">
+                    <div className="w-10 h-10 rounded-full bg-[#d2a14a]/20 flex items-center justify-center text-[#d2a14a] shrink-0 text-lg">
                       👤
                     </div>
                     <div>
@@ -598,15 +608,15 @@ export default function BookCounsellingPage() {
                   {/* Benefits List */}
                   <div className="mt-12 space-y-4 hidden lg:block">
                     <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
+                      <div className="w-5 h-5 rounded-full bg-[#d2a14a]/10 border border-[#d2a14a]/25 flex items-center justify-center text-[#d2a14a] shrink-0 mt-0.5 text-[10px]">✓</div>
                       <p className="text-sm font-medium text-white/60">Personalized university shortlisting</p>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
+                      <div className="w-5 h-5 rounded-full bg-[#d2a14a]/10 border border-[#d2a14a]/25 flex items-center justify-center text-[#d2a14a] shrink-0 mt-0.5 text-[10px]">✓</div>
                       <p className="text-sm font-medium text-white/60">Profile evaluation & strengthening</p>
                     </div>
                     <div className="flex items-start gap-3">
-                      <div className="w-5 h-5 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/20 flex items-center justify-center text-[#D4A848] shrink-0 mt-0.5 text-[10px]">✓</div>
+                      <div className="w-5 h-5 rounded-full bg-[#d2a14a]/10 border border-[#d2a14a]/25 flex items-center justify-center text-[#d2a14a] shrink-0 mt-0.5 text-[10px]">✓</div>
                       <p className="text-sm font-medium text-white/60">Application timeline planning</p>
                     </div>
                   </div>
@@ -614,7 +624,7 @@ export default function BookCounsellingPage() {
               </div>
 
               {/* ── Right Panel (Interactive) ── */}
-              <div className="lg:w-[60%] flex flex-col relative bg-[#2D1F1D]">
+              <div className="lg:w-[60%] flex flex-col relative bg-[#10324a]">
 
                 {/* Mobile Close Button */}
                 <button onClick={onClose} className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all z-20 lg:hidden">
@@ -625,9 +635,9 @@ export default function BookCounsellingPage() {
                 {step < 4 && !needsQuickAuth && (
                   <div className="flex items-center gap-2 px-6 md:px-10 pt-8 pb-4 flex-shrink-0">
                     <StepDot step={1} current={step} label="Date" />
-                    <div className={`flex-1 h-px ${step > 1 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
+                    <div className={`flex-1 h-px ${step > 1 ? "bg-[#d2a14a]/40" : "bg-white/10"}`} />
                     <StepDot step={2} current={step} label="Time" />
-                    <div className={`flex-1 h-px ${step > 2 ? "bg-[#D4A848]/40" : "bg-white/10"}`} />
+                    <div className={`flex-1 h-px ${step > 2 ? "bg-[#d2a14a]/40" : "bg-white/10"}`} />
                     <StepDot step={3} current={step} label="Confirm" />
                   </div>
                 )}
@@ -639,7 +649,7 @@ export default function BookCounsellingPage() {
                   {needsQuickAuth ? (
                     <motion.div key="auth" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="p-6 md:p-10 space-y-5 flex flex-col justify-center h-full">
                       <div className="text-center mb-6">
-                        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-[#D4A848]/10 border border-[#D4A848]/25 flex items-center justify-center text-[#D4A848]">
+                        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-[#d2a14a]/10 border border-[#d2a14a]/30 flex items-center justify-center text-[#d2a14a]">
                           {otpSent ? <Phone size={20} /> : <UserPlus size={20} />}
                         </div>
                         <div className="text-white text-lg font-black tracking-tight">Quick Booking</div>
@@ -651,9 +661,9 @@ export default function BookCounsellingPage() {
                       {!otpSent ? (
                         <div className="space-y-4 max-w-sm mx-auto w-full">
                           <input type="text" placeholder="Your Name" value={userName} onChange={e => setUserName(e.target.value)}
-                            className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#d2a14a]/50 outline-none transition-colors" />
                           <input type="email" placeholder="Email Address *" value={userEmail} onChange={e => setUserEmail(e.target.value)} required
-                            className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
+                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#d2a14a]/50 outline-none transition-colors" />
                           <div className="grid grid-cols-[120px_1fr] gap-3">
                             <select
                               aria-label="Country code"
@@ -663,7 +673,7 @@ export default function BookCounsellingPage() {
                                 setSelectedCountryIso(nextIso);
                                 setUserPhone(buildPhoneNumber(nextIso, phoneNumber));
                               }}
-                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-3 py-3.5 text-sm text-white focus:border-[#D4A848]/40 outline-none transition-colors"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-3.5 text-sm text-white focus:border-[#d2a14a]/50 outline-none transition-colors"
                             >
                               {COUNTRY_CODE_OPTIONS.map(country => (
                                 <option key={country.isoCode} value={country.isoCode}>
@@ -681,7 +691,7 @@ export default function BookCounsellingPage() {
                                 setUserPhone(buildPhoneNumber(selectedCountryIso, digits));
                               }}
                               required
-                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#d2a14a]/50 outline-none transition-colors"
                             />
                           </div>
 
@@ -690,27 +700,27 @@ export default function BookCounsellingPage() {
                             <button
                               type="button"
                               onClick={() => router.push("/auth/login")}
-                              className="w-full py-3.5 rounded-xl border border-[#D4A848]/40 text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848]/10 transition-all"
+                              className="w-full py-3.5 rounded-xl border border-[#d2a14a]/40 text-[#d2a14a] text-xs font-black uppercase tracking-widest hover:bg-[#d2a14a]/10 transition-all"
                             >
                               Login Instead
                             </button>
                           )}
 
                           <button type="button" onClick={sendOtp} disabled={otpLoading || authLoading || !userEmail || !phoneNumber}
-                            className="w-full py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#D4A848]/20 mt-2">
+                            className="w-full py-3.5 rounded-xl bg-[#d2a14a] text-[#10324a] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#d2a14a]/20 mt-2">
                             {otpLoading ? "Sending..." : "Send OTP"}
                           </button>
                         </div>
                       ) : (
                         <div className="space-y-5 max-w-sm mx-auto w-full">
-                          <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-2xl p-4 space-y-2">
+                          <div className="bg-white/5 border border-[#d2a14a]/15 rounded-2xl p-4 space-y-2">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-[#D4A848]">
+                              <div className="w-10 h-10 rounded-full bg-[#d2a14a]/10 flex items-center justify-center text-[#d2a14a]">
                                 <Phone size={18} />
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="text-white text-xs font-bold mb-0.5">OTP sent to</div>
-                                <div className="text-[#D4A848] text-sm truncate">{userPhone}</div>
+                                <div className="text-[#d2a14a] text-sm truncate">{userPhone}</div>
                               </div>
                               <button
                                 type="button"
@@ -741,7 +751,7 @@ export default function BookCounsellingPage() {
                                 setOtp(val);
                               }}
                               maxLength={6}
-                              className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-4 text-center text-2xl tracking-[0.5em] text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none font-mono transition-colors"
+                              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-center text-2xl tracking-[0.5em] text-white placeholder-white/20 focus:border-[#d2a14a]/50 outline-none font-mono transition-colors"
                             />
 
                             {otpTimer > 0 && (
@@ -756,20 +766,20 @@ export default function BookCounsellingPage() {
                             <button
                               type="button"
                               onClick={() => router.push("/auth/login")}
-                              className="w-full py-3.5 rounded-xl border border-[#D4A848]/40 text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848]/10 transition-all"
+                              className="w-full py-3.5 rounded-xl border border-[#d2a14a]/40 text-[#d2a14a] text-xs font-black uppercase tracking-widest hover:bg-[#d2a14a]/10 transition-all"
                             >
                               Login Instead
                             </button>
                           )}
 
                           <button type="button" onClick={verifyOtp} disabled={otpLoading || authLoading || otpVerified || otp.length !== 6}
-                            className="w-full py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#D4A848]/20 mt-2">
+                            className="w-full py-3.5 rounded-xl bg-[#d2a14a] text-[#10324a] text-[14px] font-black uppercase tracking-widest disabled:opacity-30 transition-all shadow-lg hover:shadow-[#d2a14a]/20 mt-2">
                             {otpLoading || authLoading ? "Verifying..." : otpVerified ? "Verified" : "Verify & Continue"}
                           </button>
 
                           {otpTimer === 0 && (
                             <button type="button" onClick={sendOtp} disabled={otpLoading || authLoading}
-                              className="w-full text-[#D4A848] text-[13px] font-bold hover:underline disabled:opacity-40">
+                              className="w-full text-[#d2a14a] text-[13px] font-bold hover:underline disabled:opacity-40">
                               Resend OTP
                             </button>
                           )}
@@ -777,7 +787,7 @@ export default function BookCounsellingPage() {
                       )}
 
                       <div className="text-center mt-6">
-                        <button onClick={() => router.push("/auth/login")} className="text-[#D4A848] text-[13px] font-bold hover:underline">
+                        <button onClick={() => router.push("/auth/login")} className="text-[#d2a14a] text-[13px] font-bold hover:underline">
                           Already have an account? Login
                         </button>
                       </div>
@@ -788,7 +798,7 @@ export default function BookCounsellingPage() {
                         <motion.div key="s1" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-6 md:p-10 space-y-6">
                           <div className="space-y-4 max-w-sm mx-auto">
                             <label className="text-[13px] font-bold md:text-[14px] font-black text-white/50 uppercase tracking-widest block text-center">Select Date</label>
-                            <div className="bg-[#362B25]/40 border border-[#D4A848]/10 rounded-2xl p-4 md:p-5 shadow-inner">
+                            <div className="bg-white/5 border border-[#d2a14a]/15 rounded-2xl p-4 md:p-5 shadow-inner">
                               <div className="flex items-center justify-between mb-5">
                                 <button onClick={prevMonth} className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors">‹</button>
                                 <span className="text-[15px] font-black text-white uppercase tracking-wider">{monthNames[calMonth]} {calYear}</span>
@@ -796,7 +806,7 @@ export default function BookCounsellingPage() {
                               </div>
                               <div className="grid grid-cols-7 mb-3">
                                 {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map(d => (
-                                  <div key={d} className="text-center text-[12px] font-black text-[#D4A848]/60 uppercase py-1">{d}</div>
+                                  <div key={d} className="text-center text-[12px] font-black text-[#d2a14a]/60 uppercase py-1">{d}</div>
                                 ))}
                               </div>
                               <div className="grid grid-cols-7 gap-1">
@@ -809,9 +819,9 @@ export default function BookCounsellingPage() {
                                     <button key={i} onClick={() => selectDay(day)} disabled={disabled}
                                       className={`aspect-square w-full rounded-xl text-sm font-bold transition-all flex items-center justify-center
                                       ${!day ? "invisible" : ""}
-                                      ${disabled ? "text-white/10 cursor-not-allowed" : "hover:bg-[#D4A848]/10 text-white"}
-                                      ${isSelected ? "!bg-[#D4A848] !text-[#2D1F1D] shadow-lg shadow-[#D4A848]/20 scale-105" : ""}
-                                      ${isToday && !isSelected ? "text-[#D4A848] ring-1 ring-[#D4A848]/30" : ""}
+                                      ${disabled ? "text-white/10 cursor-not-allowed" : "hover:bg-[#d2a14a]/10 text-white"}
+                                      ${isSelected ? "!bg-[#d2a14a] !text-[#10324a] shadow-lg shadow-[#d2a14a]/20 scale-105" : ""}
+                                      ${isToday && !isSelected ? "text-[#d2a14a] ring-1 ring-[#d2a14a]/30" : ""}
                                     `}
                                     >{day}</button>
                                   );
@@ -824,11 +834,11 @@ export default function BookCounsellingPage() {
 
                       {step === 2 && (
                         <motion.div key="s2" custom={dir} variants={slideVariants} initial="enter" animate="center" exit="exit" className="p-6 md:p-10 space-y-6">
-                          <div className="flex items-center justify-center gap-4 bg-[#362B25]/60 border border-[#D4A848]/10 rounded-2xl px-5 py-4 max-w-sm mx-auto shadow-inner">
-                            <div className="w-10 h-10 rounded-full bg-[#D4A848]/10 flex items-center justify-center text-xl">📅</div>
+                          <div className="flex items-center justify-center gap-4 bg-white/5 border border-[#d2a14a]/15 rounded-2xl px-5 py-4 max-w-sm mx-auto shadow-inner">
+                            <div className="w-10 h-10 rounded-full bg-[#d2a14a]/10 flex items-center justify-center text-xl">📅</div>
                             <div className="text-left">
                               <div className="text-white font-black text-sm uppercase tracking-wider">{formatDate(selectedDate)}</div>
-                              <div className="text-[#D4A848]/70 text-[11px] font-black uppercase tracking-widest mt-0.5">Select a preferred slot below</div>
+                              <div className="text-[#d2a14a]/70 text-[11px] font-black uppercase tracking-widest mt-0.5">Select a preferred slot below</div>
                             </div>
                           </div>
 
@@ -840,7 +850,7 @@ export default function BookCounsellingPage() {
                             ) : (
                               <div className="grid grid-cols-3 gap-3">
                                 {slots.length === 0 ? (
-                                  <div className="col-span-3 text-center py-10 bg-[#362B25]/30 rounded-2xl border border-white/5">
+                                  <div className="col-span-3 text-center py-10 bg-white/5 rounded-2xl border border-white/10">
                                     <div className="text-4xl mb-3 opacity-50">⏰</div>
                                     <div className="text-white/70 text-[15px] font-black tracking-wide">No slots available</div>
                                     <div className="text-white/40 text-xs mt-1">Please select another date</div>
@@ -860,13 +870,13 @@ export default function BookCounsellingPage() {
                                     <button key={slot.time} disabled={blocked} onClick={() => setSelectedSlot(slot)}
                                       className={`h-14 rounded-xl text-xs font-black uppercase tracking-wider border flex flex-col items-center justify-center transition-all relative overflow-hidden
                                       ${isSelected
-                                          ? "bg-[#D4A848] border-[#D4A848] text-[#2D1F1D] shadow-[0_5px_15px_rgba(212,168,72,0.3)] scale-105 z-10"
-                                          : blocked ? "bg-[#362B25]/20 border-white/5 opacity-40 cursor-not-allowed" : "bg-[#362B25]/40 border-white/5 text-white/70 hover:border-[#D4A848]/30 hover:bg-[#D4A848]/5"
+                                          ? "bg-[#d2a14a] border-[#d2a14a] text-[#10324a] shadow-[0_5px_15px_rgba(210,161,74,0.3)] scale-105 z-10"
+                                          : blocked ? "bg-white/5 border-white/10 opacity-40 cursor-not-allowed" : "bg-white/5 border-white/10 text-white/70 hover:border-[#d2a14a]/40 hover:bg-[#d2a14a]/5"
                                         }
                                     `}
                                     >
                                       <span className={blocked ? "line-through text-white/40" : ""}>{slot.time}</span>
-                                      <span className={`text-[9px] mt-0.5 tracking-widest ${isSelected ? "text-[#2D1F1D]/70" : blocked ? "text-red-400/70" : "text-[#D4A848]/50"}`}>{subLabel}</span>
+                                      <span className={`text-[9px] mt-0.5 tracking-widest ${isSelected ? "text-[#10324a]/70" : blocked ? "text-red-400/70" : "text-[#d2a14a]/50"}`}>{subLabel}</span>
                                     </button>
                                   );
                                 })}
@@ -899,28 +909,28 @@ export default function BookCounsellingPage() {
                               </div>
                             )}
 
-                            <div className="bg-[#362B25]/60 border border-[#D4A848]/10 rounded-2xl p-5 space-y-2 text-center shadow-inner">
+                            <div className="bg-white/5 border border-[#d2a14a]/15 rounded-2xl p-5 space-y-2 text-center shadow-inner">
                               <div className="text-[11px] font-black text-white/40 uppercase tracking-[0.2em] mb-2">Session Summary</div>
                               <div className="text-white text-sm font-black uppercase tracking-wider">{formatDate(selectedDate)}</div>
-                              <div className="text-[#D4A848] text-lg font-black uppercase tracking-widest">{selectedSlot?.time} – {selectedSlot?.endTime}</div>
+                              <div className="text-[#d2a14a] text-lg font-black uppercase tracking-widest">{selectedSlot?.time} – {selectedSlot?.endTime}</div>
                             </div>
 
                             <div className="space-y-3">
                               <input type="text" placeholder="Full Name" value={userName} onChange={e => setUserName(e.target.value)}
-                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none transition-colors" />
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#d2a14a]/50 outline-none transition-colors" />
                               <input type="email" placeholder="Email Address *" value={userEmail} onChange={e => setUserEmail(e.target.value)} onBlur={() => void checkFreeEligibility(userEmail)} required disabled={isLoggedIn}
-                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50 transition-colors" />
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#d2a14a]/50 outline-none disabled:opacity-50 transition-colors" />
                               <input type="tel" placeholder="Phone Number *" value={userPhone} onChange={e => setUserPhone(e.target.value)} required disabled={isLoggedIn}
-                                className="w-full bg-[#1A110F] border border-white/5 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#D4A848]/40 outline-none disabled:opacity-50 transition-colors" />
+                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-sm text-white placeholder-white/20 focus:border-[#d2a14a]/50 outline-none disabled:opacity-50 transition-colors" />
                             </div>
 
                             {isLoggedIn && (
-                              <div className="flex items-center justify-between gap-3 text-[12px] px-2 bg-white/5 py-2 rounded-lg border border-white/5">
+                              <div className="flex items-center justify-between gap-3 text-[12px] px-2 bg-white/5 py-2 rounded-lg border border-white/10">
                                 <span className="text-white/50 font-medium">Using saved account details</span>
                                 <button
                                   type="button"
                                   onClick={useDifferentDetails}
-                                  className="text-[#D4A848] hover:text-white transition-colors font-black uppercase tracking-wider text-[10px]"
+                                  className="text-[#d2a14a] hover:text-white transition-colors font-black uppercase tracking-wider text-[10px]"
                                 >
                                   Change
                                 </button>
@@ -930,12 +940,12 @@ export default function BookCounsellingPage() {
                             {error && <div className="text-red-400 text-xs text-center font-medium">{error}</div>}
 
                             {!freeEligibility?.eligible && (
-                              <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-2xl p-5 space-y-2">
+                              <div className="bg-[#d2a14a]/10 border border-[#d2a14a]/25 rounded-2xl p-5 space-y-2">
                                 <div className="flex justify-between items-center text-[13px] font-black text-white/60 uppercase tracking-widest">
                                   <span>Session Charge</span>
-                                  <span className="text-[#D4A848] text-base">Rs. 599</span>
+                                  <span className="text-[#d2a14a] text-base">Rs. 599</span>
                                 </div>
-                                <div className="text-[11px] text-[#D4A848]/60 font-medium leading-relaxed">Charges are fully adjustable against any EduLeaderGlobal premium service you opt for later.</div>
+                                <div className="text-[11px] text-[#d2a14a]/70 font-medium leading-relaxed">Charges are fully adjustable against any EduLeaderGlobal premium service you opt for later.</div>
                               </div>
                             )}
                           </div>
@@ -954,28 +964,28 @@ export default function BookCounsellingPage() {
                             <p className="text-white/50 text-[14px] font-medium mt-2">Confirmation sent to <span className="text-white">{userEmail}</span></p>
                           </div>
 
-                          <div className="bg-[#362B25]/60 border border-[#D4A848]/20 rounded-2xl p-5 space-y-4 text-left shadow-inner">
+                          <div className="bg-white/5 border border-[#d2a14a]/25 rounded-2xl p-5 space-y-4 text-left shadow-inner">
                             <Row label="Date" value={formatDate(booking.date)} />
                             <Row label="Time" value={booking.time} />
-                            <div className="pt-4 border-t border-white/5">
+                            <div className="pt-4 border-t border-white/10">
                               <div className="text-[11px] font-black text-white/40 uppercase tracking-widest mb-1.5">Meeting ID</div>
-                              <code className="block w-full bg-black/40 px-4 py-3 rounded-xl text-[#D4A848] text-sm font-black font-mono text-center tracking-widest border border-[#D4A848]/10">{booking.meetingId}</code>
+                              <code className="block w-full bg-black/30 px-4 py-3 rounded-xl text-[#d2a14a] text-sm font-black font-mono text-center tracking-widest border border-[#d2a14a]/15">{booking.meetingId}</code>
                             </div>
                           </div>
 
                           {shouldPromptProfileCompletion && lastBookingWasFree && (
-                            <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-2xl p-5 text-left">
-                              <div className="text-[#D4A848] text-sm font-black uppercase tracking-wider mb-2">Complete Your Profile</div>
+                            <div className="bg-[#d2a14a]/10 border border-[#d2a14a]/25 rounded-2xl p-5 text-left">
+                              <div className="text-[#d2a14a] text-sm font-black uppercase tracking-wider mb-2">Complete Your Profile</div>
                               <div className="text-white/60 text-xs font-medium mb-4 leading-relaxed">Add your profile details to book more sessions and access your full student dashboard.</div>
                               <button onClick={() => { onClose(); router.push("/User/edit-profile"); }}
-                                className="w-full py-3 rounded-xl border-2 border-[#D4A848] text-[#D4A848] text-xs font-black uppercase tracking-widest hover:bg-[#D4A848] hover:text-[#2D1F1D] transition-colors">
+                                className="w-full py-3 rounded-xl border-2 border-[#d2a14a] text-[#d2a14a] text-xs font-black uppercase tracking-widest hover:bg-[#d2a14a] hover:text-[#10324a] transition-colors">
                                 Complete Profile Now
                               </button>
                             </div>
                           )}
 
                           <button onClick={() => { onClose(); router.push(`/meeting/${booking.sessionId}`); }}
-                            className="w-full bg-[#D4A848] text-[#2D1F1D] font-black py-4 rounded-xl text-sm uppercase tracking-widest shadow-[0_10px_20px_rgba(212,168,72,0.2)] hover:shadow-[0_15px_30px_rgba(212,168,72,0.3)] transition-all hover:-translate-y-1">
+                            className="w-full bg-[#d2a14a] text-[#10324a] font-black py-4 rounded-xl text-sm uppercase tracking-widest shadow-[0_10px_20px_rgba(210,161,74,0.2)] hover:shadow-[0_15px_30px_rgba(210,161,74,0.3)] transition-all hover:-translate-y-1">
                             Enter Meeting Room
                           </button>
                         </motion.div>
@@ -986,9 +996,9 @@ export default function BookCounsellingPage() {
 
                 {/* Footer Controls */}
                 {step < 4 && !needsQuickAuth && (
-                  <div className="p-6 md:p-10 pt-4 border-t border-white/5 flex gap-3 mt-auto shrink-0 bg-[#2D1F1D]">
+                  <div className="p-6 md:p-10 pt-4 border-t border-white/10 flex gap-3 mt-auto shrink-0 bg-[#10324a]">
                     {step > 1 && (
-                      <button onClick={() => goBack(step - 1)} className="flex-[0.4] py-3.5 rounded-xl border border-white/10 text-white/60 hover:text-white hover:bg-white/5 text-[12px] font-black uppercase tracking-widest transition-all">Back</button>
+                      <button onClick={() => goBack(step - 1)} className="flex-[0.4] py-3.5 rounded-xl border border-white/15 text-white/60 hover:text-white hover:bg-white/5 text-[12px] font-black uppercase tracking-widest transition-all">Back</button>
                     )}
                     <button
                       onClick={async () => {
@@ -1014,7 +1024,7 @@ export default function BookCounsellingPage() {
                         }
                       }}
                       disabled={(step === 1 && !selectedDate) || (step === 2 && !selectedSlot) || (step === 3 && (bookingLoading || isCheckingEligibility))}
-                      className="flex-1 py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[13px] font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all shadow-lg shadow-[#D4A848]/10 hover:shadow-[#D4A848]/20"
+                      className="flex-1 py-3.5 rounded-xl bg-[#d2a14a] text-[#10324a] text-[13px] font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all shadow-lg shadow-[#d2a14a]/15 hover:shadow-[#d2a14a]/25"
                     >
                       {bookingLoading ? "Booking..." : isCheckingEligibility ? "Checking..." : step === 3 ? (freeEligibility?.eligible ? "Confirm Free Session" : "Confirm & Pay (Rs.599)") : "Continue"}
                     </button>
