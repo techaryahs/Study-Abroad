@@ -793,11 +793,13 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("ai-services")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-default text-[11px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white"}`}>
-                  AI Services
-                  <div className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,1)]" />
-                  <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "ai-services" ? "-rotate-90" : ""}`} />
-                </div>
+              <Link
+    href="/ai-services"
+    className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.25em] text-white hover:text-[#B3985E] transition-all"
+>
+    AI Services
+    <div className="w-1 h-1 rounded-full bg-blue-500" />
+</Link>
                 {activeDropdown === "ai-services" && (
                   <DropdownPanel
                     items={aiServicesItems}
