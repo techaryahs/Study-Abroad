@@ -2,7 +2,7 @@
 
 import React, { useState, ReactNode } from "react";
 import Link from "next/link";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 // ─── Components ──────────────────────────────────────────────────────────────
@@ -61,7 +61,7 @@ export default function CounsellingPage() {
               working overseas. <span className="text-[#ffffff]">Charges fully adjustable</span> in service pricing.
             </p>
 
-            <DiscussionSection serviceId="counselling" />
+            <DiscussionSection serviceId="consultation" />
           </div>
 
           <div className="w-[85%] h-[280px] md:h-[380px] mx-auto rounded-3xl overflow-hidden border border-[#c6a96b]/20 shadow-2xl">
@@ -140,9 +140,9 @@ export default function CounsellingPage() {
         {/* Sidebar */}
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28 space-y-8">
-            {/* <AddToCart serviceId="counselling" /> */}
+            <ServiceCTA serviceId="consultation" />
             <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-6 shadow-2xl">
-              <DiscussionSection serviceId="counselling" />
+              <DiscussionSection serviceId="consultation" />
             </div>
           </div>
         </div>

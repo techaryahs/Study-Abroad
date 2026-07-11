@@ -28,10 +28,12 @@ import {
   Smartphone,
   Menu,
   Plus,
-  Minus
+  Minus,
+  Star as StarIcon
 } from "lucide-react";
 import { useEffect } from "react";
-import { getUser, removeToken, clearAuth } from "@/app/lib/token";
+import { removeToken, clearAuth } from "@/app/lib/token";
+import { getSessionUser, isAuthenticated } from "@/app/lib/session";
 import Image from "next/image";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -504,7 +506,6 @@ export default function Navbar() {
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [expandedSubItem, setExpandedSubItem] = useState<string | null>(null);
-  const [cartCount, setCartCount] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchError, setSearchError] = useState(false);
   const [suggestions, setSuggestions] = useState<{ name: string, href: string }[]>([]);
@@ -574,44 +575,26 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    // Auth = session helper (token). User cache is display only — not a second login definition.
     const refreshUser = () => {
-      const storedUser = getUser();
+      if (!isAuthenticated()) {
+        setUserState(null);
+        return;
+      }
+      const storedUser = getSessionUser();
       if (storedUser && (storedUser._id || storedUser.id)) {
         setUserState(storedUser);
       } else {
-        setUserState(null);
+        // Token present without full user cache — still authenticated chrome
+        setUserState(storedUser ?? { id: "session" });
       }
     };
-
-    refreshUser();
-    window.addEventListener('user-updated', refreshUser);
-
-    const fetchCartCount = async () => {
-      const token = localStorage.getItem("auth_token");
-      if (!token) {
-        setCartCount(0);
-        return;
-      }
-      try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/get-cart`, {
-          headers: { "Authorization": `Bearer ${token}` }
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setCartCount(data.cart?.length || 0);
-        }
-      } catch (error) {
-        console.error("Failed to fetch cart count:", error);
-      }
-    };
-
-    fetchCartCount();
-    window.addEventListener('cart-updated', fetchCartCount);
 
     const fetchFullProfile = async () => {
-      const storedUser = getUser();
+      if (!isAuthenticated()) return;
+      const storedUser = getSessionUser();
       const userId = storedUser?._id || storedUser?.id;
-      if (!userId) return;
+      if (!userId || userId === "session") return;
 
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
@@ -644,16 +627,14 @@ export default function Navbar() {
     fetchFullProfile();
 
     window.addEventListener('user-updated', handleUserUpdate);
-    window.addEventListener('cart-updated', fetchCartCount);
 
     return () => {
       window.removeEventListener('user-updated', handleUserUpdate);
-      window.removeEventListener('cart-updated', fetchCartCount);
     };
   }, []);
 
   const handleLogout = () => {
-    removeToken();
+    removeToken(); // clears token + user and dispatches user-updated
     window.location.href = "/";
   };
 
@@ -756,9 +737,12 @@ export default function Navbar() {
                 )}
               </div>
 
-              <div className="h-full flex items-center">
+              <div className="h-full flex items-center gap-6 xl:gap-8">
                 <Link href="/services" className="text-[11px] font-black uppercase tracking-[0.25em] text-white hover:text-[#B3985E] transition-all">
                   Services
+                </Link>
+                <Link href="/pricing" className="text-[11px] font-black uppercase tracking-[0.25em] text-[#B3985E] hover:text-white transition-all">
+                  Membership
                 </Link>
               </div>
 
@@ -793,11 +777,13 @@ export default function Navbar() {
                 onMouseEnter={() => onEnter("ai-services")}
                 onMouseLeave={onLeave}
               >
-                <div className={`flex items-center gap-2 cursor-default text-[11px] font-black uppercase tracking-[0.25em] transition-all group hover:text-[#B3985E] ${activeDropdown === "ai-services" ? "text-[#B3985E]" : "text-white"}`}>
-                  AI Services
-                  <div className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,1)]" />
-                  <ChevronRight size={10} className={`rotate-90 transition-transform ${activeDropdown === "ai-services" ? "-rotate-90" : ""}`} />
-                </div>
+              <Link
+    href="/ai-services"
+    className="flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.25em] text-white hover:text-[#B3985E] transition-all"
+>
+    AI Services
+    <div className="w-1 h-1 rounded-full bg-blue-500" />
+</Link>
                 {activeDropdown === "ai-services" && (
                   <DropdownPanel
                     items={aiServicesItems}
@@ -829,14 +815,7 @@ export default function Navbar() {
                 </>
               ) : (
                 <div className="flex items-center gap-3 sm:gap-5">
-                  <Link href="/User/cart" className="relative group/checkout p-2">
-                    <ShoppingCart size={14} className="text-white opacity-40 group-hover/checkout:opacity-100 group-hover/checkout:text-[#B3985E] transition-all" />
-                    {cartCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-600 text-white text-[11px] font-black font-black rounded-full flex items-center justify-center shadow-lg border border-[#16364F] group-hover/checkout:bg-[#B3985E] transition-all">
-                        {cartCount}
-                      </span>
-                    )}
-                  </Link>
+                  {/* Removed Desktop Cart */}
 
                   <Link
                     href="/book-counselling"
@@ -1062,17 +1041,12 @@ export default function Navbar() {
               </Link>
 
               <Link
-                href="/User/cart"
+                href="/pricing"
                 onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[14px] font-bold font-black uppercase tracking-widest hover:bg-white/10 active:scale-95 transition-all relative"
+                className="flex items-center justify-center gap-3 h-14 rounded-2xl bg-white/5 border border-white/10 text-[#B3985E] text-[14px] font-bold font-black uppercase tracking-widest hover:bg-white/10 active:scale-95 transition-all relative"
               >
-                <ShoppingCart size={14} className="text-[#B3985E]" />
-                Cart
-                {cartCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 text-white text-[13px] font-bold font-black rounded-full flex items-center justify-center shadow-lg border-2 border-[#16364F]">
-                    {cartCount}
-                  </span>
-                )}
+                <StarIcon size={14} className="text-[#B3985E]" />
+                Membership
               </Link>
             </div>
 

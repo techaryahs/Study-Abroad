@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Users, Clock, ExternalLink, ArrowRight, MoreHorizontal, MessageCircle, Send, Copy, Link as LinkIcon, Check, Calendar, Share2, Activity, Brain, Microscope, FlaskConical, BookOpen, Target } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 export const groups = [
   {
@@ -78,9 +77,7 @@ interface AvailableGroupsProps {
 export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardClick }: AvailableGroupsProps) {
   const [openShareId, setOpenShareId] = React.useState<number | null>(null);
   const [copiedId, setCopiedId] = React.useState<number | null>(null);
-  const { isPremium } = usePremiumStatus();
-
-  const filteredGroups = groups.filter(group => 
+    const filteredGroups = groups.filter(group => 
     group.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     group.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
     group.author.toLowerCase().includes(searchQuery.toLowerCase())
@@ -275,7 +272,7 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
 
     {filteredGroups.length > 3 && (
       <div className="mt-8">
-        <PremiumLock isPremium={isPremium} title="Unlock All Research Groups" description="Get premium access to join world-class research teams and exclusive mentorship programs.">
+        <EntitlementGuard featureId="research_groups" fallbackTitle="Unlock All Research Groups" fallbackDescription="Get premium access to join world-class research teams and exclusive mentorship programs.">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {filteredGroups.slice(3).map((group) => (
               <div 
@@ -314,7 +311,7 @@ export default function AvailableGroups({ searchQuery = "", onJoinClick, onCardC
               </div>
             ))}
           </div>
-        </PremiumLock>
+        </EntitlementGuard>
       </div>
     )}
     </>

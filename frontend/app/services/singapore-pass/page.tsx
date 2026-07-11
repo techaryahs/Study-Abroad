@@ -15,7 +15,7 @@ import {
     Users
 } from "lucide-react";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 const onePassAdvantages = [
   { title: "No Sponsorship Needed", desc: "Eligibility based on fixed monthly salary of SGD 30,000 or achievements." },
@@ -160,7 +160,7 @@ export default function SingaporeOnePassPage() {
                                     <h3 className="fd text-4xl font-bold text-[#3C2A21]">Singapore Strategy Chat</h3>
                                 </div>
                                 <div className="bg-white rounded-[40px] p-2 border border-[#F1EDEA] shadow-sm">
-                                    <DiscussionSection serviceId="singapore-one-pass" />
+                                    <DiscussionSection serviceId="singapore_one_pass" />
                                 </div>
                             </div>
                         </div>
@@ -169,7 +169,7 @@ export default function SingaporeOnePassPage() {
                     {/* RIGHT COLUMN */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40 space-y-8">
-                            {/* <AddToCart serviceId="singapore-one-pass" /> */}
+                            <ServiceCTA serviceId="singapore_one_pass" />
                             
                             <div className="p-10 bg-[#3C2A21] rounded-[40px] text-white space-y-6 shadow-2xl border border-[#C5A059]/20 text-center relative overflow-hidden group">
                                 <Users size={40} className="mx-auto text-[#C5A059] mb-4" />

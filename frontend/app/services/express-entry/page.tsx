@@ -15,7 +15,7 @@ import {
     Scale
 } from "lucide-react";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 // --- Data ---
 const CRS_MAX_POINTS = 1200;
@@ -187,7 +187,7 @@ export default function ExpressEntryPage() {
                                     <h3 className="fd text-4xl font-bold text-[#3C2A21]">Candidate Insights</h3>
                                 </div>
                                 <div className="bg-white rounded-[40px] p-2 border border-[#F1EDEA] shadow-sm">
-                                    <DiscussionSection serviceId="express-entry" />
+                                    <DiscussionSection serviceId="express_entry" />
                                 </div>
                             </div>
                         </div>
@@ -196,7 +196,7 @@ export default function ExpressEntryPage() {
                     {/* RIGHT COLUMN */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40 space-y-8">
-                            <AddToCart serviceId="express-entry" />
+                            <ServiceCTA serviceId="express_entry" />
                             
                             <div className="p-10 bg-[#3C2A21] rounded-[40px] text-white space-y-6 shadow-2xl border border-[#C5A059]/20">
                                 <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/20 flex items-center justify-center text-[#C5A059]">

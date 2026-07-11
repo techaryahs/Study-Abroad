@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { X, Loader2, CheckCircle2, Download, Printer, ArrowRight } from "lucide-react";
-import { getUser } from "@/app/lib/token";
+import { getToken, getUser } from "@/app/lib/token";
 
 interface CheckoutModalProps {
     isOpen: boolean;
@@ -12,7 +12,15 @@ interface CheckoutModalProps {
     discount: number;
     total: number;
     currency: string;
-    onSuccess?: () => void;
+    /**
+     * purchaseType:
+     *  - "consultation" → ₹599 single session (no membership upgrade / no credits)
+     *  - "membership"   → plan purchase (default when planId is used on pricing)
+     *  - omit           → infer from items (cart / legacy)
+     */
+    purchaseType?: "consultation" | "membership";
+    /** Called after payment verify succeeds. Receives Razorpay payment id (for one booking per payment). */
+    onSuccess?: (paymentId?: string) => void;
 }
 
 const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
@@ -37,6 +45,7 @@ export default function CheckoutModal({
     discount,
     total,
     currency,
+    purchaseType,
     onSuccess,
 }: CheckoutModalProps) {
     const [isProcessing, setIsProcessing] = useState(false);
@@ -50,9 +59,12 @@ export default function CheckoutModal({
     const [couponError, setCouponError] = useState<string | null>(null);
     const [couponLoading, setCouponLoading] = useState(false);
 
+    // Consultation add-ons are fixed at ₹599 server-side — coupons do not apply.
+    const couponsEnabled = purchaseType !== "consultation";
+    const effectiveCouponDiscount = couponsEnabled ? couponDiscount : 0;
     // Final amounts after coupon discount
-    const finalTotal = Math.max(total - couponDiscount, 0);
-    const totalDiscount = discount + couponDiscount;
+    const finalTotal = Math.max(total - effectiveCouponDiscount, 0);
+    const totalDiscount = discount + effectiveCouponDiscount;
 
     const formatPrice = (price: number) =>
         price.toLocaleString(currency === "INR" ? "en-IN" : "en-US", {
@@ -112,21 +124,59 @@ export default function CheckoutModal({
 
         const user = getUser();
         if (!user) {
-            setError("Session expired. Please login again.");
+            // Auth should be gated before checkout opens; never show session-expired here.
             setIsProcessing(false);
+            const returnTo =
+                typeof window !== "undefined"
+                    ? window.location.pathname + window.location.search
+                    : "/pricing";
+            window.location.href = `/auth/login?redirect=${encodeURIComponent(returnTo)}`;
             return;
         }
 
         try {
-            // Create order on backend (amount after coupon discount)
+            // Create order on backend (amount after coupon discount).
+            // Consultation purchases are fixed at ₹599 server-side.
+            const orderPayload: Record<string, unknown> = {
+                amount: finalTotal,
+                currency: currency || "INR",
+            };
+            if (purchaseType) orderPayload.purchaseType = purchaseType;
+            // Membership plan id when present (pricing checkout items use id = planId)
+            if (items[0]?.id && purchaseType !== "consultation") {
+                orderPayload.planId = items[0].id;
+            }
+
+            const token = getToken();
+            if (!token) {
+                setIsProcessing(false);
+                const returnTo =
+                    typeof window !== "undefined"
+                        ? window.location.pathname + window.location.search
+                        : "/pricing";
+                window.location.href = `/auth/login?redirect=${encodeURIComponent(returnTo)}`;
+                return;
+            }
+            const authHeaders: Record<string, string> = {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            };
+
             const res = await fetch(`${API_BASE}/api/payment/create-order`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount: finalTotal, currency: currency || "INR" }),
+                headers: authHeaders,
+                body: JSON.stringify(orderPayload),
             });
 
             if (!res.ok) throw new Error("Could not create payment order.");
             const order = await res.json();
+
+            // Charged amount from server order (supports TEST_PAYMENT_MODE ₹1 membership charges).
+            // UI labels still use plan/catalog prices; only the verified total must match Razorpay.
+            const chargedTotal =
+                typeof order.expectedAmount === "number"
+                    ? order.expectedAmount
+                    : finalTotal;
 
             const options = {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -137,33 +187,48 @@ export default function CheckoutModal({
                 description: items.map((i: any) => i.name || i.title || "Service").join(", "),
                 handler: async (response: any) => {
                     try {
+                        const verifyPayload: Record<string, unknown> = {
+                            ...response,
+                            // Server binds identity from JWT; userId is optional and must match token.
+                            userId: user._id || user.id,
+                            userEmail: user.email,
+                            items: items.map(i => ({
+                                title: i.name || i.title,
+                                price: i.price,
+                                currency: i.currency || "INR",
+                                serviceId: i.serviceId
+                            })),
+                            subtotal,
+                            discount: totalDiscount,
+                            total: chargedTotal,
+                            couponCode: couponApplied ? couponCode : null,
+                            currency: currency || "INR",
+                        };
+                        if (purchaseType) verifyPayload.purchaseType = purchaseType;
+                        // Help resolve membership plan when charged amount is test-mode ₹1
+                        if (items[0]?.id) verifyPayload.planId = items[0].id;
+
                         const verifyRes = await fetch(`${API_BASE}/api/payment/verify`, {
                             method: "POST",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify({
-                                ...response,
-                                userId: user._id || user.id,
-                                userEmail: user.email,
-                                items: items.map(i => ({
-                                    title: i.name || i.title,
-                                    price: i.price,
-                                    currency: i.currency || "INR",
-                                    serviceId: i.serviceId
-                                })),
-                                subtotal,
-                                discount: totalDiscount,
-                                total: finalTotal,
-                                couponCode: couponApplied ? couponCode : null,
-                                currency: currency || "INR"
-                            }),
+                            headers: authHeaders,
+                            body: JSON.stringify(verifyPayload),
                         });
 
                         if (verifyRes.ok) {
                             const verifyData = await verifyRes.json();
                             setReceiptData(verifyData.receipt);
-                            if (onSuccess) onSuccess();
+                            const paymentId =
+                                verifyData.consultation?.paymentId ||
+                                verifyData.receipt?.paymentId ||
+                                response.razorpay_payment_id ||
+                                undefined;
+                            if (onSuccess) onSuccess(paymentId);
                         } else {
-                            setError("Payment verification failed. Please contact support.");
+                            const errBody = await verifyRes.json().catch(() => null);
+                            setError(
+                                errBody?.message ||
+                                    "Payment verification failed. Please contact support."
+                            );
                         }
                     } catch {
                         setError("Payment verification failed. Please contact support.");
@@ -309,7 +374,8 @@ export default function CheckoutModal({
                         </div>
                     </div>
 
-                    {/* Coupon Code Section */}
+                    {/* Coupon Code Section (not available for single consultation add-ons) */}
+                    {couponsEnabled && (
                     <div className="mb-5 sm:mb-6">
                         {!couponApplied ? (
                             <div className="flex flex-col sm:flex-row gap-2">
@@ -344,6 +410,12 @@ export default function CheckoutModal({
                             <p className="text-red-500 text-[10px] font-bold mt-2 px-1">{couponError}</p>
                         )}
                     </div>
+                    )}
+                    {purchaseType === "consultation" && (
+                        <p className="text-[10px] text-center text-black/40 font-bold uppercase tracking-wider mb-5">
+                            One consultation session · membership plan unchanged
+                        </p>
+                    )}
 
                     {error && (
                         <p className="text-red-500 text-[10px] font-bold text-center mb-4 bg-red-50 rounded-lg px-4 py-2">

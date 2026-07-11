@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, ReactNode } from "react";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 // ─── Components ──────────────────────────────────────────────────────────────
@@ -166,7 +166,7 @@ export default function VisaApplicationPage() {
             <p className="sm:hidden text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
               Expert paperwork and <span className="text-[#D4A848] font-black">Interview Mock Rounds</span> for USA, UK, Canada & more.
             </p>
-            <DiscussionSection serviceId="visa-application-help" />
+            <DiscussionSection serviceId="visa_guidance" />
           </div>
         </div>
       </section>
@@ -286,7 +286,7 @@ export default function VisaApplicationPage() {
         {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28">
-            {/* <AddToCart serviceId="visa-application-help" /> */}
+            <ServiceCTA serviceId="visa_guidance" />
           </div>
         </div>
       </section>

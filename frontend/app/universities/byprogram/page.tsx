@@ -5,9 +5,9 @@ import type { Metadata } from "next";
 import ClientPage from './ClientPage';
 
 type PageProps = {
-  searchParams: {
+  searchParams: Promise<{
     program?: string;
-  };
+  }>;
 };
 
 export async function generateMetadata({

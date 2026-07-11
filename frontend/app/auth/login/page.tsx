@@ -1,11 +1,25 @@
 "use client";
 
-import React, { useState, FormEvent, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { Suspense, useState, FormEvent, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ChevronRight, Sparkles, AlertCircle, Phone as PhoneIcon } from "lucide-react";
 import { setToken, setUser, getToken } from "@/app/lib/token";
 import { Country } from "country-state-city";
+
+/** Safe internal redirect only (blocks open redirects). */
+function resolvePostLoginPath(role: string, redirectParam: string | null): string {
+  if (
+    redirectParam &&
+    redirectParam.startsWith("/") &&
+    !redirectParam.startsWith("//") &&
+    !redirectParam.includes("://")
+  ) {
+    return redirectParam;
+  }
+  if (role === "admin") return "/admin-dashboard";
+  return "/User/dashboard";
+}
 
 type User = {
   role: string;
@@ -34,8 +48,10 @@ const COUNTRY_CODE_OPTIONS = Country.getAllCountries()
     return a.name.localeCompare(b.name);
   });
 
-const Login: React.FC = () => {
+const LoginContent: React.FC = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams?.get("redirect") ?? null;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -90,8 +106,7 @@ const Login: React.FC = () => {
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
-        if (role === "admin") router.push("/admin-dashboard");
-        else router.push("/User/dashboard");
+        router.push(resolvePostLoginPath(role, redirectParam));
       }, 500);
 
     } catch (err: any) {
@@ -192,8 +207,7 @@ const Login: React.FC = () => {
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
-        if (role === "admin") router.push("/admin-dashboard");
-        else router.push("/User/dashboard");
+        router.push(resolvePostLoginPath(role, redirectParam));
       }, 500);
     } catch (err: any) {
       setOtpError(err.message || "Invalid OTP code");
@@ -686,5 +700,11 @@ const Login: React.FC = () => {
     </div>
   );
 };
+
+const Login: React.FC = () => (
+  <Suspense fallback={null}>
+    <LoginContent />
+  </Suspense>
+);
 
 export default Login;

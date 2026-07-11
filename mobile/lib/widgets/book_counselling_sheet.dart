@@ -243,19 +243,18 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       return;
     }
 
-    // 2. Check Entitlement Engine
+    // 2. Membership path — backend EntitlementEngine is sole authority.
+    // Client canAccess is UX only; server reserve/commit decrements credits.
     final manager = Provider.of<MembershipManager>(context, listen: false);
     final hasConsultationAccess = manager.canAccess(AppFeatures.consultation);
 
     if (hasConsultationAccess) {
-      // User has a membership with consultation entitlement remaining (e.g. Starter 1 credit, or Premium unlimited)
-      debugPrint('Entitlement allows direct booking');
-      // Pass a specific paymentId indicating it was consumed via membership
-      await _finalizeBooking(paymentId: 'membership_entitlement');
+      debugPrint('Membership credit path → book-consultation (engine)');
+      await _finalizeMembershipBooking();
       return;
     }
 
-    // 3. User does not have access. Redirect to Membership Screen (Recommended: Starter)
+    // 3. No free / no credits → membership purchase screen
     debugPrint('No access. Redirecting to Membership Screen.');
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -267,6 +266,46 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     );
   }
 
+  /// Membership consultation: unified orchestrator + EntitlementEngine debit.
+  Future<void> _finalizeMembershipBooking() async {
+    setState(() {
+      _bookingLoading = true;
+      _error = '';
+    });
+    try {
+      final slot = _slots[_selectedSlotIndex!];
+      final res = await ApiClient.instance.post(
+        '/api/bookings/book-consultation',
+        data: {
+          'path': 'membership',
+          'date': _selectedDate,
+          'time': slot['time'],
+          'userName': _nameCtrl.text.trim(),
+          'userEmail': _emailCtrl.text.trim(),
+          'userPhone': _phoneCtrl.text.trim(),
+        },
+      );
+      setState(() {
+        _bookingResult = res.data['booking'];
+        _step = 4;
+        _bookingLoading = false;
+      });
+      // Refresh local membership usage after server debit
+      if (mounted) {
+        // ignore: unawaited_futures
+        Provider.of<MembershipManager>(context, listen: false).refresh();
+      }
+    } catch (e) {
+      setState(() {
+        _error = extractErrorMessage(e);
+        if (_error.isEmpty) {
+          _error = 'Membership booking failed. Please try again.';
+        }
+        _bookingLoading = false;
+      });
+    }
+  }
+
   Future<void> _finalizeBooking(
       {String? paymentId, bool isFreeBooking = false}) async {
     setState(() {
@@ -275,15 +314,18 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     });
     try {
       final slot = _slots[_selectedSlotIndex!];
+      // Free / paid go through unified entry (legacy book-session still works
+      // but book-consultation is the single engine surface).
       final res = await ApiClient.instance.post(
-        '/api/bookings/book-session',
+        '/api/bookings/book-consultation',
         data: {
+          'path': isFreeBooking ? 'free' : 'paid',
           'date': _selectedDate,
           'time': slot['time'],
           'userName': _nameCtrl.text.trim(),
           'userEmail': _emailCtrl.text.trim(),
           'userPhone': _phoneCtrl.text.trim(),
-          'paymentId': paymentId,
+          if (paymentId != null) 'paymentId': paymentId,
           'amount': 599,
           'isFreeBooking': isFreeBooking,
         },

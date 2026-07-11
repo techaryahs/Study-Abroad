@@ -10,6 +10,13 @@ import { getUser } from "@/app/lib/token";
 
 type Badge = "fire" | "popular" | null;
 
+/**
+ * Public listing card for /services.
+ *
+ * - `slug` is the SEO public route segment only (must match app/services/** folders).
+ * - Backend membership serviceIds are wired inside each service page (ServiceCTA / EntitlementGuard),
+ *   NOT used as public URLs.
+ */
 interface Service {
   slug: string;
   title: string;

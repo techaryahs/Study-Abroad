@@ -16,7 +16,7 @@ import {
     Activity
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -239,27 +239,16 @@ export default function ToeflHelpPage() {
                             </div>
                         </div>
 
-                        <div className="relative pt-10 lg:pt-0">
-                            <div className="glass-panel p-12 bg-[#3C2A21] text-white border-none space-y-10">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-[#C5A059] flex items-center justify-center text-[#3C2A21]">
-                                        <Zap size={24} />
-                                    </div>
-                                    <div>
-                                        <h3 className="fd text-2xl font-bold">Secure Your Bench</h3>
-                                        <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Global Standards Applied</p>
-                                    </div>
+                        <div className="relative space-y-6 pt-10 lg:pt-0">
+                            <ServiceCTA serviceId="toefl_prep" />
+                            <div className="flex flex-col gap-4 rounded-2xl border border-[#C5A059]/15 bg-white p-6">
+                                <div className="flex items-center gap-3 text-xs text-[#6B5E51]">
+                                    <Star size={14} className="text-[#C5A059]" />
+                                    <span>Bespoke 1-on-1 coaching</span>
                                 </div>
-                                {/* <AddToCart serviceId="toefl" /> */}
-                                <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
-                                    <div className="flex items-center gap-3 text-white/60 text-xs">
-                                        <Star size={14} className="text-[#C5A059]" />
-                                        <span>Bespoke 1-on-1 coaching</span>
-                                    </div>
-                                    <div className="flex items-center gap-3 text-white/60 text-xs">
-                                        <Activity size={14} className="text-[#C5A059]" />
-                                        <span>Mock-Based evaluation</span>
-                                    </div>
+                                <div className="flex items-center gap-3 text-xs text-[#6B5E51]">
+                                    <Activity size={14} className="text-[#C5A059]" />
+                                    <span>Mock-Based evaluation</span>
                                 </div>
                             </div>
                         </div>

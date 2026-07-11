@@ -10,7 +10,7 @@ import {
    ArrowRight
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 const profileFeatures = [
@@ -133,23 +133,14 @@ export default function LinkedInReviewPage() {
                         <h2 className="fd text-4xl font-bold text-[#2D2926]">Public Consensus</h2>
                      </div>
                      <div className="rounded-[40px] overflow-hidden border border-[#F1EDEA] bg-[#FDFBF7]/20 p-2">
-                        <DiscussionSection serviceId="linkedin" />
+                        <DiscussionSection serviceId="linkedin_optimization" />
                      </div>
                   </div>
                </div>
 
-               {/* Action Sidebox */}
+               {/* Action Sidebox — ServiceCTA owns its own shell */}
                <div className="lg:w-2/5 space-y-10 lg:sticky lg:top-32">
-                  <div className="bg-[#2D2926] p-6 md:p-8 rounded-[32px] text-white space-y-8 shadow-2xl relative overflow-hidden group border border-[#C5A059]/20">
-                     <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-20 -mt-20 group-hover:scale-125 transition-transform duration-700" />
-                     <div className="space-y-2 relative z-10">
-                        <p className="text-[#C5A059] text-[14px] font-bold font-bold uppercase tracking-widest">Pricing Protocol</p>
-                        <h3 className="fd text-4xl font-bold italic">Bespoke Revamp</h3>
-                     </div>
-                     <div className="relative z-10 w-full">
-                        <AddToCart serviceId="linkedin" />
-                     </div>
-                  </div>
+                  <ServiceCTA serviceId="linkedin_optimization" />
 
                   {/* Trust Widget */}
                   <div className="bg-white border border-[#F1EDEA] p-10 rounded-[48px] shadow-sm space-y-6">

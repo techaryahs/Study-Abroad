@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 // ─── Components ──────────────────────────────────────────────────────────────
@@ -88,7 +88,7 @@ export default function ApplicationHelpPage() {
               Top universities. <span className="text-[#362B25] font-black underline decoration-[#D4A848]/30">No BS.</span>
             </p>
 
-            <DiscussionSection serviceId="application-help" />
+            <DiscussionSection serviceId="application_help" />
           </div>
 
           {/* Hero Video Section (Desktop) */}
@@ -172,7 +172,7 @@ export default function ApplicationHelpPage() {
         {/* ── SIDEBAR ──────────────────────────────────────────────────────── */}
         <div className="lg:col-span-1">
           <div className="sticky top-28 space-y-8">
-            {/* <AddToCart serviceId="application-help" /> */}
+            <ServiceCTA serviceId="application_help" />
           </div>
         </div>
       </section>

@@ -9,6 +9,7 @@ const Student = require("../models/Student");
 const { getEmailSearchRegex } = require("../utils/emailUtils");
 const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
 const { sendSMSOTP } = require("../utils/otpsms");
+const { applyLifecycleToUser } = require("../utils/membershipLifecycle");
 
 
 const otpStore = new Map();
@@ -338,6 +339,15 @@ exports.getMe = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+    }
+
+    // Runtime membership lifecycle: if expiryDate passed, status becomes expired (persisted)
+    if (user.membership) {
+      try {
+        await applyLifecycleToUser(user, { persist: true });
+      } catch (lifecycleErr) {
+        console.warn("Membership lifecycle evaluation skipped:", lifecycleErr.message);
+      }
     }
 
     res.json({ success: true, user });

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import CountryPageClient from "./CountryPageClient";
 
 type Props = {
-  params: {
+  params: Promise<{
     country: string;
-  };
+  }>;
 };
 
 const SEO_DATA: Record<
@@ -95,7 +95,8 @@ const SEO_DATA: Record<
 export async function generateMetadata({
   params,
 }: Props): Promise<Metadata> {
-  const country = params?.country?.toLowerCase() || "";
+  const { country: countryParam } = await params;
+  const country = countryParam?.toLowerCase() || "";
 
   const seo =
     SEO_DATA[country] || {

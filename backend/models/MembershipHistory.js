@@ -12,4 +12,15 @@ const MembershipHistorySchema = new mongoose.Schema({
   notes: { type: String }
 }, { timestamps: true });
 
+MembershipHistorySchema.index(
+  { platform: 1, transactionId: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      platform: { $exists: true },
+      transactionId: { $exists: true, $type: "string" },
+    },
+  }
+);
+
 module.exports = mongoose.models.MembershipHistory || mongoose.model("MembershipHistory", MembershipHistorySchema);

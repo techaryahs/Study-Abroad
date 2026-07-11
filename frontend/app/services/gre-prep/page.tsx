@@ -18,7 +18,7 @@ import {
     MessageSquare
 } from "lucide-react";
 import FAQSection from "./FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -219,14 +219,9 @@ export default function GrePrepPage() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/10 blur-2xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                            <div className="space-y-2">
-                                <h3 className="fd text-3xl font-bold">Secure Your Bench</h3>
-                                <p className="text-white/40 text-sm">Join the clinical prep program today.</p>
-                            </div>
-                            {/* <AddToCart serviceId="gre-prep" /> */}
-                            <DiscussionSection serviceId="gre-prep" />
+                        <ServiceCTA serviceId="gre_prep" />
+                        <div className="rounded-[32px] border border-[#F1EDEA] bg-white p-2 shadow-sm">
+                            <DiscussionSection serviceId="gre_prep" />
                         </div>
 
                         <div className="glass-panel p-8 space-y-6 transition-all hover:border-[#C5A059]/30">

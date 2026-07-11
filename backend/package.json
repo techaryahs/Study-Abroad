@@ -4,7 +4,11 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "catalog:sync": "node scripts/syncMembershipCatalog.js",
+    "deploy:verify": "node scripts/deployVerify.js",
+    "smoke": "node scripts/releaseSmokeTest.js",
+    "release:check": "node scripts/syncMembershipCatalog.js && node scripts/deployVerify.js && node scripts/releaseSmokeTest.js && node scripts/verifyUsageLifecycle.js && node scripts/verifyPaymentLifecycle.js"
   },
   "keywords": [],
   "author": "",

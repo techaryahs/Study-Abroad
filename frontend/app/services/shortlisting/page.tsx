@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -196,23 +196,14 @@ export default function ShortlistingPage() {
                 <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
               </div>
               <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
-                <DiscussionSection serviceId="shortlisting" />
+                <DiscussionSection serviceId="university_shortlist" />
               </div>
             </div>
           </div>
 
-          {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) */}
+          {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) — ServiceCTA owns its own shell */}
           <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-40">
-            <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group border border-[#C5A059]/20">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-all duration-1000" />
-              <div className="space-y-2 relative z-10">
-                <h3 className="fd text-3xl font-bold italic">Bespoke Shortlist</h3>
-                <p className="text-white/40 text-[14px] font-bold font-bold uppercase tracking-widest">Pricing Protocol.</p>
-              </div>
-              <div className="relative z-10 w-full">
-                {/* <AddToCart serviceId="shortlisting" /> */}
-              </div>
-            </div>
+            <ServiceCTA serviceId="university_shortlist" />
           </div>
         </div>
       </section>

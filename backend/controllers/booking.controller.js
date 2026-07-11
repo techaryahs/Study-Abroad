@@ -1,154 +1,266 @@
 const Booking = require("../models/Booking");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
-const mongoose = require("mongoose");
-const { consumeEntitlement } = require("../utils/membershipUtils");
-
-// const transporter = require("../utils/transporter"); // nodemailer instance
-const sendEmail = require("../utils/sendEmail");     // used in bookConsultant
-const crypto = require('crypto');
-const { randomUUID } = require('crypto');
+const sendEmail = require("../utils/sendEmail");
 const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
+const {
+  bookConsultation,
+  cancelBookingWithCreditPolicy,
+} = require("../services/consultationBooking.service");
+const {
+  applyLifecycleToUser,
+  canAccess,
+  remainingUsage,
+} = require("../utils/entitlementEngine");
+const MembershipPlan = require("../models/MembershipPlan");
 
-const SECRET_KEY = process.env.MEETING_SECRET_KEY || 'careergenai-meeting-secret-2024';
+/* ─────────────────────────────────────────────────────────────
+   Single booking engine helpers — all HTTP surfaces delegate here
+───────────────────────────────────────────────────────────── */
 
-const generateMeetingId = (sessionId) => {
-  const hmac = crypto.createHmac('sha256', SECRET_KEY);
-  hmac.update(sessionId.toString());
-  const hash = hmac.digest('hex');
-  return hash.substring(0, 12).toUpperCase();
-};
+const SENTINEL_PAYMENT_IDS = new Set([
+  "membership_entitlement",
+  "membership",
+  "entitlement",
+]);
 
-function escapeRegex(text) {
-  return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function isSentinelPaymentId(paymentId) {
+  if (paymentId == null || paymentId === "") return false;
+  return SENTINEL_PAYMENT_IDS.has(String(paymentId).trim().toLowerCase());
 }
 
+/**
+ * Membership consultation via EntitlementEngine only.
+ * canAccess → remainingUsage → reserve/commit inside bookConsultation().
+ */
+async function runMembershipConsultationBooking(req, res, body, source) {
+  const userId = req.user?.id || req.user?._id || null;
+  if (!userId) {
+    return res.status(401).json({
+      message: "Please log in to use membership credits or continue booking.",
+      code: "LOGIN_REQUIRED",
+    });
+  }
 
-/* =========================
-   BOOK CONSULTANT
- ========================= */
+  const student = await Student.findById(userId);
+  if (!student) {
+    return res.status(401).json({
+      message: "User not found. Membership is available for student accounts.",
+      code: "LOGIN_REQUIRED",
+    });
+  }
+
+  const lifecycle = await applyLifecycleToUser(student, { persist: true });
+  const plan =
+    lifecycle.isAccessAllowed && lifecycle.planId && lifecycle.planId !== "free"
+      ? await MembershipPlan.findOne({ planId: lifecycle.planId, isActive: true })
+      : null;
+
+  const access = await canAccess("consultation", {
+    student,
+    membership: student.membership,
+    lifecycle,
+    plan,
+    checkUsage: true,
+  });
+
+  if (!access.allowed) {
+    return res.status(403).json({
+      message: access.reason || "No consultation credits remaining.",
+      code: "NO_CREDITS",
+      planId: lifecycle.planId,
+      remaining: access.remaining ?? 0,
+    });
+  }
+
+  const usage = await remainingUsage("consultation", {
+    student,
+    membership: student.membership,
+    lifecycle,
+    plan,
+  });
+
+  if (!usage.unlimited && (!usage.knownUsage || usage.remaining <= 0)) {
+    return res.status(403).json({
+      message: usage.reason || "No consultation credits remaining.",
+      code: "NO_CREDITS",
+      remaining: usage.remaining ?? 0,
+    });
+  }
+
+  // JWT userId is the only identity — never trust body.userId for credits.
+  const result = await bookConsultation({
+    ...body,
+    path: "membership",
+    source,
+    userId,
+    userEmail: body.userEmail || student.email,
+    userName: body.userName || student.name,
+    userPhone: body.userPhone || student.mobile || student.phone,
+    // Strip sentinel / client payment claims for membership path
+    paymentId: null,
+    isFreeBooking: false,
+  });
+  return res.status(result.status).json(result.body);
+}
+
+/**
+ * POST /api/bookings/book-consultant
+ * Membership entitlement path (auth + requireMembership + entitlement middleware).
+ * userId always from JWT.
+ */
 exports.bookConsultant = async (req, res) => {
   try {
-    let {
-      consultantId,
-      consultantEmail,
-      consultantName,
-      date,
-      time,
-      userEmail,
-      userPhone,
-      userName,
+    const userId = req.user?.id || req.user?._id;
+    if (!userId) {
+      return res.status(401).json({ message: "Unauthorized", code: "LOGIN_REQUIRED" });
+    }
+    const result = await bookConsultation({
+      ...req.body,
+      path: "membership",
+      source: "book-consultant",
       userId,
-      consultantType
-    } = req.body;
-
-    console.log(`📡 [Booking] Request: ${req.body.date} ${req.body.time} for ID: ${consultantId}`);
-
-    if (!consultantId || !date || !time || !userEmail || !userPhone) {
-      return res.status(400).json({ message: 'Missing required data' });
-    }
-
-    // Fetch consultant info if missing (Stronger Fetch)
-    const consultant = await Consultant.findById(consultantId);
-    if (!consultant) {
-      return res.status(404).json({ message: 'Consultant not found' });
-    }
-
-    if (!consultantEmail || !consultantName) {
-      consultantEmail = consultantEmail || consultant.email;
-      consultantName = consultantName || consultant.name;
-    }
-
-
-    if (!consultantEmail) {
-      return res.status(400).json({ message: 'Consultant email not found' });
-    }
-
-    const alreadyBooked = await Booking.findOne({ consultantId, date, time });
-    if (alreadyBooked) {
-      console.warn(`🚫 [Booking] Conflict found: ${date} ${time} for consultant ${consultantId}`);
-      return res.status(400).json({ message: 'Slot already booked' });
-    }
-
-    // Generate deterministic meeting ID
-    const meetingId = generateMeetingId(`${consultantId}-${date}-${time}-${userEmail}`);
-
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    let booking;
-    try {
-      const newBooking = new Booking({
-        consultantId,
-        consultantEmail,
-        consultantName,
-        date,
-        time,
-        userEmail,
-        userName,
-        userPhone,
-        userId,
-        consultantType,
-        meetingId
-      });
-      booking = await newBooking.save({ session });
-
-      const student = await Student.findOne({ email: userEmail }).session(session);
-      if (student) {
-        if (!student.profile) student.profile = {};
-        if (!student.profile.myBookings) student.profile.myBookings = [];
-        student.profile.myBookings.push(booking._id);
-        await student.save({ session });
-      }
-      
-      const realUserId = userId || (student ? student._id : null);
-      if (realUserId) {
-        await consumeEntitlement(realUserId, 'consultation', session);
-      } else {
-        throw new Error("Cannot consume entitlement without valid user ID.");
-      }
-
-      await session.commitTransaction();
-      session.endSession();
-    } catch (txnError) {
-      await session.abortTransaction();
-      session.endSession();
-      console.error("Booking transaction failed:", txnError);
-      return res.status(500).json({ message: "Booking failed due to internal error or entitlement limits.", error: txnError.message });
-    }
-
-    try {
-      await sendEmail(
-        userEmail,
-        "Your CareerGenAI Consultation is Confirmed",
-        "",
-        `<p>Your appointment with <b>${consultantName}</b> is confirmed.</p>
-             <p>Date: <b>${date}</b></p>
-             <p>Time: <b>${time}</b></p>
-             <p>Meeting ID: <b>${meetingId}</b></p>`
-      );
-
-      await sendEmail(
-        consultantEmail,
-        "New Consultation Booking",
-        "",
-        `<p>You have a new booking from <b>${userName}</b>.</p>`
-      );
-
-      await sendEmail(
-        process.env.ADMIN_NOTIFY_TO || "eduleaderglobal@gmail.com",
-        "New Consultation Booking (Admin Copy)",
-        "",
-        `<p>User: ${userName} (${userEmail})</p><p>Mentor: ${consultantName}</p>`
-      );
-    } catch (emailErr) {
-      console.warn("⚠️ Email notification failed, but booking was successful:", emailErr.message);
-    }
-
-    res.json({ message: "Booking successful", booking });
-
+    });
+    return res.status(result.status).json(result.body);
   } catch (err) {
     console.error("❌ Booking error:", err.message);
-    res.status(500).json({ message: "Server error. Could not complete booking." });
+    return res
+      .status(500)
+      .json({ message: "Server error. Could not complete booking." });
+  }
+};
+
+/**
+ * POST /api/bookings/book-session
+ * Legacy compatibility wrapper → bookConsultation() only.
+ * Sentinels are NOT entitlement proof — rewritten to membership engine path.
+ */
+exports.bookCounsellingSession = async (req, res) => {
+  try {
+    const body = { ...(req.body || {}) };
+
+    // P0-1: never accept sentinel as paid entitlement proof
+    if (isSentinelPaymentId(body.paymentId)) {
+      body.paymentId = null;
+      body.isFreeBooking = false;
+      body.path = "membership";
+      return runMembershipConsultationBooking(req, res, body, "book-session");
+    }
+
+    if (body.path === "membership" || body.bookingPath === "membership") {
+      return runMembershipConsultationBooking(req, res, body, "book-session");
+    }
+
+    if (body.isFreeBooking) {
+      const result = await bookConsultation({
+        ...body,
+        path: "free",
+        source: "book-session",
+      });
+      return res.status(result.status).json(result.body);
+    }
+
+    if (body.paymentId) {
+      const result = await bookConsultation({
+        ...body,
+        path: "paid",
+        source: "book-session",
+        // paid path always requires verified consultation ledger
+        requireConsultationPayment: true,
+      });
+      return res.status(result.status).json(result.body);
+    }
+
+    // No free flag, no payment → membership if authenticated, else login
+    const userId = req.user?.id || req.user?._id;
+    if (userId) {
+      return runMembershipConsultationBooking(req, res, body, "book-session");
+    }
+
+    return res.status(401).json({
+      message: "Please log in to book a consultation.",
+      code: "LOGIN_REQUIRED",
+    });
+  } catch (err) {
+    console.error("❌ bookCounsellingSession Error:", err);
+    return res
+      .status(500)
+      .json({ message: "Error completing session booking" });
+  }
+};
+
+/**
+ * POST /api/bookings/book-consultation
+ * Unified entry → bookConsultation() only.
+ */
+exports.bookConsultationEntry = async (req, res) => {
+  try {
+    const body = { ...(req.body || {}) };
+    let path = body.path || body.bookingPath || null;
+    const userId = req.user?.id || req.user?._id || null;
+
+    // Never treat sentinel as paid
+    if (isSentinelPaymentId(body.paymentId)) {
+      body.paymentId = null;
+      path = "membership";
+    }
+
+    if (!path) {
+      if (body.isFreeBooking && !body.paymentId) path = "free";
+      else if (body.paymentId) path = "paid";
+    }
+
+    if (
+      path === "membership" ||
+      (!path && userId && !body.paymentId && !body.isFreeBooking)
+    ) {
+      return runMembershipConsultationBooking(
+        req,
+        res,
+        body,
+        "book-consultation"
+      );
+    }
+
+    if (!path) {
+      if (!userId) {
+        return res.status(401).json({
+          message: "Please log in to continue booking.",
+          code: "LOGIN_REQUIRED",
+        });
+      }
+      return res.status(402).json({
+        message: "Payment required to complete booking.",
+        code: "PAYMENT_REQUIRED",
+      });
+    }
+
+    if (path === "paid" && !body.paymentId) {
+      return res.status(400).json({
+        message: "Payment required to complete booking.",
+        code: "PAYMENT_REQUIRED",
+      });
+    }
+
+    if (path === "free" || path === "paid") {
+      const result = await bookConsultation({
+        ...body,
+        path,
+        source: "book-consultation",
+        requireConsultationPayment: path === "paid",
+      });
+      return res.status(result.status).json(result.body);
+    }
+
+    return res.status(400).json({
+      message: "Unknown consultation booking path.",
+      code: "UNKNOWN_PATH",
+    });
+  } catch (err) {
+    console.error("❌ bookConsultationEntry Error:", err);
+    return res.status(500).json({
+      message: "Server error. Could not complete booking.",
+    });
   }
 };
 
@@ -237,6 +349,22 @@ exports.getConsultantBookings = async (req, res) => {
     const consultant = await Consultant.findById(consultantId);
     if (!consultant) {
       return res.json([]);
+    }
+
+    const role = String(req.user?.role || "").toLowerCase();
+    if (role !== "admin") {
+      const actorId = String(req.user?.id || req.user?._id || "");
+      const ownsById = actorId && String(consultant._id) === actorId;
+      const ownsByEmail =
+        req.user?.email &&
+        String(consultant.email || "").toLowerCase() ===
+          String(req.user.email).toLowerCase();
+      if (!ownsById && !ownsByEmail) {
+        return res.status(403).json({
+          message: "You can only view your own consultant bookings",
+          code: "FORBIDDEN",
+        });
+      }
     }
 
     const consultantVideoEnabled = consultant.videoCallEnabled || false;
@@ -402,36 +530,70 @@ exports.seedConsultants = async (req, res) => {
 };
 
 /* =========================
-   DELETE BOOKING
+   DELETE BOOKING (admin) — soft-cancel via credit policy (no silent hard-delete)
 ========================= */
 exports.deleteBooking = async (req, res) => {
   try {
-    const booking = await Booking.findByIdAndDelete(req.params.id);
-    if (!booking) return res.status(404).json({ message: "Booking not found" });
-    res.json({ message: "Booking successfully removed", id: req.params.id });
+    // Production-safe: never hard-delete credit-bearing bookings without restore.
+    // Admin delete → same cancel + credit restore path as PUT /cancel/:id.
+    const actor = {
+      id: req.user?.id || req.user?._id,
+      _id: req.user?._id || req.user?.id,
+      role: req.user?.role || "admin",
+      email: req.user?.email,
+    };
+    const result = await cancelBookingWithCreditPolicy(req.params.id, {
+      actor,
+      student: null,
+    });
+    return res.status(result.status).json({
+      ...result.body,
+      message:
+        result.body?.message ||
+        "Booking cancelled (delete maps to credit-safe cancel)",
+      deleted: false,
+      softCancelled: true,
+    });
   } catch (err) {
     console.error("❌ Delete error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// ================ DELETE BOOKING ==================================
+// ================ CANCEL BOOKING (Phase 5 credit policy) ==================
+// Admin: any booking. Student: own booking only.
+// Shared restore path — membership credit restored at most once (race-safe).
+// Completed / post-session: no credit restore.
 
 exports.cancelBooking = async (req, res) => {
   try {
-    const booking = await Booking.findByIdAndUpdate(
-      req.params.id,
-      { status: "cancelled" },
-      { new: true }
-    );
+    const actor = req.user
+      ? {
+          id: req.user.id || req.user._id,
+          _id: req.user._id || req.user.id,
+          role: req.user.role,
+          email: req.user.email,
+        }
+      : null;
 
-    if (!booking) {
-      return res.status(404).json({ message: "Booking not found" });
+    // Load student profile for ownership checks (email match).
+    let student = null;
+    if (actor && String(actor.role || "").toLowerCase() !== "admin") {
+      student = await Student.findById(actor.id || actor._id);
+      if (student && !actor.email) {
+        actor.email = student.email;
+      }
     }
 
-    console.log(`❌ Booking ${req.params.id} cancelled`);
-    res.json({ message: "Booking cancelled", booking });
-
+    const result = await cancelBookingWithCreditPolicy(req.params.id, {
+      actor,
+      student,
+    });
+    console.log(
+      `❌ Booking ${req.params.id} cancel by ${result.body?.cancelledByRole || "unknown"} → ${result.body?.message}` +
+        (result.body?.creditRestored ? " [credit restored]" : "")
+    );
+    return res.status(result.status).json(result.body);
   } catch (err) {
     console.error("❌ Cancel error:", err.message);
     res.status(500).json({ message: "Server error" });
@@ -588,159 +750,6 @@ exports.getAvailableSlots = async (req, res) => {
 };
 
 /**
- * 🚀 Book a private Counselling Session (Admin-Only Simplified)
- */
-exports.bookCounsellingSession = async (req, res) => {
-  try {
-    const { date, time, userEmail, userName, userPhone, paymentId, amount, isFreeBooking } = req.body;
-
-    if (!date || !time || !userEmail || !userPhone) {
-      return res.status(400).json({ message: "Missing required booking details (date, time, email, phone)" });
-    }
-
-    const emailLower = userEmail.toLowerCase().trim();
-    const phoneClean = userPhone.trim();
-
-    // Check if slot already taken (counselling sessions only)
-    const existing = await Booking.findOne({
-      date,
-      time,
-      bookingType: "counselling",
-      status: "booked"
-    });
-    if (existing) {
-      return res.status(400).json({ message: "This slot has already been booked. Please pick another one." });
-    }
-
-    let student = await Student.findOne({ email: emailLower });
-    let isActuallyFree = false;
-
-    if (isFreeBooking) {
-      const existingAccount = await findUserByEmail(emailLower);
-
-      if (existingAccount && existingAccount.role !== "student") {
-        return res.status(403).json({
-          message: "Free sessions are available for student accounts."
-        });
-      }
-
-      if (!student) {
-        return res.status(400).json({
-          message: "Please verify your phone number before booking a free session."
-        });
-      }
-
-      if (student.profile?.hasUsedFreeBooking) {
-        return res.status(403).json({
-          message: "You've already used your free session. Please proceed with payment."
-        });
-      }
-
-      isActuallyFree = true;
-    }
-
-    // Hardcode admin as session counsellor
-    const finalConsultantName = "Admin";
-    const finalConsultantEmail = process.env.ADMIN_EMAIL || "eduleaderglobal@gmail.com";
-
-    // Generate session & meeting identifiers
-    const sessionId = randomUUID();
-    const meetingId = generateMeetingId(`${sessionId}-${emailLower}`);
-    const endH = parseInt(time.split(":")[0]) + 1;
-    const endTime = `${String(endH).padStart(2, "0")}:00`;
-
-    const newBooking = new Booking({
-      bookingType: "counselling",
-      consultantId: null, // No specific consultant assigned
-      consultantName: finalConsultantName,
-      consultantEmail: finalConsultantEmail,
-      date,
-      time,
-      endTime,
-      userEmail: emailLower,
-      userName,
-      userPhone: phoneClean,
-      status: "booked",
-      sessionId,
-      meetingId,
-      paymentId: isActuallyFree ? null : paymentId,
-      isPaid: isActuallyFree ? true : !!paymentId,
-      isFreeBooking: isActuallyFree,
-      amountPaid: isActuallyFree ? 0 : (amount || 599)
-    });
-
-    await newBooking.save();
-
-    try {
-      if (student) {
-        if (!student.profile) student.profile = {};
-        if (!student.profile.mySessions) student.profile.mySessions = [];
-        student.profile.mySessions.push(newBooking._id);
-        if (isActuallyFree) {
-          student.profile.hasUsedFreeBooking = true;
-          student.profile.freeBookingUsedAt = new Date();
-          console.log(`Free booking marked for: ${emailLower}`);
-        }
-        await student.save();
-      }
-    } catch (err) {
-      console.warn("Could not link session mapping to student profile:", err.message);
-    }
-
-    // Notify student
-    try {
-      await sendEmail(
-        emailLower,
-        "✅ Counselling Session Confirmed",
-        "",
-        `<p>Hi ${userName || "Student"},</p>
-             <p>Your counselling session with Admin is confirmed for <b>${date}</b> at <b>${time}</b>.</p>
-             <p>Meeting ID: <b>${meetingId}</b></p>
-             <p>Session ID: <b>${sessionId}</b></p>`
-      );
-    } catch (e) {
-      console.warn("Email notify failed during session booking", e.message);
-    }
-
-    // Optional: Notify admin
-    try {
-      await sendEmail(
-        finalConsultantEmail,
-        "🔔 New Counselling Session Booked",
-        "",
-        `<p>New counselling session booked by <b>${userName || emailLower}</b>.</p>
-             <p>Date: <b>${date}</b> at <b>${time}</b></p>
-             <p>Meeting ID: <b>${meetingId}</b></p>`
-      );
-    } catch (e) {
-      console.warn("Admin notification failed", e.message);
-    }
-
-    res.status(201).json({
-      message: "Session booked successfully",
-      booking: {
-        _id: newBooking._id,
-        sessionId,
-        meetingId,
-        date,
-        time,
-        endTime,
-        consultantName: finalConsultantName,
-        userEmail: emailLower,
-        userPhone: phoneClean,
-        isFreeBooking: isActuallyFree,
-        isPaid: newBooking.isPaid,
-        amountPaid: newBooking.amountPaid
-      }
-    });
-
-  } catch (err) {
-    console.error("❌ bookCounsellingSession Error:", err);
-    res.status(500).json({ message: "Error completing session booking" });
-  }
-};
-
-/**
  * 🔍 Get details of a single Counselling Session
  */
 exports.getCounsellingSession = async (req, res) => {
@@ -778,6 +787,30 @@ exports.getBookingsByConsultantEmail = async (req, res) => {
       return res.status(400).json({ message: 'email query param is required' });
     }
 
+    const emailLower = String(email).trim().toLowerCase();
+    const role = String(req.user?.role || "").toLowerCase();
+    const Consultant = require("../models/Consultant");
+    if (role !== "admin") {
+      const me =
+        (role === "consultant"
+          ? await Consultant.findById(req.user?.id || req.user?._id)
+          : null) ||
+        (req.user?.email
+          ? await Consultant.findOne({
+              email: String(req.user.email).trim().toLowerCase(),
+            })
+          : null);
+      const myEmail = String(me?.email || req.user?.email || "")
+        .trim()
+        .toLowerCase();
+      if (!myEmail || myEmail !== emailLower) {
+        return res.status(403).json({
+          message: "You can only view your own consultant bookings",
+          code: "FORBIDDEN",
+        });
+      }
+    }
+
     // Get consultant info by email
     const consultant = await Consultant.findOne({ email: email });
     const consultantVideoEnabled = consultant?.videoCallEnabled || false;
@@ -804,22 +837,54 @@ exports.getBookingsByConsultantEmail = async (req, res) => {
    COMPLETE BOOKING
    PUT /api/bookings/:id/complete
    Marks a booking as completed (moves to history).
+   Race-safe: never completes cancelled bookings (would skip credit restore incorrectly).
  ========================= */
 exports.completeBooking = async (req, res) => {
   try {
-    const booking = await Booking.findByIdAndUpdate(
-      req.params.id,
-      { status: 'completed' },
+    const existing = await Booking.findById(req.params.id);
+    if (!existing) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    if (existing.status === "completed") {
+      return res.json(existing);
+    }
+    if (existing.status === "cancelled") {
+      return res.status(409).json({
+        message: "Cancelled bookings cannot be completed.",
+        code: "ALREADY_CANCELLED",
+      });
+    }
+
+    // Atomic: only pending/accepted/booked → completed (never cancelled).
+    const booking = await Booking.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        status: { $in: ["pending", "accepted", "booked"] },
+      },
+      { $set: { status: "completed" } },
       { new: true }
     );
+
     if (!booking) {
-      return res.status(404).json({ message: 'Booking not found' });
+      const latest = await Booking.findById(req.params.id);
+      if (latest?.status === "completed") return res.json(latest);
+      if (latest?.status === "cancelled") {
+        return res.status(409).json({
+          message: "Cancelled bookings cannot be completed.",
+          code: "ALREADY_CANCELLED",
+        });
+      }
+      return res.status(409).json({
+        message: "Booking cannot be completed in its current state.",
+        code: "INVALID_STATE",
+      });
     }
+
     console.log(`✅ Booking ${req.params.id} marked as completed`);
     res.json(booking);
   } catch (err) {
-    console.error('❌ completeBooking error:', err.message);
-    res.status(500).json({ message: 'Server error' });
+    console.error("❌ completeBooking error:", err.message);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
