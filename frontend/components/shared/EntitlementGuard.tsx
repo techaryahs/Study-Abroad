@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo } from 'react';
 import { useMembership } from '@/app/lib/membership/MembershipContext';
+import { useSession } from '@/app/lib/session';
 import { LockedFeatureCard } from './MembershipUI/LockedFeatureCard';
 import { trackMembershipEvent } from '@/app/lib/membership/analytics';
 import { getMembershipExperience } from '@/app/lib/membership/MembershipExperience';
@@ -17,7 +18,12 @@ interface EntitlementGuardProps {
 }
 
 /**
- * Renders only. Access state comes from the backend summary. Copy = MembershipExperience.
+ * Renders only.
+ * - Guest vs authenticated: session helper (token.ts)
+ * - Entitled: MembershipContext.canAccess (backend summary)
+ * - Copy: MembershipExperience
+ *
+ * Never use membership == null as "logged out".
  */
 export const EntitlementGuard: React.FC<EntitlementGuardProps> = ({
   featureId,
@@ -25,7 +31,8 @@ export const EntitlementGuard: React.FC<EntitlementGuardProps> = ({
   showLoading = true,
 }) => {
   const { canAccess, loading, membership, catalog, currentPlan } = useMembership();
-  const isLoggedOut = !loading && !membership;
+  const { isAuthenticated } = useSession();
+  const isLoggedOut = !loading && !isAuthenticated;
 
   const experience = useMemo(
     () =>
@@ -78,6 +85,9 @@ export const EntitlementGuard: React.FC<EntitlementGuardProps> = ({
       badge={experience.badge}
       benefits={experience.benefits}
       primaryCta={experience.primaryCta}
+      primaryHref={isLoggedOut ? '/auth/login' : undefined}
+      secondaryCta={isLoggedOut ? experience.secondaryCta : undefined}
+      secondaryHref={isLoggedOut ? '/auth/RegisterStudent' : undefined}
     />
   );
 };

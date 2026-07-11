@@ -1,3 +1,29 @@
+/**
+ * Membership catalog — source of plan entitlements and service definitions.
+ *
+ * Phase 2 — consultation is fully metered (no unlimited consultation):
+ *   Starter   → 1  (renewal: never; one_time plan)
+ *   Essential → 3  (renewal: yearly)
+ *   Premium   → 5  (renewal: yearly)
+ *   Elite     → 10 (renewal: yearly)
+ *
+ * Usage authority (do not duplicate here):
+ *   EntitlementEngine.remainingUsage / canAccess
+ *   membershipUtils.reserveEntitlementUsage / commitEntitlementUsage
+ *   membershipLifecycle.buildUsageMapFromPlan / applyPlanToMembership
+ *
+ * Migration / plan-change safety (engine-owned):
+ *   - Re-seed MembershipPlan docs after catalog deploy (seedInitialCatalog).
+ *   - version bumps mark this metering revision (user.catalogVersion updates on provision).
+ *   - initial_purchase: used=0, remaining=limit
+ *   - upgrade: preserve overlapping used, expand remaining within new limit
+ *   - downgrade: preserve used capped to new limit (no negative remaining)
+ *   - renewal: reset only when entitlement.renewal matches plan.type
+ *   - renewal: never counters preserved on same-plan re-provision
+ *   - Prior unlimited consultation (no usage row) fail-closed until next provision
+ *     initializes counters via buildUsageMapFromPlan (safe; never invents free uses).
+ */
+
 const SERVICES = [
   { serviceId: "ai_sop", name: "AI SOP Generator", category: "ai", requiresConsultant: false, requiredPlanTier: "starter" },
   { serviceId: "ai_humanizer", name: "AI Humanizer / Plagiarism Tools", category: "ai", requiresConsultant: false, requiredPlanTier: "starter" },
@@ -41,6 +67,30 @@ const SERVICES = [
   { serviceId: "o1", name: "O-1 Visa Pathway", category: "human", requiresConsultant: true, requiredPlanTier: "elite" },
 ];
 
+/** Fully metered consultation quotas — never omit `limit` (unlimited removed). */
+const CONSULTATION_LIMITS = Object.freeze({
+  starter: 1,
+  essential: 3,
+  premium: 5,
+  elite: 10,
+});
+
+/**
+ * Catalog revision for Phase 2 consultation metering.
+ * Bump when re-seed must replace MembershipPlan entitlement maps in Mongo.
+ */
+const CATALOG_VERSION = 2;
+
+function meteredConsultation(planId) {
+  const limit = CONSULTATION_LIMITS[planId];
+  if (limit == null) {
+    throw new Error(`Unknown consultation limit for plan: ${planId}`);
+  }
+  // one_time starter does not reset; yearly plans reset on yearly renewal.
+  const renewal = planId === "starter" ? "never" : "yearly";
+  return { enabled: true, limit, renewal };
+}
+
 function allProtectedEntitlements() {
   return SERVICES.reduce(
     (acc, service) => {
@@ -51,10 +101,17 @@ function allProtectedEntitlements() {
   );
 }
 
+/** Elite base entitlements with consultation forced to metered (no unlimited). */
+function eliteEntitlements() {
+  const entitlements = allProtectedEntitlements();
+  entitlements.human.consultation = meteredConsultation("elite");
+  return entitlements;
+}
+
 const PLANS = [
   {
     planId: "starter",
-    version: 1,
+    version: CATALOG_VERSION,
     name: "Starter",
     type: "one_time",
     appleProductId: "com.iecstudyabroad.starter.onetime",
@@ -79,7 +136,7 @@ const PLANS = [
         study_abroad_assistant: { enabled: true, limit: 20, renewal: "never", accessDays: 30 },
       },
       human: {
-        consultation: { enabled: true, limit: 1, renewal: "never" },
+        consultation: meteredConsultation("starter"),
       },
       access: {
         university_search: { enabled: true },
@@ -92,7 +149,7 @@ const PLANS = [
   },
   {
     planId: "essential",
-    version: 1,
+    version: CATALOG_VERSION,
     name: "Essential",
     type: "yearly",
     appleProductId: "com.iecstudyabroad.essential.yearly",
@@ -119,6 +176,7 @@ const PLANS = [
         study_abroad_assistant: { enabled: true, renewal: "yearly" },
       },
       human: {
+        consultation: meteredConsultation("essential"),
         university_shortlist: { enabled: true, limit: 1, renewal: "yearly" },
         profile_evaluation: { enabled: true, limit: 1, renewal: "yearly" },
         education_loan: { enabled: true },
@@ -138,7 +196,7 @@ const PLANS = [
   },
   {
     planId: "premium",
-    version: 1,
+    version: CATALOG_VERSION,
     name: "Premium",
     type: "yearly",
     appleProductId: "com.iecstudyabroad.premium.yearly",
@@ -164,7 +222,7 @@ const PLANS = [
         study_abroad_assistant: { enabled: true, renewal: "yearly" },
       },
       human: {
-        consultation: { enabled: true, renewal: "yearly" },
+        consultation: meteredConsultation("premium"),
         sop_writing: { enabled: true, limit: 1, renewal: "yearly" },
         resume_drafting: { enabled: true, limit: 1, renewal: "yearly" },
         lor_drafting: { enabled: true, limit: 3, renewal: "yearly" },
@@ -196,7 +254,7 @@ const PLANS = [
   },
   {
     planId: "elite",
-    version: 1,
+    version: CATALOG_VERSION,
     name: "Elite",
     type: "yearly",
     appleProductId: "com.iecstudyabroad.elite.yearly",
@@ -215,11 +273,14 @@ const PLANS = [
       "Accommodation Support",
       "Dedicated Success Manager",
     ],
-    entitlements: allProtectedEntitlements(),
+    // Base grants all services; consultation is overridden to metered (limit 10).
+    entitlements: eliteEntitlements(),
   },
 ];
 
 module.exports = {
   PLANS,
   SERVICES,
+  CONSULTATION_LIMITS,
+  CATALOG_VERSION,
 };

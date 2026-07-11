@@ -8,7 +8,8 @@ const UsageReservationSchema = new mongoose.Schema(
     reservationKey: { type: String, unique: true, sparse: true },
     status: {
       type: String,
-      enum: ["reserved", "committed", "released"],
+      // restored = committed credit returned after pre-session cancellation
+      enum: ["reserved", "committed", "released", "restored"],
       default: "reserved",
       required: true,
     },
@@ -20,6 +21,7 @@ const UsageReservationSchema = new mongoose.Schema(
     reservedAt: { type: Date, default: Date.now },
     committedAt: { type: Date },
     releasedAt: { type: Date },
+    restoredAt: { type: Date },
   },
   { timestamps: true }
 );

@@ -292,7 +292,7 @@ export default function ResearchGroupsPage() {
             {activeTab === "available" && (
               <div className="flex items-center gap-3 bg-white border border-[rgba(197,160,89,0.15)] rounded-2xl px-6 py-3.5 text-xs text-[#6B5E51] font-bold shadow-sm">
                 <Info className="w-4 h-4 text-[#C5A059]" />
-                <span>Publishing without co-authors? <Link href="/services/research-paper" className="text-[#C5A059] hover:underline">Explore Paper Services</Link></span>
+                <span>Publishing without co-authors? <Link href="/services/research-papers" className="text-[#C5A059] hover:underline">Explore Paper Services</Link></span>
               </div>
             )}
 

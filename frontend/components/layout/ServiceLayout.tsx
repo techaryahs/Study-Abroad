@@ -96,36 +96,37 @@ export default function ServiceLayout({ title, description, details, icon, servi
           Back to expertise
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-start mt-4 sm:mt-8">
-          {/* Header & Description */}
-          <motion.div variants={itemVariants} className="space-y-6 lg:sticky lg:top-32">
-            <div className="flex flex-row lg:flex-col items-center lg:items-start gap-4 lg:gap-8">
-              <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-xl lg:rounded-2xl bg-[#C5A059] flex items-center justify-center text-white shadow-2xl shadow-[#C5A059]/20 shrink-0 transform-gpu animate-float">
+        {/* Two-column hero composition: content | details + access card, shared top */}
+        <div className="mt-4 grid grid-cols-1 items-start gap-10 sm:mt-8 lg:grid-cols-12 lg:gap-12">
+          {/* LEFT — narrative */}
+          <motion.div variants={itemVariants} className="space-y-6 lg:col-span-7">
+            <div className="flex flex-row items-center gap-4 lg:flex-col lg:items-start lg:gap-8">
+              <div className="flex h-12 w-12 shrink-0 transform-gpu animate-float items-center justify-center rounded-xl bg-[#C5A059] text-white shadow-2xl shadow-[#C5A059]/20 lg:h-16 lg:w-16 lg:rounded-2xl">
                 <div className="scale-100 lg:scale-125">
                   {icon}
                 </div>
               </div>
               
               <div className="space-y-1 lg:space-y-3">
-                <span className="text-[#C5A059] uppercase tracking-[0.4em] sm:tracking-[0.5em] font-black text-[12px] font-black sm:text-[13px] font-bold">Strategic Expertise</span>
-                <h1 className="fd text-[22px] sm:text-3xl md:text-5xl font-black tracking-tight leading-tight uppercase text-[#3C2A21] break-words">
+                <span className="text-[12px] font-black uppercase tracking-[0.4em] text-[#C5A059] sm:text-[13px] sm:tracking-[0.5em]">Strategic Expertise</span>
+                <h1 className="fd break-words text-[22px] font-black uppercase leading-tight tracking-tight text-[#3C2A21] sm:text-3xl md:text-5xl">
                   {title.split(' ').slice(0, -1).join(' ')} <br className="hidden sm:block" />
                   <span className="gold-shimmer italic lowercase">{title.split(' ').slice(-1)}</span>
                 </h1>
               </div>
             </div>
 
-            <p className="text-[#6B5E51] text-sm md:text-base font-normal leading-relaxed italic border-l border-[#C5A059]/20 pl-6 py-2">
+            <p className="border-l border-[#C5A059]/20 py-2 pl-6 text-sm font-normal italic leading-relaxed text-[#6B5E51] md:text-base">
               {description}
             </p>
 
-            <div className="pt-6">
+            <div className="pt-2">
               <DiscussionSection serviceId={serviceId || "generic"} />
             </div>
           </motion.div>
 
-          {/* Detailed Breakdown */}
-          <div className="space-y-12">
+          {/* RIGHT — breakdown + membership card, top-aligned with left */}
+          <div className="w-full max-w-[420px] justify-self-center space-y-8 lg:col-span-5 lg:max-w-none lg:justify-self-stretch lg:sticky lg:top-28">
             <motion.div 
                 variants={itemVariants} 
                 whileHover={{ 
@@ -134,9 +135,9 @@ export default function ServiceLayout({ title, description, details, icon, servi
                 scale: 1.01
                 }}
                 style={{ perspective: 1000 }}
-                className="glass-card p-8 md:p-12 space-y-8 border-[#C5A059]/10 transform-gpu transition-all duration-700 bg-white"
+                className="glass-card relative transform-gpu space-y-8 border-[#C5A059]/10 bg-white p-8 transition-all duration-700 md:p-10"
             >
-                <h3 className="fd text-xl font-black uppercase tracking-[0.3em] border-b border-[#F1EDEA] pb-6 text-[#3C2A21]">Detailed Breakdown:</h3>
+                <h3 className="fd border-b border-[#F1EDEA] pb-6 text-xl font-black uppercase tracking-[0.3em] text-[#3C2A21]">Detailed Breakdown:</h3>
                 <ul className="space-y-5">
                 {details.map((detail, i) => (
                     <motion.li 
@@ -144,25 +145,22 @@ export default function ServiceLayout({ title, description, details, icon, servi
                     initial={{ opacity: 0, x: 15 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.2 + i * 0.1 }}
-                    className="flex items-center gap-4 group/item"
+                    className="group/item flex items-center gap-4"
                     >
-                    <div className="w-3 h-[1px] bg-[#C5A059] group-hover/item:w-6 transition-all duration-500"></div>
-                    <span className="text-[#6B5E51] group-hover/item:text-[#C5A059] text-[13px] font-medium transition-colors uppercase tracking-[0.1em]">{detail}</span>
+                    <div className="h-[1px] w-3 bg-[#C5A059] transition-all duration-500 group-hover/item:w-6"></div>
+                    <span className="text-[13px] font-medium uppercase tracking-[0.1em] text-[#6B5E51] transition-colors group-hover/item:text-[#C5A059]">{detail}</span>
                     </motion.li>
                 ))}
                 </ul>
 
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/5 blur-[100px] -z-10 group-hover:bg-[#C5A059]/10 transition-colors pointer-events-none"></div>
+                <div className="pointer-events-none absolute right-0 top-0 -z-10 h-64 w-64 bg-[#C5A059]/5 blur-[100px] transition-colors group-hover:bg-[#C5A059]/10"></div>
+            </motion.div>
+
+            {/* Membership entitlement CTA — serviceId must match backend Service.serviceId */}
+            <motion.div variants={itemVariants} className="w-full">
+              {serviceId ? <ServiceCTA serviceId={serviceId} /> : null}
             </motion.div>
           </div>
-
-          {/* Membership entitlement CTA — serviceId must match backend Service.serviceId */}
-          <motion.div 
-            variants={itemVariants}
-            className="lg:sticky lg:top-32"
-          >
-            {serviceId ? <ServiceCTA serviceId={serviceId} /> : null}
-          </motion.div>
         </div>
       </motion.div>
     </main>

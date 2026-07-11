@@ -32,7 +32,8 @@ import {
   Star as StarIcon
 } from "lucide-react";
 import { useEffect } from "react";
-import { getUser, removeToken, clearAuth } from "@/app/lib/token";
+import { removeToken, clearAuth } from "@/app/lib/token";
+import { getSessionUser, isAuthenticated } from "@/app/lib/session";
 import Image from "next/image";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -574,22 +575,26 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    // Auth = session helper (token). User cache is display only — not a second login definition.
     const refreshUser = () => {
-      const storedUser = getUser();
+      if (!isAuthenticated()) {
+        setUserState(null);
+        return;
+      }
+      const storedUser = getSessionUser();
       if (storedUser && (storedUser._id || storedUser.id)) {
         setUserState(storedUser);
       } else {
-        setUserState(null);
+        // Token present without full user cache — still authenticated chrome
+        setUserState(storedUser ?? { id: "session" });
       }
     };
 
-    refreshUser();
-    window.addEventListener('user-updated', refreshUser);
-
     const fetchFullProfile = async () => {
-      const storedUser = getUser();
+      if (!isAuthenticated()) return;
+      const storedUser = getSessionUser();
       const userId = storedUser?._id || storedUser?.id;
-      if (!userId) return;
+      if (!userId || userId === "session") return;
 
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
@@ -629,7 +634,7 @@ export default function Navbar() {
   }, []);
 
   const handleLogout = () => {
-    removeToken();
+    removeToken(); // clears token + user and dispatches user-updated
     window.location.href = "/";
   };
 

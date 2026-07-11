@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Country } from "country-state-city";
 import { clearAuth, getToken, getUser, setToken, setUser } from "@/app/lib/token";
 import CheckoutModal from "@/app/User/cart/checkoutmodal";
+import { useMembership } from "@/app/lib/membership/MembershipContext";
 import { UserX, Clock, Gift, UserPlus, Phone } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -30,7 +31,10 @@ interface BookingResult {
   isPaid?: boolean;
   amountPaid?: number;
   consultantVideoEnabled?: boolean;
+  path?: "free" | "membership" | "paid";
 }
+
+type BookingPath = "free" | "membership" | "paid";
 
 interface FreeEligibility {
   eligible: boolean;
@@ -168,6 +172,14 @@ export default function BookCounsellingPage() {
   const isOpen = true;
   const onClose = () => router.push('/');
   const router = useRouter();
+  const {
+    remainingUsage,
+    canAccess,
+    refresh: refreshMembership,
+  } = useMembership();
+
+  // Single-flight guard — prevents double submit / double credit / double pay book.
+  const bookingInFlight = useRef(false);
 
   const [step, setStep] = useState(1);
   const today = new Date();
@@ -189,6 +201,7 @@ export default function BookCounsellingPage() {
   const [authLoading, setAuthLoading] = useState(false);
   const [shouldPromptProfileCompletion, setShouldPromptProfileCompletion] = useState(false);
   const [lastBookingWasFree, setLastBookingWasFree] = useState(false);
+  const [lastBookingPath, setLastBookingPath] = useState<BookingPath | null>(null);
   const [booking, setBooking] = useState<BookingResult | null>(null);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [error, setError] = useState("");
@@ -200,6 +213,16 @@ export default function BookCounsellingPage() {
   const [otpError, setOtpError] = useState("");
   const [authConflict, setAuthConflict] = useState(false);
   const [otpTimer, setOtpTimer] = useState(0);
+
+  /** Membership consultation credits (display only — server re-checks via EntitlementEngine). */
+  const membershipCredits = (() => {
+    if (!isLoggedIn) return 0;
+    if (!canAccess("consultation")) return 0;
+    const remaining = remainingUsage("consultation");
+    if (!Number.isFinite(remaining)) return Number.POSITIVE_INFINITY;
+    return Math.max(0, remaining);
+  })();
+  const hasMembershipCredit = membershipCredits > 0;
 
   const resetOtpState = useCallback(() => {
     setOtpSent(false);
@@ -453,7 +476,9 @@ export default function BookCounsellingPage() {
         setError("");
         setFreeEligibility(null);
         setLastBookingWasFree(false);
+        setLastBookingPath(null);
         setIsCheckoutOpen(false);
+        bookingInFlight.current = false;
         resetOtpState();
       }, 300);
     }
@@ -490,49 +515,172 @@ export default function BookCounsellingPage() {
     setSelectedDate(`${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`);
   };
 
-  const confirmBooking = async (paymentId?: string, forceFree = false) => {
+  /**
+   * Single website entry → POST /api/bookings/book-consultation → orchestrator.
+   * Website never meters credits itself; membership path hits EntitlementEngine once.
+   * @returns true | false | 'NO_CREDITS' | 'LOGIN_REQUIRED'
+   */
+  const bookViaOrchestrator = async (
+    path: BookingPath,
+    paymentId?: string
+  ): Promise<true | false | "NO_CREDITS" | "LOGIN_REQUIRED"> => {
     if (!selectedSlot || !selectedDate || !userEmail || !userPhone) {
       setError("Please fill in all required fields.");
-      return;
+      return false;
     }
+    if (bookingInFlight.current) return false;
+    bookingInFlight.current = true;
     setBookingLoading(true);
     setError("");
+
     try {
-      const isFree = Boolean((forceFree || freeEligibility?.eligible) && !paymentId);
-      const body = {
+      const token = getToken();
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (token) headers.Authorization = `Bearer ${token}`;
+
+      const body: Record<string, unknown> = {
+        path,
         date: selectedDate,
         time: selectedSlot.time,
         userEmail,
         userName,
         userPhone,
-        paymentId: paymentId || null,
         amount: 599,
-        isFreeBooking: isFree
       };
-      const res = await fetch(`${API_BASE}/api/bookings/book-session`, {
+
+      if (path === "free") {
+        body.isFreeBooking = true;
+      }
+      if (path === "paid") {
+        if (!paymentId) {
+          setError("Payment required to complete booking.");
+          return false;
+        }
+        body.paymentId = paymentId;
+        body.isFreeBooking = false;
+      }
+
+      const res = await fetch(`${API_BASE}/api/bookings/book-consultation`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify(body),
       });
       const data = await res.json();
+
       if (!res.ok) {
+        // Idempotent paid retry: payment already consumed by a prior successful book.
+        if (res.status === 409 && data.code === "PAYMENT_ALREADY_USED" && data.booking) {
+          setLastBookingWasFree(false);
+          setLastBookingPath("paid");
+          setBooking(data.booking);
+          setIsCheckoutOpen(false);
+          setStep(4);
+          return true;
+        }
+        if (data.code === "NO_CREDITS" || res.status === 403) {
+          void refreshMembership();
+          return "NO_CREDITS";
+        }
+        if (data.code === "LOGIN_REQUIRED" || res.status === 401) {
+          return "LOGIN_REQUIRED";
+        }
         setError(data.message || "Booking failed.");
-        return;
+        return false;
       }
-      if (isFree) {
+
+      if (path === "free") {
         const currentUser = getUser();
         if (currentUser) {
           setUser({ ...currentUser, hasUsedFreeBooking: true });
         }
       }
-      setLastBookingWasFree(isFree);
+
+      if (path === "membership") {
+        void refreshMembership();
+        window.dispatchEvent(new Event("membership-updated"));
+      }
+
+      setLastBookingWasFree(path === "free");
+      setLastBookingPath(path);
       setBooking(data.booking);
+      setIsCheckoutOpen(false);
       setStep(4);
+      return true;
     } catch {
       setError("Network error.");
+      return false;
     } finally {
+      bookingInFlight.current = false;
       setBookingLoading(false);
     }
+  };
+
+  /** After Razorpay verify — paid path only (one paymentId → one booking). */
+  const confirmPaidBooking = async (paymentId?: string) => {
+    if (!paymentId) {
+      setError("Payment completed but payment id is missing. Contact support.");
+      return;
+    }
+    await bookViaOrchestrator("paid", paymentId);
+  };
+
+  /**
+   * Step-3 confirm: free → book | guest → login | membership credit → book | else → checkout ₹599.
+   */
+  const handleConfirmStep = async () => {
+    if (!userName || !userEmail || !userPhone) {
+      setError("Please fill all details");
+      return;
+    }
+    if (bookingInFlight.current || bookingLoading) return;
+
+    setError("");
+    const eligibility = await checkFreeEligibility(userEmail);
+    const freeOk = Boolean((eligibility || freeEligibility)?.eligible);
+
+    // 1) Legacy free available → book free (no payment, no membership debit)
+    if (freeOk) {
+      await bookViaOrchestrator("free");
+      return;
+    }
+
+    // 2) Not authenticated → login (then return here)
+    const token = getToken();
+    if (!token || !isLoggedIn) {
+      const returnTo =
+        typeof window !== "undefined"
+          ? window.location.pathname + window.location.search
+          : "/book-counselling";
+      router.push(`/auth/login?redirect=${encodeURIComponent(returnTo)}`);
+      return;
+    }
+
+    // 3) Membership credits (server re-validates via EntitlementEngine; one debit max)
+    if (hasMembershipCredit) {
+      const result = await bookViaOrchestrator("membership");
+      if (result === true) return;
+      if (result === "LOGIN_REQUIRED") {
+        const returnTo =
+          typeof window !== "undefined"
+            ? window.location.pathname + window.location.search
+            : "/book-counselling";
+        router.push(`/auth/login?redirect=${encodeURIComponent(returnTo)}`);
+        return;
+      }
+      // Stale UI credit → fall through to paid checkout only.
+      if (result === "NO_CREDITS") {
+        setError("");
+        setIsCheckoutOpen(true);
+        return;
+      }
+      // Other errors (slot taken, network, etc.) already surfaced — do not open checkout.
+      return;
+    }
+
+    // 4) No credits → open checkout (₹599), then paid path
+    setIsCheckoutOpen(true);
   };
 
   const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -893,7 +1041,26 @@ export default function BookCounsellingPage() {
                               </div>
                             )}
 
-                            {!freeEligibility?.eligible && freeEligibility?.message && (
+                            {!freeEligibility?.eligible && hasMembershipCredit && (
+                              <div className="bg-[#D4A848]/10 border border-[#D4A848]/30 rounded-2xl p-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-10 h-10 rounded-full bg-[#D4A848]/15 flex items-center justify-center text-[#D4A848] shrink-0">
+                                    <Clock size={18} />
+                                  </div>
+                                  <div>
+                                    <div className="text-[#D4A848] text-sm font-black uppercase tracking-wide">Membership credit available</div>
+                                    <div className="text-[#D4A848]/70 text-xs font-medium mt-0.5">
+                                      {Number.isFinite(membershipCredits)
+                                        ? `${membershipCredits} consultation credit${membershipCredits === 1 ? "" : "s"} remaining`
+                                        : "Consultation credit available"}
+                                      {" · one credit will be used"}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
+                            {!freeEligibility?.eligible && !hasMembershipCredit && freeEligibility?.message && (
                               <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-white/50 text-xs text-center font-medium">
                                 {freeEligibility.message}
                               </div>
@@ -929,13 +1096,17 @@ export default function BookCounsellingPage() {
 
                             {error && <div className="text-red-400 text-xs text-center font-medium">{error}</div>}
 
-                            {!freeEligibility?.eligible && (
+                            {!freeEligibility?.eligible && !hasMembershipCredit && (
                               <div className="bg-[#D4A848]/10 border border-[#D4A848]/20 rounded-2xl p-5 space-y-2">
                                 <div className="flex justify-between items-center text-[13px] font-black text-white/60 uppercase tracking-widest">
-                                  <span>Session Charge</span>
+                                  <span>Additional Consultation</span>
                                   <span className="text-[#D4A848] text-base">Rs. 599</span>
                                 </div>
-                                <div className="text-[11px] text-[#D4A848]/60 font-medium leading-relaxed">Charges are fully adjustable against any EduLeaderGlobal premium service you opt for later.</div>
+                                <div className="text-[11px] text-[#D4A848]/60 font-medium leading-relaxed">
+                                  {!isLoggedIn
+                                    ? "Log in to use membership credits or purchase one consultation."
+                                    : "Pays for this one session only. Membership plan and credits stay unchanged."}
+                                </div>
                               </div>
                             )}
                           </div>
@@ -949,7 +1120,11 @@ export default function BookCounsellingPage() {
                           </div>
                           <div>
                             <h3 className="text-2xl font-black text-white leading-tight uppercase tracking-wide">
-                              {lastBookingWasFree ? "Free Session Booked!" : "Session Confirmed!"}
+                              {lastBookingWasFree
+                                ? "Free Session Booked!"
+                                : lastBookingPath === "membership"
+                                  ? "Booked with Membership!"
+                                  : "Session Confirmed!"}
                             </h3>
                             <p className="text-white/50 text-[14px] font-medium mt-2">Confirmation sent to <span className="text-white">{userEmail}</span></p>
                           </div>
@@ -998,25 +1173,30 @@ export default function BookCounsellingPage() {
                           if (userEmail) {
                             void checkFreeEligibility(userEmail);
                           }
+                          if (isLoggedIn) {
+                            void refreshMembership();
+                          }
                         }
                         else if (step === 3) {
-                          if (!userName || !userEmail || !userPhone) {
-                            setError("Please fill all details");
-                            return;
-                          }
-
-                          const eligibility = await checkFreeEligibility(userEmail);
-                          if ((eligibility || freeEligibility)?.eligible) {
-                            await confirmBooking(undefined, true);
-                          } else {
-                            setIsCheckoutOpen(true);
-                          }
+                          await handleConfirmStep();
                         }
                       }}
                       disabled={(step === 1 && !selectedDate) || (step === 2 && !selectedSlot) || (step === 3 && (bookingLoading || isCheckingEligibility))}
                       className="flex-1 py-3.5 rounded-xl bg-[#D4A848] text-[#2D1F1D] text-[13px] font-black uppercase tracking-widest disabled:opacity-30 disabled:grayscale transition-all shadow-lg shadow-[#D4A848]/10 hover:shadow-[#D4A848]/20"
                     >
-                      {bookingLoading ? "Booking..." : isCheckingEligibility ? "Checking..." : step === 3 ? (freeEligibility?.eligible ? "Confirm Free Session" : "Confirm & Pay (Rs.599)") : "Continue"}
+                      {bookingLoading
+                        ? "Booking..."
+                        : isCheckingEligibility
+                          ? "Checking..."
+                          : step === 3
+                            ? freeEligibility?.eligible
+                              ? "Confirm Free Session"
+                              : !isLoggedIn
+                                ? "Login to Continue"
+                                : hasMembershipCredit
+                                  ? "Book with Membership"
+                                  : "Confirm & Pay (Rs.599)"
+                            : "Continue"}
                     </button>
                   </div>
                 )}
@@ -1027,10 +1207,18 @@ export default function BookCounsellingPage() {
           <CheckoutModal
             isOpen={isCheckoutOpen}
             onClose={() => setIsCheckoutOpen(false)}
-            onSuccess={confirmBooking}
-            items={[{ name: "Counselling Session", price: 999 }]}
-            subtotal={999}
-            discount={400}
+            onSuccess={confirmPaidBooking}
+            purchaseType="consultation"
+            items={[
+              {
+                name: "Additional Consultation",
+                title: "Additional Consultation",
+                price: 599,
+                serviceId: "consultation",
+              },
+            ]}
+            subtotal={599}
+            discount={0}
             total={599}
             currency="INR"
           />

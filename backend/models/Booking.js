@@ -42,8 +42,73 @@ const bookingSchema = new mongoose.Schema(
     isPaid: { type: Boolean, default: false },
     isFreeBooking: { type: Boolean, default: false },
     amountPaid: { type: Number },
+
+    /**
+     * Membership consultation credit tracking (Phase 5).
+     * When a metered consultation credit was consumed at book time,
+     * cancel-before-session restores it exactly once via usageReservationId.
+     */
+    bookingPath: {
+      type: String,
+      enum: ["free", "membership", "paid", "consultant"],
+    },
+    membershipCreditConsumed: { type: Boolean, default: false },
+    usageReservationId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "UsageReservation",
+    },
+    /**
+     * Credit restore state machine (prevents double restore under concurrency):
+     *   none → claimed → restored
+     *   none → skipped (session already occurred / no credit)
+     * Only one actor can win the none → claimed transition.
+     */
+    creditRestoreStatus: {
+      type: String,
+      enum: ["none", "claimed", "restored", "skipped"],
+      default: "none",
+    },
+    creditRestoredAt: { type: Date },
+    cancelledAt: { type: Date },
+    /** admin | student — who cancelled */
+    cancelledByRole: {
+      type: String,
+      enum: ["admin", "student", "system"],
+    },
+    cancelledByUserId: {
+      type: mongoose.Schema.Types.ObjectId,
+    },
   },
   { timestamps: true, autoCreate: false, autoIndex: false }
+);
+
+/**
+ * P0-4: At most one active counselling booking per date+time.
+ * Partial filter so cancelled/completed history does not block re-use.
+ * Created explicitly on boot (autoIndex is false on this schema).
+ */
+bookingSchema.index(
+  { date: 1, time: 1, bookingType: 1 },
+  {
+    unique: true,
+    name: "unique_active_counselling_slot",
+    partialFilterExpression: {
+      bookingType: "counselling",
+      status: "booked",
+    },
+  }
+);
+
+// One booking per non-empty Razorpay paymentId (null/missing allowed many times)
+bookingSchema.index(
+  { paymentId: 1 },
+  {
+    unique: true,
+    name: "unique_paymentId_booking",
+    partialFilterExpression: {
+      paymentId: { $type: "string", $gt: "" },
+    },
+  }
 );
 
 module.exports = mongoose.models.Booking || mongoose.model("Booking", bookingSchema);

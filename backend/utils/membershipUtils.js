@@ -306,6 +306,151 @@ async function releaseEntitlementUsage(reservationOrId, options = {}) {
   });
 }
 
+/**
+ * Restore a committed (consumed) metered credit after pre-session cancellation.
+ *
+ * Double-restore prevention:
+ *  - Atomic filter `{ status: "committed" }` on the only mutating transition.
+ *  - Concurrent callers: one wins commit→restored; loser gets idempotent no-op.
+ *  - Counter $inc only runs after the status claim succeeds.
+ *  - On counter failure, throw so the enclosing txn aborts and the claim rolls back.
+ *
+ * @returns {{ reservation, restored: boolean, idempotent: boolean }}
+ */
+async function restoreCommittedEntitlementUsage(reservationOrId, options = {}) {
+  const { session: externalSession = null, metadata = {} } = options;
+
+  return withOwnedTransaction(externalSession, async (session) => {
+    const reservationId =
+      typeof reservationOrId === "object" ? reservationOrId._id : reservationOrId;
+
+    if (!reservationId) {
+      throw new Error("Usage reservation id is required to restore credit.");
+    }
+
+    // Load for metadata merge + reserved-path handling only.
+    const current = await UsageReservation.findById(reservationId).session(session);
+    if (!current) {
+      throw new Error("Usage reservation not found.");
+    }
+
+    // Terminal states — never touch counters again.
+    if (current.status === "restored" || current.status === "released") {
+      return { reservation: current, restored: false, idempotent: true };
+    }
+
+    if (current.status === "reserved") {
+      // Pre-commit path: release (also increments remaining once).
+      const released = await releaseEntitlementUsage(current, {
+        session,
+        metadata: { ...metadata, via: "restore_redirected_to_release" },
+      });
+      return { reservation: released, restored: true, idempotent: false };
+    }
+
+    if (current.status !== "committed") {
+      throw new Error(`Cannot restore usage in status "${current.status}".`);
+    }
+
+    const prevMeta =
+      typeof current.metadata === "object" && current.metadata
+        ? current.metadata
+        : {};
+
+    // ── Atomic claim: committed → restored (the only counter-touching path) ──
+    const claimed = await UsageReservation.findOneAndUpdate(
+      { _id: reservationId, status: "committed" },
+      {
+        $set: {
+          status: "restored",
+          restoredAt: new Date(),
+          metadata: {
+            ...prevMeta,
+            ...metadata,
+            restoredOnce: true,
+          },
+        },
+        $unset: { reservationKey: 1 },
+      },
+      { new: true, session }
+    );
+
+    if (!claimed) {
+      // Lost the race — another canceler already restored/released.
+      const again = await UsageReservation.findById(reservationId).session(session);
+      return { reservation: again, restored: false, idempotent: true };
+    }
+
+    // Unmetered reservations have no counters.
+    if (!claimed.metered) {
+      return { reservation: claimed, restored: true, idempotent: false };
+    }
+
+    const limit = Math.max(0, Number(claimed.limit));
+    const usedPath = `membership.usage.${claimed.featureId}.used`;
+    const remainingPath = `membership.usage.${claimed.featureId}.remaining`;
+
+    // Conditional $inc: refuses to push used/remaining outside [0, limit].
+    const studentAfter = await Student.findOneAndUpdate(
+      {
+        _id: claimed.userId,
+        [usedPath]: { $gte: 1, $lte: limit },
+        [remainingPath]: { $gte: 0, $lt: limit },
+      },
+      {
+        $inc: {
+          [usedPath]: -1,
+          [remainingPath]: 1,
+        },
+      },
+      { new: true, session }
+    );
+
+    if (!studentAfter) {
+      // Abort outer transaction so reservation claim is rolled back.
+      throw new Error("Usage restore would violate usage bounds.");
+    }
+
+    const usageEntry =
+      typeof studentAfter.membership.usage.get === "function"
+        ? studentAfter.membership.usage.get(claimed.featureId)
+        : studentAfter.membership.usage?.[claimed.featureId];
+    const restoredUsed = Number(usageEntry?.used);
+    const restoredRemaining = Number(usageEntry?.remaining);
+    if (
+      !Number.isFinite(restoredUsed) ||
+      !Number.isFinite(restoredRemaining) ||
+      restoredUsed < 0 ||
+      restoredRemaining < 0 ||
+      restoredUsed > limit ||
+      restoredRemaining > limit ||
+      restoredUsed + restoredRemaining !== limit
+    ) {
+      throw new Error("Usage restore invariant violation.");
+    }
+
+    await MembershipEvent.create(
+      [
+        {
+          userId: claimed.userId,
+          userModel: "Student",
+          eventType: "Feature Restored",
+          planId: claimed.planId,
+          featureId: claimed.featureId,
+          metadata: {
+            reservationId: claimed._id,
+            reason: "booking_cancelled_before_session",
+            ...metadata,
+          },
+        },
+      ],
+      getSessionOptions(session)
+    );
+
+    return { reservation: claimed, restored: true, idempotent: false };
+  });
+}
+
 async function withEntitlementUsage(userId, featureId, execute, options = {}) {
   const reservation = await reserveEntitlementUsage(userId, featureId, options);
   try {
@@ -333,6 +478,7 @@ module.exports = {
   reserveEntitlementUsage,
   commitEntitlementUsage,
   releaseEntitlementUsage,
+  restoreCommittedEntitlementUsage,
   withEntitlementUsage,
   consumeEntitlement,
   evaluateMembership,

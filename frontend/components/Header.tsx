@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { User } from "lucide-react";
-import { getToken, getUser } from "@/app/lib/token";
+import { getSession } from "@/app/lib/session";
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,13 +9,13 @@ export default function Header() {
 
   useEffect(() => {
     const refreshUser = () => {
-      const token = getToken();
-      const user = getUser();
-      if (token && user) {
+      const session = getSession();
+      if (session.isAuthenticated) {
         setIsLoggedIn(true);
-        setUserData(user);
+        setUserData(session.user);
       } else {
         setIsLoggedIn(false);
+        setUserData(null);
       }
     };
 

@@ -204,18 +204,9 @@ export default function ScholarshipHelpPage() {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) */}
+          {/* RIGHT COLUMN: ACTION SIDEBAR (2/5) — ServiceCTA owns its own shell */}
           <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-40">
-            <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group border border-[#C5A059]/20">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5A059]/10 blur-3xl rounded-full -mr-32 -mt-32 group-hover:scale-150 transition-all duration-1000" />
-              <div className="space-y-2 relative z-10">
-                <h3 className="fd text-3xl font-bold">Secure Your Grant</h3>
-                <p className="text-white/40 text-[14px] font-bold font-black uppercase tracking-widest">Elite Advisory Protocol.</p>
-              </div>
-              <div className="relative z-10 w-full">
-                <ServiceCTA serviceId="scholarship_search" />
-              </div>
-            </div>
+            <ServiceCTA serviceId="scholarship_search" />
           </div>
         </div>
       </section>

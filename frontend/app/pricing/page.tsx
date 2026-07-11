@@ -2,6 +2,7 @@ import React from "react";
 import PricingClient from "./PricingClient";
 import { MembershipPlan } from "@/types/membership";
 import { MembershipMapper } from "@/app/lib/membership/MembershipMapper";
+import { isTestPaymentMode } from "@/app/lib/testPaymentMode";
 
 // Revalidate every hour
 export const revalidate = 3600;
@@ -37,6 +38,10 @@ async function getPlans(): Promise<{ plans: MembershipPlan[]; error?: string }> 
 export default async function PricingPage() {
   const { plans, error } = await getPlans();
 
+  // Resolve once on the server so SSR HTML and client hydration share one flag.
+  // PricingClient must not re-read env for prices.
+  const testPaymentMode = isTestPaymentMode();
+
   return (
     <main
       className="relative min-h-screen overflow-hidden bg-[#FDFBF7] text-[#3C2A21]"
@@ -59,8 +64,8 @@ export default async function PricingPage() {
       <div className="pointer-events-none absolute -right-24 bottom-32 h-72 w-72 rounded-full bg-[#3C2A21]/5 blur-[90px]" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 pb-28 pt-16 md:px-10 md:pt-24">
-        {/* Hero */}
-        <header className="mx-auto mb-16 max-w-3xl text-center md:mb-20">
+        {/* Hero — generic; unlock-specific messaging lives in PricingClient banner */}
+        <header className="mx-auto mb-12 max-w-3xl text-center md:mb-14">
           <p className="mb-5 inline-flex items-center rounded-full border border-[#C5A059]/25 bg-white/80 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#9A7B3C] shadow-sm">
             Membership
           </p>
@@ -78,7 +83,11 @@ export default async function PricingPage() {
           </p>
         </header>
 
-        <PricingClient initialPlans={plans} error={error} />
+        <PricingClient
+          initialPlans={plans}
+          error={error}
+          testPaymentMode={testPaymentMode}
+        />
 
         {/* Quiet trust footer — not a hard sell bar */}
         <footer className="mx-auto mt-16 max-w-2xl border-t border-[#EDE6DC] pt-10 text-center">

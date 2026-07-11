@@ -71,28 +71,28 @@ exports.getAccessSummary = async (req, res) => {
   }
 };
 
+/**
+ * Admin-only catalog sync (same rules as scripts/syncMembershipCatalog.js).
+ * JWT + requireAdmin enforced on the route — never public.
+ */
 exports.seedInitialCatalog = async (req, res) => {
   try {
-    for (const plan of PLANS) {
-      await MembershipPlan.findOneAndUpdate(
-        { planId: plan.planId },
-        { $set: { ...plan, isActive: true } },
-        { upsert: true, new: true }
-      );
-    }
+    const { syncCatalog, verifyCatalog } = require("../scripts/syncMembershipCatalog");
+    await syncCatalog();
+    const verification = await verifyCatalog();
 
-    for (const service of SERVICES) {
-      await Service.findOneAndUpdate(
-        { serviceId: service.serviceId },
-        { $set: { ...service, isActive: true } },
-        { upsert: true, new: true }
-      );
+    if (!verification.allPass) {
+      return res.status(500).json({
+        message: "Catalog seeded but verification failed — runtime does not match source",
+        table: verification.rows,
+      });
     }
 
     res.status(201).json({
-      message: "Catalog and services seeded successfully",
+      message: "Catalog and services synchronized successfully",
       plans: PLANS.length,
       services: SERVICES.length,
+      verification: verification.rows,
     });
   } catch (error) {
     console.error("Error seeding catalog:", error);

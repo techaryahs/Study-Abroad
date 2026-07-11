@@ -207,13 +207,8 @@ export default function UniversityFinalizationPage() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/10 blur-2xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                            <div className="space-y-4">
-                                <h3 className="fd text-3xl font-bold">Secure Your Choice</h3>
-                                <p className="text-white/60 text-sm">Gain clarity with a detailed audit of every admit in your hand.</p>
-                            </div>
-                            <ServiceCTA serviceId="university_finalization" />
+                        <ServiceCTA serviceId="university_finalization" />
+                        <div className="rounded-[32px] border border-[#F1EDEA] bg-white p-2 shadow-sm">
                             <DiscussionSection serviceId="university_finalization" />
                         </div>
                         <div className="p-8 glass-panel space-y-4">

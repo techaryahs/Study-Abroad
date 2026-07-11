@@ -214,16 +214,9 @@ export default function LORDraftingPage() {
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: ACTION & SIDEBAR */}
+                    {/* RIGHT COLUMN: ACTION & SIDEBAR — ServiceCTA owns its own shell */}
                     <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-32">
-                        <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/10 blur-2xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                            <div className="space-y-2">
-                                <h3 className="fd text-3xl font-bold">Secure Your Admit</h3>
-                                <p className="text-white/40 text-sm italic font-medium">Bespoke drafting for international standards.</p>
-                            </div>
-                            <ServiceCTA serviceId="lor_drafting" />
-                        </div>
+                        <ServiceCTA serviceId="lor_drafting" />
 
                         <div className="p-10 glass-panel space-y-6">
                             <div className="flex items-center gap-4">

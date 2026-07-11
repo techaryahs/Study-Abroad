@@ -245,6 +245,7 @@ export function getMembershipExperience(
   const trustLine = 'Private by design · Built for ambitious applicants';
 
   if (isLoggedOut) {
+    // Identity first (login / create account). Plan upsell only after the user has a session.
     return {
       kind: 'logged_out',
       title: fromCatalog ? title : 'Continue your journey',
@@ -256,7 +257,7 @@ export function getMembershipExperience(
       planId: tierId,
       planName,
       primaryCta: 'Sign in',
-      secondaryCta: primaryCta,
+      secondaryCta: 'Create account',
       benefits: ecosystemBenefits,
       trustLine: 'Your progress stays with your account',
       isEliteVariant,

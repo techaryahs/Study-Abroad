@@ -5,6 +5,8 @@ import { ArrowRight } from 'lucide-react';
 
 interface MembershipCTAProps {
   planId?: string;
+  /** Backend serviceId — when set, pricing opens in unlock-context mode */
+  serviceId?: string;
   buttonText?: string;
   source?: string;
   className?: string;
@@ -13,6 +15,7 @@ interface MembershipCTAProps {
 
 export const MembershipCTA: React.FC<MembershipCTAProps> = ({
   planId,
+  serviceId,
   buttonText = 'Upgrade Membership',
   source = 'generic',
   className = '',
@@ -21,12 +24,17 @@ export const MembershipCTA: React.FC<MembershipCTAProps> = ({
   const router = useRouter();
 
   const handleClick = () => {
-    trackMembershipEvent('upgrade_cta_clicked', { source, targetPlanId: planId });
-    if (planId) {
-      router.push(`/pricing?planId=${planId}`);
-    } else {
-      router.push('/pricing');
-    }
+    trackMembershipEvent('upgrade_cta_clicked', {
+      source,
+      targetPlanId: planId,
+      serviceId: serviceId || undefined,
+    });
+
+    const params = new URLSearchParams();
+    if (serviceId) params.set('unlock', serviceId);
+    if (planId) params.set('planId', planId);
+    const q = params.toString();
+    router.push(q ? `/pricing?${q}` : '/pricing');
   };
 
   const getVariantStyles = () => {

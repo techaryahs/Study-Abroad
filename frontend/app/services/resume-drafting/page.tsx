@@ -190,13 +190,8 @@ export default function ResumeDraftingPage() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-[#3C2A21] p-10 rounded-[40px] text-white space-y-8 shadow-2xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#C5A059]/10 blur-2xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                            <div className="space-y-2">
-                                <h3 className="fd text-3xl font-bold">Forge Your Profile</h3>
-                                <p className="text-white/40 text-sm">Elevate your professional identity today.</p>
-                            </div>
-                            <ServiceCTA serviceId="resume_drafting" />
+                        <ServiceCTA serviceId="resume_drafting" />
+                        <div className="rounded-[32px] border border-[#F1EDEA] bg-white p-2 shadow-sm">
                             <DiscussionSection serviceId="resume_drafting" />
                         </div>
 

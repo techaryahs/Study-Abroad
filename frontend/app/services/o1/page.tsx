@@ -110,75 +110,73 @@ export default function O1Page() {
             <div className="absolute bottom-1/2 left-0 w-[400px] h-[400px] bg-[#D4A848]/10 blur-[150px] rounded-full" />
          </div>
 
-         {/* ── HERO SECTION ── */}
-         <section className="relative pt-8 pb-12 px-6 md:px-20 z-10 border-b border-[#D4A848]/10">
-            <div className="max-w-screen-2xl mx-auto">
-               <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-12 mb-8">
-                  <motion.div
-                     initial="hidden"
-                     animate="visible"
-                     variants={containerVariants}
-                     className="flex-1 space-y-4"
-                  >
-                     <motion.div variants={itemVariants} className="space-y-2">
-                        <span className="text-[#D4A848] uppercase tracking-[0.5em] font-black text-[7px] sm:text-[9px] bg-[#FFFFFF] px-3 py-1 rounded-full border border-[#D4A848]/20 inline-block shadow-sm">
-                           Extraordinary Protocol
-                        </span>
-                        <h1 className="text-2xl text-[#362B25] md:text-5xl font-black leading-[1.1] uppercase italic tracking-tight">
-                           APPLY FOR AN <br className="sm:hidden" />
-                           <span className="text-[#D4A848] block mt-1">O-1 VISA NODE</span>
-                        </h1>
-                     </motion.div>
+         {/* ── HERO COMPOSITION — content | image + membership card ── */}
+         <section className="relative z-10 border-b border-[#D4A848]/10 px-6 pb-12 pt-8 md:px-20">
+            <div className="mx-auto max-w-screen-2xl">
+               <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={containerVariants}
+                  className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12"
+               >
+                  <div className="space-y-6 lg:col-span-7">
+                     <motion.div variants={itemVariants} className="space-y-4">
+                        <div className="space-y-2">
+                           <span className="inline-block rounded-full border border-[#D4A848]/20 bg-[#FFFFFF] px-3 py-1 text-[7px] font-black uppercase tracking-[0.5em] text-[#D4A848] shadow-sm sm:text-[9px]">
+                              Extraordinary Protocol
+                           </span>
+                           <h1 className="text-2xl font-black uppercase italic leading-[1.1] tracking-tight text-[#362B25] md:text-5xl">
+                              APPLY FOR AN <br className="sm:hidden" />
+                              <span className="mt-1 block text-[#D4A848]">O-1 VISA NODE</span>
+                           </h1>
+                        </div>
 
-                     <motion.div variants={itemVariants} className="hidden sm:block max-w-xl">
-                        <p className="text-base md:text-lg text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-6">
-                           The <span className="text-[#362B25] font-black">Elite Non-Immigrant</span> work visa in the US, architected for individuals with extraordinary global acclaim in their field.
+                        <p className="hidden max-w-xl border-l-2 border-[#D4A848] py-1 pl-6 text-base font-medium italic leading-relaxed text-[#675F5B] sm:block md:text-lg">
+                           The <span className="font-black text-[#362B25]">Elite Non-Immigrant</span> work visa in the US, architected for individuals with extraordinary global acclaim in their field.
+                        </p>
+
+                        <p className="border-l-2 border-[#D4A848] py-1 pl-4 text-sm font-medium italic leading-relaxed text-[#675F5B] sm:hidden">
+                           The <span className="font-black text-[#362B25]">Elite Non-Immigrant</span> work visa for extraordinary global talent.
                         </p>
                      </motion.div>
-                  </motion.div>
 
-                  <motion.div
-                     initial={{ opacity: 0, scale: 0.95 }}
-                     animate={{ opacity: 1, scale: 1 }}
-                     transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-                     className="w-24 h-24 sm:w-1/2 lg:w-1/2 relative shrink-0"
-                  >
-                     <div className="relative aspect-square sm:aspect-[4/3] w-full group">
-                        <div className="absolute inset-0 bg-[#D4A848]/15 blur-[40px] sm:blur-[100px] rounded-full pointer-events-none" />
-                        <div className="relative w-full h-full rounded-2xl sm:rounded-[3rem] overflow-hidden border border-[#D4A848]/20 shadow-xl sm:shadow-2xl">
+                     <motion.div variants={itemVariants}>
+                        <DiscussionSection serviceId="o1" />
+                     </motion.div>
+                  </div>
+
+                  <div className="w-full max-w-[420px] justify-self-center space-y-6 lg:col-span-5 lg:max-w-none lg:justify-self-stretch lg:sticky lg:top-28">
+                     <motion.div
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                        className="relative w-full"
+                     >
+                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[#D4A848]/20 shadow-xl sm:rounded-[2rem] sm:shadow-2xl">
+                           <div className="pointer-events-none absolute inset-0 bg-[#D4A848]/15 blur-[60px]" />
                            <Image
                               src="/eb1-hero.png"
                               alt="O-1 hero"
                               fill
                               className="object-cover opacity-90"
+                              priority
                            />
                            <div className="absolute inset-0 bg-gradient-to-t from-[#362B25]/40 to-transparent" />
                         </div>
+                     </motion.div>
+
+                     <motion.div variants={itemVariants} className="w-full">
+                        <ServiceCTA serviceId="o1" />
+                     </motion.div>
+
+                     <div className="px-1 text-center lg:text-left">
+                        <button
+                           onClick={() => setShowCheckoutModal(true)}
+                           className="border-b border-transparent pb-1 text-[9px] font-black uppercase italic tracking-[0.3em] text-[#675F5B] transition-colors hover:border-[#D4A848]/50 hover:text-[#D4A848] sm:text-[10px]"
+                        >
+                           Start Settlement Node
+                        </button>
                      </div>
-                  </motion.div>
-               </div>
-
-               <motion.div
-                  initial="hidden"
-                  animate="visible"
-                  variants={containerVariants}
-                  className="space-y-6"
-               >
-                  <motion.div variants={itemVariants} className="sm:hidden">
-                     <p className="text-sm text-[#675F5B] leading-relaxed font-medium italic border-l-2 border-[#D4A848] pl-4 py-1">
-                        The <span className="text-[#362B25] font-black">Elite Non-Immigrant</span> work visa for extraordinary global talent.
-                     </p>
-                  </motion.div>
-
-                  <DiscussionSection serviceId="o1" />
-                  <ServiceCTA serviceId="o1" />
-                  <div className="pt-2 pl-2">
-                     <button 
-                        onClick={() => setShowCheckoutModal(true)}
-                        className="text-[#675F5B] text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] hover:text-[#D4A848] transition-colors border-b border-transparent hover:border-[#D4A848]/50 pb-1 italic"
-                     >
-                        Start Settlement Node
-                     </button>
                   </div>
                </motion.div>
             </div>

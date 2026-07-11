@@ -8,7 +8,8 @@ const MembershipEventSchema = new mongoose.Schema({
     enum: [
       'Membership Purchased', 'Membership Restored', 'Membership Renewed', 
       'Membership Expired', 'Membership Cancelled', 'Membership Upgraded', 
-      'Membership Downgraded', 'Feature Used', 'Purchase Started', 'Purchase Cancelled',
+      'Membership Downgraded', 'Feature Used', 'Feature Restored',
+      'Purchase Started', 'Purchase Cancelled',
       'Membership Page Viewed', 'Locked Feature Tapped', 'Upgrade Prompt Shown'
     ],
     required: true

@@ -103,6 +103,9 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
     super.dispose();
   }
 
+  /// Charged amount from last create-order (supports TEST_PAYMENT_MODE ₹1).
+  num? _chargedTotal;
+
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     try {
       final user = await AppStorage.getUser();
@@ -127,7 +130,8 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
             .toList(),
         'subtotal': subtotal,
         'discount': discount,
-        'total': subtotal, // Payable
+        // Must match Razorpay charged amount (TEST_PAYMENT_MODE may be ₹1)
+        'total': _chargedTotal ?? subtotal,
         'currency': widget.currency
       });
 
@@ -202,10 +206,15 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
         data: {
           'amount': subtotal,
           'currency': widget.currency,
+          if (widget.items.isNotEmpty && widget.items.first.id != null)
+            'planId': widget.items.first.id,
         },
       );
 
       final data = res.data;
+      _chargedTotal = data['expectedAmount'] is num
+          ? data['expectedAmount'] as num
+          : subtotal;
       var options = {
         'key': 'rzp_live_RseCm2t4lFlfMC',
         'amount': data['amount'],

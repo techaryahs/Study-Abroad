@@ -7,7 +7,7 @@ import {
   MembershipCatalog,
   MembershipPlan,
 } from "@/types/membership";
-import { getToken } from "@/app/lib/token";
+import { getSessionToken, isAuthenticated as hasSession } from "@/app/lib/session";
 import { MembershipMapper } from "./MembershipMapper";
 
 interface MembershipContextType {
@@ -45,7 +45,9 @@ export const MembershipProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       setLoading(true);
       setError(null);
 
-      const token = getToken();
+      // Session credential from session helper (token.ts). Not membership state.
+      const token = getSessionToken();
+      const authenticated = hasSession();
 
       const [plansRes, servicesRes] = await Promise.all([
         fetch(`${BACKEND_URL}/api/memberships/plans`).catch(() => null),
@@ -62,7 +64,8 @@ export const MembershipProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         })
       );
 
-      if (!token) {
+      // Guest: catalog only. Membership null here means "no membership record", not "logged out".
+      if (!authenticated || !token) {
         setMembership(null);
         setAccessSummary(null);
         setLoading(false);

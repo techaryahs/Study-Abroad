@@ -306,13 +306,7 @@ export default function PlagiarismCheckPage() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-[#3C2A21] p-10 rounded-[32px] text-white space-y-6 shadow-2xl">
-                            <div className="flex items-center gap-4">
-                                <Zap className="text-[#C5A059]" size={28} />
-                                <h3 className="fd text-2xl font-bold">Secure Your Bench</h3>
-                            </div>
-                            <ServiceCTA serviceId="ai_humanizer" />
-                        </div>
+                        <ServiceCTA serviceId="ai_humanizer" />
                     </div>
                 </div>
             </section>
