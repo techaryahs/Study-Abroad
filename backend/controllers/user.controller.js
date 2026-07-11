@@ -13,14 +13,17 @@ exports.getPremiumStatus = async (req, res) => {
     const result = await findUserById(req.user.id);
     if (!result) return res.status(401).json({ error: 'Invalid session — user no longer exists' });
 
-    const { user, role } = result;
+    const { user } = result;
     const profile = user.profile || user; // Consultants have flat fields
 
+    const hasActiveMembership = user.membership && user.membership.planId !== 'free' && user.membership.status === 'active';
+
     res.json({
-      isPremium: profile.isPremium || false,
-      premiumPlan: profile.premiumPlan || null,
-      premiumStartAt: profile.premiumStartAt || null,
-      premiumExpiresAt: profile.premiumExpiresAt || null,
+      isPremium: hasActiveMembership || profile.isPremium || false,
+      premiumPlan: user.membership?.planId || profile.premiumPlan || null,
+      premiumStartAt: user.membership?.purchaseDate || profile.premiumStartAt || null,
+      premiumExpiresAt: user.membership?.expiryDate || profile.premiumExpiresAt || null,
+      membership: user.membership || null,
     });
   } catch (error) {
     console.error("Premium status error:", error);
