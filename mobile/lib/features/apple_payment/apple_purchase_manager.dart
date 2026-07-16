@@ -36,14 +36,14 @@ enum ApplePurchaseState {
 /// High-level manager that coordinates Apple In-App Purchase flows.
 ///
 /// This class:
-/// - Loads and caches Apple products
+/// - Loads and caches Apple products ([ProductDetails] for UI display)
 /// - Initiates purchases by resolving [SubscriptionPlan] → Apple Product ID
 /// - Listens to the purchase stream and handles every [PurchaseStatus]
 /// - Calls the existing backend payment verification after success
+/// - Rejects unknown product IDs (no plan mapping)
 /// - Provides restore-purchases support
 ///
-/// All Apple-specific logic is confined here — the rest of the app only
-/// interacts via [SubscriptionPlan] and callbacks.
+/// Business rules (entitlements, plan catalog) stay on the backend.
 class ApplePurchaseManager {
   ApplePurchaseManager({
     required this.onStateChanged,
@@ -72,11 +72,11 @@ class ApplePurchaseManager {
 
   StreamSubscription<List<PurchaseDetails>>? _subscription;
 
-  /// Cached product details from the App Store.
+  /// Cached product details from the App Store (display source of truth).
   Map<String, ProductDetails> _products = {};
 
   /// The checkout items associated with the current purchase (used for backend
-  /// verification).
+  /// verification). Membership flow always sends an empty list.
   List<CheckoutItem> _currentItems = [];
   String _currentCurrency = 'INR';
   String? _currentPlanId;
@@ -85,19 +85,32 @@ class ApplePurchaseManager {
   /// Whether products have been successfully loaded.
   bool get productsLoaded => _products.isNotEmpty;
 
+  /// Unmodifiable view of cached StoreKit products.
+  Map<String, ProductDetails> get products => Map.unmodifiable(_products);
+
+  ProductDetails? productFor(String productId) => _products[productId];
+
   // ── Product loading ──────────────────────────────────────────────────────
 
   /// Queries the App Store for all configured Apple products.
   ///
   /// Returns `true` if at least one product was found.
-  Future<bool> loadProducts() async {
-    debugPrint('[ApplePurchaseManager] Loading products...');
-    onStateChanged(ApplePurchaseState.loading);
+  /// When [silent] is true, does not emit [ApplePurchaseState.loading]
+  /// (used for paywall preload so UI is not stuck in processing).
+  Future<bool> loadProducts({bool silent = false}) async {
+    debugPrint('[ApplePurchaseManager] Loading products (silent=$silent)...');
+    if (!silent) {
+      onStateChanged(ApplePurchaseState.loading);
+    }
 
     final available = await AppleIapService.instance.isAvailable();
     if (!available) {
       debugPrint('[ApplePurchaseManager] Store not available');
-      onError?.call('The App Store is not available. Please try again later.');
+      // Silent preload must not flip global purchase error state.
+      if (!silent) {
+        onError?.call('The App Store is not available. Please try again later.');
+        onStateChanged(ApplePurchaseState.error);
+      }
       return false;
     }
 
@@ -106,32 +119,37 @@ class ApplePurchaseManager {
     );
 
     if (response.error != null) {
-      onError?.call(
-        'Failed to load products: ${response.error!.message}',
-      );
+      if (!silent) {
+        onError?.call(
+          'Failed to load products: ${response.error!.message}',
+        );
+        onStateChanged(ApplePurchaseState.error);
+      }
       return false;
     }
 
-    _products = {
-      for (final product in response.productDetails) product.id: product,
-    };
+    // Only keep products that map to a known plan (reject unknown IDs).
+    final mapped = <String, ProductDetails>{};
+    for (final product in response.productDetails) {
+      if (AppleProductIds.isKnownProduct(product.id)) {
+        mapped[product.id] = product;
+      } else {
+        debugPrint(
+          '[ApplePurchaseManager] ⚠️ Ignoring unmapped StoreKit product: '
+          '${product.id}',
+        );
+      }
+    }
+
+    _products = mapped;
 
     debugPrint(
       '\n[ApplePurchaseManager] 📦 StoreKit ProductDetailsResponse:\n'
       '   • error: ${response.error?.message ?? "none"}\n'
       '   • productDetails.length: ${response.productDetails.length}\n'
+      '   • mapped.length: ${_products.length}\n'
       '   • notFoundIDs: ${response.notFoundIDs}',
     );
-
-    if (response.error != null) {
-      debugPrint('[ApplePurchaseManager] ❌ StoreKit query failed: ${response.error!.message}');
-      onStateChanged(ApplePurchaseState.error);
-      return false;
-    }
-
-    _products = {
-      for (var p in response.productDetails) p.id: p
-    };
 
     return _products.isNotEmpty;
   }
@@ -150,9 +168,19 @@ class ApplePurchaseManager {
     VoidCallback? onPaymentSuccess,
   }) async {
     final productId = AppleProductIds.productIdFor(plan);
+    final expectedPlanId = AppleProductIds.nameForPlan(plan);
+
+    if (planId != expectedPlanId) {
+      onError?.call(
+        'Plan ID mismatch: client sent "$planId", expected "$expectedPlanId".',
+      );
+      onStateChanged(ApplePurchaseState.error);
+      return;
+    }
+
     debugPrint(
       '\n[ApplePurchaseManager] 🛒 Purchase requested: '
-      '${plan.name} → $productId',
+      '${plan.name} → $productId (planId=$planId)',
     );
 
     // Ensure products are loaded.
@@ -161,6 +189,7 @@ class ApplePurchaseManager {
       if (!loaded || !_products.containsKey(productId)) {
         final name = AppleProductIds.displayNameFor(productId);
         onError?.call('The "$name" product is not available in your region.');
+        onStateChanged(ApplePurchaseState.error);
         return;
       }
     }
@@ -246,6 +275,44 @@ class ApplePurchaseManager {
     required bool isRestore,
   }) async {
     try {
+      // Reject unknown product IDs — never invent a plan.
+      final mappedPlanId = AppleProductIds.planIdForProduct(purchase.productID);
+      if (mappedPlanId == null) {
+        debugPrint(
+          '[ApplePurchaseManager] ❌ Unknown product ID rejected: '
+          '${purchase.productID}',
+        );
+        if (purchase.pendingCompletePurchase) {
+          await AppleIapService.instance.completePurchase(purchase);
+        }
+        onStateChanged(ApplePurchaseState.error);
+        onError?.call(
+          'Unrecognized App Store product (${purchase.productID}). '
+          'Membership was not activated.',
+        );
+        return;
+      }
+
+      // Authoritative plan comes from product ID mapping.
+      // Client planId (if present) must match.
+      if (_currentPlanId != null && _currentPlanId != mappedPlanId) {
+        debugPrint(
+          '[ApplePurchaseManager] ❌ planId/product mismatch: '
+          'client=$_currentPlanId product=$mappedPlanId',
+        );
+        if (purchase.pendingCompletePurchase) {
+          await AppleIapService.instance.completePurchase(purchase);
+        }
+        onStateChanged(ApplePurchaseState.error);
+        onError?.call(
+          'Purchase product does not match selected plan. '
+          'Membership was not activated.',
+        );
+        return;
+      }
+
+      final planId = mappedPlanId;
+
       // Always complete the purchase with the App Store first.
       if (purchase.pendingCompletePurchase) {
         await AppleIapService.instance.completePurchase(purchase);
@@ -254,16 +321,17 @@ class ApplePurchaseManager {
       final user = await AppStorage.getUser();
       if (user == null) {
         onError?.call('User not found. Please login and try again.');
+        onStateChanged(ApplePurchaseState.error);
         return;
       }
 
-      // Call the existing backend payment verification endpoint.
+      // Call the existing backend payment verification endpoint (unchanged contract).
       debugPrint('[ApplePurchaseManager] 🌐 Verifying purchase with Backend...');
       final verifyRes = await ApiClient.instance.post(
         '/api/payment/verify',
         data: {
           'platform': 'apple_iap',
-          'planId': _currentPlanId ?? AppleProductIds.planFor(purchase.productID)?.name,
+          'planId': planId,
           'productId': purchase.productID,
           'transactionId': purchase.purchaseID,
           'verificationData': purchase.verificationData.serverVerificationData,
@@ -333,6 +401,7 @@ class ApplePurchaseManager {
                       .clamp(0, item.actualPrice * item.quantity),
             ),
             'userEmail': user['email'],
+            'planId': planId,
           };
 
       onReceiptReady?.call(receiptData);

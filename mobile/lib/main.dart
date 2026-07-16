@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'core/payment_service.dart';
 import 'core/router.dart';
 import 'core/theme.dart';
 import 'features/auth/auth_provider.dart';
@@ -16,9 +16,18 @@ void main() async {
       providers: [
         ChangeNotifierProvider.value(value: authProvider),
         ChangeNotifierProxyProvider<AuthProvider, MembershipManager>(
-          create: (_) => MembershipManager(),
+          create: (_) {
+            final m = MembershipManager();
+            // Bind once so purchase / restore always refreshes entitlements.
+            PaymentService.instance.onMembershipRefresh =
+                () => m.refresh(showLoading: false);
+            return m;
+          },
           update: (_, auth, manager) {
             final m = manager ?? MembershipManager();
+            // Keep binding if provider recreated the manager.
+            PaymentService.instance.onMembershipRefresh =
+                () => m.refresh(showLoading: false);
             if (auth.isLoggedIn && m.userMembership == null && !m.isLoading) {
               Future.microtask(() => m.refresh());
             } else if (!auth.isLoggedIn && m.userMembership != null) {

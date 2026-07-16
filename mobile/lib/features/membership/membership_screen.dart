@@ -1,11 +1,17 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'membership_manager.dart';
 import 'models/membership_plan.dart';
 import '../../core/payment_service.dart';
 
-class MembershipScreen extends StatelessWidget {
+/// App Store Guideline 3.1.2(c) — subscription presentation only.
+/// Purchase / membership architecture is unchanged.
+class MembershipScreen extends StatefulWidget {
   final String? recommendedPlanId;
   final String? lockedFeatureId;
 
@@ -16,21 +22,169 @@ class MembershipScreen extends StatelessWidget {
   });
 
   @override
+  State<MembershipScreen> createState() => _MembershipScreenState();
+}
+
+class _MembershipScreenState extends State<MembershipScreen> {
+  static const kBgColor = Color(0xFFFAF3EA);
+  static const kTextPrimary = Color(0xFF2C1A00);
+  static const kTextSecondary = Color(0xFF7A6040);
+  static const kGold = Color(0xFFC49A28);
+  static const kGoldDark = Color(0xFFA07020);
+
+  /// Apple Standard Licensed Application End User License Agreement.
+  static final Uri _appleStandardEula = Uri.parse(
+    'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/',
+  );
+
+  bool _isAutoRenewable(MembershipPlan plan) =>
+      plan.type != 'one_time' && plan.type != 'lifetime';
+
+  bool _isStarter(MembershipPlan plan) =>
+      plan.planId.toLowerCase() == 'starter';
+
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isIOS) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        PaymentService.instance.loadStoreProducts(silent: true).then((_) {
+          if (mounted) setState(() {});
+        });
+      });
+    }
+  }
+
+  Future<void> _onRestore() async {
+    debugPrint('[MembershipScreen] Restore Tapped');
+    await PaymentService.instance.restorePurchases();
+    if (!mounted) return;
+    if (PaymentService.instance.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(PaymentService.instance.error!),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else if (PaymentService.instance.state == PaymentState.restored ||
+        PaymentService.instance.state == PaymentState.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Purchases restored. Membership updated.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onSubscribe(MembershipPlan plan) async {
+    debugPrint('[MembershipScreen] Subscribe Tapped for: ${plan.planId}');
+    await PaymentService.instance.purchase(plan);
+    if (!mounted) return;
+    if (PaymentService.instance.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(PaymentService.instance.error!),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } else if (PaymentService.instance.state == PaymentState.success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Membership activated.'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
+  }
+
+  /// Opens existing in-app Privacy Policy screen (always available offline).
+  void _openPrivacyPolicy() {
+    context.push('/privacy-policy');
+  }
+
+  /// Opens Apple Standard EULA; falls back to in-app Terms if launch fails.
+  Future<void> _openTermsOfUse() async {
+    final ok = await launchUrl(
+      _appleStandardEula,
+      mode: LaunchMode.externalApplication,
+    );
+    if (!ok && mounted) {
+      context.push('/terms-condition');
+    }
+  }
+
+  /// Fixed 3.1.2(c) titles per plan.
+  String _displayTitle(MembershipPlan plan) {
+    switch (plan.planId.toLowerCase()) {
+      case 'starter':
+        return 'Starter Membership';
+      case 'essential':
+        return 'Essential Membership';
+      case 'premium':
+        return 'Premium Membership';
+      case 'elite':
+        return 'Elite Global Membership';
+      default:
+        final name = plan.name.trim();
+        if (name.toLowerCase().endsWith('membership')) return name;
+        return '$name Membership';
+    }
+  }
+
+  String _billingPeriodLabel(MembershipPlan plan) {
+    if (!_isAutoRenewable(plan)) return 'One-time Purchase';
+    if (plan.type == 'yearly') return '1 Year Subscription';
+    if (plan.type == 'monthly') return '1 Month Subscription';
+    return 'Subscription';
+  }
+
+  /// Builds the price line shown on each card.
+  ///
+  /// Prefer StoreKit [ProductDetails.price] (localized, App Store–authoritative).
+  /// Catalog price is fallback only when StoreKit is unavailable (e.g. Android,
+  /// products not loaded yet). Period is already shown as "1 Year Subscription"
+  /// so StoreKit strings are not mangled with an extra "/year".
+  String _priceLine({
+    required MembershipPlan plan,
+    required String? storeKitPrice,
+    required String catalogFallback,
+  }) {
+    // 1) StoreKit wins when present — display exactly as Apple localizes it.
+    if (storeKitPrice != null && storeKitPrice.trim().isNotEmpty) {
+      return storeKitPrice.trim();
+    }
+
+    // 2) Catalog fallback only.
+    if (!_isAutoRenewable(plan)) return catalogFallback;
+    if (plan.type == 'yearly') {
+      final lower = catalogFallback.toLowerCase();
+      if (lower.contains('/year') ||
+          lower.contains('year') ||
+          lower.contains('/yr')) {
+        return catalogFallback;
+      }
+      return '$catalogFallback/year';
+    }
+    if (plan.type == 'monthly') {
+      final lower = catalogFallback.toLowerCase();
+      if (lower.contains('/month') || lower.contains('month')) {
+        return catalogFallback;
+      }
+      return '$catalogFallback/month';
+    }
+    return catalogFallback;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final manager = context.watch<MembershipManager>();
-    
-    // Sort plans by sortOrder dynamically
+
     final plans = List<MembershipPlan>.from(manager.activePlans)
       ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-      
-    final currentPlan = manager.currentPlan;
 
-    // Premium styling constants
-    const kBgColor = Color(0xFFFAF3EA);
-    const kTextPrimary = Color(0xFF2C1A00);
-    const kTextSecondary = Color(0xFF7A6040);
-    const kGold = Color(0xFFC49A28);
-    const kGoldDark = Color(0xFFA07020);
+    final currentPlan = manager.currentPlan;
+    final hasAutoRenewablePlans = plans.any(_isAutoRenewable);
 
     return Scaffold(
       backgroundColor: kBgColor,
@@ -49,21 +203,16 @@ class MembershipScreen extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () async {
-              debugPrint('[MembershipScreen] 🖱️ Restore Tapped');
-              await PaymentService.instance.restorePurchases();
-              if (PaymentService.instance.error != null) {
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(PaymentService.instance.error!),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
-            },
-            child: const Text('Restore', style: TextStyle(color: kGold, fontWeight: FontWeight.bold)),
-          )
+            onPressed: _onRestore,
+            child: const Text(
+              'Restore Purchases',
+              style: TextStyle(
+                color: kGold,
+                fontWeight: FontWeight.bold,
+                fontSize: 13,
+              ),
+            ),
+          ),
         ],
         iconTheme: const IconThemeData(color: kTextPrimary),
       ),
@@ -72,83 +221,238 @@ class MembershipScreen extends StatelessWidget {
           : plans.isEmpty
               ? const Center(
                   child: Text(
-                    "No plans available at the moment.",
+                    'No plans available at the moment.',
                     style: TextStyle(color: kTextSecondary, fontSize: 16),
                   ),
                 )
-              : CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-                    if (lockedFeatureId != null)
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-                          child: Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              color: Colors.red.withOpacity(0.05),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.red.withOpacity(0.2)),
-                            ),
-                            child: const Row(
-                              children: [
-                                Icon(Icons.lock_outline, color: Colors.red),
-                                SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    'This feature requires a premium membership.',
-                                    style: TextStyle(color: Colors.red, fontWeight: FontWeight.w600),
+              : AnimatedBuilder(
+                  animation: PaymentService.instance,
+                  builder: (context, _) {
+                    return CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                        if (widget.lockedFeatureId != null)
+                          SliverToBoxAdapter(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(24, 16, 24, 0),
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.red.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: Colors.red.withOpacity(0.2),
                                   ),
                                 ),
-                              ],
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.lock_outline, color: Colors.red),
+                                    SizedBox(width: 12),
+                                    Expanded(
+                                      child: Text(
+                                        'This feature requires a premium membership.',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                                  .animate()
+                                  .fadeIn()
+                                  .slideY(begin: -0.2, curve: Curves.easeOut),
                             ),
-                          ).animate().fadeIn().slideY(begin: -0.2, curve: Curves.easeOut),
+                          ),
+                        SliverPadding(
+                          padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+                          sliver: SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                final plan = plans[index];
+                                final isRecommended = plan.recommended ||
+                                    plan.planId == widget.recommendedPlanId;
+                                final isCurrentPlan =
+                                    currentPlan?.planId == plan.planId;
+
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 24),
+                                  child: _buildPremiumCard(
+                                    plan: plan,
+                                    isRecommended: isRecommended,
+                                    isCurrentPlan: isCurrentPlan,
+                                  )
+                                      .animate()
+                                      .fadeIn(
+                                        delay: Duration(
+                                          milliseconds: 100 * index,
+                                        ),
+                                      )
+                                      .slideY(
+                                        begin: 0.1,
+                                        curve: Curves.easeOut,
+                                      ),
+                                );
+                              },
+                              childCount: plans.length,
+                            ),
+                          ),
                         ),
-                      ),
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final plan = plans[index];
-                            final isRecommended = plan.recommended || plan.planId == recommendedPlanId;
-                            final isCurrentPlan = currentPlan?.planId == plan.planId;
-                            
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 24),
-                              child: _buildPremiumCard(
-                                context,
-                                plan: plan,
-                                isRecommended: isRecommended,
-                                isCurrentPlan: isCurrentPlan,
-                                kGold: kGold,
-                                kGoldDark: kGoldDark,
-                                kTextPrimary: kTextPrimary,
-                                kTextSecondary: kTextSecondary,
-                              ).animate().fadeIn(delay: Duration(milliseconds: 100 * index)).slideY(begin: 0.1, curve: Curves.easeOut),
-                            );
-                          },
-                          childCount: plans.length,
+                        // Guideline 3.1.2(c) legal footer
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(24, 8, 24, 40),
+                            child: _buildComplianceFooter(
+                              showSubscriptionLegal: hasAutoRenewablePlans,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
+                      ],
+                    );
+                  },
                 ),
     );
   }
 
-  Widget _buildPremiumCard(
-    BuildContext context, {
+  /// Privacy Policy, Terms of Use (EULA), Restore, subscription legal text.
+  Widget _buildComplianceFooter({required bool showSubscriptionLegal}) {
+    final linkStyle = TextStyle(
+      color: kGoldDark,
+      fontWeight: FontWeight.w700,
+      fontSize: 14,
+      decoration: TextDecoration.underline,
+      decorationColor: kGoldDark,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Center(
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            children: [
+              TextButton(
+                onPressed: _openPrivacyPolicy,
+                style: TextButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text('Privacy Policy', style: linkStyle),
+              ),
+              Text(
+                '·',
+                style: TextStyle(color: kTextSecondary.withOpacity(0.6)),
+              ),
+              TextButton(
+                onPressed: _openTermsOfUse,
+                style: TextButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+                child: Text('Terms of Use (EULA)', style: linkStyle),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        Center(
+          child: OutlinedButton(
+            onPressed: _onRestore,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: kGoldDark,
+              side: BorderSide(color: kGold.withOpacity(0.6)),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: const Text(
+              'Restore Purchases',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 13,
+                letterSpacing: 0.5,
+              ),
+            ),
+          ),
+        ),
+        if (showSubscriptionLegal) ...[
+          const SizedBox(height: 20),
+          Text(
+            'Payment will be charged to your Apple ID at confirmation of purchase.\n\n'
+            'Subscriptions automatically renew unless cancelled at least 24 hours before renewal.\n\n'
+            'Manage or cancel subscriptions anytime from Apple ID Settings.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 11,
+              height: 1.5,
+              color: kTextSecondary.withOpacity(0.9),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _benefitRow(String text, {required bool isRecommended}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.check_circle,
+            color: isRecommended ? kGold : Colors.green.shade600,
+            size: 22,
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 15,
+                color: kTextPrimary.withOpacity(0.85),
+                fontWeight: FontWeight.w500,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPremiumCard({
     required MembershipPlan plan,
     required bool isRecommended,
     required bool isCurrentPlan,
-    required Color kGold,
-    required Color kGoldDark,
-    required Color kTextPrimary,
-    required Color kTextSecondary,
   }) {
-    final currencySymbol = plan.currency == 'USD' ? '\$' : (plan.currency == 'GBP' ? '£' : '₹');
-    
+    // StoreKit ProductDetails.price is the display source of truth on iOS.
+    // Backend catalog price is fallback only (never overrides StoreKit).
+    final storeKitPrice = PaymentService.instance.localizedPriceFor(plan);
+    final currencySymbol =
+        plan.currency == 'USD' ? '\$' : (plan.currency == 'GBP' ? '£' : '₹');
+    final catalogFallback =
+        plan.price != null ? '$currencySymbol${plan.price}' : 'Free';
+    final priceLine = _priceLine(
+      plan: plan,
+      storeKitPrice: storeKitPrice,
+      catalogFallback: catalogFallback,
+    );
+    final usingStoreKit = storeKitPrice != null && storeKitPrice.trim().isNotEmpty;
+    final displayTitle = _displayTitle(plan);
+    final periodLabel = _billingPeriodLabel(plan);
+    final isAutoRenew = _isAutoRenewable(plan);
+    final isStarter = _isStarter(plan);
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -159,7 +463,9 @@ class MembershipScreen extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: isRecommended ? kGold.withOpacity(0.15) : Colors.black.withOpacity(0.04),
+            color: isRecommended
+                ? kGold.withOpacity(0.15)
+                : Colors.black.withOpacity(0.04),
             blurRadius: isRecommended ? 24 : 12,
             offset: const Offset(0, 8),
           ),
@@ -170,20 +476,23 @@ class MembershipScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Header
             if (isRecommended || plan.badge != null)
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: isRecommended ? [kGold, kGoldDark] : [Colors.grey.shade800, Colors.black],
+                    colors: isRecommended
+                        ? [kGold, kGoldDark]
+                        : [Colors.grey.shade800, Colors.black],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                 ),
                 child: Center(
                   child: Text(
-                    (plan.badge ?? (isRecommended ? 'RECOMMENDED' : 'PREMIUM')).toUpperCase(),
+                    (plan.badge ??
+                            (isRecommended ? 'RECOMMENDED' : 'PREMIUM'))
+                        .toUpperCase(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 12,
@@ -193,149 +502,185 @@ class MembershipScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            
             Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          plan.name,
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w900,
-                            color: kTextPrimary,
-                            height: 1.1,
-                          ),
-                        ),
-                      ),
-                    ],
+                  // Title
+                  Text(
+                    displayTitle,
+                    style: const TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900,
+                      color: kTextPrimary,
+                      height: 1.1,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  // Billing period
+                  Text(
+                    periodLabel,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: isAutoRenew ? kGoldDark : kTextSecondary,
+                      letterSpacing: 0.2,
+                    ),
                   ),
                   const SizedBox(height: 12),
-                  if (plan.description != null)
-                    Text(
-                      plan.description!,
+
+                  // Starter lifetime line / catalog description for others
+                  if (isStarter)
+                    const Text(
+                      'Lifetime access to Starter features.',
                       style: TextStyle(
                         fontSize: 14,
                         color: kTextSecondary,
                         height: 1.5,
                       ),
+                    )
+                  else if (plan.description != null)
+                    Text(
+                      plan.description!,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: kTextSecondary,
+                        height: 1.5,
+                      ),
                     ),
-                  const SizedBox(height: 24),
-                  
-                  // Pricing
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Text(
-                        plan.price != null ? '$currencySymbol${plan.price}' : 'Free',
+
+                  const SizedBox(height: 20),
+
+                  // Price — StoreKit localized when available (e.g. ₹14,999.00)
+                  Text(
+                    priceLine,
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.w900,
+                      color: kTextPrimary,
+                      letterSpacing: -1,
+                    ),
+                  ),
+                  // Period reminder under StoreKit price (period line above is primary)
+                  if (usingStoreKit && isAutoRenew && plan.type == 'yearly')
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text(
+                        'per year',
                         style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w900,
-                          color: kTextPrimary,
-                          letterSpacing: -1,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: kTextSecondary.withOpacity(0.9),
                         ),
                       ),
-                      if (plan.type != 'one_time' && plan.price != null)
-                        Text(
-                          ' /${plan.type.replaceAll('ly', '')}',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: kTextSecondary,
-                          ),
-                        ),
-                    ],
-                  ),
-                  
-                  const SizedBox(height: 32),
-                  const Divider(height: 1),
-                  const SizedBox(height: 32),
-                  
-                  // Benefits
-                  ...plan.benefits.map((benefit) => Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.check_circle,
-                          color: isRecommended ? kGold : Colors.green.shade600,
-                          size: 22,
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Text(
-                            benefit,
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: kTextPrimary.withOpacity(0.85),
-                              fontWeight: FontWeight.w500,
-                              height: 1.4,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
-                  )),
-                  
-                  const SizedBox(height: 32),
-                  
-                  // CTA Button
+
+                  // Auto-renew (yearly only) — never for Starter
+                  if (isAutoRenew) ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      'Automatically renews every year unless cancelled at least '
+                      '24 hours before the end of the current billing period.',
+                      style: TextStyle(
+                        fontSize: 12,
+                        height: 1.45,
+                        color: kTextSecondary.withOpacity(0.95),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+
+                  const SizedBox(height: 28),
+                  const Divider(height: 1),
+                  const SizedBox(height: 24),
+
+                  const Text(
+                    'Includes:',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
+                      color: kTextPrimary,
+                      letterSpacing: 0.3,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Starter: fixed compliance bullets (no auto-renew wording)
+                  if (isStarter) ...[
+                    _benefitRow(
+                      '1 Consultation Credit',
+                      isRecommended: isRecommended,
+                    ),
+                    _benefitRow(
+                      'Lifetime Starter Features',
+                      isRecommended: isRecommended,
+                    ),
+                    ...plan.benefits
+                        .where((b) {
+                          final lower = b.toLowerCase();
+                          return !lower.contains('consultation') &&
+                              !lower.contains('counselling') &&
+                              !lower.contains('counseling') &&
+                              !lower.contains('10 minute');
+                        })
+                        .map(
+                          (b) => _benefitRow(b, isRecommended: isRecommended),
+                        ),
+                  ] else
+                    ...plan.benefits.map(
+                      (b) => _benefitRow(b, isRecommended: isRecommended),
+                    ),
+
+                  const SizedBox(height: 24),
+
                   SizedBox(
                     width: double.infinity,
                     height: 56,
-                    child: AnimatedBuilder(
-                      animation: PaymentService.instance,
-                      builder: (context, _) {
+                    child: Builder(
+                      builder: (context) {
                         final paymentState = PaymentService.instance.state;
-                        final isProcessing = paymentState == PaymentState.loading || paymentState == PaymentState.pending;
-                        
+                        final isProcessing =
+                            paymentState == PaymentState.loading ||
+                                paymentState == PaymentState.pending;
+
                         return ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: isCurrentPlan 
-                                ? Colors.grey.shade200 
+                            backgroundColor: isCurrentPlan
+                                ? Colors.grey.shade200
                                 : (isRecommended ? kTextPrimary : Colors.white),
-                            foregroundColor: isCurrentPlan 
-                                ? kTextSecondary 
-                                : (isRecommended ? Colors.white : kTextPrimary),
-                            elevation: isRecommended && !isCurrentPlan ? 8 : 0,
+                            foregroundColor: isCurrentPlan
+                                ? kTextSecondary
+                                : (isRecommended
+                                    ? Colors.white
+                                    : kTextPrimary),
+                            elevation:
+                                isRecommended && !isCurrentPlan ? 8 : 0,
                             shadowColor: kTextPrimary.withOpacity(0.4),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
-                              side: isCurrentPlan || isRecommended 
-                                  ? BorderSide.none 
+                              side: isCurrentPlan || isRecommended
+                                  ? BorderSide.none
                                   : BorderSide(color: Colors.grey.shade300),
                             ),
                           ),
-                          onPressed: (isCurrentPlan || isProcessing) ? null : () async {
-                            debugPrint('[MembershipScreen] 🖱️ Subscribe Tapped for: ${plan.planId}');
-                            await PaymentService.instance.purchase(plan);
-                            if (PaymentService.instance.error != null) {
-                              if (!context.mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(PaymentService.instance.error!),
-                                  backgroundColor: Colors.red,
-                                ),
-                              );
-                            }
-                          },
+                          onPressed: (isCurrentPlan || isProcessing)
+                              ? null
+                              : () => _onSubscribe(plan),
                           child: isProcessing && !isCurrentPlan
                               ? const SizedBox(
                                   height: 24,
                                   width: 24,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : Text(
-                                  isCurrentPlan 
-                                      ? 'CURRENT PLAN' 
-                                      : (plan.type == 'one_time' ? 'GET ACCESS' : 'SUBSCRIBE NOW'),
+                                  isCurrentPlan
+                                      ? 'CURRENT PLAN'
+                                      : (isAutoRenew
+                                          ? 'SUBSCRIBE NOW'
+                                          : 'GET ACCESS'),
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w800,
@@ -343,7 +688,7 @@ class MembershipScreen extends StatelessWidget {
                                   ),
                                 ),
                         );
-                      }
+                      },
                     ),
                   ),
                 ],
@@ -355,4 +700,3 @@ class MembershipScreen extends StatelessWidget {
     );
   }
 }
-

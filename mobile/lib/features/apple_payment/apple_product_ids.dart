@@ -13,6 +13,12 @@ enum SubscriptionPlan {
 /// provides helpers for querying product metadata.
 ///
 /// All Apple-specific identifiers are confined to this file.
+///
+/// Mapping contract (1:1, fixed — plan IDs must not change):
+///   starter    ↔ com.iecstudyabroad.starter.onetime   (consumable one-time)
+///   essential  ↔ com.iecstudyabroad.essential.yearly  (auto-renewable)
+///   premium    ↔ com.iecstudyabroad.premium.yearly    (auto-renewable)
+///   elite      ↔ com.iecstudyabroad.elite.yearly      (auto-renewable)
 class AppleProductIds {
   AppleProductIds._();
 
@@ -56,18 +62,41 @@ class AppleProductIds {
   static SubscriptionPlan? planFor(String productId) =>
       _productIdToPlan[productId];
 
-  static SubscriptionPlan? planForName(String name) => _nameToPlan[name.toLowerCase()];
-  
+  /// Backend / catalog planId string for a known product, or `null` if unknown.
+  static String? planIdForProduct(String productId) {
+    final plan = planFor(productId);
+    if (plan == null) return null;
+    return nameForPlan(plan);
+  }
+
+  /// Whether [productId] is a known, mapped Apple product.
+  static bool isKnownProduct(String productId) =>
+      _productIdToPlan.containsKey(productId);
+
+  static SubscriptionPlan? planForName(String name) =>
+      _nameToPlan[name.toLowerCase()];
+
   static String nameForPlan(SubscriptionPlan plan) {
     return _nameToPlan.entries.firstWhere((e) => e.value == plan).key;
+  }
+
+  /// Product ID for a backend planId, or `null` if unmapped.
+  static String? productIdForPlanId(String planId) {
+    final plan = planForName(planId);
+    if (plan == null) return null;
+    return productIdFor(plan);
   }
 
   // ── Product type helpers ─────────────────────────────────────────────────
 
   /// Returns `true` when the product is a consumable (one-time purchase).
+  ///
+  /// Starter is intentionally consumable: catalog type is `one_time` and the
+  /// product may be re-purchased. ASC must list this product as Consumable.
   static bool isConsumable(String productId) => productId == starter;
 
-  /// Human-readable plan name for display purposes.
+  /// Human-readable plan name for display purposes (fallback when StoreKit
+  /// title is unavailable).
   static const Map<String, String> displayNames = {
     starter: 'Starter',
     essential: 'Essential',
