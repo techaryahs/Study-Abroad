@@ -97,7 +97,7 @@ async function respondFromLedger(res, ledger, expected = {}) {
     });
   }
 
-  if (ledger.status === "succeeded") {
+  if (ledger.status === "VERIFIED" || ledger.status === "ENTITLED") {
     const receipt = ledger.receiptId
       ? await Receipt.findById(ledger.receiptId)
       : null;
@@ -120,7 +120,7 @@ async function respondFromLedger(res, ledger, expected = {}) {
       consultation:
         purchaseType === "consultation"
           ? ledger.responseSnapshot?.consultation || {
-              paymentId: ledger.paymentId || ledger.transactionId,
+              paymentId: ledger.externalTransactionId || ledger.transactionId,
               amount: ledger.amount,
               currency: ledger.currency,
               creditsAdded: false,
@@ -130,7 +130,7 @@ async function respondFromLedger(res, ledger, expected = {}) {
     });
   }
 
-  if (ledger.status === "processing") {
+  if (ledger.status === "CREATED" || ledger.status === "PENDING_VERIFICATION") {
     return res.status(202).json({
       success: false,
       idempotent: true,
@@ -189,7 +189,10 @@ async function createOrResumeLedger({
   expected,
   res,
 }) {
-  const existingLedger = await PaymentTransaction.findOne({ idempotencyKey });
+  const gateway = platform === 'apple_iap' || platform === 'ios' || platform === 'apple' ? 'apple' : 'razorpay';
+  const externalTransactionId = paymentId || transactionId || idempotencyKey || `ext_${Date.now()}`;
+
+  const existingLedger = await PaymentTransaction.findOne({ gateway, externalTransactionId });
   if (existingLedger) {
     return {
       ledger: null,
@@ -198,24 +201,22 @@ async function createOrResumeLedger({
   }
 
   try {
+    const internalTransactionId = `legacy_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
     const ledger = await PaymentTransaction.create({
-      idempotencyKey,
-      platform,
-      transactionId,
-      orderId,
-      paymentId,
+      transactionId: internalTransactionId,
+      gateway,
+      externalTransactionId,
       userId: user._id,
       userModel,
-      userEmail: user.email,
       planId,
-      amount: Number(amount),
-      currency,
-      status: "processing",
+      amount: Number(amount) || 0,
+      currency: currency || "INR",
+      status: "CREATED",
     });
     return { ledger, earlyResponse: null };
   } catch (createErr) {
     if (createErr && createErr.code === 11000) {
-      const racedLedger = await PaymentTransaction.findOne({ idempotencyKey });
+      const racedLedger = await PaymentTransaction.findOne({ gateway, externalTransactionId });
       if (racedLedger) {
         return {
           ledger: null,
@@ -399,7 +400,18 @@ async function createReceiptIfNeeded({
   });
 }
 
-async function provisionMembershipOnce({ user, model, plan, platform, transactionId }) {
+async function provisionMembershipOnce({
+  user,
+  model,
+  plan,
+  platform,
+  transactionId,
+  productId,
+  amountPaid,
+  currency,
+  paymentStatus = "paid",
+  paymentDate,
+}) {
   const duplicateHistory = await MembershipHistory.findOne({
     platform,
     transactionId,
@@ -419,6 +431,11 @@ async function provisionMembershipOnce({ user, model, plan, platform, transactio
   const { transitionType, previousPlanId } = applyPlanToMembership(user, plan, {
     platform,
     transactionId,
+    productId,
+    amountPaid,
+    currency,
+    paymentStatus,
+    paymentDate: paymentDate || new Date(),
   });
 
   await user.save();
@@ -448,7 +465,14 @@ async function provisionMembershipOnce({ user, model, plan, platform, transactio
     userModel,
     eventType: transitionEventType(transitionType),
     planId: plan.planId,
-    metadata: { platform, transactionId, transitionType, previousPlanId },
+    metadata: {
+      platform,
+      transactionId,
+      transitionType,
+      previousPlanId,
+      amountPaid,
+      currency,
+    },
   });
 
   return { user, plan, transitionType, history, duplicate: false };
@@ -608,6 +632,11 @@ async function verifyMembershipPayment(req, res, ctx) {
       plan,
       platform,
       transactionId: finalTransactionId,
+      productId,
+      amountPaid: total,
+      currency,
+      paymentStatus: "paid",
+      paymentDate: new Date(),
     });
 
     const responseSnapshot = {
@@ -616,11 +645,19 @@ async function verifyMembershipPayment(req, res, ctx) {
         planId: plan.planId,
         transitionType: provisioning.transitionType,
         status: user.membership?.status,
+        purchaseDate: user.membership?.purchaseDate || null,
         expiryDate: user.membership?.expiryDate || null,
+        amountPaid:
+          typeof user.membership?.amountPaid === "number"
+            ? user.membership.amountPaid
+            : total,
+        currency: user.membership?.currency || currency || null,
+        paymentStatus: user.membership?.paymentStatus || "paid",
+        transactionId: user.membership?.transactionId || finalTransactionId,
       },
     };
 
-    ledger.status = "succeeded";
+    ledger.status = "ENTITLED";
     ledger.receiptId = receipt?._id;
     ledger.historyId = provisioning.history?._id;
     ledger.transitionType = provisioning.transitionType;
@@ -638,7 +675,7 @@ async function verifyMembershipPayment(req, res, ctx) {
       consultation: null,
     });
   } catch (err) {
-    ledger.status = "failed";
+    ledger.status = "FAILED";
     ledger.error = err.message;
     ledger.processedAt = new Date();
     try {
@@ -760,7 +797,7 @@ async function verifyConsultationPayment(req, res, ctx) {
       membership: null,
     };
 
-    ledger.status = "succeeded";
+    ledger.status = "ENTITLED";
     ledger.receiptId = receipt?._id;
     ledger.historyId = null;
     ledger.transitionType = null;
@@ -778,7 +815,7 @@ async function verifyConsultationPayment(req, res, ctx) {
       consultation: consultationSnapshot,
     });
   } catch (err) {
-    ledger.status = "failed";
+    ledger.status = "FAILED";
     ledger.error = err.message;
     ledger.processedAt = new Date();
     try {

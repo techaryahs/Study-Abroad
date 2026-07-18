@@ -48,6 +48,86 @@ function toDate(value) {
 }
 
 /**
+ * Resolve purchase date from any historical / dual-written field name.
+ * @param {object|null|undefined} membership
+ * @returns {Date|null}
+ */
+function resolvePurchaseDate(membership) {
+  if (!membership || typeof membership !== "object") return null;
+  return (
+    toDate(membership.purchaseDate) ||
+    toDate(membership.purchasedAt) ||
+    toDate(membership.activatedAt) ||
+    toDate(membership.paymentDate) ||
+    null
+  );
+}
+
+/**
+ * Resolve expiry date from any historical / dual-written field name.
+ * @param {object|null|undefined} membership
+ * @returns {Date|null}
+ */
+function resolveExpiryDate(membership) {
+  if (!membership || typeof membership !== "object") return null;
+  return toDate(membership.expiryDate) || toDate(membership.expiresAt) || null;
+}
+
+/**
+ * Serialize membership for API responses with stable field names for clients.
+ * Prefer canonical purchaseDate/expiryDate; include aliases for older clients.
+ * Never invent catalog prices — only return stored purchase metadata.
+ *
+ * @param {object|null|undefined} membership
+ * @returns {object|null}
+ */
+function serializeMembership(membership) {
+  if (!membership || typeof membership !== "object") return null;
+
+  // Support Mongoose subdocs and plain objects
+  const raw =
+    typeof membership.toObject === "function"
+      ? membership.toObject({ flattenMaps: true })
+      : membership;
+
+  const purchaseDate = resolvePurchaseDate(raw);
+  const expiryDate = resolveExpiryDate(raw);
+  const paymentDate = toDate(raw.paymentDate) || purchaseDate;
+
+  let usage = raw.usage;
+  if (usage instanceof Map) {
+    usage = Object.fromEntries(usage.entries());
+  } else if (usage && typeof usage === "object") {
+    usage = { ...usage };
+  } else {
+    usage = {};
+  }
+
+  return {
+    planId: raw.planId || "free",
+    catalogVersion: raw.catalogVersion ?? 1,
+    status: raw.status || "none",
+    platform: raw.platform || "none",
+    productId: raw.productId || null,
+    transactionId: raw.transactionId || null,
+    // Canonical
+    purchaseDate: purchaseDate ? purchaseDate.toISOString() : null,
+    expiryDate: expiryDate ? expiryDate.toISOString() : null,
+    // Aliases (Flutter / older API consumers)
+    purchasedAt: purchaseDate ? purchaseDate.toISOString() : null,
+    activatedAt: purchaseDate ? purchaseDate.toISOString() : null,
+    expiresAt: expiryDate ? expiryDate.toISOString() : null,
+    // Payment metadata from the purchase record (not catalog)
+    amountPaid: typeof raw.amountPaid === "number" ? raw.amountPaid : null,
+    currency: raw.currency || null,
+    paymentStatus: raw.paymentStatus || null,
+    paymentDate: paymentDate ? paymentDate.toISOString() : null,
+    autoRenew: Boolean(raw.autoRenew),
+    usage,
+  };
+}
+
+/**
  * Compute membership period end for a plan type from a base date.
  * @param {object} plan - MembershipPlan doc
  * @param {Date} baseDate
@@ -90,7 +170,7 @@ function computeExpiryForProvision(plan, previousMembership, newPlanId) {
 
   let base = now;
   const prevPlanId = previousMembership?.planId;
-  const prevExpiry = toDate(previousMembership?.expiryDate);
+  const prevExpiry = resolveExpiryDate(previousMembership);
 
   // Same plan renewal while still valid: stack time from previous expiry
   if (prevPlanId && prevPlanId === newPlanId && prevExpiry && prevExpiry > now) {
@@ -142,11 +222,11 @@ function evaluateMembership(membership, now = new Date()) {
     return empty;
   }
 
-  // Mongoose subdoc or plain
+  // Mongoose subdoc or plain — accept dual-written field names
   const planId = membership.planId || "free";
   const storedStatus = membership.status || "none";
-  const expiryDate = toDate(membership.expiryDate);
-  const purchaseDate = toDate(membership.purchaseDate);
+  const expiryDate = resolveExpiryDate(membership);
+  const purchaseDate = resolvePurchaseDate(membership);
 
   if (!planId || planId === "free") {
     return {
@@ -386,9 +466,20 @@ function buildUsageMapFromPlan(plan, previousMembership = null, transitionType =
  * Apply a purchased plan onto user.membership (provision / renew / upgrade / downgrade).
  * Does not save history/events — caller (payment controller) owns that.
  *
+ * Purchase metadata (dates, amount, transaction) is written from the payment —
+ * never from the plan catalog list price alone (amount must be passed in meta).
+ *
  * @param {object} user
  * @param {object} plan - MembershipPlan document
- * @param {{ platform: string, transactionId: string, productId?: string }} meta
+ * @param {{
+ *   platform: string,
+ *   transactionId: string,
+ *   productId?: string,
+ *   amountPaid?: number,
+ *   currency?: string,
+ *   paymentStatus?: string,
+ *   paymentDate?: Date|string,
+ * }} meta
  * @returns {{ transitionType: string, previousPlanId: string, lifecycle: LifecycleResult }}
  */
 function applyPlanToMembership(user, plan, meta) {
@@ -397,13 +488,15 @@ function applyPlanToMembership(user, plan, meta) {
   const previous = {
     planId: user.membership.planId || "free",
     status: user.membership.status,
-    expiryDate: user.membership.expiryDate,
+    expiryDate: resolveExpiryDate(user.membership),
     usage: user.membership.usage,
   };
 
   const transitionType = classifyTransition(previous.planId, plan.planId);
   const expiryDate = computeExpiryForProvision(plan, user.membership, plan.planId);
   const usageMap = buildUsageMapFromPlan(plan, previous, transitionType);
+  const now = new Date();
+  const paymentDate = toDate(meta.paymentDate) || now;
 
   user.membership.planId = plan.planId;
   user.membership.catalogVersion = plan.version || 1;
@@ -411,8 +504,26 @@ function applyPlanToMembership(user, plan, meta) {
   user.membership.platform = meta.platform || "none";
   user.membership.transactionId = meta.transactionId;
   if (meta.productId) user.membership.productId = meta.productId;
-  user.membership.purchaseDate = new Date();
+
+  // Dual-write canonical + alias date fields so all readers see purchase metadata
+  user.membership.purchaseDate = now;
+  user.membership.activatedAt = now;
   user.membership.expiryDate = expiryDate;
+  user.membership.expiresAt = expiryDate;
+
+  // Amount actually paid for this purchase (from payment verification, not catalog)
+  if (meta.amountPaid != null && meta.amountPaid !== "") {
+    const paid = Number(meta.amountPaid);
+    if (!Number.isNaN(paid)) {
+      user.membership.amountPaid = paid;
+    }
+  }
+  if (meta.currency) {
+    user.membership.currency = String(meta.currency);
+  }
+  user.membership.paymentStatus = meta.paymentStatus || "paid";
+  user.membership.paymentDate = paymentDate;
+  user.membership.autoRenew = plan.type === "yearly" || plan.type === "monthly";
   user.membership.usage = usageMap;
 
   if (typeof user.markModified === "function") {
@@ -451,4 +562,7 @@ module.exports = {
   applyPlanToMembership,
   loadActivePlan,
   toDate,
+  resolvePurchaseDate,
+  resolveExpiryDate,
+  serializeMembership,
 };

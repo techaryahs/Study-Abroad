@@ -118,8 +118,8 @@ class ApiClient {
   // 2. Android Emulator (translates to localhost of your development machine)
   // static const String baseUrl = 'http://10.0.2.2:5011';
   
-  // 3. Physical Device (using host machine's Wi-Fi IP 192.168.1.10)
-  // static const String baseUrl = 'http://192.168.1.10:5011';
+  // 3. Physical Device on same Wi-Fi (Sanjay's iPhone testing)
+  // static const String baseUrl = 'http://192.168.1.13:5011';
 
   static Dio? _dio;
 
@@ -176,6 +176,13 @@ class ApiClient {
         onRequest: (options, handler) async {
           final fullUrl = '${options.baseUrl}${options.path}';
           debugPrint('🚀 Requesting: ${options.method} $fullUrl');
+          if (options.path == '/api/memberships/plans') {
+            debugPrint(
+              '[MembershipTrace] ApiClient.onRequest '
+              'method=${options.method} uri=${options.uri} '
+              'responseType=${options.responseType}',
+            );
+          }
           if (options.data != null) {
             debugPrint('📦 Payload: ${options.data}');
           }
@@ -185,8 +192,33 @@ class ApiClient {
           }
           return handler.next(options);
         },
-        onResponse: (response, handler) => handler.next(response),
+        onResponse: (response, handler) {
+          if (response.requestOptions.path == '/api/memberships/plans') {
+            final data = response.data;
+            final count = data is List ? data.length : null;
+            final first = data is List && data.isNotEmpty ? data.first : null;
+            debugPrint(
+              '[MembershipTrace] ApiClient.onResponse '
+              'status=${response.statusCode} dataType=${data.runtimeType} '
+              'listCount=$count firstType=${first.runtimeType} '
+              'firstKeys=${first is Map ? first.keys.toList() : null}',
+            );
+          }
+          return handler.next(response);
+        },
         onError: (DioException err, handler) {
+          if (err.requestOptions.path == '/api/memberships/plans') {
+            debugPrint(
+              '[MembershipTrace] ApiClient.onError '
+              'type=${err.type} status=${err.response?.statusCode} '
+              'dataType=${err.response?.data.runtimeType} '
+              'data=${err.response?.data} error=${err.error}',
+            );
+            debugPrintStack(
+              label: '[MembershipTrace] ApiClient.onError stack',
+              stackTrace: err.stackTrace,
+            );
+          }
           // ── Auto-logout on 401 from non-auth endpoints ────────
           if (err.response?.statusCode == 401) {
             final path = err.requestOptions.path;

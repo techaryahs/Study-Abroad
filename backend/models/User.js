@@ -86,30 +86,7 @@ const UserSchema = new mongoose.Schema(
       targetUniversities: { type: [mongoose.Schema.Types.Mixed], default: [] },
     },
     
-    membership: {
-      planId: { type: String, default: "free" },
-      catalogVersion: { type: Number, default: 1 },
-      status: {
-        type: String,
-        enum: ['pending', 'active', 'grace_period', 'expired', 'cancelled', 'none'],
-        default: 'none',
-      },
-      platform: { type: String, enum: ['apple_iap', 'razorpay', 'admin', 'none'], default: 'none' },
-      productId: { type: String },
-      transactionId: { type: String },
-      purchaseDate: { type: Date },
-      expiryDate: { type: Date },
-      usage: {
-        type: Map,
-        of: new mongoose.Schema({
-          used: { type: Number, default: 0 },
-          remaining: { type: Number },
-          lastUsedAt: { type: Date }
-        }, { _id: false }),
-        default: {}
-      },
-      history: [{ type: mongoose.Schema.Types.ObjectId, ref: 'MembershipHistory' }]
-    },
+    membership: { type: require("./schemas/UserMembershipSchema"), default: () => ({}) },
     
     cart: {
       type: [mongoose.Schema.Types.Mixed],

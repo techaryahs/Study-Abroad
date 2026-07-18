@@ -13,11 +13,17 @@ class UsageTracking {
     return UsageTracking(
       used: json['used'] ?? 0,
       remaining: json['remaining'],
-      lastUsedAt: json['lastUsedAt'] != null ? DateTime.tryParse(json['lastUsedAt']) : null,
+      lastUsedAt: json['lastUsedAt'] != null
+          ? DateTime.tryParse(json['lastUsedAt'].toString())
+          : null,
     );
   }
 }
 
+/// User's purchased membership record (not plan catalog).
+///
+/// Purchase metadata must come from the membership / payment record:
+/// purchasedAt, expiresAt, paymentDate, amountPaid, paymentStatus, transactionId.
 class UserMembership {
   final String planId;
   final int catalogVersion;
@@ -25,8 +31,25 @@ class UserMembership {
   final String platform;
   final String? productId;
   final String? transactionId;
+
+  /// When the user purchased / activated this membership.
   final DateTime? purchaseDate;
+
+  /// Calendar end of the membership period; null for lifetime / one-time access.
   final DateTime? expiryDate;
+
+  /// Amount actually charged for this purchase (not catalog list price).
+  final num? amountPaid;
+
+  /// Currency of [amountPaid] (e.g. INR, USD).
+  final String? currency;
+
+  /// Payment status from the purchase record (e.g. paid, refunded).
+  final String? paymentStatus;
+
+  /// When payment was recorded (may equal [purchaseDate]).
+  final DateTime? paymentDate;
+
   final Map<String, UsageTracking> usage;
 
   UserMembership({
@@ -38,25 +61,87 @@ class UserMembership {
     this.transactionId,
     this.purchaseDate,
     this.expiryDate,
+    this.amountPaid,
+    this.currency,
+    this.paymentStatus,
+    this.paymentDate,
     this.usage = const {},
   });
 
+  static DateTime? _parseDate(dynamic value) {
+    if (value == null) return null;
+    if (value is DateTime) return value;
+    return DateTime.tryParse(value.toString());
+  }
+
+  static num? _parseNum(dynamic value) {
+    if (value == null) return null;
+    if (value is num) return value;
+    return num.tryParse(value.toString());
+  }
+
+  /// Parse first non-null date from a list of JSON keys (aliases).
+  static DateTime? _firstDate(Map<String, dynamic> json, List<String> keys) {
+    for (final key in keys) {
+      final parsed = _parseDate(json[key]);
+      if (parsed != null) return parsed;
+    }
+    return null;
+  }
+
   factory UserMembership.fromJson(Map<String, dynamic> json) {
-    Map<String, UsageTracking> parseUsage(Map<String, dynamic>? usageJson) {
-      if (usageJson == null) return {};
-      return usageJson.map((key, value) => MapEntry(key, UsageTracking.fromJson(value)));
+    Map<String, UsageTracking> parseUsage(dynamic usageJson) {
+      if (usageJson == null || usageJson is! Map) return {};
+      return usageJson.map(
+        (key, value) => MapEntry(
+          key.toString(),
+          UsageTracking.fromJson(
+            value is Map<String, dynamic>
+                ? value
+                : Map<String, dynamic>.from(value as Map),
+          ),
+        ),
+      );
     }
 
+    // Purchase date aliases: purchaseDate | purchasedAt | activatedAt | paymentDate
+    final purchaseDate = _firstDate(json, [
+      'purchaseDate',
+      'purchasedAt',
+      'activatedAt',
+      'paymentDate',
+    ]);
+
+    // Expiry aliases: expiryDate | expiresAt
+    final expiryDate = _firstDate(json, ['expiryDate', 'expiresAt']);
+
+    final paymentDate =
+        _firstDate(json, ['paymentDate', 'purchaseDate', 'purchasedAt']) ??
+            purchaseDate;
+
     return UserMembership(
-      planId: json['planId'] ?? 'free',
-      catalogVersion: json['catalogVersion'] ?? 1,
-      status: json['status'] ?? 'none',
-      platform: json['platform'] ?? 'none',
-      productId: json['productId'],
-      transactionId: json['transactionId'],
-      purchaseDate: json['purchaseDate'] != null ? DateTime.tryParse(json['purchaseDate']) : null,
-      expiryDate: json['expiryDate'] != null ? DateTime.tryParse(json['expiryDate']) : null,
+      planId: (json['planId'] ?? 'free').toString(),
+      catalogVersion: json['catalogVersion'] is int
+          ? json['catalogVersion'] as int
+          : int.tryParse('${json['catalogVersion'] ?? 1}') ?? 1,
+      status: (json['status'] ?? 'none').toString(),
+      platform: (json['platform'] ?? 'none').toString(),
+      productId: json['productId']?.toString(),
+      transactionId: json['transactionId']?.toString(),
+      purchaseDate: purchaseDate,
+      expiryDate: expiryDate,
+      amountPaid: _parseNum(json['amountPaid'] ?? json['amount']),
+      currency: json['currency']?.toString(),
+      paymentStatus: json['paymentStatus']?.toString(),
+      paymentDate: paymentDate,
       usage: parseUsage(json['usage']),
     );
   }
+
+  /// Whether this membership has a calendar end date.
+  bool get hasExpiry => expiryDate != null;
+
+  /// True when status indicates an active paid membership.
+  bool get isActiveStatus =>
+      status == 'active' || status == 'grace_period' || status == 'trialing';
 }

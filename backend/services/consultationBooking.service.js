@@ -1131,15 +1131,23 @@ async function executePaidBooking(input) {
 
   // All paid bookings require a succeeded consultation_addon ledger entry.
   const ledger = await PaymentTransaction.findOne({
-    $or: [{ paymentId }, { transactionId: paymentId }],
+    $or: [
+      { externalTransactionId: paymentId },
+      { paymentId: paymentId }, 
+      { transactionId: paymentId }
+    ],
     planId: CONSULTATION_LEDGER_PLAN_ID,
-    status: "succeeded",
+    status: { $in: ["succeeded", "ENTITLED", "VERIFIED"] },
   });
 
   if (!ledger) {
     const other = await PaymentTransaction.findOne({
-      $or: [{ paymentId }, { transactionId: paymentId }],
-      status: "succeeded",
+      $or: [
+        { externalTransactionId: paymentId },
+        { paymentId: paymentId }, 
+        { transactionId: paymentId }
+      ],
+      status: { $in: ["succeeded", "ENTITLED", "VERIFIED"] },
     });
     if (other && other.planId !== CONSULTATION_LEDGER_PLAN_ID) {
       return fail(400, {

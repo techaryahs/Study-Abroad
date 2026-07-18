@@ -1,12 +1,13 @@
 import java.util.Properties
 import java.io.FileInputStream
 
-val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties()
 
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -38,20 +39,44 @@ android {
     }
 
     signingConfigs {
-        create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String
-            keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
-            storePassword = keystoreProperties["storePassword"] as String
+        if (keystorePropertiesFile.exists()) {
+            create("release") {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                storeFile = keystoreProperties.getProperty("storeFile")?.let { file(it) }
+                storePassword = keystoreProperties.getProperty("storePassword")
+            }
         }
     }
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = if (keystorePropertiesFile.exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                null
+            }
             isMinifyEnabled = false
             isShrinkResources = false
         }
+    }
+}
+
+// Fail loudly if a release build is attempted without signing credentials.
+gradle.taskGraph.whenReady {
+    if (allTasks.any { it.name.contains("Release") } && !keystorePropertiesFile.exists()) {
+        throw GradleException(
+            buildString {
+                appendLine("ERROR: Release build requires signing credentials.")
+                appendLine()
+                appendLine("Create the file: android/key.properties")
+                appendLine("With the following keys:")
+                appendLine("  storePassword=<your keystore password>")
+                appendLine("  keyPassword=<your key password>")
+                appendLine("  keyAlias=<your key alias>")
+                appendLine("  storeFile=../upload-keystore.jks")
+            }
+        )
     }
 }
 

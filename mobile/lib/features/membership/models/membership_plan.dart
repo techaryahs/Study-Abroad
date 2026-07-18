@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Entitlement {
   final bool enabled;
   final int? limit;
@@ -33,15 +35,32 @@ class EntitlementCategories {
   });
 
   factory EntitlementCategories.fromJson(Map<String, dynamic> json) {
-    Map<String, Entitlement> parseCategory(Map<String, dynamic>? catJson) {
+    debugPrint(
+      '[MembershipTrace] EntitlementCategories.fromJson '
+      'inputType=${json.runtimeType} keys=${json.keys.toList()}',
+    );
+    Map<String, Entitlement> parseCategory(
+      String category,
+      Map<String, dynamic>? catJson,
+    ) {
+      debugPrint(
+        '[MembershipTrace] EntitlementCategories.$category '
+        'inputType=${catJson.runtimeType} count=${catJson?.length}',
+      );
       if (catJson == null) return {};
-      return catJson.map((key, value) => MapEntry(key, Entitlement.fromJson(value)));
+      final result = catJson.map(
+        (key, value) => MapEntry(key, Entitlement.fromJson(value)),
+      );
+      debugPrint(
+        '[MembershipTrace] EntitlementCategories.$category outputCount=${result.length}',
+      );
+      return result;
     }
 
     return EntitlementCategories(
-      ai: parseCategory(json['ai']),
-      human: parseCategory(json['human']),
-      access: parseCategory(json['access']),
+      ai: parseCategory('ai', json['ai']),
+      human: parseCategory('human', json['human']),
+      access: parseCategory('access', json['access']),
     );
   }
 }
@@ -82,7 +101,12 @@ class MembershipPlan {
   });
 
   factory MembershipPlan.fromJson(Map<String, dynamic> json) {
-    return MembershipPlan(
+    debugPrint(
+      '[MembershipTrace] MembershipPlan.fromJson '
+      'inputType=${json.runtimeType} planId=${json['planId']} '
+      'keys=${json.keys.toList()}',
+    );
+    final plan = MembershipPlan(
       planId: json['planId'],
       version: json['version'] ?? 1,
       name: json['name'],
@@ -99,5 +123,12 @@ class MembershipPlan {
       allAccess: json['allAccess'] ?? false,
       entitlements: EntitlementCategories.fromJson(json['entitlements'] ?? {}),
     );
+    debugPrint(
+      '[MembershipTrace] MembershipPlan.fromJson output '
+      'planId=${plan.planId} ai=${plan.entitlements.ai.length} '
+      'human=${plan.entitlements.human.length} '
+      'access=${plan.entitlements.access.length}',
+    );
+    return plan;
   }
 }

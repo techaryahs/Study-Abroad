@@ -16,30 +16,30 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, String>> _services = [
     {
-      'title': 'Admission Guidance',
+      'title': 'Application Help',
       'icon': '🏛️',
-      'route': '/services/application-help'
+      'route': '/services/application_help'
     },
     {
       'title': 'University Shortlisting',
       'icon': '📋',
-      'route': '/services/shortlisting'
+      'route': '/services/university_shortlist'
     },
-    {'title': 'SOP & LOR Support', 'icon': '✍️', 'route': '/services/sop'},
+    {'title': 'SOP & LOR Support', 'icon': '✍️', 'route': '/services/sop_writing'},
     {
       'title': 'Scholarship Assistance',
       'icon': '🎓',
-      'route': '/services/scholarship'
+      'route': '/services/scholarship_search'
     },
     {
       'title': 'Visa Guidance',
       'icon': '🛂',
-      'route': '/services/visa-application-help'
+      'route': '/services/visa_guidance'
     },
     {
       'title': 'Profile Building',
       'icon': '📈',
-      'route': '/services/profile-building'
+      'route': '/services/profile_evaluation'
     },
   ];
 

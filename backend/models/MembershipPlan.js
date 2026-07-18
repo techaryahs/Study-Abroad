@@ -15,6 +15,16 @@ const MembershipPlanSchema = new mongoose.Schema({
   
   appleProductId: { type: String },
   razorpayPlanId: { type: String }, 
+
+  // P1: Extensible payment gateway mappings for future providers.
+  // Existing appleProductId / razorpayPlanId kept for backward compatibility.
+  paymentMappings: {
+    apple: { type: String },
+    google: { type: String },
+    razorpay: { type: String },
+    stripe: { type: String },
+    paypal: { type: String },
+  },
   
   description: { type: String },
   benefits: [{ type: String }],

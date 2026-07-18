@@ -182,6 +182,11 @@ class _MembershipScreenState extends State<MembershipScreen> {
 
     final plans = List<MembershipPlan>.from(manager.activePlans)
       ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+    debugPrint(
+      '[MembershipTrace] MembershipScreen.build '
+      'manager=${identityHashCode(manager)} activePlans=${manager.activePlans.length} '
+      'displayPlans=${plans.length} isLoading=${manager.isLoading} error=${manager.error}',
+    );
 
     final currentPlan = manager.currentPlan;
     final hasAutoRenewablePlans = plans.any(_isAutoRenewable);
@@ -277,12 +282,17 @@ class _MembershipScreenState extends State<MembershipScreen> {
                                 final isCurrentPlan =
                                     currentPlan?.planId == plan.planId;
 
+                                final isDowngrade = currentPlan != null && plan.sortOrder < currentPlan.sortOrder;
+                                final isUpgrade = currentPlan != null && plan.sortOrder > currentPlan.sortOrder;
+
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 24),
                                   child: _buildPremiumCard(
                                     plan: plan,
                                     isRecommended: isRecommended,
                                     isCurrentPlan: isCurrentPlan,
+                                    isDowngrade: isDowngrade,
+                                    isUpgrade: isUpgrade,
                                   )
                                       .animate()
                                       .fadeIn(
@@ -434,6 +444,8 @@ class _MembershipScreenState extends State<MembershipScreen> {
     required MembershipPlan plan,
     required bool isRecommended,
     required bool isCurrentPlan,
+    required bool isDowngrade,
+    required bool isUpgrade,
   }) {
     // StoreKit ProductDetails.price is the display source of truth on iOS.
     // Backend catalog price is fallback only (never overrides StoreKit).
@@ -452,6 +464,14 @@ class _MembershipScreenState extends State<MembershipScreen> {
     final periodLabel = _billingPeriodLabel(plan);
     final isAutoRenew = _isAutoRenewable(plan);
     final isStarter = _isStarter(plan);
+
+    // HIDE UNAVAILABLE STOREKIT PLANS
+    if (Platform.isIOS && !usingStoreKit && PaymentService.instance.storeProductsLoaded) {
+      // If we loaded StoreKit products but this specific plan is missing,
+      // it means Apple didn't return it (e.g. pending review or wrong ID).
+      // We MUST hide it, otherwise users get a dead "Subscribe" button.
+      return const SizedBox.shrink();
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -643,31 +663,43 @@ class _MembershipScreenState extends State<MembershipScreen> {
                         final isProcessing =
                             paymentState == PaymentState.loading ||
                                 paymentState == PaymentState.pending;
+                        
+                        final bool isDisabled = isCurrentPlan || isDowngrade || isProcessing;
+                        String buttonText;
+                        if (isCurrentPlan) {
+                          buttonText = 'CURRENT PLAN';
+                        } else if (isDowngrade) {
+                          buttonText = 'UNAVAILABLE'; // or just GET ACCESS but disabled, but usually it's greyed out
+                        } else if (isUpgrade) {
+                          buttonText = 'UPGRADE';
+                        } else {
+                          buttonText = isAutoRenew ? 'SUBSCRIBE NOW' : 'GET ACCESS';
+                        }
 
                         return ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: isCurrentPlan
+                            backgroundColor: isDisabled
                                 ? Colors.grey.shade200
                                 : (isRecommended ? kTextPrimary : Colors.white),
-                            foregroundColor: isCurrentPlan
+                            foregroundColor: isDisabled
                                 ? kTextSecondary
                                 : (isRecommended
                                     ? Colors.white
                                     : kTextPrimary),
                             elevation:
-                                isRecommended && !isCurrentPlan ? 8 : 0,
+                                isRecommended && !isDisabled ? 8 : 0,
                             shadowColor: kTextPrimary.withOpacity(0.4),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
-                              side: isCurrentPlan || isRecommended
+                              side: isDisabled || isRecommended
                                   ? BorderSide.none
                                   : BorderSide(color: Colors.grey.shade300),
                             ),
                           ),
-                          onPressed: (isCurrentPlan || isProcessing)
+                          onPressed: isDisabled
                               ? null
                               : () => _onSubscribe(plan),
-                          child: isProcessing && !isCurrentPlan
+                          child: isProcessing && !isCurrentPlan && !isDowngrade
                               ? const SizedBox(
                                   height: 24,
                                   width: 24,
@@ -676,11 +708,7 @@ class _MembershipScreenState extends State<MembershipScreen> {
                                   ),
                                 )
                               : Text(
-                                  isCurrentPlan
-                                      ? 'CURRENT PLAN'
-                                      : (isAutoRenew
-                                          ? 'SUBSCRIBE NOW'
-                                          : 'GET ACCESS'),
+                                  buttonText,
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w800,

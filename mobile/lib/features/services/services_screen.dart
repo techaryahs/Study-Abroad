@@ -10,6 +10,7 @@ import '../cart/cart_provider.dart';
 import '../membership/membership_manager.dart';
 import '../membership/membership_screen.dart';
 import 'service_model.dart';
+import 'service_launcher.dart';
 
 class ServicesScreen extends StatelessWidget {
   const ServicesScreen({super.key});
@@ -267,19 +268,7 @@ class ServicesScreen extends StatelessWidget {
                           if (isIOS)
                             ElevatedButton(
                               onPressed: () {
-                                if (hasAccess) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('Starting ${service.title}...')),
-                                  );
-                                } else {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) => MembershipScreen(
-                                        lockedFeatureId: service.slug,
-                                      ),
-                                    ),
-                                  );
-                                }
+                                ServiceLauncher.launch(context, service);
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppTheme.gold,
@@ -290,7 +279,7 @@ class ServicesScreen extends StatelessWidget {
                                     horizontal: 18, vertical: 10),
                               ),
                               child: Text(
-                                hasAccess ? 'Access' : 'Unlock',
+                                hasAccess ? 'Access Service' : 'Unlock Membership',
                                 style: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.w800),
                               ),

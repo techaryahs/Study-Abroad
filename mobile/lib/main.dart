@@ -28,10 +28,18 @@ void main() async {
             // Keep binding if provider recreated the manager.
             PaymentService.instance.onMembershipRefresh =
                 () => m.refresh(showLoading: false);
-            if (auth.isLoggedIn && m.userMembership == null && !m.isLoading) {
+            // Only students have memberships — consultants, admins, and
+            // parents must never call membership endpoints.
+            final role = auth.role ?? 'student';
+            final isStudent = role == 'student';
+            debugPrint('[MembershipManager] update called. isLoggedIn: ${auth.isLoggedIn}, isStudent: $isStudent, role: $role, userMembership: ${m.userMembership}, isLoading: ${m.isLoading}, activePlans.isEmpty: ${m.activePlans.isEmpty}');
+            if (auth.isLoggedIn && isStudent && m.userMembership == null && !m.isLoading && m.activePlans.isEmpty) {
+              debugPrint('[MembershipManager] calling refresh()');
               Future.microtask(() => m.refresh());
-            } else if (!auth.isLoggedIn && m.userMembership != null) {
-              Future.microtask(() => m.clear());
+            } else if (!auth.isLoggedIn || !isStudent) {
+              if (m.userMembership != null || m.accessSummary != null) {
+                Future.microtask(() => m.clear());
+              }
             }
             return m;
           },

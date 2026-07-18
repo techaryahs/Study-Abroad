@@ -43,20 +43,71 @@ class MembershipManager extends ChangeNotifier {
   /// [showLoading] when false avoids full-screen loading flicker after purchase
   /// / restore while still notifying listeners when data arrives.
   Future<void> refresh({bool showLoading = true}) async {
+    final traceId = identityHashCode(this);
+    debugPrint(
+      '[MembershipTrace][$traceId] ENTER MembershipManager.refresh '
+      'showLoading=$showLoading activePlans=${_activePlans.length} '
+      'isLoading=$_isLoading error=$_error',
+    );
     if (showLoading) {
       _isLoading = true;
       _error = null;
+      debugPrint('[MembershipTrace][$traceId] notifyListeners loading=true');
       notifyListeners();
     }
 
     try {
       // 1. Fetch Catalog Plans (entitlements / business catalog — source of truth)
+      debugPrint('[MembershipTrace][$traceId] before ApiClient.get');
       final plansResponse =
           await ApiClient.instance.get('/api/memberships/plans');
+      debugPrint(
+        '[MembershipTrace][$traceId] after ApiClient.get '
+        'status=${plansResponse.statusCode} dataType=${plansResponse.data.runtimeType}',
+      );
       if (plansResponse.statusCode == 200) {
         final List<dynamic> data = plansResponse.data;
-        _activePlans =
-            data.map((json) => MembershipPlan.fromJson(json)).toList();
+        debugPrint('[MembershipTrace][$traceId] Response.data listCount=${data.length}');
+        final parsedPlans = <MembershipPlan>[];
+        for (var index = 0; index < data.length; index += 1) {
+          final raw = data[index];
+          debugPrint(
+            '[MembershipTrace][$traceId] plan[$index] input '
+            'type=${raw.runtimeType} '
+            'planId=${raw is Map ? raw['planId'] : null}',
+          );
+          try {
+            final plan = MembershipPlan.fromJson(raw as Map<String, dynamic>);
+            parsedPlans.add(plan);
+            debugPrint(
+              '[MembershipTrace][$traceId] plan[$index] output '
+              'planId=${plan.planId} parsedCount=${parsedPlans.length}',
+            );
+          } catch (error, stackTrace) {
+            debugPrint(
+              '[MembershipTrace][$traceId] plan[$index] PARSE EXCEPTION '
+              'value=$error raw=$raw parsedCount=${parsedPlans.length}',
+            );
+            debugPrintStack(
+              label: '[MembershipTrace][$traceId] plan[$index] parse stack',
+              stackTrace: stackTrace,
+            );
+            rethrow;
+          }
+        }
+        debugPrint('[MembershipTrace][$traceId] parsedPlanCount=${parsedPlans.length}');
+        debugPrint(
+          '[MembershipTrace][$traceId] activePlans before assignment=${_activePlans.length}',
+        );
+        _activePlans = parsedPlans;
+        debugPrint(
+          '[MembershipTrace][$traceId] activePlans after assignment=${_activePlans.length}',
+        );
+      } else {
+        debugPrint(
+          '[MembershipTrace][$traceId] non-200 plans response; '
+          'activePlans remains=${_activePlans.length}',
+        );
       }
 
       // 2. Fetch User Profile to get membership
@@ -84,19 +135,39 @@ class MembershipManager extends ChangeNotifier {
         // Non-fatal: membership + plans still refreshed
         debugPrint('[MembershipManager] access summary fetch failed: $e');
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
       _error = e.toString();
+      debugPrint(
+        '[MembershipTrace][$traceId] refresh EXCEPTION '
+        'type=${e.runtimeType} value=$e activePlans=${_activePlans.length}',
+      );
+      debugPrintStack(
+        label: '[MembershipTrace][$traceId] refresh stack',
+        stackTrace: stackTrace,
+      );
     } finally {
       _isLoading = false;
+      debugPrint(
+        '[MembershipTrace][$traceId] notifyListeners finally '
+        'activePlans=${_activePlans.length} error=$_error',
+      );
       notifyListeners();
     }
   }
 
   void clear() {
+    debugPrint(
+      '[MembershipTrace][${identityHashCode(this)}] clear() '
+      'activePlans before=${_activePlans.length}',
+    );
     _userMembership = null;
     _activePlans = [];
     _accessSummary = null;
     _error = null;
+    debugPrint(
+      '[MembershipTrace][${identityHashCode(this)}] clear() '
+      'activePlans after=${_activePlans.length} notifyListeners',
+    );
     notifyListeners();
   }
 }

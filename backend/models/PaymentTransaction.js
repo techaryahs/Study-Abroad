@@ -2,44 +2,55 @@ const mongoose = require("mongoose");
 
 const PaymentTransactionSchema = new mongoose.Schema(
   {
-    idempotencyKey: { type: String, required: true, unique: true },
-    platform: {
-      type: String,
-      enum: ["razorpay", "apple_iap"],
-      required: true,
-    },
-    transactionId: { type: String, required: true },
-    orderId: { type: String },
-    paymentId: { type: String },
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      refPath: "userModel",
-      required: true,
-    },
+    transactionId: { type: String, required: true, unique: true }, // The internal UUID or generated ID
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true },
     userModel: { type: String, enum: ["Student", "User"], required: true },
-    userEmail: { type: String, required: true },
+    
+    // Gateway Info
+    gateway: { type: String, enum: ["apple", "razorpay", "google", "stripe", "paypal"], required: true },
+    externalTransactionId: { type: String, required: true }, // The ID from Apple or Razorpay
+    
+    // Purchase Details
     planId: { type: String, required: true },
-    amount: { type: Number },
-    currency: { type: String, default: "INR" },
+    amount: { type: Number, required: true },
+    currency: { type: String, required: true, default: "INR" },
+    
+    // Expanded State Machine
     status: {
       type: String,
-      enum: ["processing", "succeeded", "failed"],
-      default: "processing",
+      enum: [
+        "CREATED", 
+        "PENDING_VERIFICATION", 
+        "VERIFIED", 
+        "ENTITLEMENT_PENDING", 
+        "ENTITLED", 
+        "FAILED", 
+        "REFUNDED", 
+        "REVOKED", 
+        "EXPIRED"
+      ],
+      default: "CREATED",
       required: true,
     },
-    receiptId: { type: mongoose.Schema.Types.ObjectId, ref: "Receipt" },
-    historyId: { type: mongoose.Schema.Types.ObjectId, ref: "MembershipHistory" },
-    transitionType: { type: String },
-    responseSnapshot: { type: mongoose.Schema.Types.Mixed },
+    
+    // Verification Data (Normalized, not the raw receipt forever)
+    verificationData: { type: mongoose.Schema.Types.Mixed },
     error: { type: String },
+    
+    // Audit / Links
+    receiptId: { type: mongoose.Schema.Types.ObjectId, ref: "Receipt" },
+    
     processedAt: { type: Date },
   },
   { timestamps: true }
 );
 
-PaymentTransactionSchema.index({ platform: 1, transactionId: 1 }, { unique: true });
+// Idempotency / Duplicate protection
+PaymentTransactionSchema.index({ gateway: 1, externalTransactionId: 1 }, { unique: true });
 PaymentTransactionSchema.index({ userId: 1, planId: 1, createdAt: -1 });
+PaymentTransactionSchema.index({ status: 1 });
 
 module.exports =
   mongoose.models.PaymentTransaction ||
   mongoose.model("PaymentTransaction", PaymentTransactionSchema);
+

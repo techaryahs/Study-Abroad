@@ -217,17 +217,15 @@ async function main() {
       password: "x",
     });
     await PaymentTransaction.create({
-      idempotencyKey: `razorpay:${payId}`,
-      platform: "razorpay",
-      transactionId: payId,
-      paymentId: payId,
+      transactionId: `smoke_txn_${payId}`,
+      gateway: "razorpay",
+      externalTransactionId: payId,
       userId: student._id,
       userModel: "Student",
-      userEmail: student.email,
       planId: CONSULTATION_PURCHASE.ledgerPlanId,
       amount: 599,
       currency: "INR",
-      status: "succeeded",
+      status: "ENTITLED",
       processedAt: new Date(),
     });
 
@@ -298,7 +296,7 @@ async function main() {
       await Booking.deleteMany({ paymentId: payId });
     }
 
-    await PaymentTransaction.deleteMany({ paymentId: payId });
+    await PaymentTransaction.deleteMany({ externalTransactionId: payId });
     await Student.deleteOne({ _id: student._id });
   }
 

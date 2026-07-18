@@ -22,6 +22,21 @@ import '../features/universities/high_ranked_cheap_universities_screen.dart';
 import '../features/universities/top_universities_by_state_screen.dart';
 import '../features/services/services_screen.dart';
 import '../features/services/service_detail_screen.dart';
+import '../features/services/career/resume_drafting_screen.dart';
+import '../features/services/career/resume_form_screen.dart';
+import '../features/services/visa/visa_application_screen.dart';
+import '../features/services/application/lor_drafting_screen.dart';
+import '../features/services/application/personal_history_screen.dart';
+import '../features/services/application/application_review_screen.dart';
+import '../features/services/visa/o1_visa_screen.dart';
+import '../features/services/university/university_finalization_screen.dart';
+import '../features/services/academic/research_paper_screen.dart';
+import '../features/services/application/application_help_screen.dart';
+import '../features/services/prep/gre_prep_screen.dart';
+import '../features/services/prep/toefl_prep_screen.dart';
+import '../features/services/career/cover_letter_screen.dart';
+import '../features/services/career/linkedin_optimization_screen.dart';
+import '../features/services/visa/express_entry_screen.dart';
 import '../features/blogs/blogs_screen.dart';
 import '../features/about/about_screen.dart';
 import '../features/dashboard/edit_profile_screen.dart';
@@ -43,6 +58,7 @@ import '../features/consultant/consultant_dashboard_screen.dart';
 import '../features/admin/admin_dashboard_screen.dart';
 import '../features/meeting/meeting_screen.dart';
 import '../widgets/app_scaffold.dart';
+import '../widgets/entitlement_guard.dart';
 
 class AppRouter {
   static GoRouter create(AuthProvider auth) {
@@ -133,6 +149,51 @@ class AppRouter {
             ),
             GoRoute(
                 path: '/services', builder: (_, __) => const ServicesScreen()),
+            GoRoute(
+                path: '/services/visa_guidance',
+                builder: (_, __) => const EntitlementGuard(featureId: 'visa_guidance', child: VisaApplicationScreen())),
+            GoRoute(
+                path: '/services/university_finalization',
+                builder: (_, __) => const EntitlementGuard(featureId: 'university_finalization', child: UniversityFinalizationScreen())),
+            GoRoute(
+                path: '/services/resume_drafting',
+                builder: (_, __) => const EntitlementGuard(featureId: 'resume_drafting', child: ResumeDraftingScreen())),
+            GoRoute(
+                path: '/services/resume_drafting/form',
+                builder: (_, __) => const EntitlementGuard(featureId: 'resume_drafting', child: ResumeFormScreen())),
+            GoRoute(
+                path: '/services/research_paper',
+                builder: (_, __) => const EntitlementGuard(featureId: 'research_paper', child: ResearchPaperScreen())),
+            GoRoute(
+                path: '/services/application_help',
+                builder: (_, __) => const EntitlementGuard(featureId: 'application_help', child: ApplicationHelpScreen())),
+            GoRoute(
+                path: '/services/o1',
+                builder: (_, __) => const EntitlementGuard(featureId: 'o1', child: O1VisaScreen())),
+            GoRoute(
+                path: '/services/lor_drafting',
+                builder: (_, __) => const EntitlementGuard(featureId: 'lor_drafting', child: LorDraftingScreen())),
+            GoRoute(
+                path: '/services/personal_history',
+                builder: (_, __) => const EntitlementGuard(featureId: 'personal_history', child: PersonalHistoryScreen())),
+            GoRoute(
+                path: '/services/application_review',
+                builder: (_, __) => const EntitlementGuard(featureId: 'application_review', child: ApplicationReviewScreen())),
+            GoRoute(
+                path: '/services/gre_prep',
+                builder: (_, __) => const EntitlementGuard(featureId: 'gre_prep', child: GrePrepScreen())),
+            GoRoute(
+                path: '/services/toefl_prep',
+                builder: (_, __) => const EntitlementGuard(featureId: 'toefl_prep', child: ToeflPrepScreen())),
+            GoRoute(
+                path: '/services/cover_letter',
+                builder: (_, __) => const EntitlementGuard(featureId: 'cover_letter', child: CoverLetterScreen())),
+            GoRoute(
+                path: '/services/linkedin_optimization',
+                builder: (_, __) => const EntitlementGuard(featureId: 'linkedin_optimization', child: LinkedinOptimizationScreen())),
+            GoRoute(
+                path: '/services/express_entry',
+                builder: (_, __) => const EntitlementGuard(featureId: 'express_entry', child: ExpressEntryScreen())),
             GoRoute(
               path: '/services/:slug',
               builder: (context, state) => ServiceDetailScreen(

@@ -10,6 +10,7 @@ import '../../widgets/book_counselling_sheet.dart';
 import '../cart/cart_provider.dart';
 import '../membership/membership_manager.dart';
 import '../membership/membership_screen.dart';
+import 'service_launcher.dart';
 
 class ServiceDetailScreen extends StatelessWidget {
   final String slug;
@@ -207,20 +208,7 @@ class ServiceDetailScreen extends StatelessWidget {
                         if (isIOS)
                           ElevatedButton(
                             onPressed: () {
-                              final hasAccess = membershipManager.canAccess(service.slug);
-                              if (hasAccess) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Starting ${service.title}...')),
-                                );
-                              } else {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (_) => MembershipScreen(
-                                      lockedFeatureId: service.slug,
-                                    ),
-                                  ),
-                                );
-                              }
+                              ServiceLauncher.launch(context, service);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppTheme.gold,

@@ -1,5 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../membership/membership_manager.dart';
+import '../membership/models/membership_plan.dart';
+import '../membership/models/user_membership.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -778,6 +783,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
   
               if (_activeTab == 'profile') ...[
+              // ── MEMBERSHIP MODULE ──
+              _buildMembershipModule(context),
+
                 // ── IDENTITY MODULE ──
                 _buildIdentityModule(profile),
   
@@ -1016,6 +1024,325 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
     );
+  }
+
+
+  Widget _buildMembershipModule(BuildContext context) {
+    final manager = context.watch<MembershipManager>();
+    final currentPlan = manager.currentPlan;
+    final userMembership = manager.userMembership;
+
+    if (currentPlan == null || userMembership == null) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppTheme.borderLight),
+        ),
+        child: Column(
+          children: [
+            const Icon(Icons.stars_rounded, size: 48, color: AppTheme.borderLight),
+            const SizedBox(height: 16),
+            const Text(
+              'No Active Membership',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
+                color: AppTheme.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Upgrade to a premium plan to unlock AI tools, expert human consultations, and exclusive resources.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.5),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.gold,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                onPressed: () => context.push('/membership'),
+                child: const Text(
+                  'EXPLORE MEMBERSHIP PLANS',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Purchase metadata from the user's membership record — never catalog placeholders.
+    final purchaseDateLabel = _formatMembershipPurchaseDate(userMembership);
+    final expiryDateLabel = _formatMembershipExpiryDate(
+      userMembership,
+      currentPlan,
+    );
+    final amountPaidLabel = _formatMembershipAmountPaid(
+      userMembership,
+      currentPlan,
+    );
+    final statusLabel = _formatMembershipStatus(userMembership.status);
+    final statusColor = _membershipStatusColor(userMembership.status);
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppTheme.gold, width: 2),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.gold.withOpacity(0.15),
+            blurRadius: 24,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [AppTheme.gold, Color(0xFFA07020)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  (currentPlan.badge ?? 'PREMIUM').toUpperCase(),
+                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5),
+                ),
+              ),
+              const Spacer(),
+              Row(
+                children: [
+                  Icon(Icons.check_circle, color: statusColor, size: 16),
+                  const SizedBox(width: 4),
+                  Text(
+                    statusLabel,
+                    style: TextStyle(
+                      color: statusColor,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            currentPlan.name,
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: AppTheme.textPrimary),
+          ),
+          const SizedBox(height: 8),
+          if (currentPlan.description != null)
+            Text(
+              currentPlan.description!,
+              style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.4),
+            ),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppTheme.background,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppTheme.borderLight),
+            ),
+            child: Column(
+              children: [
+                _buildMembershipDetailRow('Purchase Date', purchaseDateLabel),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Divider(height: 1),
+                ),
+                _buildMembershipDetailRow('Expiry Date', expiryDateLabel),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Divider(height: 1),
+                ),
+                _buildMembershipDetailRow('Status', statusLabel),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  child: Divider(height: 1),
+                ),
+                _buildMembershipDetailRow('Amount Paid', amountPaidLabel),
+              ],
+            ),
+          ),
+
+          if (currentPlan.benefits.isNotEmpty) ...[
+            const SizedBox(height: 24),
+            const Text(
+              'INCLUDED BENEFITS',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.gold, letterSpacing: 2),
+            ),
+            const SizedBox(height: 12),
+            ...currentPlan.benefits.map((b) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Icon(Icons.check_circle, color: AppTheme.gold, size: 16),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      b,
+                      style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary, height: 1.4),
+                    ),
+                  ),
+                ],
+              ),
+            )).toList(),
+          ],
+          if (userMembership.usage.isNotEmpty) ...[
+            const SizedBox(height: 24),
+            const Text(
+              'REMAINING USAGE',
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.gold, letterSpacing: 2),
+            ),
+            const SizedBox(height: 12),
+            ...userMembership.usage.entries.map((entry) {
+              final limit = entry.value.remaining ?? 'Unlimited';
+              final label = entry.key.toUpperCase();
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Row(
+                  children: [
+                    Expanded(child: Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textPrimary))),
+                    Text('$limit', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold)),
+                  ],
+                ),
+              );
+            }).toList(),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMembershipDetailRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary, fontWeight: FontWeight.w500)),
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary, fontWeight: FontWeight.w700),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Actual purchase date from the membership record. Never "Unknown".
+  String _formatMembershipPurchaseDate(UserMembership membership) {
+    final date = membership.purchaseDate ?? membership.paymentDate;
+    if (date == null) return '—';
+    return DateFormat('MMM dd, yyyy').format(date.toLocal());
+  }
+
+  /// Expiry from the membership record.
+  /// Lifetime / one-time (no calendar end) → "Lifetime Access".
+  /// Never hardcode "Never expires".
+  String _formatMembershipExpiryDate(
+    UserMembership membership,
+    MembershipPlan plan,
+  ) {
+    if (membership.expiryDate != null) {
+      return DateFormat('MMM dd, yyyy').format(membership.expiryDate!.toLocal());
+    }
+    final type = plan.type.toLowerCase();
+    if (type == 'lifetime' || type == 'one_time' || type == 'onetime') {
+      return 'Lifetime Access';
+    }
+    // Paid plan without a stored expiry: treat as lifetime access at membership level
+    if (membership.planId != 'free' && membership.isActiveStatus) {
+      return 'Lifetime Access';
+    }
+    return '—';
+  }
+
+  /// Amount actually paid from the purchase record — not catalog list price.
+  String _formatMembershipAmountPaid(
+    UserMembership membership,
+    MembershipPlan plan,
+  ) {
+    final amount = membership.amountPaid;
+    if (amount == null) return '—';
+    final currency = (membership.currency ?? plan.currency ?? 'INR').toUpperCase();
+    final symbol = currency == 'USD'
+        ? '\$'
+        : currency == 'GBP'
+            ? '£'
+            : currency == 'EUR'
+                ? '€'
+                : '₹';
+    final formatted = amount % 1 == 0
+        ? amount.toInt().toString()
+        : amount.toStringAsFixed(2);
+    return '$symbol$formatted';
+  }
+
+  String _formatMembershipStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'active':
+        return 'Active';
+      case 'grace_period':
+      case 'grace':
+        return 'Grace Period';
+      case 'expired':
+        return 'Expired';
+      case 'cancelled':
+      case 'canceled':
+        return 'Cancelled';
+      case 'revoked':
+        return 'Revoked';
+      case 'pending':
+        return 'Pending';
+      case 'trialing':
+        return 'Trial';
+      default:
+        if (status.isEmpty) return '—';
+        return status[0].toUpperCase() + status.substring(1);
+    }
+  }
+
+  Color _membershipStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'active':
+      case 'trialing':
+        return Colors.green;
+      case 'grace_period':
+      case 'grace':
+      case 'pending':
+        return Colors.orange;
+      case 'expired':
+      case 'cancelled':
+      case 'canceled':
+      case 'revoked':
+        return Colors.redAccent;
+      default:
+        return AppTheme.textSecondary;
+    }
   }
 
   Widget _buildIdentityModule(Map<String, dynamic> profile) {

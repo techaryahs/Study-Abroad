@@ -328,6 +328,9 @@ exports.login = async (req, res) => {
 ========================= */
 exports.getMe = async (req, res) => {
   try {
+    const { serializeMembership } = require("../utils/membershipLifecycle");
+    const PaymentTransaction = require("../models/PaymentTransaction");
+
     let user;
     if (req.user.role === "student") {
       user = await Student.findById(req.user.id).select("-password");
@@ -350,7 +353,97 @@ exports.getMe = async (req, res) => {
       }
     }
 
-    res.json({ success: true, user });
+    // Return a plain object with normalized membership purchase fields for clients
+    const userPayload =
+      typeof user.toObject === "function"
+        ? user.toObject({ flattenMaps: true })
+        : { ...user };
+
+    if (userPayload.membership) {
+      const serialized = serializeMembership(userPayload.membership);
+      if (serialized) {
+        // Backfill amount/dates from ledger when membership record is incomplete
+        if (
+          serialized.planId &&
+          serialized.planId !== "free" &&
+          (serialized.amountPaid == null ||
+            !serialized.purchaseDate ||
+            !serialized.transactionId ||
+            !serialized.expiryDate)
+        ) {
+          try {
+            const txnQuery = {
+              userId: user._id,
+              status: { $in: ["ENTITLED", "VERIFIED", "succeeded"] },
+            };
+            if (serialized.transactionId) {
+              txnQuery.$or = [
+                { transactionId: serialized.transactionId },
+                { externalTransactionId: serialized.transactionId },
+              ];
+            } else if (serialized.planId) {
+              txnQuery.planId = serialized.planId;
+            }
+            const txn = await PaymentTransaction.findOne(txnQuery)
+              .sort({ createdAt: -1 })
+              .lean();
+            if (txn) {
+              if (serialized.amountPaid == null && typeof txn.amount === "number") {
+                serialized.amountPaid = txn.amount;
+              }
+              if (!serialized.currency && txn.currency) {
+                serialized.currency = txn.currency;
+              }
+              if (!serialized.transactionId) {
+                serialized.transactionId =
+                  txn.externalTransactionId || txn.transactionId || null;
+              }
+              const txnDate = txn.processedAt || txn.createdAt;
+              if (txnDate && !serialized.purchaseDate) {
+                const iso = new Date(txnDate).toISOString();
+                serialized.purchaseDate = iso;
+                serialized.purchasedAt = iso;
+                serialized.activatedAt = iso;
+                if (!serialized.paymentDate) serialized.paymentDate = iso;
+              }
+              if (!serialized.paymentStatus && txn.status) {
+                serialized.paymentStatus =
+                  txn.status === "ENTITLED" || txn.status === "VERIFIED"
+                    ? "paid"
+                    : String(txn.status).toLowerCase();
+              }
+            }
+
+            // Derive missing expiry for recurring plans from purchase date + plan type
+            if (!serialized.expiryDate && serialized.purchaseDate) {
+              const MembershipPlan = require("../models/MembershipPlan");
+              const planDoc = await MembershipPlan.findOne({
+                planId: serialized.planId,
+                isActive: true,
+              })
+                .select("type")
+                .lean();
+              if (planDoc && (planDoc.type === "yearly" || planDoc.type === "monthly")) {
+                const base = new Date(serialized.purchaseDate);
+                if (planDoc.type === "yearly") {
+                  base.setFullYear(base.getFullYear() + 1);
+                } else {
+                  base.setMonth(base.getMonth() + 1);
+                }
+                const expIso = base.toISOString();
+                serialized.expiryDate = expIso;
+                serialized.expiresAt = expIso;
+              }
+            }
+          } catch (txnErr) {
+            console.warn("PaymentTransaction membership backfill skipped:", txnErr.message);
+          }
+        }
+        userPayload.membership = serialized;
+      }
+    }
+
+    res.json({ success: true, user: userPayload });
   } catch (err) {
     console.error("🔥 getMe error:", err);
     res.status(500).json({ error: "Server error" });
