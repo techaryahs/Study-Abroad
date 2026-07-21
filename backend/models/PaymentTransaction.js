@@ -39,6 +39,7 @@ const PaymentTransactionSchema = new mongoose.Schema(
     
     // Audit / Links
     receiptId: { type: mongoose.Schema.Types.ObjectId, ref: "Receipt" },
+    subscriptionId: { type: mongoose.Schema.Types.ObjectId, ref: "AppleSubscription" },
     
     processedAt: { type: Date },
     idempotencyKey: { type: String },
@@ -51,6 +52,7 @@ PaymentTransactionSchema.index({ gateway: 1, externalTransactionId: 1 }, { uniqu
 PaymentTransactionSchema.index({ userId: 1, planId: 1, createdAt: -1 });
 PaymentTransactionSchema.index({ status: 1 });
 PaymentTransactionSchema.index({ idempotencyKey: 1 }, { unique: true, sparse: true });
+PaymentTransactionSchema.index({ subscriptionId: 1, createdAt: -1 });
 
 module.exports =
   mongoose.models.PaymentTransaction ||

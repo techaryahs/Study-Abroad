@@ -1,14 +1,25 @@
 /**
- * P3 — Entitlement Service
+ * P3 — Entitlement Service (Updated for Apple Subscriptions)
  *
- * Strictly responsible for translating a verified PaymentTransaction into a UserMembership.
- * Remains payment-agnostic (no gateways, no receipts).
+ * Translates a verified PaymentTransaction into a UserMembership.
+ * Payment-agnostic — no gateways, no receipts.
+ *
+ * Apple flow: Derives membership from AppleSubscription
+ *   (expiry, productId, autoRenew, status) rather than
+ *   client-supplied or transaction-level fields.
+ *
+ * Razorpay flow: Unchanged — derives from transaction + plan catalog.
  */
 
 const User = require("../../models/User");
 const Student = require("../../models/Student");
 const MembershipPlan = require("../../models/MembershipPlan");
 const MembershipHistory = require("../../models/MembershipHistory");
+const AppleSubscription = require("../../models/AppleSubscription");
+const {
+  evaluateMembership,
+  applyPlanToMembership,
+} = require("../../utils/membershipLifecycle");
 
 async function findUser(userId, userModelName) {
   if (userModelName === "Student") {
@@ -27,14 +38,20 @@ function extractUsageLimits(plan) {
   const categories = ["ai", "human", "access"];
   for (const cat of categories) {
     if (plan.entitlements[cat]) {
-      for (const [featureKey, config] of plan.entitlements[cat].entries()) {
-        if (config.enabled) {
-           // -1 denotes unlimited
-           usageMap[featureKey] = {
-             used: 0,
-             limit: config.limit == null ? -1 : config.limit,
-             lastUsedAt: null
-           };
+      const bag = plan.entitlements[cat];
+      const entries =
+        typeof bag.entries === "function"
+          ? Array.from(bag.entries())
+          : Object.entries(bag.toObject ? bag.toObject() : bag);
+
+      for (const [featureKey, config] of entries) {
+        const cfg = typeof config === "object" ? config : { enabled: false };
+        if (cfg.enabled !== false) {
+          usageMap[featureKey] = {
+            used: 0,
+            limit: cfg.limit == null ? -1 : Math.max(0, Number(cfg.limit)),
+            lastUsedAt: null,
+          };
         }
       }
     }
@@ -43,10 +60,43 @@ function extractUsageLimits(plan) {
 }
 
 /**
+ * Derive membership metadata from the Apple Subscription for Apple purchases.
+ *
+ * Returns null if transaction has no linked subscription (Razorpay path).
+ */
+async function deriveFromAppleSubscription(transaction) {
+  if (transaction.gateway !== "apple" || !transaction.subscriptionId) {
+    return null;
+  }
+
+  const subscription = await AppleSubscription.findById(transaction.subscriptionId);
+  if (!subscription) {
+    console.warn(`[Entitlement] Apple transaction ${transaction.transactionId} references missing subscription ${transaction.subscriptionId}`);
+    return null;
+  }
+
+  return {
+    platform: "apple_iap",
+    transactionId: subscription.latestTransactionId,
+    productId: subscription.productId,
+    expiryDate: subscription.expiryDate,
+    purchaseDate: subscription.purchaseDate,
+    autoRenew: subscription.autoRenewStatus === "on",
+    amountPaid: transaction.amount,
+    currency: transaction.currency,
+    paymentStatus: subscription.status === "active" || subscription.status === "grace_period" ? "paid" : subscription.status,
+    paymentDate: subscription.purchaseDate,
+  };
+}
+
+/**
  * Grants or extends a membership based on a successful transaction.
  *
+ * For Apple transactions: derives expiry, productId, autoRenew from
+ * the AppleSubscription — never from client or transaction alone.
+ *
  * @param {Object} transaction - The VERIFIED PaymentTransaction document
- * @returns {Object} result - { success, user }
+ * @returns {Object} result - { success, user, membership, transitionType }
  */
 async function grantEntitlement(transaction) {
   try {
@@ -71,49 +121,67 @@ async function grantEntitlement(transaction) {
     }
 
     const previousPlanId = user.membership.planId || "free";
-    
+
     let transitionType = "Activated";
     if (previousPlanId !== "free" && previousPlanId === plan.planId) {
       transitionType = "Renewed";
     } else if (previousPlanId !== "free") {
-      transitionType = "Upgraded/Downgraded"; 
+      transitionType = "Upgraded/Downgraded";
     }
+
+    // Derive from AppleSubscription if this is an Apple purchase
+    const appleMeta = await deriveFromAppleSubscription(transaction);
 
     // Apply the pure business fields
     user.membership.planId = plan.planId;
     user.membership.status = "active";
-    user.membership.transactionId = transaction.transactionId;
     user.membership.platform = transaction.gateway || user.membership.platform || "none";
-    if (transaction.productId || plan.appleProductId) {
-      user.membership.productId = transaction.productId || plan.appleProductId;
+
+    // Transaction ID: use subscription's latestTransactionId for Apple path
+    if (appleMeta) {
+      user.membership.transactionId = appleMeta.transactionId;
+      user.membership.productId = appleMeta.productId;
+    } else {
+      user.membership.transactionId = transaction.transactionId;
+      if (transaction.productId || plan.appleProductId) {
+        user.membership.productId = transaction.productId || plan.appleProductId;
+      }
     }
+
     user.membership.catalogVersion = plan.version || 1;
 
-    // Dates — dual-write canonical + alias fields
+    // Dates — use Apple subscription dates when available
     const now = new Date();
-    user.membership.purchaseDate = now;
-    user.membership.activatedAt = now;
+    let purchaseDate = now;
+    let expiryDate = null;
+
+    if (appleMeta && appleMeta.purchaseDate) {
+      purchaseDate = new Date(appleMeta.purchaseDate);
+    }
+    user.membership.purchaseDate = purchaseDate;
+    user.membership.activatedAt = purchaseDate;
     user.membership.paymentDate = transaction.processedAt || now;
 
-    // Expiry: respect plan type (lifetime/one_time → null; else duration)
-    let expiry = null;
-    if (plan.type === "one_time" || plan.type === "lifetime") {
-      expiry = null;
+    // Expiry: Apple subscription expiry > plan-based computation
+    if (appleMeta && appleMeta.expiryDate) {
+      expiryDate = new Date(appleMeta.expiryDate);
+    } else if (plan.type === "one_time" || plan.type === "lifetime") {
+      expiryDate = null;
     } else if (plan.type === "yearly") {
-      expiry = new Date(now);
-      expiry.setFullYear(expiry.getFullYear() + 1);
+      expiryDate = new Date(purchaseDate);
+      expiryDate.setFullYear(expiryDate.getFullYear() + 1);
     } else if (plan.type === "monthly") {
-      expiry = new Date(now);
-      expiry.setMonth(expiry.getMonth() + 1);
+      expiryDate = new Date(purchaseDate);
+      expiryDate.setMonth(expiryDate.getMonth() + 1);
     } else {
       const durationDays = plan.durationDays || 365;
-      expiry = new Date(now.getTime() + durationDays * 24 * 60 * 60 * 1000);
+      expiryDate = new Date(purchaseDate.getTime() + durationDays * 24 * 60 * 60 * 1000);
     }
-    user.membership.expiryDate = expiry;
-    user.membership.expiresAt = expiry;
-    user.membership.autoRenew = plan.type === "yearly" || plan.type === "monthly";
+    user.membership.expiryDate = expiryDate;
+    user.membership.expiresAt = expiryDate;
+    user.membership.autoRenew = appleMeta ? appleMeta.autoRenew : (plan.type === "yearly" || plan.type === "monthly");
 
-    // Amount actually paid (from verified transaction — not catalog list price alone)
+    // Amount and currency
     if (typeof transaction.amount === "number") {
       user.membership.amountPaid = transaction.amount;
     }
@@ -130,22 +198,35 @@ async function grantEntitlement(transaction) {
 
     await user.save();
 
-    // Log History (Lightweight, only transitions)
+    // Log history
     const history = await MembershipHistory.create({
       userId: user._id,
       userModel: transaction.userModel,
       fromPlanId: previousPlanId === "free" ? null : previousPlanId,
       toPlanId: plan.planId,
       transitionType,
-      platform: transaction.gateway, 
-      transactionId: transaction.transactionId,
+      platform: transaction.gateway === "apple" ? "apple_iap" : "razorpay",
+      transactionId: appleMeta ? appleMeta.transactionId : transaction.transactionId,
     });
 
     if (!user.membership.history) user.membership.history = [];
     user.membership.history.push(history._id);
     await user.save();
 
-    return { success: true, user, transitionType };
+    return {
+      success: true,
+      user,
+      transitionType,
+      membership: {
+        planId: plan.planId,
+        status: user.membership.status,
+        purchaseDate: user.membership.purchaseDate,
+        expiryDate: user.membership.expiryDate,
+        platform: user.membership.platform,
+        autoRenew: user.membership.autoRenew,
+        productId: user.membership.productId,
+      },
+    };
   } catch (error) {
     console.error("[EntitlementService] Error granting entitlement:", error);
     return { success: false, error: error.message };
@@ -153,7 +234,7 @@ async function grantEntitlement(transaction) {
 }
 
 /**
- * Revokes access (e.g. after a refund or cancellation grace period expires)
+ * Revokes access (e.g. after a refund or cancellation grace period expires).
  */
 async function revokeEntitlement(userId, userModelName) {
   const user = await findUser(userId, userModelName);
@@ -162,15 +243,15 @@ async function revokeEntitlement(userId, userModelName) {
   if (user.membership) {
     user.membership.status = "revoked";
     user.membership.planId = "free";
-    user.membership.expiresAt = new Date(); 
+    user.membership.expiresAt = new Date();
     await user.save();
-    
+
     const history = await MembershipHistory.create({
       userId: user._id,
       userModel: userModelName,
       fromPlanId: user.membership.planId,
       toPlanId: "free",
-      transitionType: "Revoked"
+      transitionType: "Revoked",
     });
     user.membership.history.push(history._id);
     await user.save();
@@ -180,5 +261,5 @@ async function revokeEntitlement(userId, userModelName) {
 
 module.exports = {
   grantEntitlement,
-  revokeEntitlement
+  revokeEntitlement,
 };
