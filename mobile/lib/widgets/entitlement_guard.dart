@@ -19,7 +19,7 @@ class EntitlementGuard extends StatelessWidget {
   Widget build(BuildContext context) {
     final manager = Provider.of<MembershipManager>(context);
 
-    if (manager.isLoading) {
+    if (!manager.initialized) {
       return const Center(child: CircularProgressIndicator());
     }
 

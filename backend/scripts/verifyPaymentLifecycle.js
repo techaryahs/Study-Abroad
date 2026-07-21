@@ -134,8 +134,8 @@ assert(
   "PaymentTransaction must have unique idempotencyKey"
 );
 assert(
-  hasUniqueIndex(PaymentTransaction, { platform: 1, transactionId: 1 }),
-  "PaymentTransaction must have unique platform+transactionId"
+  hasUniqueIndex(PaymentTransaction, { gateway: 1, externalTransactionId: 1 }),
+  "PaymentTransaction must have unique gateway+externalTransactionId"
 );
 assert(
   hasUniqueIndex(MembershipHistory, { platform: 1, transactionId: 1 }),

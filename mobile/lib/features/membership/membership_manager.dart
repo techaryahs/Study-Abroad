@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'models/membership_plan.dart';
 import 'models/user_membership.dart';
@@ -9,6 +10,7 @@ class MembershipManager extends ChangeNotifier {
   List<MembershipPlan> _activePlans = [];
   Map<String, dynamic>? _accessSummary;
   bool _isLoading = false;
+  bool _initialized = false;
   String? _error;
 
   MembershipManager();
@@ -18,6 +20,7 @@ class MembershipManager extends ChangeNotifier {
   /// Latest `/api/memberships/access` payload (null until first successful fetch).
   Map<String, dynamic>? get accessSummary => _accessSummary;
   bool get isLoading => _isLoading;
+  bool get initialized => _initialized;
   String? get error => _error;
 
   MembershipPlan? get currentPlan {
@@ -31,6 +34,17 @@ class MembershipManager extends ChangeNotifier {
 
   /// Checks if the user has access to a given feature
   bool canAccess(String featureId) {
+    if (_accessSummary != null) {
+      final features = _accessSummary!['features'] as Map<String, dynamic>?;
+      if (features != null) {
+        final feature = features[featureId] as Map<String, dynamic>?;
+        if (feature != null) {
+          return feature['canAccess'] == true;
+        }
+      }
+    }
+
+    // Offline fallback only
     return EntitlementEngine.canAccess(
       featureId: featureId,
       userMembership: _userMembership,
@@ -121,6 +135,10 @@ class MembershipManager extends ChangeNotifier {
         } else {
           _userMembership = null;
         }
+        debugPrint("AUTH RESPONSE");
+        debugPrint(jsonEncode(profileResponse.data));
+        debugPrint("CURRENT MEMBERSHIP");
+        debugPrint(_userMembership?.planId);
       }
 
       // 3. Access summary (server-side entitlement snapshot; UI may use later)
@@ -130,6 +148,10 @@ class MembershipManager extends ChangeNotifier {
         if (accessResponse.statusCode == 200 &&
             accessResponse.data is Map<String, dynamic>) {
           _accessSummary = Map<String, dynamic>.from(accessResponse.data as Map);
+          debugPrint("ACCESS RESPONSE");
+          debugPrint(jsonEncode(accessResponse.data));
+          debugPrint("ACCESS SUMMARY FEATURES");
+          debugPrint(_accessSummary?['features']?.keys.toList().toString());
         }
       } catch (e) {
         // Non-fatal: membership + plans still refreshed
@@ -147,6 +169,7 @@ class MembershipManager extends ChangeNotifier {
       );
     } finally {
       _isLoading = false;
+      _initialized = true;
       debugPrint(
         '[MembershipTrace][$traceId] notifyListeners finally '
         'activePlans=${_activePlans.length} error=$_error',
@@ -164,6 +187,7 @@ class MembershipManager extends ChangeNotifier {
     _activePlans = [];
     _accessSummary = null;
     _error = null;
+    _initialized = false;
     debugPrint(
       '[MembershipTrace][${identityHashCode(this)}] clear() '
       'activePlans after=${_activePlans.length} notifyListeners',

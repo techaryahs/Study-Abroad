@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 import 'package:go_router/go_router.dart';
+import '../core/app_features.dart';
 import '../features/auth/auth_provider.dart';
 import '../features/membership/membership_screen.dart';
 import '../features/landing/landing_screen.dart';
@@ -151,49 +152,49 @@ class AppRouter {
                 path: '/services', builder: (_, __) => const ServicesScreen()),
             GoRoute(
                 path: '/services/visa_guidance',
-                builder: (_, __) => const EntitlementGuard(featureId: 'visa_guidance', child: VisaApplicationScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.visaGuidance, child: VisaApplicationScreen())),
             GoRoute(
                 path: '/services/university_finalization',
-                builder: (_, __) => const EntitlementGuard(featureId: 'university_finalization', child: UniversityFinalizationScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.universityFinalization, child: UniversityFinalizationScreen())),
             GoRoute(
                 path: '/services/resume_drafting',
-                builder: (_, __) => const EntitlementGuard(featureId: 'resume_drafting', child: ResumeDraftingScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.resumeDrafting, child: ResumeDraftingScreen())),
             GoRoute(
                 path: '/services/resume_drafting/form',
-                builder: (_, __) => const EntitlementGuard(featureId: 'resume_drafting', child: ResumeFormScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.resumeDrafting, child: ResumeFormScreen())),
             GoRoute(
                 path: '/services/research_paper',
-                builder: (_, __) => const EntitlementGuard(featureId: 'research_paper', child: ResearchPaperScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.researchPaper, child: ResearchPaperScreen())),
             GoRoute(
                 path: '/services/application_help',
-                builder: (_, __) => const EntitlementGuard(featureId: 'application_help', child: ApplicationHelpScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.applicationHelp, child: ApplicationHelpScreen())),
             GoRoute(
                 path: '/services/o1',
-                builder: (_, __) => const EntitlementGuard(featureId: 'o1', child: O1VisaScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.o1, child: O1VisaScreen())),
             GoRoute(
                 path: '/services/lor_drafting',
-                builder: (_, __) => const EntitlementGuard(featureId: 'lor_drafting', child: LorDraftingScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.lorDrafting, child: LorDraftingScreen())),
             GoRoute(
                 path: '/services/personal_history',
-                builder: (_, __) => const EntitlementGuard(featureId: 'personal_history', child: PersonalHistoryScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.personalHistory, child: PersonalHistoryScreen())),
             GoRoute(
                 path: '/services/application_review',
-                builder: (_, __) => const EntitlementGuard(featureId: 'application_review', child: ApplicationReviewScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.applicationReview, child: ApplicationReviewScreen())),
             GoRoute(
                 path: '/services/gre_prep',
-                builder: (_, __) => const EntitlementGuard(featureId: 'gre_prep', child: GrePrepScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.grePrep, child: GrePrepScreen())),
             GoRoute(
                 path: '/services/toefl_prep',
-                builder: (_, __) => const EntitlementGuard(featureId: 'toefl_prep', child: ToeflPrepScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.toeflPrep, child: ToeflPrepScreen())),
             GoRoute(
                 path: '/services/cover_letter',
-                builder: (_, __) => const EntitlementGuard(featureId: 'cover_letter', child: CoverLetterScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.coverLetter, child: CoverLetterScreen())),
             GoRoute(
                 path: '/services/linkedin_optimization',
-                builder: (_, __) => const EntitlementGuard(featureId: 'linkedin_optimization', child: LinkedinOptimizationScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.linkedinOptimization, child: LinkedinOptimizationScreen())),
             GoRoute(
                 path: '/services/express_entry',
-                builder: (_, __) => const EntitlementGuard(featureId: 'express_entry', child: ExpressEntryScreen())),
+                builder: (_, __) => const EntitlementGuard(featureId: MembershipFeatures.expressEntry, child: ExpressEntryScreen())),
             GoRoute(
               path: '/services/:slug',
               builder: (context, state) => ServiceDetailScreen(

@@ -246,7 +246,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     // 2. Membership path — backend EntitlementEngine is sole authority.
     // Client canAccess is UX only; server reserve/commit decrements credits.
     final manager = Provider.of<MembershipManager>(context, listen: false);
-    final hasConsultationAccess = manager.canAccess(AppFeatures.consultation);
+    final hasConsultationAccess = manager.canAccess(MembershipFeatures.consultation);
 
     if (hasConsultationAccess) {
       debugPrint('Membership credit path → book-consultation (engine)');
@@ -260,7 +260,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
       MaterialPageRoute(
         builder: (_) => const MembershipScreen(
           recommendedPlanId: 'starter',
-          lockedFeatureId: AppFeatures.consultation,
+          lockedFeatureId: MembershipFeatures.consultation,
         ),
       ),
     );

@@ -41,6 +41,7 @@ const PaymentTransactionSchema = new mongoose.Schema(
     receiptId: { type: mongoose.Schema.Types.ObjectId, ref: "Receipt" },
     
     processedAt: { type: Date },
+    idempotencyKey: { type: String },
   },
   { timestamps: true }
 );
@@ -49,6 +50,7 @@ const PaymentTransactionSchema = new mongoose.Schema(
 PaymentTransactionSchema.index({ gateway: 1, externalTransactionId: 1 }, { unique: true });
 PaymentTransactionSchema.index({ userId: 1, planId: 1, createdAt: -1 });
 PaymentTransactionSchema.index({ status: 1 });
+PaymentTransactionSchema.index({ idempotencyKey: 1 }, { unique: true, sparse: true });
 
 module.exports =
   mongoose.models.PaymentTransaction ||

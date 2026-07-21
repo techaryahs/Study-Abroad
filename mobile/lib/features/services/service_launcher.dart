@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'service_model.dart';
+import '../../core/app_features.dart';
 import '../../widgets/book_counselling_sheet.dart';
 import '../membership/membership_manager.dart';
 import '../membership/membership_screen.dart';
@@ -19,74 +20,76 @@ class ServiceLauncher {
     }
 
     switch (service.slug) {
-      case 'consultation':
+      case MembershipFeatures.consultation:
         showBookCounsellingSheet(context);
         break;
-      case 'eb1':
+      case MembershipFeatures.eb1:
         context.push('/resources/eb1a');
         break;
-      case 'university_shortlist':
+      case MembershipFeatures.universityShortlist:
         context.push('/universities/unipredict');
         break;
-      case 'sop_writing':
+      case MembershipFeatures.aiSop:
         context.push('/ai-services/sop-generator');
         break;
-      case 'mock_interview':
+      case MembershipFeatures.mockInterview:
         context.push('/ai-services/mock-interview');
         break;
-      case 'ai_humanizer':
+      case MembershipFeatures.aiHumanizer:
         context.push('/ai-services/plagiarism-remover');
         break;
-      case 'scholarship_search':
+      case MembershipFeatures.scholarshipSearch:
         context.push('/resources/scholarships');
         break;
-      case 'profile_evaluation':
+      case MembershipFeatures.profileEvaluation:
         context.push('/universities/rate-my-chances');
         break;
-      case 'visa_guidance':
+      case MembershipFeatures.visaGuidance:
         context.push('/services/visa_guidance');
         break;
-      case 'university_finalization':
+      case MembershipFeatures.universityFinalization:
         context.push('/services/university_finalization');
         break;
-      case 'resume_drafting':
+      case MembershipFeatures.resumeDrafting:
         context.push('/services/resume_drafting');
         break;
-      case 'research_paper':
+      case MembershipFeatures.researchPaper:
         context.push('/services/research_paper');
         break;
-      case 'application_help':
+      case MembershipFeatures.applicationHelp:
         context.push('/services/application_help');
         break;
-      case 'o1':
+      case MembershipFeatures.o1:
         context.push('/services/o1');
         break;
-      case 'lor_drafting':
+      case MembershipFeatures.lorDrafting:
         context.push('/services/lor_drafting');
         break;
-      case 'personal_history':
+      case MembershipFeatures.personalHistory:
         context.push('/services/personal_history');
         break;
-      case 'application_review':
+      case MembershipFeatures.applicationReview:
         context.push('/services/application_review');
         break;
-      case 'gre_prep':
+      case MembershipFeatures.grePrep:
         context.push('/services/gre_prep');
         break;
-      case 'toefl_prep':
+      case MembershipFeatures.toeflPrep:
         context.push('/services/toefl_prep');
         break;
-      case 'cover_letter':
+      case MembershipFeatures.coverLetter:
         context.push('/services/cover_letter');
         break;
-      case 'linkedin_optimization':
+      case MembershipFeatures.linkedinOptimization:
         context.push('/services/linkedin_optimization');
         break;
-      case 'express_entry':
+      case MembershipFeatures.expressEntry:
         context.push('/services/express_entry');
         break;
       default:
-        _showUnderDevelopmentDialog(context);
+        // By default, route any unknown or human service (like sop_writing) to its Service Detail flow
+        context.push('/services/${service.slug}');
+        break;
     }
   }
 

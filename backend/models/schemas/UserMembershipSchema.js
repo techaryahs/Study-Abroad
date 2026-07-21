@@ -43,6 +43,7 @@ const UserMembershipSchema = new mongoose.Schema(
       of: new mongoose.Schema(
         {
           used: { type: Number, default: 0 },
+          remaining: { type: Number, default: 0 },
           limit: { type: Number, default: 0 },
           lastUsedAt: { type: Date },
         },

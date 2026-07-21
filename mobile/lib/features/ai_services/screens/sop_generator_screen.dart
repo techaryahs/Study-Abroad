@@ -73,7 +73,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
         ),
       ),
       body: EntitlementGuard(
-        featureId: AppFeatures.aiSop,
+        featureId: MembershipFeatures.aiSop,
         child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

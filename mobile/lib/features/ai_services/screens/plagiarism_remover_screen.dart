@@ -770,7 +770,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
                 color: AppTheme.textPrimary)),
       ),
       body: EntitlementGuard(
-        featureId: AppFeatures.aiHumanizer,
+        featureId: MembershipFeatures.aiHumanizer,
         child: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

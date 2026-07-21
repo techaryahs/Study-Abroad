@@ -103,7 +103,7 @@ class _MockInterviewScreenState extends State<MockInterviewScreen> {
         ),
       ),
       body: EntitlementGuard(
-        featureId: AppFeatures.mockInterview,
+        featureId: MembershipFeatures.mockInterview,
         child: SingleChildScrollView(
           child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

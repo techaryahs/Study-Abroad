@@ -155,7 +155,7 @@ class ServiceModel {
       features: ['Section Strategy', 'Practice Drills', 'Template Provisions', 'Scoring Guide'],
     ),
     ServiceModel(
-      slug: 'sop_writing',
+      slug: 'canada_sop_writing',
       title: 'Canada Visa SOP/LOE',
       icon: '🍁',
       price: 4499,
