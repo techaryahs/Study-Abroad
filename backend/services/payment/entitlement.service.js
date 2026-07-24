@@ -108,9 +108,23 @@ async function deriveFromAppleSubscription(transaction, session = null) {
 async function grantEntitlement(transaction, session = null, options = {}) {
   console.log(`[Entitlement] ENTER grantEntitlement — txnId=${transaction.transactionId}, gateway=${transaction.gateway}, planId=${transaction.planId}, userId=${transaction.userId}`);
   try {
-    const user = await findUser(transaction.userId, transaction.userModel, session);
+    let targetUserId = transaction.userId;
+    let targetUserModel = transaction.userModel;
+
+    // Resolve current subscription owner if subscriptionId is present
+    if (transaction.subscriptionId) {
+      const AppleSubscription = require("../../models/AppleSubscription");
+      const subscription = await AppleSubscription.findById(transaction.subscriptionId).session(session);
+      if (subscription && subscription.userId) {
+        targetUserId = subscription.userId;
+        targetUserModel = subscription.userModel || targetUserModel;
+        console.log(`[Entitlement] Resolved current subscription owner — userId=${targetUserId}, model=${targetUserModel}`);
+      }
+    }
+
+    const user = await findUser(targetUserId, targetUserModel, session);
     if (!user) {
-      console.error("[Entitlement] EXIT grantEntitlement — User not found");
+      console.error(`[Entitlement] EXIT grantEntitlement — User not found for userId=${targetUserId}`);
       return { success: false, error: "User not found" };
     }
     console.log(`[Entitlement] User found: _id=${user._id}, currentPlan=${user.membership?.planId || "none"}, currentStatus=${user.membership?.status || "none"}`);
