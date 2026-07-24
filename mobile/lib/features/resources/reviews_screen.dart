@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
+import '../../core/app_logger.dart';
 import 'package:intl/intl.dart';
 
 class ReviewsScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
         }
       });
     } catch (e) {
-      debugPrint('Error fetching reviews: $e');
+      AppLogger.error('Error fetching reviews', e);
     } finally {
       setState(() => _loading = false);
     }

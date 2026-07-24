@@ -343,36 +343,8 @@ async function buildAccessSummary(student, options = {}) {
     price: 1,
   });
 
-  // Lazy backfill: if the user has an active plan, detect missing usage
-  // entries for metered entitlements and persist them so future checks
-  // never encounter a missing record again.
-  if (plan && lifecycle.isAccessAllowed && membership) {
-    const {
-      buildUsageMapFromPlan,
-    } = require("./membershipLifecycle");
-    const expectedUsage = buildUsageMapFromPlan(plan, membership, "initial_purchase");
-    let needsSave = false;
-    for (const [featureId, entry] of Object.entries(expectedUsage)) {
-      if (!getUsageEntry(membership, featureId)) {
-        if (!membership.usage) membership.usage = {};
-        if (typeof membership.usage.set === "function") {
-          membership.usage.set(featureId, entry);
-        } else {
-          membership.usage[featureId] = entry;
-        }
-        needsSave = true;
-      }
-    }
-    if (needsSave && typeof student.markModified === "function") {
-      student.markModified("membership");
-      try {
-        await student.save();
-      } catch (saveErr) {
-        // Non-fatal: access check results are still correct for this request
-        console.warn("[buildAccessSummary] usage backfill save failed:", saveErr.message);
-      }
-    }
-  }
+  // buildAccessSummary is strictly read-only and fail-closed.
+  // DB writes are handled exclusively during membership provisioning / renewal / ops backfill.
 
   const features = {};
   for (const service of services) {

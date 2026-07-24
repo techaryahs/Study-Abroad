@@ -20,16 +20,27 @@ const PaymentAttemptSchema = new mongoose.Schema(
       required: true,
     },
     
+    // Gateway fields
+    appleProductId: { type: String },
+    originalTransactionId: { type: String },
+    externalTransactionId: { type: String, index: true },
+    environment: { type: String },
+    
     // Error tracking
     errorMessage: { type: String },
     
     // If it succeeds, link it to the core transaction
-    transactionId: { type: mongoose.Schema.Types.ObjectId, ref: "PaymentTransaction" }
+    paymentTransactionId: { type: mongoose.Schema.Types.ObjectId, ref: "PaymentTransaction" }
   },
   { timestamps: true }
 );
 
 PaymentAttemptSchema.index({ userId: 1, createdAt: -1 });
+
+PaymentAttemptSchema.index(
+  { gateway: 1, externalTransactionId: 1 },
+  { unique: true, sparse: true }
+);
 
 module.exports =
   mongoose.models.PaymentAttempt ||

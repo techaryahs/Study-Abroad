@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/services.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import '../core/app_logger.dart';
 
 class ScholarshipItem {
   final String id;
@@ -58,7 +59,7 @@ class ScholarshipRepository {
       _scholarships = list.map((json) => ScholarshipItem.fromJson(json)).toList();
       return _scholarships;
     } catch (e) {
-      print('Error loading scholarships: $e');
+      AppLogger.error('Error loading scholarships', e);
       return [];
     }
   }

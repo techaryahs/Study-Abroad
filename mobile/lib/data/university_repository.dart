@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import '../core/app_logger.dart';
 
 class UniversityItem {
   final String slug;
@@ -141,7 +142,7 @@ class UniversityRepository {
       final List<dynamic> uniList = json.decode(raw) as List<dynamic>;
       countryMeta.universities = uniList.map((j) => UniversityItem.fromJson(j)).toList();
     } catch (e) {
-      print('Error loading country data for ${countryMeta.slug}: $e');
+      AppLogger.error('Error loading country data for ${countryMeta.slug}', e);
       // Fallback or empty list
     }
 

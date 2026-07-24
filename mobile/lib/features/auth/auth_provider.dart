@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import '../../core/storage.dart';
 import '../../core/api_client.dart';
+import '../../core/app_logger.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isLoggedIn = false;
@@ -53,23 +54,23 @@ class AuthProvider extends ChangeNotifier {
           await AppStorage.setUser(_user!);
         }
         _isLoggedIn = true;
-        debugPrint('✅ Token validated — session restored');
+        AppLogger.info('Token validated — session restored');
       } else {
-        debugPrint('⚠️ Token validation returned non-success — logging out');
+        AppLogger.warning('Token validation returned non-success — logging out');
         await _clearSession();
       }
     } on DioException catch (e) {
       if (e.response?.statusCode == 401 || e.response?.statusCode == 404) {
         // 401 = expired/invalid token, 404 = user deleted from DB
-        debugPrint('⚠️ Stale token detected (${e.response?.statusCode}) — logging out');
+        AppLogger.warning('Stale token detected (${e.response?.statusCode}) — logging out');
         await _clearSession();
       } else {
         // Network error / server down — keep cached session (offline-friendly)
-        debugPrint('⚠️ Cannot reach server — keeping cached session');
+        AppLogger.warning('Cannot reach server — keeping cached session');
         _isLoggedIn = true;
       }
     } catch (e) {
-      debugPrint('⚠️ Token validation error: $e — keeping cached session');
+      AppLogger.warning('Token validation error: $e — keeping cached session');
       _isLoggedIn = true;
     }
 
@@ -99,13 +100,14 @@ class AuthProvider extends ChangeNotifier {
   /// endpoint returns 401 (meaning the token is no longer valid).
   Future<void> forceLogout() async {
     if (!_isLoggedIn) return; // Already logged out, avoid redundant work
-    debugPrint('🔒 Force logout — invalid session detected');
+    AppLogger.warning('Force logout — invalid session detected');
     await _clearSession();
     notifyListeners();
   }
 
   /// Manual logout — called by the user from the UI.
   Future<void> logout() async {
+    AppLogger.info('User logged out');
     await _clearSession();
     notifyListeners();
   }
@@ -120,9 +122,7 @@ class AuthProvider extends ChangeNotifier {
       'password': password.trim(),
     };
 
-    debugPrint("========== LOGIN REQUEST ==========");
-    debugPrint("URL: ${ApiClient.baseUrl}/api/auth/login");
-    debugPrint("Body: ${jsonEncode(body)}");
+    AppLogger.info('Attempting login...');
 
     try {
       final response = await ApiClient.instance.post(
@@ -130,9 +130,7 @@ class AuthProvider extends ChangeNotifier {
         data: body,
       );
 
-      debugPrint("========== LOGIN RESPONSE ==========");
-      debugPrint("Status: ${response.statusCode}");
-      debugPrint("Body: ${jsonEncode(response.data)}");
+      AppLogger.info('Login successful');
 
       final data = response.data as Map<String, dynamic>;
       final token = data['token'] as String;
@@ -148,9 +146,7 @@ class AuthProvider extends ChangeNotifier {
 
       return user;
     } catch (e, stackTrace) {
-      debugPrint("LOGIN EXCEPTION:");
-      debugPrint(e.toString());
-      debugPrintStack(stackTrace: stackTrace);
+      AppLogger.error('Login failed', e, stackTrace);
       rethrow;
     }
   }
@@ -222,8 +218,18 @@ class AuthProvider extends ChangeNotifier {
 
   // ─── ACCOUNT MANAGEMENT ────────────────────────────────────────
 
+  /// Permanently deletes the account on the server, then clears the local
+  /// session. Navigation to Login is owned exclusively by GoRouter's
+  /// `refreshListenable` redirect when [isLoggedIn] becomes false.
+  ///
+  /// Callers must NOT pop routes or call context.go/replace after this —
+  /// that races the redirect and crashes the navigator.
   Future<void> deleteAccount() async {
+    AppLogger.info('Deleting account…');
+    // Only clear the session after the server confirms deletion with HTTP 2xx.
+    // If the request fails, the user stays logged in and the dialog shows the error.
     await ApiClient.instance.delete('/api/user/delete-account');
+    AppLogger.info('Account deleted on server — clearing local session');
     await logout();
   }
 }

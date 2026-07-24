@@ -1,4 +1,5 @@
 const Consultant = require("../models/Consultant");
+const logger = require("../utils/logger");
 
 /* =========================
    GET CONSULTANT PROFILE
@@ -11,7 +12,7 @@ exports.getConsultantProfile = async (req, res) => {
       return res.status(400).json({ message: "No user ID provided" });
     }
 
-    console.log(`📡 [ConsultantProfile] Fetching ID: ${userId}`);
+    logger.debug(`[ConsultantProfile] Fetching ID: ${userId}`);
 
     const consultant = await Consultant.findById(userId).select("-password");
 
@@ -25,7 +26,7 @@ exports.getConsultantProfile = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("❌ Consultant profile fetch error:", err);
+    logger.error("Consultant profile fetch error:", err);
     res.status(500).json({ message: "Server error fetching consultant profile" });
   }
 };
@@ -106,7 +107,7 @@ exports.updateConsultantProfile = async (req, res) => {
 
     await consultant.save();
 
-    console.log(`✅ [ConsultantProfile] Updated: ${consultant.email}`);
+    logger.info(`[ConsultantProfile] Updated: ${logger.maskEmail(consultant.email)}`);
 
     res.json({
       message: "Consultant profile updated successfully",
@@ -114,7 +115,7 @@ exports.updateConsultantProfile = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("❌ Consultant profile update error:", err);
+    logger.error("Consultant profile update error:", err);
     res.status(500).json({ message: "Server error updating consultant profile" });
   }
 };

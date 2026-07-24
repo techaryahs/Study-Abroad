@@ -6,6 +6,7 @@ const MembershipEvent = require("../models/MembershipEvent");
 const MembershipHistory = require("../models/MembershipHistory");
 const PaymentTransaction = require("../models/PaymentTransaction");
 const { findUserById } = require("../utils/userHelper");
+const { normalizeEmail } = require("../utils/emailUtils");
 const {
   applyPlanToMembership,
   evaluateMembership,
@@ -38,9 +39,6 @@ function getRazorpayClient() {
   return razorpayClient;
 }
 
-function normalizeEmail(email) {
-  return String(email || "").trim().toLowerCase();
-}
 
 function normalizeText(value) {
   return String(value || "")

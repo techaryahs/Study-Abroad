@@ -1,4 +1,5 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
+const logger = require("../utils/logger");
 
 /**
  * Ensure production-critical indexes exist even when schema autoIndex is false.
@@ -18,7 +19,7 @@ async function ensureCriticalIndexes() {
         background: true,
       }
     );
-    console.log("Booking index ensured: unique_active_counselling_slot");
+    logger.debug("Booking index ensured: unique_active_counselling_slot");
 
     await Booking.collection.createIndex(
       { paymentId: 1 },
@@ -31,9 +32,9 @@ async function ensureCriticalIndexes() {
         background: true,
       }
     );
-    console.log("Booking index ensured: unique_paymentId_booking");
+    logger.debug("Booking index ensured: unique_paymentId_booking");
   } catch (err) {
-    console.error(
+    logger.error(
       "Failed to ensure booking uniqueness indexes:",
       err.message
     );
@@ -47,27 +48,27 @@ async function ensureCriticalIndexes() {
       { platform: 1, originalTransactionId: 1 },
       { unique: true, name: "unique_platform_original_transaction", background: true }
     );
-    console.log("AppleSubscription index ensured: unique_platform_original_transaction");
+    logger.debug("AppleSubscription index ensured: unique_platform_original_transaction");
 
     await AppleSubscription.collection.createIndex(
       { userId: 1, platform: 1 },
       { name: "apple_subscription_user_lookup", background: true }
     );
-    console.log("AppleSubscription index ensured: apple_subscription_user_lookup");
+    logger.debug("AppleSubscription index ensured: apple_subscription_user_lookup");
 
     await AppleSubscription.collection.createIndex(
       { appAccountToken: 1 },
       { name: "apple_subscription_account_token", background: true }
     );
-    console.log("AppleSubscription index ensured: apple_subscription_account_token");
+    logger.debug("AppleSubscription index ensured: apple_subscription_account_token");
 
     await AppleSubscription.collection.createIndex(
       { planId: 1, status: 1 },
       { name: "apple_subscription_plan_status", background: true }
     );
-    console.log("AppleSubscription index ensured: apple_subscription_plan_status");
+    logger.debug("AppleSubscription index ensured: apple_subscription_plan_status");
   } catch (err) {
-    console.error(
+    logger.error(
       "Failed to ensure Apple Subscription indexes:",
       err.message
     );
@@ -81,21 +82,21 @@ async function ensureCriticalIndexes() {
       { originalTransactionId: 1, eventType: 1, createdAt: -1 },
       { name: "apple_event_transaction_lookup", background: true }
     );
-    console.log("AppleSubscriptionEvent index ensured: apple_event_transaction_lookup");
+    logger.debug("AppleSubscriptionEvent index ensured: apple_event_transaction_lookup");
 
     await AppleSubscriptionEvent.collection.createIndex(
       { notificationUUID: 1 },
       { unique: true, sparse: true, name: "unique_apple_notification_uuid", background: true }
     );
-    console.log("AppleSubscriptionEvent index ensured: unique_apple_notification_uuid");
+    logger.debug("AppleSubscriptionEvent index ensured: unique_apple_notification_uuid");
 
     await AppleSubscriptionEvent.collection.createIndex(
       { idempotencyKey: 1 },
       { unique: true, sparse: true, name: "unique_apple_event_idempotency", background: true }
     );
-    console.log("AppleSubscriptionEvent index ensured: unique_apple_event_idempotency");
+    logger.debug("AppleSubscriptionEvent index ensured: unique_apple_event_idempotency");
   } catch (err) {
-    console.error(
+    logger.error(
       "Failed to ensure Apple Subscription Event indexes:",
       err.message
     );
@@ -109,9 +110,9 @@ async function ensureCriticalIndexes() {
       { subscriptionId: 1, createdAt: -1 },
       { name: "payment_txn_subscription_lookup", background: true }
     );
-    console.log("PaymentTransaction index ensured: payment_txn_subscription_lookup");
+    logger.debug("PaymentTransaction index ensured: payment_txn_subscription_lookup");
   } catch (err) {
-    console.error(
+    logger.error(
       "Failed to ensure PaymentTransaction subscription index:",
       err.message
     );
@@ -121,10 +122,10 @@ async function ensureCriticalIndexes() {
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    logger.info(`MongoDB Connected: ${conn.connection.host}`);
     await ensureCriticalIndexes();
   } catch (error) {
-    console.error(`MongoDB Error: ${error.message}`);
+    logger.error(`MongoDB Error: ${error.message}`);
     process.exit(1);
   }
 };

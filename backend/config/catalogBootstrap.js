@@ -17,6 +17,7 @@ const MembershipPlan = require("../models/MembershipPlan");
 const { syncCatalog } = require("../scripts/syncMembershipCatalog");
 const { CATALOG_VERSION } = require("../catalog/membershipCatalog");
 const { runMigrations } = require("../services/catalogMigrationService");
+const logger = require("../utils/logger");
 
 const REQUIRED_PLAN_IDS = ["starter", "essential", "premium", "elite"];
 
@@ -67,31 +68,30 @@ function validatePlanDocument(planDoc) {
 }
 
 /**
- * Main bootstrap entry point. Call once during server initialization.
- * Throws if validation fails — the caller must catch and abort startup.
+ * Main bootstrap routine — call during server initialization.
  */
 async function bootstrapCatalog() {
   // ── Step 1: Seed if empty (P0) ──────────────────────────────────────────
   const count = await MembershipPlan.countDocuments();
 
   if (count === 0) {
-    console.log(
+    logger.info(
       `[CatalogBootstrap] Empty catalog detected — seeding from membershipCatalog.js v${CATALOG_VERSION}`
     );
     await syncCatalog();
     const postSeedCount = await MembershipPlan.countDocuments();
-    console.log(
+    logger.info(
       `[CatalogBootstrap] Seeded ${postSeedCount} plans into MembershipPlan collection`
     );
   } else {
-    console.log(
+    logger.info(
       `[CatalogBootstrap] Catalog already populated (${count} plans). Skipping auto-seed.`
     );
   }
 
   // ── Step 2: Run pending migrations (P1) ─────────────────────────────────
   const migrationResult = await runMigrations();
-  console.log(
+  logger.info(
     `[CatalogBootstrap] Migration engine: ran=${migrationResult.ran}, ` +
       `pending=${migrationResult.pending}, migrationVersion=${migrationResult.migrationVersion}`
   );
@@ -112,20 +112,18 @@ async function bootstrapCatalog() {
   }
 
   if (allErrors.length > 0) {
-    console.error("\n[CatalogBootstrap] ❌ CATALOG VALIDATION FAILED:");
+    logger.error("\n[CatalogBootstrap] CATALOG VALIDATION FAILED:");
     for (const err of allErrors) {
-      console.error(`  • ${err}`);
+      logger.error(`  • ${err}`);
     }
-    console.error("");
     throw new Error(
       `[CatalogBootstrap] Startup aborted — ${allErrors.length} catalog validation error(s). See logs above.`
     );
   }
 
-  console.log(
-    `[CatalogBootstrap] ✅ Catalog validated — Required plans active, version ${CATALOG_VERSION}`
+  logger.info(
+    `[CatalogBootstrap] Catalog validated — Required plans active, version ${CATALOG_VERSION}`
   );
 }
 
 module.exports = { bootstrapCatalog, validatePlanDocument, REQUIRED_PLAN_IDS };
-

@@ -4,6 +4,7 @@ const path = require("path");
 const User = require("../models/User");
 const Student = require("../models/Student");
 const { withEntitlementUsage } = require("../utils/membershipUtils");
+const logger = require("../utils/logger");
 
 // ✅ Correct JSON file path
 const filePath = path.join(__dirname, "../data/careersInterest.json");
@@ -177,8 +178,6 @@ Only return valid JSON. No explanation or markdown.
  * POST /api/careers/quiz/submit
  */
 exports.submitQuiz = async (req, res) => {
-  console.log("🔥 QUIZ SUBMIT HIT:", req.user?.id);
-
   try {
     const studentId = req.user.id;
     const { score } = req.body;
@@ -216,8 +215,6 @@ exports.submitQuiz = async (req, res) => {
 
     student.markModified('profile');
     await student.save();
-
-    console.log("✅ QUIZ SAVED:", student.profile.services.quiz);
 
     return res.json({
       message: "Quiz submitted successfully",

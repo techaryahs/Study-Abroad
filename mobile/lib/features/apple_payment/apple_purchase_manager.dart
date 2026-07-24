@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 import '../../core/api_client.dart';
+import '../../core/app_logger.dart';
 import '../../core/storage.dart';
 import '../../models/checkout_item.dart';
 import 'apple_iap_service.dart';
@@ -52,9 +53,9 @@ class ApplePurchaseManager {
   }) {
     _subscription = AppleIapService.instance.purchaseStream.listen(
       _onPurchaseUpdate,
-      onDone: () => debugPrint('[ApplePurchaseManager] Purchase stream closed'),
+      onDone: () => AppLogger.debug('[ApplePurchaseManager] Purchase stream closed'),
       onError: (Object error) {
-        debugPrint('[ApplePurchaseManager] Purchase stream error: $error');
+        AppLogger.error('[ApplePurchaseManager] Purchase stream error', error);
         onError?.call('Purchase stream error: $error');
       },
     );
@@ -81,6 +82,10 @@ class ApplePurchaseManager {
   String _currentCurrency = 'INR';
   String? _currentPlanId;
   VoidCallback? _currentOnPaymentSuccess;
+  
+  /// Track purchases we are currently verifying
+  /// to prevent duplicate concurrent backend calls for the same transaction.
+  final Set<String> _processingPurchases = {};
 
   /// Whether products have been successfully loaded.
   bool get productsLoaded => _products.isNotEmpty;
@@ -98,14 +103,14 @@ class ApplePurchaseManager {
   /// When [silent] is true, does not emit [ApplePurchaseState.loading]
   /// (used for paywall preload so UI is not stuck in processing).
   Future<bool> loadProducts({bool silent = false}) async {
-    debugPrint('[ApplePurchaseManager] Loading products (silent=$silent)...');
+    AppLogger.debug('[ApplePurchaseManager] Loading products (silent=$silent)...');
     if (!silent) {
       onStateChanged(ApplePurchaseState.loading);
     }
 
     final available = await AppleIapService.instance.isAvailable();
     if (!available) {
-      debugPrint('[ApplePurchaseManager] Store not available');
+      AppLogger.warning('[ApplePurchaseManager] Store not available');
       // Silent preload must not flip global purchase error state.
       if (!silent) {
         onError?.call('The App Store is not available. Please try again later.');
@@ -134,7 +139,7 @@ class ApplePurchaseManager {
       if (AppleProductIds.isKnownProduct(product.id)) {
         mapped[product.id] = product;
       } else {
-        debugPrint(
+        AppLogger.warning(
           '[ApplePurchaseManager] ⚠️ Ignoring unmapped StoreKit product: '
           '${product.id}',
         );
@@ -143,7 +148,7 @@ class ApplePurchaseManager {
 
     _products = mapped;
 
-    debugPrint(
+    AppLogger.info(
       '\n[ApplePurchaseManager] 📦 StoreKit ProductDetailsResponse:\n'
       '   • error: ${response.error?.message ?? "none"}\n'
       '   • productDetails.length: ${response.productDetails.length}\n'
@@ -178,7 +183,7 @@ class ApplePurchaseManager {
       return;
     }
 
-    debugPrint(
+    AppLogger.info(
       '\n[ApplePurchaseManager] 🛒 Purchase requested: '
       '${plan.name} → $productId (planId=$planId)',
     );
@@ -202,7 +207,7 @@ class ApplePurchaseManager {
 
     final product = _products[productId]!;
 
-    debugPrint('[ApplePurchaseManager] 🚀 Launching StoreKit for $productId');
+    AppLogger.info('[ApplePurchaseManager] 🚀 Launching StoreKit for $productId');
     if (AppleProductIds.isConsumable(productId)) {
       await AppleIapService.instance.buyConsumable(product);
     } else {
@@ -216,7 +221,7 @@ class ApplePurchaseManager {
   ///
   /// Results arrive via [onStateChanged] with [ApplePurchaseState.restored].
   Future<void> restorePurchases() async {
-    debugPrint('[ApplePurchaseManager] Restore purchases requested');
+    AppLogger.info('[ApplePurchaseManager] Restore purchases requested');
     onStateChanged(ApplePurchaseState.loading);
     await AppleIapService.instance.restorePurchases();
   }
@@ -225,7 +230,7 @@ class ApplePurchaseManager {
 
   void _onPurchaseUpdate(List<PurchaseDetails> purchaseList) {
     for (final purchase in purchaseList) {
-      debugPrint(
+      AppLogger.debug(
         '[ApplePurchaseManager] Purchase update: '
         'product=${purchase.productID}, '
         'status=${purchase.status}, '
@@ -234,19 +239,19 @@ class ApplePurchaseManager {
 
       switch (purchase.status) {
         case PurchaseStatus.pending:
-          debugPrint('[ApplePurchaseManager] ⏳ Purchase pending');
+          AppLogger.info('[ApplePurchaseManager] ⏳ Purchase pending');
           onStateChanged(ApplePurchaseState.pending);
 
         case PurchaseStatus.purchased:
-          debugPrint('[ApplePurchaseManager] ✅ Purchase successful');
+          AppLogger.info('[ApplePurchaseManager] ✅ Purchase successful');
           _handleSuccessfulPurchase(purchase, isRestore: false);
 
         case PurchaseStatus.restored:
-          debugPrint('[ApplePurchaseManager] 🔄 Purchase restored');
+          AppLogger.info('[ApplePurchaseManager] 🔄 Purchase restored');
           _handleSuccessfulPurchase(purchase, isRestore: true);
 
         case PurchaseStatus.error:
-          debugPrint(
+          AppLogger.error(
             '[ApplePurchaseManager] ❌ Purchase error: '
             '${purchase.error?.message}',
           );
@@ -259,7 +264,7 @@ class ApplePurchaseManager {
           }
 
         case PurchaseStatus.canceled:
-          debugPrint('[ApplePurchaseManager] 🚫 Purchase cancelled by user');
+          AppLogger.info('[ApplePurchaseManager] 🚫 Purchase cancelled by user');
           onStateChanged(ApplePurchaseState.cancelled);
           if (purchase.pendingCompletePurchase) {
             AppleIapService.instance.completePurchase(purchase);
@@ -274,11 +279,20 @@ class ApplePurchaseManager {
     PurchaseDetails purchase, {
     required bool isRestore,
   }) async {
+    final purchaseId = purchase.purchaseID;
+    if (purchaseId != null) {
+      if (_processingPurchases.contains(purchaseId)) {
+        AppLogger.debug('[ApplePurchaseManager] ⏭️ Skipping already processing purchase: $purchaseId');
+        return;
+      }
+      _processingPurchases.add(purchaseId);
+    }
+
     try {
       // Reject unknown product IDs — never invent a plan.
       final mappedPlanId = AppleProductIds.planIdForProduct(purchase.productID);
       if (mappedPlanId == null) {
-        debugPrint(
+        AppLogger.error(
           '[ApplePurchaseManager] ❌ Unknown product ID rejected: '
           '${purchase.productID}',
         );
@@ -296,7 +310,7 @@ class ApplePurchaseManager {
       // Authoritative plan comes from product ID mapping.
       // Client planId (if present) must match.
       if (_currentPlanId != null && _currentPlanId != mappedPlanId) {
-        debugPrint(
+        AppLogger.error(
           '[ApplePurchaseManager] ❌ planId/product mismatch: '
           'client=$_currentPlanId product=$mappedPlanId',
         );
@@ -325,84 +339,30 @@ class ApplePurchaseManager {
         return;
       }
 
-      // Call the existing backend payment verification endpoint (unchanged contract).
-      debugPrint('[ApplePurchaseManager] 🌐 Verifying purchase with Backend...');
+      AppLogger.info('[ApplePurchaseManager] 🌐 Verifying purchase with Backend V2...');
       final verifyRes = await ApiClient.instance.post(
-        '/api/payment/verify',
+        '/api/payments/v2/verify',
         data: {
-          'platform': 'apple_iap',
-          'planId': planId,
-          'productId': purchase.productID,
-          'transactionId': purchase.purchaseID,
-          'verificationData': purchase.verificationData.serverVerificationData,
-          'source': purchase.verificationData.source,
-          'is_restore': isRestore,
-          'userId': user['_id'] ?? user['id'],
-          'userEmail': user['email'],
-          'items': _currentItems
-              .map((i) => {
-                    'title': i.title,
-                    'price': i.price,
-                    'quantity': i.quantity,
-                    'lineTotal': i.price * i.quantity,
-                    'currency': i.currency,
-                    'serviceId': i.id,
-                  })
-              .toList(),
-          'subtotal': _currentItems.fold<int>(
-            0,
-            (sum, item) => sum + item.price * item.quantity,
-          ),
-          'discount': _currentItems.fold<int>(
-            0,
-            (sum, item) =>
-                sum +
-                ((item.actualPrice - item.price) * item.quantity)
-                    .clamp(0, item.actualPrice * item.quantity),
-          ),
-          'total': _currentItems.fold<int>(
-            0,
-            (sum, item) => sum + item.price * item.quantity,
-          ),
-          'currency': _currentCurrency,
+          'gateway': 'apple',
+          'payload': {
+            'receiptData': purchase.verificationData.serverVerificationData,
+          },
         },
       );
 
-      debugPrint(
+      AppLogger.info(
         '[ApplePurchaseManager] ✅ Backend verification response: '
         '${verifyRes.statusCode}',
       );
 
-      final receiptData = verifyRes.data['receipt'] as Map<String, dynamic>? ??
-          {
-            'paymentId': purchase.purchaseID,
-            'items': _currentItems
-                .map((e) => {
-                      'title': e.title,
-                      'price': e.price,
-                      'quantity': e.quantity,
-                      'lineTotal': e.price * e.quantity,
-                    })
-                .toList(),
-            'currency': _currentCurrency,
-            'total': _currentItems.fold<int>(
-              0,
-              (sum, item) => sum + item.price * item.quantity,
-            ),
-            'subtotal': _currentItems.fold<int>(
-              0,
-              (sum, item) => sum + item.price * item.quantity,
-            ),
-            'discount': _currentItems.fold<int>(
-              0,
-              (sum, item) =>
-                  sum +
-                  ((item.actualPrice - item.price) * item.quantity)
-                      .clamp(0, item.actualPrice * item.quantity),
-            ),
-            'userEmail': user['email'],
-            'planId': planId,
-          };
+      final responseData = verifyRes.data;
+      final receiptData = {
+        'paymentId': responseData['transactionId'] ?? purchase.purchaseID,
+        'planId': responseData['planId'] ?? responseData['subscription']?['planId'],
+        'membership': responseData['membership'],
+        'subscription': responseData['subscription'],
+        'currency': _currentCurrency,
+      };
 
       onReceiptReady?.call(receiptData);
       onStateChanged(
@@ -410,7 +370,7 @@ class ApplePurchaseManager {
       );
       _currentOnPaymentSuccess?.call();
     } catch (e) {
-      debugPrint(
+      AppLogger.error(
         '[ApplePurchaseManager] Backend verification failed: '
         '${extractErrorMessage(e)}',
       );
@@ -419,6 +379,10 @@ class ApplePurchaseManager {
         'Payment was successful but verification failed: '
         '${extractErrorMessage(e)}',
       );
+    } finally {
+      if (purchaseId != null) {
+        _processingPurchases.remove(purchaseId);
+      }
     }
   }
 
@@ -427,7 +391,7 @@ class ApplePurchaseManager {
   /// Cancels the purchase stream subscription. Call this when the widget
   /// owning this manager is disposed to prevent memory leaks.
   void dispose() {
-    debugPrint('[ApplePurchaseManager] Disposing');
+    AppLogger.debug('[ApplePurchaseManager] Disposing');
     _subscription?.cancel();
     _subscription = null;
   }

@@ -14,6 +14,7 @@
  */
 
 const crypto = require("crypto");
+const mongoose = require("mongoose");
 const AppleSubscription = require("../../models/AppleSubscription");
 const AppleSubscriptionEvent = require("../../models/AppleSubscriptionEvent");
 const appleSubscriptionService = require("./appleSubscription.service");
@@ -272,35 +273,57 @@ async function handleWebhook(rawBody) {
     return { success: true, processed: false, reason: "no_transaction_id" };
   }
 
-  const subscription = await AppleSubscription.findOne({ platform: "apple", originalTransactionId });
+  const session = await mongoose.startSession();
+  let result;
+  
+  try {
+    session.startTransaction();
 
-  if (!subscription) {
-    console.warn(
-      `[AppleWebhook] Notification for unknown subscription: ${originalTransactionId} (${notificationType})`
-    );
+    const subscription = await AppleSubscription.findOne({ platform: "apple", originalTransactionId }).session(session);
 
-    await AppleSubscriptionEvent.create({
-      originalTransactionId,
-      eventType: notificationType,
-      notificationUUID: parsed.notificationUUID,
-      signedDate: parsed.signedDate,
-      transactionId: parsed.transactionInfo?.transactionId || null,
-      notificationData: parsed.rawPayload,
-      decodedPayload: parsed.verified,
-      status: "ignored",
-      idempotencyKey: parsed.eventIdempotencyKey,
-    });
+    if (!subscription) {
+      console.warn(
+        `[AppleWebhook] Notification for unknown subscription: ${originalTransactionId} (${notificationType})`
+      );
 
-    return { success: true, processed: false, reason: "unknown_subscription" };
+      // Upsert the event record even if unknown, using idempotencyKey
+      await AppleSubscriptionEvent.findOneAndUpdate(
+        { idempotencyKey: parsed.eventIdempotencyKey },
+        {
+          $setOnInsert: {
+            originalTransactionId,
+            eventType: notificationType,
+            notificationUUID: parsed.notificationUUID,
+            signedDate: parsed.signedDate,
+            transactionId: parsed.transactionInfo?.transactionId || null,
+            notificationData: parsed.rawPayload,
+            decodedPayload: parsed.verified,
+            status: "ignored",
+          }
+        },
+        { upsert: true, session, new: true }
+      );
+
+      await session.commitTransaction();
+      return { success: true, processed: false, reason: "unknown_subscription" };
+    }
+
+    // Apply notification to subscription
+    result = await applyNotification(subscription, parsed, session);
+
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    console.error("[AppleWebhook] Error processing notification:", error.message);
+    throw error;
+  } finally {
+    session.endSession();
   }
 
-  // Apply notification to subscription
-  const result = await applyNotification(subscription, parsed);
-
-  // Immediately sync membership if subscription state changed
+  // Immediately sync membership if subscription state changed (outside transaction to avoid circular logic, though it could be inside)
   let membershipSynced = false;
   if (result.applied) {
-    membershipSynced = await syncMembershipFromSubscription(subscription);
+    membershipSynced = await syncMembershipFromSubscription(result.subscription);
   }
 
   return {

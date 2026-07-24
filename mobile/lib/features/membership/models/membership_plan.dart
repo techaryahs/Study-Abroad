@@ -35,26 +35,14 @@ class EntitlementCategories {
   });
 
   factory EntitlementCategories.fromJson(Map<String, dynamic> json) {
-    debugPrint(
-      '[MembershipTrace] EntitlementCategories.fromJson '
-      'inputType=${json.runtimeType} keys=${json.keys.toList()}',
-    );
     Map<String, Entitlement> parseCategory(
       String category,
       Map<String, dynamic>? catJson,
     ) {
-      debugPrint(
-        '[MembershipTrace] EntitlementCategories.$category '
-        'inputType=${catJson.runtimeType} count=${catJson?.length}',
-      );
       if (catJson == null) return {};
-      final result = catJson.map(
+      return catJson.map(
         (key, value) => MapEntry(key, Entitlement.fromJson(value)),
       );
-      debugPrint(
-        '[MembershipTrace] EntitlementCategories.$category outputCount=${result.length}',
-      );
-      return result;
     }
 
     return EntitlementCategories(
@@ -101,12 +89,7 @@ class MembershipPlan {
   });
 
   factory MembershipPlan.fromJson(Map<String, dynamic> json) {
-    debugPrint(
-      '[MembershipTrace] MembershipPlan.fromJson '
-      'inputType=${json.runtimeType} planId=${json['planId']} '
-      'keys=${json.keys.toList()}',
-    );
-    final plan = MembershipPlan(
+    return MembershipPlan(
       planId: json['planId'],
       version: json['version'] ?? 1,
       name: json['name'],
@@ -123,12 +106,5 @@ class MembershipPlan {
       allAccess: json['allAccess'] ?? false,
       entitlements: EntitlementCategories.fromJson(json['entitlements'] ?? {}),
     );
-    debugPrint(
-      '[MembershipTrace] MembershipPlan.fromJson output '
-      'planId=${plan.planId} ai=${plan.entitlements.ai.length} '
-      'human=${plan.entitlements.human.length} '
-      'access=${plan.entitlements.access.length}',
-    );
-    return plan;
   }
 }

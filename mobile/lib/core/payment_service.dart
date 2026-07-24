@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'app_logger.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import '../features/apple_payment/apple_product_ids.dart';
 import '../features/apple_payment/apple_purchase_manager.dart';
@@ -92,18 +93,17 @@ class PaymentService extends ChangeNotifier {
   Future<void> _refreshMembershipAfterActivation(String reason) async {
     final refresh = onMembershipRefresh;
     if (refresh == null) {
-      debugPrint(
-        '[PaymentService] ⚠️ No membership refresher bound — '
-        'entitlements may be stale after $reason',
+      AppLogger.warning(
+        '[PaymentService] No membership refresher bound — entitlements may be stale after $reason',
       );
       return;
     }
     try {
-      debugPrint('[PaymentService] 🔄 Refreshing membership after $reason');
+      AppLogger.info('[PaymentService] Refreshing membership after $reason');
       await refresh();
-      debugPrint('[PaymentService] ✅ Membership refreshed after $reason');
+      AppLogger.info('[PaymentService] Membership refreshed after $reason');
     } catch (e) {
-      debugPrint('[PaymentService] ❌ Membership refresh failed after $reason: $e');
+      AppLogger.error('[PaymentService] Membership refresh failed after $reason', e);
     }
   }
 
@@ -119,9 +119,8 @@ class PaymentService extends ChangeNotifier {
     _error = null;
     notifyListeners();
 
-    debugPrint(
-      '\n[PaymentService] 💳 Initiating purchase for plan: '
-      '${plan.name} (${plan.planId})',
+    AppLogger.info(
+      '[PaymentService] Initiating purchase for plan: ${plan.name} (${plan.planId})',
     );
 
     try {
@@ -148,7 +147,7 @@ class PaymentService extends ChangeNotifier {
           );
         }
 
-        debugPrint('[PaymentService] 🍎 Routing to ApplePurchaseManager');
+        AppLogger.info('[PaymentService] Routing to ApplePurchaseManager');
         await _appleManager!.purchase(
           subPlan,
           items: const [],
@@ -156,7 +155,7 @@ class PaymentService extends ChangeNotifier {
           planId: plan.planId,
         );
       } else {
-        debugPrint('[PaymentService] 🤖 Routing to Razorpay (Not yet migrated)');
+        AppLogger.warning('[PaymentService] Routing to Razorpay (Not yet migrated)');
         _state = PaymentState.error;
         _error = 'Android Razorpay integration pending.';
         notifyListeners();
@@ -174,7 +173,7 @@ class PaymentService extends ChangeNotifier {
     notifyListeners();
 
     if (Platform.isIOS) {
-      debugPrint('[PaymentService] 🔄 Routing restore to ApplePurchaseManager');
+      AppLogger.info('[PaymentService] Routing restore to ApplePurchaseManager');
       await _appleManager?.restorePurchases();
     } else {
       _state = PaymentState.error;

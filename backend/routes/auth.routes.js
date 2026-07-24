@@ -28,6 +28,7 @@ router.post("/create-basic-account", authCtrl.createBasicAccount);
 
 router.post("/forgot-password", authCtrl.forgotPassword);
 router.post("/verifyfp-otp", authCtrl.verifyForgotOtp);
+router.post("/verify-otp", authCtrl.verifyForgotOtp);
 router.post("/reset-password", authCtrl.resetPassword);
 
 // ADMIN-SPECIFIC PASSWORD MANAGEMENT

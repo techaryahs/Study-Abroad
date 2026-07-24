@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme.dart';
-import '../../core/api_client.dart';
+import '../core/api_client.dart';
+import '../core/app_logger.dart';
 import '../features/auth/auth_provider.dart';
 import '../features/membership/membership_manager.dart';
 import '../features/membership/membership_screen.dart';
@@ -94,13 +95,13 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         queryParameters: {'email': trimmed},
       );
       final data = Map<String, dynamic>.from(res.data as Map);
-      debugPrint('Free eligibility check: $data');
+      AppLogger.debug('Free eligibility check completed');
       if (mounted) {
         setState(() => _freeEligibility = data);
       }
       return data;
     } catch (e) {
-      debugPrint('Eligibility check failed: $e');
+      AppLogger.warning('Eligibility check failed: $e');
       if (mounted) {
         setState(() => _freeEligibility = null);
       }
@@ -238,7 +239,7 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     // 1. Check if user is eligible for legacy free first session
     final eligibility = await _checkFreeEligibility(_emailCtrl.text.trim());
     if ((eligibility ?? _freeEligibility)?['eligible'] == true) {
-      debugPrint('Legacy free booking eligible');
+      AppLogger.info('Legacy free booking eligible');
       await _finalizeBooking(isFreeBooking: true);
       return;
     }
@@ -249,13 +250,13 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
     final hasConsultationAccess = manager.canAccess(MembershipFeatures.consultation);
 
     if (hasConsultationAccess) {
-      debugPrint('Membership credit path → book-consultation (engine)');
+      AppLogger.info('Membership credit path → book-consultation (engine)');
       await _finalizeMembershipBooking();
       return;
     }
 
     // 3. No free / no credits → membership purchase screen
-    debugPrint('No access. Redirecting to Membership Screen.');
+    AppLogger.info('No consultation access. Redirecting to Membership Screen.');
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (_) => const MembershipScreen(

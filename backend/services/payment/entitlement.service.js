@@ -16,16 +16,13 @@ const Student = require("../../models/Student");
 const MembershipPlan = require("../../models/MembershipPlan");
 const MembershipHistory = require("../../models/MembershipHistory");
 const AppleSubscription = require("../../models/AppleSubscription");
-const {
-  evaluateMembership,
-  applyPlanToMembership,
-} = require("../../utils/membershipLifecycle");
+const { resolveHistoryTransitionType } = require("../../utils/membershipLifecycle");
 
-async function findUser(userId, userModelName) {
+async function findUser(userId, userModelName, session = null) {
   if (userModelName === "Student") {
-    return Student.findById(userId);
+    return Student.findById(userId).session(session);
   }
-  return User.findById(userId);
+  return User.findById(userId).session(session);
 }
 
 /**
@@ -47,9 +44,13 @@ function extractUsageLimits(plan) {
       for (const [featureKey, config] of entries) {
         const cfg = typeof config === "object" ? config : { enabled: false };
         if (cfg.enabled !== false) {
+          const limit = cfg.limit == null ? -1 : Math.max(0, Number(cfg.limit));
+          const used = 0;
+          const remaining = limit === -1 ? 0 : Math.max(0, limit - used);
           usageMap[featureKey] = {
-            used: 0,
-            limit: cfg.limit == null ? -1 : Math.max(0, Number(cfg.limit)),
+            used,
+            remaining,
+            limit,
             lastUsedAt: null,
           };
         }
@@ -64,17 +65,20 @@ function extractUsageLimits(plan) {
  *
  * Returns null if transaction has no linked subscription (Razorpay path).
  */
-async function deriveFromAppleSubscription(transaction) {
+async function deriveFromAppleSubscription(transaction, session = null) {
+  console.log(`[Entitlement] ENTER deriveFromAppleSubscription — gateway=${transaction.gateway}, subscriptionId=${transaction.subscriptionId}`);
   if (transaction.gateway !== "apple" || !transaction.subscriptionId) {
+    console.log("[Entitlement] EXIT deriveFromAppleSubscription — skipped (not apple or no subscriptionId)");
     return null;
   }
 
-  const subscription = await AppleSubscription.findById(transaction.subscriptionId);
+  const subscription = await AppleSubscription.findById(transaction.subscriptionId).session(session);
   if (!subscription) {
     console.warn(`[Entitlement] Apple transaction ${transaction.transactionId} references missing subscription ${transaction.subscriptionId}`);
     return null;
   }
 
+  console.log(`[Entitlement] EXIT deriveFromAppleSubscription — productId=${subscription.productId}, expiryDate=${subscription.expiryDate}, status=${subscription.status}`);
   return {
     platform: "apple_iap",
     transactionId: subscription.latestTransactionId,
@@ -96,19 +100,27 @@ async function deriveFromAppleSubscription(transaction) {
  * the AppleSubscription — never from client or transaction alone.
  *
  * @param {Object} transaction - The VERIFIED PaymentTransaction document
+ * @param {import("mongoose").ClientSession|null} [session]
+ * @param {{ intent?: 'purchase'|'restoration' }} [options]
+ *   intent "restoration" forces transitionType restoration (Restore Purchases path).
  * @returns {Object} result - { success, user, membership, transitionType }
  */
-async function grantEntitlement(transaction) {
+async function grantEntitlement(transaction, session = null, options = {}) {
+  console.log(`[Entitlement] ENTER grantEntitlement — txnId=${transaction.transactionId}, gateway=${transaction.gateway}, planId=${transaction.planId}, userId=${transaction.userId}`);
   try {
-    const user = await findUser(transaction.userId, transaction.userModel);
+    const user = await findUser(transaction.userId, transaction.userModel, session);
     if (!user) {
+      console.error("[Entitlement] EXIT grantEntitlement — User not found");
       return { success: false, error: "User not found" };
     }
+    console.log(`[Entitlement] User found: _id=${user._id}, currentPlan=${user.membership?.planId || "none"}, currentStatus=${user.membership?.status || "none"}`);
 
-    const plan = await MembershipPlan.findOne({ planId: transaction.planId });
+    const plan = await MembershipPlan.findOne({ planId: transaction.planId }).session(session);
     if (!plan) {
+      console.error(`[Entitlement] EXIT grantEntitlement — Plan not found: ${transaction.planId}`);
       return { success: false, error: "Membership plan not found" };
     }
+    console.log(`[Entitlement] Plan found: planId=${plan.planId}, type=${plan.type}, price=${plan.price}`);
 
     // Initialize membership object if missing
     if (!user.membership) {
@@ -122,15 +134,17 @@ async function grantEntitlement(transaction) {
 
     const previousPlanId = user.membership.planId || "free";
 
-    let transitionType = "Activated";
-    if (previousPlanId !== "free" && previousPlanId === plan.planId) {
-      transitionType = "Renewed";
-    } else if (previousPlanId !== "free") {
-      transitionType = "Upgraded/Downgraded";
-    }
+    // Canonical MembershipHistory enum — single source of truth
+    const transitionType =
+      options.intent === "restoration"
+        ? resolveHistoryTransitionType("restoration")
+        : resolveHistoryTransitionType("purchase", {
+            fromPlanId: previousPlanId,
+            toPlanId: plan.planId,
+          });
 
     // Derive from AppleSubscription if this is an Apple purchase
-    const appleMeta = await deriveFromAppleSubscription(transaction);
+    const appleMeta = await deriveFromAppleSubscription(transaction, session);
 
     // Apply the pure business fields
     user.membership.planId = plan.planId;
@@ -196,10 +210,13 @@ async function grantEntitlement(transaction) {
     // Set usage limits from catalog
     user.membership.usage = extractUsageLimits(plan);
 
-    await user.save();
+    console.log(`[Entitlement] Saving user membership — planId=${plan.planId}, status=active, expiryDate=${expiryDate}`);
+    await user.save({ session });
+    console.log("[Entitlement] User membership saved successfully.");
 
     // Log history
-    const history = await MembershipHistory.create({
+    console.log("[Entitlement] Creating MembershipHistory...");
+    const [history] = await MembershipHistory.create([{
       userId: user._id,
       userModel: transaction.userModel,
       fromPlanId: previousPlanId === "free" ? null : previousPlanId,
@@ -207,12 +224,13 @@ async function grantEntitlement(transaction) {
       transitionType,
       platform: transaction.gateway === "apple" ? "apple_iap" : "razorpay",
       transactionId: appleMeta ? appleMeta.transactionId : transaction.transactionId,
-    });
+    }], { session });
 
     if (!user.membership.history) user.membership.history = [];
     user.membership.history.push(history._id);
-    await user.save();
+    await user.save({ session });
 
+    console.log(`[Entitlement] EXIT grantEntitlement — SUCCESS: transition=${transitionType}`);
     return {
       success: true,
       user,
@@ -228,8 +246,9 @@ async function grantEntitlement(transaction) {
       },
     };
   } catch (error) {
-    console.error("[EntitlementService] Error granting entitlement:", error);
-    return { success: false, error: error.message };
+    console.error("[Entitlement] EXIT grantEntitlement — EXCEPTION:", error.message);
+    console.error("[Entitlement] Stack:", error.stack);
+    throw error; // Re-throw so the transaction can abort
   }
 }
 
@@ -241,6 +260,7 @@ async function revokeEntitlement(userId, userModelName) {
   if (!user) return false;
 
   if (user.membership) {
+    const previousPlanId = user.membership.planId;
     user.membership.status = "revoked";
     user.membership.planId = "free";
     user.membership.expiresAt = new Date();
@@ -249,10 +269,11 @@ async function revokeEntitlement(userId, userModelName) {
     const history = await MembershipHistory.create({
       userId: user._id,
       userModel: userModelName,
-      fromPlanId: user.membership.planId,
+      fromPlanId: previousPlanId === "free" ? null : previousPlanId,
       toPlanId: "free",
-      transitionType: "Revoked",
+      transitionType: resolveHistoryTransitionType("access_revoked"),
     });
+    if (!user.membership.history) user.membership.history = [];
     user.membership.history.push(history._id);
     await user.save();
   }

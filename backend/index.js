@@ -2,8 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const logger = require('./utils/logger');
 const { bootstrapCatalog } = require('./config/catalogBootstrap');
 const { initMembershipSweeper } = require('./jobs/membershipSweeper.job');
+
+// Validate Apple StoreKit 2 configuration before booting
+require('./services/payment/appleConfigCheck')();
 
 const app = express();
 const http = require('http');
@@ -112,14 +116,14 @@ async function boot() {
   // 4. Start accepting requests
   const PORT = process.env.PORT || 5001;
   server.listen(PORT, '0.0.0.0', () =>
-    console.log(`✅ Server running on port ${PORT}`)
+    logger.info(`Server running on port ${PORT}`)
   );
 }
 
 // Only boot if run directly (useful for local development)
 if (require.main === module) {
   boot().catch((err) => {
-    console.error("❌ Server failed to start:", err.message);
+    logger.error("Server failed to start:", err.message);
     process.exit(1);
   });
 }

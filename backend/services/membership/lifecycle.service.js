@@ -8,6 +8,7 @@ const User = require("../../models/User");
 const Student = require("../../models/Student");
 const MembershipPlan = require("../../models/MembershipPlan");
 const MembershipHistory = require("../../models/MembershipHistory");
+const { resolveHistoryTransitionType } = require("../../utils/membershipLifecycle");
 
 // Note: Configurable grace period as requested.
 const MEMBERSHIP_GRACE_DAYS = process.env.MEMBERSHIP_GRACE_DAYS 
@@ -45,15 +46,16 @@ async function processDailyExpirations() {
   for (const { doc, modelName } of allExpiring) {
     // If it's a 'cancelled' auto-renew plan, maybe it skips grace period and goes straight to expired.
     // For simplicity, we'll put everything in grace_period unless configured otherwise.
+    const previousPlanId = doc.membership.planId;
     doc.membership.status = "grace_period";
     
-    // Log history
+    // Log history — canonical enum via resolveHistoryTransitionType
     const history = await MembershipHistory.create({
       userId: doc._id,
       userModel: modelName,
-      fromPlanId: doc.membership.planId,
-      toPlanId: doc.membership.planId,
-      transitionType: "Expired", // Logical expiry, though status is grace_period
+      fromPlanId: previousPlanId,
+      toPlanId: previousPlanId,
+      transitionType: resolveHistoryTransitionType("period_ended"),
     });
     
     doc.membership.history.push(history._id);
@@ -79,15 +81,16 @@ async function processDailyExpirations() {
   ];
 
   for (const { doc, modelName } of allHardExpiring) {
+    const previousPlanId = doc.membership.planId;
     doc.membership.status = "expired";
     doc.membership.planId = "free";
     
     const history = await MembershipHistory.create({
       userId: doc._id,
       userModel: modelName,
-      fromPlanId: doc.membership.planId, // Will be previous plan
+      fromPlanId: previousPlanId === "free" ? null : previousPlanId,
       toPlanId: "free",
-      transitionType: "Revoked", // Hard expiry end of grace
+      transitionType: resolveHistoryTransitionType("access_revoked"),
     });
 
     doc.membership.history.push(history._id);

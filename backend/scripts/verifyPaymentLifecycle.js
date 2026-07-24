@@ -5,6 +5,9 @@ const Receipt = require("../models/Receipt");
 const {
   applyPlanToMembership,
   buildUsageMapFromPlan,
+  TRANSITION_TYPE_VALUES,
+  resolveHistoryTransitionType,
+  classifyTransition,
 } = require("../utils/membershipLifecycle");
 
 function makeUser(membership) {
@@ -122,6 +125,38 @@ const downgrade = applyPlanToMembership(downgradeUser, essential, {
   transactionId: "downgrade",
 });
 assert.strictEqual(downgrade.transitionType, "downgrade", "elite to essential should classify as downgrade");
+
+// Canonical MembershipHistory.transitionType enum (single source of truth)
+assert.deepStrictEqual(
+  [...TRANSITION_TYPE_VALUES].sort(),
+  ["cancellation", "downgrade", "initial_purchase", "renewal", "restoration", "upgrade"].sort(),
+  "TRANSITION_TYPE_VALUES must match MembershipHistory schema enum"
+);
+assert.deepStrictEqual(
+  MembershipHistory.schema.path("transitionType").enumValues.slice().sort(),
+  [...TRANSITION_TYPE_VALUES].sort(),
+  "MembershipHistory schema enum must come from TRANSITION_TYPE_VALUES"
+);
+assert.strictEqual(
+  resolveHistoryTransitionType("period_ended"),
+  "cancellation",
+  "period_ended maps to cancellation"
+);
+assert.strictEqual(
+  resolveHistoryTransitionType("access_revoked"),
+  "cancellation",
+  "access_revoked maps to cancellation"
+);
+assert.strictEqual(
+  resolveHistoryTransitionType("restoration"),
+  "restoration",
+  "restoration maps to restoration"
+);
+assert.strictEqual(
+  classifyTransition("free", "premium"),
+  "initial_purchase",
+  "free→premium is initial_purchase"
+);
 
 assert.deepStrictEqual(
   buildUsageMapFromPlan(elite),

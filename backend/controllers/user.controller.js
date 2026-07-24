@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { findUserById, findUserByEmail } = require("../utils/userHelper");
+const logger = require("../utils/logger");
 const ProgressReport = require("../models/ProgressReport");
 const FeatureActivity = require("../models/featureActivity");
 const Activity = require("../models/Activity");
@@ -145,27 +146,18 @@ exports.updateProfile = async (req, res) => {
 // Backend must never import frontend data files.
 exports.addToCart = async (req, res) => {
   try {
-    console.log("==== ADD TO CART ====");
-    console.log("req.user:", req.user);
-    console.log("req.body:", req.body);
-
     const { serviceId, cartData } = req.body;
     if (!serviceId || !cartData) {
       return res.status(400).json({ message: "Service ID and cart data are required" });
     }
 
-    console.log("Finding user...");
     const result = await findUserById(req.user.id);
     if (!result) return res.status(401).json({ error: "Invalid session — user no longer exists" });
 
     const { user } = result;
-    console.log("User found:", user._id);
-    await user.save();
-    console.log("Current cart:", user.cart);
 
     // PRICE CLEANING — trust numeric values from client cart payload
     // (membership purchases should use MembershipPlan from MongoDB, not a static JSON catalog)
-    console.log("Adding item...");
     const numericPrice = parseFloat(cartData.price.toString().replace(/,/g, ""));
     const numericActualPrice = cartData.actualPrice ? parseFloat(cartData.actualPrice.toString().replace(/,/g, "")) : numericPrice / 0.8;
     const requestedQuantity = Math.max(1, parseInt(cartData.quantity, 10) || 1);
@@ -181,9 +173,7 @@ exports.addToCart = async (req, res) => {
 
       user.markModified("cart");
       
-      console.log("Saving...");
       await user.save();
-      console.log("Saved successfully");
 
       return res.status(200).json({
         success: true,
@@ -208,9 +198,7 @@ exports.addToCart = async (req, res) => {
     // Explicitly mark cart as modified since it's Mixed/Array
     user.markModified('cart');
 
-    console.log("Saving...");
     await user.save();
-    console.log("Saved successfully");
     
     res.status(200).json({
       success: true,
@@ -351,7 +339,6 @@ exports.removeFromCart = async (req, res) => {
 };
 
 exports.clearCart = async (req, res) => {
-  console.log("clear cart");
   try {
     const result = await findUserById(req.user.id);
     if (!result) {
@@ -462,52 +449,136 @@ exports.changePassword = async (req, res) => {
   }
 };
 
+/**
+ * Safe JSON response helper — never throws after headers are sent,
+ * never leaves the HTTP socket hanging without a status line.
+ */
+function sendJson(res, status, payload) {
+  if (res.headersSent || res.writableEnded) {
+    logger.warn("[DeleteAccount] Response already sent — skipping duplicate write", {
+      status,
+      payloadKeys: payload && Object.keys(payload),
+    });
+    return;
+  }
+  return res.status(status).json(payload);
+}
+
+/**
+ * Run a cleanup step; log failures but never abort the whole deletion.
+ * @param {string} label
+ * @param {() => Promise<unknown>} fn
+ */
+async function safeCleanup(label, fn) {
+  try {
+    await fn();
+  } catch (e) {
+    logger.warn(`[DeleteAccount] ${label} cleanup warning:`, e && e.message ? e.message : e);
+  }
+}
+
 // @desc    Delete user account and perform cascading cleanup
+// @route   DELETE /api/user/delete-account
+// @access  Private
+//
+// Contract: ALWAYS returns 200 or 4xx/5xx JSON. Never terminates the socket
+// without an HTTP status line (that surfaces on Flutter as
+// "Connection closed before full header was received").
 exports.deleteAccount = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user?.id || req.user?._id;
+    if (!userId) {
+      return sendJson(res, 401, {
+        success: false,
+        error: "Invalid session — missing user identifier",
+      });
+    }
+
     const result = await findUserById(userId);
-    if (!result) {
-      return res.status(401).json({ error: "Invalid session — user no longer exists" });
+    if (!result || !result.user) {
+      // Idempotent: account already gone is a successful delete from the client POV.
+      return sendJson(res, 200, {
+        success: true,
+        message: "Account already deleted",
+      });
     }
 
     const { user, model, role } = result;
-    const email = user.email;
+    const email = user.email ? String(user.email).trim().toLowerCase() : null;
+    const targetId = user._id;
 
-    // 1. Cascading cleanups
-    // Delete progress report (for student)
+    logger.info(
+      `[DeleteAccount] Starting account deletion for user _id=${targetId}, role=${role}, email=${logger.maskEmail(email)}`
+    );
+
+    // ── Cascading cleanup (best-effort; failures are logged, not fatal) ──
+    // Run independent collections in parallel so a slow index cannot hang
+    // the response until the client times out and sees a closed socket.
+    const cleanupTasks = [];
+
     if (role === "student") {
-      await ProgressReport.deleteMany({ userId });
+      cleanupTasks.push(safeCleanup("ProgressReport", () => ProgressReport.deleteMany({ userId: targetId })));
     }
 
-    // Delete feature activity records
-    await FeatureActivity.deleteMany({ userId });
+    cleanupTasks.push(safeCleanup("FeatureActivity", () => FeatureActivity.deleteMany({ userId: targetId })));
+    cleanupTasks.push(safeCleanup("Activity", () => Activity.deleteMany({ userId: targetId })));
 
-    // Delete activity session logs
-    await Activity.deleteMany({ userId });
-
-    // Delete receipt payments
-    await Receipt.deleteMany({ $or: [{ userId }, { userEmail: email }] });
-
-    // Delete reviews
     if (email) {
-      await Review.deleteMany({ email });
-    }
-
-    // Delete bookings
-    if (role === "consultant") {
-      await Booking.deleteMany({ $or: [{ consultantId: userId }, { consultantEmail: email }] });
+      cleanupTasks.push(
+        safeCleanup("Receipt", () =>
+          Receipt.deleteMany({ $or: [{ userId: targetId }, { userEmail: email }] })
+        )
+      );
+      cleanupTasks.push(safeCleanup("Review", () => Review.deleteMany({ email })));
     } else {
-      await Booking.deleteMany({ userEmail: email });
+      cleanupTasks.push(safeCleanup("Receipt", () => Receipt.deleteMany({ userId: targetId })));
     }
 
-    // 2. Delete the user document itself
-    await model.deleteOne({ _id: userId });
+    if (role === "consultant") {
+      const bookingQuery = email
+        ? { $or: [{ consultantId: targetId }, { consultantEmail: email }] }
+        : { consultantId: targetId };
+      cleanupTasks.push(safeCleanup("Booking", () => Booking.deleteMany(bookingQuery)));
+    } else if (email) {
+      cleanupTasks.push(safeCleanup("Booking", () => Booking.deleteMany({ userEmail: email })));
+    }
 
-    res.status(200).json({ success: true, message: "Account deleted successfully" });
+    cleanupTasks.push(
+      safeCleanup("PaymentLedgers", async () => {
+        const AppleSubscription = require("../models/AppleSubscription");
+        const AppleSubscriptionEvent = require("../models/AppleSubscriptionEvent");
+        const PaymentTransaction = require("../models/PaymentTransaction");
+        const PaymentAttempt = require("../models/PaymentAttempt");
+        const UsageReservation = require("../models/UsageReservation");
+        const MembershipHistory = require("../models/MembershipHistory");
+
+        await Promise.all([
+          AppleSubscription.deleteMany({ userId: targetId }),
+          AppleSubscriptionEvent.deleteMany({ userId: targetId }),
+          PaymentTransaction.deleteMany({ userId: targetId }),
+          PaymentAttempt.deleteMany({ userId: targetId }),
+          UsageReservation.deleteMany({ userId: targetId }),
+          MembershipHistory.deleteMany({ userId: targetId }),
+        ]);
+      })
+    );
+
+    await Promise.all(cleanupTasks);
+
+    // Core user document — this is the only hard failure that should 500.
+    await model.deleteOne({ _id: targetId });
+
+    logger.info(`[DeleteAccount] Account _id=${targetId} deleted successfully`);
+    return sendJson(res, 200, {
+      success: true,
+      message: "Account deleted successfully",
+    });
   } catch (error) {
-    console.error("Delete account error:", error);
-    res.status(500).json({ success: false, message: "Server error deleting account" });
+    logger.error("Delete account error:", error);
+    return sendJson(res, 500, {
+      success: false,
+      message: (error && error.message) || "Server error deleting account",
+    });
   }
 };
 

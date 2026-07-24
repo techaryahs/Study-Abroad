@@ -16,6 +16,8 @@
 const crypto = require("crypto");
 const { randomUUID } = require("crypto");
 const mongoose = require("mongoose");
+const { normalizeEmail } = require("../utils/emailUtils");
+const logger = require("../utils/logger");
 
 const Booking = require("../models/Booking");
 const Consultant = require("../models/Consultant");
@@ -143,11 +145,6 @@ function authorizeCancelActor(booking, actor, studentDoc = null) {
   };
 }
 
-function normalizeEmail(email) {
-  return String(email || "")
-    .trim()
-    .toLowerCase();
-}
 
 async function findUsageReservationForBooking(booking, session = null) {
   if (!booking) return null;
@@ -655,7 +652,7 @@ async function executeMembershipCounsellingBooking(input) {
   } catch (txnError) {
     await session.abortTransaction();
     session.endSession();
-    console.error("Membership counselling booking failed:", txnError);
+    logger.error("Membership counselling booking failed:", txnError);
 
     const msg = txnError.message || "";
     if (
@@ -699,7 +696,7 @@ async function executeMembershipCounsellingBooking(input) {
              <p>Booked using a membership consultation credit.</p>`
     );
   } catch (e) {
-    console.warn("Email notify failed during membership session booking", e.message);
+    logger.warn("Email notify failed during membership session booking", e.message);
   }
 
   try {
@@ -754,8 +751,8 @@ async function executeMembershipBooking(input) {
     consultantType,
   } = input;
 
-  console.log(
-    `📡 [Booking] Request: ${date} ${time} for ID: ${consultantId}`
+  logger.debug(
+    `[Booking] Request: ${date} ${time} for ID: ${consultantId}`
   );
 
   if (!consultantId || !date || !time || !userEmail || !userPhone) {
@@ -778,8 +775,8 @@ async function executeMembershipBooking(input) {
 
   const alreadyBooked = await Booking.findOne({ consultantId, date, time });
   if (alreadyBooked) {
-    console.warn(
-      `🚫 [Booking] Conflict found: ${date} ${time} for consultant ${consultantId}`
+    logger.warn(
+      `[Booking] Conflict found: ${date} ${time} for consultant ${consultantId}`
     );
     return fail(400, { message: "Slot already booked" });
   }
@@ -844,7 +841,7 @@ async function executeMembershipBooking(input) {
   } catch (txnError) {
     await session.abortTransaction();
     session.endSession();
-    console.error("Booking transaction failed:", txnError);
+    logger.error("Booking transaction failed:", txnError);
     return fail(500, {
       message:
         "Booking failed due to internal error or entitlement limits.",
@@ -874,11 +871,11 @@ async function executeMembershipBooking(input) {
       process.env.ADMIN_NOTIFY_TO || "eduleaderglobal@gmail.com",
       "New Consultation Booking (Admin Copy)",
       "",
-      `<p>User: ${userName} (${userEmail})</p><p>Mentor: ${consultantName}</p>`
+      `<p>User: ${userName} (${logger.maskEmail(userEmail)})</p><p>Mentor: ${consultantName}</p>`
     );
   } catch (emailErr) {
-    console.warn(
-      "⚠️ Email notification failed, but booking was successful:",
+    logger.warn(
+      "Email notification failed, but booking was successful:",
       emailErr.message
     );
   }
@@ -1041,12 +1038,12 @@ async function executeCounsellingSessionBooking(input) {
       if (isActuallyFree) {
         student.profile.hasUsedFreeBooking = true;
         student.profile.freeBookingUsedAt = new Date();
-        console.log(`Free booking marked for: ${emailLower}`);
+        logger.info(`Free booking marked for: ${logger.maskEmail(emailLower)}`);
       }
       await student.save();
     }
   } catch (err) {
-    console.warn(
+    logger.warn(
       "Could not link session mapping to student profile:",
       err.message
     );
@@ -1063,7 +1060,7 @@ async function executeCounsellingSessionBooking(input) {
              <p>Session ID: <b>${sessionId}</b></p>`
     );
   } catch (e) {
-    console.warn("Email notify failed during session booking", e.message);
+    logger.warn("Email notify failed during session booking", e.message);
   }
 
   try {
@@ -1071,12 +1068,12 @@ async function executeCounsellingSessionBooking(input) {
       finalConsultantEmail,
       "🔔 New Counselling Session Booked",
       "",
-      `<p>New counselling session booked by <b>${userName || emailLower}</b>.</p>
+      `<p>New counselling session booked by <b>${userName || logger.maskEmail(emailLower)}</b>.</p>
              <p>Date: <b>${date}</b> at <b>${time}</b></p>
              <p>Meeting ID: <b>${meetingId}</b></p>`
     );
   } catch (e) {
-    console.warn("Admin notification failed", e.message);
+    logger.warn("Admin notification failed", e.message);
   }
 
   return ok(201, {
@@ -1193,12 +1190,12 @@ async function bookConsultation(input = {}) {
   } catch (err) {
     // Preserve path-specific outer error messages from the original controllers.
     if (path === "membership") {
-      console.error("❌ Booking error:", err.message || err);
+      logger.error("Booking error:", err.message || err);
       return fail(500, {
         message: "Server error. Could not complete booking.",
       });
     }
-    console.error("❌ bookCounsellingSession Error:", err);
+    logger.error("bookCounsellingSession Error:", err);
     return fail(500, { message: "Error completing session booking" });
   }
 }

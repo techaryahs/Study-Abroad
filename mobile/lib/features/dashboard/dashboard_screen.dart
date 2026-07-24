@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import '../membership/membership_manager.dart';
 import '../membership/models/membership_plan.dart';
 import '../membership/models/user_membership.dart';
+import '../membership/widgets/membership_overview_card.dart';
+import '../membership/widgets/membership_skeleton_loader.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -15,6 +17,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
+import '../../widgets/delete_account_dialog.dart';
 import '../auth/auth_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -417,135 +420,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _showDeleteAccountDialog() {
-    final textController = TextEditingController();
-    bool isDeleteEnabled = false;
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: Colors.white,
-          title: const Row(
-            children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.redAccent, size: 24),
-              SizedBox(width: 8),
-              Text(
-                'Delete Account?',
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 16,
-                  fontFamily: 'Playfair Display',
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'This action is permanent and cannot be undone. To confirm, please type "DELETE" below.',
-                style: TextStyle(color: Colors.black54, fontSize: 13, height: 1.4),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: textController,
-                onChanged: (val) {
-                  setState(() {
-                    isDeleteEnabled = val.trim().toUpperCase() == 'DELETE';
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: 'DELETE',
-                  hintStyle: const TextStyle(color: AppTheme.textMuted, fontSize: 12),
-                  filled: true,
-                  fillColor: AppTheme.background,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppTheme.borderLight),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.redAccent),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                textController.dispose();
-                Navigator.pop(dialogContext);
-              },
-              child: const Text(
-                'CANCEL',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13,
-                  color: Colors.black54,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: isDeleteEnabled
-                  ? () async {
-                      Navigator.pop(dialogContext);
-                      textController.dispose();
-                      
-                      // Show loading indicator
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.redAccent,
-                          ),
-                        ),
-                      );
-
-                      try {
-                        await context.read<AuthProvider>().deleteAccount();
-                        if (mounted) Navigator.pop(context);
-                      } catch (e) {
-                        if (mounted) Navigator.pop(context);
-                        if (mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Error deleting account: $e'),
-                              backgroundColor: Colors.redAccent,
-                            ),
-                          );
-                        }
-                      }
-                    }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
-                foregroundColor: Colors.white,
-                disabledBackgroundColor: Colors.redAccent.withOpacity(0.3),
-                disabledForegroundColor: Colors.white.withOpacity(0.6),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                elevation: 0,
-              ),
-              child: const Text(
-                'DELETE ACCOUNT',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    // Single-owner flow: dialog → API → AuthProvider.logout → GoRouter redirect.
+    // No nested loading dialogs or post-logout Navigator.pop.
+    showDeleteAccountDialog(context);
   }
 
 
@@ -1029,49 +906,69 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildMembershipModule(BuildContext context) {
     final manager = context.watch<MembershipManager>();
-    final currentPlan = manager.currentPlan;
+
+    if (manager.isLoading && !manager.initialized) {
+      return const MembershipSkeletonLoader();
+    }
+
     final userMembership = manager.userMembership;
+    final currentPlan = manager.userMembershipPlan;
 
     if (currentPlan == null || userMembership == null) {
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(28),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
           border: Border.all(color: AppTheme.borderLight),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+          ],
         ),
         child: Column(
           children: [
-            const Icon(Icons.stars_rounded, size: 48, color: AppTheme.borderLight),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppTheme.gold.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.workspace_premium_rounded, size: 40, color: AppTheme.gold),
+            ),
             const SizedBox(height: 16),
             const Text(
-              'No Active Membership',
+              'Unlock Premium Experience',
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.w900,
                 color: AppTheme.textPrimary,
               ),
             ),
             const SizedBox(height: 8),
             const Text(
-              'Upgrade to a premium plan to unlock AI tools, expert human consultations, and exclusive resources.',
+              'Get unlimited access to AI tools, 1-on-1 expert human consultations, and complete study abroad guidance.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.5),
             ),
             const SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
+              height: 52,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.gold,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  elevation: 0,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 ),
                 onPressed: () => context.push('/membership'),
                 child: const Text(
                   'EXPLORE MEMBERSHIP PLANS',
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1),
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1.2),
                 ),
               ),
             ),
@@ -1080,160 +977,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       );
     }
 
-    // Purchase metadata from the user's membership record — never catalog placeholders.
-    final purchaseDateLabel = _formatMembershipPurchaseDate(userMembership);
-    final expiryDateLabel = _formatMembershipExpiryDate(
-      userMembership,
-      currentPlan,
-    );
-    final amountPaidLabel = _formatMembershipAmountPaid(
-      userMembership,
-      currentPlan,
-    );
-    final statusLabel = _formatMembershipStatus(userMembership.status);
-    final statusColor = _membershipStatusColor(userMembership.status);
-
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppTheme.gold, width: 2),
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.gold.withOpacity(0.15),
-            blurRadius: 24,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [AppTheme.gold, Color(0xFFA07020)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  (currentPlan.badge ?? 'PREMIUM').toUpperCase(),
-                  style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900, letterSpacing: 1.5),
-                ),
-              ),
-              const Spacer(),
-              Row(
-                children: [
-                  Icon(Icons.check_circle, color: statusColor, size: 16),
-                  const SizedBox(width: 4),
-                  Text(
-                    statusLabel,
-                    style: TextStyle(
-                      color: statusColor,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            currentPlan.name,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: AppTheme.textPrimary),
-          ),
-          const SizedBox(height: 8),
-          if (currentPlan.description != null)
-            Text(
-              currentPlan.description!,
-              style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.4),
-            ),
-          const SizedBox(height: 20),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: AppTheme.background,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppTheme.borderLight),
-            ),
-            child: Column(
-              children: [
-                _buildMembershipDetailRow('Purchase Date', purchaseDateLabel),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Divider(height: 1),
-                ),
-                _buildMembershipDetailRow('Expiry Date', expiryDateLabel),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Divider(height: 1),
-                ),
-                _buildMembershipDetailRow('Status', statusLabel),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Divider(height: 1),
-                ),
-                _buildMembershipDetailRow('Amount Paid', amountPaidLabel),
-              ],
-            ),
-          ),
-
-          if (currentPlan.benefits.isNotEmpty) ...[
-            const SizedBox(height: 24),
-            const Text(
-              'INCLUDED BENEFITS',
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.gold, letterSpacing: 2),
-            ),
-            const SizedBox(height: 12),
-            ...currentPlan.benefits.map((b) => Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Icon(Icons.check_circle, color: AppTheme.gold, size: 16),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      b,
-                      style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary, height: 1.4),
-                    ),
-                  ),
-                ],
-              ),
-            )).toList(),
-          ],
-          if (userMembership.usage.isNotEmpty) ...[
-            const SizedBox(height: 24),
-            const Text(
-              'REMAINING USAGE',
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.gold, letterSpacing: 2),
-            ),
-            const SizedBox(height: 12),
-            ...userMembership.usage.entries.map((entry) {
-              final limit = entry.value.remaining ?? 'Unlimited';
-              final label = entry.key.toUpperCase();
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Row(
-                  children: [
-                    Expanded(child: Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textPrimary))),
-                    Text('$limit', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.gold)),
-                  ],
-                ),
-              );
-            }).toList(),
-          ],
-        ],
-      ),
+    return MembershipOverviewCard(
+      userMembership: userMembership,
+      catalogPlan: currentPlan,
     );
   }
 

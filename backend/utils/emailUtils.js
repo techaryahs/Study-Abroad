@@ -33,3 +33,11 @@ exports.getEmailSearchRegex = (email) => {
   // The local part regex will allow 0 or 1 dot between any character.
   return new RegExp(`^${regexPattern}@${escapedDomain}$`, "i");
 };
+
+/**
+ * Normalizes an email address by trimming whitespace and converting to lowercase.
+ */
+exports.normalizeEmail = (email) => {
+  return String(email ?? "").trim().toLowerCase();
+};
+

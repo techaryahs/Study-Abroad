@@ -50,6 +50,9 @@ class UserMembership {
   /// When payment was recorded (may equal [purchaseDate]).
   final DateTime? paymentDate;
 
+  /// Auto-renew status for subscription plans.
+  final bool autoRenew;
+
   final Map<String, UsageTracking> usage;
 
   UserMembership({
@@ -65,6 +68,7 @@ class UserMembership {
     this.currency,
     this.paymentStatus,
     this.paymentDate,
+    this.autoRenew = true,
     this.usage = const {},
   });
 
@@ -87,6 +91,15 @@ class UserMembership {
       if (parsed != null) return parsed;
     }
     return null;
+  }
+
+  static bool _parseBool(dynamic value, {bool defaultValue = false}) {
+    if (value == null) return defaultValue;
+    if (value is bool) return value;
+    final str = value.toString().toLowerCase().trim();
+    if (str == 'true' || str == '1' || str == 'yes' || str == 'on') return true;
+    if (str == 'false' || str == '0' || str == 'no' || str == 'off') return false;
+    return defaultValue;
   }
 
   factory UserMembership.fromJson(Map<String, dynamic> json) {
@@ -134,6 +147,7 @@ class UserMembership {
       currency: json['currency']?.toString(),
       paymentStatus: json['paymentStatus']?.toString(),
       paymentDate: paymentDate,
+      autoRenew: _parseBool(json['autoRenew'] ?? json['isAutoRenew'] ?? json['auto_renew'], defaultValue: false),
       usage: parseUsage(json['usage']),
     );
   }
@@ -142,6 +156,14 @@ class UserMembership {
   bool get hasExpiry => expiryDate != null;
 
   /// True when status indicates an active paid membership.
-  bool get isActiveStatus =>
-      status == 'active' || status == 'grace_period' || status == 'trialing';
+  bool get isActiveStatus {
+    final s = status.toLowerCase();
+    if (s == 'active' || s == 'grace_period' || s == 'trialing') {
+      return true;
+    }
+    if (s == 'cancelled' && expiryDate != null && expiryDate!.isAfter(DateTime.now())) {
+      return true;
+    }
+    return false;
+  }
 }

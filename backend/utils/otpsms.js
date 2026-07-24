@@ -1,4 +1,5 @@
 const axios = require("axios");
+const logger = require("./logger");
 
 /**
  * Sends an OTP via MSG91 Flow API.
@@ -12,15 +13,14 @@ const sendSMSOTP = async (phone, otp) => {
     const msg91TemplateId = process.env.MSG91_TEMPLATE_ID;
 
     if (!msg91AuthKey || !msg91TemplateId) {
-        console.error("[OTP DEBUG] MSG91 credentials missing (AuthKey/TemplateId)");
+        logger.error("MSG91 credentials missing (AuthKey/TemplateId)");
         return { success: false, message: "SMS provider configuration missing" };
     }
 
     const cleanedPhone = String(phone).trim().replace(/[\s().-]/g, "");
     const formattedPhone = cleanedPhone.startsWith("+") ? cleanedPhone : `+91${cleanedPhone}`;
 
-    console.log("OTP Generated:", otp);
-    console.log("Sending OTP to:", formattedPhone);
+    logger.debug(`Dispatching OTP to ${formattedPhone}: ${logger.maskOtp(otp)}`);
 
     const payload = {
         template_id: msg91TemplateId,
@@ -35,8 +35,6 @@ const sendSMSOTP = async (phone, otp) => {
     };
 
     try {
-        console.log("[OTP DEBUG] MSG91 Payload:", JSON.stringify(payload, null, 2));
-
         const response = await axios.post(
             "https://control.msg91.com/api/v5/flow",
             payload,
@@ -48,8 +46,6 @@ const sendSMSOTP = async (phone, otp) => {
             }
         );
 
-        console.log("MSG91 Response:", response.data);
-
         if (response.data.type === "success") {
             return { success: true, message: "OTP sent successfully" };
         } else {
@@ -57,7 +53,7 @@ const sendSMSOTP = async (phone, otp) => {
         }
     } catch (error) {
         const errorMsg = error.response?.data?.message || error.message;
-        console.error("[OTP DEBUG] MSG91 API Error:", errorMsg);
+        logger.error("MSG91 API Error:", errorMsg);
         return { success: false, message: errorMsg };
     }
 };

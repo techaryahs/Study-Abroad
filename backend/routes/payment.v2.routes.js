@@ -10,16 +10,15 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const orchestrator = require("../services/payment/purchaseOrchestrator.service");
 const { findUserById } = require("../utils/userHelper");
+const logger = require("../utils/logger");
+const crypto = require('crypto');
 
-/**
- * POST /api/payments/v2/verify
- * Unified verification endpoint for all gateways.
- *
- * Apple body: { gateway: "apple", payload: { receiptData } }
- * Razorpay body: { gateway: "razorpay", payload: { razorpay_order_id, razorpay_payment_id, razorpay_signature }, amount, currency, planId }
- */
 router.post("/verify", auth, async (req, res) => {
   try {
+    const requestId = crypto.randomUUID();
+    const timestamp = new Date().toISOString();
+    logger.debug(`[VERIFY_REQUEST] ID: ${requestId} | Time: ${timestamp} | Gateway: ${req.body.gateway}`);
+
     const { gateway, payload, amount, currency, planId } = req.body;
 
     if (!gateway || !payload) {
@@ -48,8 +47,8 @@ router.post("/verify", auth, async (req, res) => {
 
     return res.json(result);
   } catch (error) {
-    console.error("[Payment v2 API] Verify error:", error);
-    res.status(500).json({ success: false, error: "Internal server error." });
+    logger.error("Payment v2 API VERIFY FAILED:", error);
+    res.status(500).json({ success: false, error: error.message, stack: process.env.NODE_ENV !== "production" ? error.stack : undefined });
   }
 });
 
@@ -98,8 +97,8 @@ router.post("/restore", auth, async (req, res) => {
 
     return res.json(result);
   } catch (error) {
-    console.error("[Payment v2 API] Restore error:", error);
-    res.status(500).json({ success: false, error: "Internal server error." });
+    logger.error("Payment v2 API RESTORE FAILED:", error);
+    res.status(500).json({ success: false, error: error.message, stack: process.env.NODE_ENV !== "production" ? error.stack : undefined });
   }
 });
 

@@ -24,6 +24,37 @@ const PLAN_RANK = {
 };
 
 /**
+ * Canonical MembershipHistory.transitionType values.
+ * Single source of truth — schema enum and all writers must use these.
+ *
+ * Do NOT invent display labels (Activated, Renewed, Revoked, Expired, …).
+ */
+const TRANSITION_TYPES = Object.freeze({
+  INITIAL_PURCHASE: "initial_purchase",
+  RENEWAL: "renewal",
+  UPGRADE: "upgrade",
+  DOWNGRADE: "downgrade",
+  RESTORATION: "restoration",
+  CANCELLATION: "cancellation",
+});
+
+/** Array form for Mongoose `enum` (order matches object insertion). */
+const TRANSITION_TYPE_VALUES = Object.freeze(Object.values(TRANSITION_TYPES));
+
+/**
+ * Non-purchase lifecycle events → canonical transitionType.
+ * Prefer resolveHistoryTransitionType() at write sites.
+ */
+const LIFECYCLE_TRANSITION = Object.freeze({
+  /** Paid period ended; membership enters grace (plan may still be set). */
+  PERIOD_ENDED: TRANSITION_TYPES.CANCELLATION,
+  /** Access removed (hard expire after grace, refund, admin revoke). */
+  ACCESS_REVOKED: TRANSITION_TYPES.CANCELLATION,
+  /** Store "Restore Purchases" re-linked an existing entitlement. */
+  RESTORED: TRANSITION_TYPES.RESTORATION,
+});
+
+/**
  * @typedef {Object} LifecycleResult
  * @property {string} planId
  * @property {string} storedStatus - as on the document
@@ -181,20 +212,43 @@ function computeExpiryForProvision(plan, previousMembership, newPlanId) {
 }
 
 /**
- * Classify transition for history logging.
+ * Classify plan-change transition for history logging (purchase / provision path).
  * @param {string} fromPlanId
  * @param {string} toPlanId
  * @returns {'initial_purchase'|'renewal'|'upgrade'|'downgrade'}
  */
 function classifyTransition(fromPlanId, toPlanId) {
   const from = fromPlanId && fromPlanId !== "free" ? fromPlanId : null;
-  if (!from) return "initial_purchase";
-  if (from === toPlanId) return "renewal";
+  if (!from) return TRANSITION_TYPES.INITIAL_PURCHASE;
+  if (from === toPlanId) return TRANSITION_TYPES.RENEWAL;
   const fromRank = PLAN_RANK[from] ?? 0;
   const toRank = PLAN_RANK[toPlanId] ?? 0;
-  if (toRank > fromRank) return "upgrade";
-  if (toRank < fromRank) return "downgrade";
-  return "upgrade";
+  if (toRank > fromRank) return TRANSITION_TYPES.UPGRADE;
+  if (toRank < fromRank) return TRANSITION_TYPES.DOWNGRADE;
+  return TRANSITION_TYPES.UPGRADE;
+}
+
+/**
+ * Resolve MembershipHistory.transitionType for any history write.
+ * All create/update sites should go through this or classifyTransition.
+ *
+ * @param {'purchase'|'period_ended'|'access_revoked'|'restoration'} kind
+ * @param {{ fromPlanId?: string, toPlanId?: string }} [ctx] - required for kind === 'purchase'
+ * @returns {string} one of TRANSITION_TYPE_VALUES
+ */
+function resolveHistoryTransitionType(kind, ctx = {}) {
+  switch (kind) {
+    case "purchase":
+      return classifyTransition(ctx.fromPlanId, ctx.toPlanId);
+    case "period_ended":
+      return LIFECYCLE_TRANSITION.PERIOD_ENDED;
+    case "access_revoked":
+      return LIFECYCLE_TRANSITION.ACCESS_REVOKED;
+    case "restoration":
+      return LIFECYCLE_TRANSITION.RESTORED;
+    default:
+      throw new Error(`Unknown membership history transition kind: ${kind}`);
+  }
 }
 
 /**
@@ -412,7 +466,7 @@ function assertMembershipAllowsAccess(membership) {
  * @param {string} transitionType
  * @returns {Object}
  */
-function buildUsageMapFromPlan(plan, previousMembership = null, transitionType = "initial_purchase") {
+function buildUsageMapFromPlan(plan, previousMembership = null, transitionType = TRANSITION_TYPES.INITIAL_PURCHASE) {
   const usageMap = {};
   if (!plan || !plan.entitlements) return usageMap;
 
@@ -456,6 +510,46 @@ function buildUsageMapFromPlan(plan, previousMembership = null, transitionType =
           remaining: Math.max(0, limit - used),
           lastUsedAt: used > 0 ? previous?.lastUsedAt || null : null,
         };
+      }
+    }
+  }
+  return usageMap;
+}
+
+/**
+ * Validates and enforces used + remaining == limit for all metered entitlements during membership writes.
+ */
+function validateMembershipUsage(usageMap) {
+  if (!usageMap) return usageMap;
+  const entries =
+    typeof usageMap.entries === "function"
+      ? Array.from(usageMap.entries())
+      : Object.entries(usageMap.toObject ? usageMap.toObject() : usageMap);
+
+  for (const [featureId, record] of entries) {
+    if (record && record.limit != null && record.limit > 0) {
+      const limit = Math.max(0, Number(record.limit));
+      const used = Number.isFinite(Number(record.used)) ? Math.max(0, Number(record.used)) : 0;
+      const remaining = Number.isFinite(Number(record.remaining)) ? Number(record.remaining) : -1;
+
+      if (used + remaining !== limit) {
+        const validUsed = Math.min(used, limit);
+        const validRemaining = Math.max(0, limit - validUsed);
+        if (typeof usageMap.set === "function") {
+          usageMap.set(featureId, {
+            ...record,
+            used: validUsed,
+            remaining: validRemaining,
+            limit,
+          });
+        } else {
+          usageMap[featureId] = {
+            ...record,
+            used: validUsed,
+            remaining: validRemaining,
+            limit,
+          };
+        }
       }
     }
   }
@@ -524,7 +618,7 @@ function applyPlanToMembership(user, plan, meta) {
   user.membership.paymentStatus = meta.paymentStatus || "paid";
   user.membership.paymentDate = paymentDate;
   user.membership.autoRenew = plan.type === "yearly" || plan.type === "monthly";
-  user.membership.usage = usageMap;
+  user.membership.usage = validateMembershipUsage(usageMap);
 
   if (typeof user.markModified === "function") {
     user.markModified("membership");
@@ -552,12 +646,16 @@ async function loadActivePlan(planId, session = null) {
 module.exports = {
   GRACE_PERIOD_DAYS,
   PLAN_RANK,
+  TRANSITION_TYPES,
+  TRANSITION_TYPE_VALUES,
+  LIFECYCLE_TRANSITION,
   evaluateMembership,
   applyLifecycleToUser,
   assertMembershipAllowsAccess,
   computePeriodEnd,
   computeExpiryForProvision,
   classifyTransition,
+  resolveHistoryTransitionType,
   buildUsageMapFromPlan,
   applyPlanToMembership,
   loadActivePlan,

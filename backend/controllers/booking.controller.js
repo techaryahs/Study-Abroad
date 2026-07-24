@@ -2,6 +2,7 @@ const Booking = require("../models/Booking");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
 const sendEmail = require("../utils/sendEmail");
+const logger = require("../utils/logger");
 const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
 const {
   bookConsultation,
@@ -274,7 +275,7 @@ exports.getBookedSlots = async (req, res) => {
       return res.status(400).json({ message: 'Missing consultantId or date' });
     }
 
-    console.log(`🔍 [Consultant Slots] Fetching for: ${consultantId} on ${date}`);
+    logger.debug(`[Consultant Slots] Fetching for: ${consultantId} on ${date}`);
     const bookings = await Booking.find({ consultantId, date });
     const bookedTimes = bookings.map(b => b.time);
 
@@ -589,13 +590,13 @@ exports.cancelBooking = async (req, res) => {
       actor,
       student,
     });
-    console.log(
-      `❌ Booking ${req.params.id} cancel by ${result.body?.cancelledByRole || "unknown"} → ${result.body?.message}` +
+    logger.info(
+      `Booking ${req.params.id} cancel by ${result.body?.cancelledByRole || "unknown"} → ${result.body?.message}` +
         (result.body?.creditRestored ? " [credit restored]" : "")
     );
     return res.status(result.status).json(result.body);
   } catch (err) {
-    console.error("❌ Cancel error:", err.message);
+    logger.error("Cancel error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -738,13 +739,13 @@ exports.getAvailableSlots = async (req, res) => {
     // Sort slots by time
     allSlots.sort((a, b) => a.time.localeCompare(b.time));
 
-    console.log(
-      `✅ Generated ${allSlots.length} slots for ${dayOfWeek} ${date} (IST now: ${todayStr} ${currentTime})`
+    logger.debug(
+      `Generated ${allSlots.length} slots for ${dayOfWeek} ${date}`
     );
 
     res.json({ slots: allSlots });
   } catch (err) {
-    console.error("❌ getAvailableSlots Error:", err);
+    logger.error("getAvailableSlots Error:", err);
     res.status(500).json({ message: "Error fetching slots" });
   }
 };
@@ -825,10 +826,10 @@ exports.getBookingsByConsultantEmail = async (req, res) => {
       return bookingObj;
     });
 
-    console.log(`📋 [ByEmail] Found ${bookings.length} bookings for consultant: ${email} with videoEnabled: ${consultantVideoEnabled}`);
+    logger.debug(`[ByEmail] Found ${bookings.length} bookings for consultant: ${logger.maskEmail(email)}`);
     res.json(enrichedBookings);
   } catch (err) {
-    console.error('❌ getBookingsByConsultantEmail error:', err.message);
+    logger.error('getBookingsByConsultantEmail error:', err.message);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -880,10 +881,10 @@ exports.completeBooking = async (req, res) => {
       });
     }
 
-    console.log(`✅ Booking ${req.params.id} marked as completed`);
+    logger.info(`Booking ${req.params.id} marked as completed`);
     res.json(booking);
   } catch (err) {
-    console.error("❌ completeBooking error:", err.message);
+    logger.error("completeBooking error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -911,10 +912,10 @@ exports.getAllBookings = async (req, res) => {
     const bookings = await Booking.find(query)
       .sort({ date: -1, time: -1 });
 
-    console.log(`📋 [Admin] Found ${bookings.length} bookings with filters:`, query);
+    logger.debug(`[Admin] Found ${bookings.length} bookings`);
     res.json({ bookings });
   } catch (err) {
-    console.error('❌ getAllBookings error:', err.message);
+    logger.error('getAllBookings error:', err.message);
     res.status(500).json({ message: 'Server error' });
   }
 };
@@ -1004,7 +1005,7 @@ exports.sendBookingOtp = async (req, res) => {
 
     bookingOtpStore.set(mobileClean, { otp, expiresAt, verified: false });
 
-    console.log(`Booking OTP for ${mobileClean}: ${otp}`);
+    logger.info(`Booking OTP generated: ${logger.maskOtp(otp)}`);
 
     const { sendSMSOTP } = require("../utils/otpsms");
     const smsResult = await sendSMSOTP(mobileClean, otp);

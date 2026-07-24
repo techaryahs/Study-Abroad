@@ -21,6 +21,42 @@
  */
 
 const MembershipPlan = require("../../models/MembershipPlan");
+const { SignedDataVerifier, Environment } = require('@apple/app-store-server-library');
+const fs = require('fs');
+const path = require('path');
+const logger = require("../../utils/logger");
+
+// ── StoreKit 2 Verifier Initialization ─────────────────────────────────────
+let signedDataVerifier = null;
+
+function getSignedDataVerifier() {
+  if (signedDataVerifier) return signedDataVerifier;
+
+  const certsDir = path.resolve(__dirname, "../../certs");
+  const rootCertificates = [];
+  try {
+     const files = fs.readdirSync(certsDir);
+     for (const file of files) {
+       if (file.endsWith('.cer')) {
+         rootCertificates.push(fs.readFileSync(path.join(certsDir, file)));
+       }
+     }
+  } catch (err) {
+     logger.warn("[AppleVerify] Could not load Apple Root certificates for JWS verification:", err.message);
+  }
+
+  const envString = process.env.APPLE_ENVIRONMENT;
+  if (!envString || (envString !== "Sandbox" && envString !== "Production")) {
+    throw new Error("APPLE_ENVIRONMENT must be 'Sandbox' or 'Production'.");
+  }
+  const environment = envString === "Production" ? Environment.PRODUCTION : Environment.SANDBOX;
+  const bundleId = process.env.APPLE_BUNDLE_ID;
+  if (!bundleId) throw new Error("APPLE_BUNDLE_ID is required for StoreKit 2 verification.");
+  
+  // The second argument `true` enables online OCSP revocation checks
+  signedDataVerifier = new SignedDataVerifier(rootCertificates, true, environment, bundleId);
+  return signedDataVerifier;
+}
 
 // ── StoreKit 2 / App Store Server API ──────────────────────────────────────
 
@@ -33,43 +69,78 @@ const APPLE_PRODUCTION_URL = "https://buy.itunes.apple.com/verifyReceipt";
 const APPLE_SANDBOX_URL = "https://sandbox.itunes.apple.com/verifyReceipt";
 const REQUEST_TIMEOUT_MS = 15000;
 
+const MAX_RETRIES = 3;
+const BASE_RETRY_DELAY_MS = 500;
+
 /**
- * Fetch with timeout.
+ * Fetch with timeout and exponential backoff retry for transient errors (429, 500, 502, 503, 504).
  */
-async function fetchWithTimeout(url, options, timeoutMs = REQUEST_TIMEOUT_MS) {
+async function fetchWithRetry(url, options, timeoutMs = REQUEST_TIMEOUT_MS, attempt = 1) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
+  let response;
   try {
     const fetchFn = typeof global.fetch !== "undefined" ? global.fetch : (await import("node-fetch")).default;
-    return await fetchFn(url, { ...options, signal: controller.signal });
-  } finally {
+    response = await fetchFn(url, { ...options, signal: controller.signal });
+  } catch (err) {
     clearTimeout(timeoutId);
+    if (attempt < MAX_RETRIES) {
+      logger.warn(`[AppleVerify] Fetch failed (${err.message}), retrying... (Attempt ${attempt + 1}/${MAX_RETRIES})`);
+      await new Promise((res) => setTimeout(res, BASE_RETRY_DELAY_MS * Math.pow(2, attempt - 1)));
+      return fetchWithRetry(url, options, timeoutMs, attempt + 1);
+    }
+    throw err;
   }
+  
+  clearTimeout(timeoutId);
+  
+  // Retry on rate limit or server errors
+  if ([429, 500, 502, 503, 504].includes(response.status) && attempt < MAX_RETRIES) {
+    logger.warn(`[AppleVerify] Received status ${response.status}, retrying... (Attempt ${attempt + 1}/${MAX_RETRIES})`);
+    await new Promise((res) => setTimeout(res, BASE_RETRY_DELAY_MS * Math.pow(2, attempt - 1)));
+    return fetchWithRetry(url, options, timeoutMs, attempt + 1);
+  }
+
+  return response;
 }
 
 /**
  * Apple's App Store Server API requires a signed JWT for authentication.
- * Generates a short-lived JWT using the private key from APPLE_API_KEY_P8.
- *
- * Key format: ES256 private key from App Store Connect → Users and Access → Keys
- * Key ID and Issuer ID are also from App Store Connect.
+ * Generates a short-lived JWT using the private key.
+ * Supports loading from a file (APPLE_PRIVATE_KEY_PATH) or raw string (APPLE_API_KEY_P8).
  */
 async function generateApiJwt() {
+  const keyPath = process.env.APPLE_PRIVATE_KEY_PATH;
+  const keyEnv = process.env.APPLE_API_KEY_P8;
+  const keyId = process.env.APPLE_KEY_ID;
+  const issuerId = process.env.APPLE_ISSUER_ID;
+
+  if (!keyId || !issuerId) {
+    throw new Error("Unable to generate App Store Server API JWT. Cause: APPLE_KEY_ID or APPLE_ISSUER_ID is missing.");
+  }
+
+  let privateKeyPem = null;
+
+  if (keyPath && fs.existsSync(keyPath)) {
+    privateKeyPem = fs.readFileSync(keyPath, "utf8");
+  } else if (keyEnv) {
+    privateKeyPem = keyEnv.replace(/\\n/g, "\n");
+  }
+
+  if (!privateKeyPem) {
+    throw new Error("Unable to generate App Store Server API JWT. Cause: Neither APPLE_PRIVATE_KEY_PATH nor APPLE_API_KEY_P8 is configured.");
+  }
+
+  if (!privateKeyPem.includes("-----BEGIN PRIVATE KEY-----") || !privateKeyPem.includes("-----END PRIVATE KEY-----")) {
+    throw new Error("Unable to generate App Store Server API JWT. Cause: Invalid Apple private key. Expected a complete PKCS#8 PEM with BEGIN and END headers.");
+  }
+
   try {
     const jose = await import("jose");
-
-    const privateKeyPem = process.env.APPLE_API_KEY_P8;
-    const keyId = process.env.APPLE_API_KEY_ID;
-    const issuerId = process.env.APPLE_API_ISSUER_ID;
-
-    if (!privateKeyPem || !keyId || !issuerId) {
-      return null; // Configuration missing, skip StoreKit 2 path
-    }
-
     const privateKey = await jose.importPKCS8(privateKeyPem, "ES256");
 
-    const jwt = await new jose.SignJWT({})
+    const jwt = await new jose.SignJWT({ bid: process.env.APPLE_BUNDLE_ID })
       .setProtectedHeader({ alg: "ES256", kid: keyId, typ: "JWT" })
       .setIssuer(issuerId)
       .setIssuedAt()
@@ -79,8 +150,7 @@ async function generateApiJwt() {
 
     return jwt;
   } catch (err) {
-    console.warn("[AppleVerify] Failed to generate API JWT:", err.message);
-    return null;
+    throw new Error(`Unable to generate App Store Server API JWT. Cause: ${err.message}`);
   }
 }
 
@@ -89,27 +159,55 @@ async function generateApiJwt() {
  *
  * GET /inApps/v1/transactions/{transactionId}
  */
-async function lookupTransaction(transactionId, isSandbox = false) {
-  const jwt = await generateApiJwt();
-  if (!jwt) {
-    return { success: false, error: "App Store Server API not configured. Set APPLE_API_KEY_P8, APPLE_API_KEY_ID, APPLE_API_ISSUER_ID.", code: "SK2_NOT_CONFIGURED" };
+async function lookupTransaction({ transactionId, environment = null, isFallback = false }) {
+  let jwt;
+  try {
+    jwt = await generateApiJwt();
+  } catch (err) {
+    return { success: false, error: err.message, code: "SK2_NOT_CONFIGURED" };
   }
 
-  const baseUrl = isSandbox ? APP_STORE_API_SANDBOX : APP_STORE_API_PRODUCTION;
+  // Determine base URL based on explicitly provided environment or fallback state
+  let baseUrl;
+  if (environment === "Sandbox") {
+    baseUrl = APP_STORE_API_SANDBOX;
+  } else if (environment === "Production") {
+    baseUrl = APP_STORE_API_PRODUCTION;
+  } else {
+    // If environment is unknown, use fallback logic
+    baseUrl = isFallback ? APP_STORE_API_SANDBOX : APP_STORE_API_PRODUCTION;
+  }
+
   const url = `${baseUrl}/inApps/v1/transactions/${encodeURIComponent(transactionId)}`;
 
-  const response = await fetchWithTimeout(url, {
+  const jose = await import("jose");
+  const decodedHeader = jose.decodeProtectedHeader(jwt);
+  const decodedPayload = jose.decodeJwt(jwt);
+
+  logger.debug(`[AppStoreServerAPI] Outbound request: target=${baseUrl === APP_STORE_API_SANDBOX ? "Sandbox" : "Production"} transactionId=${transactionId}`);
+
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${jwt}`,
     },
   });
 
-  if (response.status === 404) {
-    // Try sandbox if not found in production
-    if (!isSandbox) {
+  logger.debug(`[AppStoreServerAPI] Response status: ${response.status}`);
+
+  const rawBody = await response.text();
+
+  // Re-wrap the body text into a response-like object for the rest of the code
+  const oldResponseJson = response.json.bind(response);
+  response.json = async () => JSON.parse(rawBody);
+  const oldResponseText = response.text.bind(response);
+  response.text = async () => rawBody;
+
+  if (response.status === 404 && !environment) {
+    // Try sandbox if not found in production and environment was unknown
+    if (!isFallback) {
       console.log("[AppleVerify] Transaction not found in production, trying sandbox.");
-      return lookupTransaction(transactionId, true);
+      return lookupTransaction({ transactionId, environment: null, isFallback: true });
     }
     return { success: false, error: "Transaction not found.", appleStatus: 404 };
   }
@@ -142,7 +240,7 @@ async function lookupTransaction(transactionId, isSandbox = false) {
 
   return {
     success: true,
-    environment: isSandbox ? "Sandbox" : "Production",
+    environment: environment || (baseUrl === APP_STORE_API_SANDBOX ? "Sandbox" : "Production"),
     transactionInfo,
     renewalInfo,
     rawResponse: data,
@@ -171,22 +269,32 @@ function decodeInnerJws(signedPayload) {
  *
  * GET /inApps/v1/subscriptions/{originalTransactionId}
  */
-async function lookupSubscriptionStatus(originalTransactionId, isSandbox = false) {
-  const jwt = await generateApiJwt();
-  if (!jwt) {
-    return { success: false, error: "App Store Server API not configured." };
+async function lookupSubscriptionStatus({ originalTransactionId, environment = null, isFallback = false }) {
+  let jwt;
+  try {
+    jwt = await generateApiJwt();
+  } catch (err) {
+    return { success: false, error: err.message };
   }
 
-  const baseUrl = isSandbox ? APP_STORE_API_SANDBOX : APP_STORE_API_PRODUCTION;
+  let baseUrl;
+  if (environment === "Sandbox") {
+    baseUrl = APP_STORE_API_SANDBOX;
+  } else if (environment === "Production") {
+    baseUrl = APP_STORE_API_PRODUCTION;
+  } else {
+    baseUrl = isFallback ? APP_STORE_API_SANDBOX : APP_STORE_API_PRODUCTION;
+  }
+  
   const url = `${baseUrl}/inApps/v1/subscriptions/${encodeURIComponent(originalTransactionId)}`;
 
-  const response = await fetchWithTimeout(url, {
+  const response = await fetchWithRetry(url, {
     method: "GET",
     headers: { Authorization: `Bearer ${jwt}` },
   });
 
-  if (response.status === 404 && !isSandbox) {
-    return lookupSubscriptionStatus(originalTransactionId, true);
+  if (response.status === 404 && !environment && !isFallback) {
+    return lookupSubscriptionStatus({ originalTransactionId, environment: null, isFallback: true });
   }
 
   if (!response.ok) {
@@ -265,11 +373,11 @@ function extractFromSk2Transaction(transactionInfo, renewalInfo, environment) {
  * PATH 1: Verify via StoreKit 2 App Store Server API.
  */
 async function verifyViaAppStoreApi(payload) {
-  const { transactionId, originalTransactionId, appAccountToken } = payload;
+  const { transactionId, originalTransactionId, appAccountToken, environment } = payload;
 
   // If we have a transactionId, look it up
   if (transactionId) {
-    const result = await lookupTransaction(transactionId);
+    const result = await lookupTransaction({ transactionId, environment });
     if (!result.success) return result;
 
     const extraction = extractFromSk2Transaction(
@@ -298,7 +406,7 @@ async function verifyViaAppStoreApi(payload) {
 
   // If we have originalTransactionId only, look up subscription status
   if (originalTransactionId) {
-    const result = await lookupSubscriptionStatus(originalTransactionId);
+    const result = await lookupSubscriptionStatus({ originalTransactionId, environment });
     if (!result.success) return result;
 
     const lastTxn = result.lastTransactions[0];
@@ -381,8 +489,7 @@ async function callApple(url, receiptData, password) {
 function validateBundleId(receipt) {
   const configuredBundleId = process.env.APPLE_BUNDLE_ID;
   if (!configuredBundleId) {
-    console.warn("[AppleVerify] APPLE_BUNDLE_ID not configured — skipping bundle validation.");
-    return { valid: true };
+    throw new Error("[AppleVerify] APPLE_BUNDLE_ID not configured — skipping bundle validation.");
   }
 
   const receiptBundleId = receipt.bundle_id;
@@ -446,14 +553,23 @@ function extractFromLatestReceipt(result) {
 }
 
 async function resolvePlan(appleProductId) {
-  const plan = await MembershipPlan.findOne({ "paymentMappings.apple": appleProductId }).lean() ||
-               await MembershipPlan.findOne({ appleProductId }).lean();
+  // Find all plans that map to this apple product ID
+  const plans = await MembershipPlan.find({
+    $or: [
+      { "paymentMappings.apple": appleProductId },
+      { appleProductId: appleProductId }
+    ]
+  }).lean();
 
-  if (!plan) {
-    return { success: false, error: `No active plan found for Apple product: ${appleProductId}` };
+  if (plans.length === 0) {
+    return { success: false, error: `No MembershipPlan found for Apple product: ${appleProductId}` };
   }
 
-  return { success: true, plan };
+  if (plans.length > 1) {
+    return { success: false, error: `Expected exactly one MembershipPlan for ${appleProductId}, found ${plans.length}` };
+  }
+
+  return { success: true, plan: plans[0] };
 }
 
 function buildResult(appleResult, data, plan, environment) {
@@ -538,7 +654,7 @@ async function verifyViaVerifyReceipt(payload) {
 
     return buildResult(result, extraction.data, planResolution.plan, environment);
   } catch (err) {
-    console.error("[AppleVerify] verifyReceipt exception:", err.message);
+    logger.error("[AppleVerify] verifyReceipt exception:", err.message);
     return { success: false, error: err.name === "AbortError" ? "Apple verification timed out." : `Verification error: ${err.message}` };
   }
 }
@@ -558,27 +674,53 @@ async function verifyViaVerifyReceipt(payload) {
  */
 async function verifyPurchase(payload) {
   const { receiptData, transactionId, originalTransactionId, appAccountToken } = payload;
+  logger.debug(`[AppleVerify] ENTER verifyPurchase — receiptData=${!!receiptData}, transactionId=${!!transactionId}, originalTransactionId=${!!originalTransactionId}`);
 
-  // Priority: StoreKit 2 transaction lookup > subscription lookup > legacy receipt
-  if (transactionId) {
-    console.log(`[AppleVerify] Using StoreKit 2 API for transaction: ${transactionId}`);
-    return verifyViaAppStoreApi({ transactionId, appAccountToken });
+  let result;
+
+  // Priority: Smart routing based on payload format
+  if (receiptData && typeof receiptData === "string" && receiptData.startsWith("eyJ") && receiptData.split(".").length === 3) {
+    logger.debug("[AppleVerify] Verification Type: StoreKit2-JWS");
+    
+    try {
+      const verifier = getSignedDataVerifier();
+      // Verify ES256 signature, x5c cert chain, and Apple Root CA
+      const verifiedInfo = await verifier.verifyAndDecodeTransaction(receiptData);
+      
+      logger.info(`[AppleVerify] JWS Verified successfully. transactionId: ${verifiedInfo.transactionId}`);
+      
+      // Option C: Continue StoreKit 2 flow by calling App Store Server API for the latest status
+      result = await verifyViaAppStoreApi({ 
+        transactionId: verifiedInfo.transactionId, 
+        appAccountToken, 
+        environment: verifiedInfo.environment 
+      });
+    } catch (err) {
+      logger.error("[AppleVerify] JWS verification failed:", err);
+      return { success: false, error: "JWS signature verification failed: " + err.message };
+    }
+
+  } else if (transactionId) {
+    logger.debug("[AppleVerify] Verification Type: Transaction Lookup");
+    result = await verifyViaAppStoreApi({ transactionId, appAccountToken });
+    
+  } else if (originalTransactionId) {
+    logger.debug("[AppleVerify] Verification Type: Subscription Lookup");
+    result = await verifyViaAppStoreApi({ originalTransactionId, appAccountToken });
+    
+  } else if (receiptData) {
+    logger.debug("[AppleVerify] Verification Type: Legacy Receipt");
+    result = await verifyViaVerifyReceipt({ receiptData });
+    
+  } else {
+    return {
+      success: false,
+      error: "Invalid Apple verification data. Send a StoreKit 2 JWS, legacy receipt, transactionId, or originalTransactionId.",
+    };
   }
 
-  if (originalTransactionId) {
-    console.log(`[AppleVerify] Using StoreKit 2 API for subscription: ${originalTransactionId}`);
-    return verifyViaAppStoreApi({ originalTransactionId, appAccountToken });
-  }
-
-  if (receiptData) {
-    console.log("[AppleVerify] Using legacy verifyReceipt.");
-    return verifyViaVerifyReceipt({ receiptData });
-  }
-
-  return {
-    success: false,
-    error: "No Apple verification data provided. Send receiptData, transactionId, or originalTransactionId.",
-  };
+  logger.info(`[AppleVerify] EXIT verifyPurchase — success=${result.success}, planId=${result.planId || "N/A"}`);
+  return result;
 }
 
 /**

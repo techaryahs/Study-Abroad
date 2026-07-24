@@ -46,17 +46,18 @@ async function main() {
       continue;
     }
 
+    const limit = Math.max(0, Number(ent.limit));
     const existing = getUsage(student.membership, "consultation");
     if (
       existing &&
       Number.isFinite(Number(existing.used)) &&
-      Number.isFinite(Number(existing.remaining))
+      Number.isFinite(Number(existing.remaining)) &&
+      Number(existing.used) + Number(existing.remaining) === limit
     ) {
       skipped++;
       continue;
     }
 
-    const limit = Math.max(0, Number(ent.limit));
     if (!student.membership.usage) student.membership.usage = {};
     // Support Map or plain object on student.membership.usage
     if (typeof student.membership.usage.set === "function") {

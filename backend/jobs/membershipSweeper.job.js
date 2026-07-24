@@ -8,12 +8,13 @@
 const cron = require("node-cron");
 const { processDailyExpirations } = require("../services/membership/lifecycle.service");
 const SystemConfig = require("../models/SystemConfig");
+const logger = require("../utils/logger");
 
 // 0 0 * * * -> Runs at 00:00 UTC every day.
 const DAILY_CRON_EXPRESSION = process.env.MEMBERSHIP_SWEEPER_CRON || "0 0 * * *";
 
 async function runSweeper() {
-  console.log("[MembershipSweeper] Starting daily cleanup job...");
+  logger.info("[MembershipSweeper] Starting daily cleanup job...");
   
   try {
     // Optional: distributed lock using SystemConfig (P1) to prevent multi-pod duplicate execution.
@@ -36,13 +37,13 @@ async function runSweeper() {
     );
 
     if (!lock) {
-      console.log("[MembershipSweeper] Another instance is already running this job. Skipping.");
+      logger.debug("[MembershipSweeper] Another instance is already running this job. Skipping.");
       return;
     }
 
     // Execute transitions
     const results = await processDailyExpirations();
-    console.log(`[MembershipSweeper] Finished. Graced: ${results.graced}, Expired: ${results.expired}`);
+    logger.info(`[MembershipSweeper] Finished. Graced: ${results.graced}, Expired: ${results.expired}`);
 
     // Release lock
     await SystemConfig.updateOne(
@@ -50,7 +51,7 @@ async function runSweeper() {
       { $set: { sweeperLocked: false } }
     );
   } catch (error) {
-    console.error("[MembershipSweeper] Error during execution:", error);
+    logger.error("[MembershipSweeper] Error during execution:", error);
     // Attempt emergency unlock if crashed
     await SystemConfig.updateOne({}, { $set: { sweeperLocked: false } });
   }
@@ -62,7 +63,7 @@ async function runSweeper() {
 function initMembershipSweeper() {
   if (process.env.NODE_ENV === 'test') return;
   
-  console.log(`[MembershipSweeper] Scheduled with expression: ${DAILY_CRON_EXPRESSION}`);
+  logger.info(`[MembershipSweeper] Scheduled with expression: ${DAILY_CRON_EXPRESSION}`);
   cron.schedule(DAILY_CRON_EXPRESSION, runSweeper);
 }
 

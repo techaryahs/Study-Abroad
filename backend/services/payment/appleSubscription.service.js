@@ -20,6 +20,7 @@
 
 const AppleSubscription = require("../../models/AppleSubscription");
 const AppleSubscriptionEvent = require("../../models/AppleSubscriptionEvent");
+const logger = require("../../utils/logger");
 
 /** Valid subscription status transitions */
 const VALID_TRANSITIONS = {
@@ -109,8 +110,8 @@ function determineInitialStatus(verificationData) {
 /**
  * Find subscription by originalTransactionId (within Apple platform).
  */
-async function findByOriginalTransactionId(originalTransactionId) {
-  return AppleSubscription.findOne({ platform: "apple", originalTransactionId });
+async function findByOriginalTransactionId(originalTransactionId, session = null) {
+  return AppleSubscription.findOne({ platform: "apple", originalTransactionId }).session(session);
 }
 
 /**
@@ -146,11 +147,12 @@ async function findAllForUser(userId, userModel = "Student") {
  * @param {string} userModel - "Student" or "User"
  * @returns {Object} { subscription, isNew }
  */
-async function createSubscription(verificationResult, user, userModel) {
+async function createSubscription(verificationResult, user, userModel, session = null) {
   const originalTransactionId = verificationResult.normalizedVerificationData.originalTransactionId;
+  logger.debug(`[AppleSubscription] ENTER createSubscription — originalTxnId=${originalTransactionId}, userId=${user._id}`);
 
   // Check if subscription already exists (idempotency)
-  const existing = await findByOriginalTransactionId(originalTransactionId);
+  const existing = await AppleSubscription.findOne({ platform: "apple", originalTransactionId }).session(session);
   if (existing) {
     // Reject if owned by another user — ownership policy
     if (String(existing.userId) !== String(user._id)) {
@@ -168,11 +170,11 @@ async function createSubscription(verificationResult, user, userModel) {
 
   let subscription;
   try {
-    subscription = await AppleSubscription.create(subscriptionData);
+    subscription = await AppleSubscription.create([subscriptionData], { session }).then(docs => docs[0]);
   } catch (createErr) {
     // Race condition — another request created it between our check and create
     if (createErr.code === 11000) {
-      const raced = await findByOriginalTransactionId(originalTransactionId);
+      const raced = await AppleSubscription.findOne({ platform: "apple", originalTransactionId }).session(session);
       if (raced) {
         if (String(raced.userId) !== String(user._id)) {
           const error = new Error("This Apple subscription is already linked to another account.");
@@ -186,6 +188,7 @@ async function createSubscription(verificationResult, user, userModel) {
     throw createErr;
   }
 
+  logger.info(`[AppleSubscription] EXIT createSubscription — _id=${subscription._id}, isNew=true`);
   return { subscription, isNew: true };
 }
 
@@ -201,14 +204,15 @@ async function createSubscription(verificationResult, user, userModel) {
  * @param {Object} user - Authenticated user document
  * @returns {Object} { subscription, wasRenewal, planChanged }
  */
-async function handleRenewalOrChange(verificationResult, user) {
+async function handleRenewalOrChange(verificationResult, user, session = null) {
   const v = verificationResult.normalizedVerificationData;
   const originalTransactionId = v.originalTransactionId;
+  logger.debug(`[AppleSubscription] ENTER handleRenewalOrChange — originalTxnId=${originalTransactionId}`);
 
-  const subscription = await findByOriginalTransactionId(originalTransactionId);
+  const subscription = await AppleSubscription.findOne({ platform: "apple", originalTransactionId }).session(session);
   if (!subscription) {
     // Should not happen for renewals, but handle gracefully — treat as new
-    return createSubscription(verificationResult, user, "Student");
+    return createSubscription(verificationResult, user, "Student", session);
   }
 
   // Ownership guard
@@ -261,8 +265,9 @@ async function handleRenewalOrChange(verificationResult, user) {
   subscription.isCancelled = false;
   subscription.cancelledAt = null;
 
-  await subscription.save();
+  await subscription.save({ session });
 
+  logger.info(`[AppleSubscription] EXIT handleRenewalOrChange — wasRenewal=${true}, planChanged=${planChanged}`);
   return {
     subscription,
     wasRenewal: true,
@@ -284,14 +289,14 @@ async function handleRenewalOrChange(verificationResult, user) {
  * @param {Object} user - Authenticated user
  * @returns {Object} { subscription, restored, wasSameUser }
  */
-async function restoreSubscription(verificationResult, user) {
+async function restoreSubscription(verificationResult, user, session = null) {
   const originalTransactionId = verificationResult.normalizedVerificationData.originalTransactionId;
-  const subscription = await findByOriginalTransactionId(originalTransactionId);
+  const subscription = await AppleSubscription.findOne({ platform: "apple", originalTransactionId }).session(session);
 
   if (!subscription) {
     // No subscription found — this receipt represents a purchase from another
     // Apple ID or the subscription was never recorded. Create it for this user.
-    return createSubscription(verificationResult, user, "Student");
+    return createSubscription(verificationResult, user, "Student", session);
   }
 
   const isSameUser = String(subscription.userId) === String(user._id);
@@ -322,7 +327,7 @@ async function restoreSubscription(verificationResult, user) {
     subscription.cancelledAt = null;
   }
 
-  await subscription.save();
+  await subscription.save({ session });
 
   return { subscription, restored: true, wasSameUser: true };
 }
@@ -337,32 +342,36 @@ async function restoreSubscription(verificationResult, user) {
  * @param {Object} notification - Decoded notification payload
  * @returns {Object} { subscription, applied }
  */
-async function applyNotification(subscription, notification) {
+async function applyNotification(subscription, notification, session = null) {
   const { notificationType, notificationUUID, signedDate, transactionInfo } = notification;
 
-  // Record the event for audit
   const eventIdempotencyKey = notificationUUID || `${notificationType}:${transactionInfo?.transactionId}:${Date.now()}`;
 
-  const existingEvent = await AppleSubscriptionEvent.findOne({
-    idempotencyKey: eventIdempotencyKey,
-  });
+  // Atomic upsert — if the document already exists, $setOnInsert is a no-op
+  const upsertResult = await AppleSubscriptionEvent.findOneAndUpdate(
+    { idempotencyKey: eventIdempotencyKey },
+    {
+      $setOnInsert: {
+        subscriptionId: subscription._id,
+        originalTransactionId: subscription.originalTransactionId,
+        eventType: notificationType,
+        notificationUUID,
+        signedDate: signedDate ? new Date(signedDate) : null,
+        transactionId: transactionInfo?.transactionId || null,
+        notificationData: notification,
+        decodedPayload: notification,
+        status: "received",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    },
+    { upsert: true, new: true, rawResult: true, session }
+  );
 
-  if (existingEvent) {
+  // If the document already existed, this is a duplicate notification
+  if (upsertResult.lastErrorObject && upsertResult.lastErrorObject.updatedExisting) {
     return { subscription, applied: false, reason: "duplicate" };
   }
-
-  await AppleSubscriptionEvent.create({
-    subscriptionId: subscription._id,
-    originalTransactionId: subscription.originalTransactionId,
-    eventType: notificationType,
-    notificationUUID,
-    signedDate: signedDate ? new Date(signedDate) : null,
-    transactionId: transactionInfo?.transactionId || null,
-    notificationData: notification,
-    decodedPayload: notification,
-    status: "received",
-    idempotencyKey: eventIdempotencyKey,
-  });
 
   // Apply state transition based on notification type
   const transitionMap = {
@@ -387,7 +396,7 @@ async function applyNotification(subscription, notification) {
       transitionStatus(subscription, newStatus, { reason: notificationType });
       applied = true;
     } catch (err) {
-      console.warn(`[AppleSubscription] Notification ${notificationType}: ${err.message}`);
+      logger.warn(`[AppleSubscription] Notification ${notificationType}: ${err.message}`);
     }
   }
 
@@ -420,7 +429,7 @@ async function applyNotification(subscription, notification) {
   }
 
   if (applied) {
-    await subscription.save();
+    await subscription.save({ session });
   }
 
   // Mark event as processed
@@ -431,7 +440,8 @@ async function applyNotification(subscription, notification) {
         status: "processed",
         processedAt: new Date(),
       },
-    }
+    },
+    { session }
   );
 
   return { subscription, applied, reason: applied ? "applied" : "no_change" };

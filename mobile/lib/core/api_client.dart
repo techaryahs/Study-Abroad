@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'storage.dart';
+import 'app_logger.dart';
 
 /// Converts any Dio / network exception into a readable message string.
 String extractErrorMessage(Object e) {
@@ -20,15 +21,10 @@ String extractErrorMessage(Object e) {
       } catch (_) {}
     }
 
-    // Log Dio Exception Details
-    debugPrint("========== DIO EXCEPTION ==========");
-    debugPrint("Request URL: $requestPath");
-    debugPrint("Type: ${e.type}");
-    debugPrint("Message: ${e.message}");
-    debugPrint("Error: ${e.error}");
+    // Log Dio Exception Details via AppLogger
+    AppLogger.error("DioException [$requestPath] (${e.type}): ${e.message}");
     if (response != null) {
-      debugPrint("Status Code: ${response.statusCode}");
-      debugPrint("Response Data: $data");
+      AppLogger.error("Status Code: ${response.statusCode}");
     }
 
     if (e.type == DioExceptionType.badResponse) {
@@ -82,25 +78,20 @@ String extractErrorMessage(Object e) {
 
     return 'DioError (${e.type}): ${e.message ?? 'Unknown error'}';
   } else if (e is SocketException) {
-    debugPrint("========== SOCKET EXCEPTION ==========");
-    debugPrint(e.toString());
+    AppLogger.error('SocketException: ${e.message}', e);
     return 'SocketException: ${e.message} (Address: ${e.address}, Port: ${e.port})';
   } else if (e is TimeoutException) {
-    debugPrint("========== TIMEOUT EXCEPTION ==========");
-    debugPrint(e.toString());
+    AppLogger.error('TimeoutException: ${e.message}', e);
     return 'TimeoutException: ${e.message ?? 'The operation timed out'}';
   } else if (e is HandshakeException) {
-    debugPrint("========== HANDSHAKE EXCEPTION ==========");
-    debugPrint(e.toString());
+    AppLogger.error('HandshakeException: SSL Handshake failed', e);
     return 'HandshakeException: SSL Handshake failed. Details: ${e.message}';
   } else if (e is FormatException) {
-    debugPrint("========== FORMAT EXCEPTION ==========");
-    debugPrint(e.toString());
+    AppLogger.error('FormatException: Invalid response format', e);
     return 'FormatException: Invalid response format. Details: ${e.message}';
   }
 
-  debugPrint("========== UNKNOWN EXCEPTION ==========");
-  debugPrint(e.toString());
+  AppLogger.error('Unknown Exception', e);
   return 'Unknown Error (${e.runtimeType}): $e';
 }
 
@@ -118,8 +109,7 @@ class ApiClient {
   // 2. Android Emulator (translates to localhost of your development machine)
   // static const String baseUrl = 'http://10.0.2.2:5011';
   
-  
-  static const String baseUrl = 'http://192.168.1.9:5011';
+  static const String baseUrl = 'http://192.168.1.4:5011';
 
   static Dio? _dio;
 
@@ -148,19 +138,14 @@ class ApiClient {
       createHttpClient: () {
         final client = HttpClient();
         client.badCertificateCallback = (X509Certificate cert, String host, int port) {
-          debugPrint("========== SSL CERTIFICATE WARNING ==========");
-          debugPrint("SSL verification failed for host: $host:$port");
-          debugPrint("Certificate Subject: ${cert.subject}");
-          debugPrint("Certificate Issuer: ${cert.issuer}");
-          debugPrint("Certificate Start Date: ${cert.startValidity}");
-          debugPrint("Certificate End Date: ${cert.endValidity}");
+          AppLogger.warning("SSL verification failed for host: $host:$port");
           
           final isLocal = host.contains('127.0.0.1') ||
                           host.contains('localhost') ||
                           host.startsWith('172.') ||
                           host.startsWith('192.168.');
           if (isLocal) {
-            debugPrint("✅ Local development: Trusting self-signed certificate for host $host");
+            AppLogger.info("Local development: Trusting self-signed certificate for host $host");
             return true;
           }
           // Return false to reject untrusted certificates (secure production default).
@@ -175,17 +160,7 @@ class ApiClient {
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final fullUrl = '${options.baseUrl}${options.path}';
-          debugPrint('🚀 Requesting: ${options.method} $fullUrl');
-          if (options.path == '/api/memberships/plans') {
-            debugPrint(
-              '[MembershipTrace] ApiClient.onRequest '
-              'method=${options.method} uri=${options.uri} '
-              'responseType=${options.responseType}',
-            );
-          }
-          if (options.data != null) {
-            debugPrint('📦 Payload: ${options.data}');
-          }
+          AppLogger.debug('Requesting: ${options.method} $fullUrl');
           final token = await AppStorage.getToken();
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -193,32 +168,10 @@ class ApiClient {
           return handler.next(options);
         },
         onResponse: (response, handler) {
-          if (response.requestOptions.path == '/api/memberships/plans') {
-            final data = response.data;
-            final count = data is List ? data.length : null;
-            final first = data is List && data.isNotEmpty ? data.first : null;
-            debugPrint(
-              '[MembershipTrace] ApiClient.onResponse '
-              'status=${response.statusCode} dataType=${data.runtimeType} '
-              'listCount=$count firstType=${first.runtimeType} '
-              'firstKeys=${first is Map ? first.keys.toList() : null}',
-            );
-          }
           return handler.next(response);
         },
         onError: (DioException err, handler) {
-          if (err.requestOptions.path == '/api/memberships/plans') {
-            debugPrint(
-              '[MembershipTrace] ApiClient.onError '
-              'type=${err.type} status=${err.response?.statusCode} '
-              'dataType=${err.response?.data.runtimeType} '
-              'data=${err.response?.data} error=${err.error}',
-            );
-            debugPrintStack(
-              label: '[MembershipTrace] ApiClient.onError stack',
-              stackTrace: err.stackTrace,
-            );
-          }
+          AppLogger.error('API Error [${err.requestOptions.method} ${err.requestOptions.path}]: ${err.message}');
           // ── Auto-logout on 401 from non-auth endpoints ────────
           if (err.response?.statusCode == 401) {
             final path = err.requestOptions.path;

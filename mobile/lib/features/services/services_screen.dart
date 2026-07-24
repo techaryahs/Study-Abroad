@@ -1,5 +1,5 @@
 import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -21,7 +21,7 @@ class ServicesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final cart = context.watch<CartProvider>();
     final membershipManager = context.watch<MembershipManager>();
-    final bool isIOS = !kIsWeb && Platform.isIOS;
+    final bool isIOS = !kIsWeb && (defaultTargetPlatform == TargetPlatform.iOS || Platform.isIOS);
 
     return Scaffold(
       backgroundColor: AppTheme.background,

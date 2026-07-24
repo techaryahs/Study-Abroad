@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'membership_manager.dart';
 import 'models/membership_plan.dart';
 import '../../core/payment_service.dart';
+import '../../core/app_logger.dart';
 
 /// App Store Guideline 3.1.2(c) — subscription presentation only.
 /// Purchase / membership architecture is unchanged.
@@ -56,7 +57,7 @@ class _MembershipScreenState extends State<MembershipScreen> {
   }
 
   Future<void> _onRestore() async {
-    debugPrint('[MembershipScreen] Restore Tapped');
+    AppLogger.info('Restore purchases requested');
     await PaymentService.instance.restorePurchases();
     if (!mounted) return;
     if (PaymentService.instance.error != null) {
@@ -78,7 +79,7 @@ class _MembershipScreenState extends State<MembershipScreen> {
   }
 
   Future<void> _onSubscribe(MembershipPlan plan) async {
-    debugPrint('[MembershipScreen] Subscribe Tapped for: ${plan.planId}');
+    AppLogger.info('Subscribe initiated for plan: ${plan.planId}');
     await PaymentService.instance.purchase(plan);
     if (!mounted) return;
     if (PaymentService.instance.error != null) {
@@ -182,11 +183,6 @@ class _MembershipScreenState extends State<MembershipScreen> {
 
     final plans = List<MembershipPlan>.from(manager.activePlans)
       ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-    debugPrint(
-      '[MembershipTrace] MembershipScreen.build '
-      'manager=${identityHashCode(manager)} activePlans=${manager.activePlans.length} '
-      'displayPlans=${plans.length} isLoading=${manager.isLoading} error=${manager.error}',
-    );
 
     final currentPlan = manager.currentPlan;
     final hasAutoRenewablePlans = plans.any(_isAutoRenewable);
@@ -276,14 +272,19 @@ class _MembershipScreenState extends State<MembershipScreen> {
                           sliver: SliverList(
                             delegate: SliverChildBuilderDelegate(
                               (context, index) {
+                                final currentPlanId = manager.currentPlanId;
+                                final userMembership = manager.userMembership;
                                 final plan = plans[index];
                                 final isRecommended = plan.recommended ||
                                     plan.planId == widget.recommendedPlanId;
                                 final isCurrentPlan =
-                                    currentPlan?.planId == plan.planId;
+                                    currentPlanId != null && currentPlanId == plan.planId;
 
                                 final isDowngrade = currentPlan != null && plan.sortOrder < currentPlan.sortOrder;
                                 final isUpgrade = currentPlan != null && plan.sortOrder > currentPlan.sortOrder;
+                                final isExpiredPlan = userMembership != null &&
+                                    !userMembership.isActiveStatus &&
+                                    userMembership.planId == plan.planId;
 
                                 return Padding(
                                   padding: const EdgeInsets.only(bottom: 24),
@@ -293,6 +294,7 @@ class _MembershipScreenState extends State<MembershipScreen> {
                                     isCurrentPlan: isCurrentPlan,
                                     isDowngrade: isDowngrade,
                                     isUpgrade: isUpgrade,
+                                    isExpiredPlan: isExpiredPlan,
                                   )
                                       .animate()
                                       .fadeIn(
@@ -446,6 +448,7 @@ class _MembershipScreenState extends State<MembershipScreen> {
     required bool isCurrentPlan,
     required bool isDowngrade,
     required bool isUpgrade,
+    bool isExpiredPlan = false,
   }) {
     // StoreKit ProductDetails.price is the display source of truth on iOS.
     // Backend catalog price is fallback only (never overrides StoreKit).
@@ -667,11 +670,13 @@ class _MembershipScreenState extends State<MembershipScreen> {
                         final bool isDisabled = isCurrentPlan || isDowngrade || isProcessing;
                         String buttonText;
                         if (isCurrentPlan) {
-                          buttonText = 'CURRENT PLAN';
+                          buttonText = 'ACTIVE PLAN';
                         } else if (isDowngrade) {
-                          buttonText = 'UNAVAILABLE'; // or just GET ACCESS but disabled, but usually it's greyed out
+                          buttonText = 'UNAVAILABLE';
                         } else if (isUpgrade) {
-                          buttonText = 'UPGRADE';
+                          buttonText = 'UPGRADE PLAN';
+                        } else if (isExpiredPlan) {
+                          buttonText = 'RENEW MEMBERSHIP';
                         } else {
                           buttonText = isAutoRenew ? 'SUBSCRIBE NOW' : 'GET ACCESS';
                         }

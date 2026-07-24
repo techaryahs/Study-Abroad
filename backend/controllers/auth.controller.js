@@ -6,10 +6,11 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
-const { getEmailSearchRegex } = require("../utils/emailUtils");
+const { getEmailSearchRegex, normalizeEmail } = require("../utils/emailUtils");
 const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
 const { sendSMSOTP } = require("../utils/otpsms");
 const { applyLifecycleToUser } = require("../utils/membershipLifecycle");
+const logger = require("../utils/logger");
 
 
 const otpStore = new Map();
@@ -57,8 +58,6 @@ exports.register = async (req, res) => {
     if (profileInput?.loanInterest !== undefined) profileData.loanInterest = profileInput.loanInterest;
     if (targetUniversities.length > 0) profileData.targetUniversities = targetUniversities;
 
-    console.log("🛠️ Building Student Profile Data:", JSON.stringify(profileData, null, 2));
-
     const newStudent = new Student({
       name,
       email: emailLower,
@@ -73,13 +72,12 @@ exports.register = async (req, res) => {
     });
 
     await newStudent.save();
-    console.log(`✅ Student Saved with ${targetUniversities.length} target universities.`);
 
     // 🔢 3️⃣ Cleanup otpStore
     otpStore.delete(emailLower);
     otpStoreMobile.delete(mobile);
 
-    console.log(`✅ Student Registered Successfully: ${emailLower}`);
+    logger.info(`Student Registered Successfully: ${logger.maskEmail(emailLower)}`);
 
     // 4️⃣ Send Success Response
     res.status(201).json({
@@ -116,7 +114,7 @@ exports.sendOtpSignup = async (req, res) => {
     const expiresAt = Date.now() + 10 * 60 * 1000;
     otpStore.set(emailLower, { otp, expiresAt, verified: false });
 
-    console.log(`📌 OTP for Signup (${emailLower}): ${otp}`);
+    logger.info(`OTP for Signup (${logger.maskEmail(emailLower)}): ${logger.maskOtp(otp)}`);
 
     // 3️⃣ Send Email
     await sendEmail(
@@ -186,7 +184,7 @@ exports.sendOtpMobile = async (req, res) => {
     const expiresAt = Date.now() + 10 * 60 * 1000;
     otpStoreMobile.set(mobile, { otp, expiresAt, verified: false });
 
-    console.log(`📌 Mobile OTP for Signup (${mobile}): ${otp}`);
+    logger.info(`Mobile OTP for Signup generated: ${logger.maskOtp(otp)}`);
 
     // 2️⃣ Send SMS
     const smsResult = await sendSMSOTP(mobile, otp);
@@ -330,19 +328,13 @@ exports.getMe = async (req, res) => {
   try {
     const { serializeMembership } = require("../utils/membershipLifecycle");
     const PaymentTransaction = require("../models/PaymentTransaction");
+    const { findUserById } = require("../utils/userHelper");
 
-    let user;
-    if (req.user.role === "student") {
-      user = await Student.findById(req.user.id).select("-password");
-    } else if (req.user.role === "consultant") {
-      user = await Consultant.findById(req.user.id).select("-password");
-    } else {
-      user = await User.findById(req.user.id).select("-password");
-    }
-
-    if (!user) {
+    const found = await findUserById(req.user.id || req.user._id);
+    if (!found || !found.user) {
       return res.status(404).json({ error: "User not found" });
     }
+    const user = found.user;
 
     // Runtime membership lifecycle: if expiryDate passed, status becomes expired (persisted)
     if (user.membership) {
@@ -457,9 +449,6 @@ exports.getMe = async (req, res) => {
 ========================= */
 exports.registerConsultant = async (req, res) => {
   try {
-    console.log("📌 Incoming Consultant Registration Payload:", req.body);
-    console.log("📌 Incoming File Data:", req.file);
-
     let {
       name,
       email,
@@ -472,8 +461,7 @@ exports.registerConsultant = async (req, res) => {
       image
     } = req.body;
 
-    const emailLower = email?.toLowerCase().trim();
-    const normalizedEmail = normalizeEmail(emailLower);
+    const emailLower = normalizeEmail(email);
 
     // 🔍 Check if Email is Verified in otpStore
     const storedData = otpStore.get(emailLower);
@@ -525,7 +513,7 @@ exports.registerConsultant = async (req, res) => {
 
     // 🔢 Cleanup otpStore
     otpStore.delete(emailLower);
-    console.log(`✅ Consultant Registered Successfully: ${emailLower}`);
+    logger.info(`Consultant Registered Successfully: ${logger.maskEmail(emailLower)}`);
 
     res.status(201).json({
       message: "Consultant registered successfully. Welcome to the Elite.",
@@ -636,7 +624,7 @@ exports.adminForgotPassword = async (req, res) => {
     const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
     otpStore.set(emailLower, { otp, expiresAt, verified: false });
 
-    console.log(`🔐 Admin Forgot Password OTP (${emailLower}): ${otp}`);
+    logger.info(`Admin Forgot Password OTP generated for ${logger.maskEmail(emailLower)}: ${logger.maskOtp(otp)}`);
 
     await sendEmail(
       emailLower,
@@ -721,10 +709,10 @@ exports.adminResetPassword = async (req, res) => {
     await user.save();
 
     otpStore.delete(emailLower);
-    console.log(`✅ Admin password reset for: ${emailLower}`);
+    logger.info(`Admin password reset for: ${logger.maskEmail(emailLower)}`);
     res.json({ message: "Admin password reset successfully" });
   } catch (err) {
-    console.error("❌ adminResetPassword Error:", err);
+    logger.error("adminResetPassword Error:", err);
     res.status(500).json({ error: "Failed to reset password" });
   }
 };
@@ -747,8 +735,7 @@ exports.verifyForgotOtp = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
-  const emailLower = email?.toLowerCase().trim();
-  const normalizedEmail = normalizeEmail(emailLower);
+  const emailLower = normalizeEmail(email);
 
   const data = otpStore.get(emailLower);
 
@@ -841,7 +828,7 @@ exports.createBasicAccount = async (req, res) => {
 
     const token = generateToken(newStudent._id, "student");
 
-    console.log(`Basic account created for: ${emailLower}`);
+    logger.info(`Basic account created for: ${logger.maskEmail(emailLower)}`);
 
     res.status(201).json({
       message: "Basic account created successfully",
@@ -859,7 +846,7 @@ exports.createBasicAccount = async (req, res) => {
       isNewUser: true
     });
   } catch (err) {
-    console.error("createBasicAccount Error:", err);
+    logger.error("createBasicAccount Error:", err);
     res.status(500).json({ error: "Failed to create account" });
   }
 };
@@ -898,7 +885,7 @@ exports.sendLoginOtp = async (req, res) => {
     user.loginOtpAttempts = 0;
     await user.save();
 
-    console.log(`[OTP DEBUG] Generated Login OTP for ${standardizedPhone}: ${otp}`);
+    logger.info(`Generated Login OTP for user: ${logger.maskOtp(otp)}`);
 
     // Dispatch SMS using sendSMSOTP
     const smsResult = await sendSMSOTP(standardizedPhone, otp);

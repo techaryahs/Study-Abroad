@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/api_client.dart';
+import '../../core/app_logger.dart';
 import '../services/service_model.dart';
 
 class CartItem {
@@ -128,7 +129,7 @@ class CartProvider extends ChangeNotifier {
         _replaceItems(response.data['cart']);
       }
     } catch (e) {
-      debugPrint('Error fetching cart: ${extractErrorMessage(e)}');
+      AppLogger.error('Error fetching cart', extractErrorMessage(e));
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -175,7 +176,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       _items = previousItems;
       notifyListeners();
-      debugPrint('Error adding to cart: ${extractErrorMessage(e)}');
+      AppLogger.error('Error adding to cart', extractErrorMessage(e));
       rethrow;
     }
   }
@@ -197,7 +198,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       _items = previousItems;
       notifyListeners();
-      debugPrint('Error removing from cart: ${extractErrorMessage(e)}');
+      AppLogger.error('Error removing from cart', extractErrorMessage(e));
       rethrow;
     }
   }
@@ -233,7 +234,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       _items = previousItems;
       notifyListeners();
-      debugPrint('Error updating cart quantity: ${extractErrorMessage(e)}');
+      AppLogger.error('Error updating cart quantity', extractErrorMessage(e));
       rethrow;
     }
   }
@@ -252,7 +253,7 @@ class CartProvider extends ChangeNotifier {
     } catch (e) {
       _items = previousItems;
       notifyListeners();
-      debugPrint('Error clearing cart: ${extractErrorMessage(e)}');
+      AppLogger.error('Error clearing cart', extractErrorMessage(e));
       rethrow;
     }
   }

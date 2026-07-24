@@ -9,6 +9,7 @@ const express = require("express");
 const router = express.Router();
 const orchestrator = require("../services/payment/purchaseOrchestrator.service");
 const appleWebhookService = require("../services/payment/appleWebhook.service");
+const logger = require("../utils/logger");
 
 /**
  * POST /api/webhooks/apple
@@ -34,7 +35,7 @@ router.post("/apple", express.json(), async (req, res) => {
             const payloadBytes = Buffer.from(parts[1], "base64");
             const payload = JSON.parse(payloadBytes.toString("utf8"));
             if (payload.notificationType === "TEST") {
-              console.log("[Webhook] Apple TEST notification received.");
+              logger.info("[Webhook] Apple TEST notification received.");
               return res.status(200).send("OK");
             }
           }
@@ -48,15 +49,15 @@ router.post("/apple", express.json(), async (req, res) => {
     const result = await appleWebhookService.handleWebhook(rawBody);
 
     if (!result.success) {
-      console.error("[Webhook] Apple processing error:", result.error);
+      logger.error("[Webhook] Apple processing error:", result.error);
       // Still return 200 — Apple doesn't retry non-5xx
     } else {
-      console.log(`[Webhook] Apple ${result.processed ? "processed" : "ignored"}: ${result.reason || "ok"}`);
+      logger.info(`[Webhook] Apple ${result.processed ? "processed" : "ignored"}: ${result.reason || "ok"}`);
     }
 
     res.status(200).send("OK");
   } catch (error) {
-    console.error("[Webhook] Apple processing exception:", error.message);
+    logger.error("[Webhook] Apple processing exception:", error.message);
     // Return 200 anyway — Apple's retry on 500 could flood us
     res.status(200).send("OK");
   }
@@ -80,7 +81,7 @@ router.post("/razorpay", express.json(), async (req, res) => {
 
     res.status(200).send("OK");
   } catch (error) {
-    console.error("[Webhook] Razorpay processing error:", error);
+    logger.error("[Webhook] Razorpay processing error:", error);
     res.status(500).send("Error");
   }
 });
