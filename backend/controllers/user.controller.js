@@ -540,9 +540,31 @@ exports.deleteAccount = async (req, res) => {
         await Booking.deleteMany({ userEmail: email }).session(session);
       }
 
-      // Delete AppleSubscription (ownership removed)
+      // Delete AppleSubscription (ownership removed under Model A)
       const AppleSubscription = require("../models/AppleSubscription");
-      await AppleSubscription.deleteMany({ userId: targetId }).session(session);
+      const AppleSubscriptionEvent = require("../models/AppleSubscriptionEvent");
+      const subsToDelete = await AppleSubscription.find({ userId: targetId }).session(session);
+      const originalTxnIds = subsToDelete.map((s) => s.originalTransactionId);
+
+      for (const sub of subsToDelete) {
+        await AppleSubscriptionEvent.create([{
+          originalTransactionId: sub.originalTransactionId,
+          eventType: "ACCOUNT_DELETED",
+          environment: sub.environment || "Sandbox",
+          notificationData: {
+            userId: targetId,
+            reason: "User account deleted via deleteAccount()",
+            deletedAt: new Date(),
+          },
+          signedDate: new Date(),
+        }], { session });
+      }
+
+      const subDeleteResult = await AppleSubscription.deleteMany({ userId: targetId }).session(session);
+
+      logger.info(
+        `[DeleteAccount] AppleSubscription cleanup for userId=${targetId}: deletedCount=${subDeleteResult.deletedCount}, originalTransactionIds=${JSON.stringify(originalTxnIds)}`
+      );
 
       // Delete UsageReservation (user data)
       const UsageReservation = require("../models/UsageReservation");

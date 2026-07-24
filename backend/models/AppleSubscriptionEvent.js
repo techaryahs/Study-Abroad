@@ -36,6 +36,7 @@ const AppleSubscriptionEventSchema = new mongoose.Schema(
         "CONSUMPTION_REQUEST",
         "OFFER_REDEEMED",
         "TEST",
+        "ACCOUNT_DELETED",
       ],
       required: true,
     },

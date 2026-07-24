@@ -207,7 +207,7 @@ async function parseNotification(rawBody) {
   }
 
   // Primary JWS verification (outer envelope)
-  const verified = await verifyJws(signedPayload);
+  const verified = await module.exports.verifyJws(signedPayload);
   if (!verified.valid) {
     return { success: false, error: verified.error, code: "JWS_VERIFICATION_FAILED" };
   }

@@ -361,8 +361,6 @@ async function applyNotification(subscription, notification, session = null) {
         notificationData: notification,
         decodedPayload: notification,
         status: "received",
-        createdAt: new Date(),
-        updatedAt: new Date(),
       }
     },
     { upsert: true, new: true, rawResult: true, session }

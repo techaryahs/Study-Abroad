@@ -23,6 +23,7 @@
 const mongoose = require("mongoose");
 const PaymentTransaction = require("../../models/PaymentTransaction");
 const PaymentAttempt = require("../../models/PaymentAttempt");
+const AppleSubscriptionEvent = require("../../models/AppleSubscriptionEvent");
 const WebhookLog = require("../../models/WebhookLog");
 
 const appleVerification = require("./appleVerification.service");
@@ -445,15 +446,31 @@ async function processRestore(user, userModel, gateway, payload) {
       return { success: false, error: verificationResult.error };
     }
 
-    const session = await mongoose.startSession();
-    try {
-      let finalResult;
-      await session.withTransaction(async () => {
-        // Restore subscription
-        const restoreResult = await appleSubscriptionService.restoreSubscription(verificationResult, user, resolvedUserModel, session);
-        const subscription = restoreResult.subscription;
+    const v = verificationResult.normalizedVerificationData;
+    const originalTransactionId = v.originalTransactionId;
 
-        if (subscription) {
+    // Model A Check 1: Find existing AppleSubscription
+    const existingSubscription = await appleSubscriptionService.findByOriginalTransactionId(originalTransactionId);
+
+    if (existingSubscription) {
+      // Model A Rule 2: Belonging to another active account -> CONFLICT
+      if (String(existingSubscription.userId) !== String(user._id)) {
+        return {
+          success: false,
+          error: "This Apple subscription is already linked to another account.",
+          code: "SUBSCRIPTION_OWNERSHIP_CONFLICT",
+          status: 403,
+        };
+      }
+
+      // Model A Rule 1: Same account -> Restore succeeds
+      const session = await mongoose.startSession();
+      try {
+        let finalResult;
+        await session.withTransaction(async () => {
+          const restoreResult = await appleSubscriptionService.restoreSubscription(verificationResult, user, resolvedUserModel, session);
+          const subscription = restoreResult.subscription;
+
           const transaction = await createAppleLedger({
             user,
             userModel: resolvedUserModel,
@@ -481,8 +498,8 @@ async function processRestore(user, userModel, gateway, payload) {
 
           finalResult = {
             success: true,
-            restored: !!restoreResult.restored,
-            isNew: !restoreResult.restored,
+            restored: true,
+            isNew: false,
             transactionId: transaction.transactionId,
             subscription: subscription.toObject ? subscription.toObject() : subscription,
             status: subscription.status,
@@ -490,20 +507,45 @@ async function processRestore(user, userModel, gateway, payload) {
             expiryDate: subscription.expiryDate,
             membership: entitlementResult.membership || null,
           };
-          return;
-        }
-
-        finalResult = {
-          success: true,
-          restored: false,
-          isNew: false,
-          subscription: subscription ? (subscription.toObject ? subscription.toObject() : subscription) : null,
-        };
-      });
-      return finalResult;
-    } finally {
-      session.endSession();
+        });
+        return finalResult;
+      } finally {
+        session.endSession();
+      }
     }
+
+    // Model A Check 2: No active AppleSubscription exists.
+    // Check explicit subscription lifecycle audit log (AppleSubscriptionEvent) or ledger for account deletion
+    const accountDeletedEvent = await AppleSubscriptionEvent.findOne({
+      originalTransactionId,
+      eventType: "ACCOUNT_DELETED",
+    });
+
+    const previousLedger = !accountDeletedEvent ? await PaymentTransaction.findOne({
+      gateway: "apple",
+      $or: [
+        { externalTransactionId: v.transactionId },
+        { "verificationData.originalTransactionId": originalTransactionId }
+      ]
+    }) : null;
+
+    if (accountDeletedEvent || previousLedger) {
+      // Model A Rule 4: Account was deleted. Previous subscriptions CANNOT be restored.
+      return {
+        success: false,
+        error: "This account was deleted. Previous subscriptions cannot be restored. Please purchase a new subscription.",
+        code: "ACCOUNT_DELETED_REPURCHASE_REQUIRED",
+        status: 403,
+      };
+    }
+
+    // Model A Check 3: No subscription and no historical ledger exists -> Never purchased before
+    return {
+      success: false,
+      error: "No previous subscription found for this Apple ID.",
+      code: "NO_SUBSCRIPTION_FOUND",
+      status: 404,
+    };
   } catch (error) {
     console.error("[Orchestrator] Restore exception:", error.message);
 
@@ -516,7 +558,7 @@ async function processRestore(user, userModel, gateway, payload) {
       };
     }
 
-    return { success: false, error: "Restore processing error." };
+    return { success: false, error: error.message || "Restore processing error." };
   }
 }
 
