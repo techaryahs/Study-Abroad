@@ -289,14 +289,14 @@ async function handleRenewalOrChange(verificationResult, user, session = null) {
  * @param {Object} user - Authenticated user
  * @returns {Object} { subscription, restored, wasSameUser }
  */
-async function restoreSubscription(verificationResult, user, session = null) {
+async function restoreSubscription(verificationResult, user, userModel = "User", session = null) {
   const originalTransactionId = verificationResult.normalizedVerificationData.originalTransactionId;
   const subscription = await AppleSubscription.findOne({ platform: "apple", originalTransactionId }).session(session);
 
   if (!subscription) {
     // No subscription found — this receipt represents a purchase from another
-    // Apple ID or the subscription was never recorded. Create it for this user.
-    return createSubscription(verificationResult, user, "Student", session);
+    // Apple ID or the subscription was never recorded (or account was deleted). Create it for this user.
+    return createSubscription(verificationResult, user, userModel, session);
   }
 
   const isSameUser = String(subscription.userId) === String(user._id);

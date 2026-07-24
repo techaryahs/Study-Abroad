@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 const { findUserById, findUserByEmail } = require("../utils/userHelper");
 const logger = require("../utils/logger");
 const ProgressReport = require("../models/ProgressReport");
@@ -485,6 +486,8 @@ async function safeCleanup(label, fn) {
 // without an HTTP status line (that surfaces on Flutter as
 // "Connection closed before full header was received").
 exports.deleteAccount = async (req, res) => {
+  const session = await mongoose.startSession();
+  
   try {
     const userId = req.user?.id || req.user?._id;
     if (!userId) {
@@ -511,62 +514,46 @@ exports.deleteAccount = async (req, res) => {
       `[DeleteAccount] Starting account deletion for user _id=${targetId}, role=${role}, email=${logger.maskEmail(email)}`
     );
 
-    // ── Cascading cleanup (best-effort; failures are logged, not fatal) ──
-    // Run independent collections in parallel so a slow index cannot hang
-    // the response until the client times out and sees a closed socket.
-    const cleanupTasks = [];
+    // Use MongoDB transaction for atomic delete
+    await session.withTransaction(async () => {
+      // Cleanup operations (atomic - any failure aborts transaction)
+      if (role === "student") {
+        await ProgressReport.deleteMany({ userId: targetId }).session(session);
+      }
 
-    if (role === "student") {
-      cleanupTasks.push(safeCleanup("ProgressReport", () => ProgressReport.deleteMany({ userId: targetId })));
-    }
+      await FeatureActivity.deleteMany({ userId: targetId }).session(session);
+      await Activity.deleteMany({ userId: targetId }).session(session);
 
-    cleanupTasks.push(safeCleanup("FeatureActivity", () => FeatureActivity.deleteMany({ userId: targetId })));
-    cleanupTasks.push(safeCleanup("Activity", () => Activity.deleteMany({ userId: targetId })));
+      if (email) {
+        await Receipt.deleteMany({ $or: [{ userId: targetId }, { userEmail: email }] }).session(session);
+        await Review.deleteMany({ email }).session(session);
+      } else {
+        await Receipt.deleteMany({ userId: targetId }).session(session);
+      }
 
-    if (email) {
-      cleanupTasks.push(
-        safeCleanup("Receipt", () =>
-          Receipt.deleteMany({ $or: [{ userId: targetId }, { userEmail: email }] })
-        )
-      );
-      cleanupTasks.push(safeCleanup("Review", () => Review.deleteMany({ email })));
-    } else {
-      cleanupTasks.push(safeCleanup("Receipt", () => Receipt.deleteMany({ userId: targetId })));
-    }
+      if (role === "consultant") {
+        const bookingQuery = email
+          ? { $or: [{ consultantId: targetId }, { consultantEmail: email }] }
+          : { consultantId: targetId };
+        await Booking.deleteMany(bookingQuery).session(session);
+      } else if (email) {
+        await Booking.deleteMany({ userEmail: email }).session(session);
+      }
 
-    if (role === "consultant") {
-      const bookingQuery = email
-        ? { $or: [{ consultantId: targetId }, { consultantEmail: email }] }
-        : { consultantId: targetId };
-      cleanupTasks.push(safeCleanup("Booking", () => Booking.deleteMany(bookingQuery)));
-    } else if (email) {
-      cleanupTasks.push(safeCleanup("Booking", () => Booking.deleteMany({ userEmail: email })));
-    }
+      // Delete AppleSubscription (ownership removed)
+      const AppleSubscription = require("../models/AppleSubscription");
+      await AppleSubscription.deleteMany({ userId: targetId }).session(session);
 
-    cleanupTasks.push(
-      safeCleanup("PaymentLedgers", async () => {
-        const AppleSubscription = require("../models/AppleSubscription");
-        const AppleSubscriptionEvent = require("../models/AppleSubscriptionEvent");
-        const PaymentTransaction = require("../models/PaymentTransaction");
-        const PaymentAttempt = require("../models/PaymentAttempt");
-        const UsageReservation = require("../models/UsageReservation");
-        const MembershipHistory = require("../models/MembershipHistory");
+      // Delete UsageReservation (user data)
+      const UsageReservation = require("../models/UsageReservation");
+      await UsageReservation.deleteMany({ userId: targetId }).session(session);
 
-        await Promise.all([
-          AppleSubscription.deleteMany({ userId: targetId }),
-          AppleSubscriptionEvent.deleteMany({ userId: targetId }),
-          PaymentTransaction.deleteMany({ userId: targetId }),
-          PaymentAttempt.deleteMany({ userId: targetId }),
-          UsageReservation.deleteMany({ userId: targetId }),
-          MembershipHistory.deleteMany({ userId: targetId }),
-        ]);
-      })
-    );
+      // KEEP: AppleSubscriptionEvent, PaymentTransaction, PaymentAttempt, MembershipHistory
+      // (audit/financial history preserved)
 
-    await Promise.all(cleanupTasks);
-
-    // Core user document — this is the only hard failure that should 500.
-    await model.deleteOne({ _id: targetId });
+      // Delete user document
+      await model.deleteOne({ _id: targetId }).session(session);
+    });
 
     logger.info(`[DeleteAccount] Account _id=${targetId} deleted successfully`);
     return sendJson(res, 200, {
@@ -579,6 +566,8 @@ exports.deleteAccount = async (req, res) => {
       success: false,
       message: (error && error.message) || "Server error deleting account",
     });
+  } finally {
+    session.endSession();
   }
 };
 

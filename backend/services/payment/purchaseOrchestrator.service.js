@@ -45,6 +45,13 @@ function generateTransactionId() {
 
 /**
  * Create a PaymentTransaction ledger entry for an Apple purchase.
+ * 
+ * If a transaction already exists with the same externalTransactionId:
+ * - Same user: return existing (idempotent)
+ * - Different user (deleted account): return existing as-is (immutable ledger)
+ * 
+ * This ensures PaymentTransaction remains an immutable financial ledger
+ * while allowing restore after account deletion.
  */
 async function createAppleLedger({
   user,
@@ -58,6 +65,22 @@ async function createAppleLedger({
   const v = verificationResult.normalizedVerificationData;
   console.log(`[createAppleLedger] ENTER — extTxnId=${v.transactionId}, planId=${v.planId}, subscriptionId=${subscription._id}`);
 
+  // Check if transaction already exists (idempotency or deleted user scenario)
+  const existingTransaction = await PaymentTransaction.findOne({
+    gateway: "apple",
+    externalTransactionId: v.transactionId,
+  }).session(session);
+
+  if (existingTransaction) {
+    console.log(`[createAppleLedger] EXIT — existing txnId=${existingTransaction.transactionId}, userId=${existingTransaction.userId} (current user=${user._id})`);
+    if (subscription && subscription._id && String(existingTransaction.subscriptionId) !== String(subscription._id)) {
+      existingTransaction.subscriptionId = subscription._id;
+      await existingTransaction.save({ session });
+    }
+    return existingTransaction;
+  }
+
+  // No existing transaction — create new one
   const [transaction] = await PaymentTransaction.create([{
     transactionId: generateTransactionId(),
     userId: user._id,
@@ -76,6 +99,8 @@ async function createAppleLedger({
   console.log(`[createAppleLedger] EXIT — created txnId=${transaction.transactionId}`);
   return transaction;
 }
+
+
 
 /**
  * Determine the purchase intent from the verification context.
@@ -308,7 +333,7 @@ async function processApplePurchase(user, userModel, verificationResult, attempt
   attempt.paymentTransactionId = transaction._id;
   await attempt.save({ session });
 
-  // Grant entitlement — derive membership from subscription
+  // Grant entitlement — derive membership from subscription ownership
   console.log("[Orchestrator] STEP 5 — Granting entitlement...");
   transaction.status = "ENTITLEMENT_PENDING";
   await transaction.save({ session });
@@ -410,6 +435,8 @@ async function processRestore(user, userModel, gateway, payload) {
     return { success: false, error: "Restore is only supported for Apple subscriptions." };
   }
 
+  const resolvedUserModel = typeof userModel === "function" ? userModel.modelName : (userModel || "User");
+
   try {
     // Verify receipt with Apple
     const verificationResult = await appleVerification.verifyPurchase(payload);
@@ -423,53 +450,13 @@ async function processRestore(user, userModel, gateway, payload) {
       let finalResult;
       await session.withTransaction(async () => {
         // Restore subscription
-        const restoreResult = await appleSubscriptionService.restoreSubscription(verificationResult, user, session);
+        const restoreResult = await appleSubscriptionService.restoreSubscription(verificationResult, user, resolvedUserModel, session);
         const subscription = restoreResult.subscription;
 
-        // If this was a new creation (subscription didn't exist before), create ledger
-        if (restoreResult.subscription && !restoreResult.restored && restoreResult.wasSameUser !== false) {
-          // createSubscription was called internally — create ledger
+        if (subscription) {
           const transaction = await createAppleLedger({
             user,
-            userModel,
-            verificationResult,
-            subscription,
-            amount: verificationResult.amount,
-            currency: verificationResult.currency,
-            session,
-          });
-
-          // Grant entitlement
-          transaction.status = "ENTITLEMENT_PENDING";
-          await transaction.save({ session });
-
-          const entitlementResult = await entitlementService.grantEntitlement(transaction, session, {
-            intent: "restoration",
-          });
-          if (entitlementResult.success) {
-            transaction.status = "ENTITLED";
-            transaction.processedAt = new Date();
-            await transaction.save({ session });
-          } else {
-            throw new Error("Restore verified but failed to grant access.");
-          }
-
-          finalResult = {
-            success: true,
-            restored: false,
-            isNew: true,
-            transactionId: transaction.transactionId,
-            subscription: subscription.toObject ? subscription.toObject() : subscription,
-            membership: entitlementResult.membership || null,
-          };
-          return;
-        }
-
-        // For existing subscriptions with new receipt data, create ledger + re-entitle
-        if (restoreResult.restored) {
-          const transaction = await createAppleLedger({
-            user,
-            userModel,
+            userModel: resolvedUserModel,
             verificationResult,
             subscription,
             amount: verificationResult.amount,
@@ -483,6 +470,7 @@ async function processRestore(user, userModel, gateway, payload) {
           const entitlementResult = await entitlementService.grantEntitlement(transaction, session, {
             intent: "restoration",
           });
+
           if (entitlementResult.success) {
             transaction.status = "ENTITLED";
             transaction.processedAt = new Date();
@@ -493,8 +481,8 @@ async function processRestore(user, userModel, gateway, payload) {
 
           finalResult = {
             success: true,
-            restored: true,
-            isNew: false,
+            restored: !!restoreResult.restored,
+            isNew: !restoreResult.restored,
             transactionId: transaction.transactionId,
             subscription: subscription.toObject ? subscription.toObject() : subscription,
             status: subscription.status,
@@ -509,7 +497,7 @@ async function processRestore(user, userModel, gateway, payload) {
           success: true,
           restored: false,
           isNew: false,
-          subscription: subscription.toObject ? subscription.toObject() : subscription,
+          subscription: subscription ? (subscription.toObject ? subscription.toObject() : subscription) : null,
         };
       });
       return finalResult;

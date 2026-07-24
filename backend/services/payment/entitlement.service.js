@@ -105,15 +105,24 @@ async function deriveFromAppleSubscription(transaction, session = null) {
  *   intent "restoration" forces transitionType restoration (Restore Purchases path).
  * @returns {Object} result - { success, user, membership, transitionType }
  */
+const subscriptionOwnership = require("./subscriptionOwnership");
+
 async function grantEntitlement(transaction, session = null, options = {}) {
   console.log(`[Entitlement] ENTER grantEntitlement — txnId=${transaction.transactionId}, gateway=${transaction.gateway}, planId=${transaction.planId}, userId=${transaction.userId}`);
   try {
-    const user = await findUser(transaction.userId, transaction.userModel, session);
+    const recipient = await subscriptionOwnership.resolveRecipient({
+      gateway: transaction.gateway,
+      subscriptionId: transaction.subscriptionId,
+      fallbackUserId: transaction.userId,
+      fallbackUserModel: transaction.userModel,
+    }, session);
+
+    const user = await findUser(recipient.userId, recipient.userModel, session);
     if (!user) {
       console.error("[Entitlement] EXIT grantEntitlement — User not found");
       return { success: false, error: "User not found" };
     }
-    console.log(`[Entitlement] User found: _id=${user._id}, currentPlan=${user.membership?.planId || "none"}, currentStatus=${user.membership?.status || "none"}`);
+    console.log(`[Entitlement] User found: _id=${user._id}, model=${recipient.userModel}, currentPlan=${user.membership?.planId || "none"}, currentStatus=${user.membership?.status || "none"}`);
 
     const plan = await MembershipPlan.findOne({ planId: transaction.planId }).session(session);
     if (!plan) {
@@ -216,14 +225,29 @@ async function grantEntitlement(transaction, session = null, options = {}) {
 
     // Log history
     console.log("[Entitlement] Creating MembershipHistory...");
+    const targetHistoryTxnId = appleMeta ? appleMeta.transactionId : transaction.transactionId;
+    const historyPlatform = transaction.gateway === "apple" ? "apple_iap" : "razorpay";
+
+    let finalHistoryTxnId = targetHistoryTxnId;
+    if (targetHistoryTxnId) {
+      const existingHistory = await MembershipHistory.findOne({
+        platform: historyPlatform,
+        transactionId: targetHistoryTxnId,
+      }).session(session);
+
+      if (existingHistory && String(existingHistory.userId) !== String(user._id)) {
+        finalHistoryTxnId = `${targetHistoryTxnId}_restore_${user._id}`;
+      }
+    }
+
     const [history] = await MembershipHistory.create([{
       userId: user._id,
-      userModel: transaction.userModel,
+      userModel: recipient.userModel,
       fromPlanId: previousPlanId === "free" ? null : previousPlanId,
       toPlanId: plan.planId,
       transitionType,
-      platform: transaction.gateway === "apple" ? "apple_iap" : "razorpay",
-      transactionId: appleMeta ? appleMeta.transactionId : transaction.transactionId,
+      platform: historyPlatform,
+      transactionId: finalHistoryTxnId,
     }], { session });
 
     if (!user.membership.history) user.membership.history = [];
