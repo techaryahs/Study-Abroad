@@ -95,8 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Row(
                   children: [
                     Container(
-                      width: logoSize,
-                      height: logoSize,
+                      width: isSmall ? 50 : 70,
+                      height: isSmall ? 50 : 70,
                       alignment: Alignment.center,
                       child: Image.asset(
                         'assets/images/logo_edug.png',
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "INTERNATIONAL EDULEADER",
+                            "EDULEADER",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
 
                           Text(
-                            "COUNCIL",
+                            "GLOBAL",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -138,19 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
 
                           SizedBox(height: 2),
-
-                          Text(
-                            "GLOBAL ADMISSIONS",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: subtitleSize,
-                              fontWeight: FontWeight.w900,
-                              color: AppTheme.gold,
-                              letterSpacing: 1.5,
-                              height: 1.0,
-                            ),
-                          ),
                         ],
                       ),
                     ),

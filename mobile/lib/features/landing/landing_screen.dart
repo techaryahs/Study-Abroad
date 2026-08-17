@@ -112,7 +112,7 @@ class LandingScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
                         Text(
-                          "INTERNATIONAL EDULEADER",
+                          "EDULEADER",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -122,7 +122,7 @@ class LandingScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "COUNCIL",
+                          "GLOBAL",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(

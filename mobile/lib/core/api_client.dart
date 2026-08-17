@@ -97,7 +97,7 @@ String extractErrorMessage(Object e) {
 
 class ApiClient {
   // ── PRODUCTION SERVER ──
-  // static const String baseUrl = 'https://api.eduleaderglobal.com';
+  static const String baseUrl = 'https://api.eduleaderglobal.com';
 
   // ── LOCAL NODE.JS DEVELOPMENT BACKEND (PORT 5011) ──
   // Toggle the active environment below by commenting/uncommenting:
@@ -109,7 +109,7 @@ class ApiClient {
   // 2. Android Emulator (translates to localhost of your development machine)
   // static const String baseUrl = 'http://10.0.2.2:5011';
   
-  static const String baseUrl = 'http://192.168.1.4:5011';
+  // static const String baseUrl = 'http://192.168.1.4:5011';
 
   static Dio? _dio;
 

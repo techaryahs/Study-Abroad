@@ -31,7 +31,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.studyabroad.study_abroad"
+        applicationId = "com.amit.studyabroad"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

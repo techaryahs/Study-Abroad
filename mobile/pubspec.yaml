@@ -1,7 +1,7 @@
 name: study_abroad
 description: "EduLeaderGlobal - Premium Education Counselling App"
 publish_to: 'none'
-version: 1.0.1+2
+version: 1.0.1+4
 
 environment:
   sdk: '>=3.2.0 <4.0.0'
@@ -62,7 +62,13 @@ dependencies:
   in_app_purchase: ^3.2.3
 
   # WebRTC
-  flutter_webrtc: ^1.4.1
+  # Pinned to upstream commit that removes private RPSystemBroadcastPickerView.buttonPressed
+  # selector (PR #2121, fixes App Store rejection). Revert to pub.dev version constraint
+  # once a release >= 1.5.3 includes this fix.
+  flutter_webrtc:
+    git:
+      url: https://github.com/flutter-webrtc/flutter-webrtc.git
+      ref: e477bbfa57a09316f1d4f3286013d61bf61809bb
 
   # Security
   root_checker_plus: ^1.0.0
