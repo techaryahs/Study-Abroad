@@ -85,6 +85,10 @@ app.use("/api/parent", require("./routes/parent.routes"));
 // 💓 Activity Manager
 app.use("/api/activity", require("./routes/activityRoutes"));
 
+// --- Partnership Tracking System (Part 1) ---
+app.use("/api/partnership", require("./routes/partnership.routes"));
+app.use("/api/public/seminars", require("./routes/publicSeminar.routes"));
+
 app.use("/api/feature-activity", featureActivityRoutes);
 app.use("/api/research-groups", require("./routes/researchGroup.routes"));
 app.use("/api/reviews", require("./routes/review.routes"));

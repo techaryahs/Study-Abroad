@@ -1004,4 +1004,85 @@ exports.verifyLoginOtp = async (req, res) => {
   }
 };
 
+/* =========================
+   REGISTER PARTNER
+========================= */
+exports.registerPartner = async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      mobile,
+      password,
+      partnerType,
+      organizationName,
+      organizationEmail,
+      organizationPhone,
+      designation
+    } = req.body;
+
+    if (!name || !email || !mobile || !password || !partnerType || !organizationName || !organizationEmail || !organizationPhone || !designation) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (partnerType !== "edu_leader" && partnerType !== "edu_mitra") {
+      return res.status(400).json({ error: "Invalid partner type" });
+    }
+
+    const emailLower = email.toLowerCase().trim();
+    const orgEmailLower = organizationEmail.toLowerCase().trim();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailLower) || !emailRegex.test(orgEmailLower)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters long" });
+    }
+
+    const existingEmail = await findUserByEmail(emailLower);
+    if (existingEmail) {
+      return res.status(409).json({ error: "Email already registered" });
+    }
+
+    const existingMobile = await findUserByMobile(mobile);
+    if (existingMobile) {
+      return res.status(409).json({ error: "Mobile number already registered" });
+    }
+
+    const newPartner = new User({
+      name: name.trim(),
+      email: emailLower,
+      mobile: mobile.trim(),
+      password,
+      role: "partner",
+      partnerProfile: {
+        partnerType,
+        organizationName: organizationName.trim(),
+        organizationEmail: orgEmailLower,
+        organizationPhone: organizationPhone.trim(),
+        designation: designation.trim(),
+        isApproved: false,
+        approvedAt: null,
+        approvedBy: null,
+        isActive: true,
+        onboardingStatus: "pending",
+        notes: ""
+      }
+    });
+
+    await newPartner.save();
+
+    logger.info(`Partner Registered Successfully: ${logger.maskEmail(emailLower)}`);
+
+    res.status(201).json({
+      message: "Partner registration submitted successfully. Your application is pending approval.",
+      user: { id: newPartner._id, name: newPartner.name, email: newPartner.email, role: newPartner.role }
+    });
+  } catch (err) {
+    console.error("❌ registerPartner Error:", err);
+    res.status(500).json({ error: "Server error during registration" });
+  }
+};
 

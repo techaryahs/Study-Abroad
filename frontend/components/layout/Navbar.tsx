@@ -504,6 +504,7 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<DropdownKey>(null);
   const [user, setUserState] = useState<any>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [registerDropdownOpen, setRegisterDropdownOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [expandedSubItem, setExpandedSubItem] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -806,12 +807,43 @@ export default function Navbar() {
               {!user ? (
                 <>
                   <Link href="/auth/login" className="text-[14px] font-bold font-black uppercase tracking-widest text-white hover:text-[#B3985E] transition-all">Sign In</Link>
-                  <Link
-                    href="/auth/RegisterStudent"
-                    className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
-                  >
-                    Register
-                  </Link>
+                  <div className="relative group/register">
+                    <button
+                      onMouseEnter={() => setRegisterDropdownOpen(true)}
+                      onMouseLeave={() => setRegisterDropdownOpen(false)}
+                      className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center cursor-default"
+                    >
+                      Register
+                    </button>
+                    {registerDropdownOpen && (
+                      <div
+                        onMouseEnter={() => setRegisterDropdownOpen(true)}
+                        onMouseLeave={() => setRegisterDropdownOpen(false)}
+                        className="absolute right-0 top-full mt-2 w-64 bg-[#16364F] border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] p-4 z-50 flex flex-col"
+                        style={{ animation: "dropIn 0.15s ease-out both" }}
+                      >
+                        <h4 className="text-[10px] font-bold text-[#B3985E] uppercase tracking-[0.2em] mb-3 px-2 border-b border-white/10 pb-2">
+                          Create Your Account
+                        </h4>
+                        <Link
+                          href="/auth/RegisterStudent"
+                          className="flex flex-col gap-1 p-3 rounded-xl hover:bg-white/5 transition-colors"
+                          onClick={() => setRegisterDropdownOpen(false)}
+                        >
+                          <span className="text-[13px] font-bold text-white uppercase tracking-widest">Register as Student</span>
+                          <span className="text-[11px] text-white/50 leading-tight">For students planning to study abroad</span>
+                        </Link>
+                        <Link
+                          href="/register/partner"
+                          className="flex flex-col gap-1 p-3 rounded-xl hover:bg-white/5 transition-colors mt-1"
+                          onClick={() => setRegisterDropdownOpen(false)}
+                        >
+                          <span className="text-[13px] font-bold text-white uppercase tracking-widest">Register as Partner</span>
+                          <span className="text-[11px] text-white/50 leading-tight">For Edu Leaders and Edu Mitra partners</span>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </>
               ) : (
                 <div className="flex items-center gap-3 sm:gap-5">
@@ -1240,9 +1272,21 @@ export default function Navbar() {
             )}
 
             {!user && (
-              <div className="grid grid-cols-2 gap-4 mt-auto pt-10">
+              <div className="flex flex-col gap-4 mt-auto pt-10">
                 <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[14px] font-bold font-black uppercase tracking-widest transition-colors hover:bg-white/10">Sign In</Link>
-                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
+                <div className="flex flex-col gap-3 p-5 rounded-2xl bg-[#1A3A54] border border-[#B3985E]/30">
+                  <h4 className="text-[11px] font-bold text-[#B3985E] uppercase tracking-[0.2em] mb-1 text-center">
+                    Create Your Account
+                  </h4>
+                  <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex flex-col items-center justify-center w-full py-3.5 rounded-xl bg-[#B3985E] text-[#16364F] transition-transform active:scale-95 shadow-lg">
+                    <span className="text-[13px] font-bold font-black uppercase tracking-widest">Register as Student</span>
+                    <span className="text-[9px] opacity-80 uppercase tracking-wider mt-1">For studying abroad</span>
+                  </Link>
+                  <Link href="/register/partner" onClick={() => setMenuOpen(false)} className="flex flex-col items-center justify-center w-full py-3.5 rounded-xl bg-white/10 text-white transition-transform active:scale-95 border border-white/20">
+                    <span className="text-[13px] font-bold font-black uppercase tracking-widest">Register as Partner</span>
+                    <span className="text-[9px] opacity-70 uppercase tracking-wider mt-1">For Edu Leaders & Mitra</span>
+                  </Link>
+                </div>
               </div>
             )}
           </div>

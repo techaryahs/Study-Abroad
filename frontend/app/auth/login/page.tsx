@@ -8,7 +8,7 @@ import { setToken, setUser, getToken } from "@/app/lib/token";
 import { Country } from "country-state-city";
 
 /** Safe internal redirect only (blocks open redirects). */
-function resolvePostLoginPath(role: string, redirectParam: string | null): string {
+function resolvePostLoginPath(role: string, redirectParam: string | null, user?: any): string {
   if (
     redirectParam &&
     redirectParam.startsWith("/") &&
@@ -18,6 +18,12 @@ function resolvePostLoginPath(role: string, redirectParam: string | null): strin
     return redirectParam;
   }
   if (role === "admin") return "/admin-dashboard";
+  if (role === "partner") {
+    if (user?.partnerProfile?.onboardingStatus === "approved" && user?.partnerProfile?.isActive) {
+      return "/partnership/dashboard";
+    }
+    return "/register/partner/status";
+  }
   return "/User/dashboard";
 }
 
@@ -106,7 +112,7 @@ const LoginContent: React.FC = () => {
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
-        router.push(resolvePostLoginPath(role, redirectParam));
+        router.push(resolvePostLoginPath(role, redirectParam, user));
       }, 500);
 
     } catch (err: any) {
@@ -207,7 +213,7 @@ const LoginContent: React.FC = () => {
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
-        router.push(resolvePostLoginPath(role, redirectParam));
+        router.push(resolvePostLoginPath(role, redirectParam, user));
       }, 500);
     } catch (err: any) {
       setOtpError(err.message || "Invalid OTP code");
@@ -560,7 +566,8 @@ const LoginContent: React.FC = () => {
           )}
 
           <div className="mt-8 pt-6 border-t border-[#F1EDEA] flex flex-col gap-4 items-center">
-            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>
+            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest cursor-pointer hover:text-[#C5A059] transition-colors" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>
+            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest cursor-pointer hover:text-[#C5A059] transition-colors" onClick={() => router.push("/register/partner")}>Register as Partner</p>
           </div>
         </div>
       </motion.div>

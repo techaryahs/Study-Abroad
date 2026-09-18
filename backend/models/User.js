@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
     state: { type: String },
     role: {
       type: String,
-      enum: ["student", "consultant", "parent", "admin"],
+      enum: ["student", "consultant", "parent", "admin", "partner"],
       default: "student",
     },
     loginOtp: { type: String, default: null },
@@ -91,6 +91,66 @@ const UserSchema = new mongoose.Schema(
     cart: {
       type: [mongoose.Schema.Types.Mixed],
       default: [],
+    },
+
+    partnerProfile: {
+      partnerType: {
+        type: String,
+        enum: ["edu_leader", "edu_mitra"],
+        default: null,
+      },
+      organizationName: {
+        type: String,
+        trim: true,
+        default: "",
+      },
+      organizationEmail: {
+        type: String,
+        trim: true,
+        lowercase: true,
+        default: "",
+      },
+      organizationPhone: {
+        type: String,
+        trim: true,
+        default: "",
+      },
+      designation: {
+        type: String,
+        trim: true,
+        default: "",
+      },
+      isApproved: {
+        type: Boolean,
+        default: false,
+      },
+      approvedAt: {
+        type: Date,
+        default: null,
+      },
+      approvedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: null,
+      },
+      isActive: {
+        type: Boolean,
+        default: true,
+      },
+      onboardingStatus: {
+        type: String,
+        enum: [
+          "pending",
+          "approved",
+          "rejected",
+          "suspended",
+        ],
+        default: "pending",
+      },
+      notes: {
+        type: String,
+        default: "",
+      },
     },
   },
   { timestamps: true, autoCreate: false, autoIndex: false }
