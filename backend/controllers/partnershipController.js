@@ -2,7 +2,55 @@ const College = require("../models/College");
 const Seminar = require("../models/Seminar");
 const StudentLead = require("../models/StudentLead");
 const Attendance = require("../models/Attendance");
+const User = require("../models/User");
 const seminarService = require("../services/partnership/seminarService");
+
+exports.getPartners = async (req, res) => {
+  try {
+    const partners = await User.find({ role: { $in: ["partner", "admin"] } }).select("name email role partnerProfile");
+    res.json({ success: true, partners });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+exports.getCoordinatorsForCollege = async (req, res) => {
+  try {
+    const coordinators = await User.find({ role: "college_coordinator", collegeId: req.params.id }).select("name email phone partnerProfile");
+    res.json({ success: true, coordinators });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+exports.getDashboard = async (req, res) => {
+  try {
+    let filter = {};
+    if (req.user && req.user.role === "partner") {
+        filter = { createdBy: req.user.id };
+    }
+    
+    const totalColleges = await College.countDocuments(filter);
+    const totalSeminars = await Seminar.countDocuments(filter);
+    const registeredStudents = await StudentLead.countDocuments(filter);
+    const activeLeads = await StudentLead.countDocuments({ ...filter, status: 'active' });
+    
+    res.json({
+      success: true,
+      totalColleges,
+      totalSeminars,
+      registeredStudents,
+      activeLeads,
+      applications: 0,
+      admissions: 0,
+      expectedCommission: "0.00",
+      receivedCommission: "0.00",
+      outstandingShare: "0.00"
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
 
 // --- COLLEGES ---
 exports.createCollege = async (req, res) => {
@@ -24,7 +72,22 @@ exports.getColleges = async (req, res) => {
   }
 };
 
-// --- SEMINARS ---
+const Audit = require("../models/Audit");
+const createAudit = async (req, action, entity, entityId, previousValue, newValue, reason = "") => {
+  try {
+    await Audit.create({
+      userId: req.user?.id || req.user?._id,
+      role: req.user?.role,
+      action,
+      entity,
+      entityId,
+      previousValue,
+      newValue,
+      reason
+    });
+  } catch (err) {}
+};
+
 exports.createSeminar = async (req, res) => {
   try {
     const year = new Date(req.body.date).getFullYear() || new Date().getFullYear();
@@ -36,9 +99,13 @@ exports.createSeminar = async (req, res) => {
       ...req.body,
       seminarId,
       registrationUrl,
-      createdBy: req.user.id
+      createdBy: req.user.id,
+      status: "PENDING"
     });
     await seminar.save();
+    
+    await createAudit(req, "SEMINAR_CREATED", "Seminar", seminar._id, null, seminar.toObject());
+
     res.status(201).json({ success: true, seminar });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });

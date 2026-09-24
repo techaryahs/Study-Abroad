@@ -435,6 +435,11 @@ exports.getMe = async (req, res) => {
       }
     }
 
+    delete userPayload.password;
+    delete userPayload.loginOtp;
+    delete userPayload.loginOtpExpiresAt;
+    delete userPayload.loginOtpAttempts;
+
     res.json({ success: true, user: userPayload });
   } catch (err) {
     console.error("🔥 getMe error:", err);

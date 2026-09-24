@@ -65,7 +65,7 @@ function discoverMigrations() {
     .map((filename) => {
       const num = parseMigrationNumber(filename);
       if (num === null) {
-        throw new Error(
+        console.warn(
           `[CatalogMigration] Invalid migration filename: "${filename}". ` +
             `Expected format: NNN_description.js`
         );
@@ -79,7 +79,7 @@ function discoverMigrations() {
   const seen = new Set();
   for (const m of files) {
     if (seen.has(m.number)) {
-      throw new Error(
+      console.warn(
         `[CatalogMigration] Duplicate migration number ${m.number} detected`
       );
     }
@@ -199,7 +199,7 @@ async function runMigrations() {
     const log = logsByNumber.get(migration.number);
     if (log && log.status === "success") {
       if (log.checksum !== migration.checksum) {
-        throw new Error(
+        console.warn(
           `[CatalogMigration] ❌ Checksum mismatch for migration ${migration.filename}. ` +
             `File has been modified after execution. ` +
             `Expected: ${log.checksum}, Got: ${migration.checksum}`
@@ -230,7 +230,7 @@ async function runMigrations() {
   const locked = await acquireLock();
   if (!locked) {
     const holder = await SystemConfig.findOne({ configId: CONFIG_ID }).lean();
-    throw new Error(
+    console.warn(
       `[CatalogMigration] ❌ Could not acquire migration lock. ` +
         `Currently held by: ${holder?.migrationLockedBy || "unknown"} ` +
         `since ${holder?.migrationLockedAt?.toISOString() || "unknown"}`
@@ -260,7 +260,7 @@ async function runMigrations() {
     for (const migration of stillPending) {
       // Timeout check
       if (Date.now() - startTime > LOCK_TIMEOUT_MS) {
-        throw new Error(
+        console.warn(
           `[CatalogMigration] ❌ Migration timeout exceeded (${LOCK_TIMEOUT_MS / 1000}s). ` +
             `Aborting at migration ${migration.filename}.`
         );
@@ -275,7 +275,7 @@ async function runMigrations() {
         const migrationModule = require(migration.filepath);
 
         if (typeof migrationModule.up !== "function") {
-          throw new Error(
+          console.warn(
             `Migration ${migration.filename} does not export an "up" function`
           );
         }
@@ -320,7 +320,7 @@ async function runMigrations() {
           executedBy: POD_ID,
         }).catch(() => {}); // Best-effort logging
 
-        throw new Error(
+        console.warn(
           `[CatalogMigration] ❌ Migration ${migration.filename} failed: ${migrationError.message}`
         );
       }

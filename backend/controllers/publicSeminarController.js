@@ -9,6 +9,9 @@ exports.getPublicSeminar = async (req, res) => {
   try {
     const seminar = await Seminar.findOne({ seminarId: req.params.seminarId });
     if (!seminar) return res.status(404).json({ success: false, message: "Seminar not found" });
+    if (["PENDING", "REJECTED", "CANCELLED", "DRAFT"].includes(seminar.status)) {
+      return res.status(403).json({ success: false, message: "Seminar is currently unavailable for registration." });
+    }
     
     // Return only safe fields
     res.json({ 
@@ -37,6 +40,9 @@ exports.registerStudent = async (req, res) => {
 
     const seminar = await Seminar.findOne({ seminarId });
     if (!seminar) return res.status(404).json({ success: false, message: "Seminar not found" });
+    if (["PENDING", "REJECTED", "CANCELLED", "DRAFT"].includes(seminar.status)) {
+      return res.status(403).json({ success: false, message: "Seminar is currently unavailable for registration." });
+    }
 
     // Handle duplicates
     const duplicate = await studentLeadService.findDuplicate(mobile, email, fullName, seminar.collegeId);

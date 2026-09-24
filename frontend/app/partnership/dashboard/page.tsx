@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import PartnerGuard from "../../../components/partnership/common/PartnerGuard";
 import axios from "axios";
+import { getToken } from "@/app/lib/token";
 
 export default function Dashboard() {
   const [data, setData] = useState<any>(null);
@@ -9,8 +10,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     // Attempt fetch
-    axios.get("/api/partnership/dashboard", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/partnership/dashboard`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
     })
     .then(res => setData(res.data))
     .catch(err => {
@@ -66,3 +67,4 @@ export default function Dashboard() {
     </PartnerGuard>
   );
 }
+

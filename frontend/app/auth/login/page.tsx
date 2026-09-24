@@ -19,11 +19,14 @@ function resolvePostLoginPath(role: string, redirectParam: string | null, user?:
   }
   if (role === "admin") return "/admin-dashboard";
   if (role === "partner") {
-    if (user?.partnerProfile?.onboardingStatus === "approved" && user?.partnerProfile?.isActive) {
+    const p = user?.partnerProfile;
+    if (p && p.isApproved === true && p.isActive !== false && p.onboardingStatus === "approved") {
       return "/partnership/dashboard";
     }
     return "/register/partner/status";
   }
+  if (role === "consultant") return "/consultant-dashboard";
+  if (role === "college_coordinator") return "/college-dashboard";
   return "/User/dashboard";
 }
 

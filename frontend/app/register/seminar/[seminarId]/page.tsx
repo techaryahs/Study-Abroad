@@ -21,7 +21,7 @@ export default function RegisterSeminar({ params }: { params: { seminarId: strin
   });
 
   useEffect(() => {
-    axios.get(`/api/public/seminars/${params.seminarId}`)
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/public/seminars/${params.seminarId}`)
       .then(res => {
         setSeminar(res.data.seminar);
         setLoading(false);
@@ -101,3 +101,4 @@ export default function RegisterSeminar({ params }: { params: { seminarId: strin
     </div>
   );
 }
+

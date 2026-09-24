@@ -105,6 +105,15 @@ export default function PartnerRegistration() {
     }
   };
 
+  React.useEffect(() => {
+    if (isSuccess) {
+      const timer = setTimeout(() => {
+        router.push("/register/partner/status");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isSuccess, router]);
+
   if (isSuccess) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-[#FDFBF7]">
@@ -117,15 +126,18 @@ export default function PartnerRegistration() {
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle2 className="w-10 h-10 text-green-600" />
           </div>
-          <h1 className="text-3xl font-black text-[#3C2A21] mb-4 uppercase italic">Partner registration submitted</h1>
+          <h1 className="text-3xl font-black text-[#3C2A21] mb-4 uppercase italic">Partner Registration Submitted</h1>
+          <p className="text-[#6B5E51] mb-2 font-bold text-[14px] leading-relaxed">
+            Your partner application has been submitted successfully and is currently under review.
+          </p>
           <p className="text-[#6B5E51] mb-8 font-bold text-[14px] leading-relaxed">
-            Your application is currently under review. You will be able to access the Partnership Dashboard after your partner account is approved.
+            Your account will be available after administrator approval.
           </p>
           <button
-            onClick={() => router.push("/auth/login")}
+            onClick={() => router.push("/register/partner/status")}
             className="mx-auto flex items-center justify-center gap-2 py-4 px-8 bg-[#3C2A21] text-white font-black rounded-xl shadow-lg transition-all hover:bg-[#C5A059] uppercase tracking-widest text-[11px]"
           >
-            Go to Login
+            View Application Status
             <ChevronRight className="w-4 h-4" />
           </button>
         </motion.div>
@@ -149,13 +161,6 @@ export default function PartnerRegistration() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            {errorMsg && (
-              <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="bg-red-50 border border-red-200 text-red-600 px-6 py-4 rounded-xl flex items-center gap-3 text-[12px] font-bold uppercase tracking-wider">
-                <AlertCircle className="w-5 h-5 flex-shrink-0" />
-                <p>{errorMsg}</p>
-              </motion.div>
-            )}
-
             {/* Step 1: Partner Type */}
             <div>
               <h2 className="text-[12px] font-black text-[#3C2A21] uppercase tracking-widest mb-4">1. Select Partner Type</h2>
@@ -269,7 +274,7 @@ export default function PartnerRegistration() {
 
             {/* Step 4: Consent & Submit */}
             <div className="pt-6 border-t border-[#F1EDEA]">
-              <label className="flex items-start gap-3 cursor-pointer group mb-8">
+              <label className="flex items-start gap-3 cursor-pointer group mb-6">
                 <div className="relative flex items-center justify-center mt-0.5">
                   <input type="checkbox" required checked={consent} onChange={(e) => setConsent(e.target.checked)} className="peer appearance-none w-5 h-5 rounded-md border-2 border-[#C5A059]/50 bg-white checked:bg-[#C5A059] checked:border-[#C5A059] transition-all cursor-pointer" />
                   <CheckCircle2 className="w-3 h-3 text-white absolute opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
@@ -278,6 +283,13 @@ export default function PartnerRegistration() {
                   I confirm that the information provided is accurate and I agree to the Edu Leader Global partner onboarding terms.
                 </span>
               </label>
+
+              {errorMsg && (
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="bg-red-50 border border-red-200 text-red-600 px-6 py-4 rounded-xl flex items-center gap-3 text-[12px] font-bold uppercase tracking-wider mb-6">
+                  <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                  <p>{errorMsg}</p>
+                </motion.div>
+              )}
 
               <button disabled={isSubmitting} type="submit" className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[12px] active:scale-95 hover:bg-[#C5A059]">
                 {isSubmitting ? "Submitting..." : "Submit Partner Registration"}

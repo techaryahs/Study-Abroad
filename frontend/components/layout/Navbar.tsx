@@ -598,7 +598,8 @@ export default function Navbar() {
       if (!userId || userId === "session") return;
 
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
+        const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+        const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}`);
         if (response.ok) {
           const data = await response.json();
           // Flatten profile data into the top-level user object for easier access in Navbar
@@ -615,7 +616,8 @@ export default function Navbar() {
           setUserState(null);
         }
       } catch (error) {
-        console.error("Failed to fetch full user profile in Navbar:", error);
+        // Suppress expected network errors when user is navigating or backend is unreachable
+        // console.error("Failed to fetch full user profile in Navbar:", error);
       }
     };
 
@@ -671,6 +673,33 @@ export default function Navbar() {
     const leadingSlash = normalizedPath.startsWith('/') ? '' : '/';
     const backendUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001').replace(/\/$/, '');
     return `${backendUrl}${leadingSlash}${normalizedPath}`;
+  };
+
+  const getDashboardPath = (user: any) => {
+    if (!user) return "/auth/login";
+    if (user.role === "admin") return "/admin-dashboard";
+    if (user.role === "consultant") return "/consultant-dashboard";
+    if (user.role === "partner") {
+      const p = user.partnerProfile;
+      if (p && p.isApproved === true && p.isActive !== false && p.onboardingStatus === "approved") {
+        return "/partnership/dashboard";
+      }
+      return "/register/partner/status";
+    }
+    return "/User/dashboard";
+  };
+
+  const getDashboardLabel = (user: any) => {
+    if (user?.role === "admin") return "Admin Dashboard";
+    if (user?.role === "consultant") return "Consultant Portal";
+    if (user?.role === "partner") {
+      const p = user.partnerProfile;
+      if (p && p.isApproved === true && p.isActive !== false && p.onboardingStatus === "approved") {
+        return "Partner Dashboard";
+      }
+      return "Partner Status";
+    }
+    return "Dashboard";
   };
 
   return (
@@ -890,8 +919,8 @@ export default function Navbar() {
                         <span className="inline-block px-2 py-0.5 bg-[#B3985E]/10 text-[#B3985E] text-[12px] font-black font-black uppercase rounded-full mt-1 border border-[#B3985E]/20">{user.role || 'Student'}</span>
 
                         <div className="mt-6 pt-5 border-t border-white/5 space-y-1.5 text-left">
-                          <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold font-black text-white hover:bg-white/5 hover:text-[#B3985E] transition-all uppercase tracking-[0.2em] group/link">
-                            <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}
+                          <Link href={getDashboardPath(user)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold font-black text-white hover:bg-white/5 hover:text-[#B3985E] transition-all uppercase tracking-[0.2em] group/link">
+                            <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {getDashboardLabel(user)}
                           </Link>
                           <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-[14px] font-bold font-black text-red-500 hover:bg-red-500/10 transition-all uppercase tracking-[0.2em] group/out">
                             <LogOut size={14} className="opacity-40 group-hover/out:opacity-100 transition-opacity" /> Logout
@@ -1253,12 +1282,12 @@ export default function Navbar() {
 
                 <div className="space-y-3">
                   <Link
-                    href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"}
+                    href={getDashboardPath(user)}
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-3 w-full h-12 px-5 rounded-xl bg-white/5 text-white/80 hover:bg-white/10 transition-all border border-white/10 group"
                   >
                     <LayoutDashboard size={16} className="opacity-40 group-hover:opacity-100 transition-opacity" />
-                    <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">Personal Portal</span>
+                    <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">{getDashboardLabel(user)}</span>
                   </Link>
                   <button
                     onClick={() => { handleLogout(); setMenuOpen(false); }}

@@ -2,14 +2,15 @@
 import React, { useEffect, useState } from "react";
 import PartnerGuard from "../../../components/partnership/common/PartnerGuard";
 import axios from "axios";
+import { getToken } from "@/app/lib/token";
 
 export default function Colleges() {
   const [colleges, setColleges] = useState([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    axios.get("/api/partnership/colleges", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/partnership/colleges`, {
+      headers: { Authorization: `Bearer ${getToken()}` }
     })
     .then(res => setColleges(res.data.colleges || []))
     .catch(err => {
@@ -66,3 +67,4 @@ export default function Colleges() {
     </PartnerGuard>
   );
 }
+

@@ -28,9 +28,10 @@ const UserSchema = new mongoose.Schema(
     state: { type: String },
     role: {
       type: String,
-      enum: ["student", "consultant", "parent", "admin", "partner"],
+      enum: ["student", "consultant", "parent", "admin", "partner", "college_coordinator"],
       default: "student",
     },
+    collegeId: { type: mongoose.Schema.Types.ObjectId, ref: "College" },
     loginOtp: { type: String, default: null },
     loginOtpExpiresAt: { type: Date, default: null },
     loginOtpAttempts: { type: Number, default: 0 },

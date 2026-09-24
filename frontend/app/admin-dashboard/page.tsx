@@ -525,6 +525,18 @@ export default function AdminDashboard() {
             className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
             Counsellors
           </button>
+          <button onClick={() => router.push("/admin/partners")}
+            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            Partners
+          </button>
+          <button onClick={() => router.push("/admin/seminars")}
+            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            Seminar Approvals
+          </button>
+          <button onClick={() => router.push("/admin/colleges")}
+            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            Colleges
+          </button>
         </div>
 
         {/* Active Sessions */}

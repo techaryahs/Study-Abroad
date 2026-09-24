@@ -27,15 +27,24 @@ const SeminarSchema = new mongoose.Schema(
     description: { type: String },
     status: {
       type: String,
-      enum: ["DRAFT", "SCHEDULED", "ACTIVE", "COMPLETED", "CANCELLED"],
-      default: "SCHEDULED"
+      enum: ["DRAFT", "PENDING", "APPROVED", "REJECTED", "SCHEDULED", "ACTIVE", "COMPLETED", "CANCELLED"],
+      default: "PENDING"
     },
+    approvedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    approvedAt: { type: Date },
+    rejectedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    rejectedAt: { type: Date },
+    rejectionReason: { type: String },
     registrationUrl: { type: String },
     qrCodeUrl: { type: String },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
-    }
+    },
+    attendanceVerifiedStatus: { type: String, enum: ["PENDING", "VERIFIED"], default: "PENDING" },
+    attendanceVerifiedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    attendanceVerifiedAt: { type: Date },
+    attendanceRemarks: { type: String }
   },
   { timestamps: true }
 );

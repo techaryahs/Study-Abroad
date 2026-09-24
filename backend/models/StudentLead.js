@@ -57,3 +57,4 @@ StudentLeadSchema.index({ normalizedMobile: 1 });
 StudentLeadSchema.index({ normalizedEmail: 1 });
 
 module.exports = mongoose.models.StudentLead || mongoose.model("StudentLead", StudentLeadSchema);
+
