@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getUser, getToken, removeToken } from "@/app/lib/token";
 import { Video, Calendar, Clock, User, X, CheckCircle,
@@ -317,8 +317,8 @@ function ForgotPasswordModal({ onClose }: { onClose: () => void }) {
 }
 
 // ─── Profile Tab ─────────────────────────────────────────────────────────────
-function ProfileTab({ user, token, onLogout }: {
-  user: Record<string, string>; token: string; onLogout: () => void;
+function ProfileTab({ user, token }: {
+  user: Record<string, string>; token: string;
 }) {
   const [modal, setModal] = useState<PasswordModal>("none");
 
@@ -500,32 +500,32 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-[#05070a] text-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 lg:py-16">
 
         {/* Header */}
         <div className="mb-10">
-          <div className="flex items-center gap-3">
-            <div className="w-2 h-10 bg-[#c2a878] rounded-full" />
-            <h1 className="text-3xl sm:text-4xl font-black uppercase italic font-serif tracking-tighter">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="w-1.5 sm:w-2 h-8 sm:h-10 bg-[#c2a878] rounded-full shrink-0" />
+            <h1 className="text-2xl sm:text-4xl font-black uppercase italic font-serif tracking-tight sm:tracking-tighter">
               Admin Dashboard
             </h1>
             <button
               onClick={handleLogout}
-              className="ml-auto flex items-center gap-2 px-4 py-2 text-[14px] font-bold font-black uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 hover:border-red-500/40 rounded-xl transition-all"
+              className="ml-auto flex shrink-0 items-center gap-2 px-3 sm:px-4 py-2 text-[10px] sm:text-[14px] font-bold font-black uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-500/20 hover:border-red-500/40 rounded-xl transition-all"
             >
               <LogOut size={13} /> Logout
             </button>
           </div>
-          <p className="text-[11px] font-black text-gray-500 uppercase tracking-[0.4em] mt-1 ml-5">
+          <p className="text-[9px] sm:text-[11px] font-black text-gray-500 uppercase tracking-[0.2em] sm:tracking-[0.4em] mt-2 sm:mt-1 ml-4 sm:ml-5">
             Session Management & Admin Controls
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-1 mb-8 border-b border-white/5 overflow-x-auto">
+        <div className="flex gap-1 mb-6 sm:mb-8 border-b border-white/5 overflow-x-auto overscroll-x-contain">
           {tabs.map(t => (
             <button key={t.id} onClick={() => setActiveTab(t.id)}
-              className={`px-5 py-3 text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
+              className={`px-3 sm:px-5 py-3 text-[10px] sm:text-[11px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
                 activeTab === t.id
                   ? "text-[#c2a878] border-b-2 border-[#c2a878]"
                   : "text-gray-500 hover:text-white"
@@ -535,15 +535,15 @@ export default function AdminDashboard() {
             </button>
           ))}
           <button onClick={() => router.push("/admin-dashboard/slots")}
-            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            className="px-3 sm:px-5 py-3 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all whitespace-nowrap">
             Manage Slots
           </button>
           <button onClick={() => router.push("/admin-dashboard/articles")}
-            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            className="px-3 sm:px-5 py-3 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all whitespace-nowrap">
             Articles
           </button>
           <button onClick={() => router.push("/admin/consultants")}
-            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            className="px-3 sm:px-5 py-3 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all whitespace-nowrap">
             Counsellors
           </button>
         </div>
@@ -557,14 +557,14 @@ export default function AdminDashboard() {
               </div>
             ) : activeSessions.length > 0 ? activeSessions.map(s => (
               <div key={s._id}
-                className="group flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-6 bg-[#c2a878]/[0.02] border border-[#c2a878]/10 rounded-2xl hover:bg-[#c2a878]/[0.04] transition-colors">
+                className="group flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 sm:p-6 bg-[#c2a878]/[0.02] border border-[#c2a878]/10 rounded-2xl hover:bg-[#c2a878]/[0.04] transition-colors">
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2 min-w-0">
                     <User size={16} className="text-[#c2a878]" />
-                    <span className="text-white font-bold">{s.userName || s.userEmail}</span>
+                    <span className="min-w-0 break-all text-white font-bold">{s.userName || s.userEmail}</span>
                     <span className="text-[12px] font-black px-2 py-0.5 bg-[#c2a878] text-black font-black uppercase rounded-full">Active</span>
                   </div>
-                  <div className="flex items-center gap-4 text-[14px] font-bold font-black uppercase tracking-widest text-gray-600">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] sm:text-[14px] font-bold font-black uppercase tracking-wider sm:tracking-widest text-gray-600">
                     <div className="flex items-center gap-2"><Calendar size={12} className="text-[#c2a878]" /><span>{s.date}</span></div>
                     <div className="flex items-center gap-2"><Clock size={12} className="text-[#c2a878]" /><span>{s.time} - {s.endTime}</span></div>
                   </div>
@@ -572,13 +572,13 @@ export default function AdminDashboard() {
                     Meeting ID: <span className="text-[#c2a878] font-mono">{s.meetingId}</span>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex w-full md:w-auto items-center gap-3">
                   <button onClick={() => router.push(`/meeting/${s.sessionId}`)}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[14px] font-bold uppercase tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95">
+                    className="flex flex-1 md:flex-none items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-[#c2a878] text-black rounded-xl font-black text-[11px] sm:text-[14px] font-bold uppercase tracking-[0.12em] sm:tracking-[0.2em] hover:bg-yellow-100 transition-all active:scale-95">
                     <Video size={14} /> Join Meeting
                   </button>
-                  <button onClick={() => cancelSession(s._id)}
-                    className="p-3 text-gray-700 hover:text-rose-500 transition-colors">
+                  <button aria-label="Cancel session" onClick={() => cancelSession(s._id)}
+                    className="shrink-0 p-3 text-gray-700 hover:text-rose-500 transition-colors">
                     <X size={16} />
                   </button>
                 </div>
@@ -600,16 +600,16 @@ export default function AdminDashboard() {
               </div>
             ) : pastSessions.length > 0 ? pastSessions.map(s => (
               <div key={s._id}
-                className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-6 bg-white/[0.01] border border-white/5 rounded-2xl opacity-60">
+                className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 sm:p-6 bg-white/[0.01] border border-white/5 rounded-2xl opacity-60">
                 <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2 min-w-0">
                     <User size={16} className="text-gray-500" />
-                    <span className="text-white font-bold">{s.userName || s.userEmail}</span>
+                    <span className="min-w-0 break-all text-white font-bold">{s.userName || s.userEmail}</span>
                     <span className={`text-[12px] font-black px-2 py-0.5 font-black uppercase rounded-full ${
                       s.status === "completed" ? "bg-emerald-500/20 text-emerald-400" : "bg-red-500/20 text-red-400"
                     }`}>{s.status}</span>
                   </div>
-                  <div className="flex items-center gap-4 text-[14px] font-bold font-black uppercase tracking-widest text-gray-600">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] sm:text-[14px] font-bold font-black uppercase tracking-wider sm:tracking-widest text-gray-600">
                     <div className="flex items-center gap-2"><Calendar size={12} /><span>{s.date}</span></div>
                     <div className="flex items-center gap-2"><Clock size={12} /><span>{s.time} - {s.endTime}</span></div>
                   </div>
@@ -628,7 +628,7 @@ export default function AdminDashboard() {
 
         {/* Profile Tab */}
         {activeTab === "profile" && (
-          <ProfileTab user={adminUser} token={adminToken} onLogout={handleLogout} />
+          <ProfileTab user={adminUser} token={adminToken} />
         )}
 
         {/* Coupons Tab */}

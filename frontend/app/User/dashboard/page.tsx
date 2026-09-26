@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { getToken, getUser, clearAuth, setUser } from "@/app/lib/token";
 import { HighSchoolModal, SuccessModal } from "./profile/HighSchool";
 import { UnderGradModal } from "./profile/UnderGrad";
 import { MastersModal } from "./profile/Masters";
 import { TargetUniversityModal } from "./profile/TargetUniversity";
-import TestScores from "./profile/TestScores";
 import { TestScoresModal } from "./profile/TestScores";
 import WorkExpModal from "./profile/WorkExp";
 import ResearchModal from "./profile/research";
@@ -29,14 +29,11 @@ import {
   ChevronRight,
   FileText,
   Calendar,
-  Share2,
   GraduationCap,
   Star,
   Trash2,
   Trophy,
-  MessageCircle,
   School,
-  ClipboardList,
   Target
 } from "lucide-react";
 import PremiumLock from "@/components/shared/PremiumLock";
@@ -47,7 +44,103 @@ interface ProfileCard {
   title: string;
   description: string;
   icon: string;
-  section: string;
+  section: ProfileSection | "bio";
+}
+
+type ProfileSection =
+  | "highSchool"
+  | "underGrad"
+  | "masters"
+  | "testScores"
+  | "workExperience"
+  | "research"
+  | "projects"
+  | "volunteering"
+  | "targetUniversities";
+
+type PortfolioSection = "workExperience" | "projects" | "research" | "volunteering";
+
+interface ProfileEntry {
+  _id: string;
+  schoolName?: string;
+  uniName?: string;
+  degreeName?: string;
+  cgpa?: string | number;
+  outOf?: string | number;
+  major?: string;
+  term?: string;
+  year?: string | number;
+  role?: string;
+  title?: string;
+  organization?: string;
+  institution?: string;
+  startDate?: string;
+  endDate?: string;
+  isOngoing?: boolean;
+  description?: string;
+}
+
+interface TestScoreEntry {
+  testType: string;
+  score: string | number;
+  sectionScores?: Record<string, string | number>;
+}
+
+interface SessionEntry {
+  _id: string;
+  sessionId?: string;
+  meetingId?: string;
+  date: string;
+  time?: string;
+  consultantName?: string;
+  status?: string;
+}
+
+interface StudentProfile {
+  profileImage?: string;
+  isPublic?: boolean;
+  location?: string;
+  linkedin?: string;
+  bio?: string;
+  highSchool?: ProfileEntry[];
+  underGrad?: ProfileEntry[];
+  masters?: ProfileEntry[];
+  testScores?: TestScoreEntry[];
+  workExperience?: ProfileEntry[];
+  research?: ProfileEntry[];
+  projects?: ProfileEntry[];
+  volunteering?: ProfileEntry[];
+  targetUniversities?: ProfileEntry[];
+  mySessions?: SessionEntry[];
+}
+
+interface StudentRecord {
+  _id?: string;
+  id?: string;
+  name?: string;
+  gender?: string;
+  dob?: string;
+  country?: string;
+  profile?: StudentProfile;
+}
+
+interface ReceiptItem {
+  title: string;
+}
+
+interface ReceiptEntry {
+  _id: string;
+  createdAt: string;
+  orderId: string;
+  currency: string;
+  total: number;
+  items: ReceiptItem[];
+}
+
+interface ProfileTabEntry {
+  id: string;
+  label: string;
+  hasData: boolean;
 }
 
 const initialCards: ProfileCard[] = [
@@ -63,8 +156,7 @@ const initialCards: ProfileCard[] = [
 ];
 
 export default function DashboardPage() {
-  const [userData, setUserData] = useState<any>(null);
-  const [cards, setCards] = useState<ProfileCard[]>(initialCards);
+  const [userData, setUserData] = useState<StudentRecord | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [openModal, setOpenModal] = useState<string | null>(null);
   const [activeProfileTab, setActiveProfileTab] = useState('about');
@@ -72,32 +164,21 @@ export default function DashboardPage() {
   const [sessionFilter, setSessionFilter] = useState<'upcoming' | 'past'>('upcoming');
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [editingItem, setEditingItem] = useState<{ section: string; data: any } | null>(null);
+  const [editingItem, setEditingItem] = useState<{ section: ProfileSection; data: ProfileEntry } | null>(null);
   const [savingImage, setSavingImage] = useState(false);
-  const [receipts, setReceipts] = useState<any[]>([]);
+  const [receipts, setReceipts] = useState<ReceiptEntry[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { isPremium } = usePremiumStatus();
 
   const router = useRouter();
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
 
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      clearAuth();
-      router.push("/auth/login");
-      return;
-    }
-    fetchProfile();
-    fetchReceipts();
+  const getUserId = useCallback(() => {
+    const user = getUser();
+    return user?._id || user?.id || null;
   }, []);
 
-  const getUserId = () => {
-    const u = getUser();
-    return u?._id || u?.id || null;
-  };
-
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     const userId = getUserId();
     if (!userId) {
       setLoading(false);
@@ -106,7 +187,7 @@ export default function DashboardPage() {
     try {
       const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}`);
       if (response.ok) {
-        const data = await response.json();
+        const data: StudentRecord = await response.json();
         setUserData(data);
       } else if (response.status === 401 || response.status === 404) {
         console.warn("Auth token invalid on dashboard. Redirecting to login.");
@@ -118,21 +199,32 @@ export default function DashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [BACKEND_URL, getUserId, router]);
 
-  const fetchReceipts = async () => {
+  const fetchReceipts = useCallback(async () => {
     const user = getUser();
     if (!user?.email) return;
     try {
       const response = await fetch(`${BACKEND_URL}/api/payment/user/${user.email}`);
       if (response.ok) {
-        const data = await response.json();
-        setReceipts(data);
+        const data: ReceiptEntry[] = await response.json();
+        setReceipts(Array.isArray(data) ? data : []);
       }
     } catch (error) {
       console.error("Error fetching receipts:", error);
     }
-  };
+  }, [BACKEND_URL]);
+
+  useEffect(() => {
+    const token = getToken();
+    if (!token) {
+      clearAuth();
+      router.push("/auth/login");
+      return;
+    }
+    fetchProfile();
+    fetchReceipts();
+  }, [fetchProfile, fetchReceipts, router]);
 
   const handleImageUpload = async (file: File) => {
     const userId = getUserId();
@@ -162,7 +254,7 @@ export default function DashboardPage() {
     }
   };
 
-  const addProfileItem = async (section: string, data: any) => {
+  const addProfileItem = async (section: ProfileSection, data: unknown) => {
     const userId = getUserId();
     if (!userId) {
       const error = "❌ Error: Session node not found. Please re-authenticate.";
@@ -198,13 +290,13 @@ export default function DashboardPage() {
         const detail = err.error || err.message || "Failed to save information";
         throw new Error(detail);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("❌ Update failed:", error);
       throw error;
     }
   };
 
-  const updateCoreProfile = async (field: string, value: any, silent = false) => {
+  const updateCoreProfile = async (field: string, value: unknown, silent = false) => {
     const userId = getUserId();
     if (!userId) {
       alert("Session Expired. Please login.");
@@ -244,33 +336,55 @@ export default function DashboardPage() {
     }
   };
 
-  const filteredCards = cards.filter(card => {
+  const filteredCards = initialCards.filter(card => {
     if (!userData || !userData.profile) return true;
-    const sectionData = userData.profile[card.section];
     if (card.section === 'bio') return !userData.profile.bio || userData.profile.bio.length < 10;
+    const sectionData = userData.profile[card.section];
     return !sectionData || sectionData.length === 0;
   });
 
   const scroll = (direction: 'left' | 'right') => {
     if (direction === 'left') setCurrentIndex(prev => Math.max(0, prev - 1));
-    else setCurrentIndex(prev => Math.min(filteredCards.length - 3, prev + 1));
+    else setCurrentIndex(prev => Math.min(Math.max(0, filteredCards.length - 3), prev + 1));
   };
 
   const completedSteps = [
-    userData?.profile?.highSchool?.length > 0,
-    userData?.profile?.underGrad?.length > 0,
-    userData?.profile?.masters?.length > 0,
-    userData?.profile?.testScores?.length > 0,
-    userData?.profile?.workExperience?.length > 0,
-    userData?.profile?.research?.length > 0,
-    userData?.profile?.projects?.length > 0,
-    userData?.profile?.volunteering?.length > 0,
-    userData?.profile?.targetUniversities?.length > 0,
-    userData?.profile?.bio?.length > 10
+    Boolean(userData?.profile?.highSchool?.length),
+    Boolean(userData?.profile?.underGrad?.length),
+    Boolean(userData?.profile?.masters?.length),
+    Boolean(userData?.profile?.testScores?.length),
+    Boolean(userData?.profile?.workExperience?.length),
+    Boolean(userData?.profile?.research?.length),
+    Boolean(userData?.profile?.projects?.length),
+    Boolean(userData?.profile?.volunteering?.length),
+    Boolean(userData?.profile?.targetUniversities?.length),
+    (userData?.profile?.bio?.length ?? 0) > 10
   ].filter(Boolean).length;
 
-  const totalSteps = 9;
-  const visibleCards = filteredCards.slice(currentIndex, currentIndex + 3);
+  const totalSteps = 10;
+  const safeCardIndex = Math.min(currentIndex, Math.max(0, filteredCards.length - 3));
+  const visibleCards = filteredCards.slice(safeCardIndex, safeCardIndex + 3);
+  const profileTabs: ProfileTabEntry[] = [
+    { id: 'about', label: 'About', hasData: true },
+    { id: 'insights', label: 'Insights', hasData: true },
+    { id: 'highSchool', label: 'High School', hasData: Boolean(userData?.profile?.highSchool?.length) },
+    { id: 'undergrad', label: "Bachelor's", hasData: Boolean(userData?.profile?.underGrad?.length) },
+    { id: 'masters', label: "Master's", hasData: Boolean(userData?.profile?.masters?.length) },
+    { id: 'target', label: 'Target', hasData: Boolean(userData?.profile?.targetUniversities?.length) },
+    ...(userData?.profile?.testScores || []).map((score) => ({
+      id: `score-${score.testType.toLowerCase()}`,
+      label: score.testType.toUpperCase(),
+      hasData: true,
+    })),
+  ];
+  const portfolioSections: { id: PortfolioSection; label: string; icon: React.ReactNode }[] = [
+    { id: 'workExperience', label: "Work Experience", icon: <Briefcase size={18} /> },
+    { id: 'projects', label: "Projects", icon: <Star size={18} /> },
+    { id: 'research', label: "Research Papers", icon: <FileText size={18} /> },
+    { id: 'volunteering', label: "Volunteering", icon: <Heart size={18} /> },
+  ];
+  const getPortfolioEntries = (section: PortfolioSection) =>
+    userData?.profile?.[section] ?? [];
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7]">
@@ -282,25 +396,28 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-[#FDFBF7] text-[#3C2A21] pb-32 font-base selection:bg-[#C5A059]/20">
 
       {/* ── PREMIUM HEADER ── */}
-      <div className="max-w-6xl mx-auto px-6 pt-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 py-10 border-b border-[#F1EDEA]">
-          <div className="flex flex-col md:flex-row items-center gap-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-6 sm:pt-12">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-6 sm:gap-8 py-6 sm:py-10 border-b border-[#F1EDEA]">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start md:items-center gap-4 sm:gap-6 md:gap-8 min-w-0">
             <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
-              <div className="w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#C5A059]/20 to-transparent border border-[#F1EDEA] p-1 shadow-sm">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-br from-[#C5A059]/20 to-transparent border border-[#F1EDEA] p-1 shadow-sm">
                 <div className="w-full h-full rounded-[2.3rem] bg-white overflow-hidden relative">
                   {savingImage ? (
                     <div className="absolute inset-0 flex items-center justify-center bg-white/60 z-10">
                       <div className="w-6 h-6 border-2 border-[#C5A059] border-t-transparent rounded-full animate-spin" />
                     </div>
                   ) : null}
-                  <img
+                  <Image
+                    fill
+                    unoptimized
+                    sizes="(max-width: 640px) 96px, 112px"
                     src={userData?.profile?.profileImage ? (
                       userData.profile.profileImage.startsWith('http') ? userData.profile.profileImage :
                         userData.profile.profileImage.startsWith('data:image') ? userData.profile.profileImage :
                           userData.profile.profileImage.startsWith('//') ? `https:${userData.profile.profileImage}` :
                             `${BACKEND_URL}${userData.profile.profileImage.startsWith('/') ? '' : '/'}${userData.profile.profileImage.replace(/\\/g, '/')}`
                     ) : `https://ui-avatars.com/api/?name=${userData?.name || 'User'}&background=c2a878&color=000&bold=true`}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-all duration-700"
+                    className="object-cover group-hover:scale-110 transition-all duration-700"
                     alt="Profile"
                   />
                 </div>
@@ -320,9 +437,9 @@ export default function DashboardPage() {
               />
             </div>
 
-            <div className="flex flex-col gap-3 text-center md:text-left">
-              <div className="flex flex-col md:flex-row items-center gap-4">
-                <h1 className="text-3xl font-bold text-[#3C2A21] uppercase tracking-widest font-serif italic">{userData?.name || "Student Member"}</h1>
+            <div className="flex min-w-0 flex-col gap-3 text-center sm:text-left">
+              <div className="flex flex-col md:flex-row items-center sm:items-start md:items-center gap-3 sm:gap-4">
+                <h1 className="max-w-full break-words text-xl sm:text-2xl md:text-3xl font-bold text-[#3C2A21] uppercase tracking-[0.08em] sm:tracking-widest font-serif italic">{userData?.name || "Student Member"}</h1>
 
                 <div className="flex items-center gap-3">
                   <span className={`text-[14px] font-bold font-black uppercase tracking-wider transition-colors ${userData?.profile?.isPublic ? 'text-green-600' : 'text-[#6B5E51]'}`}>
@@ -346,10 +463,10 @@ export default function DashboardPage() {
               </div>
               {userData?.profile?.bio && (
                 <p className="text-[14px] font-bold font-black uppercase text-[#6B5E51] max-w-md tracking-widest leading-relaxed mb-2 italic">
-                  "{userData.profile.bio}"
+                  &quot;{userData.profile.bio}&quot;
                 </p>
               )}
-              <div className="flex flex-wrap justify-center md:justify-start items-center gap-8">
+              <div className="flex flex-wrap justify-center sm:justify-start items-center gap-x-5 gap-y-3 sm:gap-8">
                 <div className="flex items-center gap-2.5 text-[#6B5E51]">
                   <MapPin size={16} className="text-[#C5A059]" />
                   <span className="text-[11px] font-black uppercase tracking-[0.2em]">{userData?.profile?.location || userData?.country || "Global Citizen"}</span>
@@ -365,17 +482,17 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="grid w-full grid-cols-1 gap-3 sm:flex sm:w-auto sm:flex-wrap sm:items-center sm:justify-center sm:gap-4">
             <button
               onClick={() => setOpenModal("bio")}
-              className="h-14 px-8 bg-white border border-[#F1EDEA] rounded-2xl font-black text-[11px] uppercase tracking-[0.15em] hover:bg-[#FDFBF7] hover:border-[#C5A059]/30 transition-all flex items-center gap-3 active:scale-95 group shadow-sm"
+              className="h-12 sm:h-14 w-full sm:w-auto px-5 sm:px-8 bg-white border border-[#F1EDEA] rounded-2xl font-black text-[11px] uppercase tracking-[0.15em] hover:bg-[#FDFBF7] hover:border-[#C5A059]/30 transition-all flex items-center justify-center gap-3 active:scale-95 group shadow-sm"
             >
               <Plus size={18} className="text-[#C5A059] group-hover:rotate-90 transition-transform duration-500" />
               {userData?.profile?.bio ? "Update Bio" : "Add Short Bio"}
             </button>
             <button
               onClick={() => router.push('/User/edit-profile')}
-              className="h-14 px-10 bg-[#C5A059] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 flex items-center gap-4"
+              className="h-12 sm:h-14 w-full sm:w-auto px-5 sm:px-10 bg-[#C5A059] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] sm:tracking-[0.25em] hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 flex items-center justify-center gap-4"
             >
               <Edit2 size={16} /> Edit Profile
             </button>
@@ -384,43 +501,35 @@ export default function DashboardPage() {
       </div>
 
       {/* ── MAIN TABS ── */}
-      <div className="max-w-6xl mx-auto px-6 mt-8 flex flex-wrap gap-4 border-b border-[#F1EDEA] pb-4">
-        {['profile', 'bookings', 'sessions'].map((tab) => (
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-6 sm:mt-8 flex flex-wrap gap-2 sm:gap-4 border-b border-[#F1EDEA] pb-4">
+        {([
+          { id: 'profile', label: 'Profile' },
+          { id: 'bookings', label: 'My Bookings' },
+          { id: 'sessions', label: 'My Sessions' },
+        ] as const).map(({ id, label }) => (
           <button
-            key={tab}
-            onClick={() => setMainTab(tab as any)}
-            className={`px-8 py-3 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all ${mainTab === tab ? 'bg-[#C5A059] text-white shadow-lg' : 'bg-white border border-[#F1EDEA] text-[#6B5E51] hover:bg-[#FDFBF7]'}`}
+            key={id}
+            onClick={() => setMainTab(id)}
+            className={`flex-1 sm:flex-none px-3 sm:px-8 py-3 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all ${mainTab === id ? 'bg-[#C5A059] text-white shadow-lg' : 'bg-white border border-[#F1EDEA] text-[#6B5E51] hover:bg-[#FDFBF7]'}`}
           >
-            {tab === 'profile' ? 'Profile' : tab === 'bookings' ? 'My Bookings' : 'My Sessions'}
+            {label}
           </button>
         ))}
       </div>
 
       {mainTab === 'profile' && (
-      <div className="max-w-6xl mx-auto px-6 mt-12 space-y-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 space-y-8 sm:space-y-12">
         {/* ── IDENTITY MODULE ── */}
         <div className="bg-white border border-[#F1EDEA] rounded-[2.5rem] shadow-sm overflow-hidden flex flex-col md:flex-row h-auto transition-all hover:border-[#C5A059]/20">
-          <div className="w-full md:w-56 bg-[#FDFBF7] border-b md:border-b-0 md:border-r border-[#F1EDEA] p-4 md:p-6 flex flex-row md:flex-col gap-2 overflow-x-auto no-scrollbar">
-            {[
-              { id: 'about', label: 'About', hasData: true },
-              { id: 'insights', label: 'Insights', hasData: true },
-              { id: 'highSchool', label: 'High School', hasData: userData?.profile?.highSchool?.length > 0 },
-              { id: 'undergrad', label: "Bachelor's", hasData: userData?.profile?.underGrad?.length > 0 },
-              { id: 'masters', label: "Master's", hasData: userData?.profile?.masters?.length > 0 },
-              { id: 'target', label: 'Target', hasData: userData?.profile?.targetUniversities?.length > 0 },
-              ...((userData?.profile?.testScores || []).map((score: any) => ({
-                id: `score-${score.testType.toLowerCase()}`,
-                label: score.testType.toUpperCase(),
-                hasData: true
-              })))
-            ].filter(tab => (tab as any).hasData).map(tab => (
-              <button key={tab.id} onClick={() => setActiveProfileTab(tab.id)} className={`whitespace-nowrap md:whitespace-normal px-6 py-3 md:py-4 rounded-2xl text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all text-left ${activeProfileTab === tab.id ? 'bg-[#C5A059] text-white shadow-md' : 'text-[#6B5E51] hover:bg-white'}`}>
+          <div className="w-full md:w-56 bg-[#FDFBF7] border-b md:border-b-0 md:border-r border-[#F1EDEA] p-2 sm:p-4 md:p-6 flex flex-row md:flex-col gap-2 overflow-x-auto no-scrollbar">
+            {profileTabs.filter((tab) => tab.hasData).map((tab) => (
+              <button key={tab.id} onClick={() => setActiveProfileTab(tab.id)} className={`whitespace-nowrap md:whitespace-normal px-4 sm:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl text-[11px] sm:text-[14px] font-bold font-black uppercase tracking-[0.12em] sm:tracking-[0.25em] transition-all text-left ${activeProfileTab === tab.id ? 'bg-[#C5A059] text-white shadow-md' : 'text-[#6B5E51] hover:bg-white'}`}>
                 {tab.label}
               </button>
             ))}
           </div>
 
-          <div className="flex-1 p-6 md:p-12 bg-white">
+          <div className="min-w-0 flex-1 p-4 sm:p-6 md:p-12 bg-white">
             <AnimatePresence mode="wait">
               {activeProfileTab === 'about' && (
                 <motion.div key="about" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="grid grid-cols-1 md:grid-cols-2 gap-y-12">
@@ -479,7 +588,7 @@ export default function DashboardPage() {
               {activeProfileTab === 'highSchool' && (
                 <motion.div key="hs" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Education History</h2>
-                  {userData?.profile?.highSchool?.map((hs: any, idx: number) => (
+                  {userData?.profile?.highSchool?.map((hs, idx) => (
                     <div key={idx} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex justify-between items-center group/card hover:border-[#C5A059]/20 transition-all shadow-sm">
                       <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><School size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{hs.schoolName}</h4><p className="text-[13px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest mt-1">School Details</p></div></div>
                       <div className="text-right"><p className="text-2xl font-black text-[#3C2A21] italic">{hs.cgpa}<span className="text-sm text-[#6B5E51]"> / {hs.outOf}</span></p></div>
@@ -490,8 +599,8 @@ export default function DashboardPage() {
               )}
               {activeProfileTab === 'undergrad' && (
                 <motion.div key="ug" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
-                  <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Bachelor's Credentials</h2>
-                  {userData?.profile?.underGrad?.map((ug: any, idx: number) => (
+                  <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Bachelor&apos;s Credentials</h2>
+                  {userData?.profile?.underGrad?.map((ug, idx) => (
                     <div key={idx} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex justify-between items-center hover:border-[#C5A059]/20 transition-all shadow-sm">
                       <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><GraduationCap size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{ug.uniName}</h4><p className="text-[13px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest mt-1">{ug.degreeName || "Undergraduate Degree"}</p></div></div>
                       <div className="text-right"><p className="text-2xl font-black text-[#3C2A21] italic">{ug.cgpa}<span className="text-sm text-[#6B5E51]"> / {ug.outOf}</span></p></div>
@@ -503,7 +612,7 @@ export default function DashboardPage() {
               {activeProfileTab === 'masters' && (
                 <motion.div key="ms" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Postgraduate Credentials</h2>
-                  {userData?.profile?.masters?.map((ms: any, idx: number) => (
+                  {userData?.profile?.masters?.map((ms, idx) => (
                     <div key={idx} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex justify-between items-center hover:border-[#C5A059]/20 transition-all shadow-sm">
                       <div className="flex items-center gap-5"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]"><Trophy size={20} /></div><div><h4 className="text-[#3C2A21] font-black text-xs uppercase tracking-widest">{ms.uniName}</h4><p className="text-[13px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest mt-1">{ms.degreeName || "Master's Degree"}</p></div></div>
                       <div className="text-right"><p className="text-2xl font-black text-[#3C2A21] italic">{ms.cgpa}<span className="text-sm text-[#6B5E51]"> / {ms.outOf}</span></p></div>
@@ -515,14 +624,14 @@ export default function DashboardPage() {
               {activeProfileTab === 'target' && (
                 <motion.div key="target" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Global Strategy</h2>
-                  {userData?.profile?.targetUniversities?.map((uni: any, idx: number) => (
+                  {userData?.profile?.targetUniversities?.map((uni, idx) => (
                     <div key={idx} className="flex items-center justify-between p-6 rounded-[1.5rem] bg-[#FDFBF7] border border-[#F1EDEA] hover:border-[#C5A059]/20 transition-all shadow-sm"><div className="flex items-center gap-6"><div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] font-black text-xs"><Target size={20} /></div><div><p className="text-[#3C2A21] font-black text-[12px] uppercase tracking-widest">{uni.uniName}</p><p className="text-[13px] font-bold text-[#6B5E51] font-bold uppercase tracking-widest">{uni.major} • {uni.term} {uni.year}</p></div></div></div>
                   ))}
                   {(!userData?.profile?.targetUniversities || userData.profile.targetUniversities.length === 0) && <p className="text-center py-20 text-[14px] font-bold uppercase font-black text-[#6B5E51]/70 tracking-[0.5em]">No target vectors locked.</p>}
                 </motion.div>
               )}
 
-              {(userData?.profile?.testScores || []).map((score: any) => (
+              {(userData?.profile?.testScores || []).map((score) => (
                 activeProfileTab === `score-${score.testType.toLowerCase()}` && (
                   <motion.div key={score.testType} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-10">
                     <div className="relative group/score">
@@ -533,7 +642,7 @@ export default function DashboardPage() {
                         <h3 className="text-[12px] font-black text-[#3C2A21] uppercase tracking-[0.2em]">{score.testType} Results</h3>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-16 gap-y-8">
-                        {score.sectionScores && Object.entries(score.sectionScores).map(([k, v]: any) => (
+                        {score.sectionScores && Object.entries(score.sectionScores).map(([k, v]) => (
                           <div key={k} className="flex justify-between items-center border-b border-[#F1EDEA] pb-4">
                             <span className="text-[11px] font-black text-[#6B5E51] uppercase tracking-widest">{k}:</span>
                             <span className="text-[11px] font-black text-[#3C2A21] uppercase">{v}</span>
@@ -580,15 +689,15 @@ export default function DashboardPage() {
 
         {/* ── EXPANDED SYSTEM NODES ── */}
         <div className="space-y-4 pb-20">
-          {[{ id: 'workExperience', label: "Work Experience", icon: <Briefcase size={18} /> }, { id: 'projects', label: "Projects", icon: <Star size={18} /> }, { id: 'research', label: "Research Papers", icon: <FileText size={18} /> }, { id: 'volunteering', label: "Volunteering", icon: <Heart size={18} /> }].map((sec) => (
+          {portfolioSections.map((sec) => (
             <div key={sec.id} className="bg-white border border-[#F1EDEA] rounded-2xl overflow-hidden shadow-sm group">
               <div className="p-4 flex items-center justify-between border-b border-[#F1EDEA] bg-[#FDFBF7]">
                 <div className="flex items-center gap-4"><div className="text-[#6B5E51] group-hover:text-[#C5A059] transition-colors uppercase font-black text-[13px] font-bold tracking-widest">{sec.icon}</div><h3 className="text-[11px] font-black text-[#6B5E51]/60 uppercase tracking-[0.2em]">{sec.label}</h3></div>
                 <button onClick={() => { setEditingItem(null); setOpenModal(sec.id); }} className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-90 transition-all cursor-pointer"><Plus size={18} /></button>
               </div>
-              {userData?.profile?.[sec.id]?.length > 0 && (
+              {getPortfolioEntries(sec.id).length > 0 && (
                 <div className="p-3 space-y-3 no-scrollbar bg-[#FDFBF7]/50">
-                  {userData.profile[sec.id].map((item: any) => (
+                  {getPortfolioEntries(sec.id).map((item) => (
                     <div key={item._id} className="bg-white border border-[#F1EDEA] p-4 md:p-6 rounded-2xl relative group/item hover:border-[#C5A059]/40 transition-all duration-500 shadow-sm hover:shadow-md">
                       <div className="absolute top-4 right-4 flex gap-2 opacity-100 md:opacity-0 group-hover/item:opacity-100 transition-all duration-300">
                         <button onClick={() => { setEditingItem({ section: sec.id, data: item }); setOpenModal(sec.id); }} className="p-2.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA] text-[#C5A059] hover:bg-[#C5A059] hover:text-white transition-all shadow-sm cursor-pointer"><Edit2 size={14} /></button>
@@ -609,7 +718,7 @@ export default function DashboardPage() {
                           </div>
                         </div>
                       </div>
-                      <p className="text-[14px] font-bold md:text-[11px] text-[#6B5E51] font-bold leading-relaxed italic border-l-2 border-[#C5A059]/20 pl-4 py-1 line-clamp-3">"{item.description || "Incorporate narrative details to highlight your impact..."}"</p>
+                      <p className="text-[14px] font-bold md:text-[11px] text-[#6B5E51] font-bold leading-relaxed italic border-l-2 border-[#C5A059]/20 pl-4 py-1 line-clamp-3">&quot;{item.description || "Incorporate narrative details to highlight your impact..."}&quot;</p>
                     </div>
                   ))}
                 </div>
@@ -627,7 +736,7 @@ export default function DashboardPage() {
           <div>
             <h2 className="text-[14px] font-black uppercase tracking-[0.2em] text-[#3C2A21] mb-8 border-b border-[#F1EDEA] pb-4">Service Purchase History</h2>
             <div className="space-y-6">
-              {receipts.map((receipt: any) => (
+              {receipts.map((receipt) => (
                 <div key={receipt._id} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 group/card hover:border-[#C5A059]/20 transition-all shadow-sm">
                   <div className="flex justify-between items-start mb-4">
                     <div>
@@ -637,7 +746,7 @@ export default function DashboardPage() {
                     <p className="text-xl font-black text-red-700 italic">{receipt.currency} {receipt.total.toLocaleString()}</p>
                   </div>
                   <div className="space-y-2">
-                    {receipt.items.map((item: any, idx: number) => (
+                    {receipt.items.map((item, idx) => (
                       <div key={idx} className="flex items-center gap-3 py-2 border-t border-black/5">
                         <div className="w-2 h-2 rounded-full bg-[#C5A059]/40" />
                         <span className="text-[11px] font-bold text-[#3C2A21]">{item.title}</span>
@@ -655,8 +764,8 @@ export default function DashboardPage() {
       {mainTab === 'sessions' && (() => {
         const now = new Date();
         const allSessions = userData?.profile?.mySessions || [];
-        const upcomingSessions = allSessions.filter((s:any) => new Date(`${s.date}T${s.time || '00:00'}:00`) >= now);
-        const pastSessions = allSessions.filter((s:any) => new Date(`${s.date}T${s.time || '00:00'}:00`) < now);
+        const upcomingSessions = allSessions.filter((session) => new Date(`${session.date}T${session.time || '00:00'}:00`) >= now);
+        const pastSessions = allSessions.filter((session) => new Date(`${session.date}T${session.time || '00:00'}:00`) < now);
         const displayedSessions = sessionFilter === 'upcoming' ? upcomingSessions : pastSessions;
 
         return (
@@ -668,7 +777,7 @@ export default function DashboardPage() {
               <button onClick={() => setSessionFilter('past')} className={`px-4 py-1.5 rounded-lg text-[13px] font-bold font-black uppercase tracking-widest transition-all ${sessionFilter === 'past' ? 'bg-[#C5A059] text-white shadow-md' : 'bg-[#FDFBF7] text-[#6B5E51] border border-[#F1EDEA] hover:bg-[#F1EDEA]'}`}>Past</button>
             </div>
           </div>
-          {displayedSessions.map((s: any) => (
+          {displayedSessions.map((s) => (
             <div key={s._id} className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl p-4 shadow-sm hover:border-[#C5A059]/30 transition-all group flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex-1 space-y-1">
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -702,17 +811,17 @@ export default function DashboardPage() {
       })()}
 
       <AnimatePresence>
-        {openModal === "highSchool" && <HighSchoolModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("highSchool", d); }} initialData={editingItem?.data} />}
-        {openModal === "underGrad" && <UnderGradModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("underGrad", d); }} initialData={editingItem?.data} />}
-        {openModal === "masters" && <MastersModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("masters", d); }} initialData={editingItem?.data} />}
-        {openModal === "workExperience" && <WorkExpModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("workExperience", d); }} initialData={editingItem?.data} />}
-        {openModal === "research" && <ResearchModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("research", d); }} initialData={editingItem?.data} />}
-        {openModal === "projects" && <ProjectFormModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("projects", d); }} initialData={editingItem?.data} />}
-        {openModal === "volunteering" && <AddVolunteer isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("volunteering", d); }} initialData={editingItem?.data} />}
-        {openModal === "targetUniversities" && <TargetUniversityModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (d: any) => { await addProfileItem("targetUniversities", d); }} initialData={editingItem?.data} />}
-        {openModal === "testScores" && <TestScoresModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (data: any) => { await addProfileItem("testScores", data); }} />}
-        {openModal === "bio" && <BioModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (d: any) => { await updateCoreProfile("bio", d); }} initialValue={userData?.profile?.bio} />}
-        {openModal === "linkedin" && <LinkedInModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (d: any) => { await updateCoreProfile("linkedin", d); }} initialData={userData?.profile?.linkedin} />}
+        {openModal === "highSchool" && <HighSchoolModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("highSchool", data); }} initialData={editingItem?.data} />}
+        {openModal === "underGrad" && <UnderGradModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("underGrad", data); }} initialData={editingItem?.data} />}
+        {openModal === "masters" && <MastersModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("masters", data); }} initialData={editingItem?.data} />}
+        {openModal === "workExperience" && <WorkExpModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("workExperience", data); }} initialData={editingItem?.data} />}
+        {openModal === "research" && <ResearchModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("research", data); }} initialData={editingItem?.data} />}
+        {openModal === "projects" && <ProjectFormModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("projects", data); }} initialData={editingItem?.data} />}
+        {openModal === "volunteering" && <AddVolunteer isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("volunteering", data); }} initialData={editingItem?.data} />}
+        {openModal === "targetUniversities" && <TargetUniversityModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("targetUniversities", data); }} initialData={editingItem?.data} />}
+        {openModal === "testScores" && <TestScoresModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (data: unknown) => { await addProfileItem("testScores", data); }} />}
+        {openModal === "bio" && <BioModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (data: unknown) => { await updateCoreProfile("bio", data); }} initialValue={userData?.profile?.bio} />}
+        {openModal === "linkedin" && <LinkedInModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (data: unknown) => { await updateCoreProfile("linkedin", data); }} initialData={userData?.profile?.linkedin} />}
         {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
       </AnimatePresence>
       <style jsx global>{`.no-scrollbar::-webkit-scrollbar { display: none; }.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; } .custom-scrollbar::-webkit-scrollbar { width: 4px; } .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }`}</style>
