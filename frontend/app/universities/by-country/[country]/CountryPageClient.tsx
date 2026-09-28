@@ -4,8 +4,7 @@ import { useParams } from "next/navigation";
 import { useState, useEffect, useRef, useMemo } from "react";
 import UniversityCard from "../UniversityCard";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 import singaporeData from "@/data/singapore.json";
 import newZealandData from "@/data/NewZealand Universities.json";
 import germanyData from "@/data/Germany.json";
@@ -165,7 +164,7 @@ export default function CountryPage() {
   const [tuitionFilter, setTuitionFilter] = useState(0);
   const [page, setPage] = useState(1);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const { isPremium } = usePremiumStatus();
+
   const PER_PAGE = 10;
 
   const [heroRef, heroVisible] = useInView(0.05);
@@ -583,7 +582,7 @@ export default function CountryPage() {
                   ))}
 
                   {filtered.length > 3 && (
-                    <PremiumLock isPremium={isPremium} title={`Unlock ${filtered.length} Universities`} description={`Get premium access to explore all ${filtered.length} universities in ${dataCountry}, along with detailed admission stats and fees.`}>
+                    <EntitlementGuard featureId="university_search" fallbackTitle={`Unlock ${filtered.length} Universities`} fallbackDescription={`Get premium access to explore all ${filtered.length} universities in ${dataCountry}, along with detailed admission stats and fees.`}>
                        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                          {filtered.slice(3, 8).map((uni, i) => (
                            <div key={uni.id}>
@@ -591,16 +590,16 @@ export default function CountryPage() {
                            </div>
                          ))}
                        </div>
-                    </PremiumLock>
-                  )}
-
-                  {/* Load more */}
-                  {hasMore && isPremium && (
-                    <div style={{ textAlign: "center", paddingTop: 30 }}>
-                      <button className="load-more" onClick={() => setPage(p => p + 1)}>
-                        Reveal More Opportunities ({filtered.length - paginated.length} hidden)
-                      </button>
-                    </div>
+                       
+                       {/* Load more */}
+                       {hasMore && (
+                         <div style={{ textAlign: "center", paddingTop: 30 }}>
+                           <button className="load-more" onClick={() => setPage(p => p + 1)}>
+                             Reveal More Opportunities ({filtered.length - paginated.length} hidden)
+                           </button>
+                         </div>
+                       )}
+                    </EntitlementGuard>
                   )}
                 </div>
               )}

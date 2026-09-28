@@ -2,6 +2,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const logger = require('./utils/logger');
+const { bootstrapCatalog } = require('./config/catalogBootstrap');
+const { initMembershipSweeper } = require('./jobs/membershipSweeper.job');
+
+// Validate Apple StoreKit 2 configuration before booting
+require('./services/payment/appleConfigCheck')();
 
 const app = express();
 const http = require('http');
@@ -27,9 +33,6 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 const path = require("path");
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// Database Connection
-connectDB();
 
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -68,7 +71,13 @@ app.use("/api/partnership/colleges", require("./routes/partnershipCollege.routes
 app.use("/api/progress", require("./routes/progressRoutes"));
 
 app.use('/api/enquiry', require('./routes/enquiryRoutes'));
-app.use('/api/payment', require('./routes/payment.routes'));
+app.use('/api/payment', require('./routes/payment.routes')); // Deprecated v1
+app.use('/api/payments/v2', require('./routes/payment.v2.routes'));
+app.use('/api/webhooks', require('./routes/webhook.routes'));
+app.use('/api/memberships', require('./routes/membership.routes'));
+
+// 🩺 Health
+app.use('/api/health', require('./routes/health.routes'));
 
 // 🧑‍🎤 Profile
 app.use("/api/user", require("./routes/profile.routes"));
@@ -78,6 +87,15 @@ app.use("/api/parent", require("./routes/parent.routes"));
 
 // 💓 Activity Manager
 app.use("/api/activity", require("./routes/activityRoutes"));
+
+// --- Partnership Tracking System (Part 1) ---
+app.use('/api/partnership', require('./routes/partnership.routes'));
+app.use('/api/partnership-leads', require('./routes/partnershipLead.routes'));
+app.use('/api/partnership-applications', require('./routes/partnershipApplication.routes'));
+app.use('/api/partnership-finance', require('./routes/partnershipCommission.routes'));
+app.use('/api/partnership-reconciliation', require('./routes/partnershipReconciliation.routes'));
+app.use("/api/public/seminars", require("./routes/publicSeminar.routes"));
+app.use("/api/college-coordinator", require("./routes/college-coordinator.routes"));
 
 app.use("/api/feature-activity", featureActivityRoutes);
 app.use("/api/research-groups", require("./routes/researchGroup.routes"));
@@ -89,8 +107,43 @@ setupWebRTCSignaling(server);
 // Important: Export for Vercel Serverless Functions
 module.exports = app;
 
-// Only listen if run directly (useful for local development)
-if (require.main === module) {
+/**
+ * Sequential startup: DB → Catalog Bootstrap → Listen.
+ * Server refuses to start if catalog validation fails.
+ */
+async function boot() {
+  // 1. Connect to MongoDB (indexes ensured inside connectDB)
+  await connectDB();
+
+  // 2. Auto-seed empty catalog + validate required plans
+  await bootstrapCatalog();
+
+  // 2.5 Bootstrap Admin
+  const { bootstrapAdmin } = require('./config/adminBootstrap');
+  await bootstrapAdmin();
+
+  // 3. Record validation timestamp for health endpoint
+  const { setLastValidatedAt } = require('./routes/health.routes');
+  setLastValidatedAt(new Date());
+
+  // 3.5. Init daily membership sweeper
+  initMembershipSweeper();
+
+  // 4. Start accepting requests
   const PORT = process.env.PORT || 5001;
-  server.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+  server.listen(PORT, '0.0.0.0', () =>
+    logger.info(`Server running on port ${PORT}`)
+  );
 }
+
+// Only boot if run directly (useful for local development)
+if (require.main === module) {
+  boot().catch((err) => {
+    logger.error("Server failed to start:", err.message);
+    process.exit(1);
+  });
+}
+
+
+
+

@@ -10,7 +10,7 @@ import {
    ArrowRight
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 const profileFeatures = [
@@ -136,24 +136,15 @@ export default function LinkedInReviewPage() {
                         <span className="text-[#0f4c5c] text-[14px] font-bold tracking-[0.4em] uppercase">Community Insights</span>
                         <h2 className="fd text-3xl font-bold text-[#10324a]">Public Consensus</h2>
                      </div>
-                     <div className="rounded-[32px] overflow-hidden border border-[#10324a]/10 bg-[#f8f4ea]/40 p-2">
-                        <DiscussionSection serviceId="linkedin" />
+                     <div className="rounded-[40px] overflow-hidden border border-[#F1EDEA] bg-[#FDFBF7]/20 p-2">
+                        <DiscussionSection serviceId="linkedin_optimization" />
                      </div>
                   </div>
                </div>
 
-               {/* Action Sidebox */}
-               <div className="lg:w-2/5 space-y-8 lg:sticky lg:top-32">
-                  <div className="bg-[#10324a] p-6 md:p-8 rounded-[32px] text-white space-y-8 shadow-[0_20px_60px_rgba(16,50,74,0.18)] relative overflow-hidden group border border-white/10">
-                     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />
-                     <div className="space-y-2 relative z-10">
-                        <p className="text-[#d2a14a] text-[14px] font-bold uppercase tracking-widest">Pricing Protocol</p>
-                        <h3 className="fd text-3xl sm:text-4xl font-bold italic">Bespoke Revamp</h3>
-                     </div>
-                     <div className="relative z-10 w-full">
-                        <AddToCart serviceId="linkedin" />
-                     </div>
-                  </div>
+               {/* Action Sidebox — ServiceCTA owns its own shell */}
+               <div className="lg:w-2/5 space-y-10 lg:sticky lg:top-32">
+                  <ServiceCTA serviceId="linkedin_optimization" />
 
                   {/* Trust Widget */}
                   <div className="bg-white/80 border border-[#10324a]/10 p-8 sm:p-10 rounded-[32px] shadow-[0_12px_35px_rgba(16,50,74,0.05)] space-y-6">

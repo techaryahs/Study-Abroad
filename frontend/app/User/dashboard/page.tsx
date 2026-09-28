@@ -36,8 +36,12 @@ import {
   School,
   Target
 } from "lucide-react";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
+import { useMembership } from "@/app/lib/membership/MembershipContext";
+import { MembershipStatusChip } from "@/components/shared/MembershipUI/MembershipStatusChip";
+import { UsageProgress } from "@/components/shared/MembershipUI/UsageProgress";
+import { MembershipCTA } from "@/components/shared/MembershipUI/MembershipCTA";
+import { RefreshCcw, CreditCard, History, Zap } from "lucide-react";
 
 interface ProfileCard {
   id: number;
@@ -160,7 +164,7 @@ export default function DashboardPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [openModal, setOpenModal] = useState<string | null>(null);
   const [activeProfileTab, setActiveProfileTab] = useState('about');
-  const [mainTab, setMainTab] = useState<'profile' | 'bookings' | 'sessions'>('profile');
+  const [mainTab, setMainTab] = useState<'profile' | 'membership' | 'bookings' | 'sessions'>('profile');
   const [sessionFilter, setSessionFilter] = useState<'upcoming' | 'past'>('upcoming');
   const [showSuccess, setShowSuccess] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -168,7 +172,7 @@ export default function DashboardPage() {
   const [savingImage, setSavingImage] = useState(false);
   const [receipts, setReceipts] = useState<ReceiptEntry[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { isPremium } = usePremiumStatus();
+  const { membership, currentPlan } = useMembership();
 
   const router = useRouter();
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
@@ -501,18 +505,14 @@ export default function DashboardPage() {
       </div>
 
       {/* ── MAIN TABS ── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-6 sm:mt-8 flex flex-wrap gap-2 sm:gap-4 border-b border-[#F1EDEA] pb-4">
-        {([
-          { id: 'profile', label: 'Profile' },
-          { id: 'bookings', label: 'My Bookings' },
-          { id: 'sessions', label: 'My Sessions' },
-        ] as const).map(({ id, label }) => (
+      <div className="max-w-6xl mx-auto px-6 mt-8 flex flex-wrap gap-4 border-b border-[#F1EDEA] pb-4">
+        {['profile', 'membership', 'bookings', 'sessions'].map((tab) => (
           <button
             key={id}
             onClick={() => setMainTab(id)}
             className={`flex-1 sm:flex-none px-3 sm:px-8 py-3 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all ${mainTab === id ? 'bg-[#C5A059] text-white shadow-lg' : 'bg-white border border-[#F1EDEA] text-[#6B5E51] hover:bg-[#FDFBF7]'}`}
           >
-            {label}
+            {tab === 'profile' ? 'Profile' : tab === 'membership' ? 'Membership Center' : tab === 'bookings' ? 'My Bookings' : 'My Sessions'}
           </button>
         ))}
       </div>
@@ -521,9 +521,21 @@ export default function DashboardPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 mt-8 sm:mt-12 space-y-8 sm:space-y-12">
         {/* ── IDENTITY MODULE ── */}
         <div className="bg-white border border-[#F1EDEA] rounded-[2.5rem] shadow-sm overflow-hidden flex flex-col md:flex-row h-auto transition-all hover:border-[#C5A059]/20">
-          <div className="w-full md:w-56 bg-[#FDFBF7] border-b md:border-b-0 md:border-r border-[#F1EDEA] p-2 sm:p-4 md:p-6 flex flex-row md:flex-col gap-2 overflow-x-auto no-scrollbar">
-            {profileTabs.filter((tab) => tab.hasData).map((tab) => (
-              <button key={tab.id} onClick={() => setActiveProfileTab(tab.id)} className={`whitespace-nowrap md:whitespace-normal px-4 sm:px-6 py-3 md:py-4 rounded-xl md:rounded-2xl text-[11px] sm:text-[14px] font-bold font-black uppercase tracking-[0.12em] sm:tracking-[0.25em] transition-all text-left ${activeProfileTab === tab.id ? 'bg-[#C5A059] text-white shadow-md' : 'text-[#6B5E51] hover:bg-white'}`}>
+          <div className="w-full md:w-56 bg-[#FDFBF7] border-b md:border-b-0 md:border-r border-[#F1EDEA] p-4 md:p-6 flex flex-row md:flex-col gap-2 overflow-x-auto no-scrollbar">
+            {[
+              { id: 'about', label: 'About', hasData: true },
+              { id: 'insights', label: 'Insights', hasData: true },
+              { id: 'highSchool', label: 'High School', hasData: userData?.profile?.highSchool?.length > 0 },
+              { id: 'undergrad', label: "Bachelor's", hasData: userData?.profile?.underGrad?.length > 0 },
+              { id: 'masters', label: "Master's", hasData: userData?.profile?.masters?.length > 0 },
+              { id: 'target', label: 'Target', hasData: userData?.profile?.targetUniversities?.length > 0 },
+              ...((userData?.profile?.testScores || []).map((score: any) => ({
+                id: `score-${score.testType.toLowerCase()}`,
+                label: score.testType.toUpperCase(),
+                hasData: true
+              })))
+            ].filter(tab => (tab as any).hasData).map(tab => (
+              <button key={tab.id} onClick={() => setActiveProfileTab(tab.id)} className={`whitespace-nowrap md:whitespace-normal px-6 py-3 md:py-4 rounded-2xl text-[14px] font-bold font-black uppercase tracking-[0.25em] transition-all text-left ${activeProfileTab === tab.id ? 'bg-[#C5A059] text-white shadow-md' : 'text-[#6B5E51] hover:bg-white'}`}>
                 {tab.label}
               </button>
             ))}
@@ -542,7 +554,7 @@ export default function DashboardPage() {
               {activeProfileTab === 'insights' && (
                 <motion.div key="insights" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <h2 className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-8 border-b border-[#F1EDEA] pb-4">Advanced Profile Analytics</h2>
-                  <PremiumLock isPremium={isPremium} title="Unlock Admission Insights" description="Get AI-powered admission predictions, profile gap analysis, and tailored university recommendations based on your unique profile." price={4999} discountedPrice={1999}>
+                  <EntitlementGuard featureId="dashboard_insights" fallbackTitle="Unlock Admission Insights" fallbackDescription="Get AI-powered admission predictions, profile gap analysis, and tailored university recommendations based on your unique profile.">
                     <div className="space-y-6">
                       <div className="bg-[#FDFBF7] border border-[#F1EDEA] rounded-[1.5rem] p-6 flex flex-col md:flex-row justify-between items-center gap-6">
                         <div className="flex items-center gap-5">
@@ -582,7 +594,7 @@ export default function DashboardPage() {
                         </ul>
                       </div>
                     </div>
-                  </PremiumLock>
+                  </EntitlementGuard>
                 </motion.div>
               )}
               {activeProfileTab === 'highSchool' && (
@@ -727,6 +739,106 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+      )}
+
+      {mainTab === 'membership' && (
+        <div className="max-w-6xl mx-auto px-6 mt-12 space-y-8">
+          <div className="flex items-center justify-between border-b border-[#F1EDEA] pb-4 mb-8">
+            <h2 className="text-[14px] font-black uppercase tracking-[0.2em] text-[#3C2A21]">Membership Center</h2>
+            <MembershipStatusChip status={membership?.status || 'expired'} />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Current Plan Overview */}
+            <div className="md:col-span-2 bg-[#FDFBF7] border border-[#F1EDEA] rounded-3xl p-8 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-5">
+                <Zap size={120} />
+              </div>
+              <div className="relative z-10">
+                <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[#6B5E51] mb-2">Current Plan</p>
+                <h3 className="text-3xl font-black text-[#3C2A21] uppercase tracking-tight mb-2">
+                  {currentPlan?.name || "Free Explorer"}
+                </h3>
+                {membership?.currentPeriodEnd && (
+                  <p className="text-sm font-bold text-[#6B5E51] mb-8">
+                    Renews on {new Date(membership.currentPeriodEnd).toLocaleDateString()}
+                  </p>
+                )}
+                {!membership?.currentPeriodEnd && (
+                  <p className="text-sm font-bold text-[#6B5E51] mb-8">
+                    No active subscription
+                  </p>
+                )}
+
+                <div className="space-y-6 max-w-md">
+                  {membership?.entitlements && Object.values(membership.entitlements).filter(e => e.limit).map((usage: any, idx) => (
+                    <UsageProgress 
+                      key={idx} 
+                      featureId={usage.featureId}
+                      featureName={usage.featureId.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                      used={usage.used || 0}
+                      limit={usage.limit || 0}
+                    />
+                  ))}
+                  {(!membership?.entitlements || Object.values(membership.entitlements).filter(e => e.limit).length === 0) && (
+                    <div className="p-4 bg-white border border-[#F1EDEA] rounded-xl">
+                      <p className="text-[13px] font-bold text-[#6B5E51] text-center uppercase tracking-widest">
+                        Usage data unavailable
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-[#F1EDEA] flex gap-4">
+                  <MembershipCTA 
+                    planId="premium" 
+                    buttonText="Upgrade Membership" 
+                    source="dashboard" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Account Settings / Quick Actions */}
+            <div className="space-y-6">
+              <div className="bg-white border border-[#F1EDEA] rounded-3xl p-6 shadow-sm hover:border-[#C5A059]/20 transition-all cursor-pointer group">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] group-hover:scale-110 transition-transform">
+                    <History size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-[13px] font-black text-[#3C2A21] uppercase tracking-widest">Billing History</h4>
+                    <p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-widest mt-1">View past invoices</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white border border-[#F1EDEA] rounded-3xl p-6 shadow-sm hover:border-[#C5A059]/20 transition-all cursor-pointer group">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] group-hover:scale-110 transition-transform">
+                    <CreditCard size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-[13px] font-black text-[#3C2A21] uppercase tracking-widest">Payment Methods</h4>
+                    <p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-widest mt-1">Manage cards</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white border border-[#F1EDEA] rounded-3xl p-6 shadow-sm hover:border-[#C5A059]/20 transition-all cursor-pointer group">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] group-hover:scale-110 transition-transform">
+                    <RefreshCcw size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-[13px] font-black text-[#3C2A21] uppercase tracking-widest">Restore Purchases</h4>
+                    <p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-widest mt-1">Sync mobile access</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {mainTab === 'bookings' && (

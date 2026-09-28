@@ -137,9 +137,9 @@ export default function CartPage() {
     }
 
     const getServiceIcon = (serviceId: string) => {
-        if (serviceId.includes('visa')) return <Globe size={28} className="text-[#d2a14a]" />;
-        if (serviceId.includes('sop') || serviceId.includes('essay')) return <FileText size={28} className="text-[#d2a14a]" />;
-        return <GraduationCap size={28} className="text-[#d2a14a]" />;
+        if (serviceId.includes('visa')) return <Globe size={28} className="text-[#362B25]/60" />;
+        if (serviceId.includes('sop_writing') || serviceId.includes('essay')) return <FileText size={28} className="text-[#362B25]/60" />;
+        return <GraduationCap size={28} className="text-[#362B25]/60" />;
     };
 
     return (

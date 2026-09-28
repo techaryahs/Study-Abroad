@@ -1,5 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../membership/membership_manager.dart';
+import '../membership/models/membership_plan.dart';
+import '../membership/models/user_membership.dart';
+import '../membership/widgets/membership_overview_card.dart';
+import '../membership/widgets/membership_skeleton_loader.dart';
+
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +17,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:dio/dio.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
+import '../../widgets/delete_account_dialog.dart';
 import '../auth/auth_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -412,135 +420,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _showDeleteAccountDialog() {
-    final textController = TextEditingController();
-    bool isDeleteEnabled = false;
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setState) => AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: Colors.white,
-          title: const Row(
-            children: [
-              Icon(Icons.warning_amber_rounded, color: Colors.redAccent, size: 24),
-              SizedBox(width: 8),
-              Text(
-                'Delete Account?',
-                style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 16,
-                  fontFamily: 'Playfair Display',
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'This action is permanent and cannot be undone. To confirm, please type "DELETE" below.',
-                style: TextStyle(color: Colors.black54, fontSize: 13, height: 1.4),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: textController,
-                onChanged: (val) {
-                  setState(() {
-                    isDeleteEnabled = val.trim().toUpperCase() == 'DELETE';
-                  });
-                },
-                decoration: InputDecoration(
-                  hintText: 'DELETE',
-                  hintStyle: const TextStyle(color: AppTheme.textMuted, fontSize: 12),
-                  filled: true,
-                  fillColor: AppTheme.background,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppTheme.borderLight),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: Colors.redAccent),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                ),
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                textController.dispose();
-                Navigator.pop(dialogContext);
-              },
-              child: const Text(
-                'CANCEL',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 13,
-                  color: Colors.black54,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: isDeleteEnabled
-                  ? () async {
-                      Navigator.pop(dialogContext);
-                      textController.dispose();
-                      
-                      // Show loading indicator
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (context) => const Center(
-                          child: CircularProgressIndicator(
-                            color: Colors.redAccent,
-                          ),
-                        ),
-                      );
-
-                      try {
-                        await context.read<AuthProvider>().deleteAccount();
-                        if (mounted) Navigator.pop(context);
-                      } catch (e) {
-                        if (mounted) Navigator.pop(context);
-                        if (mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Error deleting account: $e'),
-                              backgroundColor: Colors.redAccent,
-                            ),
-                          );
-                        }
-                      }
-                    }
-                  : null,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.redAccent,
-                foregroundColor: Colors.white,
-                disabledBackgroundColor: Colors.redAccent.withOpacity(0.3),
-                disabledForegroundColor: Colors.white.withOpacity(0.6),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                elevation: 0,
-              ),
-              child: const Text(
-                'DELETE ACCOUNT',
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 13),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    // Single-owner flow: dialog → API → AuthProvider.logout → GoRouter redirect.
+    // No nested loading dialogs or post-logout Navigator.pop.
+    showDeleteAccountDialog(context);
   }
 
 
@@ -778,6 +660,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
   
               if (_activeTab == 'profile') ...[
+              // ── MEMBERSHIP MODULE ──
+              _buildMembershipModule(context),
+
                 // ── IDENTITY MODULE ──
                 _buildIdentityModule(profile),
   
@@ -1016,6 +901,194 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
     );
+  }
+
+
+  Widget _buildMembershipModule(BuildContext context) {
+    final manager = context.watch<MembershipManager>();
+
+    if (manager.isLoading && !manager.initialized) {
+      return const MembershipSkeletonLoader();
+    }
+
+    final userMembership = manager.userMembership;
+    final currentPlan = manager.userMembershipPlan;
+
+    if (currentPlan == null || userMembership == null) {
+      return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.all(28),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppTheme.borderLight),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppTheme.gold.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.workspace_premium_rounded, size: 40, color: AppTheme.gold),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Unlock Premium Experience',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w900,
+                color: AppTheme.textPrimary,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Get unlimited access to AI tools, 1-on-1 expert human consultations, and complete study abroad guidance.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14, color: AppTheme.textSecondary, height: 1.5),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppTheme.gold,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                onPressed: () => context.push('/membership'),
+                child: const Text(
+                  'EXPLORE MEMBERSHIP PLANS',
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: Colors.white, letterSpacing: 1.2),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return MembershipOverviewCard(
+      userMembership: userMembership,
+      catalogPlan: currentPlan,
+    );
+  }
+
+  Widget _buildMembershipDetailRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary, fontWeight: FontWeight.w500)),
+        Flexible(
+          child: Text(
+            value,
+            textAlign: TextAlign.end,
+            style: const TextStyle(fontSize: 13, color: AppTheme.textPrimary, fontWeight: FontWeight.w700),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Actual purchase date from the membership record. Never "Unknown".
+  String _formatMembershipPurchaseDate(UserMembership membership) {
+    final date = membership.purchaseDate ?? membership.paymentDate;
+    if (date == null) return '—';
+    return DateFormat('MMM dd, yyyy').format(date.toLocal());
+  }
+
+  /// Expiry from the membership record.
+  /// Lifetime / one-time (no calendar end) → "Lifetime Access".
+  /// Never hardcode "Never expires".
+  String _formatMembershipExpiryDate(
+    UserMembership membership,
+    MembershipPlan plan,
+  ) {
+    if (membership.expiryDate != null) {
+      return DateFormat('MMM dd, yyyy').format(membership.expiryDate!.toLocal());
+    }
+    final type = plan.type.toLowerCase();
+    if (type == 'lifetime' || type == 'one_time' || type == 'onetime') {
+      return 'Lifetime Access';
+    }
+    // Paid plan without a stored expiry: treat as lifetime access at membership level
+    if (membership.planId != 'free' && membership.isActiveStatus) {
+      return 'Lifetime Access';
+    }
+    return '—';
+  }
+
+  /// Amount actually paid from the purchase record — not catalog list price.
+  String _formatMembershipAmountPaid(
+    UserMembership membership,
+    MembershipPlan plan,
+  ) {
+    final amount = membership.amountPaid;
+    if (amount == null) return '—';
+    final currency = (membership.currency ?? plan.currency ?? 'INR').toUpperCase();
+    final symbol = currency == 'USD'
+        ? '\$'
+        : currency == 'GBP'
+            ? '£'
+            : currency == 'EUR'
+                ? '€'
+                : '₹';
+    final formatted = amount % 1 == 0
+        ? amount.toInt().toString()
+        : amount.toStringAsFixed(2);
+    return '$symbol$formatted';
+  }
+
+  String _formatMembershipStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'active':
+        return 'Active';
+      case 'grace_period':
+      case 'grace':
+        return 'Grace Period';
+      case 'expired':
+        return 'Expired';
+      case 'cancelled':
+      case 'canceled':
+        return 'Cancelled';
+      case 'revoked':
+        return 'Revoked';
+      case 'pending':
+        return 'Pending';
+      case 'trialing':
+        return 'Trial';
+      default:
+        if (status.isEmpty) return '—';
+        return status[0].toUpperCase() + status.substring(1);
+    }
+  }
+
+  Color _membershipStatusColor(String status) {
+    switch (status.toLowerCase()) {
+      case 'active':
+      case 'trialing':
+        return Colors.green;
+      case 'grace_period':
+      case 'grace':
+      case 'pending':
+        return Colors.orange;
+      case 'expired':
+      case 'cancelled':
+      case 'canceled':
+      case 'revoked':
+        return Colors.redAccent;
+      default:
+        return AppTheme.textSecondary;
+    }
   }
 
   Widget _buildIdentityModule(Map<String, dynamic> profile) {

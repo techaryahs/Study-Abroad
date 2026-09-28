@@ -16,7 +16,7 @@ import {
    FileText
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -236,30 +236,16 @@ export default function CoverLetterPage() {
                      </div>
                   </div>
 
-                  <div className="relative pt-10 lg:pt-0">
-                     <div className="rounded-[32px] p-10 sm:p-12 bg-[#10324a] text-white border border-white/10 space-y-10 shadow-[0_20px_60px_rgba(16,50,74,0.18)] relative overflow-hidden">
-                        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />
-                        <div className="relative flex items-center gap-4">
-                           <div className="w-12 h-12 rounded-full bg-[#d2a14a] flex items-center justify-center text-[#16364b]">
-                              <Zap size={24} />
-                           </div>
-                           <div>
-                              <h3 className="fd text-2xl font-bold text-[#d2a14a]">Secure Your Draft</h3>
-                              <p className="text-white/60 text-[14px] font-bold uppercase tracking-widest">Global Standards Applied</p>
-                           </div>
+                  <div className="relative space-y-6 pt-10 lg:pt-0">
+                     <ServiceCTA serviceId="cover_letter" />
+                     <div className="glass-panel space-y-4 border border-[#C5A059]/15 bg-white p-6">
+                        <div className="flex items-center gap-3 text-xs text-[#6B5E51]">
+                           <Star size={14} className="text-[#C5A059]" />
+                           <span>Bespoke writing for Tier-1 firms</span>
                         </div>
-                        <div className="relative">
-                           <AddToCart serviceId="cover-letter" />
-                        </div>
-                        <div className="relative flex flex-col gap-4 pt-4 border-t border-white/10">
-                           <div className="flex items-center gap-3 text-white/70 text-xs">
-                              <Star size={14} className="text-[#d2a14a]" />
-                              <span>Bespoke writing for Tier-1 firms</span>
-                           </div>
-                           <div className="flex items-center gap-3 text-white/70 text-xs">
-                              <Search size={14} className="text-[#d2a14a]" />
-                              <span>ATS-Optimized Formatting</span>
-                           </div>
+                        <div className="flex items-center gap-3 text-xs text-[#6B5E51]">
+                           <Search size={14} className="text-[#C5A059]" />
+                           <span>ATS-Optimized Formatting</span>
                         </div>
                      </div>
                   </div>

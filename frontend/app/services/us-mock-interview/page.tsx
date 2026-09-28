@@ -18,7 +18,7 @@ import {
     Award
 } from "lucide-react";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 export default function UsMockInterviewPage() {
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -177,13 +177,13 @@ export default function UsMockInterviewPage() {
                         <h3 className="fd text-3xl font-bold text-[#3C2A21]">Community Insights</h3>
                      </div>
                      <div className="bg-[#FDFBF7]/50 rounded-[40px] p-2 border border-[#F1EDEA]">
-                        <DiscussionSection serviceId="us-mock-interview" />
+                        <DiscussionSection serviceId="mock_interview" />
                      </div>
                 </div>
             </div>
 
             <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-40">
-                <AddToCart serviceId="visa_mock_interview" />
+                <ServiceCTA serviceId="mock_interview" />
             </div>
         </div>
       </section>

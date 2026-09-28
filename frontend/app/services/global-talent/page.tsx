@@ -15,7 +15,7 @@ import {
     Palette
 } from "lucide-react";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 const routes = [
   { id: "tech", label: "Digital Technology", icon: <Cpu />, desc: "Leaders in software development, AI, and digital infrastructure." },
@@ -172,8 +172,8 @@ export default function GlobalTalentPage() {
                                     <span className="text-[#0f4c5c] text-[11px] font-bold tracking-[0.3em] uppercase">Peer Validation</span>
                                     <h3 className="fd text-3xl font-bold text-[#10324a]">Global Insights</h3>
                                 </div>
-                                <div className="bg-white rounded-[32px] p-2 border border-[#10324a]/10 shadow-sm">
-                                    <DiscussionSection serviceId="global-talent" />
+                                <div className="bg-white rounded-[40px] p-2 border border-[#F1EDEA] shadow-sm">
+                                    <DiscussionSection serviceId="global_talent" />
                                 </div>
                             </div>
                         </div>
@@ -182,7 +182,7 @@ export default function GlobalTalentPage() {
                     {/* RIGHT COLUMN */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40 space-y-8">
-                            <AddToCart serviceId="global-talent" />
+                            <ServiceCTA serviceId="global_talent" />
                             
                             <div className="p-8 sm:p-10 bg-[#10324a] rounded-[32px] text-white space-y-6 shadow-[0_20px_60px_rgba(16,50,74,0.18)] border border-white/10 relative overflow-hidden group">
                                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />

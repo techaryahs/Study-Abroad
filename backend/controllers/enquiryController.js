@@ -62,9 +62,9 @@ ${displayService}
             "Content-Type": "application/json"
           }
         });
-        console.log("✅ Admin notified via SMS");
+        logger.info("✅ Admin notified via SMS");
       } catch (smsError) {
-        console.error("⚠️ SMS notification failed:", smsError.message);
+        logger.error("⚠️ SMS notification failed:", smsError.message);
         // Don't fail the whole request if only SMS fails
       }
     }
@@ -72,7 +72,7 @@ ${displayService}
     res.status(201).json({ ok: true, message: 'Enquiry sent successfully!' });
 
   } catch (error) {
-    console.error('❌ Email failed:', error.message);
+    logger.error('❌ Email failed:', error.message);
     
     if (error.code === 'EAUTH') {
       res.status(500).json({ error: 'Email authentication failed. Check backend configuration.' });

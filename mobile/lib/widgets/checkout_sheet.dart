@@ -1,5 +1,8 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../core/theme.dart';
 import '../models/checkout_item.dart';
 import '../core/api_client.dart';
@@ -7,6 +10,10 @@ import '../core/storage.dart';
 
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+/// Cart / service checkout (Razorpay on Android).
+///
+/// iOS membership / subscription purchases are owned exclusively by
+/// [MembershipScreen] + [PaymentService]. This sheet must not start Apple IAP.
 class CheckoutSheet extends StatefulWidget {
   final List<CheckoutItem> items;
   final String currency;
@@ -75,7 +82,7 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
   @override
   void initState() {
     super.initState();
-    if (!kIsWeb) {
+    if (!kIsWeb && Platform.isAndroid) {
       _razorpay = Razorpay();
       _razorpay!.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
       _razorpay!.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
@@ -88,6 +95,9 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
     _razorpay?.clear();
     super.dispose();
   }
+
+  /// Charged amount from last create-order (supports TEST_PAYMENT_MODE ₹1).
+  num? _chargedTotal;
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     try {
@@ -113,7 +123,8 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
             .toList(),
         'subtotal': subtotal,
         'discount': discount,
-        'total': subtotal, // Payable
+        // Must match Razorpay charged amount (TEST_PAYMENT_MODE may be ₹1)
+        'total': _chargedTotal ?? subtotal,
         'currency': widget.currency
       });
 
@@ -170,21 +181,34 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
       return;
     }
 
+    // ── iOS: membership is the only App Store purchase path ────
+    // Cart already redirects to /membership on iOS. Do not start Apple IAP here.
+    if (!kIsWeb && Platform.isIOS) {
+      _showIosMembershipRedirect();
+      return;
+    }
+
+    // ── Android: Razorpay (cart / service checkout, unchanged) ─
     setState(() => _isProcessing = true);
     try {
       final user = await AppStorage.getUser();
-      if (user == null)
+      if (user == null) {
         throw Exception("Please login first to make a payment.");
+      }
 
       final res = await ApiClient.instance.post(
         '/api/payment/create-order',
         data: {
           'amount': subtotal,
           'currency': widget.currency,
+          if (widget.items.isNotEmpty) 'planId': widget.items.first.id,
         },
       );
 
       final data = res.data;
+      _chargedTotal = data['expectedAmount'] is num
+          ? data['expectedAmount'] as num
+          : subtotal;
       var options = {
         'key': 'rzp_live_RseCm2t4lFlfMC',
         'amount': data['amount'],
@@ -205,6 +229,63 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(extractErrorMessage(e))));
     }
+  }
+
+  /// iOS: service/cart checkout is not paid via this sheet.
+  /// Membership / IAP is owned by MembershipScreen + PaymentService only.
+  void _showIosMembershipRedirect() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Membership Plans',
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 16,
+            color: AppTheme.textPrimary,
+          ),
+        ),
+        content: const Text(
+          'On iOS, plans and premium access are purchased through Membership Plans via the App Store.',
+          style: TextStyle(
+            color: AppTheme.textSecondary,
+            fontSize: 13,
+            height: 1.6,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pop(ctx);
+                Navigator.pop(context);
+                context.push('/membership');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.gold,
+                foregroundColor: AppTheme.darkBrown,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(vertical: 12),
+              ),
+              child: const Text(
+                'VIEW MEMBERSHIP',
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 14),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Shows a user-friendly dialog when payment is attempted on Flutter Web.
@@ -299,103 +380,107 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
                     style: Theme.of(context).textTheme.bodyMedium),
               )
             else
-              Column(
-                children: widget.items.map((item) {
-                  final linePrice = item.price * item.quantity;
-                  final lineActualPrice = item.actualPrice * item.quantity;
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        color: AppTheme.background,
-                        borderRadius: BorderRadius.circular(18)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 46,
-                          height: 46,
-                          decoration: BoxDecoration(
-                              color: AppTheme.darkBrown,
-                              borderRadius: BorderRadius.circular(14)),
-                          alignment: Alignment.center,
-                          child: Text(item.icon,
-                              style: const TextStyle(fontSize: 24)),
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(item.title,
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w800,
-                                      color: AppTheme.textPrimary)),
-                              if (item.quantity > 1) ...[
-                                const SizedBox(height: 4),
-                                Text('Qty ${item.quantity}',
-                                    style: const TextStyle(
-                                        fontSize: 13,
-                                        color: AppTheme.textSecondary,
-                                        fontWeight: FontWeight.w700)),
-                              ],
-                              if (item.subtitle != null) ...[
-                                const SizedBox(height: 6),
-                                Text(item.subtitle!,
-                                    style: const TextStyle(
-                                        fontSize: 13,
-                                        color: AppTheme.textSecondary)),
-                              ],
-                              const SizedBox(height: 8),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+              Flexible(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: widget.items.map((item) {
+                      final linePrice = item.price * item.quantity;
+                      final lineActualPrice = item.actualPrice * item.quantity;
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            color: AppTheme.background,
+                            borderRadius: BorderRadius.circular(18)),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 46,
+                              height: 46,
+                              decoration: BoxDecoration(
+                                  color: AppTheme.darkBrown,
+                                  borderRadius: BorderRadius.circular(14)),
+                              alignment: Alignment.center,
+                              child: Text(item.icon,
+                                  style: const TextStyle(fontSize: 24)),
+                            ),
+                            const SizedBox(width: 14),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  if (item.actualPrice > item.price)
-                                    Text(
-                                      '${widget.currency} ${formatPrice(lineActualPrice)}',
+                                  Text(item.title,
                                       style: const TextStyle(
-                                          fontSize: 14,
-                                          color: AppTheme.textSecondary,
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    ),
-                                  if (item.actualPrice > item.price)
-                                    const SizedBox(width: 8),
-                                  Text(
-                                    '${widget.currency} ${formatPrice(linePrice)}',
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w900,
-                                        color: AppTheme.gold),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w800,
+                                          color: AppTheme.textPrimary)),
+                                  if (item.quantity > 1) ...[
+                                    const SizedBox(height: 4),
+                                    Text('Qty ${item.quantity}',
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            color: AppTheme.textSecondary,
+                                            fontWeight: FontWeight.w700)),
+                                  ],
+                                  if (item.subtitle != null) ...[
+                                    const SizedBox(height: 6),
+                                    Text(item.subtitle!,
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            color: AppTheme.textSecondary)),
+                                  ],
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      if (item.actualPrice > item.price)
+                                        Text(
+                                          '${widget.currency} ${formatPrice(lineActualPrice)}',
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              color: AppTheme.textSecondary,
+                                              decoration:
+                                                  TextDecoration.lineThrough),
+                                        ),
+                                      if (item.actualPrice > item.price)
+                                        const SizedBox(width: 8),
+                                      Text(
+                                        '${widget.currency} ${formatPrice(linePrice)}',
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w900,
+                                            color: AppTheme.gold),
+                                      ),
+                                    ],
                                   ),
+                                  if (item.quantity > 1)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 4),
+                                      child: Text(
+                                          '${widget.currency} ${formatPrice(item.price)} each',
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: AppTheme.textSecondary)),
+                                    ),
+                                  if (item.description != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(item.description!,
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              color: AppTheme.textSecondary,
+                                              height: 1.5)),
+                                    ),
                                 ],
                               ),
-                              if (item.quantity > 1)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Text(
-                                      '${widget.currency} ${formatPrice(item.price)} each',
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          color: AppTheme.textSecondary)),
-                                ),
-                              if (item.description != null)
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Text(item.description!,
-                                      style: const TextStyle(
-                                          fontSize: 14,
-                                          color: AppTheme.textSecondary,
-                                          height: 1.5)),
-                                ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                }).toList(),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ),
             const SizedBox(height: 12),
             if (widget.items.isNotEmpty)
@@ -514,16 +599,16 @@ class _CheckoutSheetState extends State<CheckoutSheet> {
                           letterSpacing: 1.5,
                           color: Colors.grey)),
                   const SizedBox(height: 24),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('SERVICES',
+                      Text('SERVICES',
                           style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 1.5,
                               color: Colors.grey)),
-                      const Text('AMOUNT',
+                      Text('AMOUNT',
                           style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w900,

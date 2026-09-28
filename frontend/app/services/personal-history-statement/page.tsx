@@ -9,7 +9,7 @@ import {
     ShieldCheck
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -61,7 +61,7 @@ export default function PersonalHistoryStatementPage() {
                             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                         </button>
 
-                        <DiscussionSection serviceId="personal-history-statement" />
+                        <DiscussionSection serviceId="personal_history" />
                     </motion.div>
                 </section>
 
@@ -98,7 +98,7 @@ export default function PersonalHistoryStatementPage() {
                     {/* RIGHT SIDEBAR */}
                     <div className="lg:sticky lg:top-32 space-y-6">
                         <div className="w-full">
-                            <AddToCart serviceId="history-draft" />
+                            <ServiceCTA serviceId="personal_history" />
                         </div>
 
                         <div className="rounded-[24px] border border-[#10324a]/10 bg-white/80 p-6 sm:p-8 shadow-[0_12px_35px_rgba(16,50,74,0.05)] space-y-3">

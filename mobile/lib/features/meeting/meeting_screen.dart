@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/api_client.dart';
+import '../../core/app_logger.dart';
 import '../../core/theme.dart';
 import '../auth/auth_provider.dart';
 
@@ -93,7 +94,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
         });
       }
     } catch (e) {
-      debugPrint("Session fetch error: $e");
+      AppLogger.error("Session fetch error", e);
       // Fallback: only use fallback if we don't already have data from the dashboard
       if (_sessionData == null) {
         setState(() {
@@ -107,7 +108,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
   }
 
   Future<void> _joinMeeting() async {
-    debugPrint("Join Meeting Pressed");
+    AppLogger.info("Join Meeting Pressed");
     final cam = await Permission.camera.request();
     final mic = await Permission.microphone.request();
 
@@ -134,11 +135,11 @@ class _MeetingScreenState extends State<MeetingScreen> {
         });
         _connectSocket();
       } catch (e) {
-        debugPrint("Media access error: $e");
+        AppLogger.error("Media access error", e);
         setState(() => _sessionError = "Media Error: Could not access camera/mic. Details: $e");
       }
     } else {
-      debugPrint("Permissions denied: Cam=$cam, Mic=$mic");
+      AppLogger.warning("Permissions denied: Cam=$cam, Mic=$mic");
       setState(() => _sessionError = "Camera and microphone permissions are mandatory for meetings. Please grant them and try again.");
     }
   }

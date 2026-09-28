@@ -6,9 +6,11 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
-const { getEmailSearchRegex } = require("../utils/emailUtils");
+const { getEmailSearchRegex, normalizeEmail } = require("../utils/emailUtils");
 const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
 const { sendSMSOTP } = require("../utils/otpsms");
+const { applyLifecycleToUser } = require("../utils/membershipLifecycle");
+const logger = require("../utils/logger");
 
 
 const otpStore = new Map();
@@ -56,8 +58,6 @@ exports.register = async (req, res) => {
     if (profileInput?.loanInterest !== undefined) profileData.loanInterest = profileInput.loanInterest;
     if (targetUniversities.length > 0) profileData.targetUniversities = targetUniversities;
 
-    console.log("🛠️ Building Student Profile Data:", JSON.stringify(profileData, null, 2));
-
     const newStudent = new Student({
       name,
       email: emailLower,
@@ -72,13 +72,12 @@ exports.register = async (req, res) => {
     });
 
     await newStudent.save();
-    console.log(`✅ Student Saved with ${targetUniversities.length} target universities.`);
 
     // 🔢 3️⃣ Cleanup otpStore
     otpStore.delete(emailLower);
     otpStoreMobile.delete(mobile);
 
-    console.log(`✅ Student Registered Successfully: ${emailLower}`);
+    logger.info(`Student Registered Successfully: ${logger.maskEmail(emailLower)}`);
 
     // 4️⃣ Send Success Response
     res.status(201).json({
@@ -115,7 +114,7 @@ exports.sendOtpSignup = async (req, res) => {
     const expiresAt = Date.now() + 10 * 60 * 1000;
     otpStore.set(emailLower, { otp, expiresAt, verified: false });
 
-    console.log(`📌 OTP for Signup (${emailLower}): ${otp}`);
+    logger.info(`OTP for Signup (${logger.maskEmail(emailLower)}): ${logger.maskOtp(otp)}`);
 
     // 3️⃣ Send Email
     await sendEmail(
@@ -185,7 +184,7 @@ exports.sendOtpMobile = async (req, res) => {
     const expiresAt = Date.now() + 10 * 60 * 1000;
     otpStoreMobile.set(mobile, { otp, expiresAt, verified: false });
 
-    console.log(`📌 Mobile OTP for Signup (${mobile}): ${otp}`);
+    logger.info(`Mobile OTP for Signup generated: ${logger.maskOtp(otp)}`);
 
     // 2️⃣ Send SMS
     const smsResult = await sendSMSOTP(mobile, otp);
@@ -327,20 +326,121 @@ exports.login = async (req, res) => {
 ========================= */
 exports.getMe = async (req, res) => {
   try {
-    let user;
-    if (req.user.role === "student") {
-      user = await Student.findById(req.user.id).select("-password");
-    } else if (req.user.role === "consultant") {
-      user = await Consultant.findById(req.user.id).select("-password");
-    } else {
-      user = await User.findById(req.user.id).select("-password");
-    }
+    const { serializeMembership } = require("../utils/membershipLifecycle");
+    const PaymentTransaction = require("../models/PaymentTransaction");
+    const { findUserById } = require("../utils/userHelper");
 
-    if (!user) {
+    const found = await findUserById(req.user.id || req.user._id);
+    if (!found || !found.user) {
       return res.status(404).json({ error: "User not found" });
     }
+    const user = found.user;
 
-    res.json({ success: true, user });
+    // Runtime membership lifecycle: if expiryDate passed, status becomes expired (persisted)
+    if (user.membership) {
+      try {
+        await applyLifecycleToUser(user, { persist: true });
+      } catch (lifecycleErr) {
+        console.warn("Membership lifecycle evaluation skipped:", lifecycleErr.message);
+      }
+    }
+
+    // Return a plain object with normalized membership purchase fields for clients
+    const userPayload =
+      typeof user.toObject === "function"
+        ? user.toObject({ flattenMaps: true })
+        : { ...user };
+
+    if (userPayload.membership) {
+      const serialized = serializeMembership(userPayload.membership);
+      if (serialized) {
+        // Backfill amount/dates from ledger when membership record is incomplete
+        if (
+          serialized.planId &&
+          serialized.planId !== "free" &&
+          (serialized.amountPaid == null ||
+            !serialized.purchaseDate ||
+            !serialized.transactionId ||
+            !serialized.expiryDate)
+        ) {
+          try {
+            const txnQuery = {
+              userId: user._id,
+              status: { $in: ["ENTITLED", "VERIFIED", "succeeded"] },
+            };
+            if (serialized.transactionId) {
+              txnQuery.$or = [
+                { transactionId: serialized.transactionId },
+                { externalTransactionId: serialized.transactionId },
+              ];
+            } else if (serialized.planId) {
+              txnQuery.planId = serialized.planId;
+            }
+            const txn = await PaymentTransaction.findOne(txnQuery)
+              .sort({ createdAt: -1 })
+              .lean();
+            if (txn) {
+              if (serialized.amountPaid == null && typeof txn.amount === "number") {
+                serialized.amountPaid = txn.amount;
+              }
+              if (!serialized.currency && txn.currency) {
+                serialized.currency = txn.currency;
+              }
+              if (!serialized.transactionId) {
+                serialized.transactionId =
+                  txn.externalTransactionId || txn.transactionId || null;
+              }
+              const txnDate = txn.processedAt || txn.createdAt;
+              if (txnDate && !serialized.purchaseDate) {
+                const iso = new Date(txnDate).toISOString();
+                serialized.purchaseDate = iso;
+                serialized.purchasedAt = iso;
+                serialized.activatedAt = iso;
+                if (!serialized.paymentDate) serialized.paymentDate = iso;
+              }
+              if (!serialized.paymentStatus && txn.status) {
+                serialized.paymentStatus =
+                  txn.status === "ENTITLED" || txn.status === "VERIFIED"
+                    ? "paid"
+                    : String(txn.status).toLowerCase();
+              }
+            }
+
+            // Derive missing expiry for recurring plans from purchase date + plan type
+            if (!serialized.expiryDate && serialized.purchaseDate) {
+              const MembershipPlan = require("../models/MembershipPlan");
+              const planDoc = await MembershipPlan.findOne({
+                planId: serialized.planId,
+                isActive: true,
+              })
+                .select("type")
+                .lean();
+              if (planDoc && (planDoc.type === "yearly" || planDoc.type === "monthly")) {
+                const base = new Date(serialized.purchaseDate);
+                if (planDoc.type === "yearly") {
+                  base.setFullYear(base.getFullYear() + 1);
+                } else {
+                  base.setMonth(base.getMonth() + 1);
+                }
+                const expIso = base.toISOString();
+                serialized.expiryDate = expIso;
+                serialized.expiresAt = expIso;
+              }
+            }
+          } catch (txnErr) {
+            console.warn("PaymentTransaction membership backfill skipped:", txnErr.message);
+          }
+        }
+        userPayload.membership = serialized;
+      }
+    }
+
+    delete userPayload.password;
+    delete userPayload.loginOtp;
+    delete userPayload.loginOtpExpiresAt;
+    delete userPayload.loginOtpAttempts;
+
+    res.json({ success: true, user: userPayload });
   } catch (err) {
     console.error("🔥 getMe error:", err);
     res.status(500).json({ error: "Server error" });
@@ -354,9 +454,6 @@ exports.getMe = async (req, res) => {
 ========================= */
 exports.registerConsultant = async (req, res) => {
   try {
-    console.log("📌 Incoming Consultant Registration Payload:", req.body);
-    console.log("📌 Incoming File Data:", req.file);
-
     let {
       name,
       email,
@@ -369,8 +466,7 @@ exports.registerConsultant = async (req, res) => {
       image
     } = req.body;
 
-    const emailLower = email?.toLowerCase().trim();
-    const normalizedEmail = normalizeEmail(emailLower);
+    const emailLower = normalizeEmail(email);
 
     // 🔍 Check if Email is Verified in otpStore
     const storedData = otpStore.get(emailLower);
@@ -422,7 +518,7 @@ exports.registerConsultant = async (req, res) => {
 
     // 🔢 Cleanup otpStore
     otpStore.delete(emailLower);
-    console.log(`✅ Consultant Registered Successfully: ${emailLower}`);
+    logger.info(`Consultant Registered Successfully: ${logger.maskEmail(emailLower)}`);
 
     res.status(201).json({
       message: "Consultant registered successfully. Welcome to the Elite.",
@@ -533,7 +629,7 @@ exports.adminForgotPassword = async (req, res) => {
     const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes
     otpStore.set(emailLower, { otp, expiresAt, verified: false });
 
-    console.log(`🔐 Admin Forgot Password OTP (${emailLower}): ${otp}`);
+    logger.info(`Admin Forgot Password OTP generated for ${logger.maskEmail(emailLower)}: ${logger.maskOtp(otp)}`);
 
     await sendEmail(
       emailLower,
@@ -618,10 +714,10 @@ exports.adminResetPassword = async (req, res) => {
     await user.save();
 
     otpStore.delete(emailLower);
-    console.log(`✅ Admin password reset for: ${emailLower}`);
+    logger.info(`Admin password reset for: ${logger.maskEmail(emailLower)}`);
     res.json({ message: "Admin password reset successfully" });
   } catch (err) {
-    console.error("❌ adminResetPassword Error:", err);
+    logger.error("adminResetPassword Error:", err);
     res.status(500).json({ error: "Failed to reset password" });
   }
 };
@@ -644,8 +740,7 @@ exports.verifyForgotOtp = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
   const { email, otp, newPassword } = req.body;
-  const emailLower = email?.toLowerCase().trim();
-  const normalizedEmail = normalizeEmail(emailLower);
+  const emailLower = normalizeEmail(email);
 
   const data = otpStore.get(emailLower);
 
@@ -738,7 +833,7 @@ exports.createBasicAccount = async (req, res) => {
 
     const token = generateToken(newStudent._id, "student");
 
-    console.log(`Basic account created for: ${emailLower}`);
+    logger.info(`Basic account created for: ${logger.maskEmail(emailLower)}`);
 
     res.status(201).json({
       message: "Basic account created successfully",
@@ -756,7 +851,7 @@ exports.createBasicAccount = async (req, res) => {
       isNewUser: true
     });
   } catch (err) {
-    console.error("createBasicAccount Error:", err);
+    logger.error("createBasicAccount Error:", err);
     res.status(500).json({ error: "Failed to create account" });
   }
 };
@@ -795,7 +890,7 @@ exports.sendLoginOtp = async (req, res) => {
     user.loginOtpAttempts = 0;
     await user.save();
 
-    console.log(`[OTP DEBUG] Generated Login OTP for ${standardizedPhone}: ${otp}`);
+    logger.info(`Generated Login OTP for user: ${logger.maskOtp(otp)}`);
 
     // Dispatch SMS using sendSMSOTP
     const smsResult = await sendSMSOTP(standardizedPhone, otp);
@@ -914,4 +1009,85 @@ exports.verifyLoginOtp = async (req, res) => {
   }
 };
 
+/* =========================
+   REGISTER PARTNER
+========================= */
+exports.registerPartner = async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      mobile,
+      password,
+      partnerType,
+      organizationName,
+      organizationEmail,
+      organizationPhone,
+      designation
+    } = req.body;
+
+    if (!name || !email || !mobile || !password || !partnerType || !organizationName || !organizationEmail || !organizationPhone || !designation) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (partnerType !== "edu_leader" && partnerType !== "edu_mitra") {
+      return res.status(400).json({ error: "Invalid partner type" });
+    }
+
+    const emailLower = email.toLowerCase().trim();
+    const orgEmailLower = organizationEmail.toLowerCase().trim();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailLower) || !emailRegex.test(orgEmailLower)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters long" });
+    }
+
+    const existingEmail = await findUserByEmail(emailLower);
+    if (existingEmail) {
+      return res.status(409).json({ error: "Email already registered" });
+    }
+
+    const existingMobile = await findUserByMobile(mobile);
+    if (existingMobile) {
+      return res.status(409).json({ error: "Mobile number already registered" });
+    }
+
+    const newPartner = new User({
+      name: name.trim(),
+      email: emailLower,
+      mobile: mobile.trim(),
+      password,
+      role: "partner",
+      partnerProfile: {
+        partnerType,
+        organizationName: organizationName.trim(),
+        organizationEmail: orgEmailLower,
+        organizationPhone: organizationPhone.trim(),
+        designation: designation.trim(),
+        isApproved: false,
+        approvedAt: null,
+        approvedBy: null,
+        isActive: true,
+        onboardingStatus: "pending",
+        notes: ""
+      }
+    });
+
+    await newPartner.save();
+
+    logger.info(`Partner Registered Successfully: ${logger.maskEmail(emailLower)}`);
+
+    res.status(201).json({
+      message: "Partner registration submitted successfully. Your application is pending approval.",
+      user: { id: newPartner._id, name: newPartner.name, email: newPartner.email, role: newPartner.role }
+    });
+  } catch (err) {
+    console.error("❌ registerPartner Error:", err);
+    res.status(500).json({ error: "Server error during registration" });
+  }
+};
 

@@ -6,11 +6,12 @@ import { Search, Filter, Bookmark, ArrowRight, GraduationCap, Lock } from "lucid
 import { motion } from "framer-motion";
 import scholarshipData from "@/data/scolarship.json";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
+import { useMembership } from "@/app/lib/membership/MembershipContext";
 
 const ScholarshipsPage = () => {
-  const { isPremium } = usePremiumStatus();
+  const { canAccess } = useMembership();
+  const hasAccess = canAccess('scholarship_search');
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [showBookingModal, setShowBookingModal] = useState(false);
@@ -98,18 +99,18 @@ const ScholarshipsPage = () => {
 
             <div className="flex flex-wrap justify-center gap-8 md:gap-12 mb-10">
               <div className="text-center">
-                <p className="text-3xl md:text-4xl font-black text-[#d2a14a]">500+</p>
-                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#4b5b6a] mt-1">Scholarships</p>
+                <p className="text-3xl md:text-4xl font-black text-[#C5A059] fd">500+</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#6B5E51] mt-1">Scholarships</p>
               </div>
-              <div className="hidden sm:block w-[1px] bg-gradient-to-b from-transparent via-[#d2a14a]/40 to-transparent"></div>
+              <div className="hidden sm:block w-[1px] bg-gradient-to-b from-transparent via-[#C5A059]/40 to-transparent"></div>
               <div className="text-center">
-                <p className="text-3xl md:text-4xl font-black text-[#d2a14a]">$10M+</p>
-                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#4b5b6a] mt-1">Financial Aid</p>
+                <p className="text-3xl md:text-4xl font-black text-[#C5A059] fd">$10M+</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#6B5E51] mt-1">Financial Aid</p>
               </div>
-              <div className="hidden sm:block w-[1px] bg-gradient-to-b from-transparent via-[#d2a14a]/40 to-transparent"></div>
+              <div className="hidden sm:block w-[1px] bg-gradient-to-b from-transparent via-[#C5A059]/40 to-transparent"></div>
               <div className="text-center">
-                <p className="text-3xl md:text-4xl font-black text-[#d2a14a]">15+</p>
-                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#4b5b6a] mt-1">Countries</p>
+                <p className="text-3xl md:text-4xl font-black text-[#C5A059] fd">15+</p>
+                <p className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-[#6B5E51] mt-1">Countries</p>
               </div>
             </div>
           </motion.div>
@@ -170,42 +171,42 @@ const ScholarshipsPage = () => {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="px-2.5 py-0.5 bg-[#2ca59d]/8 text-[#0f4c5c] text-[8px] font-black uppercase tracking-widest rounded border border-[#2ca59d]/15">
+                        <span className="px-2.5 py-0.5 bg-[#F8F5F0] text-[#C5A059] text-[8px] font-black uppercase tracking-widest rounded border border-[rgba(197,160,89,0.1)]">
                           {s.category}
                         </span>
                       </div>
-                      <h3 className="text-xl md:text-2xl font-black text-[#10324a] transition-colors mb-1">{s.name}</h3>
-                      <p className="text-[10px] font-black text-[#4b5b6a] tracking-wide">PROVIDER: <span className="font-medium opacity-80">{s.sponsor}</span></p>
+                      <h3 className="fd text-xl md:text-2xl font-bold text-[#2D2926] transition-colors mb-1">{s.name}</h3>
+                      <p className="text-[10px] font-black text-[#6B5E51] tracking-wide">PROVIDER: <span className="font-medium opacity-80">{s.sponsor}</span></p>
                     </div>
 
                     <div className="flex items-center gap-8 md:gap-10 flex-shrink-0">
                       <div className="flex flex-col items-center md:items-end gap-1">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-[#4b5b6a]/60">Closing Date</span>
-                        {isPremium ? (
-                          <span className="text-xs font-bold text-[#10324a] whitespace-nowrap">{s.deadline}</span>
+                        <span className="text-[9px] font-black uppercase tracking-widest text-[#A8A29E]">Closing Date</span>
+                        {hasAccess ? (
+                          <span className="text-xs font-bold text-[#2D2926] whitespace-nowrap">{s.deadline}</span>
                         ) : (
-                          <div className="flex items-center gap-1 bg-white border border-[#d2a14a]/25 px-2 py-0.5 rounded shadow-sm text-[#d2a14a]">
+                          <div className="flex items-center gap-1 bg-[#FDFBF7] border border-[rgba(197,160,89,0.2)] px-2 py-0.5 rounded shadow-sm text-[#C5A059]">
                             <Lock size={10} />
                             <span className="text-[10px] font-bold uppercase tracking-widest">Locked</span>
                           </div>
                         )}
                       </div>
                       <div className="flex flex-col items-center md:items-end gap-1">
-                        <span className="text-[9px] font-black uppercase tracking-widest text-[#d2a14a]">Award value</span>
-                        {isPremium ? (
-                          <span className="text-xs font-bold text-[#10324a] whitespace-nowrap">{s.amount}</span>
+                        <span className="text-[9px] font-black uppercase tracking-widest text-[#C5A059]">Award value</span>
+                        {hasAccess ? (
+                          <span className="text-xs font-bold text-[#2D2926] whitespace-nowrap">{s.amount}</span>
                         ) : (
-                          <div className="flex items-center gap-1 bg-white border border-[#d2a14a]/25 px-2 py-0.5 rounded shadow-sm text-[#d2a14a]">
+                          <div className="flex items-center gap-1 bg-[#FDFBF7] border border-[rgba(197,160,89,0.2)] px-2 py-0.5 rounded shadow-sm text-[#C5A059]">
                             <Lock size={10} />
                             <span className="text-[10px] font-bold uppercase tracking-widest">Locked</span>
                           </div>
                         )}
                       </div>
                       <div className="flex items-center gap-3">
-                        <button className="p-2.5 bg-[#2ca59d]/8 text-[#4b5b6a] rounded-full hover:text-[#d2a14a] transition-colors" onClick={(e) => e.preventDefault()}>
+                        <button className="p-2.5 bg-[#F8F5F0] text-[#6B5E51] rounded-full hover:text-[#C5A059] transition-colors" onClick={(e) => e.preventDefault()}>
                           <Bookmark size={18} />
                         </button>
-                        <div className="w-10 h-10 bg-[#10324a] text-white rounded-full flex items-center justify-center group-hover:bg-[#d2a14a] group-hover:text-[#10324a] transition-all">
+                        <div className="w-10 h-10 bg-[#2D2926] text-white rounded-full flex items-center justify-center group-hover:bg-[#C5A059] transition-all">
                           <ArrowRight size={18} />
                         </div>
                       </div>
@@ -217,7 +218,7 @@ const ScholarshipsPage = () => {
               
               {filteredScholarships.length > 3 && (
                 /* Premium Lock for remaining scholarships */
-                <PremiumLock isPremium={isPremium} title="Unlock 500+ Scholarships" description="Get premium access to explore over 500 fully-funded scholarships, exclusive financial aids, and step-by-step application guides." price={4999} discountedPrice={1999}>
+                <EntitlementGuard featureId="scholarship_search" fallbackTitle="Unlock 500+ Scholarships" fallbackDescription="Get premium access to explore over 500 fully-funded scholarships, exclusive financial aids, and step-by-step application guides.">
                   <div className="grid gap-5">
                     {filteredScholarships.slice(3).map((s) => (
                       <Link
@@ -228,28 +229,28 @@ const ScholarshipsPage = () => {
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-3 mb-2">
-                              <span className="px-2.5 py-0.5 bg-[#2ca59d]/8 text-[#0f4c5c] text-[8px] font-black uppercase tracking-widest rounded border border-[#2ca59d]/15">
+                              <span className="px-2.5 py-0.5 bg-[#F8F5F0] text-[#C5A059] text-[8px] font-black uppercase tracking-widest rounded border border-[rgba(197,160,89,0.1)]">
                                 {s.category}
                               </span>
                             </div>
-                            <h3 className="text-xl md:text-2xl font-black text-[#10324a] transition-colors mb-1">{s.name}</h3>
-                            <p className="text-[10px] font-black text-[#4b5b6a] tracking-wide">PROVIDER: <span className="font-medium opacity-80">{s.sponsor}</span></p>
+                            <h3 className="fd text-xl md:text-2xl font-bold text-[#2D2926] transition-colors mb-1">{s.name}</h3>
+                            <p className="text-[10px] font-black text-[#6B5E51] tracking-wide">PROVIDER: <span className="font-medium opacity-80">{s.sponsor}</span></p>
                           </div>
 
                           <div className="flex items-center gap-8 md:gap-10 flex-shrink-0">
                             <div className="flex flex-col items-center md:items-end gap-1">
-                              <span className="text-[9px] font-black uppercase tracking-widest text-[#4b5b6a]/60">Closing Date</span>
-                              <span className="text-xs font-bold text-[#10324a] whitespace-nowrap">{s.deadline}</span>
+                              <span className="text-[9px] font-black uppercase tracking-widest text-[#A8A29E]">Closing Date</span>
+                              <span className="text-xs font-bold text-[#2D2926] whitespace-nowrap">{s.deadline}</span>
                             </div>
                             <div className="flex flex-col items-center md:items-end gap-1">
-                              <span className="text-[9px] font-black uppercase tracking-widest text-[#d2a14a]">Award value</span>
-                              <span className="text-xs font-bold text-[#10324a] whitespace-nowrap">{s.amount}</span>
+                              <span className="text-[9px] font-black uppercase tracking-widest text-[#C5A059]">Award value</span>
+                              <span className="text-xs font-bold text-[#2D2926] whitespace-nowrap">{s.amount}</span>
                             </div>
                             <div className="flex items-center gap-3">
-                              <button className="p-2.5 bg-[#2ca59d]/8 text-[#4b5b6a] rounded-full hover:text-[#d2a14a] transition-colors" onClick={(e) => e.preventDefault()}>
+                              <button className="p-2.5 bg-[#F8F5F0] text-[#6B5E51] rounded-full hover:text-[#C5A059] transition-colors" onClick={(e) => e.preventDefault()}>
                                 <Bookmark size={18} />
                               </button>
-                              <div className="w-10 h-10 bg-[#10324a] text-white rounded-full flex items-center justify-center group-hover:bg-[#d2a14a] group-hover:text-[#10324a] transition-all">
+                              <div className="w-10 h-10 bg-[#2D2926] text-white rounded-full flex items-center justify-center group-hover:bg-[#C5A059] transition-all">
                                 <ArrowRight size={18} />
                               </div>
                             </div>
@@ -258,7 +259,7 @@ const ScholarshipsPage = () => {
                       </Link>
                     ))}
                   </div>
-                </PremiumLock>
+                </EntitlementGuard>
               )}
             </>
           ) : (

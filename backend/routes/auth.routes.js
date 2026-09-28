@@ -11,6 +11,7 @@ const upload = require("../config/multer.config");
 router.get("/me", verifyToken, authCtrl.getMe);
 router.post("/register", authCtrl.register);              // Student register
 router.post("/register-parent", authCtrl.registerParent); // Parent register
+router.post("/register-partner", authCtrl.registerPartner); // Partner register
 router.get("/search-student", authCtrl.searchStudent);      // Student search for parents
 router.post("/register-consultant", upload.single('image'), authCtrl.registerConsultant); // Consultant register
 
@@ -28,6 +29,7 @@ router.post("/create-basic-account", authCtrl.createBasicAccount);
 
 router.post("/forgot-password", authCtrl.forgotPassword);
 router.post("/verifyfp-otp", authCtrl.verifyForgotOtp);
+router.post("/verify-otp", authCtrl.verifyForgotOtp);
 router.post("/reset-password", authCtrl.resetPassword);
 
 // ADMIN-SPECIFIC PASSWORD MANAGEMENT

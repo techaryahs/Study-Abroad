@@ -276,7 +276,7 @@ export default function ReviewsPage() {
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight leading-[0.95]">
             <span className="gold-shimmer">Real Reviews</span>
           </h1>
-          <p className="text-[#4b5b6a] text-lg font-medium max-w-xl mx-auto leading-relaxed">
+          <p className="text-[#6B5E51] text-lg font-medium max-w-xl mx-auto leading-relaxed">
             Honest feedback from students who&apos;ve used EduLeaderGlobal&apos;s services to achieve their study-abroad dreams.
           </p>
 

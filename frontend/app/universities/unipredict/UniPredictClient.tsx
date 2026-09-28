@@ -11,8 +11,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 
 const ChatIcon = ({ className }: { className?: string }) => (
@@ -22,8 +21,7 @@ const ChatIcon = ({ className }: { className?: string }) => (
 );
 
 export default function UniPredictPage() {
-    const { isPremium } = usePremiumStatus();
-    const [academicType, setAcademicType] = useState<"Percentage" | "CGPA">("Percentage");
+        const [academicType, setAcademicType] = useState<"Percentage" | "CGPA">("Percentage");
     const [percentage, setPercentage] = useState("");
     const [cgpa, setCgpa] = useState("");
     const [testType, setTestType] = useState<"GRE" | "GMAT">("GRE");
@@ -56,13 +54,9 @@ export default function UniPredictPage() {
     };
 
     return (
-        <PremiumLock isPremium={isPremium} isFullPage={true} title="Unlock UniPredict" description="Get premium access to our highly advanced admission prediction algorithm and tailored recommendations.">
-        <main
-            className="relative min-h-screen text-[#10324a] font-base selection:bg-[#d2a14a]/20 overflow-x-hidden"
-            style={{
-                background: "radial-gradient(circle at top left, rgba(44,165,157,0.16), transparent 30%), linear-gradient(135deg, #f8f4ea 0%, #fcfbf7 100%)",
-            }}
-        >
+        <EntitlementGuard featureId="unipredict" fallbackTitle="Unlock UniPredict" fallbackDescription="Get premium access to our highly advanced admission prediction algorithm and tailored recommendations.">
+
+        <main className="min-h-screen bg-[#F8F6F1] text-[#362B25] font-base selection:bg-[#D4A848]/20 overflow-x-hidden">
 
             {/* ── Background Elements ── */}
             <div className="fixed inset-0 pointer-events-none -z-10">
@@ -87,8 +81,8 @@ export default function UniPredictPage() {
             <section className="w-full pt-4 lg:pt-10 px-4 sm:px-6 lg:px-16 overflow-hidden border-b border-[#10324a]/10 mb-4 sm:mb-10">
                 <div className="max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-6 lg:gap-12 items-center">
                     <div className="space-y-5 lg:space-y-6 order-2 lg:order-1 pb-6 lg:pb-12 text-center lg:text-left z-10 relative">
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[#D4A54A] leading-[1.1]">
-                            UniPredict By EduLeaderGlobal
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[#362B25] leading-[1.1]">
+                            UniPredict By <span className="text-[#D4A848] italic pr-2">EduLeaderGlobal</span>
                         </h1>
                         <p className="text-[#4b5b6a] text-[13px] sm:text-sm leading-relaxed max-w-xl mx-auto lg:mx-0 opacity-90">
                             We've spent years perfecting an algorithm that helps match you with the right universities—based on the same expertise we offer in our luxury services. While many students waste thousands on applications, we give you expert guidance for free. All we ask? Share it with someone who could use it!
@@ -478,6 +472,6 @@ export default function UniPredictPage() {
                 onClose={() => setIsBookingOpen(false)}
             />
         </main>
-        </PremiumLock>
+        </EntitlementGuard>
     );
 }

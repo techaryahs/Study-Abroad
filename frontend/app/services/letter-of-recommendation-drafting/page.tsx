@@ -19,7 +19,7 @@ import {
     Quote
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -208,23 +208,14 @@ export default function LORDraftingPage() {
                         </div>
 
                         {/* INTEGRATED DISCUSSION */}
-                        <div className="pt-10 border-t border-[#10324a]/10">
-                            <DiscussionSection serviceId="letter-of-recommendation-drafting" />
+                        <div className="pt-10 border-t border-[#F1EDEA]">
+                            <DiscussionSection serviceId="lor_drafting" />
                         </div>
                     </div>
 
-                    {/* RIGHT COLUMN: ACTION & SIDEBAR */}
+                    {/* RIGHT COLUMN: ACTION & SIDEBAR — ServiceCTA owns its own shell */}
                     <div className="lg:col-span-2 space-y-8 lg:sticky lg:top-32">
-                        <div className="bg-[#10324a] p-10 rounded-[32px] text-white space-y-8 shadow-[0_20px_60px_rgba(16,50,74,0.18)] relative overflow-hidden group border border-white/10">
-                            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />
-                            <div className="relative space-y-2">
-                                <h3 className="fd text-3xl font-bold text-[#d2a14a]">Secure Your Admit</h3>
-                                <p className="text-white/60 text-sm italic font-medium">Bespoke drafting for international standards.</p>
-                            </div>
-                            <div className="relative">
-                                <AddToCart serviceId="lor-drafting" />
-                            </div>
-                        </div>
+                        <ServiceCTA serviceId="lor_drafting" />
 
                         <div className="p-8 sm:p-10 glass-panel space-y-6">
                             <div className="flex items-center gap-4">

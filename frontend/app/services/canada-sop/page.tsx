@@ -7,7 +7,7 @@ import {
     ArrowRight
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -96,7 +96,7 @@ export default function CanadaSOPPage() {
                             </button>
                         </div>
 
-                        <DiscussionSection serviceId="canada-sop" />
+                        <DiscussionSection serviceId="sop_writing" />
                     </motion.div>
                 </div>
             </section>
@@ -133,7 +133,7 @@ export default function CanadaSOPPage() {
                     {/* RIGHT SIDEBAR */}
                     <div className="lg:sticky lg:top-32 space-y-6">
                         <div className="w-full">
-                            <AddToCart serviceId="canada-sop" />
+                            <ServiceCTA serviceId="sop_writing" />
                         </div>
 
                         <div className="p-6 sm:p-8 bg-white/80 border border-[#10324a]/10 rounded-[24px] shadow-[0_12px_35px_rgba(16,50,74,0.05)] space-y-3">

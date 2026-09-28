@@ -539,16 +539,24 @@ export default function AdminDashboard() {
             Manage Slots
           </button>
           <button onClick={() => router.push("/admin-dashboard/articles")}
-            className="px-3 sm:px-5 py-3 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all whitespace-nowrap">
+            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
             Articles
           </button>
           <button onClick={() => router.push("/admin/consultants")}
             className="px-3 sm:px-5 py-3 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all whitespace-nowrap">
             Counsellors
           </button>
-          <button onClick={() => router.push("/partnership/colleges")}
-            className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-[#c2a878] px-3 sm:px-4 py-2 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-black transition-colors hover:bg-yellow-100">
-            <Plus size={14} /> Add College
+          <button onClick={() => router.push("/admin/partners")}
+            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            Partners
+          </button>
+          <button onClick={() => router.push("/admin/seminars")}
+            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            Seminar Approvals
+          </button>
+          <button onClick={() => router.push("/admin/colleges")}
+            className="px-5 py-3 text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all">
+            Colleges
           </button>
         </div>
 

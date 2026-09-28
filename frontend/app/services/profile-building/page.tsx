@@ -7,7 +7,7 @@ export default function ProfileBuildingPage() {
     <ServiceLayout
       title="Profile Building"
       accentClass="accent-glow-gold"
-      serviceId="profile-building"
+      serviceId="profile_evaluation"
       description="Strategies to enhance your profile with research papers, internships, and certifications before applying for Ivy League universities."
       details={[
         "Research paper publication help",

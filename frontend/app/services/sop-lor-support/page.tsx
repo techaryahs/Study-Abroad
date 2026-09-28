@@ -6,7 +6,7 @@ export default function SopLorSupportPage() {
   return (
     <ServiceLayout 
       title="SOP & LOR Support"
-      serviceId="sop-lor-support"
+      serviceId="sop_writing"
       description="Assistance in writing compelling Statement of Purpose and Letters of Recommendation to impact the admissions committee."
       details={[
         "Creative storytelling workshop",

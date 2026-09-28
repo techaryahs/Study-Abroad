@@ -2,7 +2,7 @@
 
 import React, { useState, ReactNode } from "react";
 import Link from "next/link";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 
@@ -123,7 +123,7 @@ export default function ResearchPaperPage() {
   ];
 
   const researchGroups = [
-    { date: "Feb 26, 2026", slots: "1/3", title: "Construction Project Management", user: "P C", desc: "I'm planning to publish a research paper..." },
+    { date: "Feb 26, 2026", slots: "1/3", title: "Join Our Study Abroad Community", user: "P C", desc: "I'm planning to publish a research paper..." },
     { date: "Feb 08, 2026", slots: "1/3", title: "Clinical and Translational Research", user: "K V", desc: "Clinical Research" },
     { date: "Oct 30, 2025", slots: "1/6", title: "Information Systems (MIS)", user: "U S", desc: "I'm interested in starting a research gr..." },
   ];
@@ -201,7 +201,7 @@ export default function ResearchPaperPage() {
             <p className="sm:hidden text-sm text-[#4b5b6a] leading-relaxed font-medium italic border-l-2 border-[#d2a14a] pl-4 py-1">
               Publish credible papers to boost profile for <span className="text-[#d2a14a] font-black">MS/PhD &amp; EB-1</span>.
             </p>
-            <DiscussionSection serviceId="research-papers" />
+            <DiscussionSection serviceId="research_paper" />
           </div>
         </div>
       </section>
@@ -408,17 +408,17 @@ export default function ResearchPaperPage() {
         {/* ── SIDEBAR ───────────────────────────────────────────────────── */}
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28">
-            <AddToCart serviceId="research-papers" />
+            <ServiceCTA serviceId="research_paper" />
 
             {/* Research Groups */}
             <div className="mt-8 bg-white/85 shadow-lg border border-[#10324a]/10 rounded-[32px] p-8">
               <h3 className="text-xs font-black uppercase tracking-[0.4em] text-[#10324a] mb-6">Join or Create a Research Group</h3>
               <div className="space-y-4">
-                {researchGroups.map((g, idx) => (
-                  <div key={idx} className="bg-[#f7fbfd] border border-[#10324a]/8 rounded-xl overflow-hidden hover:border-[#d2a14a]/40 transition-all shadow-sm">
-                    <div className="bg-white px-4 py-3 flex justify-between items-center border-b border-[#10324a]/5">
-                      <span className="text-[14px] font-bold text-[#4b5b6a] font-bold">Created on: {g.date}</span>
-                      <span className="text-[14px] font-bold text-[#d2a14a] font-bold">👥 {g.slots}</span>
+                {researchGroups.slice(0, 1).map((g, idx) => (
+                  <div key={idx} className="bg-[#F8F6F1] border border-[#D4A848]/10 rounded-xl overflow-hidden hover:border-[#D4A848]/30 transition-all shadow-sm">
+                    <div className="bg-[#FFFFFF] px-4 py-3 flex justify-between items-center border-b border-[#D4A848]/5">
+                      <span className="text-[14px] font-bold text-[#675F5B] font-bold">Created on: {g.date}</span>
+                      <span className="text-[14px] font-bold text-[#D4A848] font-bold">👥 {g.slots}</span>
                     </div>
                     <div className="px-4 py-3">
                       <h4 className="text-xs font-black text-[#10324a] mb-2">{g.title}</h4>
@@ -427,19 +427,22 @@ export default function ResearchPaperPage() {
                         <p className="text-[14px] font-bold text-[#4b5b6a] font-medium">{g.desc}</p>
                       </div>
                       <div className="flex gap-2 mt-3">
-                        <button className="flex-1 text-[14px] font-bold font-bold border border-[#10324a]/15 py-1.5 rounded-lg text-[#10324a] hover:bg-[#10324a]/5 transition-all">View Members</button>
-                        <button className="flex-1 text-[14px] font-bold font-black bg-[#d2a14a] text-[#10324a] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all">Join Group</button>
+                        <button className="flex-1 text-[14px] font-bold font-bold border border-[#D4A848]/20 py-1.5 rounded-lg text-[#362B25] hover:bg-[#D4A848]/10 transition-all">View Members</button>
+                        <button
+                          className="flex-1 text-[14px] font-bold font-black bg-[#D4A848] text-[#FFFFFF] py-1.5 rounded-lg hover:-translate-y-0.5 shadow-md hover:shadow-lg transition-all"
+                          onClick={() =>
+                            window.open(
+                              "https://chat.whatsapp.com/HLv87Xz5H5l242Z9LEOlmS",
+                              "_blank"
+                            )
+                          }
+                        >
+                          Join Group
+                        </button>
                       </div>
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="mt-6 text-center space-y-2">
-                <p className="text-xs text-[#4b5b6a] font-medium">Didn't find what you were looking for?</p>
-                <button className="w-full border border-[#d2a14a]/30 text-[#10324a] font-bold py-3 rounded-xl text-xs hover:bg-[#d2a14a]/5 transition-all">
-                  + Create Research Group
-                </button>
-                <button className="text-xs text-[#d2a14a] font-bold underline hover:text-[#10324a] transition-colors">View More Groups</button>
               </div>
             </div>
           </div>

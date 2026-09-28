@@ -15,8 +15,7 @@ import irelandData from "@/data/Ireland.json";
 import switzerlandData from "@/data/Switzerland.json";
 import netherlandsData from "@/data/Netherlands.json";
 import franceData from "@/data/France.json";
-import PremiumLock from "@/components/shared/PremiumLock";
-import { usePremiumStatus } from "@/app/lib/usePremiumStatus";
+import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -159,9 +158,7 @@ export default function UniversityPage() {
         );
     }
 
-    const { isPremium } = usePremiumStatus();
-
-    const currentPrograms = data.branches?.map((b: any) => b.name) || ["Engineering"];
+        const currentPrograms = data.branches?.map((b: any) => b.name) || ["Engineering"];
     const [activeProgram, setActiveProgram] = useState(currentPrograms[0]);
 
     const activeBranch = data.branches?.find((b: any) => b.name === activeProgram) || data.branches?.[0] || {};
@@ -400,7 +397,7 @@ export default function UniversityPage() {
                 </section>
 
                 {/* ════════════════════ BODY ════════════════════ */}
-                <PremiumLock isPremium={isPremium} isFullPage={true} title="Unlock University Details" description="Get premium access to explore detailed admission chances, tuition costs, and student demographics for this university.">
+                <EntitlementGuard featureId="university_search" fallbackTitle="Unlock University Details" fallbackDescription="Get premium access to explore detailed admission chances, tuition costs, and student demographics for this university.">
                 <div className="max-w-6xl mx-auto px-6 py-20">
                     <div style={{ display: "grid", gridTemplateColumns: "240px 1fr 320px", gap: 40, alignItems: "start" }}>
 
@@ -742,7 +739,7 @@ export default function UniversityPage() {
 
                     </div>
                 </div>
-                </PremiumLock>
+                </EntitlementGuard>
             </div>
 
             <BookCounsellingModal 

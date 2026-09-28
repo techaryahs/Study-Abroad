@@ -400,8 +400,8 @@ export default function EducationLoanPage() {
           </div>
 
           <div className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-black text-[#10324a] leading-tight">
-              Why choose <span className="bg-[#10324a] text-[#d2a14a] px-4 py-1 rounded-xl inline-block -rotate-1">EduLeaderGlobal</span>?
+            <h2 className="fd text-3xl md:text-4xl font-bold text-[#2D2926] leading-tight">
+              Why choose <span className="bg-[#2D2926] text-[#C5A059] px-4 py-1 rounded-xl inline-block -rotate-1">EduLeaderGlobal</span>?
             </h2>
             <p className="text-[#4b5b6a] text-base font-medium leading-relaxed">
               At our core, we prioritize financial inclusivity by offering unbiased guidance so every student can get access to world-class education.

@@ -3,6 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const User = require("../models/User");
 const Student = require("../models/Student");
+const { withEntitlementUsage } = require("../utils/membershipUtils");
+const logger = require("../utils/logger");
 
 // ✅ Correct JSON file path
 const filePath = path.join(__dirname, "../data/careersInterest.json");
@@ -176,8 +178,6 @@ Only return valid JSON. No explanation or markdown.
  * POST /api/careers/quiz/submit
  */
 exports.submitQuiz = async (req, res) => {
-  console.log("🔥 QUIZ SUBMIT HIT:", req.user?.id);
-
   try {
     const studentId = req.user.id;
     const { score } = req.body;
@@ -215,8 +215,6 @@ exports.submitQuiz = async (req, res) => {
 
     student.markModified('profile');
     await student.save();
-
-    console.log("✅ QUIZ SAVED:", student.profile.services.quiz);
 
     return res.json({
       message: "Quiz submitted successfully",
@@ -318,6 +316,15 @@ Return only the resume in markdown format. No introduction or explanation.
 `;
 
   try {
+    const userId = req.user?.id || req.user?._id;
+    if (!userId) {
+      return res.status(401).json({ error: "Authentication required." });
+    }
+
+    const result = await withEntitlementUsage(
+      userId,
+      "resume_drafting",
+      async () => {
     const response = await axios.post(
       'https://openrouter.ai/api/v1/chat/completions',
       {
@@ -336,25 +343,15 @@ Return only the resume in markdown format. No introduction or explanation.
     const aiReply = response.data.choices?.[0]?.message?.content?.trim();
 
     if (!aiReply) {
-      return res.status(500).json({ error: 'Empty response from OpenRouter.' });
+      throw new Error('Empty response from OpenRouter.');
     }
 
-    if (req.user && req.user.id) {
-      let student = await Student.findById(req.user.id);
-      if (student) {
-        if (!student.profile) student.profile = {};
-        if (!student.profile.serviceActivity) student.profile.serviceActivity = {};
-        if (!student.profile.serviceActivity.resumeBuilder) student.profile.serviceActivity.resumeBuilder = {};
+        return { resume: aiReply };
+      },
+      { metadata: { source: "generate_resume" } }
+    );
 
-        student.profile.serviceActivity.resumeBuilder.used = true;
-        student.profile.serviceActivity.resumeBuilder.lastUsedAt = new Date();
-
-        student.markModified('profile');
-        await student.save();
-      }
-    }
-
-    res.json({ resume: aiReply });
+    res.json(result);
   } catch (err) {
     console.error('Resume Generation Error:', err.response?.data || err.message);
     res.status(500).json({ error: 'Failed to generate resume from AI.' });

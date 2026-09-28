@@ -2,7 +2,7 @@
 
 import React, { useState, ReactNode } from "react";
 import Link from "next/link";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 
 
@@ -63,27 +63,7 @@ export default function CounsellingPage() {
               working overseas. <span className="text-[#ffffff]">Charges fully adjustable</span> in service pricing.
             </p>
 
-            <DiscussionSection serviceId="counselling" />
-            <div className="flex flex-wrap gap-4 mt-8">
-  <Link
-    href="/book-counselling"
-    className="inline-flex items-center justify-center px-8 py-4 rounded-xl
-    bg-[#D4A54A] text-[#10324a] font-black uppercase tracking-wider
-    hover:bg-[#c9972d] hover:scale-105 transition-all duration-300
-    shadow-lg shadow-[#D4A54A]/30"
-  >
-    Book Session
-  </Link>
-
-  <Link
-    href="#about"
-    className="inline-flex items-center justify-center px-8 py-4 rounded-xl
-    border border-[#10324a]/20 text-[#10324a] font-bold
-    hover:bg-[#10324a] hover:text-white transition-all duration-300"
-  >
-    Learn More
-  </Link>
-</div>
+            <DiscussionSection serviceId="consultation" />
           </div>
 
           <div className="rounded-[32px] border border-[#10324a]/10 bg-white/80 p-3 shadow-[0_20px_60px_rgba(16,50,74,0.08)]">
@@ -170,16 +150,9 @@ export default function CounsellingPage() {
         {/* Sidebar */}
         <div className="lg:col-span-1 pb-20">
           <div className="sticky top-28 space-y-8">
-          <Link
-  href="/book-counselling"
-  className="block w-full bg-[#D4A54A] text-[#10324a]
-  text-center py-4 rounded-2xl font-black uppercase tracking-wider
-  hover:bg-[#c9972d] transition-all duration-300"
->
-  Book Counselling Session
-</Link>
-            <div className="bg-white/80 border border-[#c6a96b]/20 rounded-2xl p-6 shadow-2xl">
-              <DiscussionSection serviceId="counselling" />
+            <ServiceCTA serviceId="consultation" />
+            <div className="bg-[#0a0a0a] border border-[#c6a96b]/20 rounded-2xl p-6 shadow-2xl">
+              <DiscussionSection serviceId="consultation" />
             </div>
           </div>
         </div>

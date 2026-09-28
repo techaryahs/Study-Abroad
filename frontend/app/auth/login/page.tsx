@@ -1,11 +1,34 @@
 "use client";
 
-import React, { useState, FormEvent, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { Suspense, useState, FormEvent, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ChevronRight, Sparkles, AlertCircle, Phone as PhoneIcon } from "lucide-react";
 import { setToken, setUser, getToken } from "@/app/lib/token";
 import { Country } from "country-state-city";
+
+/** Safe internal redirect only (blocks open redirects). */
+function resolvePostLoginPath(role: string, redirectParam: string | null, user?: any): string {
+  if (
+    redirectParam &&
+    redirectParam.startsWith("/") &&
+    !redirectParam.startsWith("//") &&
+    !redirectParam.includes("://")
+  ) {
+    return redirectParam;
+  }
+  if (role === "admin") return "/admin-dashboard";
+  if (role === "partner") {
+    const p = user?.partnerProfile;
+    if (p && p.isApproved === true && p.isActive !== false && p.onboardingStatus === "approved") {
+      return "/partnership/dashboard";
+    }
+    return "/register/partner/status";
+  }
+  if (role === "consultant") return "/consultant-dashboard";
+  if (role === "college_coordinator") return "/college-dashboard";
+  return "/User/dashboard";
+}
 
 type User = {
   role: string;
@@ -34,8 +57,10 @@ const COUNTRY_CODE_OPTIONS = Country.getAllCountries()
     return a.name.localeCompare(b.name);
   });
 
-const Login: React.FC = () => {
+const LoginContent: React.FC = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectParam = searchParams?.get("redirect") ?? null;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -90,8 +115,7 @@ const Login: React.FC = () => {
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
-        if (role === "admin") router.push("/admin-dashboard");
-        else router.push("/User/dashboard");
+        router.push(resolvePostLoginPath(role, redirectParam, user));
       }, 500);
 
     } catch (err: any) {
@@ -192,8 +216,7 @@ const Login: React.FC = () => {
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
-        if (role === "admin") router.push("/admin-dashboard");
-        else router.push("/User/dashboard");
+        router.push(resolvePostLoginPath(role, redirectParam, user));
       }, 500);
     } catch (err: any) {
       setOtpError(err.message || "Invalid OTP code");
@@ -546,7 +569,8 @@ const Login: React.FC = () => {
           )}
 
           <div className="mt-8 pt-6 border-t border-[#F1EDEA] flex flex-col gap-4 items-center">
-            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>
+            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest cursor-pointer hover:text-[#C5A059] transition-colors" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>
+            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest cursor-pointer hover:text-[#C5A059] transition-colors" onClick={() => router.push("/register/partner")}>Register as Partner</p>
           </div>
         </div>
       </motion.div>
@@ -686,5 +710,11 @@ const Login: React.FC = () => {
     </div>
   );
 };
+
+const Login: React.FC = () => (
+  <Suspense fallback={null}>
+    <LoginContent />
+  </Suspense>
+);
 
 export default Login;

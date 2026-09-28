@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import DiscussionSection from "@/components/shared/DiscussionSection";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 const benefits = [
   { icon: "🎓", text: "Admits from top-tier universities worldwide" },
@@ -268,7 +269,7 @@ export default function ResearchPaperServicePage() {
                 Essential for MS/PhD applicants and O-1/EB-1 visa seekers aiming for elite outcomes.
               </p>
 
-              <DiscussionSection serviceId="research-paper-drafting" />
+              <DiscussionSection serviceId="research_paper" />
             </div>
 
             {/* Orbital graphic */}
@@ -441,10 +442,9 @@ export default function ResearchPaperServicePage() {
               <button className="btn-gold aglow" style={{ width: "100%", borderRadius: 12 }}>Log In to Pay</button>
             </div>
 
-            {/* Chat card */}
-            {/* <div style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(202,138,4,0.14)", borderRadius: 20, padding: "24px" }}>
-              <DiscussionSection serviceId="research-paper-drafting" />
-            </div> */}
+            <div style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(202,138,4,0.14)", borderRadius: 20, padding: "24px" }}>
+              <ServiceCTA serviceId="research_paper" />
+            </div>
 
             {/* Group card */}
             <div style={{ background: "rgba(255,255,255,0.035)", border: "1px solid rgba(202,138,4,0.14)", borderRadius: 20, padding: "24px" }}>

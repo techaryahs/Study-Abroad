@@ -17,7 +17,7 @@ import {
     Maximize2
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -199,14 +199,9 @@ export default function ResumeDraftingPage() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-[#10324a] p-10 rounded-[40px] text-white space-y-8 shadow-[0_20px_60px_rgba(16,50,74,0.18)] relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#d2a14a]/15 blur-2xl rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700" />
-                            <div className="space-y-2">
-                                <h3 className="text-3xl font-black">Forge Your Profile</h3>
-                                <p className="text-white/50 text-sm">Elevate your professional identity today.</p>
-                            </div>
-                            <AddToCart serviceId="resume-drafting" />
-                            <DiscussionSection serviceId="resume-drafting" />
+                        <ServiceCTA serviceId="resume_drafting" />
+                        <div className="rounded-[32px] border border-[#F1EDEA] bg-white p-2 shadow-sm">
+                            <DiscussionSection serviceId="resume_drafting" />
                         </div>
 
                         <div className="p-8 glass-panel space-y-4">

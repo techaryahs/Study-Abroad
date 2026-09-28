@@ -1,6 +1,7 @@
 // backend/controllers/weeklySchedule.controller.js
 const WeeklySchedule = require("../models/WeeklySchedule");
 const Booking = require("../models/Booking");
+const logger = require("../utils/logger");
 
 /**
  * GET ACTIVE WEEKLY SCHEDULE
@@ -91,13 +92,13 @@ exports.updateSchedule = async (req, res) => {
 
     await activeSchedule.save();
 
-    console.log(`✅ [Schedule Updated] by ${adminEmail}`);
+    logger.info(`[Schedule Updated] by ${logger.maskEmail(adminEmail)}`);
     res.json({ 
       message: "Schedule updated successfully", 
       schedule: activeSchedule 
     });
   } catch (err) {
-    console.error("❌ updateSchedule Error:", err);
+    logger.error("updateSchedule Error:", err);
     res.status(500).json({ message: "Error updating schedule" });
   }
 };
@@ -124,13 +125,13 @@ exports.toggleDay = async (req, res) => {
     daySchedule.isEnabled = !daySchedule.isEnabled;
     await schedule.save();
 
-    console.log(`✅ [Day Toggled] ${dayOfWeek} → ${daySchedule.isEnabled ? "Enabled" : "Disabled"}`);
+    logger.info(`[Day Toggled] ${dayOfWeek} → ${daySchedule.isEnabled ? "Enabled" : "Disabled"}`);
     res.json({ 
       message: `${dayOfWeek} ${daySchedule.isEnabled ? "enabled" : "disabled"}`,
       schedule 
     });
   } catch (err) {
-    console.error("❌ toggleDay Error:", err);
+    logger.error("toggleDay Error:", err);
     res.status(500).json({ message: "Error toggling day" });
   }
 };
@@ -144,7 +145,7 @@ exports.addTimeSlotBatch = async (req, res) => {
   try {
     const { days, startTime, endTime, duration } = req.body;
 
-    console.log('📥 Batch Add Request:', { days, startTime, endTime, duration });
+    logger.debug('Batch Add Request for days:', days);
 
     if (!days || !Array.isArray(days) || days.length === 0) {
       return res.status(400).json({ message: "Days array is required" });
@@ -173,13 +174,6 @@ exports.addTimeSlotBatch = async (req, res) => {
       });
     }
 
-    const newSlot = {
-      startTime,
-      endTime,
-      duration: duration || 60,
-      isActive: true
-    };
-
     // Add slot to all specified days in a single transaction
     days.forEach(dayOfWeek => {
       let daySchedule = schedule.schedule.find(d => d.dayOfWeek === dayOfWeek);
@@ -194,23 +188,24 @@ exports.addTimeSlotBatch = async (req, res) => {
         schedule.schedule.push(daySchedule);
       }
 
-      daySchedule.timeSlots.push({ ...newSlot });
+      daySchedule.timeSlots.push({ 
+        startTime,
+        endTime,
+        duration: duration || 60,
+        isActive: true
+      });
     });
 
     await schedule.save();
 
-    console.log(`✅ [Time Slots Added] ${days.join(", ")} ${startTime}-${endTime}`);
+    logger.info(`[Time Slots Added] ${days.join(", ")} ${startTime}-${endTime}`);
     res.json({ message: `Time slot added to ${days.length} day(s)`, schedule });
   } catch (err) {
-    console.error("❌ addTimeSlotBatch Error:", err);
+    logger.error("addTimeSlotBatch Error:", err);
     res.status(500).json({ message: "Error adding time slots", error: err.message });
   }
 };
 
-/**
- * ADD TIME SLOT TO DAY
- * POST /api/weekly-schedule/day/:dayOfWeek/slot
- */
 /**
  * ADD TIME SLOT TO DAY
  * POST /api/weekly-schedule/day/:dayOfWeek/slot
@@ -273,7 +268,7 @@ exports.addTimeSlot = async (req, res) => {
 
         await schedule.save();
 
-        console.log(`✅ [Time Slot Added] ${dayOfWeek} ${startTime}-${endTime}`);
+        logger.info(`[Time Slot Added] ${dayOfWeek} ${startTime}-${endTime}`);
         return res.json({ message: "Time slot added", schedule });
         
       } catch (saveErr) {
@@ -291,7 +286,7 @@ exports.addTimeSlot = async (req, res) => {
       }
     }
   } catch (err) {
-    console.error("❌ addTimeSlot Error:", err);
+    logger.error("addTimeSlot Error:", err);
     res.status(500).json({ message: "Error adding time slot", error: err.message });
   }
 };
@@ -320,10 +315,10 @@ exports.removeTimeSlot = async (req, res) => {
 
     await schedule.save();
 
-    console.log(`✅ [Time Slot Removed] ${dayOfWeek} slot ${slotId}`);
+    logger.info(`[Time Slot Removed] ${dayOfWeek} slot ${slotId}`);
     res.json({ message: "Time slot removed", schedule });
   } catch (err) {
-    console.error("❌ removeTimeSlot Error:", err);
+    logger.error("removeTimeSlot Error:", err);
     res.status(500).json({ message: "Error removing time slot" });
   }
 };
@@ -424,10 +419,10 @@ exports.getAvailableSlotsForDate = async (req, res) => {
     // Sort by time
     allSlots.sort((a, b) => a.time.localeCompare(b.time));
 
-    console.log(`✅ Generated ${allSlots.length} slots for ${dayOfWeek} ${date}`);
+    logger.debug(`Generated ${allSlots.length} slots for ${dayOfWeek} ${date}`);
     res.json({ slots: allSlots });
   } catch (err) {
-    console.error("❌ getAvailableSlotsForDate Error:", err);
+    logger.error("getAvailableSlotsForDate Error:", err);
     res.status(500).json({ message: "Error fetching available slots" });
   }
 };
@@ -458,13 +453,13 @@ exports.toggleTimeSlot = async (req, res) => {
     timeSlot.isActive = !timeSlot.isActive;
     await schedule.save();
 
-    console.log(`✅ [Time Slot Toggled] ${dayOfWeek} ${timeSlot.startTime} → ${timeSlot.isActive ? "Active" : "Inactive"}`);
+    logger.info(`[Time Slot Toggled] ${dayOfWeek} ${timeSlot.startTime} → ${timeSlot.isActive ? "Active" : "Inactive"}`);
     res.json({ 
       message: `Time slot ${timeSlot.isActive ? "enabled" : "disabled"}`,
       schedule 
     });
   } catch (err) {
-    console.error("❌ toggleTimeSlot Error:", err);
+    logger.error("toggleTimeSlot Error:", err);
     res.status(500).json({ message: "Error toggling time slot" });
   }
 };

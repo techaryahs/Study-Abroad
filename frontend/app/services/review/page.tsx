@@ -14,7 +14,7 @@ import {
     Award
 } from "lucide-react";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 const reviewFeatures = [
   { title: "Profile Evaluation", desc: "Expert assessment of your academic and professional standing.", icon: <Search size={22} /> },
@@ -144,8 +144,8 @@ export default function ApplicationReviewPage() {
                                     <span className="text-[#0f4c5c] text-[11px] font-bold tracking-[0.3em] uppercase">Community Feedback</span>
                                     <h3 className="fd text-3xl font-bold text-[#10324a]">Review Insights</h3>
                                 </div>
-                                <div className="bg-white rounded-[32px] p-2 border border-[#10324a]/10 shadow-sm">
-                                    <DiscussionSection serviceId="application-review" />
+                                <div className="bg-white rounded-[40px] p-2 border border-[#F1EDEA] shadow-sm">
+                                    <DiscussionSection serviceId="application_review" />
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@ export default function ApplicationReviewPage() {
                     {/* RIGHT COLUMN */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40 space-y-8">
-                            <AddToCart serviceId="application-review" />
+                            <ServiceCTA serviceId="application_review" />
                             
                             <div className="p-8 sm:p-10 bg-[#10324a] rounded-[32px] text-white space-y-6 shadow-[0_20px_60px_rgba(16,50,74,0.18)] border border-white/10 text-center relative overflow-hidden group">
                                 <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />

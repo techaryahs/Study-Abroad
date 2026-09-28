@@ -1,5 +1,7 @@
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 const { findUserById, findUserByEmail } = require("../utils/userHelper");
+const logger = require("../utils/logger");
 const ProgressReport = require("../models/ProgressReport");
 const FeatureActivity = require("../models/featureActivity");
 const Activity = require("../models/Activity");
@@ -11,16 +13,19 @@ const Review = require("../models/Review");
 exports.getPremiumStatus = async (req, res) => {
   try {
     const result = await findUserById(req.user.id);
-    if (!result) return res.status(404).json({ message: 'User not found' });
+    if (!result) return res.status(401).json({ error: 'Invalid session — user no longer exists' });
 
-    const { user, role } = result;
+    const { user } = result;
     const profile = user.profile || user; // Consultants have flat fields
 
+    const hasActiveMembership = user.membership && user.membership.planId !== 'free' && user.membership.status === 'active';
+
     res.json({
-      isPremium: profile.isPremium || false,
-      premiumPlan: profile.premiumPlan || null,
-      premiumStartAt: profile.premiumStartAt || null,
-      premiumExpiresAt: profile.premiumExpiresAt || null,
+      isPremium: hasActiveMembership || profile.isPremium || false,
+      premiumPlan: user.membership?.planId || profile.premiumPlan || null,
+      premiumStartAt: user.membership?.purchaseDate || profile.premiumStartAt || null,
+      premiumExpiresAt: user.membership?.expiryDate || profile.premiumExpiresAt || null,
+      membership: user.membership || null,
     });
   } catch (error) {
     console.error("Premium status error:", error);
@@ -137,9 +142,9 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-const pricingData = require("../../frontend/data/services-pricing.json");
-
-// @desc    Add to cart
+// @desc    Add to cart (legacy cart path)
+// Pricing snapshots come from the request payload and/or Membership catalog (MongoDB).
+// Backend must never import frontend data files.
 exports.addToCart = async (req, res) => {
   try {
     const { serviceId, cartData } = req.body;
@@ -148,14 +153,12 @@ exports.addToCart = async (req, res) => {
     }
 
     const result = await findUserById(req.user.id);
-    if (!result) return res.status(404).json({ message: "User not found" });
+    if (!result) return res.status(401).json({ error: "Invalid session — user no longer exists" });
 
     const { user } = result;
 
-    // 1. Get snapshot from JSON to supplement frontend data
-    const serviceConfig = pricingData[serviceId] || {};
-
-    // 1. PRICE CLEANING
+    // PRICE CLEANING — trust numeric values from client cart payload
+    // (membership purchases should use MembershipPlan from MongoDB, not a static JSON catalog)
     const numericPrice = parseFloat(cartData.price.toString().replace(/,/g, ""));
     const numericActualPrice = cartData.actualPrice ? parseFloat(cartData.actualPrice.toString().replace(/,/g, "")) : numericPrice / 0.8;
     const requestedQuantity = Math.max(1, parseInt(cartData.quantity, 10) || 1);
@@ -170,6 +173,7 @@ exports.addToCart = async (req, res) => {
       existingItem.updatedAt = new Date();
 
       user.markModified("cart");
+      
       await user.save();
 
       return res.status(200).json({
@@ -196,6 +200,7 @@ exports.addToCart = async (req, res) => {
     user.markModified('cart');
 
     await user.save();
+    
     res.status(200).json({
       success: true,
       message: `${serviceId} added to cart successfully`,
@@ -203,11 +208,16 @@ exports.addToCart = async (req, res) => {
     });
   } catch (error) {
     console.error("Add to cart error:", error);
-    res.status(500).json({ message: "Server error adding to cart" });
+    if (!res.headersSent) {
+      res.status(500).json({ 
+        error: error.message,
+        stack: error.stack
+      });
+    }
   }
 };
 
-// @desc    Update cart item quantity
+// @desc    Update cart item quantity (DEPRECATED)
 exports.updateCartItemQuantity = async (req, res) => {
   try {
     const { itemId, quantity } = req.body;
@@ -218,7 +228,7 @@ exports.updateCartItemQuantity = async (req, res) => {
     }
 
     const result = await findUserById(req.user.id);
-    if (!result) return res.status(404).json({ message: "User not found" });
+    if (!result) return res.status(401).json({ error: "Invalid session — user no longer exists" });
 
     const { user } = result;
 
@@ -253,25 +263,37 @@ exports.updateCartItemQuantity = async (req, res) => {
   }
 };
 
-// @desc    Get user cart
+// @desc    Get user cart (DEPRECATED)
 exports.getCart = async (req, res) => {
-  console.log("🔍 [getCart] User ID from token:", req.user?.id);
   try {
+    // console.log("User:", req.user.id);
+
     const result = await findUserById(req.user.id);
-    if (!result) return res.status(404).json({ message: "User not found" });
+
+    if (!result) {
+      return res.status(401).json({
+        error: "Invalid session"
+      });
+    }
 
     const { user } = result;
-    res.status(200).json({
+
+    // console.log("Cart from DB:", JSON.stringify(user.cart, null, 2));
+
+    return res.status(200).json({
       success: true,
       cart: user.cart || []
     });
+
   } catch (error) {
-    console.error("Get cart error:", error);
-    res.status(500).json({ message: "Server error fetching cart" });
+    console.error(error);
+    return res.status(500).json({
+      message: "Server error fetching cart"
+    });
   }
 };
 
-// @desc    Remove item from cart
+// @desc    Remove item from cart (DEPRECATED)
 exports.removeFromCart = async (req, res) => {
   try {
     const { itemId } = req.body;
@@ -282,7 +304,7 @@ exports.removeFromCart = async (req, res) => {
 
     const result = await findUserById(req.user.id);
     if (!result) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(401).json({ error: "Invalid session — user no longer exists" });
     }
 
     const { user } = result;
@@ -318,9 +340,12 @@ exports.removeFromCart = async (req, res) => {
 };
 
 exports.clearCart = async (req, res) => {
-  console.log("clear cart");
   try {
-    const { user } = await findUserById(req.user.id);
+    const result = await findUserById(req.user.id);
+    if (!result) {
+      return res.status(401).json({ error: "Invalid session — user no longer exists" });
+    }
+    const { user } = result;
 
     user.cart = [];
     user.markModified("cart");
@@ -370,10 +395,7 @@ exports.changePassword = async (req, res) => {
     // 2. FETCH USER FROM DB
     const result = await findUserById(req.user.id);
     if (!result) {
-      return res.status(404).json({ 
-        success: false,
-        message: "User not found" 
-      });
+      return res.status(401).json({ error: "Invalid session — user no longer exists" });
     }
 
     const { user } = result;
@@ -428,52 +450,146 @@ exports.changePassword = async (req, res) => {
   }
 };
 
-// @desc    Delete user account and perform cascading cleanup
-exports.deleteAccount = async (req, res) => {
+/**
+ * Safe JSON response helper — never throws after headers are sent,
+ * never leaves the HTTP socket hanging without a status line.
+ */
+function sendJson(res, status, payload) {
+  if (res.headersSent || res.writableEnded) {
+    logger.warn("[DeleteAccount] Response already sent — skipping duplicate write", {
+      status,
+      payloadKeys: payload && Object.keys(payload),
+    });
+    return;
+  }
+  return res.status(status).json(payload);
+}
+
+/**
+ * Run a cleanup step; log failures but never abort the whole deletion.
+ * @param {string} label
+ * @param {() => Promise<unknown>} fn
+ */
+async function safeCleanup(label, fn) {
   try {
-    const userId = req.user.id;
+    await fn();
+  } catch (e) {
+    logger.warn(`[DeleteAccount] ${label} cleanup warning:`, e && e.message ? e.message : e);
+  }
+}
+
+// @desc    Delete user account and perform cascading cleanup
+// @route   DELETE /api/user/delete-account
+// @access  Private
+//
+// Contract: ALWAYS returns 200 or 4xx/5xx JSON. Never terminates the socket
+// without an HTTP status line (that surfaces on Flutter as
+// "Connection closed before full header was received").
+exports.deleteAccount = async (req, res) => {
+  const session = await mongoose.startSession();
+  
+  try {
+    const userId = req.user?.id || req.user?._id;
+    if (!userId) {
+      return sendJson(res, 401, {
+        success: false,
+        error: "Invalid session — missing user identifier",
+      });
+    }
+
     const result = await findUserById(userId);
-    if (!result) {
-      return res.status(404).json({ success: false, message: "User not found" });
+    if (!result || !result.user) {
+      // Idempotent: account already gone is a successful delete from the client POV.
+      return sendJson(res, 200, {
+        success: true,
+        message: "Account already deleted",
+      });
     }
 
     const { user, model, role } = result;
-    const email = user.email;
+    const email = user.email ? String(user.email).trim().toLowerCase() : null;
+    const targetId = user._id;
 
-    // 1. Cascading cleanups
-    // Delete progress report (for student)
-    if (role === "student") {
-      await ProgressReport.deleteMany({ userId });
-    }
+    logger.info(
+      `[DeleteAccount] Starting account deletion for user _id=${targetId}, role=${role}, email=${logger.maskEmail(email)}`
+    );
 
-    // Delete feature activity records
-    await FeatureActivity.deleteMany({ userId });
+    // Use MongoDB transaction for atomic delete
+    await session.withTransaction(async () => {
+      // Cleanup operations (atomic - any failure aborts transaction)
+      if (role === "student") {
+        await ProgressReport.deleteMany({ userId: targetId }).session(session);
+      }
 
-    // Delete activity session logs
-    await Activity.deleteMany({ userId });
+      await FeatureActivity.deleteMany({ userId: targetId }).session(session);
+      await Activity.deleteMany({ userId: targetId }).session(session);
 
-    // Delete receipt payments
-    await Receipt.deleteMany({ $or: [{ userId }, { userEmail: email }] });
+      if (email) {
+        await Receipt.deleteMany({ $or: [{ userId: targetId }, { userEmail: email }] }).session(session);
+        await Review.deleteMany({ email }).session(session);
+      } else {
+        await Receipt.deleteMany({ userId: targetId }).session(session);
+      }
 
-    // Delete reviews
-    if (email) {
-      await Review.deleteMany({ email });
-    }
+      if (role === "consultant") {
+        const bookingQuery = email
+          ? { $or: [{ consultantId: targetId }, { consultantEmail: email }] }
+          : { consultantId: targetId };
+        await Booking.deleteMany(bookingQuery).session(session);
+      } else if (email) {
+        await Booking.deleteMany({ userEmail: email }).session(session);
+      }
 
-    // Delete bookings
-    if (role === "consultant") {
-      await Booking.deleteMany({ $or: [{ consultantId: userId }, { consultantEmail: email }] });
-    } else {
-      await Booking.deleteMany({ userEmail: email });
-    }
+      // Delete AppleSubscription (ownership removed under Model A)
+      const AppleSubscription = require("../models/AppleSubscription");
+      const AppleSubscriptionEvent = require("../models/AppleSubscriptionEvent");
+      const subsToDelete = await AppleSubscription.find({ userId: targetId }).session(session);
+      const originalTxnIds = subsToDelete.map((s) => s.originalTransactionId);
 
-    // 2. Delete the user document itself
-    await model.deleteOne({ _id: userId });
+      for (const sub of subsToDelete) {
+        await AppleSubscriptionEvent.create([{
+          originalTransactionId: sub.originalTransactionId,
+          eventType: "ACCOUNT_DELETED",
+          environment: sub.environment || "Sandbox",
+          notificationData: {
+            userId: targetId,
+            reason: "User account deleted via deleteAccount()",
+            deletedAt: new Date(),
+          },
+          signedDate: new Date(),
+        }], { session });
+      }
 
-    res.status(200).json({ success: true, message: "Account deleted successfully" });
+      const subDeleteResult = await AppleSubscription.deleteMany({ userId: targetId }).session(session);
+
+      logger.info(
+        `[DeleteAccount] AppleSubscription cleanup for userId=${targetId}: deletedCount=${subDeleteResult.deletedCount}, originalTransactionIds=${JSON.stringify(originalTxnIds)}`
+      );
+
+      // Delete UsageReservation (user data)
+      const UsageReservation = require("../models/UsageReservation");
+      await UsageReservation.deleteMany({ userId: targetId }).session(session);
+
+      // KEEP: AppleSubscriptionEvent, PaymentTransaction, PaymentAttempt, MembershipHistory
+      // (audit/financial history preserved)
+
+      // Delete user document
+      await model.deleteOne({ _id: targetId }).session(session);
+    });
+
+    logger.info(`[DeleteAccount] Account _id=${targetId} deleted successfully`);
+    return sendJson(res, 200, {
+      success: true,
+      message: "Account deleted successfully",
+    });
   } catch (error) {
-    console.error("Delete account error:", error);
-    res.status(500).json({ success: false, message: "Server error deleting account" });
+    logger.error("Delete account error:", error);
+    return sendJson(res, 500, {
+      success: false,
+      message: (error && error.message) || "Server error deleting account",
+    });
+  } finally {
+    session.endSession();
   }
 };
 

@@ -43,6 +43,7 @@ export default function EditProfilePage() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState('personal');
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showTestModal, setShowTestModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [activeEditTest, setActiveEditTest] = useState<string | null>(null);
@@ -458,6 +459,32 @@ export default function EditProfilePage() {
                     </button>
                   </div>
                 </section>
+
+                {/* Danger Zone — account lifecycle only (not Membership) */}
+                <section className="glass-panel p-8 md:p-10 border border-[#E8E0D8]">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-[11px] font-black uppercase tracking-[0.25em] text-[#8B7355]">
+                      Danger Zone
+                    </span>
+                  </div>
+                  <div className="mt-6 pt-6 border-t border-[#F1EDEA] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+                    <div className="max-w-lg space-y-2">
+                      <h3 className="text-sm font-semibold text-[#3C2A21] tracking-tight">
+                        Delete Account
+                      </h3>
+                      <p className="text-[13px] text-[#6B5E51] leading-relaxed font-medium">
+                        Deleting your account permanently removes your profile and associated data. This action cannot be undone.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowDeleteModal(true)}
+                      className="shrink-0 px-6 py-3 rounded-xl border border-[#C4A99A]/60 bg-white text-[12px] font-semibold tracking-wide text-[#7A4E42] hover:border-[#A67C6D] hover:bg-[#FDF8F6] transition-colors"
+                    >
+                      Delete Account
+                    </button>
+                  </div>
+                </section>
               </div>
             )}
 
@@ -709,6 +736,15 @@ export default function EditProfilePage() {
       </AnimatePresence>
 
       <AnimatePresence>
+        {showDeleteModal && (
+          <DeleteAccountModal
+            onClose={() => setShowDeleteModal(false)}
+            BACKEND_URL={BACKEND_URL}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
         {showSuccess && (
           <motion.div
             initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
@@ -804,6 +840,186 @@ function TestUpdateModal({ testId, testDef, scores, onChange, onClose }: any) {
             Confirm Scores
           </button>
         </div>
+      </motion.div>
+    </div>
+  );
+}
+
+/**
+ * Delete Account modal — mirrors Flutter confirm flow.
+ * API: DELETE /api/user/delete-account  Authorization: Bearer <JWT>  (no body)
+ * Auth cleared only after HTTP 200; redirect /auth/login
+ */
+function DeleteAccountModal({
+  onClose,
+  BACKEND_URL,
+}: {
+  onClose: () => void;
+  BACKEND_URL: string;
+}) {
+  const [confirmText, setConfirmText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const canDelete = confirmText.trim().toUpperCase() === 'DELETE';
+
+  const handleDelete = async () => {
+    if (!canDelete || isDeleting) return;
+
+    setError('');
+    setIsDeleting(true);
+
+    try {
+      const token = getToken();
+      if (!token) {
+        setError('Your session has expired. Please sign in again.');
+        setIsDeleting(false);
+        return;
+      }
+
+      const response = await fetch(`${BACKEND_URL}/api/user/delete-account`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+      });
+
+      let data: { success?: boolean; message?: string; error?: string } = {};
+      try {
+        data = await response.json();
+      } catch {
+        // non-JSON body
+      }
+
+      if (!response.ok) {
+        setError(
+          data.message ||
+            data.error ||
+            `Unable to delete account (${response.status}). Please try again.`
+        );
+        setIsDeleting(false);
+        return;
+      }
+
+      // Success only — clear auth after 200 (Flutter: delete then logout)
+      setSuccessMessage(data.message || 'Account deleted successfully');
+      clearAuth();
+
+      setTimeout(() => {
+        window.location.href = '/auth/login';
+      }, 900);
+    } catch {
+      setError('Network error. Your account was not deleted. Please try again.');
+      setIsDeleting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-6">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={isDeleting ? undefined : onClose}
+        className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md"
+      />
+      <motion.div
+        initial={{ scale: 0.96, opacity: 0, y: 12 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.96, opacity: 0, y: 12 }}
+        className="relative w-full max-w-md bg-white border border-[#EDE6DC] rounded-3xl p-7 md:p-8 shadow-2xl max-h-[90vh] overflow-y-auto"
+        role="dialog"
+        aria-labelledby="delete-account-title"
+        aria-modal="true"
+      >
+        {isDeleting ? (
+          <div className="py-10 text-center space-y-4">
+            <div className="w-10 h-10 border-2 border-[#C5A059] border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="space-y-2">
+              <p className="text-sm font-semibold text-[#3C2A21]">
+                {successMessage || 'Deleting your account...'}
+              </p>
+              <p className="text-[13px] text-[#6B5E51] font-medium">
+                {successMessage
+                  ? 'Redirecting you to sign in…'
+                  : "Please don't close this window."}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <h3
+              id="delete-account-title"
+              className="text-lg font-semibold text-[#3C2A21] tracking-tight mb-3"
+            >
+              Delete Account?
+            </h3>
+            <p className="text-[13px] text-[#6B5E51] leading-relaxed font-medium mb-4">
+              Deleting your account will permanently remove:
+            </p>
+            <ul className="space-y-1.5 mb-4 text-[13px] text-[#5C534A] font-medium">
+              {[
+                'Profile',
+                'Membership',
+                'Bookings',
+                'Activity history',
+                'Saved information',
+                'Uploaded documents (if applicable)',
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-2">
+                  <span className="text-[#A89070] mt-0.5">•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-[13px] text-[#6B5E51] font-medium mb-6">
+              This action cannot be undone.
+            </p>
+
+            <label className="block text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8B7355] mb-2">
+              Type <span className="text-[#3C2A21]">DELETE</span> to continue
+            </label>
+            <input
+              type="text"
+              value={confirmText}
+              onChange={(e) => {
+                setConfirmText(e.target.value);
+                setError('');
+              }}
+              placeholder="DELETE"
+              autoComplete="off"
+              autoFocus
+              className="w-full bg-[#FDFBF7] border border-[#EDE6DC] rounded-xl px-4 py-3 text-sm font-semibold tracking-widest text-[#3C2A21] placeholder:text-[#C5BDB3] focus:border-[#C5A059]/50 outline-none transition-colors mb-3"
+            />
+
+            {error && (
+              <p className="text-[12px] text-[#9B4E3F] font-medium mb-4 leading-relaxed" role="alert">
+                {error}
+              </p>
+            )}
+
+            <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-end mt-2">
+              <button
+                type="button"
+                onClick={onClose}
+                disabled={isDeleting}
+                className="px-5 py-3 rounded-xl text-[12px] font-semibold tracking-wide text-[#6B5E51] hover:bg-[#F8F5F0] transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                disabled={!canDelete || isDeleting}
+                className="px-5 py-3 rounded-xl text-[12px] font-semibold tracking-wide bg-[#3C2A21] text-white hover:bg-[#5C4033] transition-colors disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:bg-[#3C2A21]"
+              >
+                Delete Account
+              </button>
+            </div>
+          </>
+        )}
       </motion.div>
     </div>
   );

@@ -295,9 +295,9 @@ export default function ResearchGroupsPage() {
 
             {/* Banner/Helper text */}
             {activeTab === "available" && (
-              <div className="flex items-center gap-3 bg-white/75 border border-[#10324a]/10 rounded-2xl px-6 py-3.5 text-xs text-[#4b5b6a] font-bold shadow-sm">
-                <Info className="w-4 h-4 text-[#d2a14a]" />
-                <span>Publishing without co-authors? <Link href="/services/research-paper" className="text-[#d2a14a] hover:underline">Explore Paper Services</Link></span>
+              <div className="flex items-center gap-3 bg-white border border-[rgba(197,160,89,0.15)] rounded-2xl px-6 py-3.5 text-xs text-[#6B5E51] font-bold shadow-sm">
+                <Info className="w-4 h-4 text-[#C5A059]" />
+                <span>Publishing without co-authors? <Link href="/services/research-papers" className="text-[#C5A059] hover:underline">Explore Paper Services</Link></span>
               </div>
             )}
 

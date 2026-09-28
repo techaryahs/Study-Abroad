@@ -16,7 +16,7 @@ import {
     Play
 } from "lucide-react";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 // --- Data ---
 const timelineSteps = [
@@ -241,8 +241,8 @@ export default function EB2NIWPage() {
                                     <span className="text-[#0f4c5c] text-[11px] font-black tracking-[0.3em] uppercase">Consensus & Feedback</span>
                                     <h3 className="text-4xl font-black text-[#10324a]">Candidate Discussion</h3>
                                 </div>
-                                <div className="bg-white/70 rounded-[40px] p-2 border border-[#10324a]/10 shadow-sm">
-                                    <DiscussionSection serviceId="eb2-niw" />
+                                <div className="bg-white rounded-[40px] p-2 border border-[#F1EDEA] shadow-sm">
+                                    <DiscussionSection serviceId="eb2_niw" />
                                 </div>
                             </div>
                         </div>
@@ -251,7 +251,7 @@ export default function EB2NIWPage() {
                     {/* RIGHT COLUMN: ACTION SIDEBAR */}
                     <div className="lg:col-span-2 relative">
                         <div className="lg:sticky lg:top-40">
-                            <AddToCart serviceId="eb2-niw" />
+                            <ServiceCTA serviceId="eb2_niw" />
                             
                             {/* EXTRA HELP CARD */}
                             <div className="mt-8 p-10 bg-[#10324a] border border-white/10 rounded-[40px] space-y-6 text-white shadow-[0_20px_60px_rgba(16,50,74,0.18)] relative overflow-hidden">

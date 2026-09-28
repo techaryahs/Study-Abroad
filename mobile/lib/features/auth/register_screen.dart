@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import 'auth_provider.dart';
+import '../../widgets/brand_logo_card.dart';
 
 /// Multi-step registration:
 /// Step 1 → Enter email → Send OTP
@@ -401,6 +402,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _heading(String title, String sub) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+      const BrandLogoCard(size: 48),
+      const SizedBox(height: 24),
       Text(title,
         style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w900,
             color: AppTheme.textPrimary, height: 1.15)),

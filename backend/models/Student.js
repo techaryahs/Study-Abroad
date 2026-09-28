@@ -102,6 +102,9 @@ const StudentSchema = new mongoose.Schema(
       myBookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
       mySessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
     },
+    
+    membership: { type: require("./schemas/UserMembershipSchema"), default: () => ({}) },
+    
     cart: {
       type: [mongoose.Schema.Types.Mixed],
       default: [],

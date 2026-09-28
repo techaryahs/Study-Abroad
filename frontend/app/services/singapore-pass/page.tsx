@@ -7,10 +7,8 @@ import {
     ArrowRight,
     History
 } from "lucide-react";
-import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
 import DiscussionSection from "@/components/shared/DiscussionSection";
-import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 
 export default function PersonalHistoryStatementPage() {
     const [showBookingModal, setShowBookingModal] = useState(false);
@@ -129,21 +127,66 @@ export default function PersonalHistoryStatementPage() {
                                 <p className="font-black text-xl italic leading-snug">
                                     "This draft, when done right, has proved to be one of the biggest game-changers, both in fetching admits and securing significant funding."
                                 </p>
+                                
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-8">
+                                    {onePassAdvantages.map((adv, i) => (
+                                        <div key={i} className="p-8 bg-white border border-[#F1EDEA] rounded-[32px] hover:border-[#C5A059]/30 transition-all hover:shadow-2xl group space-y-4">
+                                            <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] group-hover:scale-110 transition-transform">
+                                                <Briefcase size={22} />
+                                            </div>
+                                            <h4 className="fd text-xl font-bold text-[#3C2A21]">{adv.title}</h4>
+                                            <p className="text-[14px] font-bold font-medium opacity-60 italic">{adv.desc}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* ELIGIBILITY */}
+                        <div className="space-y-12">
+                            <div className="space-y-4">
+                                <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">MOM Standards</span>
+                                <h3 className="fd text-4xl font-bold text-[#3C2A21]">Eligibility Tracks</h3>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                {eligibilityTracks.map((track, i) => (
+                                    <div key={i} className="bg-white p-10 rounded-[40px] border border-[#F1EDEA] space-y-4 relative group hover:border-[#C5A059]/20 transition-all">
+                                        <h4 className="fd text-2xl font-bold text-[#3C2A21]">{track.title}</h4>
+                                        <p className="text-sm font-medium text-[#6B5E51] italic leading-relaxed">{track.desc}</p>
+                                        <div className="pt-4 flex items-center gap-2 text-[#C5A059] font-bold text-[14px] font-bold uppercase tracking-widest">
+                                            <span>Learn Requirements</span> <Zap size={10} />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                         {/* COMMUNITY DISCUSSION */}
+                         <div className="pt-20 border-t border-[#F1EDEA]">
+                            <div className="space-y-8">
+                                <div className="space-y-2">
+                                    <span className="text-[#C5A059] text-[11px] font-bold tracking-[0.3em] uppercase">Expert Consensus</span>
+                                    <h3 className="fd text-4xl font-bold text-[#3C2A21]">Singapore Strategy Chat</h3>
+                                </div>
+                                <div className="bg-white rounded-[40px] p-2 border border-[#F1EDEA] shadow-sm">
+                                    <DiscussionSection serviceId="singapore_one_pass" />
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* RIGHT SIDEBAR */}
-                    <div className="lg:sticky lg:top-32 space-y-8">
-                        <div className="w-full">
-                            <AddToCart serviceId="history-draft" />
-                        </div>
-
-                        <div className="p-8 bg-white/80 border border-[#10324a]/10 rounded-[32px] shadow-[0_16px_50px_rgba(16,50,74,0.06)] space-y-4">
-                            <h4 className="text-xs font-black text-[#d2a14a] uppercase tracking-[0.2em]">Clinical Protocol</h4>
-                            <p className="text-xs text-[#4b5b6a] leading-relaxed font-medium">
-                                Our narrative experts audit your diversity markers to ensure every challenge is framed as an institutional value.
-                            </p>
+                    {/* RIGHT COLUMN */}
+                    <div className="lg:col-span-2 relative">
+                        <div className="lg:sticky lg:top-40 space-y-8">
+                            <ServiceCTA serviceId="singapore_one_pass" />
+                            
+                            <div className="p-10 bg-[#3C2A21] rounded-[40px] text-white space-y-6 shadow-2xl border border-[#C5A059]/20 text-center relative overflow-hidden group">
+                                <Users size={40} className="mx-auto text-[#C5A059] mb-4" />
+                                <h4 className="fd text-2xl font-bold uppercase gold-shimmer tracking-widest leading-tight">Global Connectivity</h4>
+                                <p className="text-xs font-medium text-white/50 italic leading-relaxed">
+                                    "We align your achievements with MOM and partner agencies MCCY, MOE, and NRF for holistic review."
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>

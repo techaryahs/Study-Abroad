@@ -18,7 +18,7 @@ import {
     ArrowRight
 } from "lucide-react";
 import FAQSection from "@/components/shared/FAQSection";
-import AddToCart from "@/components/shared/AddToCart";
+import ServiceCTA from "@/components/shared/ServiceCTA";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
@@ -206,18 +206,9 @@ export default function UniversityFinalizationPage() {
                     </div>
 
                     <div className="space-y-8">
-                        <div className="bg-[#10324a] p-10 rounded-[32px] text-white space-y-8 shadow-[0_20px_60px_rgba(16,50,74,0.18)] relative overflow-hidden group border border-white/10">
-                            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(210,161,74,0.15),transparent_60%)]" />
-                            <div className="relative space-y-2">
-                                <h3 className="fd text-3xl font-bold text-[#d2a14a]">Secure Your Choice</h3>
-                                <p className="text-white/60 text-sm">Gain clarity with a detailed audit of every admit in your hand.</p>
-                            </div>
-                            <div className="relative">
-                                <AddToCart serviceId="university-finalization" />
-                            </div>
-                            <div className="relative">
-                                <DiscussionSection serviceId="university-finalization" />
-                            </div>
+                        <ServiceCTA serviceId="university_finalization" />
+                        <div className="rounded-[32px] border border-[#F1EDEA] bg-white p-2 shadow-sm">
+                            <DiscussionSection serviceId="university_finalization" />
                         </div>
                         <div className="p-8 glass-panel space-y-4">
                             <h4 className="text-xs font-bold text-[#2ca59d] uppercase tracking-[0.2em]">Legacy Note</h4>
