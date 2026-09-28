@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getUser, getToken, removeToken } from "@/app/lib/token";
 import { Video, Calendar, Clock, User, X, CheckCircle,
-         Lock, Key, Eye, EyeOff, LogOut, ChevronRight, Tag } from "lucide-react";
+         Lock, Key, Eye, EyeOff, LogOut, ChevronRight, Tag, Plus } from "lucide-react";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 interface CounsellingSession {
@@ -545,6 +545,10 @@ export default function AdminDashboard() {
           <button onClick={() => router.push("/admin/consultants")}
             className="px-3 sm:px-5 py-3 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-gray-500 hover:text-white transition-all whitespace-nowrap">
             Counsellors
+          </button>
+          <button onClick={() => router.push("/partnership/colleges")}
+            className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-[#c2a878] px-3 sm:px-4 py-2 text-[10px] sm:text-[11px] font-black uppercase tracking-wider text-black transition-colors hover:bg-yellow-100">
+            <Plus size={14} /> Add College
           </button>
         </div>
 

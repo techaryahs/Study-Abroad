@@ -62,6 +62,9 @@ app.use("/api/weekly-schedule", require("./routes/weeklySchedule.routes"));
 // 🧑‍💼 Consultant Profile Management
 app.use("/api/consultant", require("./routes/consultantProfile.routes"));
 
+// 🤝 Partnership college management
+app.use("/api/partnership/colleges", require("./routes/partnershipCollege.routes"));
+
 app.use("/api/progress", require("./routes/progressRoutes"));
 
 app.use('/api/enquiry', require('./routes/enquiryRoutes'));
