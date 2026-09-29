@@ -1,13 +1,71 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import axios from "axios";
 import { getToken, getUser } from "@/app/lib/token";
 import PartnerGuard from "../../../../components/partnership/common/PartnerGuard";
 
-export default function StudentDetail({ params }: { params: { studentLeadId: string } }) {
-  const [lead, setLead] = useState<any>(null);
-  const [applications, setApplications] = useState<any[]>([]);
-  const [offers, setOffers] = useState<any[]>([]);
+interface StudentLeadDetail {
+  _id: string;
+  studentLeadId: string;
+  fullName: string;
+  mobile: string;
+  email?: string;
+  course?: string;
+  graduationYear?: string;
+  preferredCountry?: string;
+  preferredProgram?: string;
+  studyAbroadTimeline?: string;
+  collegeId?: { name?: string };
+  sourceSeminarId?: string;
+  seminarId?: string;
+  registrationSource?: string;
+  consentGiven?: boolean;
+  otpVerified?: boolean;
+  createdAt?: string;
+  pipelineStage?: string;
+  leadStatus?: string;
+  shortlists?: Shortlist[];
+}
+
+interface Shortlist {
+  _id: string;
+  university: string;
+  course: string;
+  intake: string;
+}
+
+interface StudentApplication {
+  _id: string;
+  applicationId?: string;
+  universityName: string;
+  course?: string;
+  country?: string;
+  intake?: string;
+  status?: string;
+  visaStatus?: string;
+  isEnrolled?: boolean;
+}
+
+interface StudentOffer {
+  _id: string;
+  universityName: string;
+  offerType: string;
+  acceptanceStatus: string;
+}
+
+function getErrorMessage(error: unknown, fallback: string) {
+  if (axios.isAxiosError<{ error?: string; message?: string }>(error)) {
+    return error.response?.data?.error || error.response?.data?.message || fallback;
+  }
+  return fallback;
+}
+
+export default function StudentDetail() {
+  const params = useParams<{ studentLeadId: string }>();
+  const [lead, setLead] = useState<StudentLeadDetail | null>(null);
+  const [applications, setApplications] = useState<StudentApplication[]>([]);
+  const [offers, setOffers] = useState<StudentOffer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,14 +73,14 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
   const isEduLeader = user?.partnerProfile?.partnerType === "edu_leader";
   const canWrite = !isEduLeader;
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011";
       const headers = { Authorization: `Bearer ${getToken()}` };
       
-      const leadsRes = await axios.get(`${BACKEND_URL}/api/partnership/student-leads`, { headers });
-      const currentLead = leadsRes.data.leads.find((l: any) => l.studentLeadId === params.studentLeadId);
+      const leadsRes = await axios.get<{ leads: StudentLeadDetail[] }>(`${BACKEND_URL}/api/partnership/student-leads`, { headers });
+      const currentLead = leadsRes.data.leads.find((item) => item.studentLeadId === params.studentLeadId);
       
       if (!currentLead) {
         setError("Student not found");
@@ -31,22 +89,22 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
       }
       setLead(currentLead);
 
-      const appsRes = await axios.get(`${BACKEND_URL}/api/partnership-applications/${params.studentLeadId}/applications`, { headers });
+      const appsRes = await axios.get<{ applications: StudentApplication[] }>(`${BACKEND_URL}/api/partnership-applications/${params.studentLeadId}/applications`, { headers });
       setApplications(appsRes.data.applications || []);
 
-      const offersRes = await axios.get(`${BACKEND_URL}/api/partnership-applications/${params.studentLeadId}/offers`, { headers });
+      const offersRes = await axios.get<{ offers: StudentOffer[] }>(`${BACKEND_URL}/api/partnership-applications/${params.studentLeadId}/offers`, { headers });
       setOffers(offersRes.data.offers || []);
 
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Unable to load data.");
+    } catch (requestError: unknown) {
+      setError(getErrorMessage(requestError, "Unable to load data."));
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.studentLeadId]);
 
   useEffect(() => {
-    fetchData();
-  }, [params.studentLeadId]);
+    void fetchData();
+  }, [fetchData]);
 
   const handleAddShortlist = async () => {
     if (!canWrite) return;
@@ -56,8 +114,8 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
         university: "Test University", course: "Test Course", intake: "Fall 2026"
       }, { headers: { Authorization: `Bearer ${getToken()}` } });
       fetchData();
-    } catch (err: any) {
-      alert(err.response?.data?.error || "Error adding shortlist");
+    } catch (requestError: unknown) {
+      alert(getErrorMessage(requestError, "Error adding shortlist"));
     }
   };
 
@@ -69,8 +127,8 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
         universityName: "Test University", course: "Test Course", country: "USA", intake: "Fall 2026"
       }, { headers: { Authorization: `Bearer ${getToken()}` } });
       fetchData();
-    } catch (err: any) {
-      alert(err.response?.data?.error || err.response?.data?.message || "Error creating application");
+    } catch (requestError: unknown) {
+      alert(getErrorMessage(requestError, "Error creating application"));
     }
   };
 
@@ -82,8 +140,8 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
         applicationId: appId, offerType: "CONDITIONAL", offerDate: new Date()
       }, { headers: { Authorization: `Bearer ${getToken()}` } });
       fetchData();
-    } catch (err: any) {
-      alert(err.response?.data?.error || err.response?.data?.message || "Error recording offer");
+    } catch (requestError: unknown) {
+      alert(getErrorMessage(requestError, "Error recording offer"));
     }
   };
 
@@ -95,8 +153,8 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
         depositAmount: 1000, currency: "USD"
       }, { headers: { Authorization: `Bearer ${getToken()}` } });
       fetchData();
-    } catch (err: any) {
-      alert(err.response?.data?.error || err.response?.data?.message || "Error accepting offer");
+    } catch (requestError: unknown) {
+      alert(getErrorMessage(requestError, "Error accepting offer"));
     }
   };
 
@@ -109,12 +167,41 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
       <div className="p-8 bg-gray-50 min-h-screen">
         <h1 className="text-3xl font-bold mb-2">{lead.fullName}</h1>
         <p className="text-gray-600 mb-6">ID: {lead.studentLeadId} | Stage: {lead.pipelineStage || lead.leadStatus}</p>
+
+        <section className="mb-6 rounded-lg border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+          <h2 className="mb-5 text-xl font-bold text-gray-900">Student Registration Details</h2>
+          <dl className="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { label: "Email", value: lead.email },
+              { label: "Mobile", value: lead.mobile },
+              { label: "College", value: lead.collegeId?.name },
+              { label: "Course / Stream", value: lead.course },
+              { label: "Graduation Year", value: lead.graduationYear },
+              { label: "Preferred Program", value: lead.preferredProgram },
+              { label: "Preferred Country", value: lead.preferredCountry },
+              { label: "Study Abroad Timeline", value: lead.studyAbroadTimeline },
+              { label: "Seminar ID", value: lead.sourceSeminarId || lead.seminarId },
+              { label: "Registration Source", value: lead.registrationSource },
+              { label: "Consent", value: lead.consentGiven ? "Given" : "Not recorded" },
+              { label: "Phone Verification", value: lead.otpVerified ? "Verified" : "Not verified" },
+              {
+                label: "Registered On",
+                value: lead.createdAt ? new Date(lead.createdAt).toLocaleString() : undefined,
+              },
+            ].map(({ label, value }) => (
+              <div key={label} className="min-w-0 border-b border-gray-100 pb-3">
+                <dt className="text-xs font-semibold uppercase tracking-wide text-gray-500">{label}</dt>
+                <dd className="mt-1 break-words text-sm font-medium text-gray-900">{value || "-"}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
         
         <div className="bg-white p-6 rounded shadow mb-6">
           <h2 className="text-xl font-bold mb-4">Shortlisted Universities</h2>
           {lead.shortlists?.length === 0 ? <p>No universities shortlisted yet.</p> : (
             <ul className="mb-4">
-              {lead.shortlists?.map((s: any) => (
+              {lead.shortlists?.map((s) => (
                 <li key={s._id} className="border-b py-2">{s.university} - {s.course} ({s.intake})</li>
               ))}
             </ul>
@@ -126,7 +213,7 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
           <h2 className="text-xl font-bold mb-4">Applications</h2>
           {applications.length === 0 ? <p>No applications yet.</p> : (
             <div className="space-y-4">
-              {applications.map((app: any) => (
+              {applications.map((app) => (
                 <div key={app._id} className="border p-4 rounded">
                   <p className="font-bold">{app.applicationId} - {app.universityName}</p>
                   <p>Status: {app.status}</p>
@@ -142,7 +229,7 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
           <h2 className="text-xl font-bold mb-4">Offers</h2>
           {offers.length === 0 ? <p>No offers yet.</p> : (
             <div className="space-y-4">
-              {offers.map((offer: any) => (
+              {offers.map((offer) => (
                 <div key={offer._id} className="border p-4 rounded">
                   <p className="font-bold">{offer.universityName} ({offer.offerType})</p>
                   <p>Status: {offer.acceptanceStatus}</p>
@@ -161,7 +248,7 @@ export default function StudentDetail({ params }: { params: { studentLeadId: str
           <p className="text-sm text-gray-500 mb-4">Visa, Enrolment, and Commission records are tied to accepted applications.</p>
           
           <div className="space-y-4">
-            {applications.map((app: any) => (
+            {applications.map((app) => (
               <div key={app._id} className="border p-4 rounded bg-gray-50">
                 <h3 className="font-bold text-lg">{app.universityName} ({app.applicationId})</h3>
                 

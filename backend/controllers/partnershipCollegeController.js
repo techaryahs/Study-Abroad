@@ -29,6 +29,7 @@ exports.createCollege = async (req, res) => {
       name,
       city,
       coordinatorName,
+      status: "PENDING",
       createdBy: req.user.id,
     });
     const collegeCode = name.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 4).padEnd(4, "X");

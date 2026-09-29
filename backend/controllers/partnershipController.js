@@ -93,7 +93,7 @@ exports.createSeminar = async (req, res) => {
     const year = new Date(req.body.date).getFullYear() || new Date().getFullYear();
     const seminarId = await seminarService.generateSeminarId(req.body.collegeId, year);
     
-    const registrationUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/register/seminar/${seminarId}`;
+    const registrationUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/auth/RegisterStudent?seminarId=${encodeURIComponent(seminarId)}`;
     
     const seminar = new Seminar({
       ...req.body,

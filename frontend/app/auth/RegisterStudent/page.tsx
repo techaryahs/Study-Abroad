@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Select from "react-select";
+import Select, { type StylesConfig } from "react-select";
 import { Country, State } from "country-state-city";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronLeft, ChevronRight, GraduationCap, Globe,
-  Phone, Mail, User, Lock, Calendar, Eye, EyeOff, Sparkles,
+  ChevronRight, Mail, User, Eye, Sparkles,
   ShieldCheck, X
 } from "lucide-react";
 
@@ -39,12 +38,30 @@ interface FormErrors {
   [key: string]: string;
 }
 
+interface SelectOption {
+  value: string;
+  label: string;
+}
+
+interface SeminarRegistrationContext {
+  seminarId: string;
+  title: string;
+  collegeName: string;
+  date: string;
+  description?: string;
+}
+
 const Register = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [acceptedPolicy, setAcceptedPolicy] = useState(false);
+  const [seminarConsentGiven, setSeminarConsentGiven] = useState(false);
+  const [seminarContext, setSeminarContext] = useState<SeminarRegistrationContext | null>(null);
+  const [seminarContextLoading, setSeminarContextLoading] = useState(false);
+  const [seminarContextError, setSeminarContextError] = useState("");
+  const [seminarId, setSeminarId] = useState("");
   const [errors, setErrors] = useState<FormErrors>({});
 
   // Verification State
@@ -85,6 +102,25 @@ const Register = () => {
     targetMajor: null,
   });
 
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("seminarId")?.trim();
+    if (!id) return;
+
+    setSeminarId(id);
+    setSeminarContextLoading(true);
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+    fetch(`${backendUrl}/api/public/seminars/${encodeURIComponent(id)}`)
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "This seminar is unavailable.");
+        setSeminarContext({ seminarId: id, ...data.seminar });
+      })
+      .catch((error: unknown) => {
+        setSeminarContextError(error instanceof Error ? error.message : "This seminar is unavailable.");
+      })
+      .finally(() => setSeminarContextLoading(false));
+  }, []);
+
   const universities = [
     { value: "Harvard University", label: "Harvard University" },
     { value: "Stanford University", label: "Stanford University" },
@@ -110,9 +146,9 @@ const Register = () => {
   const terms = ["Spring", "Fall", "Summer"];
   const years = Array.from({ length: 7 }, (_, i) => (2024 + i).toString());
 
-  const customSelectStyles = {
-    control: (b: any) => ({
-      ...b,
+  const customSelectStyles: StylesConfig<SelectOption, false> = {
+    control: (base) => ({
+      ...base,
       minHeight: '40px',
       borderRadius: '10px',
       backgroundColor: '#FDFBF7',
@@ -122,9 +158,9 @@ const Register = () => {
       boxShadow: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)',
       '&:hover': { border: '1px solid #C5A059' }
     }),
-    singleValue: (b: any) => ({ ...b, color: '#3C2A21' }),
-    menu: (b: any) => ({
-      ...b,
+    singleValue: (base) => ({ ...base, color: '#3C2A21' }),
+    menu: (base) => ({
+      ...base,
       backgroundColor: 'white',
       border: '1px solid #F1EDEA',
       fontSize: '11px',
@@ -132,16 +168,19 @@ const Register = () => {
       borderRadius: '10px',
       boxShadow: '0 10px 25px rgba(0,0,0,0.05)'
     }),
-    option: (base: any, state: any) => ({
+    option: (base, state) => ({
       ...base,
       backgroundColor: state.isSelected ? '#C5A059' : state.isFocused ? '#FDFBF7' : 'transparent',
       color: state.isSelected ? 'white' : '#3C2A21',
       cursor: 'pointer',
       fontWeight: '600'
     }),
-    input: (base: any) => ({ ...base, color: '#3C2A21' }),
-    placeholder: (base: any) => ({ ...base, color: '#6B5E51', opacity: '0.4' })
+    input: (base) => ({ ...base, color: '#3C2A21' }),
+    placeholder: (base) => ({ ...base, color: '#6B5E51', opacity: '0.4' })
   };
+
+  const getRequestError = (error: unknown, fallback: string) =>
+    error instanceof Error ? error.message : fallback;
 
   const validateStep1 = () => {
     const newErrors: FormErrors = {};
@@ -163,6 +202,7 @@ const Register = () => {
 
     if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Mismatch";
     if (!acceptedPolicy) newErrors.policy = "Required";
+    if (seminarId && !seminarConsentGiven) newErrors.seminarConsent = "Required";
 
     if (!isEmailVerified || !isMobileVerified) {
       newErrors.verification = "Verify both contacts";
@@ -230,8 +270,8 @@ const Register = () => {
     }));
   };
 
-  const handleCountryChange = (selected: any) => {
-    const countryInfo = Country.getCountryByCode(selected.value);
+  const handleCountryChange = (selected: SelectOption | null) => {
+    const countryInfo = selected ? Country.getCountryByCode(selected.value) : undefined;
     setFormData(prev => ({
       ...prev,
       country: selected,
@@ -241,7 +281,7 @@ const Register = () => {
     if (errors.country) setErrors(prev => { const n = { ...prev }; delete n.country; return n; });
   };
 
-  const handleStateChange = (selected: any) => {
+  const handleStateChange = (selected: SelectOption | null) => {
     setFormData(prev => ({ ...prev, state: selected }));
     if (errors.state) setErrors(prev => { const n = { ...prev }; delete n.state; return n; });
   };
@@ -265,8 +305,8 @@ const Register = () => {
 
       setVerifyModal(prev => ({ ...prev, mode: 'otp' }));
       setOtpValue("");
-    } catch (err: any) {
-      alert(err.message);
+    } catch (error: unknown) {
+      alert(getRequestError(error, "Failed to send OTP."));
       setVerifyModal(prev => ({ ...prev, mode: 'confirm' }));
     }
   };
@@ -295,13 +335,19 @@ const Register = () => {
 
       setVerifyModal(prev => ({ ...prev, mode: 'success' }));
       setTimeout(() => setVerifyModal(prev => ({ ...prev, show: false })), 1500);
-    } catch (err: any) {
-      alert(err.message);
+    } catch (error: unknown) {
+      alert(getRequestError(error, "Invalid OTP."));
       setVerifyModal(prev => ({ ...prev, mode: 'otp' }));
     }
   };
 
   const handleRegister = async () => {
+    if (seminarId && (!seminarContext || !seminarConsentGiven)) {
+      setErrors(prev => ({ ...prev, seminarConsent: seminarContextError || "Complete the seminar consent before continuing." }));
+      setStep(1);
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const payload = {
@@ -314,6 +360,8 @@ const Register = () => {
         gender: formData.gender,
         country: formData.country?.label,
         state: formData.state?.label,
+        seminarId: seminarId || undefined,
+        seminarConsentGiven: seminarId ? seminarConsentGiven : undefined,
         profile: {
           source: formData.source,
           lookUpFor: formData.lookUpFor,
@@ -335,10 +383,10 @@ const Register = () => {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "Registration failed");
-      alert("✅ Account Synchronized!");
+      alert(seminarId ? "✅ Account and seminar registration complete!" : "✅ Account Synchronized!");
       router.push("/auth/login");
-    } catch (err: any) {
-      alert(err.message);
+    } catch (error: unknown) {
+      alert(getRequestError(error, "Registration failed."));
     } finally {
       setIsSubmitting(false);
     }
@@ -409,6 +457,25 @@ const Register = () => {
         {/* Right Form */}
         <div className="w-full lg:w-[68%] p-5 md:p-7 flex flex-col justify-center overflow-y-auto lg:overflow-visible no-scrollbar">
           <div className="max-w-[550px] mx-auto w-full">
+            {seminarId && (
+              <div className="mb-4 rounded-xl border border-[#C5A059]/30 bg-[#C5A059]/5 p-3">
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#C5A059]">Seminar registration</p>
+                {seminarContextLoading ? (
+                  <p className="mt-1 text-[11px] font-semibold text-[#6B5E51]">Loading seminar details...</p>
+                ) : seminarContext ? (
+                  <div className="mt-1">
+                    <p className="text-sm font-bold text-[#3C2A21]">{seminarContext.title}</p>
+                    <p className="text-[11px] font-semibold text-[#6B5E51]">
+                      {seminarContext.collegeName} · {new Date(seminarContext.date).toLocaleDateString()}
+                    </p>
+                  </div>
+                ) : (
+                  <p role="alert" className="mt-1 text-[11px] font-semibold text-red-700">
+                    {seminarContextError || "Seminar details are unavailable."}
+                  </p>
+                )}
+              </div>
+            )}
             <div className="mb-4 flex items-end justify-between border-b border-[#F1EDEA] pb-2">
               <div>
                 <h2 className="text-2xl font-black text-[#3C2A21] uppercase tracking-tighter italic" style={{ fontFamily: 'Georgia, serif' }}>Create Your Account</h2>
@@ -464,7 +531,7 @@ const Register = () => {
                         <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Country</label>
                         <Select
                           instanceId="country-select"
-                          options={Country.getAllCountries().map((c: any) => ({ value: c.isoCode, label: c.name }))}
+                          options={Country.getAllCountries().map((country) => ({ value: country.isoCode, label: country.name }))}
                           onChange={handleCountryChange} value={formData.country} placeholder="..."
                           styles={customSelectStyles}
                         />
@@ -473,7 +540,7 @@ const Register = () => {
                         <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">State</label>
                         <Select
                           instanceId="state-select"
-                          options={formData.country ? State.getStatesOfCountry(formData.country.value).map((s: any) => ({ value: s.isoCode, label: s.name })) : []}
+                          options={formData.country ? State.getStatesOfCountry(formData.country.value).map((state) => ({ value: state.isoCode, label: state.name })) : []}
                           onChange={handleStateChange} value={formData.state} placeholder="..." isDisabled={!formData.country}
                           styles={customSelectStyles}
                         />
@@ -522,6 +589,21 @@ const Register = () => {
                       I accept the <Link href="/privacy-policy" className="text-[#C5A059] hover:underline">Privacy Policy</Link> and <Link href="/terms-and-conditions" className="text-[#C5A059] hover:underline">Terms & Conditions</Link>
                     </p>
                   </div>
+
+                  {seminarId && (
+                    <div className="space-y-1">
+                      <label className="flex items-start gap-2.5 text-[10px] font-bold leading-relaxed text-[#3C2A21]">
+                        <input
+                          type="checkbox"
+                          checked={seminarConsentGiven}
+                          onChange={(event) => setSeminarConsentGiven(event.target.checked)}
+                          className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-[#C5A059]"
+                        />
+                        I consent to EduLeader Global sharing my registration details with the seminar organizers and contacting me about study abroad guidance.
+                      </label>
+                      {errors.seminarConsent && <p className="text-[10px] font-bold text-rose-600">Consent is required to register for this seminar.</p>}
+                    </div>
+                  )}
 
                   <button
                     onClick={() => { if (validateStep1()) setStep(2); }}
@@ -591,7 +673,7 @@ const Register = () => {
                     <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Target University Node</label>
                     <Select
                       instanceId="target-univ-select"
-                      options={universities} onChange={(s: any) => setFormData(p => ({ ...p, targetUniv: s }))} value={formData.targetUniv} placeholder="Search Node..."
+                      options={universities} onChange={(option) => setFormData(p => ({ ...p, targetUniv: option }))} value={formData.targetUniv} placeholder="Search Node..."
                       styles={customSelectStyles}
                     />
                   </div>
@@ -616,7 +698,7 @@ const Register = () => {
                     <label className="text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Target Specialization</label>
                     <Select
                       instanceId="target-major-select"
-                      options={majors} onChange={(s: any) => setFormData(p => ({ ...p, targetMajor: s }))} value={formData.targetMajor} placeholder="Search Major..."
+                      options={majors} onChange={(option) => setFormData(p => ({ ...p, targetMajor: option }))} value={formData.targetMajor} placeholder="Search Major..."
                       styles={customSelectStyles}
                     />
                   </div>

@@ -6,9 +6,18 @@ import Link from "next/link";
 import { ArrowLeft, Plus } from "lucide-react";
 import axios from "axios";
 
+interface AdminCollege {
+  _id: string;
+  collegeId: string;
+  name: string;
+  city?: string;
+  state?: string;
+  status: string;
+}
+
 export default function CollegesList() {
   const router = useRouter();
-  const [colleges, setColleges] = useState([]);
+  const [colleges, setColleges] = useState<AdminCollege[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +32,7 @@ export default function CollegesList() {
 
   const fetchColleges = async (token: string) => {
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/admin/colleges`, {
+      const res = await axios.get<{ colleges: AdminCollege[] }>(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/admin/colleges`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setColleges(res.data.colleges || []);
@@ -69,13 +78,17 @@ export default function CollegesList() {
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
-              {colleges.map((c: any) => (
+              {colleges.map((c) => (
                 <tr key={c._id} className="hover:bg-white/[0.02]">
                   <td className="px-6 py-4 font-mono text-[#c2a878] text-xs">{c.collegeId}</td>
                   <td className="px-6 py-4 font-bold">{c.name}</td>
                   <td className="px-6 py-4">{c.city}, {c.state}</td>
                   <td className="px-6 py-4">
-                    <span className={`px-2 py-1 rounded text-[10px] font-bold ${c.status === 'ACTIVE' ? 'bg-green-900/30 text-green-400' : 'bg-red-900/30 text-red-400'}`}>
+                    <span className={`px-2 py-1 rounded text-[10px] font-bold ${
+                      c.status === "ACTIVE" ? "bg-green-900/30 text-green-400" :
+                      c.status === "PENDING" ? "bg-amber-900/30 text-amber-300" :
+                      "bg-red-900/30 text-red-400"
+                    }`}>
                       {c.status}
                     </span>
                   </td>

@@ -1,30 +1,56 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams } from "next/navigation";
 import { getToken } from "@/app/lib/token";
 import Link from "next/link";
 import { ArrowLeft, UserPlus } from "lucide-react";
 import axios from "axios";
 
+interface CollegeDetails {
+  _id: string;
+  collegeId: string;
+  name: string;
+  status: "PENDING" | "ACTIVE" | "INACTIVE" | "ARCHIVED";
+  city?: string;
+  state?: string;
+  country?: string;
+}
+
+interface Coordinator {
+  _id: string;
+  name: string;
+  email: string;
+  partnerProfile?: { designation?: string };
+}
+
+interface CollegeResponse {
+  college: CollegeDetails;
+  coordinators: Coordinator[];
+}
+
+function getRequestError(error: unknown, fallback: string) {
+  if (axios.isAxiosError<{ message?: string }>(error)) {
+    return error.response?.data?.message || fallback;
+  }
+  return fallback;
+}
+
 export default function ManageCollege() {
-  const router = useRouter();
-  const params = useParams();
-  const [college, setCollege] = useState<any>(null);
-  const [coordinators, setCoordinators] = useState([]);
+  const params = useParams<{ id: string }>();
+  const [college, setCollege] = useState<CollegeDetails | null>(null);
+  const [coordinators, setCoordinators] = useState<Coordinator[]>([]);
   const [loading, setLoading] = useState(true);
   
   const [showAddCoord, setShowAddCoord] = useState(false);
   const [coordForm, setCoordForm] = useState({ name: "", email: "", mobile: "", designation: "" });
   const [coordError, setCoordError] = useState("");
   const [tempPassword, setTempPassword] = useState("");
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [statusError, setStatusError] = useState("");
 
-  useEffect(() => {
-    fetchCollege();
-  }, []);
-
-  const fetchCollege = async () => {
+  const fetchCollege = useCallback(async () => {
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/admin/colleges/${params.id}`, {
+      const res = await axios.get<CollegeResponse>(`${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/admin/colleges/${params.id}`, {
         headers: { Authorization: `Bearer ${getToken()}` }
       });
       setCollege(res.data.college);
@@ -34,7 +60,11 @@ export default function ManageCollege() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.id]);
+
+  useEffect(() => {
+    void fetchCollege();
+  }, [fetchCollege]);
 
   const handleAddCoordinator = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,8 +76,25 @@ export default function ManageCollege() {
       });
       setTempPassword(res.data.tempPassword);
       fetchCollege();
-    } catch (err: any) {
-      setCoordError(err.response?.data?.message || "Failed to add coordinator");
+    } catch (requestError: unknown) {
+      setCoordError(getRequestError(requestError, "Failed to add coordinator"));
+    }
+  };
+
+  const handleApproveCollege = async () => {
+    setUpdatingStatus(true);
+    setStatusError("");
+    try {
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/admin/colleges/${params.id}/status`,
+        { status: "ACTIVE" },
+        { headers: { Authorization: `Bearer ${getToken()}` } },
+      );
+      setCollege(res.data.college);
+    } catch (requestError: unknown) {
+      setStatusError(getRequestError(requestError, "Failed to approve college."));
+    } finally {
+      setUpdatingStatus(false);
     }
   };
 
@@ -72,9 +119,27 @@ export default function ManageCollege() {
             <div className="bg-white/[0.02] border border-white/5 p-6 rounded-2xl">
               <h2 className="text-lg font-bold uppercase tracking-widest mb-4 border-b border-white/10 pb-4">Details</h2>
               <div className="space-y-4 text-sm text-gray-400">
-                <p><span className="font-bold text-gray-500 uppercase text-xs block mb-1">Status</span> 
-                  <span className={`px-2 py-1 rounded text-[10px] font-bold ${college.status === 'ACTIVE' ? 'bg-green-900/30 text-green-400' : 'bg-red-900/30 text-red-400'}`}>{college.status}</span>
-                </p>
+                <div>
+                  <span className="font-bold text-gray-500 uppercase text-xs block mb-2">Status</span>
+                  <span className={`px-2 py-1 rounded text-[10px] font-bold ${
+                    college.status === "ACTIVE" ? "bg-green-900/30 text-green-400" :
+                    college.status === "PENDING" ? "bg-amber-900/30 text-amber-300" :
+                    "bg-red-900/30 text-red-400"
+                  }`}>{college.status}</span>
+                  {college.status === "PENDING" && (
+                    <div className="mt-3">
+                      <button
+                        type="button"
+                        onClick={handleApproveCollege}
+                        disabled={updatingStatus}
+                        className="rounded bg-emerald-600 px-3 py-2 text-xs font-bold uppercase text-white hover:bg-emerald-500 disabled:opacity-60"
+                      >
+                        {updatingStatus ? "Approving..." : "Approve College"}
+                      </button>
+                    </div>
+                  )}
+                  {statusError && <p role="alert" className="mt-2 text-xs text-red-400">{statusError}</p>}
+                </div>
                 <p><span className="font-bold text-gray-500 uppercase text-xs block mb-1">City</span> {college.city}</p>
                 <p><span className="font-bold text-gray-500 uppercase text-xs block mb-1">State</span> {college.state}</p>
                 <p><span className="font-bold text-gray-500 uppercase text-xs block mb-1">Country</span> {college.country}</p>
@@ -128,7 +193,7 @@ export default function ManageCollege() {
               )}
 
               <div className="space-y-3">
-                {coordinators.map((c: any) => (
+                {coordinators.map((c) => (
                   <div key={c._id} className="flex items-center justify-between p-4 bg-[#0d0f12] rounded-xl border border-white/5">
                     <div>
                       <p className="font-bold">{c.name}</p>
