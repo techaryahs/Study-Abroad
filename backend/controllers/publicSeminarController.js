@@ -4,6 +4,7 @@ const studentLeadService = require("../services/partnership/studentLeadService")
 const { getPartnershipOtpStore } = require("../utils/partnershipOtpStore");
 const { sendSMSOTP } = require("../utils/otpsms");
 const crypto = require("crypto");
+const { resolveEduMitraPartnerId } = require("../utils/tenantHelper");
 
 exports.getPublicSeminar = async (req, res) => {
   try {
@@ -65,11 +66,12 @@ exports.registerStudent = async (req, res) => {
     const token = crypto.randomBytes(16).toString("hex");
     
     const store = getPartnershipOtpStore();
+    const resolvedMitraId = await resolveEduMitraPartnerId(seminar);
     store.set(mobile, {
       otp,
       expiresAt: Date.now() + 10 * 60 * 1000,
       attempts: 0,
-      data: { ...req.body, collegeId: seminar.collegeId }
+      data: { ...req.body, collegeId: seminar.collegeId, partnerId: resolvedMitraId || seminar.createdBy || null }
     });
 
     // Send SMS (Mock for local dev if API key missing)
@@ -109,6 +111,7 @@ exports.verifyOtp = async (req, res) => {
       studentLeadId,
       seminarId,
       collegeId: data.collegeId,
+      partnerId: data.partnerId || null,
       fullName: data.fullName,
       mobile: data.mobile,
       normalizedMobile: studentLeadService.normalizePhone(data.mobile),

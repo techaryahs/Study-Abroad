@@ -4,7 +4,14 @@ import { QRCodeSVG } from "qrcode.react";
 import { X, Copy, Download, CheckCircle } from "lucide-react";
 
 interface SeminarQRModalProps {
-  seminar: any;
+  seminar: {
+    seminarId: string;
+    title?: string;
+    collegeName?: string;
+    collegeId?: { name?: string } | null;
+    date: string | Date;
+    venue?: string;
+  };
   onClose: () => void;
 }
 
@@ -17,7 +24,7 @@ export default function SeminarQRModal({ seminar, onClose }: SeminarQRModalProps
     ? process.env.NEXT_PUBLIC_FRONTEND_URL 
     : window.location.origin;
 
-  const registrationLink = `${frontendUrl}/seminar/register/${seminar.seminarId}`;
+  const registrationLink = `${frontendUrl}/auth/RegisterStudent?seminarId=${encodeURIComponent(seminar.seminarId)}`;
 
   const handleCopy = async () => {
     try {

@@ -22,6 +22,7 @@ const SeminarSchema = new mongoose.Schema(
     expectedStudentStrength: { type: Number },
     eduLeaderRep: { type: String },
     eduMitraCounsellor: { type: String },
+    eduMitraId: { type: mongoose.Schema.Types.ObjectId, ref: "User", index: true },
     course: { type: String },
     venue: { type: String },
     description: { type: String },

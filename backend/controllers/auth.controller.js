@@ -6,11 +6,15 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
+const Seminar = require("../models/Seminar");
+const StudentLead = require("../models/StudentLead");
+const studentLeadService = require("../services/partnership/studentLeadService");
 const { getEmailSearchRegex, normalizeEmail } = require("../utils/emailUtils");
 const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
 const { sendSMSOTP } = require("../utils/otpsms");
 const { applyLifecycleToUser } = require("../utils/membershipLifecycle");
 const logger = require("../utils/logger");
+const { resolveEduMitraPartnerId } = require("../utils/tenantHelper");
 
 
 const otpStore = new Map();
@@ -24,6 +28,13 @@ exports.register = async (req, res) => {
   try {
     const { name, email, mobile, password, dob, gender, country, state, profile: profileInput } = req.body;
     const emailLower = email.toLowerCase().trim();
+
+    // Cross-collection uniqueness check across Student, Consultant, User
+    const existingEmail = await findUserByEmail(emailLower);
+    if (existingEmail) {
+      return res.status(409).json({ error: "An account with this email already exists." });
+    }
+
     // 🔍 1. Check if Email and Mobile are Verified
     const storedData = otpStore.get(emailLower);
     if (!storedData || !storedData.verified) {
@@ -33,6 +44,19 @@ exports.register = async (req, res) => {
     const storedMobileData = otpStoreMobile.get(mobile);
     if (!storedMobileData || !storedMobileData.verified) {
       return res.status(400).json({ error: "Mobile number not verified. Please verify your number before registering." });
+    }
+
+    const seminarId = typeof req.body.seminarId === "string" ? req.body.seminarId.trim() : "";
+    let seminar = null;
+    if (seminarId) {
+      if (req.body.seminarConsentGiven !== true) {
+        return res.status(400).json({ error: "Seminar registration consent is required." });
+      }
+
+      seminar = await Seminar.findOne({ seminarId });
+      if (!seminar || ["PENDING", "REJECTED", "CANCELLED", "DRAFT"].includes(seminar.status)) {
+        return res.status(400).json({ error: "This seminar is unavailable for registration." });
+      }
     }
 
     // 🎯 Prepare target universities from goal
@@ -73,6 +97,68 @@ exports.register = async (req, res) => {
 
     await newStudent.save();
 
+    let studentLeadId;
+    if (seminar) {
+      try {
+        const existingLead = await studentLeadService.findDuplicate(
+          mobile,
+          emailLower,
+          name,
+          seminar.collegeId,
+        );
+
+        if (existingLead) {
+          const alreadyLinked = existingLead.interactions.some((interaction) => interaction.seminarId === seminarId);
+          if (!alreadyLinked) {
+            existingLead.interactions.push({ seminarId, interactionDate: new Date(), type: "REGISTRATION" });
+            await existingLead.save();
+          }
+          studentLeadId = existingLead.studentLeadId;
+        } else {
+          const now = new Date();
+          const attributionExpiryDate = new Date(now);
+          attributionExpiryDate.setMonth(attributionExpiryDate.getMonth() + 24);
+          studentLeadId = await studentLeadService.generateStudentLeadId(seminar.collegeId, now.getFullYear());
+          const resolvedMitraId = await resolveEduMitraPartnerId(seminar);
+
+          const lead = new StudentLead({
+            studentLeadId,
+            seminarId,
+            collegeId: seminar.collegeId,
+            partnerId: resolvedMitraId || seminar.createdBy || null,
+            fullName: name,
+            mobile,
+            normalizedMobile: studentLeadService.normalizePhone(mobile),
+            email: emailLower,
+            normalizedEmail: studentLeadService.normalizeEmail(emailLower),
+            dob,
+            gender,
+            country,
+            state,
+            inquirySource: profileInput?.source || "Seminar QR",
+            course: profileInput?.goal?.degree,
+            preferredProgram: profileInput?.goal?.targetMajor,
+            preferredCountry: profileInput?.goal?.targetCountry,
+            studyAbroadTimeline: [profileInput?.goal?.targetTerm, profileInput?.goal?.targetYear].filter(Boolean).join(" "),
+            consentGiven: true,
+            consentTimestamp: now,
+            otpVerified: true,
+            otpVerifiedAt: now,
+            sourceSeminarId: seminarId,
+            sourceCollegeId: seminar.collegeId,
+            sourceDate: now,
+            attributionStartDate: now,
+            attributionExpiryDate,
+            interactions: [{ seminarId, interactionDate: now, type: "REGISTRATION" }],
+          });
+          await lead.save();
+        }
+      } catch (leadError) {
+        await Student.deleteOne({ _id: newStudent._id });
+        throw leadError;
+      }
+    }
+
     // 🔢 3️⃣ Cleanup otpStore
     otpStore.delete(emailLower);
     otpStoreMobile.delete(mobile);
@@ -82,7 +168,8 @@ exports.register = async (req, res) => {
     // 4️⃣ Send Success Response
     res.status(201).json({
       message: "Student registered successfully. Welcome aboard!",
-      user: { id: newStudent._id, name: newStudent.name, email: newStudent.email }
+      user: { id: newStudent._id, name: newStudent.name, email: newStudent.email },
+      ...(studentLeadId ? { studentLeadId } : {}),
     });
   } catch (err) {
     console.error("❌ Registration error:", err);
@@ -302,8 +389,22 @@ exports.login = async (req, res) => {
         hasUsedFreeBooking: (user.profile && user.profile.hasUsedFreeBooking) || false
       };
 
-      // Add videoCallEnabled for consultants
+      if (role === "partner" && user.partnerProfile) {
+        userData.partnerProfile = {
+          partnerType: user.partnerProfile.partnerType,
+          onboardingStatus: user.partnerProfile.onboardingStatus,
+          isApproved: user.partnerProfile.isApproved,
+          isActive: user.partnerProfile.isActive,
+        };
+      }
+
+      // Add videoCallEnabled for consultants & block inactive consultants
       if (role === 'consultant') {
+        if (user.status === 'INACTIVE') {
+          return res.status(403).json({
+            error: "Your consultant account is inactive. Please contact your organization administrator.",
+          });
+        }
         userData.videoCallEnabled = user.videoCallEnabled || false;
       }
 
@@ -1012,7 +1113,21 @@ exports.verifyLoginOtp = async (req, res) => {
       hasUsedFreeBooking: (user.profile && user.profile.hasUsedFreeBooking) || false
     };
 
+    if (role === "partner" && user.partnerProfile) {
+      userData.partnerProfile = {
+        partnerType: user.partnerProfile.partnerType,
+        onboardingStatus: user.partnerProfile.onboardingStatus,
+        isApproved: user.partnerProfile.isApproved,
+        isActive: user.partnerProfile.isActive,
+      };
+    }
+
     if (role === 'consultant') {
+      if (user.status === 'INACTIVE') {
+        return res.status(403).json({
+          error: "Your consultant account is inactive. Please contact your organization administrator.",
+        });
+      }
       userData.videoCallEnabled = user.videoCallEnabled || false;
     }
 

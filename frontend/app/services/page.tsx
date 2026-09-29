@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import ServicesClientPage from "./ServicesClientPage";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#16364F] flex items-center justify-center text-white">Loading Services...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[#FDFCFB]" />}>
       <ServicesClientPage />
     </Suspense>
   );

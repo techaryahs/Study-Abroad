@@ -16,13 +16,13 @@ import FAQSection from "@/components/shared/FAQSection";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 
 const onePassAdvantages = [
-    { title: "Personal Statement Strategy", desc: "Highlight your unique journey and challenges." },
-    { title: "Global Recognition", desc: "Align with international education standards." }
+    { title: "Flexibility & Mobility", desc: "Allows high earners and leaders to start, operate, and work for multiple companies concurrently in Singapore." },
+    { title: "Long-term Security", desc: "Offers a 5-year personalized pass with direct dependent privileges for your spouse and children." }
 ];
 
 const eligibilityTracks = [
-    { title: "Academic Record", desc: "Demonstrated academic excellence and resilience." },
-    { title: "Leadership & Impact", desc: "Extraordinary community and research contributions." }
+    { title: "Salary Benchmark", desc: "Fixed monthly salary of at least SGD 30,000 from an established overseas or Singapore-based employer." },
+    { title: "Outstanding Achievements", desc: "Demonstrated global excellence in arts and culture, sports, science and technology, or academia." }
 ];
 
 export default function PersonalHistoryStatementPage() {

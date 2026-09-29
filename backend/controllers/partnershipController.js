@@ -1,9 +1,11 @@
 const College = require("../models/College");
 const Seminar = require("../models/Seminar");
 const StudentLead = require("../models/StudentLead");
+const Consultant = require("../models/Consultant");
 const Attendance = require("../models/Attendance");
 const User = require("../models/User");
 const seminarService = require("../services/partnership/seminarService");
+const { resolveEduMitraPartnerId } = require("../utils/tenantHelper");
 
 exports.getPartners = async (req, res) => {
   try {
@@ -93,13 +95,16 @@ exports.createSeminar = async (req, res) => {
     const year = new Date(req.body.date).getFullYear() || new Date().getFullYear();
     const seminarId = await seminarService.generateSeminarId(req.body.collegeId, year);
     
-    const registrationUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/register/seminar/${seminarId}`;
+    const registrationUrl = `${process.env.FRONTEND_URL || "http://localhost:3000"}/auth/RegisterStudent?seminarId=${encodeURIComponent(seminarId)}`;
+
+    const resolvedMitraId = await resolveEduMitraPartnerId(req.body);
     
     const seminar = new Seminar({
       ...req.body,
       seminarId,
       registrationUrl,
       createdBy: req.user.id,
+      eduMitraId: resolvedMitraId || null,
       status: "PENDING"
     });
     await seminar.save();
@@ -134,7 +139,61 @@ exports.getSeminar = async (req, res) => {
 // --- STUDENT LEADS ---
 exports.getStudentLeads = async (req, res) => {
   try {
-    const leads = await StudentLead.find().populate("collegeId", "name");
+    let filter = {};
+    const role = String(req.user?.role || "").toLowerCase();
+
+    if (role === "partner") {
+      const userDoc = await User.findById(req.user.id).select("partnerProfile name");
+      const partnerType = userDoc?.partnerProfile?.partnerType;
+
+      if (partnerType === "edu_mitra") {
+        // Edu Mitra owns student counseling & consultant assignments
+        filter = { partnerId: req.user.id };
+      } else if (partnerType === "edu_leader") {
+        // Edu Leader field representatives see leads from their organized seminars
+        const mySeminars = await Seminar.find({ createdBy: req.user.id }).select("seminarId");
+        const seminarIds = mySeminars.map((s) => s.seminarId);
+        filter = { seminarId: { $in: seminarIds } };
+      } else {
+        return res.json({ success: true, leads: [] });
+      }
+    } else if (!["admin", "super_admin"].includes(role)) {
+      return res.status(403).json({ success: false, message: "Access denied." });
+    }
+
+    const rawLeads = await StudentLead.find(filter)
+      .populate("collegeId", "name city state")
+      .populate("assignedConsultantId", "name email role image status")
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // Resilient college and seminar resolution
+    const seminarIds = [...new Set(rawLeads.map((l) => l.seminarId).filter(Boolean))];
+    const seminars = await Seminar.find({ seminarId: { $in: seminarIds } })
+      .select("seminarId collegeId collegeName")
+      .lean();
+    const seminarMap = new Map(seminars.map((s) => [s.seminarId, s]));
+
+    const leads = rawLeads.map((lead) => {
+      const linkedSeminar = lead.seminarId ? seminarMap.get(lead.seminarId) : null;
+      const resolvedCollegeName = lead.collegeId?.name || linkedSeminar?.collegeName || lead.collegeName || null;
+
+      const collegeObj =
+        lead.collegeId && typeof lead.collegeId === "object"
+          ? lead.collegeId
+          : resolvedCollegeName
+          ? { _id: linkedSeminar?.collegeId || null, name: resolvedCollegeName }
+          : null;
+
+      return {
+        ...lead,
+        leadId: lead.studentLeadId,
+        phone: lead.mobile,
+        collegeId: collegeObj,
+        collegeName: resolvedCollegeName,
+      };
+    });
+
     res.json({ success: true, leads });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

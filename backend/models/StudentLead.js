@@ -19,6 +19,11 @@ const StudentLeadSchema = new mongoose.Schema(
     normalizedMobile: { type: String, required: true },
     email: { type: String, trim: true, lowercase: true },
     normalizedEmail: { type: String, trim: true, lowercase: true },
+    dob: { type: String },
+    gender: { type: String },
+    country: { type: String },
+    state: { type: String },
+    inquirySource: { type: String },
     course: { type: String },
     graduationYear: { type: String },
     preferredCountry: { type: String },
@@ -43,6 +48,36 @@ const StudentLeadSchema = new mongoose.Schema(
     attributionStartDate: { type: Date },
     attributionExpiryDate: { type: Date },
     
+    // Partner Tenant Scoping
+    partnerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+      index: true,
+    },
+
+    // Consultant Assignment
+    assignedConsultantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Consultant",
+      default: null,
+      index: true,
+    },
+    assignedAt: {
+      type: Date,
+      default: null,
+    },
+    assignedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    assignmentNotes: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+
     // Support multiple seminar interactions
     interactions: [{
       seminarId: String,

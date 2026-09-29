@@ -14,7 +14,7 @@ const slotSchema = new mongoose.Schema({
 }, { _id: false });
 
 const consultantSchema = new mongoose.Schema({
-  email: { type: String, unique: true },
+  email: { type: String, unique: true, required: true, trim: true, lowercase: true },
   password: { type: String, required: true },
   mobile: { type: String },
   isVerified: { type: Boolean, default: false },
@@ -36,8 +36,27 @@ const consultantSchema = new mongoose.Schema({
   cart: {
     type: [mongoose.Schema.Types.Mixed],
     default: [],
-  }
-}, { timestamps: true, autoCreate: false, autoIndex: false });
+  },
+
+  // Multi-tenant partnership scoping
+  partnerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
+    index: true,
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
+  },
+  status: {
+    type: String,
+    enum: ["ACTIVE", "INACTIVE"],
+    default: "ACTIVE",
+    index: true,
+  },
+}, { timestamps: true });
 
 // Pre-save hook to hash password
 consultantSchema.pre("save", async function () {

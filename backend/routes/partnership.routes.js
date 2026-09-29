@@ -35,6 +35,15 @@ router.get("/seminars/:id", partnershipController.getSeminar);
 // Students
 router.get("/student-leads", partnershipController.getStudentLeads);
 
+// Consultants (Edu Mitra & Admin only)
+const { requireEduMitraOrAdmin } = require("../middleware/auth");
+const partnerConsultantCtrl = require("../controllers/partnershipConsultant.controller");
+const upload = require("../middleware/multer");
+
+router.post("/consultants", requireEduMitraOrAdmin, upload.single("image"), partnerConsultantCtrl.createPartnerConsultant);
+router.get("/consultants", requireEduMitraOrAdmin, partnerConsultantCtrl.getPartnerConsultants);
+router.patch("/consultants/:id/status", requireEduMitraOrAdmin, partnerConsultantCtrl.updatePartnerConsultantStatus);
+
 // Attendance
 router.post("/attendance", partnershipController.markAttendance);
 

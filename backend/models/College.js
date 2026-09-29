@@ -28,7 +28,7 @@ const CollegeSchema = new mongoose.Schema(
     expectedStudentStrength: { type: Number, default: 0 },
     status: {
       type: String,
-      enum: ["ACTIVE", "INACTIVE", "ARCHIVED"],
+      enum: ["PENDING", "ACTIVE", "INACTIVE", "ARCHIVED"],
       default: "ACTIVE"
     },
     createdBy: {

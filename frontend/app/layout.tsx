@@ -1,8 +1,7 @@
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import Script from "next/script";
 import { MembershipProvider } from "@/app/lib/membership/MembershipContext";
+import AppChrome from "@/components/layout/AppChrome";
 
 import type { Metadata } from "next";
 
@@ -76,13 +75,9 @@ export default function RootLayout({
 
       <body className="bg-[#FAFAFA] text-[#675F5B] antialiased">
         <MembershipProvider>
-          <Navbar />
-
-          <main className="pt-[64px] md:pt-[104px]">
+          <AppChrome>
             {children}
-          </main>
-
-          <Footer />
+          </AppChrome>
         </MembershipProvider>
       </body>
     </html>
