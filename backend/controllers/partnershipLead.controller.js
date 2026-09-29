@@ -1,4 +1,6 @@
+const mongoose = require("mongoose");
 const StudentLead = require("../models/StudentLead");
+const Consultant = require("../models/Consultant");
 const Audit = require("../models/Audit");
 
 // Helper to create audit logs
@@ -116,5 +118,155 @@ exports.updateShortlist = async (req, res) => {
     res.json({ success: true, shortlists: lead.shortlists });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+/**
+ * PUT /api/partnership-leads/:id/assign-consultant
+ * Assigns, reassigns, or unassigns a consultant to a student lead.
+ * Enforces: StudentLead.partnerId === Consultant.partnerId === req.user.id
+ */
+exports.assignConsultant = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { consultantId, notes } = req.body;
+
+    // 1. Enforce StudentLead tenant ownership directly in the database query
+    const leadQuery = { studentLeadId: id };
+    if (req.user.role === "partner") {
+      leadQuery.partnerId = req.user.id;
+    }
+
+    const lead = await StudentLead.findOne(leadQuery);
+    if (!lead) {
+      // Check if lead exists under another tenant to return 403 vs 404
+      const existsElsewhere = await StudentLead.findOne({ studentLeadId: id }).select("partnerId");
+      if (existsElsewhere) {
+        return res.status(403).json({
+          success: false,
+          error: "Access denied. Student lead belongs to another organization.",
+        });
+      }
+      return res.status(404).json({ success: false, error: "Student lead not found." });
+    }
+
+    const previousAssignment = lead.assignedConsultantId ? String(lead.assignedConsultantId) : null;
+
+    // 2. Handle Unassignment ({ consultantId: null })
+    if (!consultantId) {
+      lead.assignedConsultantId = null;
+      lead.assignedAt = null;
+      lead.assignedBy = req.user.id;
+      if (notes !== undefined) lead.assignmentNotes = String(notes || "").trim();
+
+      await lead.save();
+
+      await createAudit(
+        req,
+        "UNASSIGN_STUDENT_CONSULTANT",
+        "StudentLead",
+        id,
+        { assignedConsultantId: previousAssignment },
+        { assignedConsultantId: null },
+        notes || "Consultant unassigned"
+      );
+
+      return res.json({
+        success: true,
+        message: "Consultant unassigned successfully.",
+        lead: {
+          studentLeadId: lead.studentLeadId,
+          assignedConsultantId: null,
+          assignedAt: null,
+        },
+      });
+    }
+
+    // 3. Handle Assignment / Reassignment - Validate Consultant Ownership and ACTIVE Status
+    if (!mongoose.Types.ObjectId.isValid(consultantId)) {
+      return res.status(400).json({
+        success: false,
+        error: "Invalid consultant ID format.",
+      });
+    }
+
+    const consultantQuery = { _id: consultantId };
+    if (req.user.role === "partner") {
+      consultantQuery.partnerId = req.user.id;
+    }
+
+    const consultant = await Consultant.findOne(consultantQuery);
+    if (!consultant) {
+      const existsOtherTenant = await Consultant.findById(consultantId).select("partnerId");
+      if (existsOtherTenant) {
+        return res.status(403).json({
+          success: false,
+          error: "Access denied. Consultant does not belong to your organization.",
+        });
+      }
+      return res.status(404).json({ success: false, error: "Consultant not found." });
+    }
+
+    // Enforce Active Status
+    if (consultant.status === "INACTIVE") {
+      return res.status(400).json({
+        success: false,
+        error: "Cannot assign an inactive consultant.",
+      });
+    }
+
+    // Admin cross-tenant check: consultant and student lead must belong to the same tenant organization
+    const actorRole = String(req.user.role || "").toLowerCase();
+    if (["admin", "super_admin"].includes(actorRole)) {
+      const leadPartner = lead.partnerId ? String(lead.partnerId) : null;
+      const consultantPartner = consultant.partnerId ? String(consultant.partnerId) : null;
+      if (leadPartner !== consultantPartner) {
+        return res.status(400).json({
+          success: false,
+          error: "Consultant and student lead must belong to the same tenant organization.",
+        });
+      }
+    }
+
+    lead.assignedConsultantId = consultant._id;
+    lead.assignedAt = new Date();
+    lead.assignedBy = req.user.id;
+    if (notes !== undefined) lead.assignmentNotes = String(notes || "").trim();
+
+    await lead.save();
+
+    const actionType = previousAssignment ? "REASSIGN_STUDENT_CONSULTANT" : "ASSIGN_STUDENT_CONSULTANT";
+    await createAudit(
+      req,
+      actionType,
+      "StudentLead",
+      id,
+      { assignedConsultantId: previousAssignment },
+      {
+        assignedConsultantId: consultant._id,
+        consultantName: consultant.name,
+        consultantEmail: consultant.email,
+      },
+      notes || `Assigned to ${consultant.name}`
+    );
+
+    return res.json({
+      success: true,
+      message: `Student lead assigned to ${consultant.name} successfully.`,
+      lead: {
+        studentLeadId: lead.studentLeadId,
+        assignedConsultantId: {
+          _id: consultant._id,
+          name: consultant.name,
+          email: consultant.email,
+          role: consultant.role,
+        },
+        assignedAt: lead.assignedAt,
+        assignmentNotes: lead.assignmentNotes,
+      },
+    });
+  } catch (err) {
+    console.error("❌ assignConsultant Error:", err);
+    return res.status(500).json({ success: false, error: "Failed to assign consultant." });
   }
 };

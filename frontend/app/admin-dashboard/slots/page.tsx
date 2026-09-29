@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getUser, getToken } from "@/app/lib/token";
 import { Calendar, Clock, Plus, Trash2, Power, Save, X, Check, Edit2 } from "lucide-react";
+import ConfirmModal from "@/components/admin/ConfirmModal";
 
 interface TimeSlot {
   _id: string;
@@ -77,6 +78,8 @@ export default function AdminWeeklySchedulePage() {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [editingSlot, setEditingSlot] = useState<{ dayOfWeek: string; slot: TimeSlot } | null>(null);
   const [copyToAllDays, setCopyToAllDays] = useState(true); // Auto-copy to all days by default
+  const [slotToDelete, setSlotToDelete] = useState<{ dayOfWeek: string; slotId: string } | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   
   const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
 
@@ -284,20 +287,28 @@ export default function AdminWeeklySchedulePage() {
     }
   };
 
-  const removeTimeSlot = async (dayOfWeek: string, slotId: string) => {
-    if (!window.confirm("Remove this time slot?")) return;
+  const handleConfirmDeleteSlot = async () => {
+    if (!slotToDelete) return;
+    setDeleteLoading(true);
     
     try {
-      const response = await fetch(`${BACKEND_URL}/api/weekly-schedule/day/${dayOfWeek}/slot/${slotId}`, {
-        method: "DELETE",
-        headers: { "Authorization": `Bearer ${getToken()}` }
-      });
+      const response = await fetch(
+        `${BACKEND_URL}/api/weekly-schedule/day/${slotToDelete.dayOfWeek}/slot/${slotToDelete.slotId}`,
+        {
+          method: "DELETE",
+          headers: { "Authorization": `Bearer ${getToken()}` },
+        }
+      );
       
       if (response.ok) {
         fetchSchedule();
+        setSlotToDelete(null);
       }
     } catch (err) {
       console.error("Error removing time slot:", err);
+      alert("Failed to delete time slot. Please try again.");
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -329,31 +340,16 @@ export default function AdminWeeklySchedulePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#05070a] text-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        
-        {/* Header */}
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-2 h-10 bg-[#c2a878] rounded-full" />
-            <h1 className="text-4xl font-black uppercase italic font-serif tracking-tighter">
-              Weekly Schedule
-            </h1>
-          </div>
-          <p className="text-[11px] font-black text-gray-500 uppercase tracking-[0.4em]">
-            Set Your Recurring Availability • Automatic Slot Generation
+    <div className="space-y-6 animate-fadeIn">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-black text-white tracking-tight">Manage Availability Slots</h2>
+          <p className="text-xs text-white/50 mt-1">
+            Configure weekly recurring availability and automated slot generation for student counselling.
           </p>
         </div>
-
-        {/* Actions */}
-        <div className="flex flex-wrap gap-4 mb-8">
-          <button
-            onClick={() => router.push("/admin-dashboard")}
-            className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-gray-400 rounded-xl font-black text-[14px] font-bold uppercase tracking-wider hover:text-white transition-all"
-          >
-            ← Back to Dashboard
-          </button>
-        </div>
+      </div>
 
         {/* Weekly Schedule Grid */}
         <div className="space-y-4">
@@ -449,7 +445,7 @@ export default function AdminWeeklySchedulePage() {
                             <Power size={16} />
                           </button>
                           <button
-                            onClick={() => removeTimeSlot(day.key, slot._id)}
+                            onClick={() => setSlotToDelete({ dayOfWeek: day.key, slotId: slot._id })}
                             className="p-2 text-gray-500 hover:text-rose-500 hover:bg-rose-500/10 rounded-lg transition-colors"
                             title="Remove slot"
                           >
@@ -738,7 +734,19 @@ export default function AdminWeeklySchedulePage() {
             </div>
           </div>
         )}
-      </div>
+
+      {/* Delete Slot Confirmation Modal */}
+      <ConfirmModal
+        isOpen={!!slotToDelete}
+        title="Remove Time Slot?"
+        description="Are you sure you want to remove this recurring availability slot? Students will no longer be able to book sessions during this window."
+        confirmLabel="Remove Slot"
+        cancelLabel="Keep Slot"
+        variant="danger"
+        isLoading={deleteLoading}
+        onConfirm={handleConfirmDeleteSlot}
+        onClose={() => setSlotToDelete(null)}
+      />
     </div>
   );
 }

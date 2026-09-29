@@ -5,10 +5,25 @@ import { motion } from "framer-motion";
 import {
     ArrowLeft,
     ArrowRight,
-    History
+    History,
+    Briefcase,
+    Zap,
+    Users
 } from "lucide-react";
 import DiscussionSection from "@/components/shared/DiscussionSection";
 import ServiceCTA from "@/components/shared/ServiceCTA";
+import FAQSection from "@/components/shared/FAQSection";
+import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
+
+const onePassAdvantages = [
+    { title: "Flexibility & Mobility", desc: "Allows high earners and leaders to start, operate, and work for multiple companies concurrently in Singapore." },
+    { title: "Long-term Security", desc: "Offers a 5-year personalized pass with direct dependent privileges for your spouse and children." }
+];
+
+const eligibilityTracks = [
+    { title: "Salary Benchmark", desc: "Fixed monthly salary of at least SGD 30,000 from an established overseas or Singapore-based employer." },
+    { title: "Outstanding Achievements", desc: "Demonstrated global excellence in arts and culture, sports, science and technology, or academia." }
+];
 
 export default function PersonalHistoryStatementPage() {
     const [showBookingModal, setShowBookingModal] = useState(false);

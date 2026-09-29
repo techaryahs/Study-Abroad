@@ -1,6 +1,8 @@
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Student = require("../models/Student");
 const Consultant = require("../models/Consultant");
+const User = require("../models/User");
 
 function attachUserFromToken(decoded) {
   return {
@@ -60,6 +62,65 @@ const requireAdmin = (req, res, next) => {
   return next();
 };
 
+/** Only approved Edu Mitra partner or platform admin allowed. */
+const requireEduMitraOrAdmin = async (req, res, next) => {
+  if (!req.user) return res.status(401).json({ error: "No token provided" });
+  const role = String(req.user.role || "").toLowerCase();
+  if (["admin", "super_admin"].includes(role)) return next();
+
+  if (role === "partner") {
+    try {
+      const userDoc = await User.findById(req.user.id);
+      if (!userDoc || !userDoc.partnerProfile) {
+        return res.status(403).json({ error: "Access denied. Partner profile not found." });
+      }
+      const p = userDoc.partnerProfile;
+      if (p.onboardingStatus !== "approved" || p.isApproved !== true || p.isActive === false) {
+        return res.status(403).json({ error: "Partner account is not approved or active." });
+      }
+      if (p.partnerType !== "edu_mitra") {
+        return res.status(403).json({ error: "Only Edu Mitra partners can manage consultants." });
+      }
+      req.partnerUser = userDoc;
+      return next();
+    } catch (err) {
+      console.error("requireEduMitraOrAdmin error:", err);
+      return res.status(500).json({ error: "Server error verifying partner permissions" });
+    }
+  }
+
+  return res.status(403).json({ error: "Access denied. Edu Mitra partner or Admin only." });
+};
+
+/** Verified and ACTIVE consultant only (verifies record at request-time). */
+const requireActiveConsultant = async (req, res, next) => {
+  if (!req.user) return res.status(401).json({ error: "No token provided" });
+  const role = String(req.user.role || "").toLowerCase();
+  if (["admin", "super_admin"].includes(role)) return next();
+  if (role !== "consultant") {
+    return res.status(403).json({ error: "Access denied. Consultant role required." });
+  }
+
+  try {
+    const actorId = req.user.id || req.user._id;
+    const consultant = await Consultant.findById(actorId).select("-password");
+    if (!consultant) {
+      return res.status(401).json({ error: "Consultant account not found" });
+    }
+    if (consultant.status === "INACTIVE") {
+      return res.status(403).json({
+        error: "Consultant account is inactive. Please contact your organization administrator.",
+        code: "ACCOUNT_INACTIVE",
+      });
+    }
+    req.consultant = consultant;
+    return next();
+  } catch (err) {
+    console.error("requireActiveConsultant error:", err);
+    return res.status(500).json({ error: "Server error verifying consultant account" });
+  }
+};
+
 /**
  * Authenticated user may access resource for :email (self) or admin may access any.
  * Loads student onto req.student when the actor is a student.
@@ -114,6 +175,10 @@ const requireAdminOrBookingConsultant = async (req, res, next) => {
       return next();
     }
 
+    if (!req.params.id || !mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: "Invalid booking ID format" });
+    }
+
     const Booking = require("../models/Booking");
     const booking = await Booking.findById(req.params.id);
     if (!booking) {
@@ -129,6 +194,13 @@ const requireAdminOrBookingConsultant = async (req, res, next) => {
     if (!consultant && req.user.email) {
       consultant = await Consultant.findOne({
         email: String(req.user.email).trim().toLowerCase(),
+      });
+    }
+
+    if (consultant && consultant.status === "INACTIVE") {
+      return res.status(403).json({
+        error: "Consultant account is inactive. Please contact your organization administrator.",
+        code: "ACCOUNT_INACTIVE",
       });
     }
 
@@ -164,5 +236,7 @@ module.exports = verifyToken;
 module.exports.optionalAuth = optionalAuth;
 module.exports.verifyToken = verifyToken;
 module.exports.requireAdmin = requireAdmin;
+module.exports.requireEduMitraOrAdmin = requireEduMitraOrAdmin;
+module.exports.requireActiveConsultant = requireActiveConsultant;
 module.exports.requireSelfEmailOrAdmin = requireSelfEmailOrAdmin;
 module.exports.requireAdminOrBookingConsultant = requireAdminOrBookingConsultant;

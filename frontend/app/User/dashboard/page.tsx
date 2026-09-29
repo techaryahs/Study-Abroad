@@ -506,11 +506,11 @@ export default function DashboardPage() {
 
       {/* ── MAIN TABS ── */}
       <div className="max-w-6xl mx-auto px-6 mt-8 flex flex-wrap gap-4 border-b border-[#F1EDEA] pb-4">
-        {['profile', 'membership', 'bookings', 'sessions'].map((tab) => (
+        {(['profile', 'membership', 'bookings', 'sessions'] as const).map((tab) => (
           <button
-            key={id}
-            onClick={() => setMainTab(id)}
-            className={`flex-1 sm:flex-none px-3 sm:px-8 py-3 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all ${mainTab === id ? 'bg-[#C5A059] text-white shadow-lg' : 'bg-white border border-[#F1EDEA] text-[#6B5E51] hover:bg-[#FDFBF7]'}`}
+            key={tab}
+            onClick={() => setMainTab(tab)}
+            className={`flex-1 sm:flex-none px-3 sm:px-8 py-3 rounded-xl text-[10px] sm:text-[11px] font-black uppercase tracking-[0.1em] sm:tracking-[0.2em] transition-all ${mainTab === tab ? 'bg-[#C5A059] text-white shadow-lg' : 'bg-white border border-[#F1EDEA] text-[#6B5E51] hover:bg-[#FDFBF7]'}`}
           >
             {tab === 'profile' ? 'Profile' : tab === 'membership' ? 'Membership Center' : tab === 'bookings' ? 'My Bookings' : 'My Sessions'}
           </button>
@@ -525,10 +525,10 @@ export default function DashboardPage() {
             {[
               { id: 'about', label: 'About', hasData: true },
               { id: 'insights', label: 'Insights', hasData: true },
-              { id: 'highSchool', label: 'High School', hasData: userData?.profile?.highSchool?.length > 0 },
-              { id: 'undergrad', label: "Bachelor's", hasData: userData?.profile?.underGrad?.length > 0 },
-              { id: 'masters', label: "Master's", hasData: userData?.profile?.masters?.length > 0 },
-              { id: 'target', label: 'Target', hasData: userData?.profile?.targetUniversities?.length > 0 },
+              { id: 'highSchool', label: 'High School', hasData: (userData?.profile?.highSchool?.length ?? 0) > 0 },
+              { id: 'undergrad', label: "Bachelor's", hasData: (userData?.profile?.underGrad?.length ?? 0) > 0 },
+              { id: 'masters', label: "Master's", hasData: (userData?.profile?.masters?.length ?? 0) > 0 },
+              { id: 'target', label: 'Target', hasData: (userData?.profile?.targetUniversities?.length ?? 0) > 0 },
               ...((userData?.profile?.testScores || []).map((score: any) => ({
                 id: `score-${score.testType.toLowerCase()}`,
                 label: score.testType.toUpperCase(),

@@ -37,6 +37,8 @@ router.put("/:id/document", requireEduMitraOrAdmin, leadController.updateDocumen
 
 router.post("/:id/shortlists", requireEduMitraOrAdmin, leadController.addShortlist);
 router.put("/:id/shortlists/:shortlistId", requireEduMitraOrAdmin, leadController.updateShortlist);
+router.put("/:id/assign-consultant", requireEduMitraOrAdmin, leadController.assignConsultant);
+
 module.exports = router;
 
 

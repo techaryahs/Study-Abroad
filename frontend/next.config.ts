@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_TEST_PAYMENT_MODE: testPaymentMode,
   },
   images: {
-    qualities: [25, 50, 60, 75, 90, 100],
+    qualities: [25, 50, 60, 75, 80, 90, 100],
     remotePatterns: [
       {
         protocol: 'https',
@@ -27,6 +27,12 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: 'localhost',
         port: '5001',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '5011',
         pathname: '/**',
       },
       {

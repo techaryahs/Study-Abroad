@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Booking = require("../models/Booking");
 const Consultant = require("../models/Consultant");
 const Student = require("../models/Student");
@@ -327,11 +328,19 @@ exports.getUserBookings = async (req, res) => {
 };
 
 /* =========================
-   CONSULTANTS LIST
+   CONSULTANTS LIST (PUBLIC PLATFORM ONLY)
  ========================= */
 exports.getAllConsultants = async (req, res) => {
-  const consultants = await Consultant.find({});
-  res.json({ consultants });
+  try {
+    const consultants = await Consultant.find({
+      partnerId: null,
+      isVerified: true,
+      status: "ACTIVE",
+    }).select("name role expertise experience bio image price isPremium availability videoCallEnabled");
+    res.json({ consultants });
+  } catch (err) {
+    res.status(500).json({ message: "Server error fetching consultants" });
+  }
 };
 
 /* =========================
@@ -342,7 +351,7 @@ exports.getConsultantBookings = async (req, res) => {
     const { consultantId } = req.params;
     const { email } = req.query;
 
-    if (!consultantId || consultantId === "undefined") {
+    if (!consultantId || consultantId === "undefined" || !mongoose.Types.ObjectId.isValid(consultantId)) {
       return res.status(400).json({ message: "Invalid ID provided" });
     }
 
@@ -353,7 +362,14 @@ exports.getConsultantBookings = async (req, res) => {
     }
 
     const role = String(req.user?.role || "").toLowerCase();
-    if (role !== "admin") {
+    if (role !== "admin" && role !== "super_admin") {
+      if (consultant.status === "INACTIVE") {
+        return res.status(403).json({
+          message: "Consultant account is inactive. Please contact your organization administrator.",
+          code: "ACCOUNT_INACTIVE",
+        });
+      }
+
       const actorId = String(req.user?.id || req.user?._id || "");
       const ownsById = actorId && String(consultant._id) === actorId;
       const ownsByEmail =

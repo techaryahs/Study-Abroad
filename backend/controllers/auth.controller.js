@@ -14,6 +14,7 @@ const { findUserByEmail, findUserByMobile } = require("../utils/userHelper");
 const { sendSMSOTP } = require("../utils/otpsms");
 const { applyLifecycleToUser } = require("../utils/membershipLifecycle");
 const logger = require("../utils/logger");
+const { resolveEduMitraPartnerId } = require("../utils/tenantHelper");
 
 
 const otpStore = new Map();
@@ -27,6 +28,13 @@ exports.register = async (req, res) => {
   try {
     const { name, email, mobile, password, dob, gender, country, state, profile: profileInput } = req.body;
     const emailLower = email.toLowerCase().trim();
+
+    // Cross-collection uniqueness check across Student, Consultant, User
+    const existingEmail = await findUserByEmail(emailLower);
+    if (existingEmail) {
+      return res.status(409).json({ error: "An account with this email already exists." });
+    }
+
     // 🔍 1. Check if Email and Mobile are Verified
     const storedData = otpStore.get(emailLower);
     if (!storedData || !storedData.verified) {
@@ -111,11 +119,13 @@ exports.register = async (req, res) => {
           const attributionExpiryDate = new Date(now);
           attributionExpiryDate.setMonth(attributionExpiryDate.getMonth() + 24);
           studentLeadId = await studentLeadService.generateStudentLeadId(seminar.collegeId, now.getFullYear());
+          const resolvedMitraId = await resolveEduMitraPartnerId(seminar);
 
           const lead = new StudentLead({
             studentLeadId,
             seminarId,
             collegeId: seminar.collegeId,
+            partnerId: resolvedMitraId || seminar.createdBy || null,
             fullName: name,
             mobile,
             normalizedMobile: studentLeadService.normalizePhone(mobile),
@@ -388,8 +398,13 @@ exports.login = async (req, res) => {
         };
       }
 
-      // Add videoCallEnabled for consultants
+      // Add videoCallEnabled for consultants & block inactive consultants
       if (role === 'consultant') {
+        if (user.status === 'INACTIVE') {
+          return res.status(403).json({
+            error: "Your consultant account is inactive. Please contact your organization administrator.",
+          });
+        }
         userData.videoCallEnabled = user.videoCallEnabled || false;
       }
 
@@ -1090,6 +1105,11 @@ exports.verifyLoginOtp = async (req, res) => {
     }
 
     if (role === 'consultant') {
+      if (user.status === 'INACTIVE') {
+        return res.status(403).json({
+          error: "Your consultant account is inactive. Please contact your organization administrator.",
+        });
+      }
       userData.videoCallEnabled = user.videoCallEnabled || false;
     }
 

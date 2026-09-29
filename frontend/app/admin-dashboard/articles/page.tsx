@@ -22,6 +22,7 @@ import {
   X,
 } from "lucide-react";
 import { getToken, getUser } from "@/app/lib/token";
+import ConfirmModal from "@/components/admin/ConfirmModal";
 import {
   articleCategories,
   type ArticleCategory,
@@ -278,6 +279,7 @@ export default function AdminArticlesPage() {
   const [previewArticle, setPreviewArticle] = useState<ManagedArticle | null>(
     null
   );
+  const [articleToDelete, setArticleToDelete] = useState<ManagedArticle | null>(null);
 
   useEffect(() => {
     const user = getUser();
@@ -447,12 +449,16 @@ export default function AdminArticlesPage() {
   };
 
   const handleDelete = (article: ManagedArticle) => {
-    if (!window.confirm(`Delete "${article.title}"?`)) return;
+    setArticleToDelete(article);
+  };
 
+  const handleConfirmDelete = () => {
+    if (!articleToDelete) return;
     saveManagedArticles(
-      articles.filter((item) => item.slug !== article.slug)
+      articles.filter((item) => item.slug !== articleToDelete.slug)
     );
     setBanner({ type: "success", text: "Article deleted successfully." });
+    setArticleToDelete(null);
   };
 
   const handleTitleChange = (value: string) => {
@@ -476,57 +482,41 @@ export default function AdminArticlesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#05070a] text-white">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-        <div className="mb-10">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-            <div className="flex min-w-0 items-center gap-3">
-              <div className="h-10 w-2 rounded-full bg-[#c2a878]" />
-              <div className="min-w-0">
-                <h1 className="text-3xl font-black uppercase italic tracking-tighter text-white sm:text-4xl">
-                  Articles
-                </h1>
-                <p className="mt-1 text-[11px] font-black uppercase tracking-[0.35em] text-gray-500">
-                  Admin Content Management
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-3 sm:ml-auto">
-              <button
-                type="button"
-                onClick={() => router.push("/admin-dashboard")}
-                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-[11px] font-black uppercase tracking-wider text-gray-400 transition-all hover:text-white"
-              >
-                <ArrowLeft size={14} />
-                Dashboard
-              </button>
-              {mode === "list" ? (
-                <button
-                  type="button"
-                  onClick={startCreate}
-                  className="inline-flex items-center gap-2 rounded-xl bg-[#c2a878] px-5 py-3 text-[11px] font-black uppercase tracking-[0.18em] text-black transition-all hover:bg-yellow-100 active:scale-95"
-                >
-                  <Plus size={14} />
-                  Add Article
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setMode("list");
-                    setEditingSlug(null);
-                    setBanner(null);
-                  }}
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-[11px] font-black uppercase tracking-[0.18em] text-gray-400 transition-all hover:text-white"
-                >
-                  <X size={14} />
-                  Cancel
-                </button>
-              )}
-            </div>
-          </div>
+    <div className="space-y-6 animate-fadeIn">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-black text-white tracking-tight">Articles & Guides</h2>
+          <p className="text-xs text-white/50 mt-1">
+            Author, edit, and publish international admissions guides and editorial resources.
+          </p>
         </div>
+
+        <div className="flex items-center gap-3">
+          {mode === "list" ? (
+            <button
+              type="button"
+              onClick={startCreate}
+              className="inline-flex items-center gap-2 rounded-xl bg-[#c2a878] px-4 py-2 text-xs font-bold uppercase tracking-wider text-black transition-all hover:bg-[#d4ba8a]"
+            >
+              <Plus size={14} />
+              Add Article
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setMode("list");
+                setEditingSlug(null);
+                setBanner(null);
+              }}
+              className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/70 hover:text-white"
+            >
+              <ArrowLeft size={14} />
+              Back to Articles
+            </button>
+          )}
+        </div>
+      </div>
 
         <Banner banner={banner} />
 
@@ -996,14 +986,24 @@ export default function AdminArticlesPage() {
             </div>
           </form>
         )}
-      </div>
-
       {previewArticle && (
         <PreviewModal
           article={previewArticle}
           onClose={() => setPreviewArticle(null)}
         />
       )}
+
+      {/* Article Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={!!articleToDelete}
+        title="Delete Article?"
+        description={`Are you sure you want to delete "${articleToDelete?.title}"? This article will be permanently removed from the publication library.`}
+        confirmLabel="Delete Article"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={handleConfirmDelete}
+        onClose={() => setArticleToDelete(null)}
+      />
     </div>
   );
 }

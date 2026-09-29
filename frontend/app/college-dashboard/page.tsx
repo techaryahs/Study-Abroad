@@ -11,7 +11,7 @@ import SeminarQRModal from "@/components/partnership/seminar/SeminarQRModal";
 export default function CollegeCoordinatorDashboard() {
   const router = useRouter();
   const [profile, setProfile] = useState<any>(null);
-  const [seminars, setSeminars] = useState([]);
+  const [seminars, setSeminars] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [qrSeminar, setQrSeminar] = useState<any>(null);
 
