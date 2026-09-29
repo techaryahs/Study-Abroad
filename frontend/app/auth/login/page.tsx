@@ -8,7 +8,7 @@ import { setToken, setUser, getToken } from "@/app/lib/token";
 import { Country } from "country-state-city";
 
 /** Safe internal redirect only (blocks open redirects). */
-function resolvePostLoginPath(role: string, redirectParam: string | null): string {
+function resolvePostLoginPath(role: string, redirectParam: string | null, user?: any): string {
   if (
     redirectParam &&
     redirectParam.startsWith("/") &&
@@ -18,6 +18,15 @@ function resolvePostLoginPath(role: string, redirectParam: string | null): strin
     return redirectParam;
   }
   if (role === "admin") return "/admin-dashboard";
+  if (role === "partner") {
+    const p = user?.partnerProfile;
+    if (p && p.isApproved === true && p.isActive !== false && p.onboardingStatus === "approved") {
+      return "/partnership/dashboard";
+    }
+    return "/register/partner/status";
+  }
+  if (role === "consultant") return "/consultant-dashboard";
+  if (role === "college_coordinator") return "/college-dashboard";
   return "/User/dashboard";
 }
 
@@ -106,7 +115,7 @@ const LoginContent: React.FC = () => {
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
-        router.push(resolvePostLoginPath(role, redirectParam));
+        router.push(resolvePostLoginPath(role, redirectParam, user));
       }, 500);
 
     } catch (err: any) {
@@ -207,7 +216,7 @@ const LoginContent: React.FC = () => {
       window.dispatchEvent(new Event('user-updated'));
 
       setTimeout(() => {
-        router.push(resolvePostLoginPath(role, redirectParam));
+        router.push(resolvePostLoginPath(role, redirectParam, user));
       }, 500);
     } catch (err: any) {
       setOtpError(err.message || "Invalid OTP code");
@@ -326,7 +335,7 @@ const LoginContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 selection:bg-[#C5A059] selection:text-white font-sans relative overflow-hidden bg-[#FDFBF7]">
+    <div className="min-h-[calc(100vh-64px)] md:min-h-[calc(100vh-104px)] flex items-center justify-center p-4 md:p-8 py-8 md:py-12 selection:bg-[#C5A059] selection:text-white font-sans relative bg-[#FDFBF7]">
       {/* Background Decor */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-[#C5A059]/5 blur-[120px] rounded-full" />
@@ -336,50 +345,50 @@ const LoginContent: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white border border-[#C5A059]/15 rounded-[2rem] md:rounded-[2.5rem] shadow-3xl w-full max-w-4xl flex flex-col lg:flex-row h-auto lg:h-[500px] max-h-[90vh] overflow-hidden relative z-10 mx-auto"
+        className="bg-white border border-[#C5A059]/15 rounded-[2rem] md:rounded-[2.5rem] shadow-3xl w-full max-w-4xl flex flex-col lg:flex-row h-auto min-h-0 relative z-10 mx-auto overflow-hidden my-auto"
       >
         {/* Left Side - Brand Promise */}
-        <div className="hidden lg:flex lg:w-[38%] p-10 flex-col justify-between relative overflow-hidden group bg-gradient-to-b from-[#3C2A21] to-[#2D2926] text-white">
+        <div className="hidden lg:flex lg:w-[38%] p-8 lg:p-10 flex-col justify-between relative overflow-hidden group bg-gradient-to-b from-[#3C2A21] to-[#2D2926] text-white self-stretch">
           <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10"></div>
 
           <div className="relative z-10">
-            <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 border border-[#C5A059]/30 flex items-center justify-center mb-8 backdrop-blur-xl">
+            <div className="w-12 h-12 rounded-2xl bg-[#C5A059]/10 border border-[#C5A059]/30 flex items-center justify-center mb-6 backdrop-blur-xl">
               <Sparkles className="w-6 h-6 text-[#C5A059]" />
             </div>
-            <h1 className="text-4xl font-black mb-6 uppercase tracking-tighter italic leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+            <h1 className="text-3xl lg:text-4xl font-black mb-5 uppercase tracking-tighter italic leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
               Build <br /> Your <br /> <span className="text-[#C5A059]">Global</span> <br /> Legacy.
             </h1>
-            <p className="text-white/60 text-[14px] font-bold font-black leading-relaxed max-w-xs uppercase tracking-widest pl-4 border-l-2 border-[#C5A059]/30">
+            <p className="text-white/60 text-[13px] lg:text-[14px] font-bold leading-relaxed max-w-xs uppercase tracking-widest pl-4 border-l-2 border-[#C5A059]/30">
               Elite academic mentorship for the Ivy League and beyond. Access your centralized dashboard.
             </p>
           </div>
 
-          <div className="relative z-10 flex items-center gap-3 border-t border-white/10 pt-8 mt-12">
+          <div className="relative z-10 flex items-center gap-3 border-t border-white/10 pt-6 mt-8">
             <div className="flex -space-x-3">
-              {[1, 2, 3].map(i => <div key={i} className="w-8 h-8 rounded-full bg-[#1A1A1A] border-2 border-[#2D2926] overflow-hidden flex items-center justify-center text-[14px] font-bold font-black text-white/40">U{i}</div>)}
+              {[1, 2, 3].map(i => <div key={i} className="w-8 h-8 rounded-full bg-[#1A1A1A] border-2 border-[#2D2926] overflow-hidden flex items-center justify-center text-[13px] font-bold text-white/40">U{i}</div>)}
             </div>
-            <p className="text-[13px] font-bold font-black text-white/30 uppercase tracking-[0.2em] italic">Standard Protocol Verified</p>
+            <p className="text-[12px] font-bold text-white/30 uppercase tracking-[0.2em] italic">Standard Protocol Verified</p>
           </div>
         </div>
 
         {/* Right Form */}
-        <div className="w-full lg:w-[62%] p-6 md:p-10 flex flex-col justify-center relative bg-white">
-          <div className="mb-6">
+        <div className="w-full lg:w-[62%] p-6 sm:p-8 md:p-10 flex flex-col justify-center relative bg-white">
+          <div className="mb-5">
             <h2 className="text-2xl font-black text-[#3C2A21] mb-2 uppercase tracking-tight italic" style={{ fontFamily: 'Georgia, serif' }}>Welcome Back</h2>
             <div className="h-1 w-12 bg-[#C5A059] rounded-full" />
           </div>
 
           {/* Login Method Tabs */}
-          <div className="flex border-b border-[#F1EDEA] mb-6">
+          <div className="flex border-b border-[#F1EDEA] mb-5">
             <button
               onClick={() => { setLoginMethod("email"); setErrorMsg(""); }}
-              className={`flex-1 pb-3 text-xs font-black uppercase tracking-wider transition-colors ${loginMethod === "email" ? "border-b-2 border-[#C5A059] text-[#3C2A21]" : "text-[#6B5E51]/50 hover:text-[#C5A059]"}`}
+              className={`flex-1 pb-2.5 text-xs font-black uppercase tracking-wider transition-colors ${loginMethod === "email" ? "border-b-2 border-[#C5A059] text-[#3C2A21]" : "text-[#6B5E51]/50 hover:text-[#C5A059]"}`}
             >
               Email & Password
             </button>
             <button
               onClick={() => { setLoginMethod("phone"); setErrorMsg(""); }}
-              className={`flex-1 pb-3 text-xs font-black uppercase tracking-wider transition-colors ${loginMethod === "phone" ? "border-b-2 border-[#C5A059] text-[#3C2A21]" : "text-[#6B5E51]/50 hover:text-[#C5A059]"}`}
+              className={`flex-1 pb-2.5 text-xs font-black uppercase tracking-wider transition-colors ${loginMethod === "phone" ? "border-b-2 border-[#C5A059] text-[#3C2A21]" : "text-[#6B5E51]/50 hover:text-[#C5A059]"}`}
             >
               Phone OTP Login
             </button>
@@ -387,7 +396,7 @@ const LoginContent: React.FC = () => {
 
           {loginMethod === "email" ? (
             <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter your registered email</label>
                 <div className="relative group">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
@@ -397,12 +406,12 @@ const LoginContent: React.FC = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     placeholder="name@university.com"
-                    className="w-full pl-12 pr-4 py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs text-[#3C2A21] font-bold placeholder:text-[#6B5E51]/20 focus:border-[#C5A059] transition-all outline-none shadow-inner"
+                    className="w-full pl-12 pr-4 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs text-[#3C2A21] font-bold placeholder:text-[#6B5E51]/20 focus:border-[#C5A059] transition-all outline-none shadow-inner"
                   />
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter Password</label>
                 <div className="relative group">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B5E51]/70 group-focus-within:text-[#C5A059] transition-all" />
@@ -412,7 +421,7 @@ const LoginContent: React.FC = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     placeholder="••••••••"
-                    className="w-full pl-12 pr-12 py-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] transition-all outline-none shadow-inner"
+                    className="w-full pl-12 pr-12 py-3.5 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] transition-all outline-none shadow-inner"
                   />
                   <button
                     type="button"
@@ -424,11 +433,11 @@ const LoginContent: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end pt-1">
+              <div className="flex justify-end pt-0.5">
                 <button
                   type="button"
                   onClick={() => setShowForgotModal(true)}
-                  className="text-[13px] font-bold font-black text-[#6B5E51]/70 hover:text-[#C5A059] uppercase tracking-widest transition-all"
+                  className="text-[12px] font-bold font-black text-[#6B5E51]/70 hover:text-[#C5A059] uppercase tracking-widest transition-all"
                 >
                   Forgot Password?
                 </button>
@@ -437,14 +446,14 @@ const LoginContent: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 mt-2 hover:bg-[#C5A059]"
+                className="w-full py-3.5 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 mt-1 hover:bg-[#C5A059]"
               >
                 {isSubmitting ? "Authenticating..." : "Sign In"}
                 {!isSubmitting && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
               </button>
 
               {errorMsg && (
-                <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[14px] font-bold items-center justify-center flex mt-6 font-black uppercase italic bg-rose-50/50 py-4 rounded-xl border border-rose-100 px-4 text-center">
+                <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[13px] font-bold items-center justify-center flex mt-4 font-black uppercase italic bg-rose-50/50 py-3 rounded-xl border border-rose-100 px-4 text-center">
                   {errorMsg}
                 </motion.p>
               )}
@@ -453,14 +462,14 @@ const LoginContent: React.FC = () => {
             <form onSubmit={verifyLoginOtp} className="space-y-4">
               {!otpSent ? (
                 <div className="space-y-4">
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Phone Number</label>
                     <div className="grid grid-cols-[120px_1fr] gap-3">
                       <select
                         aria-label="Country code"
                         value={selectedCountryIso}
                         onChange={e => setSelectedCountryIso(e.target.value)}
-                        className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-3 py-4 text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] outline-none shadow-inner"
+                        className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-3 py-3.5 text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] outline-none shadow-inner"
                       >
                         {COUNTRY_CODE_OPTIONS.map(country => (
                           <option key={country.isoCode} value={country.isoCode}>
@@ -474,7 +483,7 @@ const LoginContent: React.FC = () => {
                         value={mobile}
                         onChange={e => setMobile(e.target.value.replace(/\D/g, "").slice(0, 15))}
                         required
-                        className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-4 py-4 text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] outline-none shadow-inner"
+                        className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-4 py-3.5 text-xs text-[#3C2A21] font-bold focus:border-[#C5A059] outline-none shadow-inner"
                       />
                     </div>
                   </div>
@@ -483,7 +492,7 @@ const LoginContent: React.FC = () => {
                     type="button"
                     onClick={sendLoginOtp}
                     disabled={otpLoading || !mobile}
-                    className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 hover:bg-[#C5A059]"
+                    className="w-full py-3.5 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 hover:bg-[#C5A059]"
                   >
                     {otpLoading ? "Sending..." : "Send OTP"}
                     {!otpLoading && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
@@ -512,7 +521,7 @@ const LoginContent: React.FC = () => {
                     </button>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     <label className="block text-[10px] font-black text-black font-bold uppercase tracking-widest ml-1">Enter 6-Digit OTP</label>
                     <input
                       type="text"
@@ -522,7 +531,7 @@ const LoginContent: React.FC = () => {
                       value={otp}
                       onChange={e => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                       maxLength={6}
-                      className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-4 py-4 text-center text-xl tracking-[0.5em] text-[#3C2A21] font-mono focus:border-[#C5A059] outline-none shadow-inner"
+                      className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl px-4 py-3.5 text-center text-xl tracking-[0.5em] text-[#3C2A21] font-mono focus:border-[#C5A059] outline-none shadow-inner"
                     />
                   </div>
 
@@ -543,7 +552,7 @@ const LoginContent: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting || otp.length !== 6}
-                    className="w-full py-4 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 hover:bg-[#C5A059]"
+                    className="w-full py-3.5 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 hover:bg-[#C5A059]"
                   >
                     {isSubmitting ? "Verifying..." : "Verify & Login"}
                     {!isSubmitting && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
@@ -552,15 +561,16 @@ const LoginContent: React.FC = () => {
               )}
 
               {otpError && (
-                <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[14px] font-bold items-center justify-center flex mt-6 font-black uppercase italic bg-rose-50/50 py-4 rounded-xl border border-rose-100 px-4 text-center">
+                <motion.p initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-rose-500 text-[13px] font-bold items-center justify-center flex mt-4 font-black uppercase italic bg-rose-50/50 py-3 rounded-xl border border-rose-100 px-4 text-center">
                   {otpError}
                 </motion.p>
               )}
             </form>
           )}
 
-          <div className="mt-8 pt-6 border-t border-[#F1EDEA] flex flex-col gap-4 items-center">
-            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>
+          <div className="mt-6 pt-4 border-t border-[#F1EDEA] flex flex-col gap-2 items-center text-center">
+            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest cursor-pointer hover:text-[#C5A059] transition-colors" onClick={() => router.push("/auth/RegisterStudent")}>if you are a new student, click here to initialize your account</p>
+            <p className="text-[10px] font-black text-black font-bold uppercase tracking-widest cursor-pointer hover:text-[#C5A059] transition-colors" onClick={() => router.push("/register/partner")}>Register as Partner</p>
           </div>
         </div>
       </motion.div>

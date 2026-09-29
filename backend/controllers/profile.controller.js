@@ -18,7 +18,7 @@ exports.getProfile = async (req, res) => {
       const mongoose = require("mongoose");
       const validSections = [
         "highSchool", "underGrad", "masters", "testScores", "workExperience",
-        "research", "projects", "volunteering", "targetUniversities"
+        "research", "projects", "volunteering", "targetUniversities", "achievements"
       ];
       for (const section of validSections) {
         if (Array.isArray(user.profile[section])) {
@@ -128,7 +128,7 @@ exports.addProfileItem = async (req, res) => {
 
     const validSections = [
       "highSchool", "underGrad", "masters", "testScores", "workExperience",
-      "research", "projects", "volunteering", "targetUniversities"
+      "research", "projects", "volunteering", "targetUniversities", "achievements"
     ];
 
     if (!validSections.includes(section)) {
@@ -223,6 +223,25 @@ exports.deleteProfileItem = async (req, res) => {
   } catch (err) {
     console.error("Profile item deletion error:", err);
     res.status(500).json({ message: "Server error deleting profile item" });
+  }
+};
+
+exports.uploadDocument = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No document file provided" });
+    }
+    const fileUrl = `/uploads/${req.file.filename}`;
+    res.json({
+      success: true,
+      message: "Document uploaded successfully",
+      fileUrl,
+      fileName: req.file.originalname,
+      size: req.file.size,
+    });
+  } catch (err) {
+    console.error("❌ Document upload error:", err);
+    res.status(500).json({ message: "Server error uploading document", error: err.message });
   }
 };
 

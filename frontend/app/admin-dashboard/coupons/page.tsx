@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Loader2, Plus, Trash2, Copy, CheckCircle2, Tag } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { getUser } from "@/app/lib/token";
 
 const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
 
@@ -20,6 +22,20 @@ interface Coupon {
 }
 
 export default function CouponAdminPage() {
+  const router = useRouter();
+
+  // ── Admin Auth Guard ───────────────────────────────────────────────────
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const user = getUser();
+    if (!user) {
+      router.replace("/auth/login");
+    } else {
+      setAuthChecked(true);
+    }
+  }, []);
+
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
@@ -51,8 +67,8 @@ export default function CouponAdminPage() {
   };
 
   useEffect(() => {
-    fetchCoupons();
-  }, []);
+    if (authChecked) fetchCoupons();
+  }, [authChecked]);
 
   const generateRandomCode = () => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -158,6 +174,15 @@ export default function CouponAdminPage() {
       </button>
     );
   };
+
+  // ── Auth Loading State ─────────────────────────────────────────────────
+  if (!authChecked) {
+    return (
+      <div className="min-h-screen bg-[#F7F5F3] flex items-center justify-center">
+        <Loader2 size={24} className="animate-spin text-[#302621]" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F7F5F3] p-4 sm:p-6 md:p-10 font-sans">
@@ -333,7 +358,6 @@ export default function CouponAdminPage() {
                         <Trash2 size={15} />
                       </button>
                     </div>
-
                     <div className="flex justify-between text-[11px] font-bold">
                       <span className="text-black/40 uppercase tracking-widest text-[9px]">Discount</span>
                       <span className="text-[#362B25]">
@@ -341,24 +365,20 @@ export default function CouponAdminPage() {
                         {c.maxDiscount ? <span className="text-black/30 text-[10px]"> (max ₹{c.maxDiscount})</span> : ""}
                       </span>
                     </div>
-
                     <div className="flex justify-between text-[11px] font-bold">
                       <span className="text-black/40 uppercase tracking-widest text-[9px]">Min Order</span>
                       <span className="text-black/60">₹{c.minOrderAmount}</span>
                     </div>
-
                     <div className="flex justify-between text-[11px] font-bold">
                       <span className="text-black/40 uppercase tracking-widest text-[9px]">Usage</span>
                       <span className="text-black/60">{c.usedCount} / {c.usageLimit}</span>
                     </div>
-
                     <div className="flex justify-between text-[11px] font-bold">
                       <span className="text-black/40 uppercase tracking-widest text-[9px]">Expiry</span>
                       <span className="text-black/60">
                         {new Date(c.expiryDate).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
                       </span>
                     </div>
-
                     <div className="flex justify-between items-center pt-1">
                       <span className="text-black/40 uppercase tracking-widest text-[9px] font-bold">Status</span>
                       {statusBadge(c)}

@@ -79,19 +79,15 @@ const resourceCategories = [
 export default function ResourcesPage() {
   return (
     <main
-      className="min-h-screen pb-32"
+      className="min-h-screen pb-32 text-[#10324a]"
       style={{
-        background: "#FDFBF7",
-        color: "#2D2926",
-        fontFamily: "'DM Sans', sans-serif",
+        background:
+          "radial-gradient(circle at top left, rgba(44,165,157,0.16), transparent 30%), linear-gradient(135deg, #f8f4ea 0%, #fcfbf7 100%)",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
-        .fd { font-family: 'Cormorant Garamond', serif; }
-
         .gold-shimmer {
-          background: linear-gradient(90deg, #C5A059, #E6D5B8, #C5A059, #D4AF37, #C5A059);
+          background: linear-gradient(90deg, #d2a14a, #f4d89e, #d2a14a, #b3985e, #d2a14a);
           background-size: 300% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
@@ -104,29 +100,29 @@ export default function ResourcesPage() {
         }
 
         .resource-card {
-          background: #FFFFFF;
-          border: 1px solid rgba(197,160,89,0.15);
+          background: rgba(255,255,255,0.75);
+          border: 1px solid rgba(16,50,74,0.10);
           border-radius: 28px;
           transition: all 0.45s cubic-bezier(0.16,1,0.3,1);
-          box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+          box-shadow: 0 4px 20px rgba(16,50,74,0.04);
         }
         .resource-card:hover {
           transform: translateY(-10px);
-          border-color: rgba(197,160,89,0.45);
-          box-shadow: 0 32px 64px rgba(197,160,89,0.09);
+          border-color: rgba(210,161,74,0.45);
+          box-shadow: 0 32px 64px rgba(16,50,74,0.08);
         }
 
         .icon-ring {
-          background: rgba(197,160,89,0.07);
-          color: #C5A059;
+          background: linear-gradient(135deg, rgba(44,165,157,0.15), rgba(210,161,74,0.15));
+          color: #10324a;
           width: 60px; height: 60px;
           border-radius: 18px;
           display: flex; align-items: center; justify-content: center;
           transition: all 0.3s ease;
         }
         .resource-card:hover .icon-ring {
-          background: #C5A059;
-          color: #fff;
+          background: #d2a14a;
+          color: #10324a;
           transform: scale(1.08);
         }
       `}</style>
@@ -136,7 +132,7 @@ export default function ResourcesPage() {
         className="relative px-6 pt-12 pb-20 text-center overflow-hidden"
         style={{
           background:
-            "linear-gradient(180deg, rgba(197,160,89,0.08) 0%, transparent 100%)",
+            "linear-gradient(180deg, rgba(44,165,157,0.10) 0%, transparent 100%)",
         }}
       >
         <motion.div
@@ -145,13 +141,13 @@ export default function ResourcesPage() {
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto space-y-6"
         >
-          <span className="inline-block px-5 py-1.5 rounded-full border border-[rgba(197,160,89,0.3)] text-[#C5A059] font-bold text-[12px] tracking-[0.3em] uppercase shadow-sm">
+          <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full border border-[#2ca59d]/25 bg-[#2ca59d]/10 text-[#0f4c5c] font-black text-[12px] tracking-[0.3em] uppercase shadow-sm">
             Academic Resource Hub
           </span>
-          <h1 className="fd text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-[#2D2926] tracking-tight leading-[0.95]">
-            Scholar&apos;s <span className="gold-shimmer">Arsenal</span>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.95]">
+            <span className="gold-shimmer">Scholar&apos;s Arsenal</span>
           </h1>
-          <p className="text-[#6B5E51] text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[#4b5b6a] text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
             Everything you need to fund your education, build your research
             profile, and navigate international admissions — all in one place.
           </p>
@@ -163,25 +159,25 @@ export default function ResourcesPage() {
         {/* Section header */}
         <div className="mb-14 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
-            <h2 className="fd text-4xl md:text-5xl font-bold text-[#2D2926]">
+            <h2 className="text-4xl md:text-5xl font-black text-[#10324a]">
               All Resources
             </h2>
-            <p className="text-[#6B5E51] text-base mt-2 font-medium">
+            <p className="text-[#4b5b6a] text-base mt-2 font-medium">
               Verified tools and databases for every stage of your journey
             </p>
           </div>
-          <div className="flex gap-6 bg-white border border-[rgba(197,160,89,0.15)] px-7 py-4 rounded-2xl shadow-sm">
-            <div className="flex flex-col border-r border-[#F1EDEA] pr-6">
-              <span className="text-[12px] font-bold text-[#A8A29E] uppercase tracking-widest">
+          <div className="flex gap-6 rounded-2xl border border-white/10 bg-[#10324a] px-7 py-4 shadow-[0_20px_60px_rgba(16,50,74,0.18)]">
+            <div className="flex flex-col border-r border-white/10 pr-6">
+              <span className="text-[12px] font-black text-white/50 uppercase tracking-widest">
                 Countries
               </span>
-              <span className="text-xl font-bold text-[#2D2926]">150+</span>
+              <span className="text-xl font-black text-[#d2a14a]">150+</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[12px] font-bold text-[#A8A29E] uppercase tracking-widest">
+              <span className="text-[12px] font-black text-white/50 uppercase tracking-widest">
                 Active Users
               </span>
-              <span className="text-xl font-bold text-[#2D2926]">12k+</span>
+              <span className="text-xl font-black text-[#d2a14a]">12k+</span>
             </div>
           </div>
         </div>
@@ -196,16 +192,16 @@ export default function ResourcesPage() {
                 className="resource-card p-9 flex flex-col gap-7 h-full relative overflow-hidden"
               >
                 {/* subtle bg accent */}
-                <div className="absolute top-0 right-0 w-28 h-28 bg-[rgba(197,160,89,0.03)] rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-28 h-28 bg-[#d2a14a]/8 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none" />
 
                 {/* Top row: icon + badge */}
                 <div className="flex items-start justify-between">
                   <div className="icon-ring">{category.icon}</div>
                   <div className="flex flex-col items-end gap-1">
-                    <span className="text-[11px] font-bold text-[#C5A059] border border-[rgba(197,160,89,0.25)] px-2.5 py-0.5 rounded-md uppercase tracking-widest">
+                    <span className="text-[11px] font-black text-[#0f4c5c] border border-[#2ca59d]/25 bg-[#2ca59d]/5 px-2.5 py-0.5 rounded-md uppercase tracking-widest">
                       {category.badge}
                     </span>
-                    <span className="text-[11px] font-bold text-[#A8A29E] uppercase tracking-wide">
+                    <span className="text-[11px] font-bold text-[#4b5b6a]/70 uppercase tracking-wide">
                       {category.stat}
                     </span>
                   </div>
@@ -213,16 +209,16 @@ export default function ResourcesPage() {
 
                 {/* Body */}
                 <div className="space-y-2.5">
-                  <h3 className="fd text-[1.75rem] font-bold text-[#2D2926] leading-tight">
+                  <h3 className="text-[1.75rem] font-black text-[#10324a] leading-tight">
                     {category.title}
                   </h3>
-                  <p className="text-sm text-[#6B5E51] leading-relaxed font-medium">
+                  <p className="text-sm text-[#4b5b6a] leading-relaxed font-medium">
                     {category.description}
                   </p>
                 </div>
 
                 {/* CTA */}
-                <div className="mt-auto pt-3 flex items-center text-[#C5A059] font-bold text-[12px] tracking-widest uppercase gap-2">
+                <div className="mt-auto pt-3 flex items-center text-[#d2a14a] font-black text-[12px] tracking-widest uppercase gap-2">
                   Explore <ArrowRight size={15} />
                 </div>
               </motion.div>

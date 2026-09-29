@@ -504,6 +504,7 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<DropdownKey>(null);
   const [user, setUserState] = useState<any>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [registerDropdownOpen, setRegisterDropdownOpen] = useState(false);
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
   const [expandedSubItem, setExpandedSubItem] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -597,7 +598,8 @@ export default function Navbar() {
       if (!userId || userId === "session") return;
 
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001'}/api/user/profile/${userId}`);
+        const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined') ? process.env.NEXT_PUBLIC_BACKEND_URL : 'http://localhost:5001';
+        const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}`);
         if (response.ok) {
           const data = await response.json();
           // Flatten profile data into the top-level user object for easier access in Navbar
@@ -614,7 +616,8 @@ export default function Navbar() {
           setUserState(null);
         }
       } catch (error) {
-        console.error("Failed to fetch full user profile in Navbar:", error);
+        // Suppress expected network errors when user is navigating or backend is unreachable
+        // console.error("Failed to fetch full user profile in Navbar:", error);
       }
     };
 
@@ -670,6 +673,33 @@ export default function Navbar() {
     const leadingSlash = normalizedPath.startsWith('/') ? '' : '/';
     const backendUrl = (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5001').replace(/\/$/, '');
     return `${backendUrl}${leadingSlash}${normalizedPath}`;
+  };
+
+  const getDashboardPath = (user: any) => {
+    if (!user) return "/auth/login";
+    if (user.role === "admin") return "/admin-dashboard";
+    if (user.role === "consultant") return "/consultant-dashboard";
+    if (user.role === "partner") {
+      const p = user.partnerProfile;
+      if (p && p.isApproved === true && p.isActive !== false && p.onboardingStatus === "approved") {
+        return "/partnership/dashboard";
+      }
+      return "/register/partner/status";
+    }
+    return "/User/dashboard";
+  };
+
+  const getDashboardLabel = (user: any) => {
+    if (user?.role === "admin") return "Admin Dashboard";
+    if (user?.role === "consultant") return "Consultant Portal";
+    if (user?.role === "partner") {
+      const p = user.partnerProfile;
+      if (p && p.isApproved === true && p.isActive !== false && p.onboardingStatus === "approved") {
+        return "Partner Dashboard";
+      }
+      return "Partner Status";
+    }
+    return "Dashboard";
   };
 
   return (
@@ -806,12 +836,43 @@ export default function Navbar() {
               {!user ? (
                 <>
                   <Link href="/auth/login" className="text-[14px] font-bold font-black uppercase tracking-widest text-white hover:text-[#B3985E] transition-all">Sign In</Link>
-                  <Link
-                    href="/auth/RegisterStudent"
-                    className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center"
-                  >
-                    Register
-                  </Link>
+                  <div className="relative group/register">
+                    <button
+                      onMouseEnter={() => setRegisterDropdownOpen(true)}
+                      onMouseLeave={() => setRegisterDropdownOpen(false)}
+                      className="flex h-9 px-6 rounded-lg bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest hover:brightness-110 transition-all shadow-lg active:scale-95 items-center justify-center cursor-default"
+                    >
+                      Register
+                    </button>
+                    {registerDropdownOpen && (
+                      <div
+                        onMouseEnter={() => setRegisterDropdownOpen(true)}
+                        onMouseLeave={() => setRegisterDropdownOpen(false)}
+                        className="absolute right-0 top-full mt-2 w-64 bg-[#16364F] border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] p-4 z-50 flex flex-col"
+                        style={{ animation: "dropIn 0.15s ease-out both" }}
+                      >
+                        <h4 className="text-[10px] font-bold text-[#B3985E] uppercase tracking-[0.2em] mb-3 px-2 border-b border-white/10 pb-2">
+                          Create Your Account
+                        </h4>
+                        <Link
+                          href="/auth/RegisterStudent"
+                          className="flex flex-col gap-1 p-3 rounded-xl hover:bg-white/5 transition-colors"
+                          onClick={() => setRegisterDropdownOpen(false)}
+                        >
+                          <span className="text-[13px] font-bold text-white uppercase tracking-widest">Register as Student</span>
+                          <span className="text-[11px] text-white/50 leading-tight">For students planning to study abroad</span>
+                        </Link>
+                        <Link
+                          href="/register/partner"
+                          className="flex flex-col gap-1 p-3 rounded-xl hover:bg-white/5 transition-colors mt-1"
+                          onClick={() => setRegisterDropdownOpen(false)}
+                        >
+                          <span className="text-[13px] font-bold text-white uppercase tracking-widest">Register as Partner</span>
+                          <span className="text-[11px] text-white/50 leading-tight">For Edu Leaders and Edu Mitra partners</span>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </>
               ) : (
                 <div className="flex items-center gap-3 sm:gap-5">
@@ -858,8 +919,8 @@ export default function Navbar() {
                         <span className="inline-block px-2 py-0.5 bg-[#B3985E]/10 text-[#B3985E] text-[12px] font-black font-black uppercase rounded-full mt-1 border border-[#B3985E]/20">{user.role || 'Student'}</span>
 
                         <div className="mt-6 pt-5 border-t border-white/5 space-y-1.5 text-left">
-                          <Link href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold font-black text-white hover:bg-white/5 hover:text-[#B3985E] transition-all uppercase tracking-[0.2em] group/link">
-                            <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {user?.role === "consultant" ? "Consultant Portal" : "Dashboard"}
+                          <Link href={getDashboardPath(user)} className="flex items-center gap-3 px-4 py-3 rounded-xl text-[14px] font-bold font-black text-white hover:bg-white/5 hover:text-[#B3985E] transition-all uppercase tracking-[0.2em] group/link">
+                            <LayoutDashboard size={14} className="opacity-40 group-hover/link:opacity-100 transition-opacity" /> {getDashboardLabel(user)}
                           </Link>
                           <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-[14px] font-bold font-black text-red-500 hover:bg-red-500/10 transition-all uppercase tracking-[0.2em] group/out">
                             <LogOut size={14} className="opacity-40 group-hover/out:opacity-100 transition-opacity" /> Logout
@@ -882,30 +943,30 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className={`hidden lg:flex items-center justify-center px-6 md:px-16 h-16 relative z-10 gap-3 xl:gap-4 transition-all duration-200 bg-[#B3985E]/5 backdrop-blur-xl border-t border-[#B3985E]/10`}>
+        <div className={`hidden lg:flex items-center justify-center px-4 md:px-8 h-12 sm:h-13 relative z-10 gap-3 transition-all duration-200 bg-[#B3985E]/5 backdrop-blur-xl border-t border-[#B3985E]/10`}>
           {/* Modern Condensed Search Bar & Items - Unified Group */}
           <div className="flex items-center h-full shrink-0">
             <form
               ref={searchRef}
               onSubmit={handleSearch}
-              className={`relative group w-[420px] xl:w-[500px] search-glow transition-all duration-300 ${searchError ? "animate-shake border-red-500/50" : ""}`}
+              className={`relative group w-[280px] xl:w-[360px] search-glow transition-all duration-300 ${searchError ? "animate-shake border-red-500/50" : ""}`}
             >
-              <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
-                <Search size={15} />
+              <button type="submit" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/70 group-focus-within:text-[#B3985E] transition-all hover:text-[#B3985E]">
+                <Search size={14} />
               </button>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={handleInputChange}
                 placeholder="Search your dream country..."
-                className={`w-full h-13 rounded-full border bg-white/[0.13] pl-12 pr-4 text-[13px] font-semibold text-white placeholder:text-white/65 outline-none transition-all tracking-[0.02em] shadow-[0_12px_35px_rgba(0,0,0,0.14)] ${searchError ? "border-red-500/60" : "border-white/25 focus:bg-white/[0.19] focus:border-[#B3985E]/70"}`}
+                className={`w-full h-9 rounded-full border bg-white/[0.13] pl-10 pr-3 text-xs font-semibold text-white placeholder:text-white/65 outline-none transition-all tracking-[0.02em] shadow-[0_4px_15px_rgba(0,0,0,0.1)] ${searchError ? "border-red-500/60" : "border-white/25 focus:bg-white/[0.19] focus:border-[#B3985E]/70"}`}
               />
 
               {/* Suggestions Dropdown */}
               {suggestions.length > 0 && (
                 <div className="absolute top-full mt-2 w-full bg-[#16364F] border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] overflow-hidden z-[100] animate-in fade-in slide-in-from-top-2 duration-200 text-center">
-                  <div className="px-3 pt-3 pb-2 border-b border-white/5">
-                    <span className="text-[11px] font-black font-black uppercase tracking-[0.2em] text-[#B3985E]">Destinations Found</span>
+                  <div className="px-3 pt-2.5 pb-1.5 border-b border-white/5">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#B3985E]">Destinations Found</span>
                   </div>
                   <div className="py-1 max-h-[200px] overflow-y-auto no-scrollbar">
                     {suggestions.map((country) => (
@@ -913,9 +974,9 @@ export default function Navbar() {
                         key={country.name}
                         onClick={() => router.push(country.href)}
                         onMouseDown={() => router.push(country.href)}
-                        className="w-full flex items-center justify-between px-4 py-2.5 hover:bg-white/5 text-left group/item transition-colors cursor-pointer"
+                        className="w-full flex items-center justify-between px-4 py-2 hover:bg-white/5 text-left group/item transition-colors cursor-pointer"
                       >
-                        <span className="text-[14px] font-bold font-bold text-white/70 group-hover/item:text-[#B3985E] transition-colors">{country.name}</span>
+                        <span className="text-xs font-bold text-white/70 group-hover/item:text-[#B3985E] transition-colors">{country.name}</span>
                         <Globe size={10} className="text-white/20 group-hover/item:text-[#B3985E] transition-all" />
                       </div>
                     ))}
@@ -926,15 +987,15 @@ export default function Navbar() {
           </div>
 
           {/* Secondary Nav Items - Centered alongside Search */}
-          <nav className="flex items-center h-full gap-2">
+          <nav className="flex items-center h-full gap-1.5">
             {[navItems[0], navItems[3], navItems[4], navItems[5], navItems[8]].map((item) => (
               <div key={item.path} className="relative group h-full flex items-center">
                 {item.badge === "Coming Soon" ? (
-                  <div className={`flex min-w-[100px] items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 h-11 text-[11px] font-black uppercase tracking-[0.24em] transition-all whitespace-nowrap cursor-default text-white group-hover:text-[#B3985E] group-hover:border-[#B3985E]/40`}>
+                  <div className={`flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-3 h-8.5 text-[10px] font-black uppercase tracking-[0.18em] transition-all whitespace-nowrap cursor-default text-white group-hover:text-[#B3985E] group-hover:border-[#B3985E]/40`}>
                     {item.name}
                   </div>
                 ) : (
-                  <Link href={item.path} className={`flex min-w-[100px] items-center justify-center rounded-full border px-4 h-11 text-[11px] font-black uppercase tracking-[0.24em] transition-all whitespace-nowrap ${pathname === item.path ? "bg-[#B3985E]/15 text-[#B3985E] border-[#B3985E]/30 shadow-[0_8px_20px_rgba(179,152,94,0.12)]" : "border-white/10 bg-white/5 text-white hover:text-[#B3985E] hover:bg-white/10 hover:border-white/15"}`}>
+                  <Link href={item.path} className={`flex items-center justify-center rounded-full border px-3 h-8.5 text-[10px] font-black uppercase tracking-[0.18em] transition-all whitespace-nowrap ${pathname === item.path ? "bg-[#B3985E]/15 text-[#B3985E] border-[#B3985E]/30 shadow-[0_4px_12px_rgba(179,152,94,0.12)]" : "border-white/10 bg-white/5 text-white hover:text-[#B3985E] hover:bg-white/10 hover:border-white/15"}`}>
                     {item.name}
                   </Link>
                 )}
@@ -1221,12 +1282,12 @@ export default function Navbar() {
 
                 <div className="space-y-3">
                   <Link
-                    href={user?.role === "consultant" ? "/consultant-dashboard" : "/User/dashboard"}
+                    href={getDashboardPath(user)}
                     onClick={() => setMenuOpen(false)}
                     className="flex items-center gap-3 w-full h-12 px-5 rounded-xl bg-white/5 text-white/80 hover:bg-white/10 transition-all border border-white/10 group"
                   >
                     <LayoutDashboard size={16} className="opacity-40 group-hover:opacity-100 transition-opacity" />
-                    <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">Personal Portal</span>
+                    <span className="text-[14px] font-bold font-black uppercase tracking-widest leading-none">{getDashboardLabel(user)}</span>
                   </Link>
                   <button
                     onClick={() => { handleLogout(); setMenuOpen(false); }}
@@ -1240,9 +1301,21 @@ export default function Navbar() {
             )}
 
             {!user && (
-              <div className="grid grid-cols-2 gap-4 mt-auto pt-10">
+              <div className="flex flex-col gap-4 mt-auto pt-10">
                 <Link href="/auth/login" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-white/5 border border-white/10 text-white text-[14px] font-bold font-black uppercase tracking-widest transition-colors hover:bg-white/10">Sign In</Link>
-                <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex items-center justify-center w-full h-14 rounded-2xl bg-[#B3985E] text-[#16364F] text-[14px] font-bold font-black uppercase tracking-widest transition-transform active:scale-95">Register</Link>
+                <div className="flex flex-col gap-3 p-5 rounded-2xl bg-[#1A3A54] border border-[#B3985E]/30">
+                  <h4 className="text-[11px] font-bold text-[#B3985E] uppercase tracking-[0.2em] mb-1 text-center">
+                    Create Your Account
+                  </h4>
+                  <Link href="/auth/RegisterStudent" onClick={() => setMenuOpen(false)} className="flex flex-col items-center justify-center w-full py-3.5 rounded-xl bg-[#B3985E] text-[#16364F] transition-transform active:scale-95 shadow-lg">
+                    <span className="text-[13px] font-bold font-black uppercase tracking-widest">Register as Student</span>
+                    <span className="text-[9px] opacity-80 uppercase tracking-wider mt-1">For studying abroad</span>
+                  </Link>
+                  <Link href="/register/partner" onClick={() => setMenuOpen(false)} className="flex flex-col items-center justify-center w-full py-3.5 rounded-xl bg-white/10 text-white transition-transform active:scale-95 border border-white/20">
+                    <span className="text-[13px] font-bold font-black uppercase tracking-widest">Register as Partner</span>
+                    <span className="text-[9px] opacity-70 uppercase tracking-wider mt-1">For Edu Leaders & Mitra</span>
+                  </Link>
+                </div>
               </div>
             )}
           </div>

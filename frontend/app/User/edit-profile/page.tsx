@@ -67,11 +67,11 @@ export default function EditProfilePage() {
     linkedin: '',
     website: '',
     education: {
-      highSchool: { schoolName: '', cgpa: '', outOf: '' },
-      bachelors: { uniName: '', degreeName: '', cgpa: '', outOf: '', backlogs: '' },
-      masters: { uniName: '', degreeName: '', cgpa: '', outOf: '', backlogs: '' }
+      highSchool: [] as any[],
+      bachelors: [] as any[],
+      masters: [] as any[]
     },
-    target: { uniName: '', major: '', term: '', year: '' },
+    targetUniversities: [] as any[],
     testScores: {
       toefl: { reading: '', speaking: '', listening: '', writing: '' },
       ielts: { reading: '', speaking: '', listening: '', writing: '', overall: '' },
@@ -128,6 +128,22 @@ export default function EditProfilePage() {
         const gmatDoc = getTest('GMAT');
         const mcatDoc = getTest('MCAT');
 
+        const hsList = Array.isArray(data.profile?.highSchool) && data.profile.highSchool.length > 0
+          ? data.profile.highSchool
+          : [{ schoolName: '', board: '', passingYear: '', cgpa: '', outOf: '' }];
+
+        const bgList = Array.isArray(data.profile?.underGrad) && data.profile.underGrad.length > 0
+          ? data.profile.underGrad
+          : [{ uniName: '', degreeName: '', major: '', startYear: '', endYear: '', cgpa: '', outOf: '', backlogs: '' }];
+
+        const msList = Array.isArray(data.profile?.masters) && data.profile.masters.length > 0
+          ? data.profile.masters
+          : [{ uniName: '', degreeName: '', major: '', startYear: '', endYear: '', cgpa: '', outOf: '', backlogs: '' }];
+
+        const targetList = Array.isArray(data.profile?.targetUniversities) && data.profile.targetUniversities.length > 0
+          ? data.profile.targetUniversities
+          : [{ uniName: '', major: '', term: '', year: '', targetCountry: '', tuitionBudget: '', scholarshipRequired: '' }];
+
         setFormData({
           name: data.name || '',
           email: data.email || '',
@@ -141,11 +157,11 @@ export default function EditProfilePage() {
           linkedin: data.profile?.linkedin || '',
           website: data.profile?.website || '',
           education: {
-            highSchool: data.profile?.highSchool?.[0] || { schoolName: '', cgpa: '', outOf: '' },
-            bachelors: data.profile?.underGrad?.[0] || { uniName: '', degreeName: '', cgpa: '', outOf: '', backlogs: '' },
-            masters: data.profile?.masters?.[0] || { uniName: '', degreeName: '', cgpa: '', outOf: '', backlogs: '' }
+            highSchool: hsList,
+            bachelors: bgList,
+            masters: msList
           },
-          target: data.profile?.targetUniversities?.[0] || { uniName: '', major: '', term: '', year: '' },
+          targetUniversities: targetList,
           testScores: {
             toefl: toeflDoc?.sectionScores || { reading: '', speaking: '', listening: '', writing: '' },
             ielts: ieltsDoc ? { ...ieltsDoc.sectionScores, overall: ieltsDoc.score } : { reading: '', speaking: '', listening: '', writing: '', overall: '' },
@@ -166,6 +182,58 @@ export default function EditProfilePage() {
     }
   };
 
+  const updateEduItem = (section: 'highSchool' | 'bachelors' | 'masters', index: number, field: string, value: string) => {
+    const list = [...(formData.education[section] || [])];
+    if (!list[index]) list[index] = {};
+    list[index] = { ...list[index], [field]: value };
+    setFormData({
+      ...formData,
+      education: { ...formData.education, [section]: list }
+    });
+  };
+
+  const addEduItem = (section: 'highSchool' | 'bachelors' | 'masters') => {
+    const defaultObj = section === 'highSchool'
+      ? { schoolName: '', board: '', passingYear: '', cgpa: '', outOf: '' }
+      : { uniName: '', degreeName: '', major: '', startYear: '', endYear: '', cgpa: '', outOf: '', backlogs: '' };
+    const list = [...(formData.education[section] || []), defaultObj];
+    setFormData({
+      ...formData,
+      education: { ...formData.education, [section]: list }
+    });
+  };
+
+  const removeEduItem = (section: 'highSchool' | 'bachelors' | 'masters', index: number) => {
+    const list = formData.education[section].filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      education: {
+        ...formData.education,
+        [section]: list.length > 0 ? list : [section === 'highSchool' ? { schoolName: '', cgpa: '', outOf: '' } : { uniName: '', degreeName: '', cgpa: '', outOf: '', backlogs: '' }]
+      }
+    });
+  };
+
+  const updateTargetItem = (index: number, field: string, value: string) => {
+    const list = [...(formData.targetUniversities || [])];
+    if (!list[index]) list[index] = {};
+    list[index] = { ...list[index], [field]: value };
+    setFormData({ ...formData, targetUniversities: list });
+  };
+
+  const addTargetItem = () => {
+    const list = [...(formData.targetUniversities || []), { uniName: '', major: '', term: '', year: '', targetCountry: '', tuitionBudget: '', scholarshipRequired: '' }];
+    setFormData({ ...formData, targetUniversities: list });
+  };
+
+  const removeTargetItem = (index: number) => {
+    const list = formData.targetUniversities.filter((_, i) => i !== index);
+    setFormData({
+      ...formData,
+      targetUniversities: list.length > 0 ? list : [{ uniName: '', major: '', term: '', year: '', targetCountry: '', tuitionBudget: '', scholarshipRequired: '' }]
+    });
+  };
+
   const handleSave = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setSaving(true);
@@ -176,14 +244,15 @@ export default function EditProfilePage() {
       const payload = {
         ...formData,
         profile: {
+          ...(userData?.profile || {}),
           location: formData.location,
           bio: formData.bio,
           linkedin: formData.linkedin,
           website: formData.website,
-          highSchool: [formData.education.highSchool],
-          underGrad: [formData.education.bachelors],
-          masters: [formData.education.masters],
-          targetUniversities: [formData.target],
+          highSchool: formData.education.highSchool.filter(item => item && Object.values(item).some(v => typeof v === 'string' && v.trim() !== '')),
+          underGrad: formData.education.bachelors.filter(item => item && Object.values(item).some(v => typeof v === 'string' && v.trim() !== '')),
+          masters: formData.education.masters.filter(item => item && Object.values(item).some(v => typeof v === 'string' && v.trim() !== '')),
+          targetUniversities: formData.targetUniversities.filter(item => item && Object.values(item).some(v => typeof v === 'string' && v.trim() !== '')),
           testScores: Object.keys(formData.testScores).map(key => {
             const scores = (formData.testScores as any)[key];
             const isToefl = key === 'toefl';
@@ -492,122 +561,265 @@ export default function EditProfilePage() {
               <div className="space-y-10">
                 <h2 className="fd text-3xl font-bold text-[#3C2A21] italic tracking-tighter uppercase px-4">Education History</h2>
                 {[
-                  { id: 'highSchool', label: 'High School' },
-                  { id: 'bachelors', label: "Bachelor's Degree" },
-                  { id: 'masters', label: "Master's Degree" }
-                ].map((sec) => (
-                  <section key={sec.id} className="glass-panel p-8">
-                    <div className="flex items-center gap-4 mb-8 border-b border-[#F1EDEA] pb-4">
-                      <div className="w-8 h-8 rounded-lg bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] shadow-inner">
-                        <GraduationCap size={16} />
+                  { id: 'highSchool' as const, label: 'High School' },
+                  { id: 'bachelors' as const, label: "Bachelor's Degree" },
+                  { id: 'masters' as const, label: "Master's Degree" }
+                ].map((sec) => {
+                  const items = (formData.education as any)[sec.id] || [];
+                  return (
+                    <section key={sec.id} className="glass-panel p-8 space-y-6">
+                      <div className="flex items-center justify-between border-b border-[#F1EDEA] pb-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-8 h-8 rounded-lg bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059] shadow-inner">
+                            <GraduationCap size={16} />
+                          </div>
+                          <h3 className="text-[14px] font-bold font-black text-[#3C2A21] uppercase tracking-[0.2em]">{sec.label}</h3>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => addEduItem(sec.id)}
+                          className="px-4 py-2 bg-[#C5A059]/10 text-[#C5A059] hover:bg-[#C5A059] hover:text-white rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-2"
+                        >
+                          <Plus size={14} /> Add {sec.label}
+                        </button>
                       </div>
-                      <h3 className="text-[14px] font-bold font-black text-[#3C2A21] uppercase tracking-[0.2em]">{sec.label}</h3>
-                    </div>
 
-                    <div className="space-y-6">
-                      <div className="flex flex-col md:flex-row md:items-center gap-6">
-                        <div className="flex-1 space-y-2">
-                          <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">{sec.id === 'highSchool' ? 'School Name' : 'University Name'}</label>
-                          <input
-                            type="text"
-                            value={(formData.education as any)[sec.id][sec.id === 'highSchool' ? 'schoolName' : 'uniName'] || ''}
-                            onChange={(e) => {
-                              const edu = { ...formData.education };
-                              (edu as any)[sec.id][sec.id === 'highSchool' ? 'schoolName' : 'uniName'] = e.target.value;
-                              setFormData({ ...formData, education: edu });
-                            }}
-                            placeholder="Enter Institution Name"
-                            className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
-                          />
-                        </div>
-                        {sec.id !== 'highSchool' && (
-                          <div className="flex-1 space-y-2">
-                            <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Degree Title</label>
-                            <input
-                              type="text"
-                              value={(formData.education as any)[sec.id].degreeName || ''}
-                              onChange={(e) => {
-                                const edu = { ...formData.education };
-                                (edu as any)[sec.id].degreeName = e.target.value;
-                                setFormData({ ...formData, education: edu });
-                              }}
-                              placeholder="e.g. Computer Science"
-                              className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
-                            />
+                      {items.map((item: any, idx: number) => (
+                        <div key={idx} className="p-6 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl space-y-4 relative">
+                          {items.length > 1 && (
+                            <button
+                              type="button"
+                              onClick={() => removeEduItem(sec.id, idx)}
+                              className="absolute top-4 right-4 p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                              title="Delete Item"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          )}
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                              <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">
+                                {sec.id === 'highSchool' ? 'School Name' : 'University Name'}
+                              </label>
+                              <input
+                                type="text"
+                                value={item[sec.id === 'highSchool' ? 'schoolName' : 'uniName'] || ''}
+                                onChange={(e) => updateEduItem(sec.id, idx, sec.id === 'highSchool' ? 'schoolName' : 'uniName', e.target.value)}
+                                placeholder="Enter Institution Name"
+                                className="w-full bg-white border border-[#F1EDEA] rounded-xl px-4 py-3 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                              />
+                            </div>
+
+                            {sec.id !== 'highSchool' ? (
+                              <div className="space-y-2">
+                                <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Degree Title</label>
+                                <input
+                                  type="text"
+                                  value={item.degreeName || ''}
+                                  onChange={(e) => updateEduItem(sec.id, idx, 'degreeName', e.target.value)}
+                                  placeholder="e.g. Bachelor of Science"
+                                  className="w-full bg-white border border-[#F1EDEA] rounded-xl px-4 py-3 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                                />
+                              </div>
+                            ) : (
+                              <div className="space-y-2">
+                                <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Board / Curriculum</label>
+                                <input
+                                  type="text"
+                                  value={item.board || ''}
+                                  onChange={(e) => updateEduItem(sec.id, idx, 'board', e.target.value)}
+                                  placeholder="e.g. CBSE / IB / ICSC"
+                                  className="w-full bg-white border border-[#F1EDEA] rounded-xl px-4 py-3 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                                />
+                              </div>
+                            )}
                           </div>
-                        )}
-                        <div className="w-full md:w-auto space-y-2">
-                          <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Result (CGPA)</label>
-                          <div className="flex items-center gap-3">
-                            <input
-                              type="text"
-                              value={(formData.education as any)[sec.id].cgpa || ''}
-                              placeholder="Score"
-                              onChange={(e) => {
-                                const edu = { ...formData.education };
-                                (edu as any)[sec.id].cgpa = e.target.value;
-                                setFormData({ ...formData, education: edu });
-                              }}
-                              className="w-24 bg-white border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-center text-xs font-black text-[#3C2A21] shadow-sm"
-                            />
-                            <span className="text-[#6B5E51] text-[14px] font-bold font-black uppercase">/</span>
-                            <input
-                              type="text"
-                              value={(formData.education as any)[sec.id].outOf || ''}
-                              placeholder="Max"
-                              onChange={(e) => {
-                                const edu = { ...formData.education };
-                                (edu as any)[sec.id].outOf = e.target.value;
-                                setFormData({ ...formData, education: edu });
-                              }}
-                              className="w-20 bg-white border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-center text-xs font-black text-[#3C2A21] shadow-sm"
-                            />
+
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            {sec.id !== 'highSchool' && (
+                              <div className="space-y-2">
+                                <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Major / Specialization</label>
+                                <input
+                                  type="text"
+                                  value={item.major || ''}
+                                  onChange={(e) => updateEduItem(sec.id, idx, 'major', e.target.value)}
+                                  placeholder="e.g. Computer Science"
+                                  className="w-full bg-white border border-[#F1EDEA] rounded-xl px-4 py-3 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                                />
+                              </div>
+                            )}
+
+                            <div className="space-y-2">
+                              <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">
+                                {sec.id === 'highSchool' ? 'Passing Year' : 'Year / Duration'}
+                              </label>
+                              <input
+                                type="text"
+                                value={sec.id === 'highSchool' ? item.passingYear || '' : item.endYear || item.startYear || ''}
+                                onChange={(e) => updateEduItem(sec.id, idx, sec.id === 'highSchool' ? 'passingYear' : 'endYear', e.target.value)}
+                                placeholder="e.g. 2024"
+                                className="w-full bg-white border border-[#F1EDEA] rounded-xl px-4 py-3 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                              />
+                            </div>
+
+                            <div className="space-y-2">
+                              <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Result (CGPA / Score)</label>
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={item.cgpa || ''}
+                                  placeholder="Score"
+                                  onChange={(e) => updateEduItem(sec.id, idx, 'cgpa', e.target.value)}
+                                  className="flex-1 bg-white border border-[#F1EDEA] rounded-xl px-3 py-3 text-center text-xs font-black text-[#3C2A21] shadow-sm"
+                                />
+                                <span className="text-[#6B5E51] text-[14px] font-bold font-black uppercase">/</span>
+                                <input
+                                  type="text"
+                                  value={item.outOf || ''}
+                                  placeholder="Max"
+                                  onChange={(e) => updateEduItem(sec.id, idx, 'outOf', e.target.value)}
+                                  className="w-16 bg-white border border-[#F1EDEA] rounded-xl px-3 py-3 text-center text-xs font-black text-[#3C2A21] shadow-sm"
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </section>
-                ))}
+                      ))}
+                    </section>
+                  );
+                })}
               </div>
             )}
 
             {activeTab === 'target' && (
               <div className="space-y-10">
-                <h2 className="fd text-3xl font-bold text-[#3C2A21] italic tracking-tighter uppercase px-4">Future Aspirations</h2>
-                <section className="glass-panel p-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {[
-                      { label: 'University Name', field: 'uniName', icon: <LayoutDashboard size={14} /> },
-                      { label: 'Target Major', field: 'major', icon: <Target size={14} /> },
-                      { label: 'Admission Term', field: 'term', placeholder: 'e.g. Fall / Spring', icon: <Settings size={14} /> },
-                      { label: 'Target Year', field: 'year', placeholder: 'e.g. 2025', icon: <Settings size={14} /> },
-                    ].map((item) => (
-                      <div key={item.field} className="space-y-2">
-                        <label className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 flex items-center gap-2">
-                          {item.icon}
-                          {item.label}
+                <div className="flex items-center justify-between px-4">
+                  <h2 className="fd text-3xl font-bold text-[#3C2A21] italic tracking-tighter uppercase">Future Aspirations</h2>
+                  <button
+                    type="button"
+                    onClick={addTargetItem}
+                    className="px-5 py-2.5 bg-[#C5A059] text-white hover:bg-[#3C2A21] rounded-xl text-[11px] font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-md"
+                  >
+                    <Plus size={14} /> Add Target University
+                  </button>
+                </div>
+
+                {formData.targetUniversities.map((target: any, idx: number) => (
+                  <section key={idx} className="glass-panel p-8 space-y-6 relative">
+                    {formData.targetUniversities.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeTargetItem(idx)}
+                        className="absolute top-6 right-6 p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                        title="Remove Target"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    )}
+                    
+                    <div className="flex items-center gap-3 border-b border-[#F1EDEA] pb-4">
+                      <Target size={18} className="text-[#C5A059]" />
+                      <h3 className="text-[13px] font-bold uppercase tracking-widest text-[#3C2A21]">
+                        Target Destination {formData.targetUniversities.length > 1 ? `#${idx + 1}` : ''}
+                      </h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 flex items-center gap-2">
+                          <LayoutDashboard size={14} /> University Name
                         </label>
                         <input
                           type="text"
-                          value={(formData.target as any)[item.field] || ''}
-                          onChange={(e) => {
-                            const t = { ...formData.target };
-                            (t as any)[item.field] = e.target.value;
-                            setFormData({ ...formData, target: t });
-                          }}
-                          placeholder={item.placeholder}
-                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-5 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                          value={target.uniName || ''}
+                          onChange={(e) => updateTargetItem(idx, 'uniName', e.target.value)}
+                          placeholder="e.g. Stanford University"
+                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
                         />
                       </div>
-                    ))}
-                  </div>
 
-                  <div className="mt-10 pt-8 border-t border-[#F1EDEA] flex">
-                    <button onClick={() => handleSave()} disabled={saving} className="ml-auto px-12 py-3.5 bg-[#C5A059] text-white rounded-xl text-[14px] font-bold font-black uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50">
-                      {saving ? "Syncing..." : "Update Trajectory"}
-                    </button>
-                  </div>
-                </section>
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 flex items-center gap-2">
+                          <Target size={14} /> Target Major / Program
+                        </label>
+                        <input
+                          type="text"
+                          value={target.major || ''}
+                          onChange={(e) => updateTargetItem(idx, 'major', e.target.value)}
+                          placeholder="e.g. MS in Data Science"
+                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 flex items-center gap-2">
+                          <MapPin size={14} /> Target Country
+                        </label>
+                        <input
+                          type="text"
+                          value={target.targetCountry || ''}
+                          onChange={(e) => updateTargetItem(idx, 'targetCountry', e.target.value)}
+                          placeholder="e.g. United States, UK, Canada"
+                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 flex items-center gap-2">
+                          <Settings size={14} /> Admission Term & Year
+                        </label>
+                        <div className="grid grid-cols-2 gap-3">
+                          <input
+                            type="text"
+                            value={target.term || ''}
+                            onChange={(e) => updateTargetItem(idx, 'term', e.target.value)}
+                            placeholder="Fall / Spring"
+                            className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                          />
+                          <input
+                            type="text"
+                            value={target.year || ''}
+                            onChange={(e) => updateTargetItem(idx, 'year', e.target.value)}
+                            placeholder="2025"
+                            className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Annual Tuition Budget</label>
+                        <input
+                          type="text"
+                          value={target.tuitionBudget || ''}
+                          onChange={(e) => updateTargetItem(idx, 'tuitionBudget', e.target.value)}
+                          placeholder="e.g. $30,000 - $50,000 / year"
+                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Scholarship Required?</label>
+                        <select
+                          value={target.scholarshipRequired || ''}
+                          onChange={(e) => updateTargetItem(idx, 'scholarshipRequired', e.target.value)}
+                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
+                        >
+                          <option value="">Select Requirement</option>
+                          <option value="Yes - Full Scholarship">Yes - Full Scholarship Required</option>
+                          <option value="Yes - Partial Scholarship">Yes - Partial Scholarship Required</option>
+                          <option value="No - Self Funded">No - Self Funded</option>
+                        </select>
+                      </div>
+                    </div>
+                  </section>
+                ))}
+
+                <div className="pt-4 flex justify-end">
+                  <button onClick={() => handleSave()} disabled={saving} className="px-12 py-3.5 bg-[#C5A059] text-white rounded-xl text-[14px] font-bold font-black uppercase tracking-widest hover:bg-[#3C2A21] transition-all shadow-lg active:scale-95 disabled:opacity-50">
+                    {saving ? "Syncing..." : "Update Trajectory"}
+                  </button>
+                </div>
               </div>
             )}
 

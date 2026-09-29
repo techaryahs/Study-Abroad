@@ -67,7 +67,7 @@ export default function Footer() {
                     alt="EduLeader Global"
                     width={48}
                     height={48}
-                    className="object-contain"
+                    className="object-contain w-auto h-auto"
                   />
                 </div>
                 <div className="flex flex-col">

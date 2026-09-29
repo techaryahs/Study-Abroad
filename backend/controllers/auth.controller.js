@@ -435,6 +435,11 @@ exports.getMe = async (req, res) => {
       }
     }
 
+    delete userPayload.password;
+    delete userPayload.loginOtp;
+    delete userPayload.loginOtpExpiresAt;
+    delete userPayload.loginOtpAttempts;
+
     res.json({ success: true, user: userPayload });
   } catch (err) {
     console.error("🔥 getMe error:", err);
@@ -589,17 +594,35 @@ exports.registerParent = async (req, res) => {
    FORGOT / RESET PASSWORD
 ========================= */
 exports.forgotPassword = async (req, res) => {
-  const { email } = req.body;
-  const emailLower = email?.toLowerCase().trim();
+  try {
+    const { email } = req.body;
+    const emailLower = email?.toLowerCase().trim();
 
-  const identified = await findUserByEmail(emailLower);
-  if (!identified) return res.status(404).json({ error: "User not found" });
+    const identified = await findUserByEmail(emailLower);
+    if (!identified) return res.status(404).json({ error: "User not found" });
 
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  otpStore.set(emailLower, { otp, expiresAt: Date.now() + 600000 });
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    otpStore.set(emailLower, { otp, expiresAt: Date.now() + 600000 });
 
-  await sendEmail(emailLower, "Reset Password", "", `<p>OTP: ${otp}</p>`);
-  res.json({ message: "OTP sent" });
+    await sendEmail(
+      emailLower,
+      "Password Reset Code — EduLeaderGlobal",
+      "",
+      `<div style="font-family:serif;padding:30px;background:#090909;color:white;border-radius:20px;">
+         <h2 style="color:#C5A059;font-style:italic;font-size:24px;">Password Reset</h2>
+         <p style="color:#9ca3af;">You requested a password reset for your account.</p>
+         <div style="background:#1a1a1a;color:#C5A059;padding:25px;text-align:center;font-size:36px;letter-spacing:12px;font-weight:900;border-radius:15px;margin:25px 0;border:1px solid rgba(197,160,89,0.2);">
+           ${otp}
+         </div>
+         <p style="font-size:12px;color:#4b5563;">This code expires in 10 minutes. If you did not request this, ignore this email.</p>
+       </div>`
+    );
+
+    res.json({ message: "OTP sent" });
+  } catch (err) {
+    console.error("❌ forgotPassword Error:", err);
+    res.status(500).json({ error: "Failed to send reset code email. Please check server email credentials." });
+  }
 };
 
 /* =========================
@@ -1004,4 +1027,85 @@ exports.verifyLoginOtp = async (req, res) => {
   }
 };
 
+/* =========================
+   REGISTER PARTNER
+========================= */
+exports.registerPartner = async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      mobile,
+      password,
+      partnerType,
+      organizationName,
+      organizationEmail,
+      organizationPhone,
+      designation
+    } = req.body;
+
+    if (!name || !email || !mobile || !password || !partnerType || !organizationName || !organizationEmail || !organizationPhone || !designation) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (partnerType !== "edu_leader" && partnerType !== "edu_mitra") {
+      return res.status(400).json({ error: "Invalid partner type" });
+    }
+
+    const emailLower = email.toLowerCase().trim();
+    const orgEmailLower = organizationEmail.toLowerCase().trim();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailLower) || !emailRegex.test(orgEmailLower)) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters long" });
+    }
+
+    const existingEmail = await findUserByEmail(emailLower);
+    if (existingEmail) {
+      return res.status(409).json({ error: "Email already registered" });
+    }
+
+    const existingMobile = await findUserByMobile(mobile);
+    if (existingMobile) {
+      return res.status(409).json({ error: "Mobile number already registered" });
+    }
+
+    const newPartner = new User({
+      name: name.trim(),
+      email: emailLower,
+      mobile: mobile.trim(),
+      password,
+      role: "partner",
+      partnerProfile: {
+        partnerType,
+        organizationName: organizationName.trim(),
+        organizationEmail: orgEmailLower,
+        organizationPhone: organizationPhone.trim(),
+        designation: designation.trim(),
+        isApproved: false,
+        approvedAt: null,
+        approvedBy: null,
+        isActive: true,
+        onboardingStatus: "pending",
+        notes: ""
+      }
+    });
+
+    await newPartner.save();
+
+    logger.info(`Partner Registered Successfully: ${logger.maskEmail(emailLower)}`);
+
+    res.status(201).json({
+      message: "Partner registration submitted successfully. Your application is pending approval.",
+      user: { id: newPartner._id, name: newPartner.name, email: newPartner.email, role: newPartner.role }
+    });
+  } catch (err) {
+    console.error("❌ registerPartner Error:", err);
+    res.status(500).json({ error: "Server error during registration" });
+  }
+};
 

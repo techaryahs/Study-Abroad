@@ -631,8 +631,15 @@ const Register = () => {
               )}
             </AnimatePresence>
 
-            <div className="mt-8 text-center border-t border-[#F1EDEA] pt-4">
-              <button onClick={() => router.push("/auth/login")} className="text-[13px] font-bold font-black uppercase tracking-[0.3em] text-[#6B5E51]/70 hover:text-[#C5A059] transition-all italic">Already a Synchronized Member? Log In</button>
+            <div className="mt-8 text-center border-t border-[#F1EDEA] pt-4 space-y-3">
+              <button onClick={() => router.push("/auth/login")} className="text-[13px] font-bold font-black uppercase tracking-[0.3em] text-[#6B5E51]/70 hover:text-[#C5A059] transition-all italic block w-full">Already a Synchronized Member? Log In</button>
+              
+              <div className="pt-3 border-t border-[#F1EDEA] flex flex-col items-center gap-1">
+                <span className="text-[11px] font-bold text-[#6B5E51]/60 uppercase tracking-widest">Are you an education partner?</span>
+                <Link href="/register/partner" className="text-[12px] font-black text-[#C5A059] hover:text-[#3C2A21] uppercase tracking-[0.2em] transition-colors">
+                  Register as Partner
+                </Link>
+              </div>
             </div>
           </div>
         </div>

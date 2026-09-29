@@ -65,6 +65,9 @@ app.use("/api/weekly-schedule", require("./routes/weeklySchedule.routes"));
 // 🧑‍💼 Consultant Profile Management
 app.use("/api/consultant", require("./routes/consultantProfile.routes"));
 
+// 🤝 Partnership college management
+app.use("/api/partnership/colleges", require("./routes/partnershipCollege.routes"));
+
 app.use("/api/progress", require("./routes/progressRoutes"));
 
 app.use('/api/enquiry', require('./routes/enquiryRoutes'));
@@ -84,6 +87,15 @@ app.use("/api/parent", require("./routes/parent.routes"));
 
 // 💓 Activity Manager
 app.use("/api/activity", require("./routes/activityRoutes"));
+
+// --- Partnership Tracking System (Part 1) ---
+app.use('/api/partnership', require('./routes/partnership.routes'));
+app.use('/api/partnership-leads', require('./routes/partnershipLead.routes'));
+app.use('/api/partnership-applications', require('./routes/partnershipApplication.routes'));
+app.use('/api/partnership-finance', require('./routes/partnershipCommission.routes'));
+app.use('/api/partnership-reconciliation', require('./routes/partnershipReconciliation.routes'));
+app.use("/api/public/seminars", require("./routes/publicSeminar.routes"));
+app.use("/api/college-coordinator", require("./routes/college-coordinator.routes"));
 
 app.use("/api/feature-activity", featureActivityRoutes);
 app.use("/api/research-groups", require("./routes/researchGroup.routes"));
@@ -106,6 +118,10 @@ async function boot() {
   // 2. Auto-seed empty catalog + validate required plans
   await bootstrapCatalog();
 
+  // 2.5 Bootstrap Admin
+  const { bootstrapAdmin } = require('./config/adminBootstrap');
+  await bootstrapAdmin();
+
   // 3. Record validation timestamp for health endpoint
   const { setLastValidatedAt } = require('./routes/health.routes');
   setLastValidatedAt(new Date());
@@ -127,3 +143,7 @@ if (require.main === module) {
     process.exit(1);
   });
 }
+
+
+
+

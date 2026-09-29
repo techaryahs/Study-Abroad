@@ -111,9 +111,9 @@ export default function SOPPage() {
                 Primary Manuscript Node
               </span>
             </div>
-            <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#3C2A21] break-words">
-              Elite <br /> <span className="gold-shimmer lowercase">SOP Drafting</span>
-            </h1>
+           <h1 className="fd text-3xl md:text-7xl font-bold leading-[0.95] text-[#D4A54A] break-words">
+  Elite <br /> <span className="lowercase">SOP Drafting</span>
+</h1>
             <p className="text-[#6B5E51] text-lg md:text-xl font-medium leading-relaxed italic max-w-xl">
               "Our Ivy League graduates architect every sentence from Scratch. Secure a narrative that resonates with the world's most elite admissions authorities."
             </p>
