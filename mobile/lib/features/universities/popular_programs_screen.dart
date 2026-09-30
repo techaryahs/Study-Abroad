@@ -172,54 +172,100 @@ class _PopularProgramsScreenState extends State<PopularProgramsScreen> {
   }
 
   Widget _universityInfoCard(UniversityItem u) {
+    final isLocked = u.isLocked;
+
     return Container(
       margin: const EdgeInsets.only(top: 24),
-      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isLocked ? const Color(0xFFFAFAF7) : Colors.white,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppTheme.gold.withOpacity(0.1)),
+        border: Border.all(
+          color: isLocked ? AppTheme.gold.withOpacity(0.4) : AppTheme.gold.withOpacity(0.1),
+          width: isLocked ? 1.5 : 1.0,
+        ),
         boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 20, offset: const Offset(0, 4))],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+      child: InkWell(
+        onTap: () => context.push('/university/${u.slug}'),
+        borderRadius: BorderRadius.circular(24),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 50,
-                height: 50,
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: AppTheme.background,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppTheme.gold.withOpacity(0.1)),
+              if (isLocked) ...[
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.gold.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(LucideIcons.lock, size: 12, color: AppTheme.darkBrown),
+                      SizedBox(width: 6),
+                      Text(
+                        'PREMIUM UNIVERSITY • UNLOCK WITH MEMBERSHIP',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w900,
+                          color: AppTheme.darkBrown,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: _buildLogo(u.logo),
+              ],
+              Row(
+                children: [
+                  Container(
+                    width: 50,
+                    height: 50,
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppTheme.background,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppTheme.gold.withOpacity(0.1)),
+                    ),
+                    child: _buildLogo(u.logo),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(u.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
+                        const SizedBox(height: 4),
+                        Text(u.fullLocation, style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              const SizedBox(height: 20),
+              if (isLocked)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(u.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
-                    const SizedBox(height: 4),
-                    Text(u.fullLocation, style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary)),
+                    _infoTile('Tuition', '🔒 Locked', AppTheme.gold),
+                    _infoTile('Stats', '🔒 Locked', AppTheme.textSecondary),
+                  ],
+                )
+              else
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _infoTile('Acceptance', '15%', const Color(0xFF10B981)),
+                    _infoTile('Tuition', u.fee, AppTheme.gold),
+                    _infoTile('Avg Salary', '\$90k', AppTheme.darkBrown),
                   ],
                 ),
-              ),
             ],
           ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _infoTile('Acceptance', '15%', const Color(0xFF10B981)),
-              _infoTile('Tuition', u.fee, AppTheme.gold),
-              _infoTile('Avg Salary', '\$90k', AppTheme.darkBrown),
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }

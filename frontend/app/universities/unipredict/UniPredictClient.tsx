@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
 import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
+import { useMembership } from "@/app/lib/membership/MembershipContext";
 
 
 const ChatIcon = ({ className }: { className?: string }) => (
@@ -21,6 +22,8 @@ const ChatIcon = ({ className }: { className?: string }) => (
 );
 
 export default function UniPredictPage() {
+  const { canAccess } = useMembership();
+  const hasPremium = canAccess("university_search");
         const [academicType, setAcademicType] = useState<"Percentage" | "CGPA">("Percentage");
     const [percentage, setPercentage] = useState("");
     const [cgpa, setCgpa] = useState("");

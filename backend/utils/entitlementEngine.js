@@ -392,5 +392,6 @@ module.exports = {
   requiredPlan,
   planGrantsFeature,
   getPlanEntitlement,
+  loadActivePlan,
   buildAccessSummary,
 };

@@ -75,6 +75,8 @@ const CONSULTATION_LIMITS = Object.freeze({
   elite: 10,
 });
 
+const DEFAULT_FREE_UNIVERSITY_LIMIT = 3;
+
 /**
  * Catalog revision for Phase 2 consultation metering.
  * Bump when re-seed must replace MembershipPlan entitlement maps in Mongo.
@@ -139,7 +141,7 @@ const PLANS = [
         consultation: meteredConsultation("starter"),
       },
       access: {
-        university_search: { enabled: true },
+        university_search: { enabled: true, limit: 3 },
         scholarship_search: { enabled: true },
         unipredict: { enabled: true },
         rate_my_chances: { enabled: true },
@@ -282,5 +284,6 @@ module.exports = {
   PLANS,
   SERVICES,
   CONSULTATION_LIMITS,
+  DEFAULT_FREE_UNIVERSITY_LIMIT,
   CATALOG_VERSION,
 };

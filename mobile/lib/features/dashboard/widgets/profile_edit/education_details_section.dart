@@ -154,12 +154,18 @@ class _EducationCard extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 2,
-                          child: _infoColumn(nameLabel, item[nameKey] ?? ''),
+                          child: _infoColumn(
+                            nameLabel, 
+                            item[nameKey] ?? '',
+                            subtitle: nameKey == 'schoolName'
+                              ? [item['board'], item['passingYear']].where((v) => v != null && v.toString().trim().isNotEmpty).join(' • ')
+                              : [item['degreeName'], item['major']].where((v) => v != null && v.toString().trim().isNotEmpty).join(' - '),
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           flex: 1,
-                          child: _infoColumn('RESULT', '${item['cgpa']} / ${item['outOf']}'),
+                          child: _infoColumn('RESULT', item['cgpa'] != null && item['cgpa'].toString().trim().isNotEmpty ? '${item['cgpa']} / ${item['outOf'] ?? '10.0'}' : 'N/A'),
                         ),
                       ],
                     ),
@@ -174,7 +180,7 @@ class _EducationCard extends StatelessWidget {
     );
   }
 
-  Widget _infoColumn(String label, String value) {
+  Widget _infoColumn(String label, String value, {String? subtitle}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -194,20 +200,42 @@ class _EducationCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppTheme.background,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppTheme.borderLight.withOpacity(0.5)),
+            border: Border.all(color: AppTheme.borderLight.withValues(alpha: 0.5)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.textPrimary,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.textPrimary,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (subtitle != null && subtitle.trim().isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.textMuted,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ],
                 ),
               ),
-              const Icon(Icons.edit, size: 10, color: AppTheme.gold),
+              const SizedBox(width: 6),
+              const Icon(Icons.edit, size: 12, color: AppTheme.gold),
             ],
           ),
         ),

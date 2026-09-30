@@ -3,8 +3,11 @@
 import React from "react";
 import UniversityCard from "../by-country/UniversityCard";
 import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
+import { useMembership } from "@/app/lib/membership/MembershipContext";
 
 export default function AffordableUnisClient({ unis }: { unis: any[] }) {
+  const { canAccess } = useMembership();
+  const hasPremium = canAccess("university_search");
         return (
         <div className="grid grid-cols-1 gap-6 sm:gap-8">
             {unis.slice(0, 3).map((uni, idx) => (

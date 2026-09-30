@@ -1,0 +1,2056 @@
+[
+{
+    "_id": "uni_201",
+    "slug": "trinity-college-dublin",
+    "name": "Trinity College Dublin",
+    "logo": "https://www.google.com/s2/favicons?domain=tcd.ie&sz=128",
+    "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "Trinity Engineering is known for computer science, electronics, and sustainable engineering research.",
+            "stats": {
+                "avg_gpa": 3.7,
+                "avg_gre": 320,
+                "acceptance_rate": 20,
+                "tuition_fee": 25000,
+                "living_expense": 18000,
+                "avg_salary": 70000
+            },
+            "student_demographics": {
+                "male": 65,
+                "female": 35,
+                "international_students": 40,
+                "total_enrollment": 18000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.7,
+                "avg_gre": 320,
+                "toefl_min": 90,
+                "toefl_avg": 105,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "Trinity Business School offers globally recognized programs in finance, management, and analytics.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_gmat": 650,
+                "acceptance_rate": 25,
+                "tuition_fee": 30000,
+                "living_expense": 18000,
+                "avg_salary": 75000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 80,
+                "total_enrollment": 2500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_gmat": 650,
+                "toefl_min": 100,
+                "toefl_avg": 107,
+                "ielts_min": 7.0
+            }
+        },
+        {
+            "name": "Law",
+            "description": "Trinity Law School is one of the leading law schools in Ireland with strong global reputation.",
+            "stats": {
+                "avg_gpa": 3.7,
+                "avg_lsAT": 165,
+                "acceptance_rate": 22,
+                "tuition_fee": 22000,
+                "living_expense": 18000,
+                "avg_salary": 70000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 30,
+                "total_enrollment": 1500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.7,
+                "avg_lsAT": 165
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "Trinity Medical School is highly respected with strong clinical partnerships and research output.",
+            "stats": {
+                "avg_gpa": 3.85,
+                "avg_mcat": 512,
+                "acceptance_rate": 12,
+                "tuition_fee": 35000,
+                "living_expense": 18000,
+                "avg_salary": 85000
+            },
+            "student_demographics": {
+                "male": 47,
+                "female": 53,
+                "international_students": 25,
+                "total_enrollment": 1200
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.85,
+                "avg_mcat": 512
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "Trinity offers diverse undergraduate programs with strong global recognition.",
+            "stats": {
+                "avg_sat": 1400,
+                "acceptance_rate": 25,
+                "tuition_fee": 9535,
+                "living_expense": 18000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 25,
+                "total_enrollment": 12000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 88,
+            "employed_within_3_months": 90,
+            "average_salary": 70000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Financial Aid Office",
+                "phone": "+353-1-896-1111"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_202",
+    "slug": "university-college-dublin",
+    "name": "University College Dublin",
+    "logo": "https://www.google.com/s2/favicons?domain=ucd.ie&sz=128",
+    "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "UCD Engineering is known for civil, electronic, and energy engineering with strong industry connections.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_gre": 315,
+                "acceptance_rate": 30,
+                "tuition_fee": 26000,
+                "living_expense": 18000,
+                "avg_salary": 68000
+            },
+            "student_demographics": {
+                "male": 63,
+                "female": 37,
+                "international_students": 35,
+                "total_enrollment": 38000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_gre": 315,
+                "toefl_min": 90,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "UCD Smurfit Business School is one of the top business schools in Europe with strong MBA and finance programs.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_gmat": 640,
+                "acceptance_rate": 28,
+                "tuition_fee": 35000,
+                "living_expense": 18000,
+                "avg_salary": 80000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 85,
+                "total_enrollment": 4000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_gmat": 640,
+                "toefl_min": 100,
+                "toefl_avg": 105,
+                "ielts_min": 7.0
+            }
+        },
+        {
+            "name": "Law",
+            "description": "UCD Sutherland School of Law offers strong programs in commercial and international law.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 162,
+                "acceptance_rate": 26,
+                "tuition_fee": 24000,
+                "living_expense": 18000,
+                "avg_salary": 70000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 30,
+                "total_enrollment": 1800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 162
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "UCD School of Medicine is highly regarded with strong clinical training and research opportunities.",
+            "stats": {
+                "avg_gpa": 3.8,
+                "avg_mcat": 510,
+                "acceptance_rate": 15,
+                "tuition_fee": 40000,
+                "living_expense": 18000,
+                "avg_salary": 85000
+            },
+            "student_demographics": {
+                "male": 47,
+                "female": 53,
+                "international_students": 25,
+                "total_enrollment": 2000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.8,
+                "avg_mcat": 510
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "UCD offers a wide range of undergraduate programs with strong employability outcomes.",
+            "stats": {
+                "avg_sat": 1350,
+                "acceptance_rate": 35,
+                "tuition_fee": 9535,
+                "living_expense": 18000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 25,
+                "total_enrollment": 22000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 87,
+            "employed_within_3_months": 89,
+            "average_salary": 70000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Desk",
+                "phone": "+353-1-716-7777"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_203",
+    "slug": "university-college-cork",
+    "name": "University College Cork",
+    "logo": "https://www.google.com/s2/favicons?domain=ucc.ie&sz=128",
+    "location": {
+        "city": "Cork",
+        "state": "Munster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "UCC Engineering is known for electrical, civil, and sustainable energy engineering with strong research focus.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_gre": 315,
+                "acceptance_rate": 35,
+                "tuition_fee": 24000,
+                "living_expense": 17000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 62,
+                "female": 38,
+                "international_students": 30,
+                "total_enrollment": 22000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_gre": 315,
+                "toefl_min": 88,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "Cork University Business School offers strong programs in finance, management, and analytics.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_gmat": 630,
+                "acceptance_rate": 32,
+                "tuition_fee": 28000,
+                "living_expense": 17000,
+                "avg_salary": 70000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 75,
+                "total_enrollment": 3000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_gmat": 630,
+                "toefl_min": 95,
+                "toefl_avg": 105,
+                "ielts_min": 7.0
+            }
+        },
+        {
+            "name": "Law",
+            "description": "UCC School of Law offers strong programs in international and commercial law.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 160,
+                "acceptance_rate": 30,
+                "tuition_fee": 22000,
+                "living_expense": 17000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 25,
+                "total_enrollment": 1500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 160
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "UCC Medical School is well respected with strong clinical partnerships and research output.",
+            "stats": {
+                "avg_gpa": 3.8,
+                "avg_mcat": 510,
+                "acceptance_rate": 15,
+                "tuition_fee": 38000,
+                "living_expense": 17000,
+                "avg_salary": 80000
+            },
+            "student_demographics": {
+                "male": 47,
+                "female": 53,
+                "international_students": 20,
+                "total_enrollment": 1200
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.8,
+                "avg_mcat": 510
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "UCC offers diverse undergraduate programs with strong employability outcomes.",
+            "stats": {
+                "avg_sat": 1300,
+                "acceptance_rate": 40,
+                "tuition_fee": 9535,
+                "living_expense": 17000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 15000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 85,
+            "employed_within_3_months": 88,
+            "average_salary": 65000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Finance Office",
+                "phone": "+353-21-490-3000"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_204",
+    "slug": "national-university-of-ireland-galway",
+    "name": "National University of Ireland Galway",
+    "logo": "https://www.google.com/s2/favicons?domain=universityofgalway.ie&sz=128",
+    "location": {
+        "city": "Galway",
+        "state": "Connacht",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "NUI Galway Engineering is known for biomedical, civil, and energy engineering with strong research output.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_gre": 315,
+                "acceptance_rate": 35,
+                "tuition_fee": 24000,
+                "living_expense": 16000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 63,
+                "female": 37,
+                "international_students": 30,
+                "total_enrollment": 19000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_gre": 315,
+                "toefl_min": 88,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "J.E. Cairnes School of Business offers strong programs in management, finance, and entrepreneurship.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_gmat": 630,
+                "acceptance_rate": 32,
+                "tuition_fee": 27000,
+                "living_expense": 16000,
+                "avg_salary": 70000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 75,
+                "total_enrollment": 2500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_gmat": 630,
+                "toefl_min": 95,
+                "toefl_avg": 105,
+                "ielts_min": 7.0
+            }
+        },
+        {
+            "name": "Law",
+            "description": "NUI Galway School of Law offers programs in international law, human rights, and commercial law.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 160,
+                "acceptance_rate": 30,
+                "tuition_fee": 22000,
+                "living_expense": 16000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 25,
+                "total_enrollment": 1500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 160
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "NUI Galway Medical School is known for clinical training and biomedical research.",
+            "stats": {
+                "avg_gpa": 3.8,
+                "avg_mcat": 510,
+                "acceptance_rate": 15,
+                "tuition_fee": 38000,
+                "living_expense": 16000,
+                "avg_salary": 80000
+            },
+            "student_demographics": {
+                "male": 47,
+                "female": 53,
+                "international_students": 20,
+                "total_enrollment": 1200
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.8,
+                "avg_mcat": 510
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "NUI Galway offers a wide range of undergraduate programs with strong research and career outcomes.",
+            "stats": {
+                "avg_sat": 1300,
+                "acceptance_rate": 40,
+                "tuition_fee": 9535,
+                "living_expense": 16000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 13000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 85,
+            "employed_within_3_months": 88,
+            "average_salary": 65000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-91-524411"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_205",
+    "slug": "maynooth-university",
+    "name": "Maynooth University",
+    "logo": "https://www.google.com/s2/favicons?domain=maynoothuniversity.ie&sz=128",
+    "location": {
+        "city": "Maynooth",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "Maynooth offers engineering and computer science programs with a focus on software, data science, and systems engineering.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_gre": 310,
+                "acceptance_rate": 40,
+                "tuition_fee": 22000,
+                "living_expense": 16000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 62,
+                "female": 38,
+                "international_students": 25,
+                "total_enrollment": 15000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_gre": 310,
+                "toefl_min": 88,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "Maynooth Business School offers programs in management, finance, and marketing with strong industry links.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_gmat": 620,
+                "acceptance_rate": 38,
+                "tuition_fee": 26000,
+                "living_expense": 16000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 70,
+                "total_enrollment": 2000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_gmat": 620,
+                "toefl_min": 90,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "Maynooth Law Department offers programs in legal studies with focus on Irish and European law.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_lsAT": 158,
+                "acceptance_rate": 35,
+                "tuition_fee": 20000,
+                "living_expense": 16000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 20,
+                "total_enrollment": 1200
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_lsAT": 158
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "Maynooth does not have a full medical school but offers health science and related programs.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_mcat": 505,
+                "acceptance_rate": 30,
+                "tuition_fee": 25000,
+                "living_expense": 16000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_mcat": 505
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "Maynooth offers a wide range of undergraduate programs with strong academic support and career outcomes.",
+            "stats": {
+                "avg_sat": 1250,
+                "acceptance_rate": 45,
+                "tuition_fee": 9535,
+                "living_expense": 16000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 49,
+                "female": 51,
+                "international_students": 20,
+                "total_enrollment": 12000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 83,
+            "employed_within_3_months": 86,
+            "average_salary": 60000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-1-708-6000"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_206",
+    "slug": "university-of-limerick",
+    "name": "University of Limerick",
+    "logo": "https://www.google.com/s2/favicons?domain=ul.ie&sz=128",
+    "location": {
+        "city": "Limerick",
+        "state": "Munster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "Limerick Engineering is known for mechanical, electronic, and manufacturing engineering with strong industry placement programs.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_gre": 310,
+                "acceptance_rate": 40,
+                "tuition_fee": 23000,
+                "living_expense": 16000,
+                "avg_salary": 62000
+            },
+            "student_demographics": {
+                "male": 64,
+                "female": 36,
+                "international_students": 30,
+                "total_enrollment": 17000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_gre": 310,
+                "toefl_min": 88,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "Kemmy Business School offers strong programs in management, finance, and entrepreneurship with industry exposure.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_gmat": 620,
+                "acceptance_rate": 38,
+                "tuition_fee": 27000,
+                "living_expense": 16000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 75,
+                "total_enrollment": 2500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_gmat": 620,
+                "toefl_min": 90,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "Limerick School of Law offers programs in Irish and international law with practical focus.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_lsAT": 158,
+                "acceptance_rate": 35,
+                "tuition_fee": 21000,
+                "living_expense": 16000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 25,
+                "total_enrollment": 1200
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_lsAT": 158
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "University of Limerick offers graduate-entry medicine with strong clinical training and research opportunities.",
+            "stats": {
+                "avg_gpa": 3.7,
+                "avg_mcat": 508,
+                "acceptance_rate": 18,
+                "tuition_fee": 38000,
+                "living_expense": 16000,
+                "avg_salary": 80000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 20,
+                "total_enrollment": 1000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.7,
+                "avg_mcat": 508
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "Limerick offers strong undergraduate programs with emphasis on co-op placements and employability.",
+            "stats": {
+                "avg_sat": 1250,
+                "acceptance_rate": 45,
+                "tuition_fee": 9535,
+                "living_expense": 16000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 13000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 84,
+            "employed_within_3_months": 87,
+            "average_salary": 62000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-61-202700"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_207",
+    "slug": "dublin-city-university",
+    "name": "Dublin City University",
+    "logo": "https://www.google.com/s2/favicons?domain=dcu.ie&sz=128",
+    "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "DCU Engineering is known for electronics, computing, and communications engineering with strong industry links.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_gre": 310,
+                "acceptance_rate": 45,
+                "tuition_fee": 22000,
+                "living_expense": 18000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 62,
+                "female": 38,
+                "international_students": 30,
+                "total_enrollment": 17000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_gre": 310,
+                "toefl_min": 88,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "DCU Business School offers strong programs in finance, management, and marketing.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_gmat": 620,
+                "acceptance_rate": 40,
+                "tuition_fee": 26000,
+                "living_expense": 18000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 75,
+                "total_enrollment": 2500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_gmat": 620,
+                "toefl_min": 90,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "DCU School of Law and Government offers programs focused on public policy and legal studies.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_lsAT": 158,
+                "acceptance_rate": 38,
+                "tuition_fee": 20000,
+                "living_expense": 18000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 25,
+                "total_enrollment": 1200
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_lsAT": 158
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "DCU does not offer a traditional medical school but provides health science and related programs.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_mcat": 505,
+                "acceptance_rate": 35,
+                "tuition_fee": 25000,
+                "living_expense": 18000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_mcat": 505
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "DCU offers a wide range of undergraduate programs with strong employability and industry exposure.",
+            "stats": {
+                "avg_sat": 1250,
+                "acceptance_rate": 50,
+                "tuition_fee": 9535,
+                "living_expense": 18000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 25,
+                "total_enrollment": 13000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 84,
+            "employed_within_3_months": 87,
+            "average_salary": 62000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Support",
+                "phone": "+353-1-700-5000"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_208",
+    "slug": "technological-university-dublin",
+    "name": "Technological University Dublin",
+    "logo": "https://www.google.com/s2/favicons?domain=tudublin.ie&sz=128",
+    "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "TU Dublin is one of Ireland’s leading institutions for engineering, known for practical learning and strong industry integration.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_gre": 310,
+                "acceptance_rate": 45,
+                "tuition_fee": 22000,
+                "living_expense": 18000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 65,
+                "female": 35,
+                "international_students": 30,
+                "total_enrollment": 28000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_gre": 310,
+                "toefl_min": 88,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "TU Dublin Business School focuses on practical skills in management, marketing, and entrepreneurship.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_gmat": 620,
+                "acceptance_rate": 42,
+                "tuition_fee": 25000,
+                "living_expense": 18000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 70,
+                "total_enrollment": 4000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_gmat": 620,
+                "toefl_min": 90,
+                "toefl_avg": 100,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "TU Dublin offers law programs with focus on practical legal training and Irish law.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_lsAT": 158,
+                "acceptance_rate": 40,
+                "tuition_fee": 20000,
+                "living_expense": 18000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 25,
+                "total_enrollment": 1500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_lsAT": 158
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "TU Dublin does not offer a traditional medical school but provides health and science-related programs.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_mcat": 505,
+                "acceptance_rate": 35,
+                "tuition_fee": 24000,
+                "living_expense": 18000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 1000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_mcat": 505
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "TU Dublin offers career-focused undergraduate programs with strong employability outcomes.",
+            "stats": {
+                "avg_sat": 1250,
+                "acceptance_rate": 50,
+                "tuition_fee": 9535,
+                "living_expense": 18000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 25,
+                "total_enrollment": 18000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 83,
+            "employed_within_3_months": 86,
+            "average_salary": 60000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-1-220-5000"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_209",
+    "slug": "munster-technological-university",
+    "name": "Munster Technological University",
+    "logo": "https://www.google.com/s2/favicons?domain=mtu.ie&sz=128",
+    "location": {
+        "city": "Cork",
+        "state": "Munster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "MTU is well known for engineering, especially mechanical, civil, and marine engineering with strong industry collaboration.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_gre": 305,
+                "acceptance_rate": 50,
+                "tuition_fee": 22000,
+                "living_expense": 17000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 66,
+                "female": 34,
+                "international_students": 25,
+                "total_enrollment": 18000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_gre": 305,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.0
+            }
+        },
+        {
+            "name": "Business",
+            "description": "MTU Business programs focus on applied learning in management, accounting, and marketing.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_gmat": 600,
+                "acceptance_rate": 48,
+                "tuition_fee": 24000,
+                "living_expense": 17000,
+                "avg_salary": 62000
+            },
+            "student_demographics": {
+                "male": 54,
+                "female": 46,
+                "international_students": 65,
+                "total_enrollment": 3000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_gmat": 600,
+                "toefl_min": 88,
+                "toefl_avg": 95,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "MTU offers legal and business law programs with focus on practical skills.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_lsAT": 155,
+                "acceptance_rate": 45,
+                "tuition_fee": 20000,
+                "living_expense": 17000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 20,
+                "total_enrollment": 1200
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_lsAT": 155
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "MTU does not offer a full medical school but provides health science and related programs.",
+            "stats": {
+                "avg_gpa": 3.5,
+                "avg_mcat": 500,
+                "acceptance_rate": 40,
+                "tuition_fee": 23000,
+                "living_expense": 17000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.5,
+                "avg_mcat": 500
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "MTU offers practical undergraduate programs with strong industry links and employability.",
+            "stats": {
+                "avg_sat": 1200,
+                "acceptance_rate": 55,
+                "tuition_fee": 9535,
+                "living_expense": 17000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 14000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 82,
+            "employed_within_3_months": 85,
+            "average_salary": 60000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-21-433-5000"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_210",
+    "slug": "atlantic-technological-university",
+    "name": "Atlantic Technological University",
+    "logo": "https://www.google.com/s2/favicons?domain=atu.ie&sz=128",
+    "location": {
+        "city": "Galway",
+        "state": "Connacht",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "ATU focuses on applied engineering including civil, mechanical, and renewable energy systems.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_gre": 300,
+                "acceptance_rate": 55,
+                "tuition_fee": 20000,
+                "living_expense": 16000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 65,
+                "female": 35,
+                "international_students": 20,
+                "total_enrollment": 20000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_gre": 300,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.0
+            }
+        },
+        {
+            "name": "Business",
+            "description": "ATU Business programs emphasize entrepreneurship, digital business, and regional development.",
+            "stats": {
+                "avg_gpa": 3.2,
+                "avg_gmat": 580,
+                "acceptance_rate": 50,
+                "tuition_fee": 22000,
+                "living_expense": 16000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 54,
+                "female": 46,
+                "international_students": 60,
+                "total_enrollment": 3500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.2,
+                "avg_gmat": 580,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "ATU offers law-related programs focusing on business and applied legal studies.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_lsAT": 150,
+                "acceptance_rate": 50,
+                "tuition_fee": 18000,
+                "living_expense": 16000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 20,
+                "total_enrollment": 1000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_lsAT": 150
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "ATU does not offer a medical school but provides health and science-related programs.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_mcat": 500,
+                "acceptance_rate": 45,
+                "tuition_fee": 22000,
+                "living_expense": 16000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_mcat": 500
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "ATU offers career-focused undergraduate programs with strong regional employment outcomes.",
+            "stats": {
+                "avg_sat": 1200,
+                "acceptance_rate": 60,
+                "tuition_fee": 9535,
+                "living_expense": 16000,
+                "avg_salary": 52000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 15000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 80,
+            "employed_within_3_months": 83,
+            "average_salary": 58000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-91-742-000"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_211",
+    "slug": "royal-college-of-surgeons-in-ireland",
+    "name": "Royal College of Surgeons in Ireland",
+    "logo": "https://www.google.com/s2/favicons?domain=rcsi.com&sz=128",
+    "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "RCSI offers limited engineering-related biomedical programs with focus on healthcare technology.",
+            "stats": {
+                "avg_gpa": 3.7,
+                "avg_gre": 320,
+                "acceptance_rate": 20,
+                "tuition_fee": 28000,
+                "living_expense": 20000,
+                "avg_salary": 75000
+            },
+            "student_demographics": {
+                "male": 45,
+                "female": 55,
+                "international_students": 70,
+                "total_enrollment": 4000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.7,
+                "avg_gre": 320,
+                "toefl_min": 92,
+                "toefl_avg": 105,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "RCSI offers healthcare management and leadership programs.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_gmat": 650,
+                "acceptance_rate": 25,
+                "tuition_fee": 30000,
+                "living_expense": 20000,
+                "avg_salary": 80000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 80,
+                "total_enrollment": 1500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_gmat": 650,
+                "toefl_min": 100,
+                "toefl_avg": 105,
+                "ielts_min": 7.0
+            }
+        },
+        {
+            "name": "Law",
+            "description": "RCSI does not offer traditional law programs but includes healthcare ethics and policy studies.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 160,
+                "acceptance_rate": 30,
+                "tuition_fee": 20000,
+                "living_expense": 20000,
+                "avg_salary": 65000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 60,
+                "total_enrollment": 500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 160
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "RCSI is one of the world’s leading medical universities with global recognition.",
+            "stats": {
+                "avg_gpa": 3.9,
+                "avg_mcat": 515,
+                "acceptance_rate": 10,
+                "tuition_fee": 55000,
+                "living_expense": 20000,
+                "avg_salary": 95000
+            },
+            "student_demographics": {
+                "male": 45,
+                "female": 55,
+                "international_students": 80,
+                "total_enrollment": 3000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.9,
+                "avg_mcat": 515
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "RCSI undergraduate programs focus on health sciences and biomedical fields.",
+            "stats": {
+                "avg_sat": 1400,
+                "acceptance_rate": 20,
+                "tuition_fee": 30000,
+                "living_expense": 20000,
+                "avg_salary": 70000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 70,
+                "total_enrollment": 1500
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 90,
+            "employed_within_3_months": 92,
+            "average_salary": 85000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-1-402-2100"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_212",
+    "slug": "south-east-technological-university",
+    "name": "South East Technological University",
+    "logo": "https://www.google.com/s2/favicons?domain=setu.ie&sz=128",
+    "location": {
+        "city": "Waterford",
+        "state": "Munster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "SETU offers applied engineering programs including civil, mechanical, and computing with strong industry focus.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_gre": 300,
+                "acceptance_rate": 55,
+                "tuition_fee": 20000,
+                "living_expense": 16000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 65,
+                "female": 35,
+                "international_students": 20,
+                "total_enrollment": 18000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_gre": 300,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.0
+            }
+        },
+        {
+            "name": "Business",
+            "description": "SETU Business programs focus on management, marketing, and entrepreneurship.",
+            "stats": {
+                "avg_gpa": 3.2,
+                "avg_gmat": 580,
+                "acceptance_rate": 50,
+                "tuition_fee": 22000,
+                "living_expense": 16000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 54,
+                "female": 46,
+                "international_students": 60,
+                "total_enrollment": 2500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.2,
+                "avg_gmat": 580,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "SETU offers legal studies with emphasis on applied law and business law.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_lsAT": 150,
+                "acceptance_rate": 50,
+                "tuition_fee": 18000,
+                "living_expense": 16000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 20,
+                "total_enrollment": 1000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_lsAT": 150
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "SETU does not offer a full medical school but provides health and science-related programs.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_mcat": 500,
+                "acceptance_rate": 45,
+                "tuition_fee": 22000,
+                "living_expense": 16000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_mcat": 500
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "SETU offers career-oriented undergraduate programs with strong employability.",
+            "stats": {
+                "avg_sat": 1200,
+                "acceptance_rate": 60,
+                "tuition_fee": 9535,
+                "living_expense": 16000,
+                "avg_salary": 52000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 14000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 80,
+            "employed_within_3_months": 83,
+            "average_salary": 58000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-51-302000"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_213",
+    "slug": "national-college-of-ireland",
+    "name": "National College of Ireland",
+    "logo": "https://www.google.com/s2/favicons?domain=ncirl.ie&sz=128",
+    "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "NCI focuses on computing and data analytics programs aligned with industry demand.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_gre": 300,
+                "acceptance_rate": 60,
+                "tuition_fee": 20000,
+                "living_expense": 18000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 65,
+                "female": 35,
+                "international_students": 40,
+                "total_enrollment": 6000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_gre": 300,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.0
+            }
+        },
+        {
+            "name": "Business",
+            "description": "NCI Business School offers strong programs in finance, HR, and marketing.",
+            "stats": {
+                "avg_gpa": 3.2,
+                "avg_gmat": 580,
+                "acceptance_rate": 55,
+                "tuition_fee": 22000,
+                "living_expense": 18000,
+                "avg_salary": 60000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 70,
+                "total_enrollment": 2500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.2,
+                "avg_gmat": 580,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "NCI offers business law and legal studies programs.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_lsAT": 150,
+                "acceptance_rate": 55,
+                "tuition_fee": 18000,
+                "living_expense": 18000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 30,
+                "total_enrollment": 1000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_lsAT": 150
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "NCI does not offer a medical school but provides health-related programs.",
+            "stats": {
+                "avg_gpa": 3.4,
+                "avg_mcat": 500,
+                "acceptance_rate": 50,
+                "tuition_fee": 22000,
+                "living_expense": 18000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 20,
+                "total_enrollment": 800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.4,
+                "avg_mcat": 500
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "NCI offers career-focused undergraduate programs with strong employability.",
+            "stats": {
+                "avg_sat": 1200,
+                "acceptance_rate": 65,
+                "tuition_fee": 9535,
+                "living_expense": 18000,
+                "avg_salary": 52000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 30,
+                "total_enrollment": 3500
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 80,
+            "employed_within_3_months": 83,
+            "average_salary": 58000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Support",
+                "phone": "+353-1-449-8500"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_214",
+    "slug": "griffith-college-dublin",
+    "name": "Griffith College Dublin",
+    "logo": "https://www.google.com/s2/favicons?domain=griffith.ie&sz=128",
+    "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "Griffith offers computing and IT-focused engineering programs aligned with industry needs.",
+            "stats": {
+                "avg_gpa": 3.2,
+                "avg_gre": 300,
+                "acceptance_rate": 65,
+                "tuition_fee": 20000,
+                "living_expense": 18000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 65,
+                "female": 35,
+                "international_students": 50,
+                "total_enrollment": 7000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.2,
+                "avg_gre": 300,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.0
+            }
+        },
+        {
+            "name": "Business",
+            "description": "Griffith Business School offers programs in management, marketing, and accounting.",
+            "stats": {
+                "avg_gpa": 3.2,
+                "avg_gmat": 580,
+                "acceptance_rate": 60,
+                "tuition_fee": 22000,
+                "living_expense": 18000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 55,
+                "female": 45,
+                "international_students": 70,
+                "total_enrollment": 3000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.2,
+                "avg_gmat": 580,
+                "toefl_min": 85,
+                "toefl_avg": 95,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Law",
+            "description": "Griffith College Law School is known for practical legal training in Ireland.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_lsAT": 150,
+                "acceptance_rate": 60,
+                "tuition_fee": 20000,
+                "living_expense": 18000,
+                "avg_salary": 55000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 40,
+                "total_enrollment": 1500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_lsAT": 150
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "Griffith does not offer a medical school but provides health-related and professional programs.",
+            "stats": {
+                "avg_gpa": 3.3,
+                "avg_mcat": 500,
+                "acceptance_rate": 55,
+                "tuition_fee": 22000,
+                "living_expense": 18000,
+                "avg_salary": 58000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 30,
+                "total_enrollment": 800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.3,
+                "avg_mcat": 500
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "Griffith offers flexible undergraduate programs with strong career focus.",
+            "stats": {
+                "avg_sat": 1200,
+                "acceptance_rate": 70,
+                "tuition_fee": 9535,
+                "living_expense": 18000,
+                "avg_salary": 52000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 40,
+                "total_enrollment": 5000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 78,
+            "employed_within_3_months": 82,
+            "average_salary": 56000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-1-415-0400"
+            }
+        }
+    }
+},
+{
+    "_id": "uni_215",
+    "slug": "royal-college-of-physicians-of-ireland",
+    "name": "Royal College of Physicians of Ireland",
+    "logo": "https://www.google.com/s2/favicons?domain=rcpi.ie&sz=128",
+    "location": {
+        "city": "Dublin",
+        "state": "Leinster",
+        "country": "Ireland"
+    },
+    "branches": [
+        {
+            "name": "Engineering",
+            "description": "RCPI does not offer engineering programs but supports healthcare technology and clinical systems training.",
+            "stats": {
+                "avg_gpa": 3.7,
+                "avg_gre": 315,
+                "acceptance_rate": 20,
+                "tuition_fee": 25000,
+                "living_expense": 20000,
+                "avg_salary": 70000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 60,
+                "total_enrollment": 3000
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.7,
+                "avg_gre": 315,
+                "toefl_min": 90,
+                "toefl_avg": 105,
+                "ielts_min": 6.5
+            }
+        },
+        {
+            "name": "Business",
+            "description": "RCPI offers healthcare leadership and management programs for medical professionals.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_gmat": 640,
+                "acceptance_rate": 25,
+                "tuition_fee": 28000,
+                "living_expense": 20000,
+                "avg_salary": 80000
+            },
+            "student_demographics": {
+                "male": 52,
+                "female": 48,
+                "international_students": 70,
+                "total_enrollment": 1200
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_gmat": 640,
+                "toefl_min": 100,
+                "toefl_avg": 105,
+                "ielts_min": 7.0
+            }
+        },
+        {
+            "name": "Law",
+            "description": "RCPI includes medical law, ethics, and healthcare policy within its academic framework.",
+            "stats": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 162,
+                "acceptance_rate": 22,
+                "tuition_fee": 24000,
+                "living_expense": 20000,
+                "avg_salary": 75000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 50,
+                "total_enrollment": 800
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.6,
+                "avg_lsAT": 162
+            }
+        },
+        {
+            "name": "Medicine",
+            "description": "RCPI is one of the most prestigious institutions for postgraduate medical education and physician training.",
+            "stats": {
+                "avg_gpa": 3.9,
+                "avg_mcat": 515,
+                "acceptance_rate": 12,
+                "tuition_fee": 45000,
+                "living_expense": 20000,
+                "avg_salary": 100000
+            },
+            "student_demographics": {
+                "male": 48,
+                "female": 52,
+                "international_students": 75,
+                "total_enrollment": 2500
+            },
+            "admitted_profiles": {
+                "avg_gpa": 3.9,
+                "avg_mcat": 515
+            }
+        },
+        {
+            "name": "Undergrad",
+            "description": "RCPI primarily focuses on postgraduate and professional training rather than traditional undergraduate programs.",
+            "stats": {
+                "avg_sat": 1350,
+                "acceptance_rate": 25,
+                "tuition_fee": 20000,
+                "living_expense": 20000,
+                "avg_salary": 70000
+            },
+            "student_demographics": {
+                "male": 50,
+                "female": 50,
+                "international_students": 60,
+                "total_enrollment": 1000
+            }
+        }
+    ],
+    "common_sections": {
+        "employment_figures": {
+            "employed": 92,
+            "employed_within_3_months": 94,
+            "average_salary": 90000
+        },
+        "financial_awards": {
+            "officer": {
+                "name": "Student Services",
+                "phone": "+353-1-863-9700"
+            }
+        }
+    }
+}]

@@ -112,14 +112,23 @@ class UniversityCountriesScreen extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 6),
                                       decoration: BoxDecoration(
-                                        color: AppTheme.backgroundAlt,
+                                        color: university.isLocked ? AppTheme.gold.withOpacity(0.1) : AppTheme.backgroundAlt,
                                         borderRadius: BorderRadius.circular(14),
                                       ),
-                                      child: Text(university.slug,
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              color: AppTheme.textSecondary,
-                                              fontWeight: FontWeight.w700)),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          if (university.isLocked) ...[
+                                            const Icon(Icons.lock, size: 10, color: AppTheme.darkBrown),
+                                            const SizedBox(width: 4),
+                                          ],
+                                          Text(university.slug,
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  color: university.isLocked ? AppTheme.darkBrown : AppTheme.textSecondary,
+                                                  fontWeight: FontWeight.w700)),
+                                        ],
+                                      ),
                                     ))
                                 .toList(),
                           ),

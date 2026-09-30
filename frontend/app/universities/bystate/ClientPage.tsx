@@ -4,9 +4,12 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { ChevronDown, Filter, X } from 'lucide-react';
 import UniversityCard from '../by-country/UniversityCard';
 import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
+import { useMembership } from "@/app/lib/membership/MembershipContext";
 
 export default function ClientPage({ states, byState }: any) {
   const searchParams = useSearchParams();
+  const { canAccess } = useMembership();
+  const hasPremium = canAccess("university_search");
   const queryState = searchParams?.get('state');
   const router = useRouter();
     // Find a case-insensitive match for the initial state from query.
@@ -196,16 +199,16 @@ export default function ClientPage({ states, byState }: any) {
           <div className="lg:col-span-3 space-y-6 sm:space-y-8">
             {unis.length > 0 ? (
               <>
-                {unis.slice(0, 3).map((uni: any) => (
-                  <UniversityCard key={uni.slug} uni={uni} />
+                {unis.slice(0, 3).map((uni: any, i: number) => (
+                  <UniversityCard key={uni.slug} uni={{...uni, isLocked: !hasPremium && i >= 3}} />
                 ))}
 
                 {unis.length > 3 && (
                   <EntitlementGuard featureId="university_search" fallbackTitle={`Unlock ${unis.length} Universities`} fallbackDescription={`Get premium access to explore all ${unis.length} universities in ${selectedState}, including detailed admission stats and fees.`}>
                     <div className="space-y-6 sm:space-y-8">
-                      {unis.slice(3, 8).map((uni: any) => (
+                      {unis.slice(3, 8).map((uni: any, i: number) => (
                         <div key={uni.slug}>
-                          <UniversityCard uni={uni} />
+                          <UniversityCard uni={{...uni, isLocked: !hasPremium}} />
                         </div>
                       ))}
                     </div>

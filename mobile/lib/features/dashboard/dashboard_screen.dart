@@ -19,6 +19,7 @@ import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../../widgets/delete_account_dialog.dart';
 import '../auth/auth_provider.dart';
+import 'edit_profile_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -159,119 +160,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Future<void> _showAddProfileItemSheet(Map<String, String> sectionInfo) async {
     final section = sectionInfo['section']!;
-    final title = sectionInfo['title']!;
-    
-    final controllers = <String, TextEditingController>{};
-    final fields = _getFieldsForSection(section);
-    for (var f in fields) {
-      controllers[f['key']!] = TextEditingController();
+    final userId = _userData?['_id']?.toString();
+
+    if (userId == null || userId.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Unable to edit profile right now.')),
+      );
+      return;
     }
 
-    bool saving = false;
+    final fields = _getFieldsForSection(section);
 
-    showModalBottomSheet(
+    final saved = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: Colors.transparent,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setModalState) => Container(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).viewInsets.bottom + 40,
-            left: 28, right: 28, top: 32,
-          ),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(36)),
-          ),
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('ADD $title', style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: 1.5, fontFamily: 'Playfair Display')),
-                  IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, size: 20)),
-                ],
-              ),
-              const SizedBox(height: 24),
-              ...fields.map((f) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(f['label']!.toUpperCase(), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: AppTheme.textSecondary, letterSpacing: 2)),
-                    const SizedBox(height: 10),
-                    TextField(
-                      controller: controllers[f['key']],
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                      decoration: InputDecoration(
-                        hintText: f['hint'],
-                        filled: true,
-                        fillColor: AppTheme.background,
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
-                      ),
-                    ),
-                  ],
-                ),
-              )).toList(),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: saving ? null : () async {
-                    setModalState(() => saving = true);
-                    try {
-                      final data = <String, dynamic>{};
-                      for (var f in fields) {
-                        data[f['key']!] = controllers[f['key']]!.text;
-                      }
-
-                      await ApiClient.instance.post('/api/user/profile/${_userData!['_id']}/add-item', data: {
-                        'section': section,
-                        'data': data,
-                      });
-                      
-                      if (context.mounted) {
-                        Navigator.pop(context);
-                        _fetchData();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$title Added!'), backgroundColor: Colors.green));
-                      }
-                    } catch (e) {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
-                      }
-                    } finally {
-                      if (context.mounted) setModalState(() => saving = false);
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppTheme.darkBrown,
-                    foregroundColor: AppTheme.gold,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                    elevation: 0,
-                  ),
-                  child: saving 
-                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppTheme.gold, strokeWidth: 2))
-                    : const Text('SAVE RECORD', style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, fontSize: 13)),
-                ),
-              ),
-            ],
-          ),
-        ),
-        ),
-      ),
+      builder: (sheetContext) {
+        return ProfileItemFormSheet(
+          userId: userId,
+          section: section,
+          fields: fields,
+        );
+      },
     );
+
+    if (saved == true && mounted) {
+      _fetchData();
+    }
   }
 
   List<Map<String, String>> _getFieldsForSection(String section) {
     switch (section) {
       case 'highSchool':
         return [
-          {'key': 'schoolName', 'label': 'School Name', 'hint': 'e.g. St. Xaviers'},
+          {'key': 'schoolName', 'label': 'School Name', 'hint': "e.g. St. Xavier's High School"},
+          {'key': 'board', 'label': 'Board / Curriculum', 'hint': 'e.g. CBSE / IB / ICSE'},
+          {'key': 'passingYear', 'label': 'Passing Year', 'hint': 'e.g. 2024'},
           {'key': 'cgpa', 'label': 'CGPA / Percentage', 'hint': 'e.g. 9.5'},
           {'key': 'outOf', 'label': 'Out Of', 'hint': 'e.g. 10.0'},
         ];
@@ -279,17 +204,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 'masters':
         return [
           {'key': 'uniName', 'label': 'University Name', 'hint': 'e.g. IIT Bombay'},
-          {'key': 'degreeName', 'label': 'Degree', 'hint': 'e.g. B.Tech Computer Science'},
-          {'key': 'cgpa', 'label': 'CGPA', 'hint': '9.0'},
-          {'key': 'outOf', 'label': 'Out Of', 'hint': '10.0'},
+          {'key': 'degreeName', 'label': 'Degree Title', 'hint': 'e.g. Bachelor of Science'},
+          {'key': 'major', 'label': 'Major / Specialization', 'hint': 'e.g. Computer Science'},
+          {'key': 'startYear', 'label': 'Start Year', 'hint': 'e.g. 2020'},
+          {'key': 'endYear', 'label': 'End Year', 'hint': 'e.g. 2024'},
+          {'key': 'cgpa', 'label': 'CGPA', 'hint': 'e.g. 9.0'},
+          {'key': 'outOf', 'label': 'Out Of', 'hint': 'e.g. 10.0'},
+          {'key': 'backlogs', 'label': 'Backlogs', 'hint': 'e.g. 0'},
         ];
       case 'targetUniversities':
         return [
           {'key': 'uniName', 'label': 'University Name', 'hint': 'e.g. Stanford University'},
-          {'key': 'degree', 'label': 'Target Degree', 'hint': 'MS in AI'},
-          {'key': 'major', 'label': 'Major', 'hint': 'Computer Science'},
-          {'key': 'term', 'label': 'Intake Term', 'hint': 'Fall / Spring'},
-          {'key': 'year', 'label': 'Year', 'hint': '2026'},
+          {'key': 'degree', 'label': 'Target Degree', 'hint': 'e.g. MS / PhD / Bachelor'},
+          {'key': 'major', 'label': 'Target Major', 'hint': 'e.g. Computer Science'},
+          {'key': 'targetCountry', 'label': 'Target Country', 'hint': 'e.g. United States, UK'},
+          {'key': 'term', 'label': 'Intake Term', 'hint': 'e.g. Fall / Spring'},
+          {'key': 'year', 'label': 'Target Year', 'hint': 'e.g. 2026'},
+          {'key': 'tuitionBudget', 'label': 'Annual Budget', 'hint': 'e.g. \$30,000 - \$50,000 / year'},
+          {'key': 'scholarshipRequired', 'label': 'Scholarship Required', 'hint': 'e.g. Yes - Full / Partial / No'},
         ];
       case 'workExperience':
         return [

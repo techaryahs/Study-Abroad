@@ -354,7 +354,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       useSafeArea: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) {
-        return _ProfileItemFormSheet(
+        return ProfileItemFormSheet(
           userId: userId,
           section: section,
           fields: fields,
@@ -371,7 +371,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   List<Map<String, String>> _getFieldsForSection(String section) {
     if (section == 'highSchool') {
       return [
-        {'key': 'schoolName', 'label': 'School', 'hint': 'Name'},
+        {'key': 'schoolName', 'label': 'School Name', 'hint': "e.g. St. Xavier's"},
+        {'key': 'board', 'label': 'Board / Curriculum', 'hint': 'e.g. CBSE / IB / ICSE'},
+        {'key': 'passingYear', 'label': 'Passing Year', 'hint': 'e.g. 2024'},
         {
           'key': 'cgpa',
           'label': 'Score / Percentage',
@@ -382,16 +384,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
     if (section == 'underGrad' || section == 'masters') {
       return [
-        {'key': 'uniName', 'label': 'University', 'hint': 'Name'},
-        {'key': 'degreeName', 'label': 'Degree', 'hint': 'Major'},
+        {'key': 'uniName', 'label': 'University Name', 'hint': 'e.g. IIT Bombay'},
+        {'key': 'degreeName', 'label': 'Degree Title', 'hint': 'e.g. Bachelor of Science'},
+        {'key': 'major', 'label': 'Major / Specialization', 'hint': 'e.g. Computer Science'},
+        {'key': 'startYear', 'label': 'Start Year', 'hint': 'e.g. 2020'},
+        {'key': 'endYear', 'label': 'End Year', 'hint': 'e.g. 2024'},
         {
           'key': 'cgpa',
           'label': 'Score / Percentage',
           'hint': 'e.g. 9.0 or 95'
         },
         {'key': 'outOf', 'label': 'Out Of', 'hint': 'e.g. 10.0 or 100'},
-        {'key': 'startDate', 'label': 'Start Date', 'hint': 'YYYY-MM-DD'},
-        {'key': 'endDate', 'label': 'End Date', 'hint': 'YYYY-MM-DD'}
+        {'key': 'backlogs', 'label': 'Backlogs', 'hint': 'e.g. 0'}
       ];
     }
     if (section == 'workExperience') {
@@ -457,11 +461,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
     if (section == 'targetUniversities') {
       return [
-        {'key': 'uniName', 'label': 'University', 'hint': 'Target Uni'},
-        {'key': 'degree', 'label': 'Degree', 'hint': 'MS/PhD'},
-        {'key': 'major', 'label': 'Major', 'hint': 'CS/DS'},
-        {'key': 'term', 'label': 'Term', 'hint': 'Fall'},
-        {'key': 'year', 'label': 'Year', 'hint': '2026'}
+        {'key': 'uniName', 'label': 'University Name', 'hint': 'e.g. Stanford University'},
+        {'key': 'degree', 'label': 'Target Degree', 'hint': 'e.g. MS / PhD / Bachelor'},
+        {'key': 'major', 'label': 'Target Major', 'hint': 'e.g. Computer Science'},
+        {'key': 'targetCountry', 'label': 'Target Country', 'hint': 'e.g. United States, UK'},
+        {'key': 'term', 'label': 'Intake Term', 'hint': 'e.g. Fall / Spring'},
+        {'key': 'year', 'label': 'Target Year', 'hint': 'e.g. 2026'},
+        {'key': 'tuitionBudget', 'label': 'Annual Budget', 'hint': 'e.g. \$30,000 - \$50,000 / year'},
+        {'key': 'scholarshipRequired', 'label': 'Scholarship Required', 'hint': 'e.g. Yes - Full / Partial / No'}
       ];
     }
     return [
@@ -937,13 +944,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 }
 
-class _ProfileItemFormSheet extends StatefulWidget {
+class ProfileItemFormSheet extends StatefulWidget {
   final String userId;
   final String section;
   final List<Map<String, String>> fields;
   final Map<String, dynamic>? existingItem;
 
-  const _ProfileItemFormSheet({
+  const ProfileItemFormSheet({
     required this.userId,
     required this.section,
     required this.fields,
@@ -951,12 +958,16 @@ class _ProfileItemFormSheet extends StatefulWidget {
   });
 
   @override
-  State<_ProfileItemFormSheet> createState() => _ProfileItemFormSheetState();
+  State<ProfileItemFormSheet> createState() => ProfileItemFormSheetState();
 }
 
-class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
+class ProfileItemFormSheetState extends State<ProfileItemFormSheet> {
   late final Map<String, TextEditingController> _controllers;
+  late final TextEditingController _docNameController;
+  File? _docFile;
+  int _currentStep = 0;
   bool _saving = false;
+  String? _stepError;
 
   bool get _isEditing => widget.existingItem != null;
 
@@ -969,6 +980,9 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
           text: widget.existingItem?[field['key']]?.toString(),
         ),
     };
+    _docNameController = TextEditingController(
+      text: widget.existingItem?['documentName']?.toString() ?? '',
+    );
   }
 
   @override
@@ -976,7 +990,61 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
     for (final controller in _controllers.values) {
       controller.dispose();
     }
+    _docNameController.dispose();
     super.dispose();
+  }
+
+  List<List<Map<String, String>>> _getStepFields() {
+    if (widget.fields.length <= 3) {
+      return [widget.fields];
+    }
+    final mid = (widget.fields.length / 2).ceil();
+    return [
+      widget.fields.sublist(0, mid),
+      widget.fields.sublist(mid),
+    ];
+  }
+
+  int get _totalSteps => 3;
+
+  String _getStepTitle(int step) {
+    if (step == 0) return 'Step 1: Primary Details';
+    if (step == 1) return 'Step 2: Timeline & Scores';
+    return 'Step 3: Document & Proof';
+  }
+
+  bool _validateStep(int step) {
+    setState(() => _stepError = null);
+    final stepFields = _getStepFields();
+
+    if (step == 0) {
+      final firstStepList = stepFields[0];
+      for (final field in firstStepList) {
+        final key = field['key']!;
+        final val = _controllers[key]?.text.trim() ?? '';
+        // Main primary field check
+        if (key == 'schoolName' || key == 'uniName' || key == 'role' || key == 'title' || key == 'organization') {
+          if (val.isEmpty) {
+            setState(() => _stepError = 'Please provide the ${field['label']} to proceed.');
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  Future<void> _pickDocument() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
+    if (picked != null) {
+      setState(() {
+        _docFile = File(picked.path);
+        if (_docNameController.text.trim().isEmpty) {
+          _docNameController.text = picked.name;
+        }
+      });
+    }
   }
 
   Future<void> _save() async {
@@ -989,6 +1057,12 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
       for (final field in widget.fields) {
         final fieldKey = field['key']!;
         data[fieldKey] = _controllers[fieldKey]!.text;
+      }
+      if (_docNameController.text.trim().isNotEmpty) {
+        data['documentName'] = _docNameController.text.trim();
+      }
+      if (_docFile != null) {
+        data['documentPath'] = _docFile!.path;
       }
 
       if (_isEditing) {
@@ -1010,15 +1084,13 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
         );
       }
 
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
       didClose = true;
       Navigator.of(context).pop(true);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(content: Text('Error saving record: $e'), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -1028,9 +1100,52 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
     }
   }
 
+  Future<void> _deleteItem() async {
+    if (!_isEditing || widget.existingItem?['_id'] == null) return;
+    FocusScope.of(context).unfocus();
+
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Record?'),
+        content: const Text('This action will remove this entry permanently from your profile.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('CANCEL')),
+          TextButton(onPressed: () => Navigator.pop(context, true), child: const Text('DELETE', style: TextStyle(color: Colors.red))),
+        ],
+      ),
+    );
+
+    if (confirm != true) return;
+    setState(() => _saving = true);
+
+    try {
+      await ApiClient.instance.delete(
+        '/api/user/profile/${widget.userId}/delete-item',
+        data: {
+          'section': widget.section,
+          'itemId': widget.existingItem!['_id'],
+        },
+      );
+      if (mounted) {
+        Navigator.of(context).pop(true);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error deleting record: $e'), backgroundColor: Colors.red),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _saving = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final initialSheetSize = widget.fields.length > 4 ? 0.88 : 0.68;
+    final stepFields = _getStepFields();
 
     return AnimatedPadding(
       duration: const Duration(milliseconds: 180),
@@ -1040,9 +1155,9 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
       ),
       child: DraggableScrollableSheet(
         expand: false,
-        initialChildSize: initialSheetSize,
-        minChildSize: 0.42,
-        maxChildSize: 0.94,
+        initialChildSize: 0.88,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
         builder: (context, scrollController) {
           return Container(
             decoration: const BoxDecoration(
@@ -1054,6 +1169,7 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Top Drag handle
                   Center(
                     child: Container(
                       width: 44,
@@ -1065,60 +1181,187 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
                       ),
                     ),
                   ),
+
+                  // Header with Section Title & Delete Button
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(28, 24, 28, 16),
-                    child: Text(
-                      _isEditing ? 'UPDATE RECORD' : 'ADD NEW RECORD',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.5,
-                        fontFamily: 'Playfair Display',
-                      ),
+                    padding: const EdgeInsets.fromLTRB(28, 20, 28, 12),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _isEditing ? 'EDIT PROFILE ITEM' : '3-STEP WIZARD',
+                              style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w900,
+                                color: AppTheme.gold,
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              _getStepTitle(_currentStep).toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.2,
+                                fontFamily: 'Playfair Display',
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            if (_isEditing)
+                              IconButton(
+                                onPressed: _saving ? null : _deleteItem,
+                                icon: const Icon(Icons.delete_outline_rounded, color: Colors.redAccent, size: 22),
+                                tooltip: 'Delete Record',
+                              ),
+                            IconButton(
+                              onPressed: () => Navigator.pop(context),
+                              icon: const Icon(Icons.close, size: 20),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
+
+                  // Progress Bar (3 steps)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 28),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: List.generate(_totalSteps, (index) {
+                            final isActive = index <= _currentStep;
+                            return Expanded(
+                              child: Container(
+                                height: 4,
+                                margin: EdgeInsets.only(right: index < _totalSteps - 1 ? 6 : 0),
+                                decoration: BoxDecoration(
+                                  color: isActive ? AppTheme.gold : AppTheme.borderLight.withValues(alpha: 0.5),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                  ),
+
+                  if (_stepError != null)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 4),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withValues(alpha: 0.08),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.error_outline, color: Colors.red, size: 16),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                _stepError!,
+                                style: const TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  // Step Content List
                   Expanded(
                     child: Scrollbar(
                       controller: scrollController,
-                      child: ListView.separated(
+                      child: SingleChildScrollView(
                         controller: scrollController,
-                        keyboardDismissBehavior:
-                            ScrollViewKeyboardDismissBehavior.onDrag,
-                        padding: const EdgeInsets.fromLTRB(28, 0, 28, 24),
-                        itemCount: widget.fields.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 20),
-                        itemBuilder: (context, index) {
-                          final field = widget.fields[index];
-                          final fieldKey = field['key']!;
-                          final isDescription = fieldKey == 'description';
-
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                field['label']!.toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 14,
+                        physics: const BouncingScrollPhysics(),
+                        padding: const EdgeInsets.fromLTRB(28, 8, 28, 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (_currentStep == 0) ...[
+                              ...stepFields[0].map((field) => _buildFieldInput(field)),
+                            ] else if (_currentStep == 1) ...[
+                              if (stepFields.length > 1)
+                                ...stepFields[1].map((field) => _buildFieldInput(field))
+                              else
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  child: Text('Review your details above or proceed to add supporting documents.'),
+                                ),
+                            ] else ...[
+                              // Step 3: Document Attachment & Summary Review
+                              const Text(
+                                'SUPPORTING DOCUMENTATION',
+                                style: TextStyle(
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w900,
-                                  color: AppTheme.textSecondary,
-                                  letterSpacing: 2,
+                                  letterSpacing: 1.5,
+                                  color: AppTheme.textPrimary,
                                 ),
                               ),
-                              const SizedBox(height: 10),
-                              TextField(
-                                controller: _controllers[fieldKey],
-                                textInputAction:
-                                    index == widget.fields.length - 1
-                                        ? TextInputAction.done
-                                        : TextInputAction.next,
-                                minLines: isDescription ? 3 : 1,
-                                maxLines: isDescription ? 5 : 1,
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
+                              const SizedBox(height: 6),
+                              const Text(
+                                'Attach a transcript, marksheet, certificate, or letter for verification.',
+                                style: TextStyle(fontSize: 12, color: AppTheme.textMuted),
+                              ),
+                              const SizedBox(height: 16),
+
+                              GestureDetector(
+                                onTap: _pickDocument,
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: const EdgeInsets.all(20),
+                                  decoration: BoxDecoration(
+                                    color: AppTheme.background,
+                                    borderRadius: BorderRadius.circular(16),
+                                    border: Border.all(color: AppTheme.gold.withValues(alpha: 0.4), style: BorderStyle.solid),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      if (_docFile != null) ...[
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(12),
+                                          child: Image.file(_docFile!, height: 120, width: double.infinity, fit: BoxFit.cover),
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          'Selected: ${_docNameController.text}',
+                                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ] else ...[
+                                        const Icon(Icons.cloud_upload_outlined, color: AppTheme.gold, size: 36),
+                                        const SizedBox(height: 8),
+                                        const Text('Tap to pick document/certificate image', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textPrimary)),
+                                        const SizedBox(height: 4),
+                                        const Text('JPG, PNG supported', style: TextStyle(fontSize: 11, color: AppTheme.textMuted)),
+                                      ],
+                                    ],
+                                  ),
                                 ),
+                              ),
+
+                              const SizedBox(height: 20),
+
+                              TextField(
+                                controller: _docNameController,
+                                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                                 decoration: InputDecoration(
-                                  hintText: field['hint'],
+                                  labelText: 'Document Title / Type',
+                                  hintText: 'e.g. 12th Marksheet / Degree Certificate',
                                   filled: true,
                                   fillColor: AppTheme.background,
                                   border: OutlineInputBorder(
@@ -1126,43 +1369,75 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
                                     borderSide: BorderSide.none,
                                   ),
                                 ),
-                                onSubmitted: (_) {
-                                  if (index == widget.fields.length - 1) {
-                                    FocusScope.of(context).unfocus();
-                                  }
-                                },
                               ),
                             ],
-                          );
-                        },
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  Padding(
+
+                  // Bottom Navigation Controls (Previous / Next / Save)
+                  Container(
                     padding: const EdgeInsets.fromLTRB(28, 12, 28, 28),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: _saving ? null : _save,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.darkBrown,
-                          foregroundColor: AppTheme.gold,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: _saving
-                            ? const CircularProgressIndicator(
-                                color: AppTheme.gold)
-                            : Text(
-                                _isEditing ? 'UPDATE ITEM' : 'SAVE RECORD',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 1.5,
+                    decoration: const BoxDecoration(
+                      border: Border(top: BorderSide(color: AppTheme.borderLight)),
+                    ),
+                    child: Row(
+                      children: [
+                        if (_currentStep > 0)
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 12),
+                              child: SizedBox(
+                                height: 52,
+                                child: OutlinedButton(
+                                  onPressed: _saving ? null : () => setState(() => _currentStep--),
+                                  style: OutlinedButton.styleFrom(
+                                    side: const BorderSide(color: AppTheme.borderLight),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                  ),
+                                  child: const Text('BACK', style: TextStyle(fontWeight: FontWeight.w900, color: AppTheme.textPrimary, letterSpacing: 1.2)),
                                 ),
                               ),
-                      ),
+                            ),
+                          ),
+                        Expanded(
+                          flex: 2,
+                          child: SizedBox(
+                            height: 52,
+                            child: ElevatedButton(
+                              onPressed: _saving
+                                  ? null
+                                  : () {
+                                      if (_currentStep < _totalSteps - 1) {
+                                        if (_validateStep(_currentStep)) {
+                                          setState(() => _currentStep++);
+                                        }
+                                      } else {
+                                        _save();
+                                      }
+                                    },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.darkBrown,
+                                foregroundColor: AppTheme.gold,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                              child: _saving
+                                  ? const CircularProgressIndicator(color: AppTheme.gold)
+                                  : Text(
+                                      _currentStep < _totalSteps - 1 ? 'NEXT STEP' : (_isEditing ? 'UPDATE RECORD' : 'SAVE & FINISH'),
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 1.5,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -1170,6 +1445,48 @@ class _ProfileItemFormSheetState extends State<_ProfileItemFormSheet> {
             ),
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildFieldInput(Map<String, String> field) {
+    final fieldKey = field['key']!;
+    final isDescription = fieldKey == 'description';
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            field['label']!.toUpperCase(),
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w900,
+              color: AppTheme.textSecondary,
+              letterSpacing: 1.5,
+            ),
+          ),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _controllers[fieldKey],
+            minLines: isDescription ? 3 : 1,
+            maxLines: isDescription ? 5 : 1,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+            ),
+            decoration: InputDecoration(
+              hintText: field['hint'],
+              filled: true,
+              fillColor: AppTheme.background,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide.none,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

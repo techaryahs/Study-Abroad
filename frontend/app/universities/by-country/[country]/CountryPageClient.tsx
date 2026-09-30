@@ -157,6 +157,7 @@ function SkeletonCard() {
 
 export default function CountryPage() {
   const { country } = useParams();
+  const countryLower = (country as string).toLowerCase().replace(/-/g, " ");
   const [mounted, setMounted] = useState(false);
   const [search, setSearch] = useState("");
   const [sortIdx, setSortIdx] = useState(0);
@@ -164,6 +165,7 @@ export default function CountryPage() {
   const [tuitionFilter, setTuitionFilter] = useState(0);
   const [page, setPage] = useState(1);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [serverData, setServerData] = useState<any[] | null>(null);
 
   const PER_PAGE = 10;
 
@@ -172,8 +174,26 @@ export default function CountryPage() {
 
   useEffect(() => { setMounted(true); }, []);
 
+  useEffect(() => {
+    const fetchUnis = async () => {
+      try {
+        const token = localStorage.getItem("token") || localStorage.getItem("auth_token");
+        const headers: any = {};
+        if (token) headers.Authorization = `Bearer ${token}`;
+        
+        const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/universities?country=${countryLower}`;
+        const res = await fetch(url, { headers });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.data) setServerData(json.data);
+        }
+      } catch (e) { console.error(e); }
+    };
+    fetchUnis();
+  }, [countryLower]);
+
   // ── Dataset selection ──
-  const countryLower = (country as string).toLowerCase().replace(/-/g, " ");
+  
   const meta = COUNTRY_META[countryLower] ?? { flag: "🌍", color: "#C5A059", label: (country as string), hero: "World-Class Education" };
 
   let dataCountry = meta.label;
@@ -218,7 +238,8 @@ export default function CountryPage() {
   }
 
   // ── Normalize ──
-  const universities = useMemo(() => rawUniversities.map((uni: any, index: number) => {
+  const activeData = serverData || rawUniversities;
+  const universities = useMemo(() => activeData.map((uni: any, index: number) => {
     const name = uni.university || uni.university_name || uni.name || `University ${index + 1}`;
     let location = uni.location || uni.country || dataCountry;
     let address = uni.address || uni.city || "";
@@ -283,8 +304,9 @@ export default function CountryPage() {
       salary, sat, toefl, gpa,
       image: uni.logo || "/assets/university-placeholder.jpg",
       ranking: uni.ymgrad_rank || index + 1,
+      isLocked: uni.hasAccess !== undefined ? (!uni.hasAccess || uni.access === "locked") : index >= 3,
     };
-  }), [rawUniversities]);
+  }), [activeData]);
 
   // ── Stats Calculation ──
   const stats = useMemo(() => {

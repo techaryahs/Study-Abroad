@@ -75,6 +75,7 @@ app.use('/api/payment', require('./routes/payment.routes')); // Deprecated v1
 app.use('/api/payments/v2', require('./routes/payment.v2.routes'));
 app.use('/api/webhooks', require('./routes/webhook.routes'));
 app.use('/api/memberships', require('./routes/membership.routes'));
+app.use('/api/universities', require('./routes/university.routes'));
 
 // 🩺 Health
 app.use('/api/health', require('./routes/health.routes'));

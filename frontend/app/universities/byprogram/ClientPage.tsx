@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { ChevronDown, Filter, X, ChevronRight, BookOpen } from 'lucide-react';
 import UniversityCard from '../by-country/UniversityCard';
 import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
+import { useMembership } from "@/app/lib/membership/MembershipContext";
 
 export default function ClientPage({ categories, byProgram, allPrograms }: any) {
   const searchParams = useSearchParams();
@@ -33,6 +34,8 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
   };
 
   const unis = byProgram[selectedProgram] || [];
+  const { canAccess } = useMembership();
+  const hasPremium = canAccess("university_search");
 
   return (
     <div className="min-h-screen px-4 sm:px-6 md:px-16 py-[60px] page-container" style={{ background: "#FDFBF7", fontFamily: "'DM Sans', sans-serif" }}>
@@ -187,16 +190,16 @@ export default function ClientPage({ categories, byProgram, allPrograms }: any) 
           <div className="lg:col-span-3 space-y-12 sm:space-y-16">
             {unis.length > 0 ? (
               <>
-                {unis.slice(0, 3).map((uni: any) => (
-                  <UniversityCard key={uni.slug} uni={uni} />
+                {unis.slice(0, 3).map((uni: any, i: number) => (
+                  <UniversityCard key={uni.slug} uni={{...uni, isLocked: !hasPremium && i >= 3}} />
                 ))}
 
                 {unis.length > 3 && (
                   <EntitlementGuard featureId="university_search" fallbackTitle={`Unlock ${unis.length} Universities`} fallbackDescription={`Get premium access to explore all ${unis.length} universities offering ${selectedProgram}, including detailed admission stats and fees.`}>
                     <div className="space-y-12 sm:space-y-16">
-                      {unis.slice(3, 8).map((uni: any) => (
+                      {unis.slice(3, 8).map((uni: any, i: number) => (
                         <div key={uni.slug}>
-                          <UniversityCard uni={uni} />
+                          <UniversityCard uni={{...uni, isLocked: !hasPremium}} />
                         </div>
                       ))}
                     </div>

@@ -232,9 +232,4 @@ class AuthProvider extends ChangeNotifier {
     AppLogger.info('Account deleted on server — clearing local session');
     await logout();
   }
-
-  Future<void> deleteAccount() async {
-    await ApiClient.instance.delete('/api/user/delete-account');
-    await logout();
-  }
 }

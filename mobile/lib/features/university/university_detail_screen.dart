@@ -3,9 +3,11 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../core/api_client.dart';
+import '../../core/app_features.dart';
 import '../../core/theme.dart';
 import '../../data/university_repository.dart';
 import '../auth/auth_provider.dart';
+import '../membership/membership_screen.dart';
 
 class UniversityDetailScreen extends StatefulWidget {
   final String slug;
@@ -138,7 +140,95 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen>
                                   fontWeight: FontWeight.w500)),
                         ],
                       ),
-                      const SizedBox(height: 40),
+                      ),
+                      const SizedBox(height: 24),
+                      if (u.isLocked) ...[
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          margin: const EdgeInsets.only(bottom: 24),
+                          decoration: BoxDecoration(
+                            color: AppTheme.darkBrown,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.08),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Row(
+                                children: [
+                                  Icon(LucideIcons.lock, color: AppTheme.gold, size: 20),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'PREMIUM UNIVERSITY',
+                                    style: TextStyle(
+                                      color: AppTheme.gold,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'Unlock Full University Specifications',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'Admission statistics, requirement specs, financial breakdowns, and admit probability calculations are protected by membership.',
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 13,
+                                  height: 1.5,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => const MembershipScreen(
+                                        lockedFeatureId: MembershipFeatures.universitySearch,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(LucideIcons.sparkles, size: 16),
+                                label: const Text(
+                                  'UPGRADE MEMBERSHIP',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppTheme.gold,
+                                  foregroundColor: AppTheme.darkBrown,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      const SizedBox(height: 16),
                       TabBar(
                         controller: _tabController,
                         labelColor: AppTheme.textPrimary,
@@ -179,6 +269,62 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen>
     );
   }
 
+  Widget _lockedTabContent(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 32),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+          const SizedBox(height: 24),
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: AppTheme.gold.withOpacity(0.2)),
+            ),
+            child: Column(
+              children: [
+                Icon(LucideIcons.lock, size: 40, color: AppTheme.gold.withOpacity(0.6)),
+                const SizedBox(height: 16),
+                const Text(
+                  'Information Protected',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Detailed requirements, average test scores, and tuition breakdowns are available with a Membership.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 13, height: 1.5),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const MembershipScreen(
+                          lockedFeatureId: MembershipFeatures.universitySearch,
+                        ),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.darkBrown,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+                  ),
+                  child: const Text('Unlock with Membership', style: TextStyle(fontWeight: FontWeight.bold)),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _overviewTab(UniversityItem u) {
     return Padding(
       padding: const EdgeInsets.only(top: 32),
@@ -205,6 +351,9 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen>
   }
 
   Widget _academicsTab(UniversityItem u) {
+    if (u.isLocked) {
+      return _lockedTabContent('Admission Standards & Benchmarks');
+    }
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: Column(
@@ -239,6 +388,9 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen>
   }
 
   Widget _costsTab(UniversityItem u) {
+    if (u.isLocked) {
+      return _lockedTabContent('Financial & Tuition Estimations');
+    }
     return Padding(
       padding: const EdgeInsets.only(top: 32),
       child: Column(
@@ -476,6 +628,54 @@ class _AdmissionChanceBarState extends State<_AdmissionChanceBar> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.university.isLocked) {
+      return _barShell(
+        child: Row(
+          children: [
+            const Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'PREMIUM UNIVERSITY',
+                    style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w900,
+                        color: AppTheme.gold,
+                        letterSpacing: 1),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Unlock to evaluate your admit chance',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.textPrimary),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            _actionButton(
+              label: 'UNLOCK',
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const MembershipScreen(
+                      lockedFeatureId: MembershipFeatures.universitySearch,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      );
+    }
+
     final auth = context.watch<AuthProvider>();
 
     return FutureBuilder<Map<String, dynamic>?>(

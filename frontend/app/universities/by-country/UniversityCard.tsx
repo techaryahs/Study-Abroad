@@ -69,6 +69,7 @@ function StatCell({ label, value, icon }: { label: string; value: string | null;
 export default function UniversityCard({ uni }: any) {
   const [hovered, setHovered] = useState(false);
   const acceptanceRaw = uni.acceptanceRaw ?? (uni.acceptance ? parseFloat(uni.acceptance) : null);
+  const isLocked = uni.isLocked;
 
   return (
     <>
@@ -223,6 +224,7 @@ export default function UniversityCard({ uni }: any) {
 
       <div
         className="uni-card"
+        style={{ background: isLocked ? "#FAFAF7" : "#FFFFFF", borderColor: isLocked ? "rgba(197,160,89, 0.4)" : "rgba(197,160,89, 0.15)", borderWidth: isLocked ? 2 : 1 }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -230,6 +232,12 @@ export default function UniversityCard({ uni }: any) {
         <div className="rank-badge">#{uni.ranking || "—"}</div>
 
         <div className="card-inner" style={{ padding: "32px" }}>
+          {isLocked && (
+            <div style={{ padding: "6px 12px", background: "rgba(197,160,89, 0.15)", borderRadius: 8, display: "inline-flex", alignItems: "center", gap: 6, marginBottom: 16 }}>
+              <span style={{ fontSize: 12 }}>🔒</span>
+              <span style={{ fontSize: 10, fontWeight: 900, color: "#2D2926", letterSpacing: 0.5 }}>PREMIUM UNIVERSITY • UNLOCK WITH MEMBERSHIP</span>
+            </div>
+          )}
 
           {/* Top row: logo + info */}
           <div style={{ display: "flex", gap: 28, alignItems: "flex-start" }}>
@@ -259,7 +267,7 @@ export default function UniversityCard({ uni }: any) {
 
               {/* Quick pill badges */}
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                {uni.acceptance && (
+                {!isLocked && uni.acceptance && (
                   <span className="pill-badge" style={{
                     fontSize: 11, padding: "4px 12px", borderRadius: 999,
                     background: "rgba(22,163,74,.08)", color: "#16a34a",
@@ -268,7 +276,7 @@ export default function UniversityCard({ uni }: any) {
                     ✓ {uni.acceptance}
                   </span>
                 )}
-                {uni.tuition && (
+                {!isLocked && uni.tuition && (
                   <span className="pill-badge" style={{
                     fontSize: 11, padding: "4px 12px", borderRadius: 999,
                     background: "rgba(197,160,89,.08)", color: "#C5A059",
@@ -277,7 +285,7 @@ export default function UniversityCard({ uni }: any) {
                     💵 {uni.tuition}
                   </span>
                 )}
-                {uni.salary && (
+                {!isLocked && uni.salary && (
                   <span className="pill-badge" style={{
                     fontSize: 11, padding: "4px 12px", borderRadius: 999,
                     background: "rgba(45,41,38,.05)", color: "#2D2926",
@@ -294,11 +302,11 @@ export default function UniversityCard({ uni }: any) {
 
           {/* Stats grid */}
           <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12, marginBottom: 24 }}>
-            <StatCell label="Average Salary" value={uni.salary} icon="💼" />
-            <StatCell label="Tuition Fees" value={uni.tuition} icon="💵" />
-            <StatCell label="Avg SAT Score" value={uni.sat ? String(uni.sat) : null} icon="📝" />
-            <StatCell label="Min. TOEFL" value={uni.toefl ? String(uni.toefl) : null} icon="🗣️" />
-            <StatCell label="Average GPA" value={uni.gpa ? String(uni.gpa) : null} icon="📊" />
+            <StatCell label="Average Salary" value={isLocked ? "🔒 Locked" : uni.salary} icon="💼" />
+            <StatCell label="Tuition Fees" value={isLocked ? "🔒 Locked" : uni.tuition} icon="💵" />
+            <StatCell label="Avg SAT Score" value={isLocked ? "🔒" : (uni.sat ? String(uni.sat) : null)} icon="📝" />
+            <StatCell label="Min. TOEFL" value={isLocked ? "🔒" : (uni.toefl ? String(uni.toefl) : null)} icon="🗣️" />
+            <StatCell label="Average GPA" value={isLocked ? "🔒" : (uni.gpa ? String(uni.gpa) : null)} icon="📊" />
 
             {/* Acceptance rate with animated bar */}
             <div style={{
@@ -310,7 +318,7 @@ export default function UniversityCard({ uni }: any) {
               <p style={{ fontSize: 10, color: "#6B5E51", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 8, fontWeight: 700 }}>
                 📈 Acceptance Rate
               </p>
-              <AcceptanceBar pct={acceptanceRaw} />
+              {isLocked ? <div style={{ fontSize: 18, fontWeight: 700, color: "#C5A059", marginTop: 4 }}>🔒 Locked</div> : <AcceptanceBar pct={acceptanceRaw} />}
             </div>
           </div>
 

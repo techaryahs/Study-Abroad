@@ -306,12 +306,19 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
   }
 
   Widget _uniCard(UniversityItem u) {
+    final isLocked = u.isLocked;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isLocked ? const Color(0xFFFAFAF7) : Colors.white,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppTheme.gold.withOpacity(0.1)),
+        border: Border.all(
+          color: isLocked
+              ? AppTheme.gold.withOpacity(0.4)
+              : AppTheme.gold.withOpacity(0.1),
+          width: isLocked ? 1.5 : 1.0,
+        ),
         boxShadow: [
           BoxShadow(
               color: Colors.black.withOpacity(0.02),
@@ -325,7 +332,35 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (isLocked) ...[
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  margin: const EdgeInsets.only(bottom: 12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.gold.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(LucideIcons.lock, size: 12, color: AppTheme.darkBrown),
+                      SizedBox(width: 6),
+                      Text(
+                        'PREMIUM UNIVERSITY • UNLOCK WITH MEMBERSHIP',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w900,
+                          color: AppTheme.darkBrown,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -351,10 +386,12 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                           children: [
                             Expanded(
                                 child: Text(u.name,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
-                                        color: AppTheme.textPrimary))),
+                                        color: isLocked
+                                            ? AppTheme.textPrimary
+                                            : AppTheme.textPrimary))),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 6, vertical: 2),
@@ -388,17 +425,25 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              _badge(
-                                  LucideIcons.checkCircle2,
-                                  '8%',
-                                  const Color(0xFF10B981).withOpacity(0.1),
-                                  const Color(0xFF10B981)),
-                              const SizedBox(width: 8),
-                              _badge(
-                                  LucideIcons.graduationCap,
-                                  u.fee,
-                                  AppTheme.gold.withOpacity(0.1),
-                                  AppTheme.gold),
+                              if (isLocked) ...[
+                                _badge(
+                                    LucideIcons.lock,
+                                    '🔒 Premium Data Locked',
+                                    AppTheme.gold.withOpacity(0.1),
+                                    AppTheme.darkBrown),
+                              ] else ...[
+                                _badge(
+                                    LucideIcons.checkCircle2,
+                                    '8%',
+                                    const Color(0xFF10B981).withOpacity(0.1),
+                                    const Color(0xFF10B981)),
+                                const SizedBox(width: 8),
+                                _badge(
+                                    LucideIcons.graduationCap,
+                                    u.fee,
+                                    AppTheme.gold.withOpacity(0.1),
+                                    AppTheme.gold),
+                              ],
                             ],
                           ),
                         ),

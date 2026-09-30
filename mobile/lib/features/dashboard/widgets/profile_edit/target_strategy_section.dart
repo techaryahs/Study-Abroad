@@ -68,14 +68,48 @@ class TargetStrategySection extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(it['uniName']?.toString().toUpperCase() ?? 'UNIVERSITY', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
-                            const Icon(Icons.edit, size: 12, color: AppTheme.gold),
+                            Expanded(
+                              child: Text(it['uniName']?.toString().toUpperCase() ?? 'UNIVERSITY', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900), overflow: TextOverflow.ellipsis),
+                            ),
+                            const Icon(Icons.edit, size: 14, color: AppTheme.gold),
                           ],
                         ),
                         const SizedBox(height: 4),
-                        Text('${it['degree']} | ${it['major']}', style: const TextStyle(fontSize: 14, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
-                        const SizedBox(height: 4),
-                        Text('INTAKE: ${it['term']} ${it['year']}', style: const TextStyle(fontSize: 14, color: AppTheme.gold, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                        Text('${it['degree'] ?? ''} ${it['major'] != null && it['major'].toString().isNotEmpty ? '| ${it['major']}' : ''}'.trim(), style: const TextStyle(fontSize: 13, color: AppTheme.textSecondary, fontWeight: FontWeight.w700)),
+                        if (it['targetCountry'] != null && it['targetCountry'].toString().trim().isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              const Icon(Icons.location_on_outlined, size: 12, color: AppTheme.textMuted),
+                              const SizedBox(width: 4),
+                              Text(it['targetCountry'].toString(), style: const TextStyle(fontSize: 12, color: AppTheme.textMuted, fontWeight: FontWeight.w600)),
+                            ],
+                          ),
+                        ],
+                        const SizedBox(height: 6),
+                        Row(
+                          children: [
+                            Text('INTAKE: ${it['term'] ?? ''} ${it['year'] ?? ''}'.trim(), style: const TextStyle(fontSize: 12, color: AppTheme.gold, fontWeight: FontWeight.w900, letterSpacing: 1)),
+                            if (it['tuitionBudget'] != null && it['tuitionBudget'].toString().trim().isNotEmpty) ...[
+                              const SizedBox(width: 10),
+                              Text('•  ${it['tuitionBudget']}', style: const TextStyle(fontSize: 12, color: AppTheme.textMuted, fontWeight: FontWeight.w600)),
+                            ]
+                          ],
+                        ),
+                        if (it['scholarshipRequired'] != null && it['scholarshipRequired'].toString().trim().isNotEmpty) ...[
+                          const SizedBox(height: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: AppTheme.gold.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              'Scholarship: ${it['scholarshipRequired']}',
+                              style: const TextStyle(fontSize: 11, color: AppTheme.gold, fontWeight: FontWeight.w700),
+                            ),
+                          ),
+                        ]
                       ],
                     ),
                   ),

@@ -3,18 +3,18 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import BookCounsellingModal from "@/components/shared/BookCounsellingModal";
-import usaData from "@/data/USA.json";
-import ausData from "@/data/AUS.json";
-import germanyData from "@/data/Germany.json";
-import ukData from "@/data/UK.json";
-import canadaData from "@/data/Canada.json";
-import dubaiData from "@/data/Dubai.json";
-import singaporeData from "@/data/singapore.json";
-import newZealandData from "@/data/NewZealand Universities.json";
-import irelandData from "@/data/Ireland.json";
-import switzerlandData from "@/data/Switzerland.json";
-import netherlandsData from "@/data/Netherlands.json";
-import franceData from "@/data/France.json";
+
+
+
+
+
+
+
+
+
+
+
+
 import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -126,27 +126,13 @@ export default function UniversityPage() {
     const slug = params?.slug;
 
     // ─── Dynamic Data Lookup ───────────────────────────────────────────────
-    const combinedData = [
-        ...singaporeData,
-        ...newZealandData,
-        ...germanyData,
-        ...usaData,
-        ...ukData,
-        ...ausData,
-        ...canadaData,
-        ...dubaiData,
-        ...irelandData,
-        ...switzerlandData,
-        ...netherlandsData,
-        ...franceData
-    ];
+    
 
-    const data: any = combinedData.find((uni: any) => {
-        const uniName = uni.university || uni.university_name || uni.name || "";
-        const uniSlug = uni.slug || uniName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
-        return uniSlug === slug;
-    });
+    
 
+    if (loading) {
+        return <div className="min-h-screen flex justify-center items-center"><div className="w-8 h-8 border-2 border-[#C5A059] border-t-transparent rounded-full animate-spin" /></div>;
+    }
     if (!data) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#FDFBF7] text-[#2D2926]">
@@ -157,9 +143,11 @@ export default function UniversityPage() {
             </div>
         );
     }
+    
+    const currentPrograms = data.branches?.map((b: any) => b.name) || ["Engineering"];
 
         const currentPrograms = data.branches?.map((b: any) => b.name) || ["Engineering"];
-    const [activeProgram, setActiveProgram] = useState(currentPrograms[0]);
+    const [activeProgram, setActiveProgram] = useState("");
 
     const activeBranch = data.branches?.find((b: any) => b.name === activeProgram) || data.branches?.[0] || {};
 
@@ -181,6 +169,8 @@ export default function UniversityPage() {
     const similarUniversities = data.similarUniversities || [];
     const scatterPoints = data.scatterPoints || [];
 
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
     const [activeSection, setActiveSection] = useState("About");
     const [mounted, setMounted] = useState(false);
     const [degreeLevel, setDegreeLevel] = useState("Master's");
@@ -196,6 +186,33 @@ export default function UniversityPage() {
     const [awardsRef, awardsVisible] = useInView();
 
     useEffect(() => { setMounted(true); }, []);
+    useEffect(() => {
+        const fetchUni = async () => {
+            try {
+                const token = localStorage.getItem("token") || localStorage.getItem("auth_token");
+                const headers: any = {};
+                if (token) headers.Authorization = `Bearer ${token}`;
+                
+                const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011"}/api/universities/${slug}`;
+                const res = await fetch(url, { headers });
+                if (res.ok) {
+                    const json = await res.json();
+                    if (json.data) {
+                        setData(json.data);
+                        if (json.data.branches?.length > 0) {
+                            setActiveProgram(json.data.branches[0].name);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchUni();
+    }, [slug]);
+
 
     return (
         <div className="min-h-screen text-[#2D2926] overflow-x-hidden" style={{ background: "#FDFBF7", fontFamily: "'DM Sans', sans-serif" }}>
@@ -397,6 +414,14 @@ export default function UniversityPage() {
                 </section>
 
                 {/* ════════════════════ BODY ════════════════════ */}
+                {(data.hasAccess === false || data.access === "locked") ? (
+                    <div className="card" style={{ padding: 40, textAlign: "center", marginTop: 40 }}>
+                        <p style={{ fontSize: 40, marginBottom: 20 }}>🔒</p>
+                        <h3 className="fd" style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, color: "#2D2926" }}>Premium University Data</h3>
+                        <p style={{ fontSize: 16, color: "#6B5E51", marginBottom: 24 }}>This university is beyond your current access limit. Upgrade to unlock its stats, tuition, and admission demographics.</p>
+                        <a href="/pricing" style={{ background: "#C5A059", color: "#FFF", padding: "12px 24px", borderRadius: 12, fontWeight: 700, display: "inline-block" }}>View Membership Plans</a>
+                    </div>
+                ) : (
                 <EntitlementGuard featureId="university_search" fallbackTitle="Unlock University Details" fallbackDescription="Get premium access to explore detailed admission chances, tuition costs, and student demographics for this university.">
                 <div className="max-w-6xl mx-auto px-6 py-20">
                     <div style={{ display: "grid", gridTemplateColumns: "240px 1fr 320px", gap: 40, alignItems: "start" }}>

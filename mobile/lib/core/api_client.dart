@@ -96,20 +96,14 @@ String extractErrorMessage(Object e) {
 }
 
 class ApiClient {
-  // ── PRODUCTION SERVER ──
-  static const String baseUrl = 'https://api.eduleaderglobal.com';
-
   // ── LOCAL NODE.JS DEVELOPMENT BACKEND (PORT 5011) ──
-  // Toggle the active environment below by commenting/uncommenting:
-  
-  // 1. iOS Simulator / Web / Local Desktop
-  // static const String baseUrl = 'http://localhost:5011';
-  // static const String baseUrl = 'http://127.0.0.1:5011';
-  
-  // 2. Android Emulator (translates to localhost of your development machine)
-  // static const String baseUrl = 'http://10.0.2.2:5011';
-  
-  // static const String baseUrl = 'http://192.168.1.4:5011';
+  // Current local network IP for physical mobile devices:
+  static const String baseUrl = 'http://192.168.1.9:5011';
+
+  // ── OTHER BASE URL CONFIGURATIONS ──
+  // static const String baseUrl = 'https://api.eduleaderglobal.com'; // Production URL
+  // static const String baseUrl = 'http://localhost:5011'; // iOS Simulator / Web / Desktop
+  // static const String baseUrl = 'http://10.0.2.2:5011'; // Android Emulator
 
   static Dio? _dio;
 
