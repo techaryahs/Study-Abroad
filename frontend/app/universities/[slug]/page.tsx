@@ -125,6 +125,11 @@ export default function UniversityPage() {
     const params = useParams();
     const slug = params?.slug;
 
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [activeSection, setActiveSection] = useState("About");
+    const [mounted, setMounted] = useState(false);
+
     // ─── Dynamic Data Lookup ───────────────────────────────────────────────
     
 
@@ -144,7 +149,7 @@ export default function UniversityPage() {
         );
     }
     
-    const currentPrograms = data.branches?.map((b: any) => b.name) || ["Engineering"];
+    
 
         const currentPrograms = data.branches?.map((b: any) => b.name) || ["Engineering"];
     const [activeProgram, setActiveProgram] = useState("");
@@ -169,10 +174,7 @@ export default function UniversityPage() {
     const similarUniversities = data.similarUniversities || [];
     const scatterPoints = data.scatterPoints || [];
 
-    const [data, setData] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
-    const [activeSection, setActiveSection] = useState("About");
-    const [mounted, setMounted] = useState(false);
+    
     const [degreeLevel, setDegreeLevel] = useState("Master's");
     const [isBookingOpen, setIsBookingOpen] = useState(false);
 
@@ -765,6 +767,7 @@ export default function UniversityPage() {
                     </div>
                 </div>
                 </EntitlementGuard>
+                )}
             </div>
 
             <BookCounsellingModal 

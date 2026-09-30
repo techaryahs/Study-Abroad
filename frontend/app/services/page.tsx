@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import ServicesClientPage from "./ServicesClientPage";
 
 export const metadata: Metadata = {
