@@ -365,17 +365,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     try {
       final profileRes = await ApiClient.instance.get('/api/user/profile/$userId');
-      final receiptsRes = await ApiClient.instance.get('/api/payment/user/${auth.user?['email']}');
+      
+      dynamic receiptsData = [];
+      try {
+        final email = auth.user?['email'];
+        if (email != null && email.toString().isNotEmpty) {
+          final receiptsRes = await ApiClient.instance.get('/api/payment/user/$email');
+          receiptsData = receiptsRes.data;
+        }
+      } catch (receiptErr) {
+        // Ignore receipt error, continue loading profile
+        print("Receipt fetch failed: $receiptErr");
+      }
 
       if (mounted) {
         setState(() {
           _userData = profileRes.data;
-          _receipts = receiptsRes.data is List ? receiptsRes.data : [];
+          _receipts = receiptsData is List ? receiptsData : [];
           _loading = false;
         });
       }
-    } catch (_) {
-      if (mounted) setState(() => _loading = false);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Dashboard fetch error: $e'), backgroundColor: Colors.red),
+        );
+        setState(() => _loading = false);
+      }
     }
   }
 
@@ -502,10 +518,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     const SizedBox(height: 30),
                     
                     // Location & LinkedIn
-                    Row(
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 12,
                       children: [
-                        _headerIconLink(Icons.location_on, _userData?['country'] ?? 'Global Citizen'),
-                        const SizedBox(width: 24),
+                        _headerIconLink(Icons.location_on, 'GLOBAL CITIZEN'),
                         GestureDetector(
                           onTap: () {
                             final url = profile['linkedin'];
@@ -517,8 +534,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           },
                           child: _headerIconLink(
                             Icons.link, 
-                            (profile['linkedin'] != null && profile['linkedin'].toString().isNotEmpty) ? 'LinkedIn' : 'Connect',
-                            color: (profile['linkedin'] != null && profile['linkedin'].toString().isNotEmpty) ? AppTheme.gold : null,
+                            'ADD LINKEDIN',
+                            color: AppTheme.gold,
                           ),
                         ),
                       ],
@@ -533,8 +550,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: GestureDetector(
                             onTap: _showBioLinkedInModal,
                             child: _secondaryBtn(
-                              (profile['bio'] != null && profile['bio'].toString().isNotEmpty) ? Icons.edit_note : Icons.add_circle_outline, 
-                              (profile['bio'] != null && profile['bio'].toString().isNotEmpty) ? 'EDIT BIO' : 'ADD BIO'
+                              Icons.add_circle_outline, 
+                              '+ ADD SHORT BIO'
                             ),
                           ),
                         ),
@@ -542,8 +559,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () async {
-                              final updated = await context.push('/dashboard/edit', extra: _userData);
-                              if (updated == true) _fetchData();
+                              if (_userData == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('User data is still loading or failed to load.'), backgroundColor: Colors.red),
+                                );
+                                return;
+                              }
+                              // Bypass go_router extra issues by using Navigator directly
+                              final updated = await Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => EditProfileScreen(userData: _userData!),
+                                ),
+                              );
+                              if (updated == true) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Profile updated successfully'), backgroundColor: Colors.green),
+                                );
+                                _fetchData();
+                              }
                             },
                             child: _primaryBtn(Icons.edit, 'EDIT PROFILE'),
                           ),
@@ -561,7 +594,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
                   child: Row(
-                    children: ['profile', 'bookings', 'sessions'].map((tab) {
+                    children: ['profile', 'membership', 'bookings', 'sessions'].map((tab) {
                       final isSelected = _activeTab == tab;
                       return GestureDetector(
                         onTap: () => setState(() => _activeTab = tab),
@@ -576,7 +609,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             boxShadow: isSelected ? [BoxShadow(color: AppTheme.gold.withOpacity(0.2), blurRadius: 15, offset: const Offset(0, 5))] : null,
                           ),
                           child: Text(
-                            tab == 'profile' ? 'PROFILE' : tab == 'bookings' ? 'MY BOOKINGS' : 'MY SESSIONS',
+                            tab == 'profile' ? 'PROFILE' : tab == 'membership' ? 'MEMBERSHIP CENTER' : tab == 'bookings' ? 'MY BOOKINGS' : 'MY SESSIONS',
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w900,
@@ -591,9 +624,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
   
-              if (_activeTab == 'profile') ...[
+              if (_activeTab == 'membership') ...[
               // ── MEMBERSHIP MODULE ──
               _buildMembershipModule(context),
+              ],
+              if (_activeTab == 'profile') ...[
 
                 // ── IDENTITY MODULE ──
                 _buildIdentityModule(profile),
@@ -1028,11 +1063,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     final tabs = [
       {'id': 'about', 'label': 'ABOUT'},
-      if ((profile['highSchool'] as List?)?.isNotEmpty ?? false) {'id': 'highSchool', 'label': 'HIGH SCHOOL'},
-      if ((profile['underGrad'] as List?)?.isNotEmpty ?? false) {'id': 'undergrad', 'label': 'BACHELOR\'S'},
-      if ((profile['masters'] as List?)?.isNotEmpty ?? false) {'id': 'masters', 'label': 'MASTER\'S'},
-      if ((profile['targetUniversities'] as List?)?.isNotEmpty ?? false) {'id': 'target', 'label': 'TARGET'},
-      ...testScores.map((s) => {'id': 'score-${s['testType']}', 'label': s['testType'].toString().toUpperCase()}),
+      {'id': 'insights', 'label': 'INSIGHTS'},
+      {'id': 'highSchool', 'label': 'HIGH SCHOOL'},
+      {'id': 'undergrad', 'label': 'BACHELOR\'S'},
+      {'id': 'masters', 'label': 'MASTER\'S'},
+      {'id': 'target', 'label': 'TARGET'},
+      {'id': 'documents', 'label': 'DOCUMENTS'},
     ];
 
     return Container(
@@ -1103,11 +1139,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
       case 'about':
         return Column(
           children: [
-            _premiumInfoRow(Icons.person, 'FULL NAME', _userData?['name'] ?? '—'),
-            if (profile['bio'] != null && profile['bio'].toString().isNotEmpty)
-              _premiumInfoRow(Icons.info_outline, 'BIO', profile['bio']),
-            _premiumInfoRow(Icons.location_on, 'LOCATION', _userData?['country'] ?? '—'),
-            _premiumInfoRow(Icons.calendar_today, 'JOINED', 'Sep 2025'),
+            Row(
+              children: [
+                Expanded(child: _premiumInfoRow(Icons.person, 'FULL NAME', _userData?['name'] ?? '—')),
+                const SizedBox(width: 16),
+                Expanded(child: _premiumInfoRow(Icons.transgender, 'GENDER', profile['gender'] ?? '—')),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(child: _premiumInfoRow(Icons.location_on, 'LOCATION', _userData?['country'] ?? '—')),
+                const SizedBox(width: 16),
+                Expanded(child: _premiumInfoRow(Icons.cake, 'BIRTH DATE', profile['birthDate'] ?? '—')),
+              ],
+            ),
           ],
         );
       case 'highSchool':
@@ -1151,7 +1196,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildRecommendedCarousel(Map<String, dynamic> profile, int completed) {
-    final pending = _profileCards.where((c) => !_hasData(profile, c['section']!)).toList();
+    final pending = [
+      {'title': 'Standardized Tests', 'icon': '📊', 'section': 'testScores', 'desc': 'Add scores.'},
+      {'title': 'Work Experience', 'icon': '💼', 'section': 'workExperience', 'desc': 'Add jobs.'},
+      {'title': 'Research Work', 'icon': '🔬', 'section': 'research', 'desc': 'Add papers.'},
+    ];
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -1179,7 +1228,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
           const SizedBox(height: 30),
           // Progress Bar
-          ProfileProgressBar(completed: completed),
+          ProfileProgressBar(completed: completed, total: 10),
           
           const SizedBox(height: 32),
           
@@ -1220,6 +1269,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final nodes = [
       {'id': 'workExperience', 'label': 'WORK EXPERIENCE', 'icon': Icons.business_center},
       {'id': 'projects', 'label': 'PROJECTS', 'icon': Icons.rocket_launch},
+      {'id': 'research', 'label': 'RESEARCH PAPERS', 'icon': Icons.science},
+      {'id': 'volunteering', 'label': 'VOLUNTEERING', 'icon': Icons.volunteer_activism},
+      {'id': 'achievements', 'label': 'ACHIEVEMENTS & AWARDS', 'icon': Icons.emoji_events},
     ];
 
     return Column(
@@ -1449,29 +1501,33 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _headerIconLink(IconData icon, String text, {Color? color}) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: color ?? AppTheme.gold, size: 16),
-        const SizedBox(width: 8),
-        Text(text.toUpperCase(),
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: color ?? AppTheme.textSecondary, letterSpacing: 1.5)),
+        Icon(icon, color: color ?? AppTheme.gold, size: 14),
+        const SizedBox(width: 6),
+        Flexible(
+          child: Text(text.toUpperCase(),
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: color ?? AppTheme.textSecondary, letterSpacing: 1.0)),
+        ),
       ],
     );
   }
 
   Widget _primaryBtn(IconData icon, String text) {
     return Container(
-      height: 52,
+      height: 48,
       decoration: BoxDecoration(
         color: AppTheme.gold,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: AppTheme.gold.withOpacity(0.3), blurRadius: 15, offset: const Offset(0, 5))],
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [BoxShadow(color: AppTheme.gold.withOpacity(0.3), blurRadius: 10, offset: const Offset(0, 3))],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: Colors.white, size: 16),
-          const SizedBox(width: 8),
-          Text(text, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+          Icon(icon, color: Colors.white, size: 14),
+          const SizedBox(width: 6),
+          Flexible(child: Text(text, overflow: TextOverflow.ellipsis, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.0))),
         ],
       ),
     );
@@ -1479,18 +1535,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _secondaryBtn(IconData icon, String text) {
     return Container(
-      height: 52,
+      height: 48,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: AppTheme.borderLight),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: AppTheme.gold, size: 16),
-          const SizedBox(width: 8),
-          Text(text, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 14, fontWeight: FontWeight.w900, letterSpacing: 1.5)),
+          Icon(icon, color: AppTheme.gold, size: 14),
+          const SizedBox(width: 6),
+          Flexible(child: Text(text, overflow: TextOverflow.ellipsis, style: const TextStyle(color: AppTheme.textPrimary, fontSize: 11, fontWeight: FontWeight.w900, letterSpacing: 1.0))),
         ],
       ),
     );

@@ -8,6 +8,7 @@ import '../../core/theme.dart';
 import '../../data/university_repository.dart';
 import '../auth/auth_provider.dart';
 import '../membership/membership_screen.dart';
+import '../../widgets/book_counselling_sheet.dart';
 
 class UniversityDetailScreen extends StatefulWidget {
   final String slug;
@@ -139,7 +140,6 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen>
                                   color: AppTheme.textSecondary,
                                   fontWeight: FontWeight.w500)),
                         ],
-                      ),
                       ),
                       const SizedBox(height: 24),
                       if (u.isLocked) ...[
@@ -542,7 +542,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen>
                   fontWeight: FontWeight.w900)),
           const SizedBox(height: 24),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () => showBookCounsellingSheet(context),
             style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.gold,
                 foregroundColor: Colors.white,
@@ -557,7 +557,7 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen>
           ),
           const SizedBox(height: 12),
           TextButton(
-            onPressed: () {},
+            onPressed: () => showBookCounsellingSheet(context),
             child: const Text('Speak with Counsellor',
                 style: TextStyle(color: Colors.white70, fontSize: 14)),
           ),

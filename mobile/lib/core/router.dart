@@ -279,6 +279,7 @@ class AppRouter {
             GoRoute(
               path: '/dashboard/edit',
               redirect: (context, state) {
+                print("Dashboard edit redirect. state.extra: ${state.extra}");
                 if (state.extra == null) return '/dashboard';
                 return null;
               },

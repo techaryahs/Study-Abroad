@@ -26,6 +26,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController _countryController;
   late TextEditingController _bioController;
   late TextEditingController _linkedinController;
+  late TextEditingController _dobController;
+  late TextEditingController _mobileController;
+  String _gender = 'Male';
 
   Map<String, dynamic>? _currentData;
   File? _imageFile;
@@ -51,6 +54,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         TextEditingController(text: _currentData?['profile']?['bio']);
     _linkedinController =
         TextEditingController(text: _currentData?['profile']?['linkedin']);
+    _dobController = TextEditingController(text: _currentData?['dob']);
+    _mobileController = TextEditingController(text: _currentData?['mobile']);
+    _gender = _currentData?['gender'] ?? 'Male';
   }
 
   Future<void> _fetchFreshData() async {
@@ -82,6 +88,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final Map<String, dynamic> data = {
         'name': _nameController.text,
         'country': _countryController.text,
+        'dob': _dobController.text,
+        'mobile': _mobileController.text,
+        'gender': _gender,
         'profile': {
           'bio': _bioController.text,
           'linkedin': _linkedinController.text,
@@ -106,8 +115,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       }
     } catch (e) {
       if (mounted) {
+        String msg = 'Failed to update profile. Please try again.';
+        if (e is DioException && e.response?.data != null) {
+          msg = e.response?.data['message'] ?? e.response?.data['error'] ?? msg;
+        } else if (e is DioException && e.type != DioExceptionType.badResponse) {
+          msg = 'Unable to connect. Please check your internet connection.';
+        }
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+            SnackBar(content: Text(msg), backgroundColor: Colors.red));
       }
     } finally {
       if (mounted) {
@@ -268,6 +283,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               countryController: _countryController,
               bioController: _bioController,
               linkedinController: _linkedinController,
+              dobController: _dobController,
+              mobileController: _mobileController,
+              gender: _gender,
+              onGenderChanged: (val) => setState(() => _gender = val),
             ),
             const SizedBox(height: 28),
             // Change Password Button

@@ -348,14 +348,17 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                     children: [
                       Icon(LucideIcons.lock, size: 12, color: AppTheme.darkBrown),
                       SizedBox(width: 6),
-                      Text(
-                        'PREMIUM UNIVERSITY • UNLOCK WITH MEMBERSHIP',
+                      Flexible(
+                        child: Text(
+                          'PREMIUM UNIVERSITY • UNLOCK WITH MEMBERSHIP',
+                          overflow: TextOverflow.visible,
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w900,
                           color: AppTheme.darkBrown,
                           letterSpacing: 0.5,
                         ),
+                      ),
                       ),
                     ],
                   ),
@@ -383,6 +386,7 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                                 child: Text(u.name,
@@ -421,31 +425,29 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
                           ],
                         ),
                         const SizedBox(height: 12),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              if (isLocked) ...[
-                                _badge(
-                                    LucideIcons.lock,
-                                    '🔒 Premium Data Locked',
-                                    AppTheme.gold.withOpacity(0.1),
-                                    AppTheme.darkBrown),
-                              ] else ...[
-                                _badge(
-                                    LucideIcons.checkCircle2,
-                                    '8%',
-                                    const Color(0xFF10B981).withOpacity(0.1),
-                                    const Color(0xFF10B981)),
-                                const SizedBox(width: 8),
-                                _badge(
-                                    LucideIcons.graduationCap,
-                                    u.fee,
-                                    AppTheme.gold.withOpacity(0.1),
-                                    AppTheme.gold),
-                              ],
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            if (isLocked)
+                              _badge(
+                                  LucideIcons.lock,
+                                  '🔒 Premium Data Locked',
+                                  AppTheme.gold.withOpacity(0.1),
+                                  AppTheme.darkBrown)
+                            else ...[
+                              _badge(
+                                  LucideIcons.checkCircle2,
+                                  '8%',
+                                  const Color(0xFF10B981).withOpacity(0.1),
+                                  const Color(0xFF10B981)),
+                              _badge(
+                                  LucideIcons.graduationCap,
+                                  u.fee,
+                                  AppTheme.gold.withOpacity(0.1),
+                                  AppTheme.gold),
                             ],
-                          ),
+                          ],
                         ),
                       ],
                     ),
@@ -467,11 +469,13 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 10, color: text),
+          Icon(icon, size: 12, color: text),
           const SizedBox(width: 4),
-          Text(label,
-              style: TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w900, color: text)),
+          Flexible(
+            child: Text(label,
+                style: TextStyle(
+                    fontSize: 11, fontWeight: FontWeight.w900, color: text)),
+          ),
         ],
       ),
     );

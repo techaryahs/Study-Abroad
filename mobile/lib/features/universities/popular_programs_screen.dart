@@ -206,14 +206,17 @@ class _PopularProgramsScreenState extends State<PopularProgramsScreen> {
                     children: [
                       Icon(LucideIcons.lock, size: 12, color: AppTheme.darkBrown),
                       SizedBox(width: 6),
-                      Text(
-                        'PREMIUM UNIVERSITY • UNLOCK WITH MEMBERSHIP',
+                      Flexible(
+                        child: Text(
+                          'PREMIUM UNIVERSITY • UNLOCK WITH MEMBERSHIP',
+                          overflow: TextOverflow.visible,
                         style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.w900,
                           color: AppTheme.darkBrown,
                           letterSpacing: 0.5,
                         ),
+                      ),
                       ),
                     ],
                   ),

@@ -98,7 +98,7 @@ String extractErrorMessage(Object e) {
 class ApiClient {
   // ── LOCAL NODE.JS DEVELOPMENT BACKEND (PORT 5011) ──
   // Current local network IP for physical mobile devices:
-  static const String baseUrl = 'http://192.168.1.9:5011';
+  static const String baseUrl = 'http://192.168.1.7:5011';
 
   // ── OTHER BASE URL CONFIGURATIONS ──
   // static const String baseUrl = 'https://api.eduleaderglobal.com'; // Production URL

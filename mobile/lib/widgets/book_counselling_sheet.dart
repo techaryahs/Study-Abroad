@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme.dart';
@@ -337,10 +338,22 @@ class _BookCounsellingSheetState extends State<BookCounsellingSheet> {
         _bookingLoading = false;
       });
     } catch (e) {
+      String errorMessage = isFreeBooking
+          ? 'Booking failed. Please try again.'
+          : 'Payment was successful but booking failed. Please contact support.';
+      
+      if (e is DioException && e.response?.data != null) {
+        if (e.response?.data['message'] != null) {
+           errorMessage = e.response?.data['message'];
+        } else if (e.response?.data['error'] != null) {
+           errorMessage = e.response?.data['error'];
+        }
+      } else if (e is DioException && e.type != DioExceptionType.badResponse) {
+         errorMessage = 'Unable to connect. Please check your internet connection.';
+      }
+      
       setState(() {
-        _error = isFreeBooking
-            ? 'Booking failed. Please try again.'
-            : 'Payment was successful but booking failed. Please contact support.';
+        _error = errorMessage;
         _bookingLoading = false;
       });
     }
