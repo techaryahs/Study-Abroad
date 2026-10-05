@@ -10,8 +10,22 @@ const WorkExperienceSchema = new mongoose.Schema({
   isOngoing: { type: Boolean, default: false },
   country: String,
   state: String,
-  description: String
-}, { _id: true });
+  description: String,
+  documentUrl: String,
+  documentName: String
+}, { _id: true, strict: false });
+
+const AchievementSchema = new mongoose.Schema({
+  title: String,
+  organization: String,
+  issuer: String,
+  year: String,
+  date: String,
+  description: String,
+  documentUrl: String,
+  documentName: String,
+  addedAt: { type: Date, default: Date.now }
+}, { _id: true, strict: false });
 
 const StudentSchema = new mongoose.Schema(
   {
@@ -38,6 +52,7 @@ const StudentSchema = new mongoose.Schema(
     gender: { type: String },
     country: { type: String },
     state: { type: String },
+    location: { type: String, default: "" },
     role: {
       type: String,
       default: "student",
@@ -57,9 +72,13 @@ const StudentSchema = new mongoose.Schema(
 
       profileImage: { type: String, default: null },
       resumeUrl: { type: String, default: null },
+      resumeName: { type: String, default: null },
+      resume: { type: String, default: null },
+      location: { type: String, default: "" },
       bio: { type: String, default: "" },
       portfolio: { type: String, default: "" },
       linkedin: { type: String, default: "" },
+      website: { type: String, default: "" },
       source: { type: String, default: "" },
       lookUpFor: [{ type: String }],
       loanInterest: { type: Boolean, default: false },
@@ -75,29 +94,39 @@ const StudentSchema = new mongoose.Schema(
 
       // EDUCATIONAL DATA
       highSchool: [{
-        schoolName: String, cgpa: String, outOf: String, addedAt: { type: Date, default: Date.now }
+        schoolName: String, cgpa: String, outOf: String, documentUrl: String, documentName: String, addedAt: { type: Date, default: Date.now }
       }],
       underGrad: [{
-        uniName: String, degreeName: String, cgpa: String, outOf: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }
+        uniName: String, degreeName: String, cgpa: String, outOf: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, documentUrl: String, documentName: String
       }],
       masters: [{
-        uniName: String, degreeName: String, cgpa: String, outOf: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }
+        uniName: String, degreeName: String, cgpa: String, outOf: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, documentUrl: String, documentName: String
       }],
       testScores: [{
-        testType: String, score: String, sectionScores: mongoose.Schema.Types.Mixed, date: Date
+        testType: String, score: String, sectionScores: mongoose.Schema.Types.Mixed, date: Date, documentUrl: String, documentName: String
       }],
       workExperience: [WorkExperienceSchema],
       research: [{
-        title: String, publisher: String, date: Date, url: String
+        title: String, publisher: String, date: Date, url: String, description: String, documentUrl: String, documentName: String
       }],
       projects: [{
-        title: String, category: String, description: String, technologies: [String], startDate: Date, endDate: Date, projectUrl: String
+        title: String, category: String, description: String, technologies: [String], startDate: Date, endDate: Date, projectUrl: String, documentUrl: String, documentName: String
       }],
       volunteering: [{
-        organization: String, role: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, cause: String, description: String
+        organization: String, role: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, cause: String, description: String, documentUrl: String, documentName: String
       }],
       targetUniversities: [{
-        uniName: String, degree: String, major: String, term: String, year: String
+        uniName: String, degree: String, major: String, term: String, year: String, targetCountry: String, tuitionBudget: String, scholarshipRequired: Boolean, documentUrl: String, documentName: String
+      }],
+      achievements: [AchievementSchema],
+      documents: [{
+        title: String,
+        category: String,
+        documentUrl: String,
+        documentName: String,
+        fileType: String,
+        size: Number,
+        addedAt: { type: Date, default: Date.now }
       }],
       myBookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
       mySessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
@@ -125,4 +154,7 @@ StudentSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.models.Student || mongoose.model("Student", StudentSchema);
+if (mongoose.models && mongoose.models.Student) {
+  delete mongoose.models.Student;
+}
+module.exports = mongoose.model("Student", StudentSchema);

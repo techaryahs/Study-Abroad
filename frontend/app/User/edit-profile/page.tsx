@@ -30,7 +30,10 @@ import {
   Search,
   Eye,
   EyeOff,
-  AlertCircle
+  AlertCircle,
+  Download,
+  ExternalLink,
+  UploadCloud
 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -49,10 +52,14 @@ export default function EditProfilePage() {
   const [activeEditTest, setActiveEditTest] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const resumeInputRef = React.useRef<HTMLInputElement>(null);
   const nameInputRef = React.useRef<HTMLInputElement>(null);
 
+  const [uploadingResume, setUploadingResume] = useState(false);
+  const [resumeError, setResumeError] = useState<string | null>(null);
+
   const router = useRouter();
-  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011";
 
   const [formData, setFormData] = useState({
     name: '',
@@ -82,6 +89,7 @@ export default function EditProfilePage() {
     },
     resume: null as File | null,
     resumeName: '',
+    resumeUrl: '',
     profileImage: null as string | null
   });
 
@@ -152,7 +160,7 @@ export default function EditProfilePage() {
           dob: data.dob || '',
           country: data.country || '',
           state: data.state || '',
-          location: data.profile?.location || '',
+          location: data.profile?.location || data.location || '',
           bio: data.profile?.bio || '',
           linkedin: data.profile?.linkedin || '',
           website: data.profile?.website || '',
@@ -171,7 +179,8 @@ export default function EditProfilePage() {
             mcat: mcatDoc ? { ...mcatDoc.sectionScores, total: mcatDoc.score } : { cpbs: '', cars: '', bbls: '', psbb: '', total: '' }
           },
           resume: null,
-          resumeName: data.profile?.resume || '',
+          resumeUrl: data.profile?.resumeUrl || data.profile?.resume || data.resumeUrl || '',
+          resumeName: data.profile?.resumeName || data.resumeName || (data.profile?.resumeUrl ? data.profile.resumeUrl.split('/').pop() : '') || '',
           profileImage: data.profile?.profileImage || null
         });
       }
@@ -277,6 +286,11 @@ export default function EditProfilePage() {
         body: JSON.stringify(payload)
       });
       if (response.ok) {
+        const result = await response.json();
+        if (result.user) {
+          setUser(result.user);
+          setUserData(result.user);
+        }
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 3000);
         fetchProfile();
@@ -312,6 +326,94 @@ export default function EditProfilePage() {
       console.error("Image upload failed:", error);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleResumeUpload = async (file: File) => {
+    const userId = getUserId();
+    if (!userId) return;
+
+    // Validate extension
+    const validExtensions = ['.pdf', '.doc', '.docx'];
+    const fileName = file.name.toLowerCase();
+    const isValidExt = validExtensions.some(ext => fileName.endsWith(ext));
+    if (!isValidExt) {
+      setResumeError("Please upload a valid document (.pdf, .doc, .docx)");
+      setTimeout(() => setResumeError(null), 4000);
+      return;
+    }
+
+    // Validate size (10MB limit)
+    if (file.size > 10 * 1024 * 1024) {
+      setResumeError("File size exceeds 10MB limit.");
+      setTimeout(() => setResumeError(null), 4000);
+      return;
+    }
+
+    const formDataUpload = new FormData();
+    formDataUpload.append('resume', file);
+
+    try {
+      setUploadingResume(true);
+      setResumeError(null);
+      const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}`, {
+        method: "PUT",
+        body: formDataUpload
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const updatedResumeUrl = data.user?.profile?.resumeUrl || data.user?.profile?.resume || '';
+        const updatedResumeName = data.user?.profile?.resumeName || file.name;
+        
+        setFormData(prev => ({
+          ...prev,
+          resumeUrl: updatedResumeUrl,
+          resumeName: updatedResumeName
+        }));
+        setUser(data.user);
+        setUserData(data.user);
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        setResumeError(errData.message || "Failed to upload resume.");
+      }
+    } catch (error) {
+      console.error("Resume upload failed:", error);
+      setResumeError("Network error uploading resume. Please try again.");
+    } finally {
+      setUploadingResume(false);
+      if (resumeInputRef.current) resumeInputRef.current.value = '';
+    }
+  };
+
+  const handleRemoveResume = async () => {
+    const userId = getUserId();
+    if (!userId) return;
+
+    try {
+      setUploadingResume(true);
+      const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deleteResume: true })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setFormData(prev => ({
+          ...prev,
+          resumeUrl: '',
+          resumeName: ''
+        }));
+        setUser(data.user);
+        setUserData(data.user);
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      }
+    } catch (err) {
+      console.error("Failed to remove resume:", err);
+    } finally {
+      setUploadingResume(false);
     }
   };
 
@@ -597,8 +699,8 @@ export default function EditProfilePage() {
                             </button>
                           )}
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="space-y-2">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 min-w-0">
+                            <div className="space-y-2 min-w-0">
                               <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">
                                 {sec.id === 'highSchool' ? 'School Name' : 'University Name'}
                               </label>
@@ -612,7 +714,7 @@ export default function EditProfilePage() {
                             </div>
 
                             {sec.id !== 'highSchool' ? (
-                              <div className="space-y-2">
+                              <div className="space-y-2 min-w-0">
                                 <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Degree Title</label>
                                 <input
                                   type="text"
@@ -623,7 +725,7 @@ export default function EditProfilePage() {
                                 />
                               </div>
                             ) : (
-                              <div className="space-y-2">
+                              <div className="space-y-2 min-w-0">
                                 <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Board / Curriculum</label>
                                 <input
                                   type="text"
@@ -636,10 +738,12 @@ export default function EditProfilePage() {
                             )}
                           </div>
 
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                          <div className={`grid grid-cols-1 ${sec.id === 'highSchool' ? 'sm:grid-cols-2' : 'sm:grid-cols-3'} gap-4 sm:gap-6 min-w-0`}>
                             {sec.id !== 'highSchool' && (
-                              <div className="space-y-2">
-                                <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Major / Specialization</label>
+                              <div className="space-y-2 min-w-0">
+                                <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 truncate block">
+                                  Major / Specialization
+                                </label>
                                 <input
                                   type="text"
                                   value={item.major || ''}
@@ -650,8 +754,8 @@ export default function EditProfilePage() {
                               </div>
                             )}
 
-                            <div className="space-y-2">
-                              <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">
+                            <div className="space-y-2 min-w-0">
+                              <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 truncate block">
                                 {sec.id === 'highSchool' ? 'Passing Year' : 'Year / Duration'}
                               </label>
                               <input
@@ -663,23 +767,25 @@ export default function EditProfilePage() {
                               />
                             </div>
 
-                            <div className="space-y-2">
-                              <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Result (CGPA / Score)</label>
-                              <div className="flex items-center gap-2">
+                            <div className="space-y-2 min-w-0">
+                              <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1 truncate block">
+                                Result (CGPA / Score)
+                              </label>
+                              <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                                 <input
                                   type="text"
                                   value={item.cgpa || ''}
                                   placeholder="Score"
                                   onChange={(e) => updateEduItem(sec.id, idx, 'cgpa', e.target.value)}
-                                  className="flex-1 bg-white border border-[#F1EDEA] rounded-xl px-3 py-3 text-center text-xs font-black text-[#3C2A21] shadow-sm"
+                                  className="w-full min-w-0 flex-1 bg-white border border-[#F1EDEA] rounded-xl px-2.5 sm:px-3 py-3 text-center text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
                                 />
-                                <span className="text-[#6B5E51] text-[14px] font-bold font-black uppercase">/</span>
+                                <span className="text-[#6B5E51] text-[14px] font-bold font-black uppercase shrink-0">/</span>
                                 <input
                                   type="text"
                                   value={item.outOf || ''}
                                   placeholder="Max"
                                   onChange={(e) => updateEduItem(sec.id, idx, 'outOf', e.target.value)}
-                                  className="w-16 bg-white border border-[#F1EDEA] rounded-xl px-3 py-3 text-center text-xs font-black text-[#3C2A21] shadow-sm"
+                                  className="w-14 sm:w-16 shrink-0 min-w-0 bg-white border border-[#F1EDEA] rounded-xl px-2 py-3 text-center text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
                                 />
                               </div>
                             </div>
@@ -789,13 +895,27 @@ export default function EditProfilePage() {
 
                       <div className="space-y-2">
                         <label className="text-[12px] font-bold font-black text-[#6B5E51] uppercase tracking-widest ml-1">Annual Tuition Budget</label>
-                        <input
-                          type="text"
+                        <select
                           value={target.tuitionBudget || ''}
                           onChange={(e) => updateTargetItem(idx, 'tuitionBudget', e.target.value)}
-                          placeholder="e.g. $30,000 - $50,000 / year"
-                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm"
-                        />
+                          className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-xl px-4 py-3.5 text-xs font-bold text-[#3C2A21] focus:border-[#C5A059]/50 outline-none transition-all shadow-sm cursor-pointer"
+                        >
+                          <option value="">Select Budget Range</option>
+                          <option value="Under $15,000 / year">Under $15,000 / year</option>
+                          <option value="$15,000 - $30,000 / year">$15,000 - $30,000 / year</option>
+                          <option value="$30,000 - $50,000 / year">$30,000 - $50,000 / year</option>
+                          <option value="$50,000 - $75,000 / year">$50,000 - $75,000 / year</option>
+                          <option value="$75,000+ / year">$75,000+ / year</option>
+                          {target.tuitionBudget && ![
+                            "Under $15,000 / year",
+                            "$15,000 - $30,000 / year",
+                            "$30,000 - $50,000 / year",
+                            "$50,000 - $75,000 / year",
+                            "$75,000+ / year"
+                          ].includes(target.tuitionBudget) && (
+                            <option value={target.tuitionBudget}>{target.tuitionBudget}</option>
+                          )}
+                        </select>
                       </div>
 
                       <div className="space-y-2">
@@ -916,20 +1036,122 @@ export default function EditProfilePage() {
             )}
 
             {activeTab === 'resume' && (
-              <section className="glass-panel p-10 md:p-20 text-center relative overflow-hidden">
+              <section className="glass-panel p-8 md:p-16 text-center relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-64 h-64 bg-[#C5A059]/5 blur-[100px] rounded-full -mr-32 -mt-32" />
-                <div className="w-20 h-20 md:w-24 md:h-24 bg-[#FDFBF7] rounded-[2.5rem] border border-[#C5A059]/15 flex items-center justify-center text-[#C5A059] mx-auto mb-8 shadow-inner relative z-10">
+
+                <input
+                  type="file"
+                  ref={resumeInputRef}
+                  className="hidden"
+                  accept=".pdf,.doc,.docx"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleResumeUpload(file);
+                  }}
+                />
+
+                <div className="w-20 h-20 md:w-24 md:h-24 bg-[#FDFBF7] rounded-[2.5rem] border border-[#C5A059]/15 flex items-center justify-center text-[#C5A059] mx-auto mb-6 shadow-inner relative z-10">
                   <FileText size={40} className="opacity-80 md:hidden" />
                   <FileText size={48} className="opacity-80 hidden md:block" />
                 </div>
-                <h2 className="fd text-xl md:text-2xl font-bold text-[#3C2A21] uppercase tracking-widest mb-4 italic relative z-10">My Resume</h2>
-                <p className="text-[#6B5E51] text-[13px] font-bold md:text-[14px] font-bold font-bold uppercase tracking-widest max-w-xs mx-auto leading-relaxed mb-10 md:mb-12 italic relative z-10 opacity-60">
-                  {formData.resumeName ? `Instance Active: ${formData.resumeName}` : "No resume protocol detected."}
+                <h2 className="fd text-xl md:text-2xl font-bold text-[#3C2A21] uppercase tracking-widest mb-3 italic relative z-10">My Resume</h2>
+                <p className="text-[#6B5E51] text-[13px] font-bold uppercase tracking-widest max-w-md mx-auto leading-relaxed mb-8 italic relative z-10 opacity-70">
+                  Upload your curriculum vitae to share with advisors and target universities.
                 </p>
-                <div className="max-w-md mx-auto p-8 md:p-12 border-2 border-dashed border-[#F1EDEA] rounded-[2rem] group hover:border-[#C5A059]/40 transition-all cursor-pointer relative z-10 bg-[#FDFBF7]">
-                  <Plus size={24} className="text-[#6B5E51] opacity-20 mx-auto mb-4 group-hover:text-[#C5A059] group-hover:opacity-100 transition-all" />
-                  <span className="text-[13px] font-bold font-black text-[#6B5E51] uppercase tracking-widest block group-hover:text-[#3C2A21] transition-colors opacity-40">Upload New Document</span>
-                </div>
+
+                {resumeError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mb-8 p-4 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs font-bold flex items-center justify-between max-w-lg mx-auto shadow-xs relative z-10"
+                  >
+                    <div className="flex items-center gap-2 text-left">
+                      <AlertCircle size={16} className="shrink-0" />
+                      <span>{resumeError}</span>
+                    </div>
+                    <button onClick={() => setResumeError(null)} className="text-red-500 hover:text-red-800 text-base font-black px-2">&times;</button>
+                  </motion.div>
+                )}
+
+                {uploadingResume ? (
+                  <div className="max-w-lg mx-auto p-12 bg-[#FDFBF7] rounded-[2rem] border border-[#C5A059]/30 flex flex-col items-center justify-center gap-4 shadow-md relative z-10">
+                    <Loader2 size={40} className="text-[#C5A059] animate-spin" />
+                    <span className="text-xs font-black uppercase tracking-widest text-[#3C2A21]">Uploading document securely...</span>
+                    <span className="text-[11px] font-bold text-[#6B5E51] opacity-60">Synchronizing to your academic portfolio</span>
+                  </div>
+                ) : (formData.resumeUrl || formData.resumeName) ? (
+                  <div className="max-w-xl mx-auto p-6 md:p-8 bg-[#FDFBF7] border border-[#C5A059]/20 rounded-[2rem] shadow-sm relative z-10">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-5 pb-6 border-b border-[#F1EDEA]">
+                      <div className="flex items-center gap-4 text-left w-full sm:w-auto">
+                        <div className="w-14 h-14 bg-white border border-[#C5A059]/20 rounded-2xl flex items-center justify-center text-[#C5A059] shrink-0 shadow-xs">
+                          <FileText size={26} />
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="text-sm font-black text-[#3C2A21] truncate max-w-[220px] sm:max-w-xs">
+                            {formData.resumeName || (formData.resumeUrl ? formData.resumeUrl.split('/').pop() : "Scholar Resume")}
+                          </h4>
+                          <span className="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 rounded-full mt-1.5">
+                            <CheckCircle size={12} /> Active Resume
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                        {formData.resumeUrl && (
+                          <a
+                            href={formData.resumeUrl.startsWith('http') ? formData.resumeUrl : `${BACKEND_URL}${formData.resumeUrl}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-[#3C2A21] text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-[#C5A059] transition-all shadow-sm active:scale-95"
+                          >
+                            <Download size={14} />
+                            <span>View</span>
+                          </a>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => resumeInputRef.current?.click()}
+                          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-[#C5A059]/25 text-[#3C2A21] rounded-xl text-xs font-black uppercase tracking-wider hover:bg-[#FDFBF7] hover:border-[#C5A059] transition-all shadow-xs active:scale-95"
+                        >
+                          <UploadCloud size={14} />
+                          <span>Replace</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleRemoveResume}
+                          className="p-2.5 bg-red-50 text-red-600 border border-red-200/80 rounded-xl hover:bg-red-100 hover:text-red-700 transition-all shadow-xs active:scale-95"
+                          title="Remove Resume"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 flex items-center justify-between text-[11px] font-bold text-[#6B5E51] opacity-60">
+                      <span>Format: PDF / Word Document</span>
+                      <span>Ready for admission audits</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => resumeInputRef.current?.click()}
+                    onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      const file = e.dataTransfer.files?.[0];
+                      if (file) handleResumeUpload(file);
+                    }}
+                    className="max-w-lg mx-auto p-10 md:p-14 border-2 border-dashed border-[#C5A059]/30 rounded-[2rem] group hover:border-[#C5A059] transition-all cursor-pointer relative z-10 bg-[#FDFBF7] shadow-xs hover:shadow-md"
+                  >
+                    <UploadCloud size={36} className="text-[#C5A059] mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                    <span className="text-[14px] font-black text-[#3C2A21] uppercase tracking-wider block mb-1">Click or Drag to Upload Resume</span>
+                    <span className="text-[12px] font-medium text-[#6B5E51] opacity-70 block mb-5">Supported formats: PDF, DOC, DOCX (Max 10MB)</span>
+                    <span className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#C5A059] text-white rounded-xl text-xs font-black uppercase tracking-widest group-hover:bg-[#3C2A21] transition-colors shadow-sm">
+                      <Plus size={14} /> Browse Files
+                    </span>
+                  </div>
+                )}
               </section>
             )}
           </motion.div>

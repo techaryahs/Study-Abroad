@@ -26,6 +26,7 @@ const UserSchema = new mongoose.Schema(
     gender: { type: String },
     country: { type: String },
     state: { type: String },
+    location: { type: String, default: "" },
     role: {
       type: String,
       enum: ["student", "consultant", "parent", "admin", "partner", "college_coordinator"],
@@ -48,10 +49,14 @@ const UserSchema = new mongoose.Schema(
 
       // COSMETIC PROFILE DATA
       profileImage: { type: String, default: null },
+      resumeUrl: { type: String, default: null },
+      resumeName: { type: String, default: null },
+      resume: { type: String, default: null },
       bio: { type: String, default: "" },
       location: { type: String, default: "" },
       portfolio: { type: String, default: "" },
       linkedin: { type: String, default: "" },
+      website: { type: String, default: "" },
 
       // QUIZ TRACKING
       services: {
@@ -85,6 +90,8 @@ const UserSchema = new mongoose.Schema(
       projects: { type: [mongoose.Schema.Types.Mixed], default: [] },
       volunteering: { type: [mongoose.Schema.Types.Mixed], default: [] },
       targetUniversities: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      achievements: { type: [mongoose.Schema.Types.Mixed], default: [] },
+      documents: { type: [mongoose.Schema.Types.Mixed], default: [] },
     },
     
     membership: { type: require("./schemas/UserMembershipSchema"), default: () => ({}) },

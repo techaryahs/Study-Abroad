@@ -1,8 +1,7 @@
-'use client';
-
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, FileText, Calendar, Link as LinkIcon, CheckCircle, ArrowRight, ArrowLeft, Search } from 'lucide-react';
+import { DocumentUpload } from './DocumentUpload';
 
 interface ResearchProps {
   isOpen: boolean;
@@ -19,6 +18,8 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
     date: "",
     url: "",
     description: "",
+    documentUrl: "",
+    documentName: "",
   });
 
   useEffect(() => {
@@ -29,6 +30,8 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
         date: initialData.date ? new Date(initialData.date).toISOString().split('T')[0] : "",
         url: initialData.url || "",
         description: initialData.description || "",
+        documentUrl: initialData.documentUrl || "",
+        documentName: initialData.documentName || "",
       });
     } else {
       setFormData({
@@ -37,6 +40,8 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
         date: "",
         url: "",
         description: "",
+        documentUrl: "",
+        documentName: "",
       });
     }
   }, [initialData, isOpen]);
@@ -146,6 +151,19 @@ export default function Research({ isOpen, onClose, onSubmit, initialData }: Res
                   <div className="space-y-2">
                     <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Narrative / Description</label>
                     <textarea rows={3} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Describe the impact and key findings..." className="w-full px-6 py-4 bg-[#FDFBF7] border-2 border-[#F1EDEA] focus:border-[#C5A059] rounded-2xl outline-none font-bold text-[#3C2A21] placeholder:text-[#6B5E51]/20 resize-none transition-all shadow-inner" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Publication / Research Paper PDF (Optional)</label>
+                    <DocumentUpload
+                      documentUrl={formData.documentUrl}
+                      documentName={formData.documentName}
+                      onDocumentChange={(doc) => setFormData({
+                        ...formData,
+                        documentUrl: doc ? doc.documentUrl : '',
+                        documentName: doc ? doc.documentName : ''
+                      })}
+                      label="Research Paper PDF"
+                    />
                   </div>
                 </motion.div>
               )}

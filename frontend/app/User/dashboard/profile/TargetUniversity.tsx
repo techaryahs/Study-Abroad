@@ -316,11 +316,21 @@ export const TargetUniversityModal: React.FC<TargetUniversityModalProps> = ({
                           onChange={(e) => setFormData({ ...formData, tuitionBudget: e.target.value })}
                           className="w-full px-3 sm:px-4 py-3 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl transition-all outline-none font-bold text-[#3C2A21] text-xs uppercase tracking-widest shadow-inner cursor-pointer focus:border-[#C5A059]"
                         >
-                          <option value="">Select Budget</option>
-                          <option value="Under $15,000">Under $15,000 / yr</option>
-                          <option value="$15,000 - $30,000">$15,000 - $30,000 / yr</option>
-                          <option value="$30,000 - $50,000">$30,000 - $50,000 / yr</option>
-                          <option value="$50,000+">$50,000+ / yr</option>
+                          <option value="">Select Budget Range</option>
+                          <option value="Under $15,000 / year">Under $15,000 / year</option>
+                          <option value="$15,000 - $30,000 / year">$15,000 - $30,000 / year</option>
+                          <option value="$30,000 - $50,000 / year">$30,000 - $50,000 / year</option>
+                          <option value="$50,000 - $75,000 / year">$50,000 - $75,000 / year</option>
+                          <option value="$75,000+ / year">$75,000+ / year</option>
+                          {formData.tuitionBudget && ![
+                            "Under $15,000 / year",
+                            "$15,000 - $30,000 / year",
+                            "$30,000 - $50,000 / year",
+                            "$50,000 - $75,000 / year",
+                            "$75,000+ / year"
+                          ].includes(formData.tuitionBudget) && (
+                            <option value={formData.tuitionBudget}>{formData.tuitionBudget}</option>
+                          )}
                         </select>
                       </div>
                     </div>

@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trash2, Trophy, ClipboardList, X, CheckCircle, Plus } from 'lucide-react';
+import { Trash2, Trophy, ClipboardList, X, CheckCircle, Plus, FileText, ExternalLink } from 'lucide-react';
+import { DocumentUpload } from "./DocumentUpload";
 
 interface TestScoresProps {
   testScores?: any;
@@ -20,7 +21,9 @@ export default function TestScores({ testScores = {}, onEdit, onRemove }: TestSc
           id: t.testType.toLowerCase(),
           name: t.testType,
           score: t.score,
-          sections: t.sectionScores
+          sections: t.sectionScores,
+          documentUrl: t.documentUrl,
+          documentName: t.documentName,
         });
       });
     } else {
@@ -32,7 +35,9 @@ export default function TestScores({ testScores = {}, onEdit, onRemove }: TestSc
             id: testKey,
             name: testKey.toUpperCase(),
             score: (scores.overall || scores.total || ''),
-            sections: scores
+            sections: scores,
+            documentUrl: scores.documentUrl,
+            documentName: scores.documentName,
           });
         }
       });
@@ -105,7 +110,7 @@ export default function TestScores({ testScores = {}, onEdit, onRemove }: TestSc
 
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-12 gap-y-10 px-4">
                 {test.sections && Object.entries(test.sections).map(([section, score]: any) => (
-                   (section !== 'overall' && section !== 'total' && section !== '_id') && (
+                   (section !== 'overall' && section !== 'total' && section !== '_id' && section !== 'documentUrl' && section !== 'documentName') && (
                     <div key={section} className="space-y-1 cursor-default group/sec">
                       <p className="text-[13px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-widest group-hover/sec:text-[#C5A059] transition-colors">{section}</p>
                       <p className="text-2xl font-black text-[#3C2A21] tabular-nums">{score}</p>
@@ -113,6 +118,24 @@ export default function TestScores({ testScores = {}, onEdit, onRemove }: TestSc
                    )
                 ))}
               </div>
+
+              {test.documentUrl && (
+                <div className="mt-6 pt-4 border-t border-[#F1EDEA] flex items-center justify-between px-4">
+                  <div className="flex items-center gap-2 text-xs font-bold text-[#6B5E51]">
+                    <FileText size={16} className="text-[#C5A059]" />
+                    <span>Verified Scorecard: <span className="text-[#3C2A21]">{test.documentName || 'Official Score Report'}</span></span>
+                  </div>
+                  <a
+                    href={test.documentUrl.startsWith('http') ? test.documentUrl : `${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5011'}${test.documentUrl}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#C5A059]/10 text-[#C5A059] hover:bg-[#C5A059] hover:text-white rounded-lg text-xs font-bold transition-all shadow-sm"
+                  >
+                    <span>View Scorecard</span>
+                    <ExternalLink size={13} />
+                  </a>
+                </div>
+              )}
             </motion.div>
           ))
         ) : (
@@ -138,6 +161,18 @@ const testDefinitions: any = {
 export const TestScoresModal = ({ isOpen, onClose, onSubmit }: any) => {
   const [selectedTest, setSelectedTest] = useState<string | null>(null);
   const [scores, setScores] = useState<any>({});
+  const [testDoc, setTestDoc] = useState<{ documentUrl: string; documentName: string }>({
+    documentUrl: '',
+    documentName: ''
+  });
+
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedTest(null);
+      setScores({});
+      setTestDoc({ documentUrl: '', documentName: '' });
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -174,7 +209,7 @@ export const TestScoresModal = ({ isOpen, onClose, onSubmit }: any) => {
           </div>
         </div>
 
-        <div className="flex-1 p-6 md:p-10 flex flex-col relative text-[#3C2A21] overflow-y-auto md:overflow-hidden">
+        <div className="flex-1 p-6 md:p-10 flex flex-col relative text-[#3C2A21] overflow-y-auto">
           <div className="mb-8">
             <div className="flex justify-between items-end mb-4">
               <h1 className="text-sm md:text-lg font-black uppercase tracking-widest italic">Sync Score Registry</h1>
@@ -220,8 +255,28 @@ export const TestScoresModal = ({ isOpen, onClose, onSubmit }: any) => {
                       </div>
                     ))}
                   </div>
+
+                  <div className="space-y-2 pt-2">
+                    <label className="text-[13px] font-bold font-black text-[#6B5E51]/60 uppercase tracking-widest ml-1">Official Scorecard / Report (Optional)</label>
+                    <DocumentUpload
+                      documentUrl={testDoc.documentUrl}
+                      documentName={testDoc.documentName}
+                      onDocumentChange={(doc: any) => setTestDoc({
+                        documentUrl: doc ? doc.documentUrl : '',
+                        documentName: doc ? doc.documentName : ''
+                      })}
+                      label="Scorecard PDF / Image"
+                    />
+                  </div>
+
                   <button 
-                    onClick={() => onSubmit({ testType: selectedTest!.toUpperCase(), score: scores[selectedTest!]?.total || scores[selectedTest!]?.overall || '0', sectionScores: scores[selectedTest!] })}
+                    onClick={() => onSubmit({
+                      testType: selectedTest!.toUpperCase(),
+                      score: scores[selectedTest!]?.total || scores[selectedTest!]?.overall || '0',
+                      sectionScores: scores[selectedTest!],
+                      documentUrl: testDoc.documentUrl || '',
+                      documentName: testDoc.documentName || ''
+                    })}
                     className="w-full py-5 bg-[#3C2A21] text-white rounded-2xl font-black uppercase text-[14px] font-bold tracking-widest hover:bg-[#C5A059] shadow-xl transition-all active:scale-95"
                   >
                     Validate and Sync

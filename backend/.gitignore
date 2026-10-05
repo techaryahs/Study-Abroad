@@ -39,3 +39,7 @@ coverage/
 
 # Optional npm cache directory
 .npm/
+
+# Uploaded assets & local storage
+uploads/
+*.pdf

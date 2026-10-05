@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Heart, Calendar, CheckCircle, ArrowRight, ArrowLeft, Globe } from 'lucide-react';
+import { DocumentUpload } from "./DocumentUpload";
 
 interface VolunteeringProps {
   isOpen: boolean;
@@ -19,6 +20,8 @@ export default function AddVolunteer({ isOpen, onClose, onSubmit, initialData }:
     isOngoing: false,
     cause: "",
     description: "",
+    documentUrl: "",
+    documentName: "",
   });
 
   useEffect(() => {
@@ -31,6 +34,8 @@ export default function AddVolunteer({ isOpen, onClose, onSubmit, initialData }:
         isOngoing: initialData.isOngoing || false,
         cause: initialData.cause || "",
         description: initialData.description || "",
+        documentUrl: initialData.documentUrl || "",
+        documentName: initialData.documentName || "",
       });
     } else {
       setFormData({
@@ -41,6 +46,8 @@ export default function AddVolunteer({ isOpen, onClose, onSubmit, initialData }:
         isOngoing: false,
         cause: "",
         description: "",
+        documentUrl: "",
+        documentName: "",
       });
     }
   }, [initialData, isOpen]);
@@ -159,6 +166,19 @@ export default function AddVolunteer({ isOpen, onClose, onSubmit, initialData }:
                   <div className="space-y-2">
                     <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Impact Description</label>
                     <textarea rows={3} value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Describe your contribution and social impact..." className="w-full px-6 py-4 bg-[#FDFBF7] border-2 border-[#F1EDEA] focus:border-[#C5A059] rounded-2xl outline-none font-bold text-[#3C2A21] placeholder:text-[#6B5E51]/20 resize-none transition-all shadow-inner" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[14px] font-bold font-black text-[#6B5E51]/70 uppercase tracking-[0.3em] ml-2">Certificate / Verification Document (Optional)</label>
+                    <DocumentUpload
+                      documentUrl={formData.documentUrl}
+                      documentName={formData.documentName}
+                      onDocumentChange={(doc: any) => setFormData({
+                        ...formData,
+                        documentUrl: doc ? doc.documentUrl : '',
+                        documentName: doc ? doc.documentName : ''
+                      })}
+                      label="Volunteering Certificate"
+                    />
                   </div>
                 </motion.div>
               )}

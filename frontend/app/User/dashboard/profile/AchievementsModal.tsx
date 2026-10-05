@@ -60,6 +60,9 @@ export const AchievementsModal = ({ isOpen, onClose, onSubmit, initialData }: Ac
     }
     setErrors({});
     setFormErrorMsg('');
+    if (isOpen) {
+      setStep(0);
+    }
   }, [initialData, isOpen]);
 
   if (!isOpen) return null;
@@ -88,10 +91,24 @@ export const AchievementsModal = ({ isOpen, onClose, onSubmit, initialData }: Ac
       } else {
         setIsSubmitting(true);
         try {
-          await onSubmit(formData);
-          onClose();
+          // Sanitize data: remove or clear empty document fields appropriately
+          const sanitizedData: any = { ...formData };
+          if (!sanitizedData.documentUrl) {
+            if (initialData) {
+              sanitizedData.documentUrl = "";
+              sanitizedData.documentName = "";
+            } else {
+              delete sanitizedData.documentUrl;
+              delete sanitizedData.documentName;
+            }
+          }
+          console.log("📤 Submitting achievement data:", sanitizedData);
+          await onSubmit(sanitizedData);
+          console.log("✅ Achievement saved successfully");
+          // Don't call onClose() here - let the parent component handle it after state updates
         } catch (error: any) {
           console.error("❌ Submission failed:", error);
+          console.error("Error details:", error.stack);
           if (typeof window !== "undefined") {
             alert(`Error: ${error.message || "Could not save achievement"}`);
           }

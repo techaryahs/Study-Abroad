@@ -15,6 +15,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import ProjectFormModal from "./profile/Add-Projects";
 import AddVolunteer from "./profile/Volunteering";
 import { AchievementsModal } from "./profile/AchievementsModal";
+import { VaultUploadModal } from "./profile/VaultUploadModal";
 import { BioModal } from "./profile/BioModal";
 import { LinkedInModal } from "./profile/LinkedInModal";
 import {
@@ -35,7 +36,17 @@ import {
   Trash2,
   Trophy,
   School,
-  Target
+  Target,
+  Download,
+  ExternalLink,
+  ShieldCheck,
+  CheckCircle2,
+  Search,
+  Filter,
+  FolderPlus,
+  FileCheck,
+  Eye,
+  UploadCloud
 } from "lucide-react";
 import { EntitlementGuard } from "@/components/shared/EntitlementGuard";
 import { useMembership } from "@/app/lib/membership/MembershipContext";
@@ -62,7 +73,8 @@ type ProfileSection =
   | "projects"
   | "volunteering"
   | "targetUniversities"
-  | "achievements";
+  | "achievements"
+  | "documents";
 
 type PortfolioSection = "workExperience" | "projects" | "research" | "volunteering" | "achievements";
 
@@ -86,6 +98,8 @@ interface ProfileEntry {
   description?: string;
   documentUrl?: string;
   documentName?: string;
+  category?: string;
+  addedAt?: string;
   degree?: string;
   university?: string;
   targetCountry?: string;
@@ -94,9 +108,13 @@ interface ProfileEntry {
 }
 
 interface TestScoreEntry {
+  _id?: string;
   testType: string;
   score: string | number;
   sectionScores?: Record<string, string | number>;
+  documentUrl?: string;
+  documentName?: string;
+  date?: string;
 }
 
 interface SessionEntry {
@@ -115,6 +133,9 @@ interface StudentProfile {
   location?: string;
   linkedin?: string;
   bio?: string;
+  resumeUrl?: string;
+  resumeName?: string;
+  resume?: string;
   highSchool?: ProfileEntry[];
   underGrad?: ProfileEntry[];
   masters?: ProfileEntry[];
@@ -125,6 +146,7 @@ interface StudentProfile {
   volunteering?: ProfileEntry[];
   targetUniversities?: ProfileEntry[];
   achievements?: ProfileEntry[];
+  documents?: any[];
   mySessions?: SessionEntry[];
 }
 
@@ -135,6 +157,8 @@ interface StudentRecord {
   gender?: string;
   dob?: string;
   country?: string;
+  resumeUrl?: string;
+  resumeName?: string;
   profile?: StudentProfile;
 }
 
@@ -183,9 +207,34 @@ export default function DashboardPage() {
   const [receipts, setReceipts] = useState<ReceiptEntry[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { membership, currentPlan } = useMembership();
+  const [vaultFilter, setVaultFilter] = useState('all');
+  const [vaultSearch, setVaultSearch] = useState('');
+  const [deletingDocId, setDeletingDocId] = useState<string | null>(null);
 
   const router = useRouter();
-  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+  const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5011";
+
+  const handleRemoveResume = async () => {
+    const userId = getUserId();
+    if (!userId) return;
+    try {
+      setDeletingDocId('resume-active');
+      const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deleteResume: true })
+      });
+      if (response.ok) {
+        await fetchProfile();
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 2000);
+      }
+    } catch (err) {
+      console.error("Failed to delete resume:", err);
+    } finally {
+      setDeletingDocId(null);
+    }
+  };
 
   const getUserId = useCallback(() => {
     const user = getUser();
@@ -199,9 +248,15 @@ export default function DashboardPage() {
       return;
     }
     try {
-      const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}`);
+      console.log("🔄 Fetching profile data...");
+      const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}?t=${Date.now()}`);
       if (response.ok) {
         const data: StudentRecord = await response.json();
+        console.log("✅ Profile data received:", {
+          achievements: data?.profile?.achievements?.length || 0,
+          volunteering: data?.profile?.volunteering?.length || 0,
+          research: data?.profile?.research?.length || 0,
+        });
         setUserData(data);
       } else if (response.status === 401 || response.status === 404) {
         console.warn("Auth token invalid on dashboard. Redirecting to login.");
@@ -287,15 +342,22 @@ export default function DashboardPage() {
     const method = editingItem ? "PUT" : "POST";
 
     try {
+      console.log(`📤 Submitting ${section} item...`);
       const response = await fetch(endpoint, {
         method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)
       });
       if (response.ok) {
+        const resData = await response.json();
+        console.log(`✅ ${section} saved, refreshing profile...`);
+        if (resData?.profile) {
+          setUserData((prev) => (prev ? { ...prev, profile: resData.profile } : prev));
+        }
         setOpenModal(null);
         setEditingItem(null);
-        fetchProfile();
+        await fetchProfile(); // Wait for profile to fetch
+        console.log("✅ Profile refreshed");
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 2000);
         return true;
@@ -344,7 +406,13 @@ export default function DashboardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ section, itemId })
       });
-      if (response.ok) fetchProfile();
+      if (response.ok) {
+        const resData = await response.json();
+        if (resData?.profile) {
+          setUserData((prev) => (prev ? { ...prev, profile: resData.profile } : prev));
+        }
+        fetchProfile();
+      }
     } catch (error) {
       console.error("Failed to delete item:", error);
     }
@@ -424,6 +492,7 @@ export default function DashboardPage() {
                   ) : null}
                   <Image
                     fill
+                    priority
                     unoptimized
                     sizes="(max-width: 640px) 80px, 96px"
                     src={userData?.profile?.profileImage ? (
@@ -782,80 +851,530 @@ export default function DashboardPage() {
               )}
 
               {activeProfileTab === 'documents' && (
-                <motion.div key="documents" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-[#F1EDEA]">
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-[#6B5E51]">Study Abroad Document Vault</h2>
-                    <span className="text-[11px] font-bold text-[#C5A059] bg-[#C5A059]/10 px-2.5 py-1 rounded-full border border-[#C5A059]/20 uppercase">
-                      Centralized Documents
-                    </span>
-                  </div>
+                <motion.div key="documents" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   {(() => {
-                    const allDocs: { title: string; section: string; fileName: string; fileUrl: string }[] = [];
-                    const p = userData?.profile;
-                    if (p) {
-                      const addDoc = (items: any[] | undefined, sec: string, fallback: string) => {
-                        (items || []).forEach(item => {
-                          if (item.documentName || item.documentUrl) {
-                            allDocs.push({
-                              title: item.title || item.role || item.schoolName || item.uniName || item.organization || item.testType || fallback,
-                              section: sec,
-                              fileName: item.documentName || "Attached Document File",
-                              fileUrl: item.documentUrl || ""
-                            });
-                          }
-                        });
-                      };
-                      addDoc(p.highSchool, "High School", "High School Marksheet");
-                      addDoc(p.underGrad, "Bachelor's", "Degree Transcript");
-                      addDoc(p.masters, "Master's", "Postgraduate Transcript");
-                      addDoc(p.targetUniversities, "Target Strategy", "Target Goal Document");
-                      addDoc(p.workExperience, "Work Experience", "Experience Certificate");
-                      addDoc(p.projects, "Projects", "Project Report / Document");
-                      addDoc(p.research, "Research", "Publication PDF");
-                      addDoc(p.volunteering, "Volunteering", "Volunteering Certificate");
-                      addDoc(p.achievements, "Achievements", "Award / Certification");
+                    interface VaultDoc {
+                      id: string;
+                      title: string;
+                      section: string;
+                      category: string;
+                      fileName: string;
+                      fileUrl: string;
+                      date?: string;
+                      source: string;
+                      canDelete?: boolean;
+                      canEdit?: boolean;
                     }
 
-                    if (allDocs.length === 0) {
-                      return (
-                        <div className="text-center py-12 space-y-2 bg-[#FDFBF7] rounded-xl border border-[#F1EDEA] p-6">
-                          <FileText size={28} className="mx-auto text-[#C5A059]/60" />
-                          <p className="text-xs font-bold text-[#3C2A21] uppercase tracking-wider">No supporting documents uploaded yet.</p>
-                          <p className="text-xs text-[#6B5E51]">You can upload marksheets, certificates, transcripts, and research PDFs directly within each profile section modal.</p>
-                        </div>
-                      );
+                    const allDocs: VaultDoc[] = [];
+                    const p = userData?.profile;
+
+                    // 1. Official Resume / CV
+                    const resumeUrl = p?.resumeUrl || p?.resume || (userData as any)?.resumeUrl;
+                    const resumeName = p?.resumeName || (userData as any)?.resumeName || (resumeUrl ? resumeUrl.split('/').pop() : '');
+                    if (resumeUrl) {
+                      allDocs.push({
+                        id: 'resume-active',
+                        title: resumeName || (userData?.name ? `${userData.name}'s Resume` : 'Curriculum Vitae'),
+                        section: 'Resume & CV',
+                        category: 'Resume & CV',
+                        fileName: resumeName || 'Resume.pdf',
+                        fileUrl: resumeUrl,
+                        date: (userData as any)?.updatedAt,
+                        source: 'resume',
+                        canDelete: true,
+                      });
                     }
+
+                    if (p) {
+                      // 2. High School Marksheet
+                      (p.highSchool || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `hs-${idx}`,
+                            title: item.schoolName ? `${item.schoolName} Marksheet` : 'High School Marksheet',
+                            section: 'High School',
+                            category: 'Academic Transcripts',
+                            fileName: item.documentName || 'High_School_Marksheet.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'highSchool',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 3. Undergraduate Degree & Transcript
+                      (p.underGrad || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `ug-${idx}`,
+                            title: item.uniName ? `${item.uniName} Transcript` : (item.degreeName ? `${item.degreeName} Degree Certificate` : "Bachelor's Degree Transcript"),
+                            section: "Bachelor's",
+                            category: 'Academic Transcripts',
+                            fileName: item.documentName || 'Undergrad_Transcript.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'underGrad',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 4. Master's Degree & Transcript
+                      (p.masters || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `ms-${idx}`,
+                            title: item.uniName ? `${item.uniName} Transcript` : (item.degreeName ? `${item.degreeName} Degree Certificate` : "Postgraduate Transcript"),
+                            section: "Master's",
+                            category: 'Academic Transcripts',
+                            fileName: item.documentName || 'Masters_Transcript.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'masters',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 5. Standardized Tests (IELTS, TOEFL, GRE, GMAT, etc.)
+                      (p.testScores || []).forEach((item: any, idx: number) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `test-${idx}`,
+                            title: item.testType ? `${item.testType} Official Scorecard` : 'Standardized Test Scorecard',
+                            section: 'Test Scores',
+                            category: 'Standardized Tests',
+                            fileName: item.documentName || `${item.testType || 'Test'}_Scorecard.pdf`,
+                            fileUrl: item.documentUrl || '',
+                            date: item.date,
+                            source: 'testScores',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 6. Work Experience Certificates
+                      (p.workExperience || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `work-${idx}`,
+                            title: item.organization ? `${item.organization} Experience Letter` : (item.role ? `${item.role} Certificate` : 'Work Experience Certificate'),
+                            section: 'Work Experience',
+                            category: 'Experience & Research',
+                            fileName: item.documentName || 'Experience_Letter.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'workExperience',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 7. Research Publications & Papers
+                      (p.research || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `research-${idx}`,
+                            title: item.title || 'Research Publication Paper',
+                            section: 'Research',
+                            category: 'Experience & Research',
+                            fileName: item.documentName || 'Research_Paper.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'research',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 8. Projects Documentation
+                      (p.projects || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `proj-${idx}`,
+                            title: item.title ? `${item.title} Documentation` : 'Project Report',
+                            section: 'Projects',
+                            category: 'Experience & Research',
+                            fileName: item.documentName || 'Project_Report.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'projects',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 9. Volunteering Certificates
+                      (p.volunteering || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `vol-${idx}`,
+                            title: item.organization ? `${item.organization} Certificate` : 'Volunteering Certificate',
+                            section: 'Volunteering',
+                            category: 'Certificates & Awards',
+                            fileName: item.documentName || 'Volunteer_Certificate.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'volunteering',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 10. Achievements & Awards
+                      (p.achievements || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `achieve-${idx}`,
+                            title: item.title ? `${item.title} Certificate` : 'Award & Honor Certificate',
+                            section: 'Achievements',
+                            category: 'Certificates & Awards',
+                            fileName: item.documentName || 'Achievement_Certificate.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'achievements',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 11. Target Universities
+                      (p.targetUniversities || []).forEach((item, idx) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `target-${idx}`,
+                            title: item.uniName ? `${item.uniName} Strategy Doc` : 'Target Strategy Document',
+                            section: 'Target Strategy',
+                            category: 'General Documents',
+                            fileName: item.documentName || 'Target_Goal.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'targetUniversities',
+                            canEdit: true,
+                          });
+                        }
+                      });
+
+                      // 12. Direct Vault Documents (profile.documents)
+                      ((p as any).documents || []).forEach((item: any, idx: number) => {
+                        if (item.documentUrl || item.documentName) {
+                          allDocs.push({
+                            id: item._id || `vault-${idx}`,
+                            title: item.title || 'Vault Document',
+                            section: 'Vault Repository',
+                            category: item.category || 'General Documents',
+                            fileName: item.documentName || 'Vault_Document.pdf',
+                            fileUrl: item.documentUrl || '',
+                            date: item.addedAt,
+                            source: 'documents',
+                            canDelete: true,
+                          });
+                        }
+                      });
+                    }
+
+                    // Format badge helper
+                    const getFileBadge = (fileName: string) => {
+                      const ext = fileName.split('.').pop()?.toLowerCase() || '';
+                      if (ext === 'pdf') {
+                        return { label: 'PDF', bg: 'bg-rose-50', text: 'text-rose-600', border: 'border-rose-200' };
+                      }
+                      if (['doc', 'docx'].includes(ext)) {
+                        return { label: 'DOC', bg: 'bg-blue-50', text: 'text-blue-600', border: 'border-blue-200' };
+                      }
+                      if (['jpg', 'jpeg', 'png'].includes(ext)) {
+                        return { label: 'IMG', bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-200' };
+                      }
+                      return { label: ext.toUpperCase() || 'FILE', bg: 'bg-stone-50', text: 'text-stone-600', border: 'border-stone-200' };
+                    };
+
+                    // Filtered docs based on category and live search
+                    const filteredDocs = allDocs.filter((doc) => {
+                      const matchesCategory = vaultFilter === 'all' || doc.category === vaultFilter;
+                      const q = vaultSearch.trim().toLowerCase();
+                      const matchesSearch = !q ||
+                        doc.title.toLowerCase().includes(q) ||
+                        doc.fileName.toLowerCase().includes(q) ||
+                        doc.section.toLowerCase().includes(q) ||
+                        doc.category.toLowerCase().includes(q);
+                      return matchesCategory && matchesSearch;
+                    });
+
+                    // Dynamic category list with counts
+                    const categoryCounts: { [key: string]: number } = { all: allDocs.length };
+                    allDocs.forEach((d) => {
+                      categoryCounts[d.category] = (categoryCounts[d.category] || 0) + 1;
+                    });
+
+                    const availableCategories = Object.keys(categoryCounts).filter(k => k !== 'all');
 
                     return (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        {allDocs.map((doc, idx) => (
-                          <div key={idx} className="bg-[#FDFBF7] border border-[#F1EDEA] p-4 rounded-xl flex items-start justify-between gap-3 hover:border-[#C5A059]/30 transition-all shadow-xs">
-                            <div className="space-y-1 min-w-0">
-                              <div className="flex items-center gap-2">
-                                <span className="text-[10px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-2 py-0.5 rounded uppercase border border-[#C5A059]/20">
-                                  {doc.section}
-                                </span>
-                                <span className="text-[10px] font-bold bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded uppercase border border-emerald-200">
-                                  Uploaded
-                                </span>
+                      <div className="space-y-6">
+                        {/* Top Header */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#F1EDEA]">
+                          <div>
+                            <div className="flex items-center gap-2.5 mb-1.5 flex-wrap">
+                              <h2 className="fd text-xl font-bold text-[#3C2A21] uppercase tracking-tight">Study Abroad Document Vault</h2>
+                              <span className="text-[10px] font-black text-[#C5A059] bg-[#C5A059]/10 px-2.5 py-0.5 rounded-full border border-[#C5A059]/25 uppercase tracking-wider">
+                                Centralized Vault
+                              </span>
+                              <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 rounded-full">
+                                <ShieldCheck size={12} /> SSL Encrypted
+                              </span>
+                            </div>
+                            <p className="text-[12px] font-semibold text-[#6B5E51] opacity-75">
+                              Unified repository for all verified transcripts, test scorecards, curriculum vitae, and certificates.
+                            </p>
+                          </div>
+
+                          <div className="flex items-center gap-2.5 shrink-0">
+                            <button
+                              onClick={() => fetchProfile()}
+                              className="p-2.5 rounded-xl border border-[#F1EDEA] bg-white text-[#6B5E51] hover:text-[#3C2A21] hover:border-[#C5A059]/40 transition-all shadow-xs"
+                              title="Synchronize Vault"
+                            >
+                              <RefreshCcw size={15} />
+                            </button>
+                            <button
+                              onClick={() => { setEditingItem(null); setOpenModal('documents'); }}
+                              className="px-4 py-2.5 bg-[#C5A059] text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-[#3C2A21] transition-all shadow-sm flex items-center gap-2 active:scale-95"
+                            >
+                              <Plus size={15} />
+                              <span>Upload Document</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Metrics Bar */}
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+                          <div className="p-3.5 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl">
+                            <p className="text-[10px] font-black text-[#6B5E51] uppercase tracking-wider">Total Documents</p>
+                            <h3 className="text-xl font-black text-[#3C2A21] mt-1">{allDocs.length}</h3>
+                          </div>
+                          <div className="p-3.5 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl">
+                            <p className="text-[10px] font-black text-[#6B5E51] uppercase tracking-wider">Categories</p>
+                            <h3 className="text-xl font-black text-[#3C2A21] mt-1">{availableCategories.length}</h3>
+                          </div>
+                          <div className="p-3.5 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl col-span-2 sm:col-span-2 flex items-center justify-between">
+                            <div className="min-w-0 pr-2">
+                              <p className="text-[10px] font-black text-[#6B5E51] uppercase tracking-wider">Curriculum Vitae</p>
+                              <h4 className="text-xs font-black text-[#3C2A21] mt-1 truncate">
+                                {resumeUrl ? (resumeName || 'Active & Synced') : 'Pending Upload'}
+                              </h4>
+                            </div>
+                            <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                              resumeUrl ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
+                            }`}>
+                              {resumeUrl ? <CheckCircle2 size={11} /> : null}
+                              {resumeUrl ? 'Active' : 'Missing'}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Search & Category Filter Bar */}
+                        {allDocs.length > 0 && (
+                          <div className="space-y-3">
+                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                              {/* Search */}
+                              <div className="relative flex-1">
+                                <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6B5E51] opacity-50" />
+                                <input
+                                  type="text"
+                                  placeholder="Search documents by title, file name, or section..."
+                                  value={vaultSearch}
+                                  onChange={(e) => setVaultSearch(e.target.value)}
+                                  className="w-full pl-9 pr-8 py-2.5 bg-[#FDFBF7] border border-[#F1EDEA] focus:border-[#C5A059] rounded-xl text-xs font-semibold text-[#3C2A21] placeholder-[#6B5E51]/40 outline-none transition-all shadow-2xs"
+                                />
+                                {vaultSearch && (
+                                  <button
+                                    onClick={() => setVaultSearch('')}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-[#6B5E51] hover:text-[#3C2A21]"
+                                  >
+                                    &times;
+                                  </button>
+                                )}
                               </div>
-                              <h4 className="text-xs font-bold text-[#3C2A21] uppercase tracking-wider truncate">{doc.title}</h4>
-                              <p className="text-[11px] text-[#6B5E51] font-semibold truncate flex items-center gap-1">
-                                <FileText size={12} className="text-[#C5A059] shrink-0" /> {doc.fileName}
+                            </div>
+
+                            {/* Category Filter Pills */}
+                            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                              <button
+                                onClick={() => setVaultFilter('all')}
+                                className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all shrink-0 flex items-center gap-1.5 ${
+                                  vaultFilter === 'all'
+                                    ? 'bg-[#3C2A21] text-white shadow-xs'
+                                    : 'bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] hover:border-[#C5A059]/40'
+                                }`}
+                              >
+                                <span>All Documents</span>
+                                <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${vaultFilter === 'all' ? 'bg-white/20' : 'bg-black/5'}`}>
+                                  {allDocs.length}
+                                </span>
+                              </button>
+
+                              {availableCategories.map((cat) => (
+                                <button
+                                  key={cat}
+                                  onClick={() => setVaultFilter(cat)}
+                                  className={`px-3 py-1.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all shrink-0 flex items-center gap-1.5 ${
+                                    vaultFilter === cat
+                                      ? 'bg-[#3C2A21] text-white shadow-xs'
+                                      : 'bg-[#FDFBF7] border border-[#F1EDEA] text-[#6B5E51] hover:border-[#C5A059]/40'
+                                  }`}
+                                >
+                                  <span>{cat}</span>
+                                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${vaultFilter === cat ? 'bg-white/20' : 'bg-black/5'}`}>
+                                    {categoryCounts[cat]}
+                                  </span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Documents Grid / Empty State */}
+                        {allDocs.length === 0 ? (
+                          <div className="text-center py-16 px-6 bg-[#FDFBF7] rounded-[2rem] border-2 border-dashed border-[#C5A059]/25 space-y-4">
+                            <div className="w-16 h-16 mx-auto rounded-3xl bg-white border border-[#C5A059]/20 flex items-center justify-center text-[#C5A059] shadow-inner">
+                              <FileText size={32} />
+                            </div>
+                            <div className="space-y-1.5 max-w-md mx-auto">
+                              <h3 className="fd text-lg font-bold text-[#3C2A21] uppercase tracking-tight">
+                                No Supporting Documents Uploaded Yet
+                              </h3>
+                              <p className="text-xs text-[#6B5E51] leading-relaxed">
+                                Upload marksheets, certificates, test scorecards, and your curriculum vitae to centralize your study abroad portfolio.
                               </p>
                             </div>
-                            {doc.fileUrl && (
-                              <a
-                                href={doc.fileUrl.startsWith('http') ? doc.fileUrl : `${BACKEND_URL}${doc.fileUrl.startsWith('/') ? '' : '/'}${doc.fileUrl}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="px-3 py-1.5 bg-[#3C2A21] text-white rounded-lg text-[11px] font-bold uppercase tracking-wider hover:bg-[#C5A059] transition-colors shrink-0 self-center"
+                            <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
+                              <button
+                                onClick={() => { setEditingItem(null); setOpenModal('documents'); }}
+                                className="px-5 py-2.5 bg-[#C5A059] text-white rounded-xl text-xs font-black uppercase tracking-wider hover:bg-[#3C2A21] transition-all shadow-sm flex items-center gap-1.5"
                               >
-                                View
-                              </a>
-                            )}
+                                <Plus size={14} />
+                                <span>Upload Document to Vault</span>
+                              </button>
+                              <button
+                                onClick={() => router.push('/User/edit-profile')}
+                                className="px-4 py-2.5 bg-white border border-[#F1EDEA] text-[#3C2A21] rounded-xl text-xs font-black uppercase tracking-wider hover:border-[#C5A059]/40 transition-all shadow-xs"
+                              >
+                                Upload Resume
+                              </button>
+                            </div>
                           </div>
-                        ))}
+                        ) : filteredDocs.length === 0 ? (
+                          <div className="text-center py-12 px-6 bg-[#FDFBF7] rounded-2xl border border-[#F1EDEA] space-y-3">
+                            <Search size={24} className="mx-auto text-[#6B5E51] opacity-40" />
+                            <p className="text-xs font-bold text-[#3C2A21] uppercase tracking-wider">
+                              No documents match your filter or search query.
+                            </p>
+                            <button
+                              onClick={() => { setVaultFilter('all'); setVaultSearch(''); }}
+                              className="px-4 py-2 bg-white border border-[#F1EDEA] text-xs font-bold text-[#C5A059] rounded-xl hover:border-[#C5A059] transition-all"
+                            >
+                              Reset Filters
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {filteredDocs.map((doc) => {
+                              const badge = getFileBadge(doc.fileName);
+                              const fullUrl = doc.fileUrl.startsWith('http')
+                                ? doc.fileUrl
+                                : `${BACKEND_URL}${doc.fileUrl.startsWith('/') ? '' : '/'}${doc.fileUrl}`;
+
+                              return (
+                                <div
+                                  key={doc.id}
+                                  className="bg-[#FDFBF7] border border-[#F1EDEA] p-5 rounded-2xl flex flex-col justify-between gap-4 hover:border-[#C5A059]/40 hover:shadow-md transition-all group relative overflow-hidden"
+                                >
+                                  <div className="space-y-2.5">
+                                    {/* Top badges */}
+                                    <div className="flex items-center justify-between gap-2">
+                                      <div className="flex items-center gap-1.5 flex-wrap">
+                                        <span className={`text-[10px] font-black px-2 py-0.5 rounded-md border uppercase tracking-wider ${badge.bg} ${badge.text} ${badge.border}`}>
+                                          {badge.label}
+                                        </span>
+                                        <span className="text-[10px] font-bold bg-[#C5A059]/10 text-[#C5A059] px-2 py-0.5 rounded-md border border-[#C5A059]/20 uppercase tracking-wider">
+                                          {doc.category}
+                                        </span>
+                                      </div>
+                                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 rounded-full shrink-0">
+                                        <CheckCircle2 size={11} /> Verified
+                                      </span>
+                                    </div>
+
+                                    {/* Title & file name */}
+                                    <div>
+                                      <h4 className="fd text-sm font-bold text-[#3C2A21] uppercase tracking-tight truncate group-hover:text-[#C5A059] transition-colors">
+                                        {doc.title}
+                                      </h4>
+                                      <p className="text-[11px] text-[#6B5E51] font-semibold truncate flex items-center gap-1.5 mt-1 opacity-80">
+                                        <FileText size={13} className="text-[#C5A059] shrink-0" />
+                                        <span>{doc.fileName}</span>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  {/* Footer with metadata & action buttons */}
+                                  <div className="pt-3 border-t border-[#F1EDEA] flex items-center justify-between gap-2">
+                                    <div className="text-[10px] font-semibold text-[#6B5E51] opacity-70 truncate">
+                                      <span>
+                                        {doc.date ? new Date(doc.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Verified Archive'}
+                                      </span>
+                                      <span className="mx-1.5">•</span>
+                                      <span className="uppercase">{doc.section}</span>
+                                    </div>
+
+                                    <div className="flex items-center gap-1.5 shrink-0">
+                                      {doc.fileUrl && (
+                                        <a
+                                          href={fullUrl}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                          className="px-3 py-1.5 bg-[#3C2A21] text-white rounded-lg text-[11px] font-bold uppercase tracking-wider hover:bg-[#C5A059] transition-colors flex items-center gap-1 shadow-xs"
+                                        >
+                                          <Eye size={12} />
+                                          <span>View</span>
+                                        </a>
+                                      )}
+                                      {doc.fileUrl && (
+                                        <a
+                                          href={fullUrl}
+                                          download={doc.fileName}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                          className="p-1.5 bg-white border border-[#F1EDEA] text-[#6B5E51] rounded-lg hover:text-[#3C2A21] hover:border-[#C5A059]/40 transition-all shadow-xs"
+                                          title="Download Document"
+                                        >
+                                          <Download size={13} />
+                                        </a>
+                                      )}
+                                      {doc.canDelete && (
+                                        <button
+                                          onClick={() => {
+                                            if (doc.source === 'documents') {
+                                              deleteItem('documents', doc.id);
+                                            } else if (doc.source === 'resume') {
+                                              handleRemoveResume();
+                                            }
+                                          }}
+                                          disabled={deletingDocId === doc.id}
+                                          className="p-1.5 bg-red-50 border border-red-100 text-red-600 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-xs disabled:opacity-50"
+                                          title="Remove from Vault"
+                                        >
+                                          <Trash2 size={13} />
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
                       </div>
                     );
                   })()}
@@ -959,8 +1478,8 @@ export default function DashboardPage() {
               </div>
               {getPortfolioEntries(sec.id).length > 0 ? (
                 <div className="p-3 space-y-2.5 bg-[#FDFBF7]/40">
-                  {getPortfolioEntries(sec.id).map((item: ProfileEntry) => (
-                    <div key={item._id} className="bg-white border border-[#F1EDEA] p-3.5 sm:p-4 rounded-xl relative group/item hover:border-[#C5A059]/30 transition-all duration-200 shadow-xs">
+                  {getPortfolioEntries(sec.id).map((item: ProfileEntry, idx: number) => (
+                    <div key={item._id || `item-${sec.id}-${idx}`} className="bg-white border border-[#F1EDEA] p-3.5 sm:p-4 rounded-xl relative group/item hover:border-[#C5A059]/30 transition-all duration-200 shadow-xs">
                       <div className="absolute top-3 right-3 flex gap-1.5 opacity-100 sm:opacity-0 group-hover/item:opacity-100 transition-all duration-200">
                         <button onClick={() => { setEditingItem({ section: sec.id, data: item }); setOpenModal(sec.id); }} className="p-1.5 rounded-lg bg-[#FDFBF7] border border-[#F1EDEA] text-[#C5A059] hover:bg-[#C5A059] hover:text-white transition-all shadow-xs cursor-pointer"><Edit2 size={13} /></button>
                         <button onClick={() => deleteItem(sec.id, item._id)} className="p-1.5 rounded-lg bg-rose-50 border border-rose-100 text-rose-500 hover:bg-rose-500 hover:text-white transition-all shadow-xs cursor-pointer"><Trash2 size={13} /></button>
@@ -994,8 +1513,20 @@ export default function DashboardPage() {
                         </p>
                       )}
                       {item.documentName && (
-                        <div className="mt-2 pt-2 border-t border-[#F1EDEA] flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
-                          <FileText size={12} /> Document Attached: {item.documentName}
+                        <div className="mt-2 pt-2 border-t border-[#F1EDEA] flex items-center justify-between gap-1.5 text-xs font-semibold text-emerald-600">
+                          <span className="flex items-center gap-1.5 truncate">
+                            <FileText size={12} className="shrink-0" /> Document Attached: {item.documentName}
+                          </span>
+                          {item.documentUrl && (
+                            <a
+                              href={item.documentUrl.startsWith('http') ? item.documentUrl : `${BACKEND_URL}${item.documentUrl.startsWith('/') ? '' : '/'}${item.documentUrl}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-[11px] font-bold uppercase text-[#C5A059] hover:underline shrink-0 ml-2"
+                            >
+                              View
+                            </a>
+                          )}
                         </div>
                       )}
                     </div>
@@ -1206,6 +1737,7 @@ export default function DashboardPage() {
         {openModal === "bio" && <BioModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (data: unknown) => { await updateCoreProfile("bio", data); }} initialValue={userData?.profile?.bio} />}
         {openModal === "linkedin" && <LinkedInModal isOpen={true} onClose={() => { setOpenModal(null); }} onSubmit={async (data: unknown) => { await updateCoreProfile("linkedin", data); }} initialData={userData?.profile?.linkedin} />}
         {openModal === "achievements" && <AchievementsModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("achievements", data); }} initialData={editingItem?.data} />}
+        {openModal === "documents" && <VaultUploadModal isOpen={true} onClose={() => { setOpenModal(null); setEditingItem(null); }} onSubmit={async (data: unknown) => { await addProfileItem("documents", data); }} initialData={editingItem?.data} />}
         {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
       </AnimatePresence>
       <style jsx global>{`.no-scrollbar::-webkit-scrollbar { display: none; }.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; } .custom-scrollbar::-webkit-scrollbar { width: 4px; } .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.05); border-radius: 10px; }`}</style>
