@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
 const Student = require('./models/Student');
+require('dotenv').config();
 
-mongoose.connect('mongodb+srv://user:Amit123@ac-q9qvkil-shard-00-00.lf9okn2.mongodb.net/test?retryWrites=true&w=majority')
-.then(async () => {
-  const user = await Student.findOne({ email: 'amit.aryahsworld@gmail.com' });
-  console.log("Cart in DB:", user.cart);
-  process.exit(0);
-})
-.catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+async function run() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    const studentId = "6ac357ea8bf2edd5858a6fd7"; // From user's screenshot
+    const isValid = mongoose.Types.ObjectId.isValid(studentId);
+    console.log("Is Valid ObjectId:", isValid);
+
+    const student = await Student.findById(studentId).lean();
+    console.log("Student:", student);
+  } catch (err) {
+    console.error(err);
+  } finally {
+    process.exit();
+  }
+}
+run();

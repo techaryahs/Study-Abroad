@@ -34,6 +34,7 @@ router.get("/seminars/:id", partnershipController.getSeminar);
 
 // Students
 router.get("/student-leads", partnershipController.getStudentLeads);
+router.get("/students/:studentId", partnershipController.getStudentLeadProfile);
 
 // Consultants (Edu Mitra & Admin only)
 const { requireEduMitraOrAdmin } = require("../middleware/auth");

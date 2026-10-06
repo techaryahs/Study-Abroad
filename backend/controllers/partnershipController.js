@@ -139,62 +139,191 @@ exports.getSeminar = async (req, res) => {
 // --- STUDENT LEADS ---
 exports.getStudentLeads = async (req, res) => {
   try {
-    let filter = {};
     const role = String(req.user?.role || "").toLowerCase();
-
+    
+    // Check access
     if (role === "partner") {
-      const userDoc = await User.findById(req.user.id).select("partnerProfile name");
-      const partnerType = userDoc?.partnerProfile?.partnerType;
-
-      if (partnerType === "edu_mitra") {
-        // Edu Mitra owns student counseling & consultant assignments
-        filter = { partnerId: req.user.id };
-      } else if (partnerType === "edu_leader") {
-        // Edu Leader field representatives see leads from their organized seminars
-        const mySeminars = await Seminar.find({ createdBy: req.user.id }).select("seminarId");
-        const seminarIds = mySeminars.map((s) => s.seminarId);
-        filter = { seminarId: { $in: seminarIds } };
-      } else {
-        return res.json({ success: true, leads: [] });
+      const userDoc = await User.findById(req.user.id).select("partnerProfile");
+      if (!userDoc || !userDoc.partnerProfile || userDoc.partnerProfile.onboardingStatus !== "approved") {
+        return res.status(403).json({ success: false, message: "Access denied." });
       }
-    } else if (!["admin", "super_admin"].includes(role)) {
+    } else if (!["admin", "super_admin", "consultant", "counsellor"].includes(role)) {
       return res.status(403).json({ success: false, message: "Access denied." });
     }
 
-    const rawLeads = await StudentLead.find(filter)
-      .populate("collegeId", "name city state")
-      .populate("assignedConsultantId", "name email role image status")
-      .sort({ createdAt: -1 })
-      .lean();
+    const { page, limit, search, status, collegeId, preferredCountry, course, consultantId } = req.query;
+    const pageNumber = page ? parseInt(page, 10) : 1;
+    const limitNumber = limit ? parseInt(limit, 10) : null;
+    const skip = limitNumber ? (pageNumber - 1) * limitNumber : 0;
 
-    // Resilient college and seminar resolution
-    const seminarIds = [...new Set(rawLeads.map((l) => l.seminarId).filter(Boolean))];
-    const seminars = await Seminar.find({ seminarId: { $in: seminarIds } })
-      .select("seminarId collegeId collegeName")
-      .lean();
-    const seminarMap = new Map(seminars.map((s) => [s.seminarId, s]));
+    const pipeline = [];
 
-    const leads = rawLeads.map((lead) => {
-      const linkedSeminar = lead.seminarId ? seminarMap.get(lead.seminarId) : null;
-      const resolvedCollegeName = lead.collegeId?.name || linkedSeminar?.collegeName || lead.collegeName || null;
+    // Pre-lookup search (on Student fields)
+    if (search) {
+      pipeline.push({
+        $match: {
+          $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { email: { $regex: search, $options: 'i' } },
+            { mobile: { $regex: search, $options: 'i' } }
+          ]
+        }
+      });
+    }
 
-      const collegeObj =
-        lead.collegeId && typeof lead.collegeId === "object"
-          ? lead.collegeId
-          : resolvedCollegeName
-          ? { _id: linkedSeminar?.collegeId || null, name: resolvedCollegeName }
-          : null;
+    // Lookup StudentLead
+    pipeline.push({
+      $lookup: {
+        from: "studentleads",
+        localField: "email",
+        foreignField: "email",
+        as: "leadData"
+      }
+    });
+
+    pipeline.push({
+      $unwind: {
+        path: "$leadData",
+        preserveNullAndEmptyArrays: true
+      }
+    });
+
+    // Post-lookup match (on StudentLead fields or Lead ID)
+    const postMatch = {};
+    if (search) {
+      // If we searched, we might have matched a Lead ID
+      postMatch.$or = [
+        { name: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+        { mobile: { $regex: search, $options: 'i' } },
+        { "leadData.studentLeadId": { $regex: search, $options: 'i' } }
+      ];
+    }
+    
+    if (status) postMatch["leadData.leadStatus"] = status;
+    if (preferredCountry) postMatch["leadData.preferredCountry"] = preferredCountry;
+    if (course) postMatch["leadData.course"] = { $regex: course, $options: 'i' };
+    
+    if (consultantId) {
+      const mongoose = require('mongoose');
+      if (consultantId === 'unassigned') {
+        postMatch["leadData.assignedConsultantId"] = null;
+      } else {
+        postMatch["leadData.assignedConsultantId"] = new mongoose.Types.ObjectId(consultantId);
+      }
+    }
+
+    if (Object.keys(postMatch).length > 0) {
+      pipeline.push({ $match: postMatch });
+    }
+
+    // Lookup College info for the lead
+    pipeline.push({
+      $lookup: {
+        from: "colleges",
+        localField: "leadData.collegeId",
+        foreignField: "_id",
+        as: "collegeData"
+      }
+    });
+    
+    pipeline.push({
+      $unwind: {
+        path: "$collegeData",
+        preserveNullAndEmptyArrays: true
+      }
+    });
+
+    // Lookup Consultant info
+    pipeline.push({
+      $lookup: {
+        from: "users", // Consultant/Counsellor is in User collection
+        localField: "leadData.assignedConsultantId",
+        foreignField: "_id",
+        as: "consultantData"
+      }
+    });
+    
+    pipeline.push({
+      $unwind: {
+        path: "$consultantData",
+        preserveNullAndEmptyArrays: true
+      }
+    });
+
+    pipeline.push({ $sort: { createdAt: -1 } });
+    
+    // Pagination
+    const totalPipeline = [...pipeline, { $count: "total" }];
+    const Student = require("../models/Student");
+    const countResult = await Student.aggregate(totalPipeline);
+    const total = countResult[0] ? countResult[0].total : 0;
+
+    if (skip) pipeline.push({ $skip: skip });
+    if (limitNumber) pipeline.push({ $limit: limitNumber });
+    
+    // Exclusion projection
+    pipeline.push({
+      $project: {
+        password: 0,
+        loginOtp: 0,
+        "leadData.__v": 0
+      }
+    });
+
+    const rawStudents = await Student.aggregate(pipeline);
+
+    // Map to the expected format
+    const leads = rawStudents.map(student => {
+      const lead = student.leadData || {};
+      const college = student.collegeData || {};
+      const consultant = student.consultantData || {};
+      
+      const resolvedCollegeName = college.name || lead.collegeName || "-";
+      const collegeObj = college._id ? { _id: college._id, name: college.name } : null;
+      
+      let assignedConsultantObj = null;
+      if (consultant._id) {
+        assignedConsultantObj = {
+          _id: consultant._id,
+          name: consultant.name,
+          email: consultant.email,
+          role: consultant.role
+        };
+      }
 
       return {
-        ...lead,
-        leadId: lead.studentLeadId,
-        phone: lead.mobile,
+        _id: student._id, // the true Student ID
+        studentId: student._id,
+        studentLeadId: lead.studentLeadId || "-",
+        leadId: lead.studentLeadId || "-",
+        fullName: student.name || lead.fullName || "Unknown",
+        email: student.email || lead.email || "-",
+        mobile: student.mobile || lead.mobile || "-",
+        course: lead.course || lead.preferredProgram || "-",
+        preferredProgram: lead.preferredProgram || "-",
+        preferredCountry: lead.preferredCountry || student.country || "-",
+        graduationYear: lead.graduationYear || "",
+        leadStatus: lead.leadStatus || "REGISTERED",
+        attributionStartDate: lead.attributionStartDate || null,
         collegeId: collegeObj,
         collegeName: resolvedCollegeName,
+        assignedConsultantId: assignedConsultantObj,
+        inquirySource: lead.inquirySource || "DIRECT",
+        hasLead: !!student.leadData
       };
     });
 
-    res.json({ success: true, leads });
+    res.json({ 
+      success: true, 
+      leads, 
+      pagination: {
+        total,
+        page: pageNumber,
+        limit: limitNumber || total,
+        totalPages: limitNumber ? Math.ceil(total / limitNumber) : 1
+      }
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -228,5 +357,85 @@ exports.markAttendance = async (req, res) => {
     res.json({ success: true, attendance });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
+  }
+};
+
+
+exports.getStudentLeadProfile = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+    const role = String(req.user?.role || "").toLowerCase();
+
+    if (role === "partner") {
+      const userDoc = await User.findById(req.user.id).select("partnerProfile name");
+      const partnerType = userDoc?.partnerProfile?.partnerType;
+      // Allow all approved partners to view any student's profile (Read-only Directory)
+    } else if (!["admin", "super_admin", "consultant", "counsellor"].includes(role)) {
+      return res.status(403).json({ success: false, message: "Access denied." });
+    }
+
+    const Student = require("../models/Student");
+    const StudentLead = require("../models/StudentLead");
+    const Seminar = require("../models/Seminar");
+
+    const student = await Student.findById(studentId).select("-password -loginOtp -loginOtpExpiresAt -cart").lean();
+    if (!student) {
+      return res.status(404).json({ success: false, message: "Student not found." });
+    }
+
+    const lead = await StudentLead.findOne({ email: student.email })
+      .populate("collegeId", "name city state")
+      .populate("assignedConsultantId", "name email role image status")
+      .lean();
+
+    let resolvedCollegeName = lead?.collegeId?.name || lead?.collegeName || student.collegeName || null;
+    if (!resolvedCollegeName && lead?.seminarId) {
+      const linkedSeminar = await Seminar.findOne({ seminarId: lead.seminarId }).select("collegeName").lean();
+      if (linkedSeminar && linkedSeminar.collegeName) {
+        resolvedCollegeName = linkedSeminar.collegeName;
+      }
+    }
+
+    const collegeObj =
+      lead?.collegeId && typeof lead.collegeId === "object"
+        ? lead.collegeId
+        : resolvedCollegeName
+        ? { _id: null, name: resolvedCollegeName }
+        : null;
+
+    res.json({
+      success: true,
+      student: {
+        _id: student._id,
+        studentId: student._id,
+        fullName: student.name,
+        email: student.email,
+        mobile: student.mobile,
+        dob: student.dob,
+        country: student.country,
+        profile: student.profile,
+        collegeName: student.profile?.location || student.location || resolvedCollegeName || "-",
+        createdAt: student.createdAt,
+        
+        studentLead: lead ? {
+          studentLeadId: lead.studentLeadId,
+          leadStatus: lead.leadStatus,
+          pipelineStage: lead.pipelineStage || "REGISTERED",
+          course: lead.course || lead.preferredProgram,
+          preferredCountry: lead.preferredCountry,
+          graduationYear: lead.graduationYear,
+          inquirySource: lead.inquirySource || lead.sourceType,
+          attributionStartDate: lead.attributionStartDate,
+          attributionStatus: lead.attributionStatus,
+          assignedConsultantId: lead.assignedConsultantId,
+          assignedAt: lead.assignedAt,
+          assignmentNotes: lead.assignmentNotes,
+          consentGiven: lead.consentGiven,
+          documents: lead.documents || []
+        } : null
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };
