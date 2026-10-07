@@ -16,8 +16,8 @@ const requireEduMitraOrAdmin = async (req, res, next) => {
       if (p.onboardingStatus !== "approved" || p.isApproved !== true || p.isActive === false) {
          return res.status(403).json({ error: "Partner is not fully approved or active" });
       }
-      if (p.partnerType !== "edu_mitra" && req.method !== "GET") {
-         return res.status(403).json({ error: "Only Edu Mitra can perform this operation" });
+      if (req.method !== "GET") {
+        return res.status(403).json({ error: "Partners are strictly read-only for this resource." });
       }
       return next();
     } catch (err) {

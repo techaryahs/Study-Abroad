@@ -5,7 +5,7 @@ import { getUser, getToken } from "@/app/lib/token";
 
 type AccessStatus = "loading" | "authorized" | "unauthorized" | "approval-pending";
 
-const legacyRoles = ["admin", "super_admin", "eduleader", "edumitra", "college_coordinator"];
+const legacyRoles = ["admin", "super_admin", "eduleader", "edumitra", "college_coordinator", "consultant", "counsellor"];
 
 function subscribeToAuth(onChange: () => void) {
   if (typeof window === "undefined") return () => {};

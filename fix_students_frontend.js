@@ -1,49 +1,17 @@
-"use client";
-import React, { useEffect, useState, useCallback } from "react";
-import Link from "next/link";
-import PartnerGuard from "../../../components/partnership/common/PartnerGuard";
-import axios from "axios";
-import { getToken, getUser } from "@/app/lib/token";
-import { UserCheck, UserPlus, X, Check, AlertCircle, Eye, Search as SearchIcon, ChevronLeft, ChevronRight, Filter } from "lucide-react";
+const fs = require('fs');
+const file = 'frontend/app/partnership/students/page.tsx';
+let content = fs.readFileSync(file, 'utf8');
 
-interface AssignedConsultantInfo {
-  _id: string;
-  name: string;
-  email: string;
-  role?: string;
-}
+// Replace the imports to include Search and Chevron icons
+content = content.replace(
+  'import { UserCheck, UserPlus, X, Check, AlertCircle, Eye } from "lucide-react";',
+  'import { UserCheck, UserPlus, X, Check, AlertCircle, Eye, Search as SearchIcon, ChevronLeft, ChevronRight, Filter } from "lucide-react";'
+);
 
-interface StudentLead {
-  studentId?: string;
-  _id: string;
-  studentLeadId: string;
-  fullName: string;
-  mobile: string;
-  email?: string;
-  course?: string;
-  graduationYear?: string;
-  preferredCountry?: string;
-  preferredProgram?: string;
-  studyAbroadTimeline?: string;
-  collegeId?: { name?: string };
-  collegeName?: string;
-  sourceSeminarId?: string;
-  leadStatus?: string;
-  attributionStartDate?: string;
-  assignedConsultantId?: AssignedConsultantInfo | null;
-  assignedAt?: string | null;
-  assignmentNotes?: string;
-}
+// We will overwrite the component implementation to add search/pagination states and UI.
+// So let's extract everything from `export default function Students() {` and replace it.
 
-interface ConsultantOption {
-  _id: string;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-}
-
-export default function Students() {
+const newComponentCode = `export default function Students() {
   const [students, setStudents] = useState<StudentLead[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -83,8 +51,8 @@ export default function Students() {
       if (consultantFilter) queryParams.append("consultantId", consultantFilter);
 
       const res = await axios.get<{ success: boolean; leads: StudentLead[]; pagination?: any; message?: string }>(
-        `${BACKEND_URL}/api/partnership/student-leads?${queryParams.toString()}`,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        \`\${BACKEND_URL}/api/partnership/student-leads?\${queryParams.toString()}\`,
+        { headers: { Authorization: \`Bearer \${getToken()}\` } }
       );
       
       if (res.data.success) {
@@ -104,8 +72,8 @@ export default function Students() {
     if (!isEduMitraOrAdmin) return;
     axios
       .get<{ consultants: ConsultantOption[] }>(
-        `${BACKEND_URL}/api/partnership/consultants`,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        \`\${BACKEND_URL}/api/partnership/consultants\`,
+        { headers: { Authorization: \`Bearer \${getToken()}\` } }
       )
       .then((res) => setConsultants(res.data.consultants || []))
       .catch(() => {});
@@ -146,9 +114,9 @@ export default function Students() {
       };
 
       await axios.put(
-        `${BACKEND_URL}/api/partnership-leads/${selectedLead.studentLeadId}/assign-consultant`,
+        \`\${BACKEND_URL}/api/partnership-leads/\${selectedLead.studentLeadId}/assign-consultant\`,
         payload,
-        { headers: { Authorization: `Bearer ${getToken()}` } }
+        { headers: { Authorization: \`Bearer \${getToken()}\` } }
       );
 
       await fetchStudents();
@@ -300,14 +268,14 @@ export default function Students() {
                         {s.studentLeadId}
                       </td>
                       <td className="px-6 py-4">{s.fullName}</td>
-                      <td className="px-6 py-4 text-gray-900 font-medium">{s.email || "-"}</td>
+                      <td className="px-6 py-4 text-gray-600">{s.email || "-"}</td>
                       <td className="px-6 py-4 text-gray-600">
                         {s.collegeId?.name || s.collegeName || "-"}
                       </td>
                       <td className="px-6 py-4 text-gray-600">{s.mobile}</td>
                       <td className="px-6 py-4">
                         {s.preferredProgram || s.course || "-"}
-                        {s.graduationYear ? ` (${s.graduationYear})` : ""}
+                        {s.graduationYear ? \` (\${s.graduationYear})\` : ""}
                       </td>
                       <td className="px-6 py-4">{s.preferredCountry || "-"}</td>
                       <td className="px-6 py-4">
@@ -344,7 +312,9 @@ export default function Students() {
                           </button>
                         )}
                         <Link
-                          href={`/partnership/students/${encodeURIComponent(s.studentId || s._id)}`}
+                          href={\`/partnership/students/\${encodeURIComponent(
+                            s.studentLeadId
+                          )}\`}
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-md text-xs font-bold hover:bg-blue-100 transition-colors border border-blue-100"
                         >
                           <Eye size={14} />
@@ -479,4 +449,9 @@ export default function Students() {
       </div>
     </PartnerGuard>
   );
-}
+}`;
+
+content = content.substring(0, content.indexOf('export default function Students() {')) + newComponentCode;
+
+fs.writeFileSync(file, content);
+console.log('Updated students directory UI');

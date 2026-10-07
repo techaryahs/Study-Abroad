@@ -16,4 +16,5 @@ router.delete("/remove-from-cart", authMiddleware, userController.removeFromCart
 router.delete("/clear-cart", authMiddleware, userController.clearCart);
 router.delete("/delete-account", authMiddleware, userController.deleteAccount);
 router.get("/:email", userController.getUserByEmail);
+router.get("/document/:id", userController.getDocument);
 module.exports = router;

@@ -3,6 +3,21 @@ const StudentLead = require("../models/StudentLead");
 const Offer = require("../models/Offer");
 const Audit = require("../models/Audit");
 
+const User = require("../models/User");
+const Seminar = require("../models/Seminar");
+
+const verifyStudentAccess = async (req, studentLeadId) => {
+  const role = String(req.user?.role || "").toLowerCase();
+  if (["admin", "super_admin"].includes(role)) return true;
+
+  if (role === "partner") {
+    // All approved partners have read-only access to the global student directory
+    return true;
+  }
+  return false;
+};
+
+
 const createAudit = async (req, action, entity, entityId, previousValue, newValue, reason = "") => {
   try {
     await Audit.create({
@@ -77,6 +92,9 @@ exports.updateApplication = async (req, res) => {
 exports.getApplications = async (req, res) => {
   try {
     const { studentLeadId } = req.params;
+    const hasAccess = await verifyStudentAccess(req, studentLeadId);
+    if (!hasAccess) return res.status(403).json({ success: false, message: "Access denied or lead not found." });
+
     const apps = await Application.find({ studentLeadId });
     res.json({ success: true, applications: apps });
   } catch (err) {
@@ -172,6 +190,9 @@ exports.acceptOffer = async (req, res) => {
 exports.getOffers = async (req, res) => {
   try {
     const { studentLeadId } = req.params;
+    const hasAccess = await verifyStudentAccess(req, studentLeadId);
+    if (!hasAccess) return res.status(403).json({ success: false, message: "Access denied or lead not found." });
+
     const offers = await Offer.find({ studentLeadId });
     res.json({ success: true, offers });
   } catch (err) {
