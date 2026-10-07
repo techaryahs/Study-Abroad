@@ -401,6 +401,7 @@ export default function DashboardPage() {
     const userId = getUserId();
     if (!userId) return;
     try {
+      setDeletingDocId(itemId);
       const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}/delete-item`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -411,10 +412,17 @@ export default function DashboardPage() {
         if (resData?.profile) {
           setUserData((prev) => (prev ? { ...prev, profile: resData.profile } : prev));
         }
-        fetchProfile();
+        await fetchProfile();
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 2000);
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        console.error("Failed to delete item:", errData.message || response.statusText);
       }
     } catch (error) {
       console.error("Failed to delete item:", error);
+    } finally {
+      setDeletingDocId(null);
     }
   };
 

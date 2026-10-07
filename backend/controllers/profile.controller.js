@@ -374,15 +374,44 @@ exports.deleteProfileItem = async (req, res) => {
     if (!userId) return res.status(401).json({ message: "Authentication required" });
     if (!section || !itemId) return res.status(400).json({ message: "Missing section or itemId" });
 
+    const validSections = [
+      "highSchool", "underGrad", "masters", "testScores", "workExperience",
+      "research", "projects", "volunteering", "targetUniversities", "achievements", "documents"
+    ];
+
+    if (!validSections.includes(section)) {
+      return res.status(400).json({ message: "Invalid profile section" });
+    }
+
     const result = await findUserById(userId);
     if (!result) return res.status(404).json({ message: "User not found" });
     const { user } = result;
 
-    if (!user.profile || !user.profile[section]) {
-      return res.status(404).json({ message: "Section not found" });
+    if (!user.profile) user.profile = {};
+    if (!Array.isArray(user.profile[section])) user.profile[section] = [];
+
+    // Optional GridFS cleanup if deleting from documents vault
+    if (section === 'documents') {
+      const itemToDelete = user.profile.documents.find(
+        item => item._id && item._id.toString() === itemId.toString()
+      );
+      if (itemToDelete && itemToDelete.documentUrl && itemToDelete.documentUrl.startsWith('/api/user/document/')) {
+        const fileId = itemToDelete.documentUrl.split('/').pop();
+        if (mongoose.Types.ObjectId.isValid(fileId) && mongoose.connection.db) {
+          try {
+            const { GridFSBucket } = mongoose.mongo;
+            const bucket = new GridFSBucket(mongoose.connection.db, { bucketName: 'student_documents' });
+            await bucket.delete(new mongoose.Types.ObjectId(fileId));
+          } catch (bucketErr) {
+            console.warn("Could not delete GridFS file:", bucketErr.message);
+          }
+        }
+      }
     }
 
-    user.profile[section] = user.profile[section].filter(item => item._id && item._id.toString() !== itemId);
+    user.profile[section] = user.profile[section].filter(
+      item => item._id && item._id.toString() !== itemId.toString()
+    );
     user.markModified(`profile.${section}`);
     user.markModified('profile');
     await user.save();
