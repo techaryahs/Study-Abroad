@@ -1,6 +1,39 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
+const EducationItemSchema = new mongoose.Schema({
+  schoolName: String,
+  uniName: String,
+  degreeName: String,
+  board: String,
+  major: String,
+  startYear: String,
+  endYear: String,
+  startDate: Date,
+  endDate: Date,
+  isOngoing: { type: Boolean, default: false },
+  cgpa: String,
+  outOf: String,
+  backlogs: String,
+  documentUrl: String,
+  documentName: String,
+  fileType: String,
+  size: Number,
+  addedAt: { type: Date, default: Date.now }
+}, { _id: true, strict: false });
+
+const TestScoreItemSchema = new mongoose.Schema({
+  testType: String,
+  score: String,
+  sectionScores: mongoose.Schema.Types.Mixed,
+  date: Date,
+  documentUrl: String,
+  documentName: String,
+  fileType: String,
+  size: Number,
+  addedAt: { type: Date, default: Date.now }
+}, { _id: true, strict: false });
+
 const WorkExperienceSchema = new mongoose.Schema({
   role: String,
   organization: String,
@@ -12,7 +45,69 @@ const WorkExperienceSchema = new mongoose.Schema({
   state: String,
   description: String,
   documentUrl: String,
-  documentName: String
+  documentName: String,
+  fileType: String,
+  size: Number,
+  addedAt: { type: Date, default: Date.now }
+}, { _id: true, strict: false });
+
+const ResearchItemSchema = new mongoose.Schema({
+  title: String,
+  publisher: String,
+  date: Date,
+  url: String,
+  description: String,
+  documentUrl: String,
+  documentName: String,
+  fileType: String,
+  size: Number,
+  addedAt: { type: Date, default: Date.now }
+}, { _id: true, strict: false });
+
+const ProjectItemSchema = new mongoose.Schema({
+  title: String,
+  category: String,
+  description: String,
+  technologies: [String],
+  startDate: Date,
+  endDate: Date,
+  projectUrl: String,
+  documentUrl: String,
+  documentName: String,
+  fileType: String,
+  size: Number,
+  addedAt: { type: Date, default: Date.now }
+}, { _id: true, strict: false });
+
+const VolunteeringItemSchema = new mongoose.Schema({
+  organization: String,
+  role: String,
+  startDate: Date,
+  endDate: Date,
+  isOngoing: { type: Boolean, default: false },
+  cause: String,
+  description: String,
+  documentUrl: String,
+  documentName: String,
+  fileType: String,
+  size: Number,
+  addedAt: { type: Date, default: Date.now }
+}, { _id: true, strict: false });
+
+const TargetUniversitySchema = new mongoose.Schema({
+  uniName: String,
+  degree: String,
+  major: String,
+  term: String,
+  year: String,
+  targetCountry: String,
+  tuitionBudget: String,
+  scholarshipRequired: Boolean,
+  documentUrl: String,
+  documentName: String,
+  fileType: String,
+  size: Number,
+  addedAt: { type: Date, default: Date.now }
 }, { _id: true, strict: false });
 
 const AchievementSchema = new mongoose.Schema({
@@ -24,6 +119,19 @@ const AchievementSchema = new mongoose.Schema({
   description: String,
   documentUrl: String,
   documentName: String,
+  fileType: String,
+  size: Number,
+  addedAt: { type: Date, default: Date.now }
+}, { _id: true, strict: false });
+
+const VaultDocumentSchema = new mongoose.Schema({
+  title: String,
+  category: String,
+  description: String,
+  documentUrl: String,
+  documentName: String,
+  fileType: String,
+  size: Number,
   addedAt: { type: Date, default: Date.now }
 }, { _id: true, strict: false });
 
@@ -93,41 +201,17 @@ const StudentSchema = new mongoose.Schema(
       },
 
       // EDUCATIONAL DATA
-      highSchool: [{
-        schoolName: String, cgpa: String, outOf: String, documentUrl: String, documentName: String, addedAt: { type: Date, default: Date.now }
-      }],
-      underGrad: [{
-        uniName: String, degreeName: String, cgpa: String, outOf: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, documentUrl: String, documentName: String
-      }],
-      masters: [{
-        uniName: String, degreeName: String, cgpa: String, outOf: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, documentUrl: String, documentName: String
-      }],
-      testScores: [{
-        testType: String, score: String, sectionScores: mongoose.Schema.Types.Mixed, date: Date, documentUrl: String, documentName: String
-      }],
+      highSchool: [EducationItemSchema],
+      underGrad: [EducationItemSchema],
+      masters: [EducationItemSchema],
+      testScores: [TestScoreItemSchema],
       workExperience: [WorkExperienceSchema],
-      research: [{
-        title: String, publisher: String, date: Date, url: String, description: String, documentUrl: String, documentName: String
-      }],
-      projects: [{
-        title: String, category: String, description: String, technologies: [String], startDate: Date, endDate: Date, projectUrl: String, documentUrl: String, documentName: String
-      }],
-      volunteering: [{
-        organization: String, role: String, startDate: Date, endDate: Date, isOngoing: { type: Boolean, default: false }, cause: String, description: String, documentUrl: String, documentName: String
-      }],
-      targetUniversities: [{
-        uniName: String, degree: String, major: String, term: String, year: String, targetCountry: String, tuitionBudget: String, scholarshipRequired: Boolean, documentUrl: String, documentName: String
-      }],
+      research: [ResearchItemSchema],
+      projects: [ProjectItemSchema],
+      volunteering: [VolunteeringItemSchema],
+      targetUniversities: [TargetUniversitySchema],
       achievements: [AchievementSchema],
-      documents: [{
-        title: String,
-        category: String,
-        documentUrl: String,
-        documentName: String,
-        fileType: String,
-        size: Number,
-        addedAt: { type: Date, default: Date.now }
-      }],
+      documents: [VaultDocumentSchema],
       myBookings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
       mySessions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Booking" }],
     },

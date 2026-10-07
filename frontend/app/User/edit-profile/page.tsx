@@ -267,11 +267,14 @@ export default function EditProfilePage() {
             const isToefl = key === 'toefl';
             const sum = Object.values(scores).reduce((acc: number, v: any) => acc + (Number(v) || 0), 0);
             const mainScore = isToefl ? sum.toString() : (scores.overall || scores.total || '');
+            const existingTest = userData?.profile?.testScores?.find((t: any) => t.testType?.toUpperCase() === key.toUpperCase());
 
             return {
               testType: key.toUpperCase(),
               score: mainScore,
-              sectionScores: scores
+              sectionScores: scores,
+              documentUrl: existingTest?.documentUrl || '',
+              documentName: existingTest?.documentName || '',
             };
           }).filter(t => {
             const scores = t.sectionScores;

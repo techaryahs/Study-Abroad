@@ -25,7 +25,7 @@ export const DocumentUpload: React.FC<DocumentUploadProps> = ({
   const BACKEND_URL =
     process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== "undefined"
       ? process.env.NEXT_PUBLIC_BACKEND_URL
-      : "http://localhost:5001";
+      : "http://localhost:5011";
 
   const handleFile = async (file: File) => {
     setErrorMsg("");

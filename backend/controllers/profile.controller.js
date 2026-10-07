@@ -5,6 +5,12 @@ const mongoose = require("mongoose");
 
 const saveToGridFS = (file) => {
   return new Promise((resolve, reject) => {
+    if (!mongoose.connection || !mongoose.connection.db) {
+      if (fs.existsSync(file.path)) {
+        try { fs.unlinkSync(file.path); } catch (_) {}
+      }
+      return reject(new Error("Database connection is not ready for GridFS operations"));
+    }
     const { GridFSBucket } = mongoose.mongo;
     const bucket = new GridFSBucket(mongoose.connection.db, { bucketName: 'student_documents' });
     const readStream = fs.createReadStream(file.path);
@@ -168,9 +174,49 @@ exports.updateProfile = async (req, res) => {
       // Handle nested profile data if passed as object
       if (profile) {
         const pData = typeof profile === 'string' ? JSON.parse(profile) : profile;
+        const arraySections = [
+          "highSchool", "underGrad", "masters", "testScores", "workExperience",
+          "research", "projects", "volunteering", "targetUniversities", "achievements", "documents"
+        ];
+
         Object.keys(pData).forEach(key => {
-          user.profile[key] = pData[key];
+          if (arraySections.includes(key) && Array.isArray(pData[key])) {
+            const existingArray = Array.isArray(user.profile[key]) ? user.profile[key] : [];
+            user.profile[key] = pData[key].map((incomingItem, idx) => {
+              if (!incomingItem || typeof incomingItem !== 'object') return incomingItem;
+
+              let existingMatch = null;
+              if (incomingItem._id) {
+                existingMatch = existingArray.find(e => e && e._id && e._id.toString() === incomingItem._id.toString());
+              }
+              if (!existingMatch && existingArray[idx]) {
+                existingMatch = existingArray[idx];
+              }
+
+              if (existingMatch) {
+                const existingObj = existingMatch.toObject ? existingMatch.toObject() : existingMatch;
+                return {
+                  ...existingObj,
+                  ...incomingItem,
+                  documentUrl: (incomingItem.documentUrl !== undefined && incomingItem.documentUrl !== '')
+                    ? incomingItem.documentUrl
+                    : (existingObj.documentUrl || ''),
+                  documentName: (incomingItem.documentName !== undefined && incomingItem.documentName !== '')
+                    ? incomingItem.documentName
+                    : (existingObj.documentName || ''),
+                  fileType: (incomingItem.fileType !== undefined && incomingItem.fileType !== '')
+                    ? incomingItem.fileType
+                    : (existingObj.fileType || ''),
+                  size: incomingItem.size !== undefined ? incomingItem.size : existingObj.size,
+                };
+              }
+              return incomingItem;
+            });
+          } else {
+            user.profile[key] = pData[key];
+          }
         });
+
         if (pData.location !== undefined) {
           user.profile.location = pData.location;
           user.location = pData.location;
@@ -289,10 +335,25 @@ exports.updateProfileItem = async (req, res) => {
     }
 
     const existing = user.profile[section][itemIndex];
+    const existingObj = existing && existing.toObject ? existing.toObject() : existing;
+    const mergedData = {
+      ...existingObj,
+      ...data,
+      documentUrl: (data.documentUrl !== undefined && data.documentUrl !== '')
+        ? data.documentUrl
+        : (existingObj.documentUrl || ''),
+      documentName: (data.documentName !== undefined && data.documentName !== '')
+        ? data.documentName
+        : (existingObj.documentName || ''),
+      fileType: (data.fileType !== undefined && data.fileType !== '')
+        ? data.fileType
+        : (existingObj.fileType || ''),
+      size: data.size !== undefined ? data.size : existingObj.size,
+    };
     if (existing && typeof existing.set === 'function') {
-      existing.set(data);
+      existing.set(mergedData);
     } else {
-      user.profile[section][itemIndex] = { ...(existing && existing.toObject ? existing.toObject() : existing), ...data };
+      user.profile[section][itemIndex] = mergedData;
     }
     user.markModified(`profile.${section}`);
     user.markModified('profile');
