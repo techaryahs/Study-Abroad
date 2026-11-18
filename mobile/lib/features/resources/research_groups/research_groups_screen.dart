@@ -140,6 +140,22 @@ class _TopBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       child: Row(
         children: [
+          if (Navigator.of(context).canPop()) ...[
+            GestureDetector(
+              onTap: () => Navigator.of(context).pop(),
+              child: Container(
+                width: 40,
+                height: 40,
+                margin: const EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  color: _white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: _gold.withOpacity(0.2)),
+                ),
+                child: const Icon(Icons.arrow_back_ios_new, color: _dark, size: 16),
+              ),
+            ),
+          ],
           GestureDetector(
             onTap: onMenuTap,
             child: Container(
@@ -160,15 +176,22 @@ class _TopBar extends StatelessWidget {
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: _dark, letterSpacing: 0.3),
             ),
           ),
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: _white,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: _gold.withOpacity(0.2)),
+          GestureDetector(
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('No new notifications')),
+              );
+            },
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: _white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: _gold.withOpacity(0.2)),
+              ),
+              child: const Icon(Icons.notifications_none_outlined, color: _dark, size: 20),
             ),
-            child: const Icon(Icons.notifications_none_outlined, color: _dark, size: 20),
           ),
         ],
       ),
@@ -294,7 +317,17 @@ class _NavDrawer extends StatelessWidget {
                             const SizedBox(height: 14),
                             _DarkEmailField(),
                             const SizedBox(height: 10),
-                            _GoldButton(label: 'SUBSCRIBE', onTap: () {}),
+                            _GoldButton(
+                              label: 'SUBSCRIBE',
+                              onTap: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Subscribed to cluster updates!'),
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -638,7 +671,16 @@ class _GroupCard extends StatelessWidget {
               Text('${group.members} members', style: const TextStyle(fontSize: 13, color: _subtle)),
               const Spacer(),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(isOpen
+                          ? 'Application submitted for ${group.title}!'
+                          : 'Viewing ${group.title} specifications'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(

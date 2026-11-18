@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class KnowMore extends StatelessWidget {
   const KnowMore({super.key});
@@ -156,8 +157,7 @@ class KnowMore extends StatelessWidget {
                         horizontal: 30, vertical: 12),
                   ),
                   onPressed: () {
-                    /// 🔹 Navigate to contact page
-                    Navigator.pushNamed(context, "/contact");
+                    context.push('/contact');
                   },
                   child: const Text("Speak With a Specialist"),
                 )

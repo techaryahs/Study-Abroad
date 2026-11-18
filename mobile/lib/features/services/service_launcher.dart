@@ -23,6 +23,9 @@ class ServiceLauncher {
       case MembershipFeatures.consultation:
         showBookCounsellingSheet(context);
         break;
+      case MembershipFeatures.researchGroups:
+        context.push('/resources/research-groups');
+        break;
       case MembershipFeatures.eb1:
         context.push('/resources/eb1a');
         break;
@@ -93,21 +96,4 @@ class ServiceLauncher {
     }
   }
 
-  static void _showUnderDevelopmentDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Coming Soon'),
-        content: const Text(
-          'This feature is included in your membership but is currently under development and will be available in a future update.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
 }

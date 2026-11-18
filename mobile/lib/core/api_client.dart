@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
@@ -96,14 +95,13 @@ String extractErrorMessage(Object e) {
 }
 
 class ApiClient {
-  // ── LOCAL NODE.JS DEVELOPMENT BACKEND (PORT 5011) ──
-  // Current local network IP for physical mobile devices:
-  static const String baseUrl = 'http://192.168.1.7:5011';
-
-  // ── OTHER BASE URL CONFIGURATIONS ──
-  // static const String baseUrl = 'https://api.eduleaderglobal.com'; // Production URL
-  // static const String baseUrl = 'http://localhost:5011'; // iOS Simulator / Web / Desktop
-  // static const String baseUrl = 'http://10.0.2.2:5011'; // Android Emulator
+  // ── PRODUCTION SERVER / ENVIRONMENT CONFIGURATION ──
+  // Default to the production server so release builds always reach live services.
+  // Can be overridden during local development via: flutter run --dart-define=API_URL=http://...
+  static const String baseUrl = String.fromEnvironment(
+    'API_URL',
+    defaultValue: 'https://api.eduleaderglobal.com',
+  );
 
   static Dio? _dio;
 

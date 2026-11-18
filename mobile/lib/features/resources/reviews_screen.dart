@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../../core/app_logger.dart';
+import '../../widgets/edu_components.dart';
 import 'package:intl/intl.dart';
 
 class ReviewsScreen extends StatefulWidget {
@@ -208,9 +209,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
           // ── REVIEWS LIST ──
           if (_loading)
-            SliverFillRemaining(
+            const SliverFillRemaining(
               child: Center(
-                child: CircularProgressIndicator(color: AppTheme.gold),
+                child: InlineLoader(message: 'Loading verified reviews...'),
               ),
             )
           else if (_reviews.isEmpty)

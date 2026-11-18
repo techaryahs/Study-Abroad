@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
+import '../../widgets/edu_components.dart';
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({super.key});
@@ -41,10 +42,12 @@ class _ContactScreenState extends State<ContactScreen> {
         'message': _msgCtrl.text.trim(),
       });
 
-      if (res.statusCode == 201) {
-        setState(() {
-          _sent = true;
-        });
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        if (mounted) {
+          setState(() {
+            _sent = true;
+          });
+        }
 
         _nameCtrl.clear();
         _emailCtrl.clear();
@@ -53,10 +56,24 @@ class _ContactScreenState extends State<ContactScreen> {
         _showSnack("Failed to send message");
       }
     } catch (e) {
-      _showSnack("Something went wrong");
+      _showSnack(extractErrorMessage(e));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
+  }
 
-    setState(() => _isLoading = false);
+  Future<void> _openExternal(String url) async {
+    try {
+      final uri = Uri.parse(url);
+      final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!ok && mounted) {
+        _showSnack('Could not open external link');
+      }
+    } catch (_) {
+      if (mounted) {
+        _showSnack('Unable to launch link');
+      }
+    }
   }
 
   void _showSnack(String msg) {
@@ -126,19 +143,19 @@ class _ContactScreenState extends State<ContactScreen> {
           Icons.phone,
           "WhatsApp",
           "+91 8657869659",
-          () => launchUrl(Uri.parse('https://wa.me/918657869659')),
+          () => _openExternal('https://wa.me/918657869659'),
         ),
         _contactCard(
           Icons.email,
           "Email",
           "info@aryahsworld.com",
-          () => launchUrl(Uri.parse('mailto:info@aryahsworld.com')),
+          () => _openExternal('mailto:info@aryahsworld.com'),
         ),
         _contactCard(
           Icons.location_on,
           "Office",
           "Navi Mumbai, India",
-          null,
+          () => _openExternal('https://www.google.com/maps/search/?api=1&query=Navi+Mumbai+India'),
           full: true,
         ),
       ],
@@ -200,8 +217,8 @@ class _ContactScreenState extends State<ContactScreen> {
           ),
         ),
         child: _isLoading
-            ? const CircularProgressIndicator(color: Colors.white)
-            : const Text("SEND MESSAGE", style: TextStyle(color: Colors.white)),
+            ? const AppLoadingIndicator.button(color: Colors.white)
+            : const Text("SEND MESSAGE", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, letterSpacing: 1.2)),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/theme.dart';
 
 class ReviewsPage extends StatefulWidget {
   const ReviewsPage({super.key});
@@ -235,7 +236,7 @@ class _ReviewsPageState extends State<ReviewsPage> {
         : reviews.where((r) => r["service"] == selectedFilter).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFDFBF7),
+      backgroundColor: AppTheme.background,
 
       /// APPBAR
       appBar: AppBar(

@@ -13,6 +13,7 @@ class _CreateGroupModalState extends State<CreateGroupModal> {
   String field = "";
   String description = "";
   int coAuthors = 1;
+  String selectedPayment = "Razorpay";
 
   final TextEditingController fieldController = TextEditingController();
   final TextEditingController descController = TextEditingController();
@@ -218,15 +219,41 @@ class _CreateGroupModalState extends State<CreateGroupModal> {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () {},
-                        child: const Text("Razorpay"),
+                        onPressed: () => setState(() => selectedPayment = "Razorpay"),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: selectedPayment == "Razorpay" ? Colors.orange : Colors.grey.shade400,
+                            width: selectedPayment == "Razorpay" ? 2 : 1,
+                          ),
+                          backgroundColor: selectedPayment == "Razorpay" ? Colors.orange.shade50 : null,
+                        ),
+                        child: Text(
+                          "Razorpay",
+                          style: TextStyle(
+                            color: selectedPayment == "Razorpay" ? Colors.orange.shade900 : Colors.black87,
+                            fontWeight: selectedPayment == "Razorpay" ? FontWeight.bold : FontWeight.normal,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: () {},
-                        child: const Text("Amazon Pay"),
+                        onPressed: () => setState(() => selectedPayment = "Amazon Pay"),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(
+                            color: selectedPayment == "Amazon Pay" ? Colors.orange : Colors.grey.shade400,
+                            width: selectedPayment == "Amazon Pay" ? 2 : 1,
+                          ),
+                          backgroundColor: selectedPayment == "Amazon Pay" ? Colors.orange.shade50 : null,
+                        ),
+                        child: Text(
+                          "Amazon Pay",
+                          style: TextStyle(
+                            color: selectedPayment == "Amazon Pay" ? Colors.orange.shade900 : Colors.black87,
+                            fontWeight: selectedPayment == "Amazon Pay" ? FontWeight.bold : FontWeight.normal,
+                          ),
+                        ),
                       ),
                     ),
                   ],

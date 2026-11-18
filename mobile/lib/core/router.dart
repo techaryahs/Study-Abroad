@@ -49,6 +49,7 @@ import '../features/ai_services/screens/mock_interview_screen.dart';
 import '../features/ai_services/screens/plagiarism_remover_screen.dart';
 import '../features/faq/faq_screen.dart';
 import '../features/resources/resources_screen.dart';
+import '../features/resources/research_groups/research_groups_screen.dart';
 import '../features/resources/eb-1a.dart';
 import '../features/resources/education-loan.dart';
 import '../features/resources/reviews_screen.dart';
@@ -259,6 +260,9 @@ class AppRouter {
                 path: '/resources',
                 builder: (_, __) => const ResourcesScreen()),
             GoRoute(
+                path: '/resources/research-groups',
+                builder: (_, __) => const ResearchGroupsScreen()),
+            GoRoute(
                 path: '/resources/eb1a',
                 builder: (_, __) => const EB1AToolkitPage()),
             GoRoute(
@@ -279,7 +283,6 @@ class AppRouter {
             GoRoute(
               path: '/dashboard/edit',
               redirect: (context, state) {
-                print("Dashboard edit redirect. state.extra: ${state.extra}");
                 if (state.extra == null) return '/dashboard';
                 return null;
               },

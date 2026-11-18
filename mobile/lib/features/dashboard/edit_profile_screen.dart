@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
@@ -929,14 +930,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           return;
         }
         final authProvider = context.read<AuthProvider>();
-        final navigator = Navigator.of(context);
 
         onResult(
             'Password changed successfully! Logging you out...', 'success');
         Future.delayed(const Duration(seconds: 2), () {
           if (mounted) {
             authProvider.logout();
-            navigator.pushNamedAndRemoveUntil('/login', (route) => false);
+            context.go('/login');
           }
         });
       }

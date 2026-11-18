@@ -271,6 +271,126 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
     );
   }
 
+  void _showSecuritySettingsDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.gold.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.security, color: AppTheme.gold, size: 20),
+            ),
+            const SizedBox(width: 10),
+            const Text(
+              'Security Overview',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _securityItem(Icons.verified_user_outlined, 'Session Authentication', 'Active Bearer Token with auto-refresh'),
+            const SizedBox(height: 12),
+            _securityItem(Icons.lock_clock_outlined, 'Storage Security', 'Hardware-backed encrypted storage'),
+            const SizedBox(height: 12),
+            _securityItem(Icons.admin_panel_settings_outlined, 'Access Level', 'Role: Administrator (Full Access)'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('CLOSE', style: TextStyle(color: AppTheme.darkBrown, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _securityItem(IconData icon, String title, String subtitle) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, size: 18, color: AppTheme.gold),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13, color: AppTheme.textPrimary)),
+              const SizedBox(height: 2),
+              Text(subtitle, style: const TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _showAboutAdminDialog() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        backgroundColor: Colors.white,
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppTheme.gold.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: const Icon(Icons.info_outline, color: AppTheme.gold, size: 20),
+            ),
+            const SizedBox(width: 10),
+            const Text(
+              'About Admin Portal',
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text('EduLeaderGlobal Administrative Suite', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            SizedBox(height: 6),
+            Text('Version 1.0.0 (Release Build)', style: TextStyle(fontSize: 12, color: AppTheme.textSecondary)),
+            SizedBox(height: 12),
+            Text('Enables real-time management of consultants, students, schedules, counselling sessions, and system configurations.', style: TextStyle(fontSize: 13, height: 1.4, color: AppTheme.textPrimary)),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              context.push('/about');
+            },
+            child: const Text('APP DETAILS', style: TextStyle(color: AppTheme.gold, fontWeight: FontWeight.bold)),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.darkBrown,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            ),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showDeleteAccountDialog() {
     // Single-owner flow: dialog → API → AuthProvider.logout → GoRouter redirect.
     showDeleteAccountDialog(context);
@@ -1022,13 +1142,13 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
         _profileTile(
           icon: Icons.security,
           title: "Security Settings",
-          onTap: () {},
+          onTap: _showSecuritySettingsDialog,
         ),
 
         _profileTile(
           icon: Icons.info_outline,
           title: "About Admin",
-          onTap: () {},
+          onTap: _showAboutAdminDialog,
         ),
 
         _profileTile(

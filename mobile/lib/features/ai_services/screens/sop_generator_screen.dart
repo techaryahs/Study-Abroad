@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme.dart';
 import '../../../models/checkout_item.dart';
-import '../../../widgets/checkout_sheet.dart';
+import '../../../widgets/book_counselling_sheet.dart';
 import '../../../widgets/entitlement_guard.dart';
 import '../../../core/app_features.dart';
 
@@ -118,7 +118,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                     children: [
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () => context.push('/membership'),
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(
                                 color: AppTheme.goldDark, width: 1.5),
@@ -144,13 +144,7 @@ class _SopGeneratorScreenState extends State<SopGeneratorScreen> {
                       const SizedBox(width: 16),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                      'Expert Consultation request initiated!')),
-                            );
-                          },
+                          onPressed: () => showBookCounsellingSheet(context),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppTheme.darkBrown,
                             shape: RoundedRectangleBorder(

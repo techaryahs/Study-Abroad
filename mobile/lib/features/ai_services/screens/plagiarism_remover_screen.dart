@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme.dart';
-import '../../../models/checkout_item.dart';
-import '../../../widgets/checkout_sheet.dart';
 import '../../../widgets/entitlement_guard.dart';
 import '../../../core/app_features.dart';
 
@@ -730,7 +728,7 @@ class _PlagiarismRemoverScreenState extends State<PlagiarismRemoverScreen> {
                 child: const Text('Start Expert Consult'),
               ),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () => context.push('/success-stories'),
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: AppTheme.borderLight),
                   foregroundColor: AppTheme.darkBrown,

@@ -168,6 +168,10 @@ const StudentSchema = new mongoose.Schema(
     loginOtp: { type: String, default: null },
     loginOtpExpiresAt: { type: Date, default: null },
     loginOtpAttempts: { type: Number, default: 0 },
+    pendingEmail: { type: String, default: null, lowercase: true, trim: true },
+    pendingEmailOtp: { type: String, default: null },
+    pendingEmailExpiresAt: { type: Date, default: null },
+    pendingEmailAttempts: { type: Number, default: 0 },
 
     profile: {
       parents: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],

@@ -3,12 +3,13 @@ import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, Tar
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../core/theme.dart';
 import '../../widgets/book_counselling_sheet.dart';
+import '../../widgets/edu_components.dart';
 import '../cart/cart_provider.dart';
 import '../membership/membership_manager.dart';
-import '../membership/membership_screen.dart';
 import 'service_model.dart';
 import 'service_launcher.dart';
 
@@ -26,15 +27,17 @@ class ServicesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        title: const Text('Our Services'),
-        backgroundColor: AppTheme.background,
+        title: const EduBrandHeaderTitle(),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        surfaceTintColor: Colors.white,
         actions: [
           if (!isIOS)
             Stack(
               alignment: Alignment.center,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.shopping_cart_outlined),
+                  icon: const Icon(Icons.shopping_cart_outlined, color: AppTheme.navy),
                   onPressed: () => context.push('/cart'),
                 ),
                 if (cart.totalQuantity > 0)
@@ -42,20 +45,21 @@ class ServicesScreen extends StatelessWidget {
                     top: 8,
                     right: 8,
                     child: Container(
-                      constraints:
-                          const BoxConstraints(minWidth: 16, minHeight: 16),
+                      constraints: const BoxConstraints(minWidth: 16, minHeight: 16),
                       padding: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
                         color: AppTheme.gold,
                         borderRadius: BorderRadius.circular(999),
+                        boxShadow: AppTheme.goldGlow,
                       ),
                       child: Center(
                         child: Text(
                           '${cart.totalQuantity}',
-                          style: const TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w900,
-                              color: AppTheme.darkBrown),
+                          style: GoogleFonts.inter(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900,
+                            color: AppTheme.navy,
+                          ),
                         ),
                       ),
                     ),
@@ -65,52 +69,67 @@ class ServicesScreen extends StatelessWidget {
         ],
       ),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(16),
         children: [
+          // ── Navy Header Card ──────────────────────────
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
-              color: AppTheme.darkBrown,
-              borderRadius: BorderRadius.circular(24),
+              color: AppTheme.navy,
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+              boxShadow: AppTheme.navyShadow,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                const EduPillBadge(
+                  label: 'Personalized Advisory',
+                  icon: Icons.auto_awesome,
+                  backgroundColor: Color(0x332CA59D),
+                  textColor: AppTheme.goldLight,
+                  borderColor: Color(0x442CA59D),
+                ),
+                const SizedBox(height: 14),
+                Text(
                   'Premium Study\nAbroad Services',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                      height: 1.2),
+                  style: GoogleFonts.playfairDisplay(
+                    color: Colors.white,
+                    fontSize: 28,
+                    fontWeight: FontWeight.w800,
+                    height: 1.15,
+                  ),
                 ),
                 const SizedBox(height: 8),
-                Text('Trusted by 1000+ students worldwide',
-                    style: TextStyle(
-                        color: Colors.white.withOpacity(0.5), fontSize: 14)),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () => showBookCounsellingSheet(context),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: AppTheme.gold,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Text(
-                      'Book Free Counselling',
-                      style: TextStyle(
-                          color: AppTheme.darkBrown,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w800),
-                    ),
+                Text(
+                  'Admissions strategy, SOP & LOR drafting, visa preparation, and career optimization.',
+                  style: GoogleFonts.inter(
+                    color: Colors.white.withValues(alpha: 0.75),
+                    fontSize: 13,
+                    height: 1.4,
                   ),
+                ),
+                const SizedBox(height: 20),
+                EduGoldButton(
+                  label: 'Book Free Counselling',
+                  onPressed: () => showBookCounsellingSheet(context),
+                  height: 44,
                 ),
               ],
             ),
           ).animate().fadeIn(duration: 400.ms),
+
           const SizedBox(height: 24),
+
+          const EduSectionHeader(
+            tagline: 'Expertise',
+            title: 'Structured Programs',
+            padding: EdgeInsets.zero,
+          ),
+
+          const SizedBox(height: 12),
+
           ...List.generate(_services.length, (i) {
             final service = _services[i];
             final inCart = cart.isInCart(service.slug);
@@ -123,20 +142,14 @@ class ServicesScreen extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(24),
                   border: Border.all(
                     color: inCart ? AppTheme.gold : AppTheme.borderLight,
                     width: inCart ? 1.5 : 1,
                   ),
-                  boxShadow: inCart
-                      ? [
-                          BoxShadow(
-                              color: AppTheme.gold.withOpacity(0.1),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4))
-                        ]
-                      : [],
+                  boxShadow: inCart ? AppTheme.goldGlow : AppTheme.cardShadow,
                 ),
+                clipBehavior: Clip.antiAlias,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -151,12 +164,16 @@ class ServicesScreen extends StatelessWidget {
                                 width: 48,
                                 height: 48,
                                 decoration: BoxDecoration(
-                                  color: AppTheme.darkBrown,
-                                  borderRadius: BorderRadius.circular(14),
+                                  color: AppTheme.surfaceMuted,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(color: AppTheme.borderLight),
                                 ),
                                 child: Center(
-                                    child: Text(service.icon,
-                                        style: const TextStyle(fontSize: 22))),
+                                  child: Text(
+                                    service.icon,
+                                    style: const TextStyle(fontSize: 22),
+                                  ),
+                                ),
                               ),
                               const SizedBox(width: 14),
                               Expanded(
@@ -165,55 +182,50 @@ class ServicesScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       service.title,
-                                      style: const TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w800,
-                                          color: AppTheme.textPrimary),
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900,
+                                        color: AppTheme.navy,
+                                      ),
                                     ),
                                     const SizedBox(height: 4),
                                     if (isIOS)
                                       Text(
                                         hasAccess ? 'Included with Membership' : 'Unlock with Membership',
-                                        style: const TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w800,
-                                            color: AppTheme.gold),
+                                        style: GoogleFonts.inter(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800,
+                                          color: hasAccess ? AppTheme.tealDark : AppTheme.goldDark,
+                                        ),
                                       )
                                     else
                                       Text(
                                         '\u20B9${service.price.toStringAsFixed(0)}',
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w900,
-                                            color: AppTheme.gold),
+                                        style: GoogleFonts.inter(
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.w900,
+                                          color: AppTheme.goldDark,
+                                        ),
                                       ),
                                   ],
                                 ),
                               ),
                               if (inCart)
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.gold.withOpacity(0.12),
-                                    borderRadius: BorderRadius.circular(999),
-                                  ),
-                                  child: Text(
-                                    'IN CART x$quantity',
-                                    style: const TextStyle(
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w900,
-                                        color: AppTheme.gold),
-                                  ),
+                                EduStatusChip(
+                                  label: 'IN CART x$quantity',
+                                  color: AppTheme.goldDark,
                                 ),
                             ],
                           ),
                           const SizedBox(height: 14),
-                          Text(service.description,
-                              style: const TextStyle(
-                                  fontSize: 14,
-                                  color: AppTheme.textSecondary,
-                                  height: 1.6)),
+                          Text(
+                            service.description,
+                            style: GoogleFonts.inter(
+                              fontSize: 13,
+                              color: AppTheme.textSecondary,
+                              height: 1.5,
+                            ),
+                          ),
                           const SizedBox(height: 14),
                           Wrap(
                             spacing: 8,
@@ -221,19 +233,32 @@ class ServicesScreen extends StatelessWidget {
                             children: service.features
                                 .map((feature) => Container(
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 5),
-                                      decoration: BoxDecoration(
-                                        color: AppTheme.background,
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                            color: AppTheme.borderLight),
+                                        horizontal: 10,
+                                        vertical: 5,
                                       ),
-                                      child: Text(
-                                        '\u2713 $feature',
-                                        style: const TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppTheme.textSecondary),
+                                      decoration: BoxDecoration(
+                                        color: AppTheme.surfaceMuted,
+                                        borderRadius: BorderRadius.circular(20),
+                                        border: Border.all(color: AppTheme.borderLight),
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const Icon(
+                                            Icons.check_circle_rounded,
+                                            size: 13,
+                                            color: AppTheme.teal,
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Text(
+                                            feature,
+                                            style: GoogleFonts.inter(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: AppTheme.textSecondary,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ))
                                 .toList(),
@@ -242,65 +267,76 @@ class ServicesScreen extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 14),
-                      decoration: BoxDecoration(
-                        color: AppTheme.background,
-                        borderRadius: const BorderRadius.vertical(
-                            bottom: Radius.circular(20)),
-                        border: Border(
-                            top: BorderSide(color: AppTheme.borderLight)),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                      decoration: const BoxDecoration(
+                        color: AppTheme.surfaceMuted,
+                        border: Border(top: BorderSide(color: AppTheme.borderLight)),
                       ),
                       child: Row(
                         children: [
                           Expanded(
                             child: GestureDetector(
                               onTap: () => showBookCounsellingSheet(context),
-                              child: const Text(
-                                'Get Free Advice ->',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: AppTheme.gold),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Get Free Advice',
+                                    style: GoogleFonts.inter(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppTheme.tealDark,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  const Icon(
+                                    Icons.arrow_forward_rounded,
+                                    size: 14,
+                                    color: AppTheme.tealDark,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                           if (isIOS)
                             ElevatedButton(
-                              onPressed: () {
-                                ServiceLauncher.launch(context, service);
-                              },
+                              onPressed: () => ServiceLauncher.launch(context, service),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppTheme.gold,
-                                foregroundColor: AppTheme.darkBrown,
+                                foregroundColor: AppTheme.navy,
+                                elevation: 0,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18, vertical: 10),
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                               ),
                               child: Text(
                                 hasAccess ? 'Access Service' : 'Unlock Membership',
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w800),
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 0.5,
+                                ),
                               ),
                             )
                           else
                             ElevatedButton(
                               onPressed: () => _addToCart(context, service),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    inCart ? AppTheme.darkBrown : AppTheme.gold,
-                                foregroundColor:
-                                    inCart ? Colors.white : AppTheme.darkBrown,
+                                backgroundColor: inCart ? AppTheme.navy : AppTheme.gold,
+                                foregroundColor: inCart ? Colors.white : AppTheme.navy,
+                                elevation: 0,
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12)),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 18, vertical: 10),
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                               ),
                               child: Text(
                                 inCart ? 'Add Again' : 'Add to Cart',
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w800),
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 0.5,
+                                ),
                               ),
                             ),
                         ],
@@ -311,44 +347,57 @@ class ServicesScreen extends StatelessWidget {
               ),
             )
                 .animate()
-                .fadeIn(delay: Duration(milliseconds: i * 80))
-                .slideY(begin: 0.1);
+                .fadeIn(delay: Duration(milliseconds: i * 70))
+                .slideY(begin: 0.05);
           }),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: InkWell(
-              onTap: () => context.push('/faq'),
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                decoration: BoxDecoration(
-                  color: AppTheme.gold.withOpacity(0.08),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppTheme.gold.withOpacity(0.3)),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.help_outline_rounded,
-                        color: AppTheme.gold, size: 22),
-                    const SizedBox(width: 14),
-                    Expanded(
-                      child: Text(
-                        'Frequently Asked Questions',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w900,
-                            color: AppTheme.gold),
+
+          const SizedBox(height: 12),
+
+          GestureDetector(
+            onTap: () => context.push('/faq'),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppTheme.borderLight),
+                boxShadow: AppTheme.cardShadow,
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppTheme.teal.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.help_outline_rounded,
+                      color: AppTheme.tealDark,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Text(
+                      'Frequently Asked Questions',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w900,
+                        color: AppTheme.navy,
                       ),
                     ),
-                    Icon(Icons.arrow_forward_ios_rounded,
-                        color: AppTheme.gold, size: 12),
-                  ],
-                ),
+                  ),
+                  const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: AppTheme.textSecondary,
+                    size: 14,
+                  ),
+                ],
               ),
             ),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 36),
         ],
       ),
     );
@@ -363,11 +412,10 @@ class ServicesScreen extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Added ${service.title} to cart'),
-            backgroundColor: Colors.green.shade700,
+            backgroundColor: AppTheme.tealDark,
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 1),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
         );
       }
@@ -376,10 +424,9 @@ class ServicesScreen extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Failed to add item: $e'),
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.redAccent,
             behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
         );
       }

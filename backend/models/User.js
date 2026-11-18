@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema(
     loginOtp: { type: String, default: null },
     loginOtpExpiresAt: { type: Date, default: null },
     loginOtpAttempts: { type: Number, default: 0 },
+    pendingEmail: { type: String, default: null, lowercase: true, trim: true },
+    pendingEmailOtp: { type: String, default: null },
+    pendingEmailExpiresAt: { type: Date, default: null },
+    pendingEmailAttempts: { type: Number, default: 0 },
 
     // 🔥 PROFILE DETAILS (NESTED OBJECT) 🔥
     // The user explicitly requested an embedded subdocument so that it can simply be expanded in their database IDE.

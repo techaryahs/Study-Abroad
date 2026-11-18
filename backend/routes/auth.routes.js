@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authCtrl = require("../controllers/auth.controller");
 const verifyToken = require("../middleware/auth");
-const { rateLimiter } = require("../middleware/rateLimiter");
+const { rateLimiter, otpRateLimiter, verifyOtpRateLimiter } = require("../middleware/rateLimiter");
 const upload = require("../config/multer.config");
 
 // =========================
@@ -21,8 +21,8 @@ router.post("/send-otp-mobile", authCtrl.sendOtpMobile);
 router.post("/verify-otp-mobile", authCtrl.verifyOtpMobile);
 
 // Passwordless Login
-router.post("/send-login-otp", rateLimiter(3, 10 * 60 * 1000), authCtrl.sendLoginOtp);
-router.post("/verify-login-otp", authCtrl.verifyLoginOtp);
+router.post("/send-login-otp", otpRateLimiter, authCtrl.sendLoginOtp);
+router.post("/verify-login-otp", verifyOtpRateLimiter, authCtrl.verifyLoginOtp);
 
 router.post("/login", authCtrl.login);
 router.post("/create-basic-account", authCtrl.createBasicAccount);

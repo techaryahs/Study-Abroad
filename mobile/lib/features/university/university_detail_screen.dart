@@ -9,6 +9,7 @@ import '../../data/university_repository.dart';
 import '../auth/auth_provider.dart';
 import '../membership/membership_screen.dart';
 import '../../widgets/book_counselling_sheet.dart';
+import '../../widgets/edu_components.dart';
 
 class UniversityDetailScreen extends StatefulWidget {
   final String slug;
@@ -36,9 +37,10 @@ class _UniversityDetailScreenState extends State<UniversityDetailScreen>
       future: _universityFuture,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator(color: AppTheme.gold)));
+          return const FullScreenLoader(
+            title: 'INSTITUTION PROFILE',
+            subtitle: 'Loading university metrics, degrees, and requirements...',
+          );
         }
 
         final u = snapshot.data!;

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/theme.dart';
 import '../../widgets/book_counselling_sheet.dart';
 
 // ─── Theme Colors ─────────────────────────────────────────────────────────────
 
-const _bg = Color(0xFFFDFBF7);
-const _dark = Color(0xFF2D2926);
-const _gold = Color(0xFFC5A059);
-const _muted = Color(0xFF6B5E51);
-const _border = Color(0xFFF1EDEA);
-const _lightGold = Color(0xFFE6D5B8);
+const _bg = AppTheme.background;
+const _dark = AppTheme.navy;
+const _gold = AppTheme.gold;
+const _muted = AppTheme.textSecondary;
+const _border = AppTheme.borderLight;
+const _lightGold = AppTheme.goldLight;
 const _white = Colors.white;
-const _darkBg = Color(0xFF1C1917);
-const _subtleText = Color(0xFFA8A29E);
+const _darkBg = AppTheme.navyDark;
+const _subtleText = AppTheme.textMuted;
 
 // ─── Data Models ──────────────────────────────────────────────────────────────
 

@@ -5,6 +5,7 @@ import 'package:country_flags/country_flags.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../core/theme.dart';
 import '../../data/university_repository.dart';
+import '../../widgets/edu_components.dart';
 
 class UniversityListScreen extends StatefulWidget {
   final String country;
@@ -46,9 +47,10 @@ class _UniversityListScreenState extends State<UniversityListScreen> {
       future: _countryFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-              body: Center(
-                  child: CircularProgressIndicator(color: AppTheme.gold)));
+          return const FullScreenLoader(
+            title: 'EDULEADER GLOBAL',
+            subtitle: 'Loading university admissions and statistics...',
+          );
         }
 
         // ── Error Boundary ─────────────────────────────────────

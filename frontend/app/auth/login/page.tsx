@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useState, FormEvent, useEffect } from "react";
+import React, { Suspense, useState, FormEvent, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ChevronRight, Sparkles, AlertCircle, Phone as PhoneIcon } from "lucide-react";
@@ -82,6 +82,8 @@ const LoginContent: React.FC = () => {
   const [forgotConfirm, setForgotConfirm] = useState<string>("");
   const [forgotLoading, setForgotLoading] = useState<boolean>(false);
   const [forgotMessage, setForgotMessage] = useState<{ text: string; type: "success" | "error" }>({ text: "", type: "error" });
+  const isSendingOtpRef = useRef<boolean>(false);
+  const isVerifyingOtpRef = useRef<boolean>(false);
 
   const BACKEND_URL = (process.env.NEXT_PUBLIC_BACKEND_URL && process.env.NEXT_PUBLIC_BACKEND_URL !== 'undefined')
     ? process.env.NEXT_PUBLIC_BACKEND_URL
@@ -136,6 +138,8 @@ const LoginContent: React.FC = () => {
 
   const sendLoginOtp = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    if (isSendingOtpRef.current || otpLoading) return;
+
     setErrorMsg("");
     setOtpError("");
 
@@ -146,13 +150,14 @@ const LoginContent: React.FC = () => {
 
     const cleanedDigits = mobile.replace(/\D/g, "");
     if (cleanedDigits.length < 6) {
-      setOtpError("Please enter a valid phone number");
+      setOtpError("Please enter a valid phone number (minimum 6 digits)");
       return;
     }
 
     const dialCode = COUNTRY_CODE_OPTIONS.find(c => c.isoCode === selectedCountryIso)?.dialCode || "+91";
     const fullMobile = `${dialCode}${cleanedDigits}`;
 
+    isSendingOtpRef.current = true;
     setOtpLoading(true);
 
     try {
@@ -162,23 +167,53 @@ const LoginContent: React.FC = () => {
         body: JSON.stringify({ mobile: fullMobile }),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to send OTP");
+        if (response.status === 429) {
+          const retryHeader = response.headers.get("Retry-After");
+          const retrySeconds = data.retryAfter || (retryHeader ? parseInt(retryHeader, 10) : 60);
+          if (retrySeconds && !isNaN(retrySeconds) && retrySeconds > 0) {
+            setOtpTimer(retrySeconds);
+          }
+          setOtpError(data.error || `Too many requests. Please try again after ${retrySeconds || 60} seconds.`);
+          return;
+        }
+
+        if (response.status === 404) {
+          setOtpError(data.error || "Phone number not registered. Please book a session or register first.");
+          return;
+        }
+
+        if (response.status >= 500) {
+          setOtpError(data.error || "Server encountered an error while sending OTP. Please try again later.");
+          return;
+        }
+
+        setOtpError(data.error || "Failed to send verification code. Please check the number entered.");
+        return;
       }
 
       setOtpSent(true);
-      setOtpTimer(60); // 60s cooldown
-    } catch (err: any) {
-      setOtpError(err.message || "Failed to send OTP");
+      setOtpTimer(data.retryAfter || 60); // Server-provided cooldown or default 60s
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "";
+      const errorName = err instanceof Error ? err.name : "";
+      if (errorName === "TypeError" && (errorMsg.includes("fetch") || errorMsg.includes("network") || errorMsg.includes("Failed to fetch"))) {
+        setOtpError("Network error: Unable to reach the server. Please check your internet connection.");
+      } else {
+        setOtpError(errorMsg || "An unexpected error occurred while sending OTP.");
+      }
     } finally {
       setOtpLoading(false);
+      isSendingOtpRef.current = false;
     }
   };
 
   const verifyLoginOtp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isVerifyingOtpRef.current || isSubmitting) return;
+
     setErrorMsg("");
     setOtpError("");
 
@@ -191,6 +226,7 @@ const LoginContent: React.FC = () => {
     const dialCode = COUNTRY_CODE_OPTIONS.find(c => c.isoCode === selectedCountryIso)?.dialCode || "+91";
     const fullMobile = `${dialCode}${cleanedDigits}`;
 
+    isVerifyingOtpRef.current = true;
     setIsSubmitting(true);
 
     try {
@@ -200,10 +236,26 @@ const LoginContent: React.FC = () => {
         body: JSON.stringify({ mobile: fullMobile, otp: otp.trim() }),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.error || "Verification failed");
+        if (response.status === 429) {
+          const retryHeader = response.headers.get("Retry-After");
+          const retrySeconds = data.retryAfter || (retryHeader ? parseInt(retryHeader, 10) : 60);
+          if (retrySeconds && !isNaN(retrySeconds) && retrySeconds > 0) {
+            setOtpTimer(retrySeconds);
+          }
+          setOtpError(data.error || "Too many verification attempts. Please wait before trying again.");
+          return;
+        }
+
+        if (response.status >= 500) {
+          setOtpError(data.error || "Server error occurred during verification. Please try again later.");
+          return;
+        }
+
+        setOtpError(data.error || "Verification failed. Please check the OTP.");
+        return;
       }
 
       const { token, user }: { token: string; user: any } = data;
@@ -218,10 +270,17 @@ const LoginContent: React.FC = () => {
       setTimeout(() => {
         router.push(resolvePostLoginPath(role, redirectParam, user));
       }, 500);
-    } catch (err: any) {
-      setOtpError(err.message || "Invalid OTP code");
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : "";
+      const errorName = err instanceof Error ? err.name : "";
+      if (errorName === "TypeError" && (errorMsg.includes("fetch") || errorMsg.includes("network") || errorMsg.includes("Failed to fetch"))) {
+        setOtpError("Network error: Unable to reach the server. Please check your internet connection.");
+      } else {
+        setOtpError(errorMsg || "Invalid OTP code");
+      }
     } finally {
       setIsSubmitting(false);
+      isVerifyingOtpRef.current = false;
     }
   };
 
@@ -491,11 +550,20 @@ const LoginContent: React.FC = () => {
                   <button
                     type="button"
                     onClick={sendLoginOtp}
-                    disabled={otpLoading || !mobile}
+                    disabled={otpLoading || !mobile || otpTimer > 0}
                     className="w-full py-3.5 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 hover:bg-[#C5A059]"
                   >
-                    {otpLoading ? "Sending..." : "Send OTP"}
-                    {!otpLoading && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                    {otpLoading ? (
+                      <span className="flex items-center gap-2">
+                        <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" />
+                        Sending...
+                      </span>
+                    ) : otpTimer > 0 ? (
+                      `Retry in ${Math.floor(otpTimer / 60)}:${String(otpTimer % 60).padStart(2, "0")}`
+                    ) : (
+                      "Send OTP"
+                    )}
+                    {!otpLoading && otpTimer <= 0 && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                   </button>
                 </div>
               ) : (
@@ -537,15 +605,17 @@ const LoginContent: React.FC = () => {
 
                   {otpTimer > 0 ? (
                     <div className="text-center text-[#6B5E51]/50 text-xs font-bold uppercase tracking-widest">
-                      Expires in {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, "0")}
+                      Resend code in {Math.floor(otpTimer / 60)}:{String(otpTimer % 60).padStart(2, "0")}
                     </div>
                   ) : (
                     <button
                       type="button"
                       onClick={sendLoginOtp}
-                      className="w-full text-[#C5A059] text-xs font-black uppercase tracking-widest hover:underline text-center"
+                      disabled={otpLoading}
+                      className="w-full text-[#C5A059] text-xs font-black uppercase tracking-widest hover:underline text-center disabled:opacity-50 flex items-center justify-center gap-2"
                     >
-                      Resend OTP
+                      {otpLoading && <span className="w-3 h-3 border-2 border-[#C5A059]/30 border-t-[#C5A059] rounded-full animate-spin inline-block" />}
+                      {otpLoading ? "Resending..." : "Resend OTP"}
                     </button>
                   )}
 
@@ -554,7 +624,14 @@ const LoginContent: React.FC = () => {
                     disabled={isSubmitting || otp.length !== 6}
                     className="w-full py-3.5 bg-[#3C2A21] text-white font-black rounded-xl shadow-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 group uppercase tracking-widest text-[11px] active:scale-95 hover:bg-[#C5A059]"
                   >
-                    {isSubmitting ? "Verifying..." : "Verify & Login"}
+                    {isSubmitting ? (
+                      <span className="flex items-center gap-2">
+                        <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin inline-block" />
+                        Verifying...
+                      </span>
+                    ) : (
+                      "Verify & Login"
+                    )}
                     {!isSubmitting && <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                   </button>
                 </div>

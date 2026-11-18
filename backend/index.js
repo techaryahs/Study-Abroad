@@ -10,6 +10,14 @@ const { initMembershipSweeper } = require('./jobs/membershipSweeper.job');
 require('./services/payment/appleConfigCheck')();
 
 const app = express();
+
+// Trust proxy for reverse proxy environments (e.g. Nginx, Cloudflare)
+// Required so that req.ip accurately reflects the client IP from X-Forwarded-For
+// rather than Nginx's loopback IP (127.0.0.1)
+const trustProxyConfig = process.env.TRUST_PROXY
+  ? (process.env.TRUST_PROXY === 'true' ? true : (process.env.TRUST_PROXY === 'false' ? false : (isNaN(Number(process.env.TRUST_PROXY)) ? process.env.TRUST_PROXY : Number(process.env.TRUST_PROXY))))
+  : 1;
+app.set('trust proxy', trustProxyConfig);
 const http = require('http');
 const server = http.createServer(app);
 const setupWebRTCSignaling = require('./webrtc-signaling');

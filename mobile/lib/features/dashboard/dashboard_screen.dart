@@ -18,6 +18,7 @@ import 'package:dio/dio.dart';
 import '../../core/theme.dart';
 import '../../core/api_client.dart';
 import '../../widgets/delete_account_dialog.dart';
+import '../../widgets/edu_components.dart';
 import '../auth/auth_provider.dart';
 import 'edit_profile_screen.dart';
 
@@ -398,9 +399,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     if (_loading) {
-      return const Scaffold(
-        backgroundColor: AppTheme.background,
-        body: Center(child: CircularProgressIndicator(color: AppTheme.gold)),
+      return const FullScreenLoader(
+        title: 'STUDENT DASHBOARD',
+        subtitle: 'Loading your academic milestones and profile...',
       );
     }
 
@@ -524,10 +525,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       children: [
                         _headerIconLink(Icons.location_on, 'GLOBAL CITIZEN'),
                         GestureDetector(
-                          onTap: () {
-                            final url = profile['linkedin'];
-                            if (url != null && url.toString().isNotEmpty) {
-                              launchUrl(Uri.parse(url));
+                          onTap: () async {
+                            final rawUrl = profile['linkedin']?.toString().trim();
+                            if (rawUrl != null && rawUrl.isNotEmpty) {
+                              final formatted = rawUrl.startsWith('http://') || rawUrl.startsWith('https://')
+                                  ? rawUrl
+                                  : 'https://$rawUrl';
+                              try {
+                                await launchUrl(Uri.parse(formatted), mode: LaunchMode.externalApplication);
+                              } catch (_) {
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Could not open LinkedIn URL')),
+                                  );
+                                }
+                              }
                             } else {
                               _showBioLinkedInModal();
                             }
@@ -1354,7 +1366,19 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 Navigator.pop(context);
-                                final updated = await context.push('/dashboard/edit', extra: _userData);
+                                if (_userData == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('User profile data is still loading.')),
+                                  );
+                                  return;
+                                }
+                                final updated = await Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => EditProfileScreen(
+                                      userData: Map<String, dynamic>.from(_userData as Map),
+                                    ),
+                                  ),
+                                );
                                 if (updated == true) _fetchData();
                               },
                               style: ElevatedButton.styleFrom(

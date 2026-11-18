@@ -9,6 +9,7 @@ import 'membership_status_chip.dart';
 import 'subscription_progress_bar.dart';
 import 'sandbox_badge.dart';
 import '../../../widgets/book_counselling_sheet.dart';
+import '../../../core/theme.dart';
 
 class MembershipOverviewCard extends StatelessWidget {
   final UserMembership userMembership;
@@ -22,10 +23,10 @@ class MembershipOverviewCard extends StatelessWidget {
     this.onPrimaryAction,
   });
 
-  static const kGold = Color(0xFFC49A28);
-  static const kGoldDark = Color(0xFFA07020);
-  static const kTextPrimary = Color(0xFF2C1A00);
-  static const kTextSecondary = Color(0xFF7A6040);
+  static const kGold = AppTheme.gold;
+  static const kGoldDark = AppTheme.goldDark;
+  static const kTextPrimary = AppTheme.navy;
+  static const kTextSecondary = AppTheme.textSecondary;
 
   bool get _isActive => userMembership.isActiveStatus;
   bool get _isApple => userMembership.platform.toLowerCase() == 'apple';
@@ -174,7 +175,7 @@ class MembershipOverviewCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFAF3EA),
+                  color: AppTheme.background,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: kGold.withOpacity(0.2)),
                 ),

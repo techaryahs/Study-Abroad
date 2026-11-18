@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../core/theme.dart';
 
 class HighRankedCheapUniversitiesScreen extends StatelessWidget {
@@ -77,7 +78,7 @@ class HighRankedCheapUniversitiesScreen extends StatelessWidget {
                   separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {
                     final uni = _universities[index];
-                    return _universityCard(uni);
+                    return _universityCard(context, uni);
                   },
                 ),
               ),
@@ -88,24 +89,32 @@ class HighRankedCheapUniversitiesScreen extends StatelessWidget {
     );
   }
 
-  Widget _universityCard(Map<String, dynamic> uni) {
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
+  Widget _universityCard(BuildContext context, Map<String, dynamic> uni) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppTheme.borderLight),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 14,
-            offset: const Offset(0, 4),
+        onTap: () {
+          final country = (uni['country'] as String).toLowerCase();
+          context.push('/universities/$country');
+        },
+        child: Container(
+          padding: const EdgeInsets.all(18),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppTheme.borderLight),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.03),
+                blurRadius: 14,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -174,6 +183,8 @@ class HighRankedCheapUniversitiesScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
+    ),
+  ),
+  );
+}
 }

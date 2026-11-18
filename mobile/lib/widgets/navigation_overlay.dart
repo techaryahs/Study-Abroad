@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../core/theme.dart';
 
 class NavigationOverlay extends StatefulWidget {
   const NavigationOverlay({super.key});
@@ -9,14 +10,10 @@ class NavigationOverlay extends StatefulWidget {
 }
 
 class _NavigationOverlayState extends State<NavigationOverlay> {
-  bool universitiesOpen = false;
-  bool resourcesOpen = false;
-  bool aiServicesOpen = false;
-
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: const Color(0xFF241716),
+      color: AppTheme.navyDark,
       child: SafeArea(
         child: Stack(
           children: [
@@ -28,7 +25,7 @@ class _NavigationOverlayState extends State<NavigationOverlay> {
                 height: 250,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0xFFC79A63).withOpacity(.08),
+                  color: AppTheme.gold.withValues(alpha: 0.12),
                 ),
               ),
             ),
@@ -150,19 +147,27 @@ class _NavigationOverlayState extends State<NavigationOverlay> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        context.push('/register');
+                        // Capture router before the drawer is dismissed, then
+                        // close the drawer so it doesn't linger in the stack.
+                        final router = GoRouter.of(context);
+                        Navigator.pop(context);
+                        router.push('/register');
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFC79A63),
-                        foregroundColor: Colors.black,
+                        backgroundColor: AppTheme.gold,
+                        foregroundColor: AppTheme.navy,
                         padding: const EdgeInsets.symmetric(
                           vertical: 18,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
                       child: const Text(
                         "REGISTER NOW",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
                         ),
                       ),
                     ),
@@ -211,12 +216,12 @@ class _NavigationOverlayState extends State<NavigationOverlay> {
                   width: 42,
                   height: 42,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFC79A63).withOpacity(.15),
+                    color: AppTheme.gold.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
                     icon,
-                    color: const Color(0xFFC79A63),
+                    color: AppTheme.gold,
                     size: 22,
                   ),
                 ),
@@ -244,21 +249,6 @@ class _NavigationOverlayState extends State<NavigationOverlay> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _subItem(BuildContext context, String title) {
-    return ListTile(
-      dense: true,
-      leading: const Icon(
-        Icons.arrow_right,
-        color: Color(0xFFC79A63),
-      ),
-      title: Text(
-        title,
-        style: const TextStyle(color: Colors.white70),
-      ),
-      onTap: () {},
     );
   }
 }

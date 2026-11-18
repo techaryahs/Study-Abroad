@@ -20,6 +20,7 @@ import { BioModal } from "./profile/BioModal";
 import { LinkedInModal } from "./profile/LinkedInModal";
 import {
   MapPin,
+  Mail,
   Edit2,
   Camera,
   User,
@@ -154,6 +155,7 @@ interface StudentRecord {
   _id?: string;
   id?: string;
   name?: string;
+  email?: string;
   gender?: string;
   dob?: string;
   country?: string;
@@ -633,10 +635,11 @@ export default function DashboardPage() {
             <AnimatePresence mode="wait">
               {activeProfileTab === 'about' && (
                 <motion.div key="about" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA]"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><User size={16} /></div><div><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Full Name</p><h3 className="text-sm font-bold text-[#3C2A21] uppercase tracking-tight">{userData?.name || "Member"}</h3></div></div>
-                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA]"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><span className="text-base font-bold">♀</span></div><div><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Gender</p><h3 className="text-sm font-bold text-[#3C2A21] uppercase tracking-tight">{userData?.gender || "Female"}</h3></div></div>
-                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA]"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><MapPin size={16} /></div><div><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Location</p><h3 className="text-sm font-bold text-[#3C2A21] uppercase tracking-tight">{userData?.country || userData?.profile?.location || "India"}</h3></div></div>
-                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA]"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><Calendar size={16} /></div><div><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Birth Date</p><h3 className="text-sm font-bold text-[#3C2A21] uppercase tracking-tight">{userData?.dob || "Sep 03, 2005"}</h3></div></div>
+                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA] min-w-0"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><User size={16} /></div><div className="min-w-0 flex-1"><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Full Name</p><h3 className="text-sm font-bold text-[#3C2A21] uppercase tracking-tight truncate">{userData?.name || "Member"}</h3></div></div>
+                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA] min-w-0"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><span className="text-base font-bold">♀</span></div><div className="min-w-0 flex-1"><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Gender</p><h3 className="text-sm font-bold text-[#3C2A21] uppercase tracking-tight">{userData?.gender || "Female"}</h3></div></div>
+                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA] min-w-0"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><MapPin size={16} /></div><div className="min-w-0 flex-1"><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Location</p><h3 className="text-sm font-bold text-[#3C2A21] uppercase tracking-tight truncate">{userData?.country || userData?.profile?.location || "India"}</h3></div></div>
+                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA] min-w-0"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><Calendar size={16} /></div><div className="min-w-0 flex-1"><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Birth Date</p><h3 className="text-sm font-bold text-[#3C2A21] uppercase tracking-tight">{userData?.dob || "Sep 03, 2005"}</h3></div></div>
+                  <div className="flex items-center gap-3.5 p-3.5 rounded-xl bg-[#FDFBF7] border border-[#F1EDEA] min-w-0 sm:col-span-2"><div className="w-9 h-9 rounded-xl bg-white border border-[#F1EDEA] flex items-center justify-center text-[#6B5E51] shadow-xs shrink-0"><Mail size={16} /></div><div className="min-w-0 flex-1"><p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Email Address</p><h3 className="text-sm font-bold text-[#3C2A21] tracking-tight break-all lowercase" title={userData?.email || getUser()?.email || "Not Provided"}>{userData?.email || getUser()?.email || "Not Provided"}</h3></div></div>
                 </motion.div>
               )}
               {activeProfileTab === 'insights' && (

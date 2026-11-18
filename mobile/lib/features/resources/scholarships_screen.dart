@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../widgets/book_counselling_sheet.dart';
+import '../../widgets/edu_components.dart';
 import '../../core/theme.dart';
 import '../../data/scholarship_repository.dart';
 
@@ -99,7 +100,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
                   ),
                   ShaderMask(
                     shaderCallback: (bounds) => const LinearGradient(
-                      colors: [Color(0xFFC5A059), Color(0xFFE6D5B8), Color(0xFFC5A059)],
+                      colors: [AppTheme.gold, AppTheme.goldLight, AppTheme.gold],
                     ).createShader(bounds),
                     child: const Text(
                       'Scholarships',
@@ -195,7 +196,7 @@ class _ScholarshipsScreenState extends State<ScholarshipsScreen> {
           // List
           _isLoading
               ? const SliverFillRemaining(
-                  child: Center(child: CircularProgressIndicator(color: AppTheme.gold)),
+                  child: Center(child: InlineLoader(message: 'Indexing global scholarships & funding...')),
                 )
               : _filteredScholarships.isEmpty
                   ? SliverFillRemaining(
@@ -419,7 +420,7 @@ class _AdvisorCTA extends StatelessWidget {
           ),
           ShaderMask(
             shaderCallback: (bounds) => const LinearGradient(
-              colors: [Color(0xFFC5A059), Color(0xFFE6D5B8), Color(0xFFC5A059)],
+              colors: [AppTheme.gold, AppTheme.goldLight, AppTheme.gold],
             ).createShader(bounds),
             child: const Text(
               'Guidance',

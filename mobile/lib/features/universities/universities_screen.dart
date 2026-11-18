@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme.dart';
+import '../../widgets/edu_components.dart';
 
 class UniversitiesScreen extends StatelessWidget {
   const UniversitiesScreen({super.key});
@@ -12,37 +15,43 @@ class UniversitiesScreen extends StatelessWidget {
           'Find statistics like acceptance rates, expenses, deadlines, and test scores.',
       'icon': Icons.public_rounded,
       'badge': null,
+      'route': '/universities/countries',
     },
     {
       'title': 'UniPredict',
-      'subtitle': 'Predicts where you can get admits.',
+      'subtitle': 'Predicts where you can get admits based on your academic background.',
       'icon': Icons.bar_chart_rounded,
       'badge': null,
+      'route': '/universities/unipredict',
     },
     {
       'title': 'RateMyChances',
-      'subtitle': 'Estimates your admit chances based on your profile.',
+      'subtitle': 'Estimates your admit chances based on your competitive profile.',
       'icon': Icons.percent_rounded,
       'badge': 'NEW',
+      'route': '/universities/rate-my-chances',
     },
     {
       'title': 'Popular Programs',
-      'subtitle': 'Explore the most sought-after academic programs worldwide.',
+      'subtitle': 'Explore the most sought-after academic programs and STEM degrees worldwide.',
       'icon': Icons.menu_book_rounded,
       'badge': null,
+      'route': '/universities/popular-programs',
     },
     {
       'title': 'High Ranked Cheap Universities',
       'subtitle': 'Top-quality education without breaking the bank.',
-      'icon': Icons.attach_money_rounded,
+      'icon': Icons.monetization_on_rounded,
       'badge': null,
+      'route': '/universities/high-ranked-cheap',
     },
     {
       'title': 'Top Universities by State',
       'subtitle':
-          'Filter top schools by region (California, Texas, Ontario, etc.).',
+          'Filter top schools by regional hubs (California, Texas, Ontario, etc.).',
       'icon': Icons.location_on_rounded,
       'badge': null,
+      'route': '/universities/by-state',
     },
   ];
 
@@ -51,155 +60,166 @@ class UniversitiesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        backgroundColor: AppTheme.background,
+        title: const EduBrandHeaderTitle(),
+        backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
-          'Top Global Universities',
-          style: TextStyle(
-            color: AppTheme.textPrimary,
-            fontWeight: FontWeight.w900,
-            fontSize: 20,
-          ),
-        ),
-        iconTheme: const IconThemeData(color: AppTheme.textPrimary),
+        surfaceTintColor: Colors.white,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Discover curated pathways and insights for top global universities in a clean light layout.',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppTheme.textSecondary,
-                  height: 1.6,
-                ),
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(16),
+          children: [
+            // ── Navy Feature Header ─────────────────────────
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: AppTheme.navy,
+                borderRadius: BorderRadius.circular(32),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
+                boxShadow: AppTheme.navyShadow,
               ),
-              const SizedBox(height: 24),
-              Expanded(
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: _items.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 14),
-                  itemBuilder: (context, index) {
-                    final item = _items[index];
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const EduPillBadge(
+                    label: 'University Intelligence',
+                    icon: Icons.school_rounded,
+                    backgroundColor: Color(0x332CA59D),
+                    textColor: AppTheme.goldLight,
+                    borderColor: Color(0x442CA59D),
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    'Top Global\nUniversities & Tools',
+                    style: GoogleFonts.playfairDisplay(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w800,
+                      height: 1.15,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Explore acceptance rates, tuition, requirements, and AI predictor engines.',
+                    style: GoogleFonts.inter(
+                      color: Colors.white.withValues(alpha: 0.75),
+                      fontSize: 13,
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              ),
+            ).animate().fadeIn(duration: 400.ms),
 
-                    return GestureDetector(
-                      onTap: () {
-                        if (index == 0) {
-                          context.push('/universities/countries');
-                        } else if (index == 1) {
-                          context.push('/universities/unipredict');
-                        } else if (index == 2) {
-                          context.push('/universities/rate-my-chances');
-                        } else if (index == 3) {
-                          context.push('/universities/popular-programs');
-                        } else if (index == 4) {
-                          context.push('/universities/high-ranked-cheap');
-                        } else if (index == 5) {
-                          context.push('/universities/by-state');
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 18, vertical: 18),
+            const SizedBox(height: 24),
+
+            const EduSectionHeader(
+              tagline: 'Shortlist & Insights',
+              title: 'Curated Pathways',
+              padding: EdgeInsets.zero,
+            ),
+
+            const SizedBox(height: 12),
+
+            ...List.generate(_items.length, (index) {
+              final item = _items[index];
+
+              return GestureDetector(
+                onTap: () => context.push(item['route'] as String),
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 14),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: AppTheme.borderLight),
+                    boxShadow: AppTheme.cardShadow,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 48,
+                        height: 48,
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: AppTheme.borderLight),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.03),
-                              blurRadius: 18,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
+                          gradient: LinearGradient(
+                            colors: [
+                              AppTheme.teal.withValues(alpha: 0.15),
+                              AppTheme.gold.withValues(alpha: 0.15),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                        child: Row(
+                        child: Icon(
+                          item['icon'] as IconData,
+                          color: AppTheme.navy,
+                          size: 24,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: AppTheme.gold.withOpacity(0.12),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Icon(
-                                item['icon'] as IconData,
-                                color: AppTheme.gold,
-                                size: 26,
-                              ),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          item['title'] as String,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w900,
-                                            color: AppTheme.textPrimary,
-                                          ),
-                                        ),
-                                      ),
-                                      if (item['badge'] != null)
-                                        Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 4),
-                                          decoration: BoxDecoration(
-                                            color: AppTheme.gold,
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          child: Text(
-                                            item['badge'] as String,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w900,
-                                              color: AppTheme.darkBrown,
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    item['subtitle'] as String,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      color: AppTheme.textSecondary,
-                                      height: 1.5,
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    item['title'] as String,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                      color: AppTheme.navy,
                                     ),
                                   ),
+                                ),
+                                if (item['badge'] != null) ...[
+                                  const SizedBox(width: 8),
+                                  EduStatusChip(
+                                    label: item['badge'] as String,
+                                    color: AppTheme.goldDark,
+                                  ),
                                 ],
-                              ),
+                              ],
                             ),
-                            const SizedBox(width: 12),
-                            const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 16,
-                              color: AppTheme.textSecondary,
+                            const SizedBox(height: 6),
+                            Text(
+                              item['subtitle'] as String,
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: AppTheme.textSecondary,
+                                height: 1.4,
+                              ),
                             ),
                           ],
                         ),
                       ),
-                    );
-                  },
+                      const SizedBox(width: 8),
+                      Container(
+                        width: 32,
+                        height: 32,
+                        decoration: const BoxDecoration(
+                          color: AppTheme.surfaceMuted,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.arrow_forward_rounded,
+                          size: 15,
+                          color: AppTheme.tealDark,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
+              )
+                  .animate()
+                  .fadeIn(delay: Duration(milliseconds: index * 60))
+                  .slideY(begin: 0.04);
+            }),
+          ],
         ),
       ),
     );

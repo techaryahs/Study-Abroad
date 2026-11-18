@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../core/theme.dart';
+import '../../widgets/book_counselling_sheet.dart';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -105,13 +108,13 @@ const _pricingFeatures = [
 
 // ─── Theme colors ─────────────────────────────────────────────────────────────
 
-const _bg = Color(0xFFF5F0E8);
-const _dark = Color(0xFF1A1A1A);
-const _brown = Color(0xFF8B7355);
-const _tan = Color(0xFFD4C4A8);
-const _yellow = Color(0xFFF4B400);
-const _lightText = Color(0xFF4A4A4A);
-const _mutedText = Color(0xFF6A6A6A);
+const _bg = AppTheme.background;
+const _dark = AppTheme.navy;
+const _brown = AppTheme.goldDark;
+const _tan = AppTheme.goldLight;
+const _yellow = AppTheme.gold;
+const _lightText = AppTheme.textSecondary;
+const _mutedText = AppTheme.textMuted;
 
 // ─── Entry point ─────────────────────────────────────────────────────────────
 
@@ -155,22 +158,31 @@ class _BackNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Row(
-        children: [
-          const Icon(Icons.chevron_left, color: _brown, size: 18),
-          const SizedBox(width: 4),
-          Text(
-            'BACK TO SERVICES',
-            style: TextStyle(
-              color: _brown,
-              fontSize: 13,
-              letterSpacing: 2,
-              fontWeight: FontWeight.w500,
+    return GestureDetector(
+      onTap: () {
+        if (context.canPop()) {
+          context.pop();
+        } else {
+          context.go('/services');
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+        child: Row(
+          children: const [
+            Icon(Icons.chevron_left, color: _brown, size: 18),
+            SizedBox(width: 4),
+            Text(
+              'BACK TO SERVICES',
+              style: TextStyle(
+                color: _brown,
+                fontSize: 13,
+                letterSpacing: 2,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -203,7 +215,10 @@ class _HeroSection extends StatelessWidget {
             style: TextStyle(fontSize: 14, color: _lightText, height: 1.6),
           ),
           const SizedBox(height: 24),
-          _YellowButton(label: 'Get the Kit Now →', onTap: () {}),
+          _YellowButton(
+            label: 'Get the Kit Now →',
+            onTap: () => showBookCounsellingSheet(context),
+          ),
           const SizedBox(height: 16),
           Row(
             children: const [
@@ -362,7 +377,10 @@ class _DIYSection extends StatelessWidget {
             style: TextStyle(fontSize: 13, color: _lightText, height: 1.6),
           ),
           const SizedBox(height: 24),
-          _YellowButton(label: 'Get the Kit Now', onTap: () {}),
+          _YellowButton(
+            label: 'Get the Kit Now',
+            onTap: () => showBookCounsellingSheet(context),
+          ),
           const SizedBox(height: 24),
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
@@ -544,7 +562,7 @@ class _Built200Section extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           GestureDetector(
-            onTap: () {},
+            onTap: () => showBookCounsellingSheet(context),
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
               color: _brown,
@@ -699,7 +717,7 @@ class _PricingSection extends StatelessWidget {
                               fontSize: 13, color: _brown, letterSpacing: 1)),
                       const SizedBox(height: 20),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () => showBookCounsellingSheet(context),
                         child: Container(
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(vertical: 16),

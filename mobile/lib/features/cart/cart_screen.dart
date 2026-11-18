@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme.dart';
 import '../../models/checkout_item.dart';
 import '../../widgets/checkout_sheet.dart';
+import '../../widgets/edu_components.dart';
 import 'cart_provider.dart';
 
 class CartScreen extends StatefulWidget {
@@ -88,7 +89,10 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
       body: cart.isLoading && items.isEmpty
-          ? const Center(child: CircularProgressIndicator(color: AppTheme.gold))
+          ? const FullScreenLoader(
+              title: 'MY CART',
+              subtitle: 'Fetching your enrolled services...',
+            )
           : items.isEmpty
               ? _emptyCart()
               : Column(

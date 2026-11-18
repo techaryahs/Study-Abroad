@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../core/theme.dart';
 
 class BrandLogoCard extends StatelessWidget {
   final double size;
@@ -15,25 +16,24 @@ class BrandLogoCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFC49A28), // IEC Gold
+          color: AppTheme.gold,
           width: 1.5,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFC49A28).withOpacity(0.2),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        boxShadow: AppTheme.goldGlow,
       ),
       child: Center(
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(16),
           child: Image.asset(
-            'assets/images/logo_iec.png',
-            width: size * 0.7,
-            height: size * 0.7,
+            'assets/images/logo_edug.png',
+            width: size * 0.72,
+            height: size * 0.72,
             fit: BoxFit.contain,
+            errorBuilder: (_, __, ___) => Icon(
+              Icons.school,
+              color: AppTheme.gold,
+              size: size * 0.5,
+            ),
           ),
         ),
       ),

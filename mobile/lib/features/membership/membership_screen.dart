@@ -9,6 +9,7 @@ import 'membership_manager.dart';
 import 'models/membership_plan.dart';
 import '../../core/payment_service.dart';
 import '../../core/app_logger.dart';
+import '../../core/theme.dart';
 
 /// App Store Guideline 3.1.2(c) — subscription presentation only.
 /// Purchase / membership architecture is unchanged.
@@ -27,11 +28,11 @@ class MembershipScreen extends StatefulWidget {
 }
 
 class _MembershipScreenState extends State<MembershipScreen> {
-  static const kBgColor = Color(0xFFFAF3EA);
-  static const kTextPrimary = Color(0xFF2C1A00);
-  static const kTextSecondary = Color(0xFF7A6040);
-  static const kGold = Color(0xFFC49A28);
-  static const kGoldDark = Color(0xFFA07020);
+  static const kBgColor = AppTheme.background;
+  static const kTextPrimary = AppTheme.navy;
+  static const kTextSecondary = AppTheme.textSecondary;
+  static const kGold = AppTheme.gold;
+  static const kGoldDark = AppTheme.goldDark;
 
   /// Apple Standard Licensed Application End User License Agreement.
   static final Uri _appleStandardEula = Uri.parse(

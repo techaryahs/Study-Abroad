@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'groups_details_modal.dart';
 
 class AvailableGroups extends StatefulWidget {
   const AvailableGroups({super.key});
@@ -11,6 +12,16 @@ class AvailableGroups extends StatefulWidget {
 class _AvailableGroupsState extends State<AvailableGroups> {
   int? openShareId;
   int? copiedId;
+
+  void _joinGroup(Map<String, dynamic> group) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Successfully applied to join ${group["title"]}!'),
+        backgroundColor: Colors.green.shade700,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
 
   final List<Map<String, dynamic>> groups = [
     {
@@ -51,7 +62,11 @@ class _AvailableGroupsState extends State<AvailableGroups> {
         final group = groups[index];
 
         return GestureDetector(
-          onTap: () {},
+          onTap: () => GroupDetailsModal.show(
+            context: context,
+            group: group,
+            onJoinClick: () => _joinGroup(group),
+          ),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
@@ -132,14 +147,18 @@ class _AvailableGroupsState extends State<AvailableGroups> {
                     children: [
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () => GroupDetailsModal.show(
+                            context: context,
+                            group: group,
+                            onJoinClick: () => _joinGroup(group),
+                          ),
                           child: const Text("Profile"),
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => _joinGroup(group),
                           child: const Text("Join"),
                         ),
                       ),

@@ -33,7 +33,10 @@ import {
   AlertCircle,
   Download,
   ExternalLink,
-  UploadCloud
+  UploadCloud,
+  Mail,
+  Clock,
+  RefreshCw
 } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -44,11 +47,18 @@ export default function EditProfilePage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [successBannerText, setSuccessBannerText] = useState('Profile Updated Successfully');
+  const [errorMessage, setErrorMessage] = useState('');
   const [activeTab, setActiveTab] = useState('personal');
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showTestModal, setShowTestModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showEmailOtpModal, setShowEmailOtpModal] = useState(false);
+  const [initialEmail, setInitialEmail] = useState('');
+  const [pendingEmail, setPendingEmail] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [activeEditTest, setActiveEditTest] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
@@ -127,6 +137,9 @@ export default function EditProfilePage() {
         setUserData(data);
         setUser(data); // Sync with navbar
         setProfileImage(data.profile?.profileImage || null);
+        const resolvedEmail = data.email || getUser()?.email || '';
+        setInitialEmail(resolvedEmail);
+        setPendingEmail(data.pendingEmail || '');
 
         const getTest = (type: string) => data.profile?.testScores?.find((t: any) => t.testType === type);
         const toeflDoc = getTest('TOEFL');
@@ -154,7 +167,7 @@ export default function EditProfilePage() {
 
         setFormData({
           name: data.name || '',
-          email: data.email || '',
+          email: data.email || getUser()?.email || '',
           mobile: data.mobile || '',
           gender: data.gender || '',
           dob: data.dob || '',
@@ -245,13 +258,41 @@ export default function EditProfilePage() {
 
   const handleSave = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    setNameError('');
+    setEmailError('');
+    setErrorMessage('');
+
+    // 1. Full Name Validation
+    const trimmedName = (formData.name || '').trim();
+    if (!trimmedName) {
+      setNameError("Full Name cannot be empty.");
+      setActiveTab('personal');
+      return;
+    }
+
+    // 2. Email Address Validation
+    const trimmedEmail = (formData.email || '').trim().toLowerCase();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (trimmedEmail && !emailRegex.test(trimmedEmail)) {
+      setEmailError("Please enter a valid email address.");
+      setActiveTab('personal');
+      return;
+    }
+
     setSaving(true);
     const userId = getUserId();
-    if (!userId) return;
+    if (!userId) {
+      setErrorMessage("Authentication session expired. Please sign in again.");
+      setSaving(false);
+      return;
+    }
 
     try {
+      const token = getToken();
       const payload = {
         ...formData,
+        name: trimmedName,
+        email: trimmedEmail,
         profile: {
           ...(userData?.profile || {}),
           location: formData.location,
@@ -285,23 +326,79 @@ export default function EditProfilePage() {
 
       const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
         body: JSON.stringify(payload)
       });
+
+      const resData = await response.json().catch(() => ({}));
+
       if (response.ok) {
-        const result = await response.json();
-        if (result.user) {
-          setUser(result.user);
-          setUserData(result.user);
+        if (resData.user) {
+          setUserData(resData.user);
+          setUser(resData.user); // updates session, emits 'user-updated'
         }
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 3000);
+
+        if (resData.emailVerificationPending) {
+          setPendingEmail(resData.pendingEmail || trimmedEmail);
+          setShowEmailOtpModal(true);
+          setSuccessBannerText("Profile saved! Check your email for the verification code.");
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 4000);
+        } else {
+          setSuccessBannerText("Profile Updated Successfully");
+          setShowSuccess(true);
+          setTimeout(() => setShowSuccess(false), 3000);
+        }
         fetchProfile();
+      } else {
+        if (response.status === 409) {
+          setEmailError(resData.error || "This email address is already in use by another account.");
+          setActiveTab('personal');
+        } else if (resData.error?.toLowerCase().includes("name")) {
+          setNameError(resData.error);
+          setActiveTab('personal');
+        } else {
+          setErrorMessage(resData.error || resData.message || "Failed to update profile.");
+          setTimeout(() => setErrorMessage(''), 5000);
+        }
       }
     } catch (error) {
       console.error("Failed to update profile:", error);
+      setErrorMessage("Network error updating profile. Please try again.");
+      setTimeout(() => setErrorMessage(''), 5000);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleCancelEmailChange = async () => {
+    const userId = getUserId();
+    if (!userId) return;
+    try {
+      const token = getToken();
+      const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}/cancel-email-change`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.user) {
+          setUserData(data.user);
+          setUser(data.user);
+        }
+        setPendingEmail('');
+        setShowEmailOtpModal(false);
+        setFormData(prev => ({ ...prev, email: data.user?.email || initialEmail }));
+        fetchProfile();
+      }
+    } catch (err) {
+      console.error("Cancel email change failed:", err);
     }
   };
 
@@ -546,9 +643,108 @@ export default function EditProfilePage() {
                         }}
                       />
                     </div>
-                    <div className="flex flex-col gap-2 text-center md:text-left">
-                      <h3 className="fd text-2xl font-bold text-[#3C2A21] italic tracking-tight">{formData.name || "Scholar Instance"}</h3>
-                      <p className="text-[13px] font-bold font-bold text-[#6B5E51] uppercase tracking-[0.2em]">{formData.email}</p>
+                    <div className="flex-1 w-full space-y-5">
+                      {/* Full Name Field */}
+                      <div className="space-y-2">
+                        <label className="text-[12px] font-black text-[#6B5E51] uppercase tracking-widest flex items-center gap-2">
+                          <User size={14} className="text-[#C5A059]" />
+                          Full Name <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          ref={nameInputRef}
+                          value={formData.name}
+                          onChange={(e) => {
+                            setFormData({ ...formData, name: e.target.value });
+                            if (nameError) setNameError('');
+                          }}
+                          placeholder="Enter your full name"
+                          className={`w-full bg-[#FDFBF7] border ${nameError ? 'border-red-400 focus:border-red-500' : 'border-[#F1EDEA] focus:border-[#C5A059]/50'} rounded-xl px-5 py-3.5 text-xs font-bold text-[#3C2A21] outline-none transition-all shadow-sm`}
+                        />
+                        {nameError && (
+                          <p className="text-[11px] font-bold text-red-500 flex items-center gap-1.5 ml-1">
+                            <AlertCircle size={12} /> {nameError}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Email Address Field */}
+                      <div className="space-y-2">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <label className="text-[12px] font-black text-[#6B5E51] uppercase tracking-widest flex items-center gap-2">
+                            <Mail size={14} className="text-[#C5A059]" />
+                            Email Address
+                          </label>
+                          {userData?.pendingEmail ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-500/10 text-amber-700 border border-amber-500/20">
+                              <Clock size={11} /> Verification Pending
+                            </span>
+                          ) : userData?.email ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-green-500/10 text-green-700 border border-green-500/20">
+                              <CheckCircle size={11} /> Verified
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#6B5E51]/10 text-[#6B5E51] border border-[#6B5E51]/20">
+                              Not Linked (Phone Account)
+                            </span>
+                          )}
+                        </div>
+
+                        <input
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) => {
+                            setFormData({ ...formData, email: e.target.value });
+                            if (emailError) setEmailError('');
+                          }}
+                          placeholder="scholar@example.com"
+                          className={`w-full bg-[#FDFBF7] border ${emailError ? 'border-red-400 focus:border-red-500' : 'border-[#F1EDEA] focus:border-[#C5A059]/50'} rounded-xl px-5 py-3.5 text-xs font-bold text-[#3C2A21] outline-none transition-all shadow-sm`}
+                        />
+
+                        {emailError ? (
+                          <p className="text-[11px] font-bold text-red-500 flex items-center gap-1.5 ml-1">
+                            <AlertCircle size={12} /> {emailError}
+                          </p>
+                        ) : userData?.pendingEmail ? (
+                          <div className="p-3.5 bg-amber-500/10 border border-amber-500/20 rounded-xl space-y-2">
+                            <div className="flex items-center gap-2 text-xs text-amber-900 font-medium">
+                              <Clock size={14} className="text-amber-600 shrink-0" />
+                              <span>
+                                Verification pending for <strong className="font-bold">{userData.pendingEmail}</strong>.
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2 pt-1">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setPendingEmail(userData.pendingEmail);
+                                  setShowEmailOtpModal(true);
+                                }}
+                                className="px-3.5 py-1.5 bg-[#C5A059] text-white rounded-lg text-[11px] font-black uppercase tracking-wider hover:bg-[#3C2A21] transition-all shadow-sm flex items-center gap-1.5"
+                              >
+                                <ShieldCheck size={13} />
+                                Enter Verification Code
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleCancelEmailChange}
+                                className="px-3.5 py-1.5 bg-white border border-[#C5A059]/30 text-[#6B5E51] rounded-lg text-[11px] font-bold uppercase tracking-wider hover:bg-[#FDFBF7] transition-all"
+                              >
+                                Cancel Change
+                              </button>
+                            </div>
+                          </div>
+                        ) : formData.email && formData.email.toLowerCase().trim() !== (initialEmail || '').toLowerCase().trim() ? (
+                          <p className="text-[11px] text-[#8B7355] flex items-center gap-1.5 ml-1">
+                            <AlertCircle size={12} className="text-[#C5A059] shrink-0" />
+                            A 6-digit confirmation code will be dispatched to verify this address when you save.
+                          </p>
+                        ) : !formData.email ? (
+                          <p className="text-[11px] text-[#6B5E51]/70 ml-1">
+                            Link an email to enable email-based recovery and direct notifications.
+                          </p>
+                        ) : null}
+                      </div>
                     </div>
                   </div>
 
@@ -1182,12 +1378,46 @@ export default function EditProfilePage() {
       </AnimatePresence>
 
       <AnimatePresence>
+        {showEmailOtpModal && (
+          <EmailVerificationModal
+            pendingEmail={pendingEmail || formData.email}
+            userId={getUserId() || ''}
+            BACKEND_URL={BACKEND_URL}
+            onSuccess={(updatedUser) => {
+              setUserData(updatedUser);
+              setUser(updatedUser);
+              setFormData((prev) => ({ ...prev, email: updatedUser.email }));
+              setInitialEmail(updatedUser.email);
+              setPendingEmail('');
+              setShowEmailOtpModal(false);
+              setSuccessBannerText('Email Address Verified & Updated Successfully!');
+              setShowSuccess(true);
+              setTimeout(() => setShowSuccess(false), 4000);
+            }}
+            onClose={() => setShowEmailOtpModal(false)}
+            onCancel={handleCancelEmailChange}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
         {showSuccess && (
           <motion.div
             initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
-            className="fixed bottom-12 right-12 bg-green-600 text-white px-10 py-5 rounded-2xl font-black text-[12px] uppercase tracking-widest flex items-center gap-4 z-[200]"
+            className="fixed bottom-12 right-12 bg-green-600 text-white px-8 py-4 rounded-2xl font-black text-[12px] uppercase tracking-widest flex items-center gap-3 z-[200] shadow-2xl"
           >
-            <CheckCircle size={14} /> Profile Updated Successfully
+            <CheckCircle size={16} /> {successBannerText}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {errorMessage && (
+          <motion.div
+            initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 50, opacity: 0 }}
+            className="fixed bottom-12 right-12 bg-red-600 text-white px-8 py-4 rounded-2xl font-black text-[12px] uppercase tracking-widest flex items-center gap-3 z-[200] shadow-2xl"
+          >
+            <AlertCircle size={16} /> {errorMessage}
           </motion.div>
         )}
       </AnimatePresence>
@@ -1233,6 +1463,255 @@ const testDefinitions: any = {
   gmat: { name: 'GMAT', sections: ['quantitative', 'verbal', 'ir', 'awa', 'total'] },
   mcat: { name: 'MCAT', sections: ['cpbs', 'cars', 'bbls', 'psbb', 'total'] }
 };
+
+function EmailVerificationModal({
+  pendingEmail,
+  userId,
+  BACKEND_URL,
+  onSuccess,
+  onClose,
+  onCancel,
+}: {
+  pendingEmail: string;
+  userId: string;
+  BACKEND_URL: string;
+  onSuccess: (updatedUser: any) => void;
+  onClose: () => void;
+  onCancel: () => void;
+}) {
+  const [otp, setOtp] = useState('');
+  const [verifying, setVerifying] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+  const [error, setError] = useState('');
+  const [info, setInfo] = useState('');
+  const [cooldown, setCooldown] = useState(60);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setInterval(() => {
+      setCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
+  const handleVerify = async () => {
+    if (!otp.trim()) {
+      setError('Please enter the 6-digit verification code.');
+      return;
+    }
+    setError('');
+    setVerifying(true);
+    try {
+      const token = getToken();
+      const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}/verify-email-change`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ otp: otp.trim() })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.ok) {
+        onSuccess(data.user);
+      } else {
+        setError(data.error || 'Failed to verify email code.');
+      }
+    } catch {
+      setError('Network error verifying code. Please try again.');
+    } finally {
+      setVerifying(false);
+    }
+  };
+
+  const handleResend = async () => {
+    if (cooldown > 0 || resending) return;
+    setError('');
+    setResending(true);
+    try {
+      const token = getToken();
+      const response = await fetch(`${BACKEND_URL}/api/user/profile/${userId}/resend-email-otp`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        }
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.ok) {
+        setCooldown(60);
+        setInfo(data.message || `A new code has been sent to ${pendingEmail}.`);
+        setTimeout(() => setInfo(''), 5000);
+      } else {
+        setError(data.error || 'Failed to resend code.');
+      }
+    } catch {
+      setError('Network error resending code.');
+    } finally {
+      setResending(false);
+    }
+  };
+
+  const handleCancel = async () => {
+    setCancelling(true);
+    try {
+      const token = getToken();
+      await fetch(`${BACKEND_URL}/api/user/profile/${userId}/cancel-email-change`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {})
+        }
+      });
+      onCancel();
+    } catch {
+      onCancel();
+    } finally {
+      setCancelling(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 md:p-6">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        className="absolute inset-0 bg-[#3C2A21]/40 backdrop-blur-md"
+      />
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 20 }}
+        className="relative w-full max-w-md bg-white border border-[#C5A059]/20 rounded-[2rem] p-6 md:p-8 overflow-hidden shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar"
+      >
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C5A059] to-transparent" />
+
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#C5A059]/10 flex items-center justify-center text-[#C5A059]">
+              <Mail size={20} />
+            </div>
+            <div>
+              <h3 className="fd text-2xl font-bold text-[#3C2A21] italic tracking-tight">Verify New Email</h3>
+              <p className="text-[11px] font-bold text-[#6B5E51] uppercase tracking-wider">Confirm Email Address Update</p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 md:p-3 bg-white border border-[#C5A059]/10 rounded-2xl text-[#6B5E51]/70 hover:text-[#C5A059] transition-all"
+          >
+            <Plus size={20} className="rotate-45" />
+          </button>
+        </div>
+
+        <div className="space-y-5">
+          <div className="p-4 bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl text-xs space-y-1">
+            <p className="text-[#6B5E51]">
+              A 6-digit confirmation code was sent to:
+            </p>
+            <p className="text-sm font-black text-[#3C2A21] break-all">
+              {pendingEmail}
+            </p>
+            <p className="text-[10px] text-[#6B5E51]/70 pt-1">
+              Your previous email remains active until this code is verified.
+            </p>
+          </div>
+
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-xs font-bold p-3 rounded-xl border bg-red-500/10 border-red-500/20 text-red-600 flex items-center gap-2"
+            >
+              <AlertCircle size={14} className="shrink-0" />
+              <span>{error}</span>
+            </motion.div>
+          )}
+
+          {info && (
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-xs font-bold p-3 rounded-xl border bg-green-500/10 border-green-500/20 text-green-700 flex items-center gap-2"
+            >
+              <CheckCircle size={14} className="shrink-0" />
+              <span>{info}</span>
+            </motion.div>
+          )}
+
+          <div className="space-y-2">
+            <label className="text-[12px] font-black text-[#6B5E51] uppercase tracking-widest ml-1">
+              6-Digit Verification Code
+            </label>
+            <input
+              type="text"
+              maxLength={6}
+              value={otp}
+              onChange={(e) => {
+                setOtp(e.target.value.replace(/\D/g, ''));
+                if (error) setError('');
+              }}
+              placeholder="••••••"
+              autoFocus
+              className="w-full bg-[#FDFBF7] border border-[#F1EDEA] rounded-2xl py-4 text-center font-mono text-2xl font-black tracking-[0.5em] text-[#3C2A21] focus:border-[#C5A059] outline-none shadow-inner transition-all placeholder:tracking-normal placeholder:font-sans placeholder:text-gray-300"
+            />
+          </div>
+
+          <div className="flex items-center justify-between text-xs text-[#6B5E51] px-1">
+            <span>Didn't receive the code?</span>
+            {cooldown > 0 ? (
+              <span className="font-bold text-[#C5A059] flex items-center gap-1">
+                <Clock size={12} /> Resend in {cooldown}s
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={handleResend}
+                disabled={resending}
+                className="font-bold text-[#C5A059] hover:underline flex items-center gap-1 disabled:opacity-50"
+              >
+                {resending ? <Loader2 size={12} className="animate-spin" /> : <RefreshCw size={12} />}
+                Resend Code
+              </button>
+            )}
+          </div>
+
+          <div className="space-y-3 pt-2">
+            <button
+              onClick={handleVerify}
+              disabled={verifying || otp.length < 6}
+              className="w-full py-4 bg-[#C5A059] text-white rounded-2xl font-black text-[12px] uppercase tracking-widest shadow-lg hover:bg-[#3C2A21] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            >
+              {verifying ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  Verifying...
+                </>
+              ) : (
+                <>
+                  <ShieldCheck size={16} />
+                  Confirm & Update Email
+                </>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={handleCancel}
+              disabled={cancelling}
+              className="w-full py-3 bg-white border border-[#C5A059]/20 text-[#6B5E51] rounded-2xl font-bold text-[11px] uppercase tracking-wider hover:bg-[#FDFBF7] transition-all disabled:opacity-50"
+            >
+              {cancelling ? "Cancelling..." : "Cancel Email Change"}
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
 function TestUpdateModal({ testId, testDef, scores, onChange, onClose }: any) {
   return (

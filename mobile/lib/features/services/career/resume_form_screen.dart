@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../../core/theme.dart';
+import '../../../widgets/edu_components.dart';
 import 'resume_provider.dart';
 
 class ResumeFormScreen extends StatefulWidget {
@@ -70,13 +71,8 @@ class _ResumeFormScreenState extends State<ResumeFormScreen> {
           builder: (context, provider, child) {
             if (provider.isLoading) {
               return const Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator(color: AppTheme.gold),
-                    SizedBox(height: 16),
-                    Text('Architecting your professional profile...'),
-                  ],
+                child: AppLoadingIndicator.large(
+                  message: 'Architecting your professional profile...',
                 ),
               );
             }

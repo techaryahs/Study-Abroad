@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+import '../../core/theme.dart';
 
 class ScholarshipPage extends StatefulWidget {
   const ScholarshipPage({super.key});
@@ -60,7 +61,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
     final isMobile = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFDFBF7),
+      backgroundColor: AppTheme.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -76,7 +77,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                     style: TextStyle(
                       fontSize: isMobile ? 26 : 40,
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xFF2D2926),
+                      color: AppTheme.navy,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -162,7 +163,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFF8F5F0),
+                                  color: AppTheme.surfaceMuted,
                                   borderRadius:
                                       BorderRadius.circular(8),
                                 ),
@@ -171,7 +172,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                                   style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xFFC5A059)),
+                                      color: AppTheme.gold),
                                 ),
                               ),
 
@@ -183,7 +184,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2D2926),
+                                  color: AppTheme.navy,
                                 ),
                               ),
 
@@ -254,7 +255,7 @@ class _ScholarshipPageState extends State<ScholarshipPage> {
               margin: const EdgeInsets.all(16),
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: const Color(0xFF2D2926),
+                color: AppTheme.navy,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
